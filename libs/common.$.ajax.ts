@@ -56,8 +56,8 @@
 			const headers = _.merge({ "X-Language": localStorage["X-Language"] }, options.headers);
 			const errorCodeArray = [400, 401, 402, 403, 404, 405, 500, 555];
 
-			const success = function (response, state, xhr) {
-				response = responseInjector(response, { API_OPTIONS });
+			const success = async function (response, state, xhr) {
+				response = await responseInjector(response, { API_OPTIONS });
 				if (_.isPlainObject(response)) {
 					/* 兼容 */
 					const errcode = response && (response.errcode || response.code);
@@ -78,8 +78,8 @@
 				}
 				return resolve(response, state, xhr);
 			};
-			const error = function (response) {
-				response = responseInjector(response, { API_OPTIONS });
+			const error = async function (response) {
+				response = await responseInjector(response, { API_OPTIONS });
 				return reject(response);
 			};
 

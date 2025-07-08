@@ -1423,6 +1423,11 @@
 		if (isLoading) {
 			/* 已经有loading */
 			if (!_.$loading.count) {
+				try {
+					throw new Error("just x-loading info");
+				} catch (error) {
+					console.error(error);
+				}
 				$(selector).addClass("x-loading");
 			}
 			_.$loading.count++;
