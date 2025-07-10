@@ -683,9 +683,14 @@
 			const NOT_MATCH = APP_VERSION && APP_VERSION !== (await $idb.get("APP_VERSION"));
 
 			if (IS_DEV || NO_CACHE || NOT_MATCH) {
-				await $idb.clear();
-				await $idb.set("APP_VERSION", APP_VERSION);
-				window.APP_VERSION = APP_VERSION;
+				try {
+
+					await $idb.clear();
+					await $idb.set("APP_VERSION", APP_VERSION);
+					window.APP_VERSION = APP_VERSION;
+				} catch (error) {
+					console.error(error);
+				}
 			}
 
 			/* 预加载，等vue加载后赋值 */
@@ -851,4 +856,5 @@
 			window.HMR_APP = APP;
 		}
 	})();
+
 })();

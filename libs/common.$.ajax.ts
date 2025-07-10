@@ -79,8 +79,12 @@
 				return resolve(response, state, xhr);
 			};
 			const error = async function (response) {
-				response = await responseInjector(response, { API_OPTIONS });
-				return reject(response);
+				try {
+					response = await responseInjector(response, { API_OPTIONS });
+					return reject(response);
+				} catch (response) {
+					return reject(response);
+				}
 			};
 
 			const CAN_NOT_COVER = ["success", "error", "url"];
