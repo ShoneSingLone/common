@@ -1426,7 +1426,7 @@
 				try {
 					throw new Error("just x-loading info");
 				} catch (error) {
-					console.error(error);
+					console.warn(error);
 				}
 				$(selector).addClass("x-loading");
 			}
