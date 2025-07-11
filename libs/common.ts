@@ -2181,7 +2181,12 @@
 	_.$getVmById = id => {
 		let vm = {};
 		try {
-			const targetDom = document.querySelector(`#${id}`);
+			let targetDom;
+			if (_.isString(id)) {
+				targetDom = document.querySelector(`#${id}`);
+			} else {
+				targetDom = id;
+			}
 			const { formItemId } = targetDom.dataset || {};
 			vm = _.$val(Vue, `_X_ITEM_VM_S.${formItemId || "________No"}`) || {};
 		} catch (error) {

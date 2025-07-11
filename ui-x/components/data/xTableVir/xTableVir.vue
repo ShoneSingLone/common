@@ -2437,7 +2437,7 @@ export default async function ({ PRIVATE_GLOBAL, mergeProps4h }) {
    exports.TableV2Placeholder = placeholderSign;
    exports.TableV2SortOrder = SortOrder;
    exports.tableV2Props = tableV2Props;
-  
+
    */
 	let curr = {
 		id: 0,
@@ -2731,6 +2731,7 @@ export default async function ({ PRIVATE_GLOBAL, mergeProps4h }) {
 
 		display: flex;
 		font-size: 13px;
+		justify-content: var(--xTableVir-header-align, center);
 		align-items: center;
 		padding: 0 8px;
 		height: 100%;

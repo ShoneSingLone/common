@@ -577,12 +577,10 @@
 								? 0 < a.top - f.scrollTop() + a.height + i[1] + 16 - f.height() &&
 									a.where[0]()
 								: 4 === n && 0 < i[0] + 16 - a.left && a.where[1](),
-					t
-						.find("." + d[5])
-						.css({
-							"background-color": e.tips[1],
-							"padding-right": e.closeBtn ? "30px" : ""
-						}),
+					t.find("." + d[5]).css({
+						"background-color": e.tips[1],
+						"padding-right": e.closeBtn ? "30px" : ""
+					}),
 					t.css({
 						left: a.tipLeft - (e.fixed ? f.scrollLeft() : 0),
 						top: a.tipTop - (e.fixed ? f.scrollTop() : 0)

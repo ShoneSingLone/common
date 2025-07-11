@@ -684,7 +684,6 @@
 
 			if (IS_DEV || NO_CACHE || NOT_MATCH) {
 				try {
-
 					await $idb.clear();
 					await $idb.set("APP_VERSION", APP_VERSION);
 					window.APP_VERSION = APP_VERSION;
@@ -776,7 +775,7 @@
 									const preloadArray = getPreload();
 									preloadArray.forEach(url => $loadText(url));
 								}
-							} catch (error) { }
+							} catch (error) {}
 						}
 					}
 				],
@@ -856,5 +855,4 @@
 			window.HMR_APP = APP;
 		}
 	})();
-
 })();
