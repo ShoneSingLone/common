@@ -237,6 +237,7 @@ export default async function ({ PRIVATE_GLOBAL }) {
 			}
 
 			const buttonProps = {
+				..._.pick(vm.configs, ["attrs"]),
 				...(vm.configs.props || {}),
 				directives: vm.getDirectives({}),
 				onClick() {
@@ -342,9 +343,11 @@ a.el-button {
 	-webkit-appearance: none;
 	text-align: center;
 	/* 列表当中 jsxFn link 左对齐 */
+
 	&.text-align-left {
 		text-align: left;
 	}
+
 	-webkit-box-sizing: border-box;
 	box-sizing: border-box;
 	outline: 0;
@@ -967,6 +970,7 @@ a.el-button {
 		width: unset;
 		margin-bottom: 0;
 	}
+
 	/* default */
 	--el-button-text-color: var(--el-text-color-regular);
 	--el-button-border-color: var(--el-border-color);
@@ -1011,6 +1015,7 @@ a.el-button {
 		border-color: var(--el-button-hover-border-color);
 		background-color: var(--el-button-hover-bg-color);
 		transform: scale(0.98);
+
 		.xIcon {
 			color: var(--el-button-hover-text-color);
 		}
