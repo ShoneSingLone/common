@@ -2504,6 +2504,7 @@ export default async function ({ PRIVATE_GLOBAL, mergeProps4h }) {
 						const item = vm.$props.columns[index];
 						const width = item.width + grow;
 						if (width) {
+							item.__unset_width = false;
 							item.width = width;
 							// vm.$props.columns.splice(index, 1, item);
 							vm.$props.columns[index] = item;

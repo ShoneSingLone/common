@@ -160,11 +160,11 @@ export default async function () {
 				};
 			},
 			/**
-			 * 要求控件必填，提示信息默认i18n("required_item")
+			 * 要求控件必填，提示信息默认i18n("required")
 			 * @param defaultMsg 自定义的提示信息
 			 */
 			required: (args = {}) => {
-				let defaultMsg = i18n("required_item");
+				let defaultMsg = i18n("required");
 				/* 兼容老的用法 */
 				if (_.isString(args)) {
 					defaultMsg = args;
@@ -178,7 +178,7 @@ export default async function () {
 					async validator({ val }) {
 						let msg = "";
 						if (!_.$isInput(val)) {
-							msg = defaultMsg || i18n("required_item");
+							msg = defaultMsg || i18n("required");
 						}
 						/* 返回提示信息即error */
 						/* 返回""为success */
@@ -372,7 +372,7 @@ export default async function () {
 			ipAddress(msg = i18n("ruleEnterValidIPAddress")) {
 				return {
 					name: "ipAddress",
-					async validator(value) {
+					async validator({ val: value }) {
 						let ipAddress = new RegExp(
 							"^((25[0-5]|2[0-4]\\d|[01]?\\d\\d?)\\.){3}(25[0-5]|2[0-4]" +
 								"\\d|[01]?\\d\\d?)$|^([\\da-fA-F]{1,4}:){6}((25[0-5]|2[0-4]\\d|[01]?\\d\\d?)\\.){3}(25[" +
