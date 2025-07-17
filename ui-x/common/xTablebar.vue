@@ -35,7 +35,7 @@ export default async function () {
 				const vm = this;
 
 				return {
-					label: i18n("reset_action"),
+					label: i18n("reset"),
 					isHide() {
 						return !vm.isShowReset;
 					},
