@@ -1063,26 +1063,30 @@
 	};
 
 	_.$scrollIntoView = function (container, selected) {
-		/* TODO:自定义偏移量 */
-		/* scrollIntoView api */
-		if (!selected) {
-			container.scrollTop = 0;
-			return;
-		}
-		const offsetParents = [];
-		let pointer = selected.offsetParent;
-		while (pointer && container !== pointer && container.contains(pointer)) {
-			offsetParents.push(pointer);
-			pointer = pointer.offsetParent;
-		}
-		const top =
-			selected.offsetTop + offsetParents.reduce((prev, curr) => prev + curr.offsetTop, 0);
+		try {
+			/* TODO:自定义偏移量 */
+			/* scrollIntoView api */
+			if (!selected) {
+				container.scrollTop = 0;
+				return;
+			}
+			const offsetParents = [];
+			let pointer = selected.offsetParent;
+			while (pointer && container !== pointer && container.contains(pointer)) {
+				offsetParents.push(pointer);
+				pointer = pointer.offsetParent;
+			}
+			const top =
+				selected.offsetTop + offsetParents.reduce((prev, curr) => prev + curr.offsetTop, 0);
 
-		// 滑动到容器顶部
-		container.scrollTo({
-			top: top,
-			behavior: "smooth"
-		});
+			// 滑动到容器顶部
+			container.scrollTo({
+				top: top,
+				behavior: "smooth"
+			});
+		} catch (e) {
+			console.log("scrollIntoView", e);
+		}
 	};
 
 	/**
@@ -1455,6 +1459,7 @@
 				};
 			}
 			const isDelete = !!options.isDelete;
+			const isHideCancel = options.isHideCancel || false;
 			let title = options.title || i18n("message");
 			let content = options.content || "";
 			if (isDelete) {
@@ -1479,7 +1484,8 @@
 				resolve,
 				reject,
 				content,
-				isDelete
+				isDelete,
+				isHideCancel
 			});
 
 			/* 在弹窗中，可以获取到modalVm，调用forceUpdate，强制刷新弹窗内容 */
@@ -1840,7 +1846,7 @@
 		 * @param styleSourceCode
 		 */
 		_.$preprocessCssByless = async function (styleSourceCode) {
-			const { render } = await _.$appendScript("/common/libs/min/less.js", "less");
+			const { render } = await _.$appendScript("/common/libs/less.js", "less");
 			let cssContent = await new Promise(resolve => {
 				render(_.$resolveCssAssetsPath(styleSourceCode), {}, (error, cssContent) => {
 					if (error) {

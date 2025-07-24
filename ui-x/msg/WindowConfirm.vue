@@ -11,7 +11,7 @@
 	</xDialog>
 </template>
 <script lang="ts">
-export default async function ({ resolve, reject, content, renderFooter, style }) {
+export default async function ({ resolve, reject, content, renderFooter, style, isHideCancel }) {
 	const { useDialogProps } = await _.$importVue("/common/utils/hooks.vue");
 	return defineComponent({
 		props: useDialogProps(),
@@ -50,6 +50,7 @@ export default async function ({ resolve, reject, content, renderFooter, style }
 				return {
 					label: i18n("cancel"),
 					/* 因为是弹出确认框，引导用户取消 */
+					isHide: isHideCancel,
 					preset: "blue",
 					async onClick() {
 						vm.closeModal();

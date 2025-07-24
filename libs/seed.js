@@ -1,10 +1,11 @@
 (async function useIdbKeyVal() {
 	const ResolvePathCache = {};
-	const IS_DEV = !!localStorage.isDev;
-	const COMMON_LIBS = IS_DEV ? "/common/libs" : "/common/libs";
+	const IS_DEV = localStorage.isDev === "DEV";
+	const IS_USE_MIN = localStorage.isUseMin === "USE_MIN";
 	const camelizeRE = /\/|\.|_|-(\w)/g;
 
 	const {
+		Libs,
 		srcRoot,
 		appName,
 		appEntryName,
@@ -16,8 +17,11 @@
 	} = (() => {
 		const srcRootDom = $$id("src-root");
 		const { src, dataset } = srcRootDom;
+		let _common_libs = src.split("/seed.js")[0];
+		_common_libs = IS_USE_MIN ? _common_libs + "/min" : _common_libs;
 
 		return {
+			Libs: (subpath = "") => _common_libs + subpath,
 			srcRoot: src.split("/common/libs")[0],
 			appName: dataset.appName,
 			appEntryName: dataset.appEntryName,
@@ -698,12 +702,12 @@
 			/* 一般依赖 */
 			const depends = [
 				[
-					COMMON_LIBS + "/jquery/jquery-3.7.0.min.js",
+					Libs("/jquery/jquery-3.7.0.min.js"),
 					null,
 					() => $("body").addClass("x-app-body")
 				],
 				[
-					COMMON_LIBS + "/lodash.js",
+					Libs("/lodash.js"),
 					null,
 					() => {
 						_.$$tags = $$tags;
@@ -775,13 +779,13 @@
 									const preloadArray = getPreload();
 									preloadArray.forEach(url => $loadText(url));
 								}
-							} catch (error) {}
+							} catch (error) { }
 						}
 					}
 				],
-				[COMMON_LIBS + "/dayjs.js"],
+				[Libs("/dayjs.js")],
 				[
-					COMMON_LIBS + "/vue.js",
+					Libs("/vue.js"),
 					null,
 					async () => {
 						/**
@@ -796,13 +800,13 @@
 						Vue.prototype.i18n = i18n;
 					}
 				],
-				[COMMON_LIBS + "/common.ts"],
-				[COMMON_LIBS + "/common.$.ajax.ts"]
+				[Libs("/common.ts")],
+				[Libs("/common.$.ajax.ts")]
 			];
 
 			if (appUseBabel) {
-				depends.push([COMMON_LIBS + "/babel/babel.standalone.7.27.0.js"]);
-				depends.push([COMMON_LIBS + "/babel/babel.custom.js"]);
+				depends.push([Libs("/babel/babel.standalone.7.27.0.js")]);
+				depends.push([Libs("/babel/babel.custom.js")]);
 			}
 
 			await _$asyncLoadOrderAppendScrips(depends);
