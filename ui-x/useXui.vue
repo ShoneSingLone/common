@@ -13,7 +13,8 @@ export default async function ({
 	x_pagination_pagination_component,
 	x_pagination_position,
 	x_open_modal_do_some_thing_before_open,
-	x_confirm_window_component
+	x_confirm_window_component,
+	x_tooltip_effect
 }) {
 	((/* ui 默认配置 */) => {
 		/* tableVir empty 的默认组件地址 */
@@ -24,6 +25,7 @@ export default async function ({
 		};
 		PRIVATE_GLOBAL.x_open_modal_do_some_thing_before_open =
 			x_open_modal_do_some_thing_before_open;
+		PRIVATE_GLOBAL.x_tooltip_effect = x_tooltip_effect || "dark";
 		PRIVATE_GLOBAL.x_table_vir_empty_component = x_table_vir_empty_component;
 		PRIVATE_GLOBAL.x_table_vir_empty_component_icon =
 			x_table_vir_empty_component_icon || "icon_no_data";
@@ -200,6 +202,7 @@ export default async function ({
 					return row;
 				});
 			}
+
 			/**
 			 *
 			 * @param param0
@@ -309,6 +312,7 @@ export default async function ({
 			}
 		};
 		await Promise.all(_.map(ALL_COMPONENTS, loadComponentByImportVue));
+
 		function setComponentName(component, componentName) {
 			if (!component.componentName) {
 				component.componentName = componentName;
@@ -431,6 +435,7 @@ export default async function ({
 	border-color: var(--el-color-error);
 	background-color: var(--xItem-error-bg);
 }
+
 .el-checkbox-button__inner,
 .el-empty__image img,
 .el-radio {
@@ -438,6 +443,7 @@ export default async function ({
 	-moz-user-select: none;
 	-ms-user-select: none;
 }
+
 .el-avatar,
 .el-drawer {
 	-webkit-box-sizing: border-box;
@@ -450,6 +456,7 @@ export default async function ({
 	-moz-user-select: none;
 	-ms-user-select: none;
 }
+
 .el-dropdown .el-dropdown-selfdefine:focus:active,
 .el-dropdown .el-dropdown-selfdefine:focus:not(.focusing),
 .el-message__closeBtn:focus,
@@ -466,10 +473,12 @@ export default async function ({
 .el-upload-list__item.is-success:not(.focusing):focus {
 	outline-width: 0;
 }
+
 .el-popover,
 .el-time-panel {
 	-webkit-box-shadow: var(--normal-box-shadow);
 }
+
 .el-popover,
 .el-radio-button:first-child:last-child .el-radio-button__inner {
 	border-radius: var(--border-radius);
@@ -479,10 +488,12 @@ export default async function ({
 .el-time-panel {
 	-webkit-box-shadow: var(--normal-box-shadow);
 }
+
 .el-cascader-node > .el-radio,
 .el-radio:last-child {
 	margin-right: 0;
 }
+
 .el-cascader__tags,
 .el-tag {
 	-webkit-box-sizing: border-box;
@@ -505,6 +516,7 @@ export default async function ({
 .el-upload-list--picture-card .el-progress .el-progress__text {
 	top: 50%;
 }
+
 .el-upload-list--picture-card .el-upload-list__item:hover .el-progress__text {
 	display: block;
 }
@@ -533,6 +545,7 @@ export default async function ({
 .el-time-spinner__wrapper .el-scrollbar__wrap:not(.el-scrollbar__wrap--hidden-default) {
 	padding-bottom: 15px;
 }
+
 .el-picker-panel,
 .el-table-filter {
 	-webkit-box-shadow: var(--normal-box-shadow);
@@ -547,6 +560,7 @@ export default async function ({
 	border-radius: inherit;
 	background-color: var(--ui-thumb-hover);
 	transition: 0.3s background-color;
+
 	&:hover {
 		background-color: var(--ui-thumb);
 	}

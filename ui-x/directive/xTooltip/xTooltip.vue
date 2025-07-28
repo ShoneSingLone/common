@@ -1,5 +1,5 @@
 <script lang="ts">
-export default async function () {
+export default async function ({ PRIVATE_GLOBAL }) {
 	const Popper = await _.$importVue("/common/libs/VuePopper/VuePopper.vue");
 
 	return defineComponent({
@@ -14,14 +14,14 @@ export default async function () {
 			manual: Boolean,
 			effect: {
 				type: String,
-				default: "dark"
+				default: PRIVATE_GLOBAL.x_tooltip_effect
 			},
 			arrowOffset: {
 				type: Number,
 				default: 0
 			},
 			popperClass: String,
-			content: [String, Object],
+			content: [String, Object, Function],
 			visibleArrow: {
 				default: true
 			},
@@ -60,6 +60,7 @@ export default async function () {
 		},
 		setup() {
 			const vm = this;
+
 			function handleClosePopper() {
 				if ((vm.enterable && vm.expectedState) || vm.manual) return;
 				clearTimeout(vm.timeout);
@@ -73,6 +74,7 @@ export default async function () {
 					vm.doDestroy();
 				}
 			}
+
 			vm.handleClosePopper = handleClosePopper;
 			vm.debounceClose = _.debounce(handleClosePopper, 200);
 		},
@@ -112,7 +114,22 @@ export default async function () {
 									this.isShowPopover ? this.popperClass : "display-none"
 								]
 							},
-							[this.$slots.content || this.content]
+							[
+								this.$slots.content ||
+									(() => {
+										try {
+											if (_.isString(this.content)) {
+												return this.content;
+											} else if (_.isFunction(this.content)) {
+												return this.content();
+											} else {
+												return this.content;
+											}
+										} catch (e) {
+											console.error(e);
+										}
+									})()
+							]
 						)
 					]
 				);

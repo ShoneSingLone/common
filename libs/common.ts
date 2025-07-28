@@ -1928,7 +1928,12 @@
 				return url;
 			}
 			if (_.isArray(url)) {
-				return Promise.all(_.map(url, _url => _.$importVue(_url)));
+				return Promise.all(
+					_.map(url, (_url, index) => {
+						const subPayload = _.$val(payload, String(index));
+						return _.$importVue(_url, subPayload);
+					})
+				);
 			}
 			const resolvedURL = _.$resolvePath(url);
 			_.$importVue.urlSets.add(url);
