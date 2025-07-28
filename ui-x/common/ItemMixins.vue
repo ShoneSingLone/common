@@ -191,6 +191,9 @@ export default async function () {
 					},
 					mixin_value: {
 						get() {
+							if (_.isUndefined(this.value)) {
+								debugger;
+							}
 							return this.value;
 						},
 						set(val) {

@@ -109,12 +109,12 @@
 					<xIcon
 						v-show="!showClose"
 						:icon="state.xSelectIconArrow"
-						:class="['el-select__caret el-input__icon', iconClass]" />
+						:class="['el-select__caret el-input__icon height100', iconClass]" />
 					<!-- el-icon-circle-close -->
 					<xIcon
 						v-if="showClose"
 						icon="circle-close"
-						class="el-select__caret el-input__icon"
+						class="el-select__caret el-input__icon height100"
 						@click="handleClearClick" />
 				</template>
 			</xInput>

@@ -2347,14 +2347,20 @@
 		 * @returns
 		 */
 		_.$getSelectedItemFrom = function (xItemConfigs) {
-			const { options, value } = xItemConfigs;
-			if (_.$isArrayFill(options) && _.$isInput(value)) {
-				const item = _.find(options, { value });
-				if (item) {
-					return item;
+			let defaultValue = { value: "", label: "", labelKey: "" };
+			try {
+				const { options, value } = xItemConfigs;
+				if (_.$isArrayFill(options) && _.$isInput(value)) {
+					const item = _.find(options, { value });
+					if (item) {
+						defaultValue = item;
+					}
 				}
+			} catch (error) {
+				console.log("_.$getSelectedItemFrom", error);
+			} finally {
+				return defaultValue;
 			}
-			return { value: "", label: "", labelKey: "" };
 		};
 
 		/**

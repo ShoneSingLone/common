@@ -197,6 +197,7 @@ each(@list, {
 .overflow-visible {
 	overflow: visible;
 }
+
 .overflow-hidden {
 	overflow: hidden;
 }
@@ -240,6 +241,7 @@ each(@list, {
 	margin-bottom: 0px !important;
 	color: red !important;
 }
+
 .use-transform {
 	transition: transform 0.3s;
 
@@ -391,6 +393,7 @@ body.x-app-body {
 .all-scroll {
 	cursor: all-scroll;
 }
+
 .pointer {
 	cursor: pointer;
 
@@ -453,6 +456,10 @@ svg.pointer {
 
 .height100 {
 	height: 100%;
+
+	&.xIcon {
+		height: 100%;
+	}
 }
 
 .height1px {
@@ -535,6 +542,7 @@ svg.pointer {
 	&.relative {
 		position: relative;
 	}
+
 	&.absolute {
 		position: absolute;
 	}
@@ -552,6 +560,7 @@ svg.pointer {
 .el-skeleton__paragraph {
 	height: 16px;
 	background: #f2f2f2;
+
 	& + .el-skeleton__paragraph {
 		margin-top: 16px;
 	}
@@ -581,10 +590,10 @@ svg.pointer {
 }
 
 /* *****************************************transition********************************** */
-/* 
+/*
 fade
 fade-short
-slide-fade 
+slide-fade
 slide
 scale
 rotate
@@ -641,24 +650,29 @@ slide-up-down
 .scale-leave-active {
 	transition: all 0.3s ease;
 }
+
 .scale-enter,
 .scale-leave-to {
 	transform: scale(0);
 }
+
 /* 旋转 */
 .rotate-enter-active,
 .rotate-leave-active {
 	transition: all 0.5s ease;
 }
+
 .rotate-enter,
 .rotate-leave-to {
 	transform: rotate(360deg);
 }
+
 /* 上下滑动 */
 .slide-up-down-enter-active,
 .slide-up-down-leave-active {
 	transition: all 0.3s ease;
 }
+
 .slide-up-down-enter,
 .slide-up-down-leave-to {
 	transform: translateY(-100%);
@@ -684,6 +698,7 @@ slide-up-down
 	.x-sidebar-icon-wrapper {
 		transition: all 0.3s ease;
 		opacity: 1;
+
 		&.hide {
 			opacity: 0;
 			overflow: hidden;

@@ -1,5 +1,5 @@
 <template>
-	<div class="flex">
+	<div class="xItemSwitch flex middle">
 		<xSwitch v-model="mixin_value" v-bind="mixin_attrs" v-on="mixin_listeners" />
 		<xGap f />
 	</div>
@@ -15,3 +15,8 @@ export default async function () {
 	});
 }
 </script>
+<style lang="less">
+.xItemSwitch {
+	height: var(--ui-height);
+}
+</style>
