@@ -2305,6 +2305,34 @@
 				}
 			});
 		};
+		/**
+		 * 如果有下拉项，要等到下拉有数据再回填
+		 * 适用于xItem不使用v-mode，form的configs带有value form.xxx.value, {xxx:"value"}
+		 *
+		 * @param {any} xItemFormConfigs xItem 配置信息，config带有value属性
+		 * @param {any} values
+		 * @param {any} options
+		 * 1.FIRST_OPTION_AS_VALUE 如果values的值为undefined，默认取options第一个值
+		 */
+		_.$asyncSetFormValues = async function (xItemFormConfigs, values, options = {}) {
+			return Promise.all(
+				_.map(values, async (value, prop) => {
+					/* 允许null，代表使用configs.value */
+					if (_.isPlainObject(xItemFormConfigs[prop])) {
+						if (_.includes(["xItemSelect"], xItemFormConfigs[prop]?.itemType)) {
+							await _.$ensure(() => xItemFormConfigs[prop]?.options?.length);
+							if (_.isUndefined(value)) {
+								if (options.FIRST_OPTION_AS_VALUE) {
+									value = _.first(xItemFormConfigs[prop]?.options).value;
+								}
+							}
+						}
+						/*TODO:other type*/
+						xItemFormConfigs[prop].value = value;
+					}
+				})
+			);
+		};
 		_.$setFormValuesDelay = function (xItemFormConfigs, values, delay = 100) {
 			setTimeout(() => {
 				_.$setFormValues(xItemFormConfigs, values);

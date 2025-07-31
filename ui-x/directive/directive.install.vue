@@ -72,7 +72,7 @@ export default async function ({ PRIVATE_GLOBAL }) {
 				});
 			};
 			const contentComponent = await _.$importVue(options.url, {
-				options,
+				OPTIONS: options,
 				xDrawerVm: instance
 			});
 			instance.currentContentComponent = contentComponent;

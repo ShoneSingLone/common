@@ -67,6 +67,7 @@ export default async function ({ PRIVATE_GLOBAL }) {
 			function forceUpdate() {
 				vm.$forceUpdate();
 			}
+
 			_.$single.win.on("X_ITEM_RENDER_UPDATE", forceUpdate);
 
 			onBeforeUnmount(() => {
@@ -87,6 +88,11 @@ export default async function ({ PRIVATE_GLOBAL }) {
 					} else if (vm.CONFIGS_ONLY_AS_WRAPPER) {
 						return vm.CONFIGS_ONLY_AS_WRAPPER;
 					} else if (this.$slots.default) {
+						/*<xItem :label="'X_ITEM_LABEL_IS_EMPTY' :rule="rules"/>
+						 * 可以为自定义空间提供validator方法
+						 * X_ITEM_LABEL_IS_EMPTY为不显示label
+						 *
+						 * */
 						vm.CONFIGS_ONLY_AS_WRAPPER = new Proxy(
 							{
 								THIS_CONFIGS_ONLY_FOR_LABEL: true,
@@ -342,8 +348,9 @@ export default async function ({ PRIVATE_GLOBAL }) {
 			cpt_isRequired() {
 				try {
 					return _.some(this.cptConfigs.rules, rule => rule.name === "required");
-				} catch (error) {}
-				return false;
+				} catch (error) {
+					return false;
+				}
 			},
 			cpt_rulesByTrigger() {
 				return (
@@ -667,6 +674,7 @@ export default async function ({ PRIVATE_GLOBAL }) {
 					cursor: not-allowed;
 				}
 			}
+
 			.after-flex1 + * {
 				flex: 1;
 			}
@@ -704,6 +712,7 @@ export default async function ({ PRIVATE_GLOBAL }) {
 		overflow: var(--xItem-info-msg-overflow, hidden);
 		color: var(--el-text-color-secondary);
 		padding-left: var(--xItem-msg-padding-left);
+
 		.xItem-msg-content {
 			margin-top: 10px;
 		}
@@ -739,6 +748,7 @@ export default async function ({ PRIVATE_GLOBAL }) {
 				align-self: center;
 			}
 		}
+
 		.xItem-msg {
 			padding-left: 0;
 		}
