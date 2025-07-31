@@ -51,8 +51,7 @@ export default async function () {
 			event: "change"
 		},
 		data() {
-			return {
-			};
+			return {};
 		},
 		computed: {
 			cptDisabledOne() {
@@ -70,13 +69,13 @@ export default async function () {
 			ipObj: {
 				get() {
 					try {
-						let arr = this.value?.split('.')||[]
+						let arr = this.value.split(".") || [];
 						return {
 							one: arr[0],
 							two: arr[1],
 							three: arr[2],
 							four: arr[3]
-						}
+						};
 					} catch (error) {
 						return { one: "", two: "", three: "", four: "" };
 					}
