@@ -1264,7 +1264,7 @@
 		return (
 			name +
 			parseInt((new Date().getTime() % 61439) + 4096)
-				.toString(length)
+				.toString(16)
 				.substr(0, length)
 		);
 	};
