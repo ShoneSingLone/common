@@ -33,7 +33,7 @@ export default async function () {
 			/* 文件下载地址 :根据prefix改变图标 */
 			return `<div class="x-mkit-wrapper flex middle center" title="${title}" alt="${alt}" style="background-color: var(--el-background-color-lighter);">
 			<a href="${href}" target="_blank" class="x-mkit-img flex middle center vertical x-padding" download="${title}">
-				<div class="tui-icon ${prefix}"></div> 
+				<div class="tui-icon ${prefix}"></div>
 				<span>${title}</span>
 			</a>
 		</div>`;
@@ -72,10 +72,19 @@ export default async function () {
 			const aArray = $html.find("a");
 			_.each(aArray, (aDom, index) => {
 				const aDomOuterHTML = aDom.outerHTML;
-				const outerHTML = $(aDom).attr({
+				const $aDom = $(aDom);
+				const href = $aDom.attr("href");
+				const href2 = decodeURIComponent(href);
+				const href3 = String(href2).split("&amp;").join("&");
+				console.log(href, href2, href3);
+				$aDom.attr("href", href3);
+
+				const attrObj = {
 					target: "_blank",
 					"data-markdwon-a-index": index
-				})[0].outerHTML;
+				};
+
+				const outerHTML = $aDom.attr(attrObj)[0].outerHTML;
 				this.html = this.html.replace(aDomOuterHTML, outerHTML);
 			});
 			return this;
