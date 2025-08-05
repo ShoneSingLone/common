@@ -8692,7 +8692,7 @@ export default async function ({
 	const websocketURL = `${host}${namespace}`;
 	var ws = window.io(websocketURL);
 	ws.on("connection", payload => {
-		onConnection({ id: payload.id, ws });
+		onConnection({ ...payload, ws });
 	});
 	ws.on("message", payload => {
 		$(window).trigger(TRIGGER_EVENT_NAME, payload);

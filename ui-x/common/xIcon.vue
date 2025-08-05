@@ -1,5 +1,14 @@
 <template>
-	<img v-if="cptImg" :src="cptImgSrc" @click="handleClick" :data-origin-img-src="cptImg" />
+	<xIcon
+		v-if="cpt_img_inner === 'loading'"
+		icon="loading"
+		@click="handleClick"
+		:data-origin-img-src="cpt_img" />
+	<img
+		v-else-if="cpt_img"
+		:src="cpt_img_inner"
+		@click="handleClick"
+		:data-origin-img-src="cpt_img" />
 	<svg
 		v-else
 		:data-icon-name="cptIconName"
@@ -19,12 +28,15 @@
 	</svg>
 </template>
 <script lang="ts">
-export default async function () {
+export default async function ({ PRIVATE_GLOBAL }) {
+	PRIVATE_GLOBAL._xIcon_cached_img =
+		PRIVATE_GLOBAL._xIcon_cached_img || _.$lStorage._xIcon_cached_img || {};
 	/* icon对应 /assets/svg 文件夹下的文件名*/
 	/* color 可以改变svg color 没有就继承父元素的color */
 	const rotationIndefinite = (dur = 1.2) =>
 		`<animateTransform attributeName="transform" type="rotate" from="0 0 0" to="360 0 0" dur="${dur}s" repeatCount="indefinite" />`;
-	return {
+	return defineComponent({
+		componentName: "xIcon",
 		/* 是否开启图片缓存 通过url保存为blob */
 		props: {
 			icon: String,
@@ -35,10 +47,34 @@ export default async function () {
 				default: false
 			},
 			img: String,
+			/*是否需要缓存图片*/
 			iscache: {
 				type: [Boolean, String],
 				default: false
 			}
+		},
+		created() {
+			const vm = this;
+			const { cpt_current_img_prop, do_cache_img } = vm;
+
+			(async (/*尝试获取img缓存数据*/) => {
+				vm.cached_img_src = await _.$idb.get(cpt_current_img_prop);
+			})();
+
+			vm.$on("update_cached_img_src", async () => {
+				vm.cached_img_src = await _.$idb.get(cpt_current_img_prop);
+				if (!vm.cached_img_src) {
+					if (
+						!["pendding"].includes(
+							PRIVATE_GLOBAL._xIcon_cached_img[cpt_current_img_prop]
+						)
+					) {
+						/*保证是同步处理，同样的url只发送一次请求*/
+						do_cache_img();
+						/*用的是图片，并且需要缓存*/
+					}
+				}
+			});
 		},
 		setup() {
 			const vm = this;
@@ -51,7 +87,9 @@ export default async function () {
 					// 设置SVG的高度
 					$el.height(fontSize);
 					$el.width(fontSize);
-				} catch (error) {}
+				} catch (error) {
+					console.error(error);
+				}
 			}
 
 			onMounted(() => {
@@ -63,13 +101,13 @@ export default async function () {
 		data() {
 			//
 			return {
-				cachedImgSrc: "",
+				cached_img_src: "",
 				isLoaded: false
 			};
 		},
 		computed: {
-			cptCurrentImgProp({ cptImg }) {
-				return `CACHED_IMG_${_.camelCase(cptImg)}`;
+			cpt_current_img_prop({ cpt_img }) {
+				return `xIcon_cached_img_${_.snakeCase(cpt_img)}`;
 			},
 
 			cptFill() {
@@ -81,22 +119,46 @@ export default async function () {
 			cptNeedRotation() {
 				return this.cptHref === "#_svg_icon_loading";
 			},
-			cptImg() {
+			/*通过img属性传入的原始url*/
+			cpt_img() {
 				if (this.img) {
 					return _.$resolvePath(this.img || this.$attrs.img || "");
 				} else {
 					return "";
 				}
 			},
-			cptImgSrc({ iscache, cachedImgSrc, cptImg }) {
-				if (cachedImgSrc) {
-					return cachedImgSrc;
-				}
+			/*经过处理后的用于展示的img url*/
+			cpt_img_inner({
+				iscache,
+				cached_img_src,
+				cpt_current_img_prop,
+				cpt_img,
+				do_cache_img
+			}) {
+				/*如果需要缓存*/
+				if (iscache) {
+					/*且已经缓存，直接用缓存的值*/
+					if (cached_img_src) {
+						return cached_img_src;
+					}
 
-				if (iscache && !cachedImgSrc) {
-					return cptImg;
+					const imgStatus = PRIVATE_GLOBAL._xIcon_cached_img[cpt_current_img_prop];
+					console.log(cpt_current_img_prop, imgStatus);
+
+					if (["done"].includes(imgStatus)) {
+						this.$emit("update_cached_img_src", "self");
+					} else if (!["pendding"].includes(imgStatus)) {
+						/*保证是同步处理，同样的url只发送一次请求*/
+						do_cache_img();
+						/*用的是图片，并且需要缓存*/
+					}
+
+					/*如果正在请求,临时用loading替代原有图片*/
+					return "loading";
+				} else {
+					/*不需要缓慢，直接用原始的*/
+					return cpt_img;
 				}
-				return cptImg;
 			},
 			cptIconUrl() {
 				const url = _.$resolveSvgIcon(this.cptOriginIconName);
@@ -130,12 +192,6 @@ export default async function () {
 			}
 		},
 		watch: {
-			cptImg: {
-				immediate: true,
-				handler() {
-					this.doCacheImg(this);
-				}
-			},
 			cptIconName: {
 				immediate: true,
 				handler(iconName) {
@@ -150,33 +206,45 @@ export default async function () {
 			}
 		},
 		methods: {
-			async doCacheImg({ cptImg, iscache, cptCurrentImgProp }) {
-				if (cptImg && iscache) {
-					const cachedImgSrc = await _.$idb.get(cptCurrentImgProp);
-
-					if (!cachedImgSrc) {
-						try {
-							const blob = await new Promise(resolve => {
-								_.$ajax.downloadOctetStream({
-									url: cptImg,
-									resolveResult: blob => {
-										resolve(blob);
-									}
-								});
+			async_set_chched_img_src(src) {
+				const { cpt_current_img_prop } = this;
+				PRIVATE_GLOBAL._xIcon_cached_img[cpt_current_img_prop] = "done";
+				_.$lStorage._xIcon_cached_img = PRIVATE_GLOBAL._xIcon_cached_img;
+				this.cached_img_src = src;
+				this.$root.broadcast("xIcon", "update_cached_img_src");
+			},
+			do_cache_img() {
+				const { cpt_current_img_prop, async_do_cache_img } = this;
+				PRIVATE_GLOBAL._xIcon_cached_img[cpt_current_img_prop] = "pendding";
+				_.$lStorage._xIcon_cached_img = PRIVATE_GLOBAL._xIcon_cached_img;
+				async_do_cache_img();
+			},
+			async async_do_cache_img() {
+				const vm = this;
+				const { cpt_current_img_prop, cpt_img, async_set_chched_img_src } = vm;
+				let cached_img_src = "";
+				try {
+					cached_img_src = await _.$idb.get(vm.cpt_current_img_prop);
+					if (!cached_img_src) {
+						cached_img_src = await new Promise(async resolve => {
+							_.$ajax.downloadOctetStream({
+								url: cpt_img,
+								resolveResult: blob => {
+									const reader = new FileReader();
+									reader.onload = async () => {
+										const base64Data = reader.result;
+										await _.$idb.set(cpt_current_img_prop, base64Data);
+										resolve(base64Data);
+									};
+									reader.readAsDataURL(blob);
+								}
 							});
-							const reader = new FileReader();
-							reader.onload = () => {
-								const base64Data = reader.result;
-								_.$idb.set(cptCurrentImgProp, base64Data);
-								this.cachedImgSrc = base64Data;
-							};
-							reader.readAsDataURL(blob);
-						} catch (error) {
-							console.error(error);
-						}
+						});
 					}
-
-					this.cachedImgSrc = cachedImgSrc;
+				} catch (error) {
+					console.error(error);
+				} finally {
+					cached_img_src && async_set_chched_img_src(cached_img_src);
 				}
 			},
 
@@ -256,7 +324,7 @@ export default async function () {
 				})();
 			}
 		}
-	};
+	});
 }
 </script>
 <style lang="less">
