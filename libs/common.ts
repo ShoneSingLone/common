@@ -1739,62 +1739,63 @@
 			templateSourceCode,
 			payload
 		}) {
+			payload = payload || {};
+
+			/* app-use-bable 会加载babel，兼容低版本浏览器*/
+			if (window.Babel) {
+				scritpSourceCode = window.Babel.babelTransformCode(scritpSourceCode);
+			}
+
+			scritpSourceCode = scritpSourceCode.replace("export default", "");
+
+			const isShowTemplate = templateSourceCode && IS_DEV;
+			const innerCode = [
+				`console.info("${resolvedURL}");`,
+				isShowTemplate ? `(()=>\`${templateSourceCode}\`)();` : ``,
+				`try{const ${_.camelCase(resolvedURL)} = ${scritpSourceCode};return ${_.camelCase(
+					resolvedURL
+				)}.call({THIS_FILE_URL:"${resolvedURL}"},payload);}catch(e){console.error(e)}`
+			].join("\n");
+
+			let scfObjAsyncFn;
+			let component = {};
+
 			try {
-				payload = payload || {};
-
-				/* app-use-bable 会加载babel，兼容低版本浏览器*/
-				if (window.Babel) {
-					scritpSourceCode = window.Babel.babelTransformCode(scritpSourceCode);
-				}
-
-				scritpSourceCode = scritpSourceCode.replace("export default", "");
-
-				const isShowTemplate = templateSourceCode && IS_DEV;
-				const innerCode = [
-					`console.info("${resolvedURL}");`,
-					isShowTemplate ? `(()=>\`${templateSourceCode}\`)();` : ``,
-					`try{const ${_.camelCase(
-						resolvedURL
-					)} = ${scritpSourceCode};return ${_.camelCase(
-						resolvedURL
-					)}.call({THIS_FILE_URL:"${resolvedURL}"},payload);}catch(e){console.error(e)}`
-				].join("\n");
-
-				let scfObjAsyncFn;
-				let component = {};
-
-				try {
-					scfObjAsyncFn = new Function(
-						"payload",
-						"PRIVATE_GLOBAL",
-						`with ({...PRIVATE_GLOBAL,..._,...Vue,}){${innerCode};}`
-					);
-				} catch (e) {
-					console.error(innerCode);
-					throw e;
-				}
-				const fnPayload = new Proxy(payload, {
-					get(obj, prop) {
-						if (prop === "PRIVATE_GLOBAL") {
-							return PRIVATE_GLOBAL;
-						}
-						if (obj[prop] !== undefined) {
-							return obj[prop];
-						}
-						return Vue[prop];
+				scfObjAsyncFn = new Function(
+					"payload",
+					"PRIVATE_GLOBAL",
+					`with ({...PRIVATE_GLOBAL,..._,...Vue,}){${innerCode};}`
+				);
+			} catch (e) {
+				console.error(innerCode);
+				throw e;
+			}
+			const fnPayload = new Proxy(payload, {
+				get(obj, prop) {
+					if (prop === "PRIVATE_GLOBAL") {
+						return PRIVATE_GLOBAL;
 					}
-				});
-				component = await scfObjAsyncFn(fnPayload, PRIVATE_GLOBAL);
-				/* 可以不返回对象，只执行外层 wrapper层的function */
-				/* template */
-				if (templateSourceCode) {
-					component.template = templateSourceCode;
+					if (obj[prop] !== undefined) {
+						return obj[prop];
+					}
+					return Vue[prop];
 				}
-				return component;
+			});
+
+			try {
+				component = await scfObjAsyncFn(fnPayload, PRIVATE_GLOBAL);
 			} catch (error) {
 				console.error(scritpSourceCode);
+				console.error("template中不可使用'`'");
 				console.error(error);
 			}
+			/* 可以不返回对象，只执行外层 wrapper层的function */
+			/* template */
+			if (templateSourceCode) {
+				component.template = templateSourceCode;
+			}
+
+			return component;
 		};
 		_.$GenComponentOptions.optionsSets = new Set();
 

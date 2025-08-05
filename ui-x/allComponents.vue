@@ -138,6 +138,7 @@ export default async function () {
 		/* xItem */
 		/* xItemXXXXXXXX */
 		"common/xItem/xItem",
+		"common/xItem/xItem/xItemMonaco",
 		"common/xItem/xItemCheck",
 		"common/xItem/xItemCheckboxGroup",
 		"common/xItem/xItemCidr",

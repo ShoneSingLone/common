@@ -701,11 +701,7 @@
 
 			/* 一般依赖 */
 			const depends = [
-				[
-					Libs("/jquery/jquery-3.7.0.min.js"),
-					null,
-					() => $("body").addClass("x-app-body")
-				],
+				[Libs("/jquery/jquery-3.7.0.min.js"), null, () => $("body").addClass("x-app-body")],
 				[
 					Libs("/lodash.js"),
 					null,
@@ -779,7 +775,7 @@
 									const preloadArray = getPreload();
 									preloadArray.forEach(url => $loadText(url));
 								}
-							} catch (error) { }
+							} catch (error) {}
 						}
 					}
 				],

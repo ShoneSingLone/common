@@ -3,6 +3,7 @@ export default async function ({ PRIVATE_GLOBAL }) {
 	if (!PRIVATE_GLOBAL.VueRouter) {
 		(function () {
 			"use strict";
+
 			/*  */
 			function assert(condition, message) {
 				if (!condition) {
@@ -22,6 +23,7 @@ export default async function ({ PRIVATE_GLOBAL }) {
 				}
 				return a;
 			}
+
 			/*  */
 
 			var encodeReserveRE = /[!'()*]/g;
@@ -1003,6 +1005,7 @@ export default async function ({ PRIVATE_GLOBAL }) {
 					options
 				);
 			}
+
 			pathToRegexp_1.parse = parse_1;
 			pathToRegexp_1.compile = compile_1;
 			pathToRegexp_1.tokensToFunction = tokensToFunction_1;
@@ -2321,7 +2324,8 @@ export default async function ({ PRIVATE_GLOBAL }) {
 				const mode = router.options.mode || "hash";
 				let _location;
 				if (mode === "hash") {
-					_location = location.hash;
+					/*hash 模式下 fullpath如同url*/
+					_location = String(location.hash).replace(/^#/, "");
 				} else {
 					_location = location.href;
 				}
