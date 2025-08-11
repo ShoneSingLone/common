@@ -6,6 +6,7 @@ export default async function ({
 	bootstrap,
 	x_table_vir_empty_component,
 	x_table_vir_empty_component_icon,
+	x_table_vir_column_row_cell_align,
 	x_switch_width,
 	x_page_title_back_icon,
 	x_item_is_show_item_colon,
@@ -26,9 +27,12 @@ export default async function ({
 		PRIVATE_GLOBAL.x_open_modal_do_some_thing_before_open =
 			x_open_modal_do_some_thing_before_open;
 		PRIVATE_GLOBAL.x_tooltip_effect = x_tooltip_effect || "dark";
+		/*列表 cell格 居中方式 center right*/
+		PRIVATE_GLOBAL.x_table_vir_column_row_cell_align = x_table_vir_column_row_cell_align || "";
 		PRIVATE_GLOBAL.x_table_vir_empty_component = x_table_vir_empty_component;
 		PRIVATE_GLOBAL.x_table_vir_empty_component_icon =
 			x_table_vir_empty_component_icon || "icon_no_data";
+		/****************/
 		PRIVATE_GLOBAL.x_switch_width = x_switch_width || 40;
 		PRIVATE_GLOBAL.x_page_title_back_icon = x_page_title_back_icon || "icon_back";
 		PRIVATE_GLOBAL.x_item_is_show_item_colon = x_item_is_show_item_colon || false;
