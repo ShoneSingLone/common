@@ -1826,13 +1826,22 @@ export default async function ({ PRIVATE_GLOBAL, mergeProps4h }) {
 				rowIndex
 			};
 			const Cell = CellComponent(cellProps);
+
+			const column_row_cell_default_class = [
+				ns.e("row-cell"),
+				PRIVATE_GLOBAL.column_row_cell_default_class || ""
+			]
+				.filter(Boolean)
+				.join(" ");
+			debugger;
 			const el_table_v2_row_cell_class = [
 				/* el-table-v2__row-cell */
-				ns.e("row-cell"),
+				column_row_cell_default_class,
 				column.class,
 				column.align === Alignment.CENTER && ns.is("align-center"),
 				column.align === Alignment.RIGHT && ns.is("align-right")
 			];
+			debugger;
 
 			const expandable = (() => {
 				/*vir table 树形数据*/
@@ -3044,6 +3053,7 @@ export default async function ({ PRIVATE_GLOBAL, mergeProps4h }) {
 .el-table__expanded-cell {
 	background-color: #fff;
 }
+
 .el-table {
 	position: relative;
 	overflow: hidden;
