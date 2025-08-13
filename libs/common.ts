@@ -17,6 +17,12 @@
 				throw new Error(`参数 ${name} 必须是函数`);
 			}
 		}
+
+		if (type === "prop") {
+			if (!_.$isInput(_.$val(target, name))) {
+				throw new Error(`缺少属性 ${name} `);
+			}
+		}
 	};
 	/**
 	 * base64编码 原生不支持字符，需要用$.base64 插件
@@ -2315,6 +2321,7 @@
 		 * @param {any} options
 		 * 1.FIRST_OPTION_AS_VALUE 如果values的值为undefined，默认取options第一个值
 		 */
+		/* @typescriptDeclare (xItemFormConfigs:object,values:object,options?:object)=>Promise<void[]> */
 		_.$asyncSetFormValues = async function (xItemFormConfigs, values, options = {}) {
 			return Promise.all(
 				_.map(values, async (value, prop) => {

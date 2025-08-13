@@ -4,6 +4,8 @@
 	const IS_USE_MIN = localStorage.isUseMin === "USE_MIN";
 	const camelizeRE = /\/|\.|_|-(\w)/g;
 
+	window.IS_DEV = IS_DEV;
+
 	const {
 		Libs,
 		srcRoot,
@@ -775,7 +777,7 @@
 									const preloadArray = getPreload();
 									preloadArray.forEach(url => $loadText(url));
 								}
-							} catch (error) {}
+							} catch (error) { }
 						}
 					}
 				],
@@ -852,7 +854,11 @@
 		console.log("APP end");
 		console.timeEnd("APP");
 		if (IS_DEV) {
-			window.HMR_APP = APP;
+			if (APP.$forceUpdate) {
+				window.HMR_APP = APP;
+			} else {
+				throw new Error("APP.$forceUpdate is not defined");
+			}
 		}
 	})();
 })();
