@@ -466,15 +466,15 @@
 	 * 打开文件选择器
 	 * @returns
 	 */
-	/* @typescriptDeclare (options:{accept?:string,multiple?:boolean})=>Promise<File[]> */
+	/* @typescriptDeclare (options:{accept?:string,multiple?:boolean,limit_size_max?:number})=>Promise<File[]> */
 	_.$openFileSelector = function (options = {}) {
 		/* 可选文件的过滤 */
-		let { accept, multiple } = options;
+		let { accept, multiple, limit_size_max } = options;
 		accept = accept || "*";
 		multiple = multiple || false;
 
 		let lock = false;
-		return new Promise(resolve => {
+		return new Promise((resolve, reject) => {
 			try {
 				// create input file
 				let el = document.createElement("input");
@@ -482,7 +482,7 @@
 				el.setAttribute("type", "file");
 				el.setAttribute("accept", accept);
 				if (multiple) {
-					el.setAttribute("multiple", multiple);
+					el.setAttribute("multiple", "multiple");
 				}
 				document.body.appendChild(el);
 
@@ -490,6 +490,18 @@
 
 				$el.one("change.openFileSelector", function handleOk() {
 					lock = true;
+					if (limit_size_max) {
+						if (
+							_.some(el.files, file => {
+								if (file.size > limit_size_max) {
+									return true;
+								}
+							})
+						) {
+							_.$msgError(`文件大小不能超过${_.$bytesToSize(limit_size_max)}`);
+							return resolve([]);
+						}
+					}
 					resolve(el.files);
 					$el.remove();
 					$el = null;
@@ -504,6 +516,7 @@
 						el = null;
 					}
 				}, 1000 * 1);
+
 				_.$single.win.one("focus.openFileSelector", handleCancel);
 
 				el.click();
@@ -2498,10 +2511,10 @@
 				o = "",
 				n = 16777216;
 			for (t = 0; t < 4; t++)
-				(o = 0 === t ? o : o + "."),
+				((o = 0 === t ? o : o + "."),
 					(o += parseInt(e / n)),
 					(e -= parseInt(e / n) * n),
-					(n /= 256);
+					(n /= 256));
 			return o;
 		}
 	})();

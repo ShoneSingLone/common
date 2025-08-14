@@ -63,13 +63,17 @@
 							type="button"
 							@click="prevYear"
 							:aria-label="i18n('el.datepicker.prevYear')"
-							class="el-picker-panel__icon-btn el-date-picker__prev-btn el-icon-d-arrow-left"></button>
+							class="el-picker-panel__icon-btn el-date-picker__prev-btn el-icon-d-arrow-left">
+							<xIcon icon="d-arrow-left" />
+						</button>
 						<button
 							type="button"
 							@click="prevMonth"
 							v-show="currentView === 'date'"
 							:aria-label="i18n('el.datepicker.prevMonth')"
-							class="el-picker-panel__icon-btn el-date-picker__prev-btn el-icon-arrow-left"></button>
+							class="el-picker-panel__icon-btn el-date-picker__prev-btn el-icon-arrow-left">
+							<xIcon icon="arrow-left" />
+						</button>
 						<span
 							@click="showYearPicker"
 							role="button"
@@ -88,13 +92,17 @@
 							type="button"
 							@click="nextYear"
 							:aria-label="i18n('el.datepicker.nextYear')"
-							class="el-picker-panel__icon-btn el-date-picker__next-btn el-icon-d-arrow-right"></button>
+							class="el-picker-panel__icon-btn el-date-picker__next-btn el-icon-d-arrow-right">
+							<xIcon icon="d-arrow-right" />
+						</button>
 						<button
 							type="button"
 							@click="nextMonth"
 							v-show="currentView === 'date'"
 							:aria-label="i18n('el.datepicker.nextMonth')"
-							class="el-picker-panel__icon-btn el-date-picker__next-btn el-icon-arrow-right"></button>
+							class="el-picker-panel__icon-btn el-date-picker__next-btn el-icon-arrow-right">
+							<xIcon icon="arrow-right" />
+						</button>
 					</div>
 
 					<div class="el-picker-panel__content">

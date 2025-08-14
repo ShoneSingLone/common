@@ -143,7 +143,6 @@ export default async function ({ PRIVATE_GLOBAL }) {
 					}
 
 					const imgStatus = PRIVATE_GLOBAL._xIcon_cached_img[cpt_current_img_prop];
-					console.log(cpt_current_img_prop, imgStatus);
 
 					if (["done"].includes(imgStatus)) {
 						this.$emit("update_cached_img_src", "self");
