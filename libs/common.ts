@@ -1176,7 +1176,6 @@
 
 	_.$lStorage = new Proxy(localStorage, {
 		set(_localStorage, prop, value) {
-			console.log("🚀 ~ set ~ _localStorage:", prop, value);
 			if (_.isPlainObject(value) || _.isArray(value)) {
 				_localStorage[prop] = JSON.stringify(value);
 			} else {

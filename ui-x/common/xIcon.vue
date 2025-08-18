@@ -2,6 +2,7 @@
 	<xIcon
 		v-if="cpt_img_inner === 'loading'"
 		icon="loading"
+		:class="['use-img-loading']"
 		@click="handleClick"
 		:data-origin-img-src="cpt_img" />
 	<img
@@ -16,7 +17,7 @@
 		v-bind="$attrs"
 		@click="handleClick"
 		:fill="cptFill">
-		<use :xlink:href="cptHref" />
+		<use :xlink:href="cptHref" class="xIcon-use" />
 		<animateTransform
 			attributeName="transform"
 			type="rotate"
@@ -29,8 +30,27 @@
 </template>
 <script lang="ts">
 export default async function ({ PRIVATE_GLOBAL }) {
-	PRIVATE_GLOBAL._xIcon_cached_img =
-		PRIVATE_GLOBAL._xIcon_cached_img || _.$lStorage._xIcon_cached_img || {};
+	const _xIcon_cached_img = _.reduce(
+		PRIVATE_GLOBAL._xIcon_cached_img || _.$lStorage._xIcon_cached_img || {},
+		(_xIcon_cached_img, value, key) => {
+			if (value === "done") {
+				_xIcon_cached_img[key] = value;
+			}
+			return _xIcon_cached_img;
+		},
+		{}
+	);
+	PRIVATE_GLOBAL._xIcon_cached_img = new Proxy(_xIcon_cached_img, {
+		set(target, key, value) {
+			target[key] = value;
+			_.$lStorage._xIcon_cached_img = target;
+			return true;
+		},
+		get(target, key) {
+			return target[key];
+		}
+	});
+
 	/* icon对应 /assets/svg 文件夹下的文件名*/
 	/* color 可以改变svg color 没有就继承父元素的color */
 	const rotationIndefinite = (dur = 1.2) =>
@@ -58,17 +78,19 @@ export default async function ({ PRIVATE_GLOBAL }) {
 			const { cpt_current_img_prop, do_cache_img } = vm;
 
 			(async (/*尝试获取img缓存数据*/) => {
-				vm.cached_img_src = await _.$idb.get(cpt_current_img_prop);
+				vm.cached_img_src = (await _.$idb.get(cpt_current_img_prop)) || "";
 			})();
 
 			vm.$on("update_cached_img_src", async () => {
-				vm.cached_img_src = await _.$idb.get(cpt_current_img_prop);
+				vm.cached_img_src = (await _.$idb.get(cpt_current_img_prop)) || "";
 				if (!vm.cached_img_src) {
+					/* 如果没有缓存数据 */
 					if (
 						!["pendding"].includes(
 							PRIVATE_GLOBAL._xIcon_cached_img[cpt_current_img_prop]
 						)
 					) {
+						/* 且不是pendding状态 */
 						/*保证是同步处理，同样的url只发送一次请求*/
 						do_cache_img();
 						/*用的是图片，并且需要缓存*/
@@ -107,7 +129,7 @@ export default async function ({ PRIVATE_GLOBAL }) {
 		},
 		computed: {
 			cpt_current_img_prop({ cpt_img }) {
-				return `xIcon_cached_img_${_.snakeCase(cpt_img)}`;
+				return `xIcon_cached_img_${_.camelCase(cpt_img)}`;
 			},
 
 			cptFill() {
@@ -143,7 +165,6 @@ export default async function ({ PRIVATE_GLOBAL }) {
 					}
 
 					const imgStatus = PRIVATE_GLOBAL._xIcon_cached_img[cpt_current_img_prop];
-
 					if (["done"].includes(imgStatus)) {
 						this.$emit("update_cached_img_src", "self");
 					} else if (!["pendding"].includes(imgStatus)) {
@@ -208,14 +229,12 @@ export default async function ({ PRIVATE_GLOBAL }) {
 			async_set_chched_img_src(src) {
 				const { cpt_current_img_prop } = this;
 				PRIVATE_GLOBAL._xIcon_cached_img[cpt_current_img_prop] = "done";
-				_.$lStorage._xIcon_cached_img = PRIVATE_GLOBAL._xIcon_cached_img;
 				this.cached_img_src = src;
 				this.$root.broadcast("xIcon", "update_cached_img_src");
 			},
 			do_cache_img() {
 				const { cpt_current_img_prop, async_do_cache_img } = this;
 				PRIVATE_GLOBAL._xIcon_cached_img[cpt_current_img_prop] = "pendding";
-				_.$lStorage._xIcon_cached_img = PRIVATE_GLOBAL._xIcon_cached_img;
 				async_do_cache_img();
 			},
 			async async_do_cache_img() {
@@ -225,6 +244,7 @@ export default async function ({ PRIVATE_GLOBAL }) {
 				try {
 					cached_img_src = await _.$idb.get(vm.cpt_current_img_prop);
 					if (!cached_img_src) {
+						console.log(vm.cpt_current_img_prop);
 						cached_img_src = await new Promise(async resolve => {
 							_.$ajax.downloadOctetStream({
 								url: cpt_img,
@@ -239,6 +259,7 @@ export default async function ({ PRIVATE_GLOBAL }) {
 								}
 							});
 						});
+					} else {
 					}
 				} catch (error) {
 					console.error(error);
@@ -299,7 +320,11 @@ export default async function ({ PRIVATE_GLOBAL }) {
 									viewBox: width && height ? `0 0 ${width} ${height}` : undefined
 								})
 								.removeAttr("width")
-								.removeAttr("height");
+								.removeAttr("height")
+								.css({
+									width: "",
+									height: ""
+								});
 
 							// 将 SVG 内容追加到容器中
 							$svgWrapper.append($svgContent);
