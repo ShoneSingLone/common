@@ -1,5 +1,5 @@
 <template>
-	<div :class="xDialogClass" v-bind="$attrs" ref="refDialog" :style="cptRootStyle">
+	<div :class="cpt_dialog_class" v-bind="$attrs" ref="refDialog" :style="cptRootStyle">
 		<div class="xDialog-body">
 			<slot />
 		</div>
@@ -14,16 +14,16 @@ export default async function () {
 	return {
 		props: ["title"],
 		inject: {
-			inject_modal: {
+			INJECT_MODAL: {
 				/* xModal */
 				type: Object,
 				default: () => {
-					return { dialogClass: {} };
+					return { dialog_class: {} };
 				}
 			}
 		},
 		setup(props) {
-			const { inject_modal } = this;
+			const INJECT_MODAL = inject("INJECT_MODAL");
 			const { useAutoResize, useWindowSize } = _xUtils;
 			const { height, width, sizer: refDialog } = useAutoResize(props);
 			const { height: windowHeight, width: windowWidth } = useWindowSize();
@@ -39,19 +39,19 @@ export default async function () {
 					if (origin.height && height.value > origin.height) {
 						_height = origin.height;
 						origin.height = 0;
-						inject_modal.dialogClass.fullscreen = false;
+						INJECT_MODAL.dialog_class.fullscreen = false;
 					} else if (height.value > windowHeight.value) {
 						origin.height = height.value;
-						inject_modal.dialogClass.fullscreen = true;
+						INJECT_MODAL.dialog_class.fullscreen = true;
 					}
 
 					if (origin.width && width.value > origin.width) {
 						_width = origin.width;
 						origin.width = 0;
-						inject_modal.dialogClass.fullscreen = false;
+						INJECT_MODAL.dialog_class.fullscreen = false;
 					} else if (width.value > windowWidth.value) {
 						origin.width = width.value;
-						inject_modal.dialogClass.fullscreen = true;
+						INJECT_MODAL.dialog_class.fullscreen = true;
 					}
 
 					if (_height) {
@@ -63,9 +63,9 @@ export default async function () {
 					return _style;
 				};
 
-				if (inject_modal.dialogClass.fullscreen) {
+				if (INJECT_MODAL.dialog_class.fullscreen) {
 					/* 如果没有显示全屏的icon，resize之后要判断是否还原 */
-					if (inject_modal.isShowFullScreen) {
+					if (INJECT_MODAL.isShowFullScreen) {
 						return {};
 					} else {
 						return rootStyle();
@@ -78,11 +78,12 @@ export default async function () {
 			return { refDialog, cptRootStyle };
 		},
 		computed: {
-			xDialogClass() {
+			cpt_dialog_class() {
+				const isShowFullScreen = _.$val(this, "INJECT_MODAL.dialog_class.fullscreen");
 				return [
 					"xDialog xDialog-wrapper",
 					{
-						fullscreen: _.$val(this, "inject_modal.dialogClass.fullscreen")
+						fullscreen: isShowFullScreen
 					}
 				];
 			}

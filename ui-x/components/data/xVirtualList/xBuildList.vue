@@ -67,7 +67,6 @@ export default async function () {
 		alignment,
 		scrollOffset
 	) => {
-		debugger;
 		const size = isHorizontal(layout2) ? width : height;
 		const lastItemOffset = Math.max(0, total2 * itemSize2 - size);
 		const maxOffset = Math.min(lastItemOffset, index * itemSize2);

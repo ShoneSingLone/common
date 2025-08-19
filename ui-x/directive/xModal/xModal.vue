@@ -1,7 +1,7 @@
 <template>
 	<transition name="viewer-fade">
 		<div class="el-dialog__wrapper" :style="cptWrapperStyle">
-			<div role="dialog" :class="dialogClass" :style="dialogStyle" ref="refDialog">
+			<div role="dialog" :class="dialog_class" :style="dialogStyle" ref="refDialog">
 				<div class="el-dialog__header" v-if="!isHideHeader">
 					<div class="el-dialog__title-bar" v-xmove="moveOptions" />
 					<span class="el-dialog__title">
@@ -15,7 +15,7 @@
 						class="x-dialog__headerbtn fullscreen"
 						@click="toggleFullScreen">
 						<xIcon
-							v-if="dialogClass.fullscreen"
+							v-if="dialog_class.fullscreen"
 							class="el-icon el-icon-copy-document"
 							icon="copy-document"
 							style="transform: rotate(180deg)"></xIcon>
@@ -74,7 +74,7 @@ export default async function ({ PRIVATE_GLOBAL, options, modalConfigs }) {
 		name: "xModal",
 		provide() {
 			return {
-				inject_modal: this
+				INJECT_MODAL: this
 			};
 		},
 		async mounted() {
@@ -96,6 +96,7 @@ export default async function ({ PRIVATE_GLOBAL, options, modalConfigs }) {
 				width: refDialogRectWidth,
 				sizer: refDialog
 			} = useAutoResize(props);
+
 			const {
 				height: refContentHeight,
 				width: refContentWidth,
@@ -111,25 +112,26 @@ export default async function ({ PRIVATE_GLOBAL, options, modalConfigs }) {
 					// 防止重复计算
 					if (isCalculating) return;
 					isCalculating = true;
-
 					// 检查是否需要重新计算
 					const currentValues = {
 						width: refDialogRectWidth.value,
 						height: refDialogRectHeight.value,
 						winWidth: _.$single.win.width(),
 						winHeight: _.$single.win.height(),
-						fullscreen: vm.dialogClass.fullscreen
+						fullscreen: vm.dialog_class.fullscreen
 					};
 
 					// 如果值没有变化，跳过计算
-					if (lastCalculatedValues && 
-						JSON.stringify(currentValues) === JSON.stringify(lastCalculatedValues)) {
+					if (
+						lastCalculatedValues &&
+						JSON.stringify(currentValues) === JSON.stringify(lastCalculatedValues)
+					) {
 						isCalculating = false;
 						return;
 					}
 
 					let left = (() => {
-						if (vm.dialogClass.fullscreen) {
+						if (vm.dialog_class.fullscreen) {
 							return 0;
 						}
 						let left = (currentValues.winWidth - currentValues.width) / 2;
@@ -141,7 +143,7 @@ export default async function ({ PRIVATE_GLOBAL, options, modalConfigs }) {
 					})();
 
 					let topOnepice = (() => {
-						if (vm.dialogClass.fullscreen) {
+						if (vm.dialog_class.fullscreen) {
 							return 0;
 						}
 
@@ -155,7 +157,7 @@ export default async function ({ PRIVATE_GLOBAL, options, modalConfigs }) {
 
 					// 使用 requestAnimationFrame 确保样式更新在下一帧执行
 					requestAnimationFrame(() => {
-						if (vm.dialogClass.fullscreen) {
+						if (vm.dialog_class.fullscreen) {
 							vm.dialogStyle = {
 								"margin-top": "0",
 								opacity: 1,
@@ -198,7 +200,7 @@ export default async function ({ PRIVATE_GLOBAL, options, modalConfigs }) {
 						setDialogOffset();
 					}
 				},
-				{ flush: 'post' } // 确保在 DOM 更新后执行
+				{ flush: "post" } // 确保在 DOM 更新后执行
 			);
 
 			const setPosition = _.throttle(function ({ left, top }) {
@@ -208,32 +210,11 @@ export default async function ({ PRIVATE_GLOBAL, options, modalConfigs }) {
 				});
 			}, 18);
 
-			// 窗口大小变化处理
-			const handleResize = _.throttle(() => {
-				if (!vm.dialogClass.fullscreen) {
-					setDialogOffset();
-				}
-			}, 100);
-
-			onMounted(() => {
-				window.addEventListener('resize', handleResize);
-				// 初始化时延迟执行，确保 DOM 完全渲染
-				vm.$nextTick(() => {
-					setTimeout(() => {
-						setDialogOffset();
-					}, 50);
-				});
-			});
-			
-			onBeforeUnmount(() => {
-				window.removeEventListener('resize', handleResize);
-			});
-
 			return {
 				isHideHeader: ref(isHideHeader),
 				toggleFullScreen() {
-					vm.dialogClass.fullscreen = !vm.dialogClass.fullscreen;
-					if (!vm.dialogClass.fullscreen) {
+					vm.dialog_class.fullscreen = !vm.dialog_class.fullscreen;
+					if (!vm.dialog_class.fullscreen) {
 						vm.setDialogOffset();
 					}
 				},
@@ -305,7 +286,7 @@ export default async function ({ PRIVATE_GLOBAL, options, modalConfigs }) {
 				isShowFullScreen: _.isBoolean(modalConfigs.fullscreen),
 				viewerZIndex: 0,
 				left: 0,
-				dialogClass: {
+				dialog_class: {
 					"el-dialog": true,
 					fullscreen: !!_.$val(modalConfigs, "fullscreen")
 				},
@@ -357,14 +338,7 @@ export default async function ({ PRIVATE_GLOBAL, options, modalConfigs }) {
 			}
 		},
 		watch: {
-			"dialogClass.fullscreen"() {
-				/*
-        this.dialogStyle.opacity = 0;
-        setTimeout(() => {
-        	this.dialogStyle.opacity = 1;
-        }, 300);
-        */
-			}
+			// "dialog_class.fullscreen"(isFullScreen) {}
 		}
 	});
 }
@@ -537,24 +511,24 @@ export default async function ({ PRIVATE_GLOBAL, options, modalConfigs }) {
 	}
 
 	> .el-dialog {
-			width: auto;
-			margin: auto;
-			overflow: hidden;
-			border-radius: var(--xModel-dialog-border-radius, --border-radius--mini);
-			box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
-			box-sizing: border-box;
-			position: absolute;
-			/* 优化过渡动画，避免频繁重绘 */
-			transition:
-				opacity 0.2s ease-out,
-				visibility 0.2s ease-out,
-				transform 0.15s ease-out;
-			/* 移除位置相关的过渡，避免与 JS 计算冲突 */
-			will-change: opacity, visibility, transform;
-			box-shadow:
-				0 6px 16px 0 rgba(0, 0, 0, 0.08),
-				0 3px 6px -4px rgba(0, 0, 0, 0.12),
-				0 9px 28px 8px rgba(0, 0, 0, 0.05);
+		width: auto;
+		margin: auto;
+		overflow: hidden;
+		border-radius: var(--xModel-dialog-border-radius, --border-radius--mini);
+		box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+		box-sizing: border-box;
+		position: absolute;
+		/* 优化过渡动画，避免频繁重绘 */
+		transition:
+			opacity 0.2s ease-out,
+			visibility 0.2s ease-out,
+			transform 0.15s ease-out;
+		/* 移除位置相关的过渡，避免与 JS 计算冲突 */
+		will-change: opacity, visibility, transform;
+		box-shadow:
+			0 6px 16px 0 rgba(0, 0, 0, 0.08),
+			0 3px 6px -4px rgba(0, 0, 0, 0.12),
+			0 9px 28px 8px rgba(0, 0, 0, 0.05);
 
 		&.fullscreen {
 			display: flex;

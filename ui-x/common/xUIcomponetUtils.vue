@@ -1012,6 +1012,21 @@ export default async function ({ PRIVATE_GLOBAL }) {
 		const width$ = ref(0);
 		const height$ = ref(0);
 		let resizerStopper;
+		const setValue = _.throttle((prop, value) => {
+			value = Number.parseInt(value) || 0;
+			console.log("prop, value", prop, value);
+			if (prop === "width") {
+				if (width$.value !== value) {
+					width$.value = value;
+				}
+			}
+			if (prop === "height") {
+				if (height$.value !== value) {
+					height$.value = value;
+				}
+			}
+		}, 64);
+
 		onMounted(() => {
 			resizerStopper = useResizeObserver(sizer, ([entry]) => {
 				const { width, height } = entry.contentRect;
@@ -1022,8 +1037,11 @@ export default async function ({ PRIVATE_GLOBAL }) {
 				const right = Number.parseInt(paddingRight) || 0;
 				const top = Number.parseInt(paddingTop) || 0;
 				const bottom = Number.parseInt(paddingBottom) || 0;
-				width$.value = width - left - right;
-				height$.value = height - top - bottom;
+				const widthValue = width - left - right;
+				const heightValue = height - top - bottom;
+
+				setValue("width", widthValue);
+				setValue("height", heightValue);
 			}).stop;
 		});
 		onBeforeUnmount(() => {
