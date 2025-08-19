@@ -50,6 +50,7 @@ export default async function ({ PRIVATE_GLOBAL, options, modalConfigs }) {
 	options = options || {};
 
 	const isHideHeader = options.isHideHeader || false;
+
 	function useModal(vm) {
 		onMounted(() => {
 			vm.deviceSupportInstall();
@@ -68,6 +69,7 @@ export default async function ({ PRIVATE_GLOBAL, options, modalConfigs }) {
 			}
 		});
 	}
+
 	return defineComponent({
 		name: "xModal",
 		provide() {
@@ -100,7 +102,7 @@ export default async function ({ PRIVATE_GLOBAL, options, modalConfigs }) {
 				sizer: refContent
 			} = useAutoResize(props);
 
-			const setDialogOffset = _.throttle(() => {
+			const setDialogOffset = _.debounce(() => {
 				try {
 					let left = (() => {
 						if (vm.dialogClass.fullscreen) {
@@ -136,7 +138,7 @@ export default async function ({ PRIVATE_GLOBAL, options, modalConfigs }) {
 				} catch (error) {
 					return {};
 				}
-			}, 32);
+			}, 128);
 
 			watch(
 				() => {
@@ -181,6 +183,7 @@ export default async function ({ PRIVATE_GLOBAL, options, modalConfigs }) {
 				/*  */
 				refDialog,
 				refContent,
+				/*移动*/
 				moveOptions: {
 					left: 0,
 					width: 0,
@@ -220,6 +223,7 @@ export default async function ({ PRIVATE_GLOBAL, options, modalConfigs }) {
 								return;
 							}
 						})();
+
 						setPosition({
 							left,
 							top
@@ -459,6 +463,7 @@ export default async function ({ PRIVATE_GLOBAL, options, modalConfigs }) {
 	margin: 0;
 	overflow: hidden;
 	z-index: var(--xModal-zIndex);
+
 	&::before {
 		content: "";
 		position: absolute;
@@ -478,7 +483,14 @@ export default async function ({ PRIVATE_GLOBAL, options, modalConfigs }) {
 		box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
 		box-sizing: border-box;
 		position: absolute;
-		transition: opacity 0.3s ease-in-out;
+		transition:
+			opacity 0.3s ease-in-out,
+			top 0.1s ease,
+			right 0.1s ease,
+			bottom 0.1s ease,
+			left 0.1s ease,
+			width 0.1s ease,
+			height 0.1s ease;
 		box-shadow:
 			0 6px 16px 0 rgba(0, 0, 0, 0.08),
 			0 3px 6px -4px rgba(0, 0, 0, 0.12),
@@ -494,6 +506,7 @@ export default async function ({ PRIVATE_GLOBAL, options, modalConfigs }) {
 		> .el-dialog__header {
 			padding: var(--ui-one);
 			border-bottom: 1px solid #eee;
+
 			.el-dialog__title-bar {
 				cursor: move;
 				background-color: transparent;

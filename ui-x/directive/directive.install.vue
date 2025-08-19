@@ -32,7 +32,7 @@ export default async function ({ PRIVATE_GLOBAL }) {
 			instance.$mount();
 			document.body.appendChild(instance.$el);
 			instance.viewerZIndex = PopupManager.nextZIndex();
-
+			/*TODO:*/
 			if (_.isFunction(PRIVATE_GLOBAL.x_open_modal_do_some_thing_before_open)) {
 				PRIVATE_GLOBAL.x_open_modal_do_some_thing_before_open({ instance });
 			}
