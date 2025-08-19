@@ -294,10 +294,8 @@ export default async function ({ PRIVATE_GLOBAL, options, modalConfigs }) {
 					transform: "unset",
 					marginTop: 0,
 					opacity: 0,
-					left: "50%",
-					top: "25%",
-					transform: "translate(-50%, -50%)", // 使用 transform 居中，避免频繁计算
-					visibility: "hidden" // 初始隐藏，避免闪烁
+					left: 0,
+					top: 0
 				}
 			};
 		},
@@ -518,13 +516,14 @@ export default async function ({ PRIVATE_GLOBAL, options, modalConfigs }) {
 		box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
 		box-sizing: border-box;
 		position: absolute;
-		/* 优化过渡动画，避免频繁重绘 */
 		transition:
-			opacity 0.2s ease-out,
-			visibility 0.2s ease-out,
-			transform 0.15s ease-out;
-		/* 移除位置相关的过渡，避免与 JS 计算冲突 */
-		will-change: opacity, visibility, transform;
+			opacity 0.3s ease-in-out,
+			top 0.1s ease,
+			right 0.1s ease,
+			bottom 0.1s ease,
+			left 0.1s ease,
+			width 0.1s ease,
+			height 0.1s ease;
 		box-shadow:
 			0 6px 16px 0 rgba(0, 0, 0, 0.08),
 			0 3px 6px -4px rgba(0, 0, 0, 0.12),

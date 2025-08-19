@@ -1012,9 +1012,9 @@ export default async function ({ PRIVATE_GLOBAL }) {
 		const width$ = ref(0);
 		const height$ = ref(0);
 		let resizerStopper;
-		const setValue = _.throttle((prop, value) => {
+		const _setValue = (prop, value) => {
 			value = Number.parseInt(value) || 0;
-			console.log("prop, value", prop, value);
+
 			if (prop === "width") {
 				if (width$.value !== value) {
 					width$.value = value;
@@ -1025,7 +1025,10 @@ export default async function ({ PRIVATE_GLOBAL }) {
 					height$.value = value;
 				}
 			}
-		}, 64);
+		};
+
+		/*关键*/
+		const setValue = _.throttle(_setValue, 18);
 
 		onMounted(() => {
 			resizerStopper = useResizeObserver(sizer, ([entry]) => {
