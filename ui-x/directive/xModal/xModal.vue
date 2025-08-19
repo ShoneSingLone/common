@@ -102,13 +102,37 @@ export default async function ({ PRIVATE_GLOBAL, options, modalConfigs }) {
 				sizer: refContent
 			} = useAutoResize(props);
 
+			// 添加状态标记避免重复计算
+			let isCalculating = false;
+			let lastCalculatedValues = null;
+
 			const setDialogOffset = _.debounce(() => {
 				try {
+					// 防止重复计算
+					if (isCalculating) return;
+					isCalculating = true;
+
+					// 检查是否需要重新计算
+					const currentValues = {
+						width: refDialogRectWidth.value,
+						height: refDialogRectHeight.value,
+						winWidth: _.$single.win.width(),
+						winHeight: _.$single.win.height(),
+						fullscreen: vm.dialogClass.fullscreen
+					};
+
+					// 如果值没有变化，跳过计算
+					if (lastCalculatedValues && 
+						JSON.stringify(currentValues) === JSON.stringify(lastCalculatedValues)) {
+						isCalculating = false;
+						return;
+					}
+
 					let left = (() => {
 						if (vm.dialogClass.fullscreen) {
 							return 0;
 						}
-						let left = (_.$single.win.width() - refDialogRectWidth.value) / 2;
+						let left = (currentValues.winWidth - currentValues.width) / 2;
 
 						if (left < 0) {
 							return 0;
@@ -122,23 +146,42 @@ export default async function ({ PRIVATE_GLOBAL, options, modalConfigs }) {
 						}
 
 						let topOnepice = 2;
-						const topTotal = _.$single.win.height() - refDialogRectHeight.value;
+						const topTotal = currentValues.winHeight - currentValues.height;
 						if (topTotal >= 4) {
 							topOnepice = topTotal / 4;
 						}
 						return topOnepice;
 					})();
 
-					vm.dialogStyle = {
-						"margin-top": "0",
-						opacity: 1,
-						left: `${left}px`,
-						top: `${topOnepice}px`
-					};
+					// 使用 requestAnimationFrame 确保样式更新在下一帧执行
+					requestAnimationFrame(() => {
+						if (vm.dialogClass.fullscreen) {
+							vm.dialogStyle = {
+								"margin-top": "0",
+								opacity: 1,
+								left: "0",
+								top: "0",
+								transform: "none",
+								visibility: "visible"
+							};
+						} else {
+							vm.dialogStyle = {
+								"margin-top": "0",
+								opacity: 1,
+								left: `${left}px`,
+								top: `${topOnepice}px`,
+								transform: "none",
+								visibility: "visible"
+							};
+						}
+						lastCalculatedValues = currentValues;
+						isCalculating = false;
+					});
 				} catch (error) {
+					isCalculating = false;
 					return {};
 				}
-			}, 128);
+			}, 50); // 减少防抖延迟
 
 			watch(
 				() => {
@@ -150,10 +193,12 @@ export default async function ({ PRIVATE_GLOBAL, options, modalConfigs }) {
 					];
 				},
 				rectArray => {
-					if (_.every(rectArray, val => !!val)) {
+					// 添加更严格的检查条件
+					if (_.every(rectArray, val => val && val > 0)) {
 						setDialogOffset();
 					}
-				}
+				},
+				{ flush: 'post' } // 确保在 DOM 更新后执行
 			);
 
 			const setPosition = _.throttle(function ({ left, top }) {
@@ -163,11 +208,25 @@ export default async function ({ PRIVATE_GLOBAL, options, modalConfigs }) {
 				});
 			}, 18);
 
+			// 窗口大小变化处理
+			const handleResize = _.throttle(() => {
+				if (!vm.dialogClass.fullscreen) {
+					setDialogOffset();
+				}
+			}, 100);
+
 			onMounted(() => {
-				// _.$single.win.on("resize.xModal", setDialogOffset);
+				window.addEventListener('resize', handleResize);
+				// 初始化时延迟执行，确保 DOM 完全渲染
+				vm.$nextTick(() => {
+					setTimeout(() => {
+						setDialogOffset();
+					}, 50);
+				});
 			});
+			
 			onBeforeUnmount(() => {
-				// _.$single.win.off("resize.xModal", setDialogOffset);
+				window.removeEventListener('resize', handleResize);
 			});
 
 			return {
@@ -254,8 +313,10 @@ export default async function ({ PRIVATE_GLOBAL, options, modalConfigs }) {
 					transform: "unset",
 					marginTop: 0,
 					opacity: 0,
-					left: 0,
-					top: 0
+					left: "50%",
+					top: "25%",
+					transform: "translate(-50%, -50%)", // 使用 transform 居中，避免频繁计算
+					visibility: "hidden" // 初始隐藏，避免闪烁
 				}
 			};
 		},
@@ -476,25 +537,24 @@ export default async function ({ PRIVATE_GLOBAL, options, modalConfigs }) {
 	}
 
 	> .el-dialog {
-		width: auto;
-		margin: auto;
-		overflow: hidden;
-		border-radius: var(--xModel-dialog-border-radius, --border-radius--mini);
-		box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
-		box-sizing: border-box;
-		position: absolute;
-		transition:
-			opacity 0.3s ease-in-out,
-			top 0.1s ease,
-			right 0.1s ease,
-			bottom 0.1s ease,
-			left 0.1s ease,
-			width 0.1s ease,
-			height 0.1s ease;
-		box-shadow:
-			0 6px 16px 0 rgba(0, 0, 0, 0.08),
-			0 3px 6px -4px rgba(0, 0, 0, 0.12),
-			0 9px 28px 8px rgba(0, 0, 0, 0.05);
+			width: auto;
+			margin: auto;
+			overflow: hidden;
+			border-radius: var(--xModel-dialog-border-radius, --border-radius--mini);
+			box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+			box-sizing: border-box;
+			position: absolute;
+			/* 优化过渡动画，避免频繁重绘 */
+			transition:
+				opacity 0.2s ease-out,
+				visibility 0.2s ease-out,
+				transform 0.15s ease-out;
+			/* 移除位置相关的过渡，避免与 JS 计算冲突 */
+			will-change: opacity, visibility, transform;
+			box-shadow:
+				0 6px 16px 0 rgba(0, 0, 0, 0.08),
+				0 3px 6px -4px rgba(0, 0, 0, 0.12),
+				0 9px 28px 8px rgba(0, 0, 0, 0.05);
 
 		&.fullscreen {
 			display: flex;
