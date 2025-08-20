@@ -13,10 +13,8 @@ export default async function () {
 		},
 		render(h) {
 			const vm = this;
+
 			let tag = "xInput";
-			if (this.isNumber) {
-				tag = "xInputNumber";
-			}
 			let attrs = {
 				...vm.$attrs,
 				showWordLimit: "",
@@ -24,6 +22,13 @@ export default async function () {
 				autocomplete: "on",
 				type: vm.$attrs.type || _.$val(vm, "configs.type") || "text"
 			};
+			if (vm.readonly) {
+				return h("xInput", { readonly: true, value: vm.mixin_value, type: attrs.type });
+			}
+			if (this.isNumber) {
+				tag = "xInputNumber";
+			}
+
 			if (_.isFunction(_.$val(_xUtils, "globalConfigs.xItemInput.defaultProps"))) {
 				attrs = _xUtils.globalConfigs.xItemInput.defaultProps(this, attrs);
 			}

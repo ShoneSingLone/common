@@ -184,7 +184,7 @@ export default async function () {
 					prop: "value",
 					event: "change"
 				},
-				props: ["value", "configs"],
+				props: ["value", "configs", "readonly"],
 				computed: {
 					mixin_attrs() {
 						return _.merge({}, this.configs, this.$attrs);

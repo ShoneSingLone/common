@@ -91,6 +91,12 @@ export default async function () {
 			}
 		},
 		render() {
+			const vm = this;
+			if (vm.readonly) {
+				const item = _.find(vm.selectOptions, { value: vm.mixin_value });
+				return hDiv([_.$val(item, "label") || vm.mixin_value]);
+			}
+
 			if (_.$val(this, "configs.isButton")) {
 				return h(
 					"xBtnGroup",
@@ -140,9 +146,11 @@ export default async function () {
 	.xFormItem {
 		min-height: var(--ui-height);
 		margin-top: unset;
+
 		&.grid-column1 {
 			align-items: center;
 		}
+
 		// &+.xFormItem{ }
 	}
 

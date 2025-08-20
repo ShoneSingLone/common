@@ -48,6 +48,12 @@ export default async function ({ PRIVATE_GLOBAL }) {
 				xItem: xItem
 			};
 		},
+		inject: {
+			X_ITEM_READONLY: {
+				type: Boolean,
+				default: false
+			}
+		},
 		model: {
 			prop: "value",
 			event: "change"
@@ -179,19 +185,6 @@ export default async function ({ PRIVATE_GLOBAL }) {
 					return !!_.$val(vm, "cptConfigs.disabled");
 				}
 			});
-			let cptReadonly = computed(() => {
-				if (vm.readonly || _.$val(vm, "cptConfigs.attrs.readonly")) {
-					return true;
-				}
-				if (_.isFunction(_.$val(vm, "cptConfigs.readonly"))) {
-					return vm.cptConfigs.readonly.call(vm.cptConfigs, {
-						xItem: vm,
-						val: vm.p_value
-					});
-				} else {
-					return !!_.$val(vm, "cptConfigs.readonly");
-				}
-			});
 
 			(() => {
 				let timer;
@@ -260,7 +253,6 @@ export default async function ({ PRIVATE_GLOBAL }) {
 				refItemLabel: sizer,
 				privateState,
 				cptDisabled,
-				cptReadonly,
 				cpt_options,
 				cptDepdata,
 				cptPlaceholder,
@@ -271,6 +263,22 @@ export default async function ({ PRIVATE_GLOBAL }) {
 			console.log("xItem onUpdate");
 		},
 		computed: {
+			cptReadonly(vm) {
+				if (vm.X_ITEM_READONLY) {
+					return true;
+				}
+				if (vm.readonly || _.$val(vm, "cptConfigs.attrs.readonly")) {
+					return true;
+				}
+				if (_.isFunction(_.$val(vm, "cptConfigs.readonly"))) {
+					return vm.cptConfigs.readonly.call(vm.cptConfigs, {
+						xItem: vm,
+						val: vm.p_value
+					});
+				} else {
+					return !!_.$val(vm, "cptConfigs.readonly");
+				}
+			},
 			cptIsShowItemColon() {
 				if (_.$isInput(this.cptConfigs.isShowItemColon)) {
 					return this.cptConfigs.isShowItemColon;
