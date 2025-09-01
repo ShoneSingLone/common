@@ -50,6 +50,7 @@ export default async function () {
 						origin.width = 0;
 						INJECT_MODAL.dialog_class.fullscreen = false;
 					} else if (width.value > windowWidth.value) {
+						/*TODO:*/
 						origin.width = width.value;
 						INJECT_MODAL.dialog_class.fullscreen = true;
 					}

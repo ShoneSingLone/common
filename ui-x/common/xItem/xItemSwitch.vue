@@ -11,10 +11,16 @@ export default async function () {
 	return defineComponent({
 		mixins: [ItemMixins],
 		setup() {
+			const vm = this;
+			const cpt_activeText = computed(() => {
+				return _.$val(vm, "mixin_attrs.activeText") || i18n("是");
+			});
+			const cpt_inactiveText = computed(() => {
+				return _.$val(vm, "mixin_attrs.inactiveText") || i18n("否");
+			});
 			const cpt_readonly_label = computed(() => {
 				if (this.readonly) {
-					const item = _.find(vm.selectOptions, { value: vm.mixin_value });
-					return _.$val(item, "label") || vm.mixin_value;
+					return vm.mixin_value ? cpt_activeText.value : cpt_inactiveText.value;
 				} else {
 					return "";
 				}

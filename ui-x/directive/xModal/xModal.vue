@@ -211,6 +211,7 @@ export default async function ({ PRIVATE_GLOBAL, options, modalConfigs }) {
 			}, 18);
 
 			return {
+				title: ref(options.title),
 				isHideHeader: ref(isHideHeader),
 				toggleFullScreen() {
 					vm.dialog_class.fullscreen = !vm.dialog_class.fullscreen;
@@ -327,7 +328,7 @@ export default async function ({ PRIVATE_GLOBAL, options, modalConfigs }) {
 				return PRIVATE_GLOBAL.x_modal_close_icon;
 			},
 			cpt_title() {
-				return options.title;
+				return this.title;
 			},
 			cptWrapperStyle() {
 				return {

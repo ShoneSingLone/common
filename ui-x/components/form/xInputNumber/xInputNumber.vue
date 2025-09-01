@@ -283,13 +283,17 @@ export default async function ({ PRIVATE_GLOBAL }) {
 			}
 		},
 		async mounted() {
-			await _.$ensure(() => _.$val(this, "$refs.input.$refs.input"));
-			let innerInput = this.$refs.input.$refs.input;
-			innerInput.setAttribute("role", "spinbutton");
-			innerInput.setAttribute("aria-valuemax", this.max);
-			innerInput.setAttribute("aria-valuemin", this.min);
-			innerInput.setAttribute("aria-valuenow", this.currentValue);
-			innerInput.setAttribute("aria-disabled", this.inputNumberDisabled);
+			try {
+				await _.$ensure(() => _.$val(this, "$refs.input.$refs.input"));
+				let innerInput = this.$refs.input.$refs.input;
+				innerInput.setAttribute("role", "spinbutton");
+				innerInput.setAttribute("aria-valuemax", this.max);
+				innerInput.setAttribute("aria-valuemin", this.min);
+				innerInput.setAttribute("aria-valuenow", this.currentValue);
+				innerInput.setAttribute("aria-disabled", this.inputNumberDisabled);
+			} catch (e) {
+				console.error(e);
+			}
 		},
 		updated() {
 			if (!this.$refs || !this.$refs.input) return;
@@ -305,6 +309,7 @@ export default async function ({ PRIVATE_GLOBAL }) {
 	display: inline-block;
 	width: 180px;
 	line-height: 38px;
+
 	.xInputNumber-icon {
 		width: 8px;
 		height: 8px;
