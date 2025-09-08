@@ -8,11 +8,11 @@
 		var keys = Object.keys(object);
 		if (Object.getOwnPropertySymbols) {
 			var symbols = Object.getOwnPropertySymbols(object);
-			enumerableOnly &&
+			(enumerableOnly &&
 				(symbols = symbols.filter(function (sym) {
 					return Object.getOwnPropertyDescriptor(object, sym).enumerable;
 				})),
-				keys.push.apply(keys, symbols);
+				keys.push.apply(keys, symbols));
 		}
 		return keys;
 	}
@@ -175,7 +175,7 @@
 							)
 						: PromiseImpl.resolve(value).then(
 								function (unwrapped) {
-									(result.value = unwrapped), resolve(result);
+									((result.value = unwrapped), resolve(result));
 								},
 								function (error) {
 									return invoke("throw", error, resolve, reject);
@@ -208,10 +208,10 @@
 						"throw" === context.method)
 					)
 						return ContinueSentinel;
-					(context.method = "throw"),
+					((context.method = "throw"),
 						(context.arg = new TypeError(
 							"The iterator does not provide a 'throw' method"
-						));
+						)));
 				}
 				return ContinueSentinel;
 			}
@@ -243,22 +243,22 @@
 			var entry = {
 				tryLoc: locs[0]
 			};
-			1 in locs && (entry.catchLoc = locs[1]),
+			(1 in locs && (entry.catchLoc = locs[1]),
 				2 in locs && ((entry.finallyLoc = locs[2]), (entry.afterLoc = locs[3])),
-				this.tryEntries.push(entry);
+				this.tryEntries.push(entry));
 		}
 		function resetTryEntry(entry) {
 			var record = entry.completion || {};
-			(record.type = "normal"), delete record.arg, (entry.completion = record);
+			((record.type = "normal"), delete record.arg, (entry.completion = record));
 		}
 		function Context(tryLocsList) {
-			(this.tryEntries = [
+			((this.tryEntries = [
 				{
 					tryLoc: "root"
 				}
 			]),
 				tryLocsList.forEach(pushTryEntry, this),
-				this.reset(!0);
+				this.reset(!0));
 		}
 		function values(iterable) {
 			if (iterable) {
@@ -270,8 +270,8 @@
 						next = function next() {
 							for (; ++i < iterable.length; )
 								if (hasOwn.call(iterable, i))
-									return (next.value = iterable[i]), (next.done = !1), next;
-							return (next.value = undefined), (next.done = !0), next;
+									return ((next.value = iterable[i]), (next.done = !1), next);
+							return ((next.value = undefined), (next.done = !0), next);
 						};
 					return (next.next = next);
 				}
@@ -351,9 +351,9 @@
 					function next() {
 						for (; keys.length; ) {
 							var key = keys.pop();
-							if (key in object) return (next.value = key), (next.done = !1), next;
+							if (key in object) return ((next.value = key), (next.done = !1), next);
 						}
-						return (next.done = !0), next;
+						return ((next.done = !0), next);
 					}
 				);
 			}),

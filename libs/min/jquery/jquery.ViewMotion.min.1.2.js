@@ -1,17 +1,17 @@
 var AUI = AUI || {};
 ((n, r, t) => {
 	var o = 0;
-	(r.fn.scrolled = function (e, i) {
+	((r.fn.scrolled = function (e, i) {
 		"function" == typeof e && ((i = e), (e = 100));
 		var a = "vm-gap-" + o++;
 		this.scroll(function () {
 			var t = r(this),
 				o = t.data(a);
-			o && clearTimeout(o),
+			(o && clearTimeout(o),
 				(o = setTimeout(function () {
-					t.removeData(a), i.call(t[0]);
+					(t.removeData(a), i.call(t[0]));
 				}, e)),
-				t.data(a, o);
+				t.data(a, o));
 		});
 	}),
 		(t.ViewMotion = function (t) {
@@ -20,7 +20,7 @@ var AUI = AUI || {};
 					var e,
 						i = r(o),
 						a = i.attr("vm-level");
-					a && r(o).addClass("level" + a),
+					(a && r(o).addClass("level" + a),
 						i.is("[vm-animation]") &&
 							((o = r((a = o)).offset()),
 							(e = o.top + r(a).scrollTop()),
@@ -30,7 +30,7 @@ var AUI = AUI || {};
 							e < r(n).scrollTop() + r(n).height() - l.motionThreshold) &&
 							(i.addClass("animated " + i.attr("vm-animation")),
 							i.css("visibility", "visible"),
-							i.attr("vm-type", "0"));
+							i.attr("vm-type", "0")));
 				});
 			}
 			var l = r.extend(
@@ -38,7 +38,7 @@ var AUI = AUI || {};
 					t
 				),
 				t = r(l.filter);
-			t.length &&
+			(t.length &&
 				t.each(function (t, o) {
 					var e = r(o).attr("vm-level");
 					e && r(o).addClass("level" + e);
@@ -46,6 +46,6 @@ var AUI = AUI || {};
 				r(l.obj).scrolled(l.motionGap, function () {
 					o();
 				}),
-				o();
-		});
+				o());
+		}));
 })(window, jQuery, AUI);

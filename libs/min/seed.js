@@ -42,8 +42,8 @@
 	let m = (() => {
 			function a(t) {
 				return new Promise((e, n) => {
-					(t.oncomplete = t.onsuccess = () => e(t.result)),
-						(t.onabort = t.onerror = () => n(t.error));
+					((t.oncomplete = t.onsuccess = () => e(t.result)),
+						(t.onabort = t.onerror = () => n(t.error)));
 				});
 			}
 			let e;
@@ -91,7 +91,7 @@
 		return new Promise(function (n, t) {
 			try {
 				var e = new XMLHttpRequest();
-				(e.onprogress = function (e) {
+				((e.onprogress = function (e) {
 					e.lengthComputable && e.total;
 				}),
 					(e.onload = function (e) {
@@ -105,9 +105,9 @@
 						console.log("The transfer has been canceled by the user.");
 					}),
 					e.open("GET", r + "?_t=" + Date.now()),
-					e.send();
+					e.send());
 			} catch (e) {
-				console.error(e), t(e);
+				(console.error(e), t(e));
 			}
 		});
 	}
@@ -131,7 +131,7 @@
 								? a(l, s, t)
 								: (window.Vue && window.Vue.set && window.Vue.set(l, s, t),
 									(l[s] = t));
-						l[s] || (o && a ? a(l, s, {}) : (l[s] = {})), (l = l[s]);
+						(l[s] || (o && a ? a(l, s, {}) : (l[s] = {})), (l = l[s]));
 					}
 				})((o, s, i, l)),
 			null == t && r && r.delete)
@@ -141,7 +141,7 @@
 					for (; (s = i.shift()); ) {
 						if (0 === i.length)
 							return o ? a(l, s, t) : Array.isArray(l) ? l.splice(s, 1) : delete l[s];
-						l[s] || (o ? a(l, s, {}) : (l[s] = {})), (l = l[s]);
+						(l[s] || (o ? a(l, s, {}) : (l[s] = {})), (l = l[s]));
 					}
 				})((o, s, i, l)),
 				e
@@ -158,7 +158,8 @@
 		if (/^http/.test(e)) return e;
 		let n = `/common/assets/svg/${e}.svg`;
 		return (
-			/^_/.test(e) && ((e = String(e).replace(/^_/, "")), (n = `@/assets/svg/${e}.svg`)), n
+			/^_/.test(e) && ((e = String(e).replace(/^_/, "")), (n = `@/assets/svg/${e}.svg`)),
+			n
 		);
 	}
 	function v(e) {
@@ -182,10 +183,10 @@
 			} catch (e) {
 				console.error(e);
 			}
-			/^@/.test(e) &&
+			(/^@/.test(e) &&
 				(a = String(e).replace(/^@/, SRC_ROOT_PATH + "/" + APP_PREFIX + APP_NAME)),
 				/^\/common\//.test(e) && (a = "" + SRC_ROOT_PATH + e),
-				(i[e] = a);
+				(i[e] = a));
 		}
 		return a;
 	}
@@ -203,7 +204,8 @@
 					try {
 						let n = await y(a);
 						var o = N.pending[t];
-						Array.isArray(o) && o.forEach(({ resolve: e }) => e(n)), (N.pending[t] = n);
+						(Array.isArray(o) && o.forEach(({ resolve: e }) => e(n)),
+							(N.pending[t] = n));
 					} catch (n) {
 						N.pending[t].forEach(({ reject: e }) => e(n));
 					}
@@ -214,7 +216,7 @@
 	async function b(e) {
 		var n = g(e);
 		let t = await m.get(n);
-		return t || ((t = await N(e)), await m.set(n, t)), t;
+		return (t || ((t = await N(e)), await m.set(n, t)), t);
 	}
 	async function S(l) {
 		return (
@@ -230,16 +232,16 @@
 				for ({ url: n, innerHtml: t, callback: r } of o) {
 					var i = g(n),
 						s = document.createElement("script");
-					(s.id = i),
+					((s.id = i),
 						(s.innerHTML = t),
 						a.appendChild(s),
-						"function" == typeof r && (await r());
+						"function" == typeof r && (await r()));
 				}
-				console.timeEnd("框架基本依赖"), e();
+				(console.timeEnd("框架基本依赖"), e());
 			})
 		);
 	}
-	t || alert("miss APP_NAME"),
+	(t || alert("miss APP_NAME"),
 		(window.APP_PREFIX = c),
 		(window.SRC_ROOT_PATH = e || ""),
 		(window.APP_NAME = t || ""),
@@ -252,7 +254,7 @@
 		(localStorage["X-Language"] = P),
 		(window.I18N_LANGUAGE = P),
 		(f = v(A(l || "x-loading"))),
-		(N.pending = {});
+		(N.pending = {}));
 	let I = !localStorage.isDev && APP_VERSION ? b : N;
 	var R = (() => {
 		let c = () => null;
@@ -263,13 +265,13 @@
 					r = 0,
 					o = async () => {
 						var e = await a();
-						c(l, ++r), e ? (clearTimeout(t), n(e)) : (t = setTimeout(o, s));
+						(c(l, ++r), e ? (clearTimeout(t), n(e)) : (t = setTimeout(o, s)));
 					};
-				i &&
+				(i &&
 					setTimeout(() => {
-						clearTimeout(t), c(l, r), e(new Error("ensure timeout"));
+						(clearTimeout(t), c(l, r), e(new Error("ensure timeout")));
 					}, i),
-					o();
+					o());
 			});
 		});
 	})();
@@ -278,7 +280,7 @@
 			var o,
 				a = g(t);
 			if (O.loaded[a]) {
-				if (n) return await R(() => window[n]), window[n];
+				if (n) return (await R(() => window[n]), window[n]);
 			} else O.loaded[a] = !0;
 			let e = p(a);
 			if (
@@ -286,12 +288,12 @@
 					(((e = document.createElement("script")).id = a),
 					r
 						? await new Promise(n => {
-								(e.src = v(t)),
+								((e.src = v(t)),
 									(e.onload = function (e) {
-										console.log("event.currentTarget.id", e.currentTarget.id),
-											n(e.currentTarget.id);
+										(console.log("event.currentTarget.id", e.currentTarget.id),
+											n(e.currentTarget.id));
 									}),
-									w("body")[0].appendChild(e);
+									w("body")[0].appendChild(e));
 							})
 						: ((o = await I(t)), (e.innerHTML = o), w("body")[0].appendChild(e))),
 				n)
@@ -312,11 +314,11 @@
 		if (t)
 			try {
 				let e = p(r);
-				e ||
+				(e ||
 					(((e = document.createElement("link")).id = r),
 					(e.rel = "stylesheet"),
 					w("head")[0].appendChild(e)),
-					(e.href = v(n));
+					(e.href = v(n)));
 			} catch (e) {
 			} finally {
 				return r;
@@ -327,12 +329,12 @@
 			: e);
 		if (t) {
 			let e = p(r);
-			e || (((e = document.createElement("style")).id = r), w("body")[0].appendChild(e)),
-				(e.innerHTML = t);
+			(e || (((e = document.createElement("style")).id = r), w("body")[0].appendChild(e)),
+				(e.innerHTML = t));
 		}
 		return r;
 	}
-	(O.loaded = {}),
+	((O.loaded = {}),
 		(async () => {
 			(async () => {
 				var e;
@@ -343,11 +345,11 @@
 			{
 				let n = !APP_VERSION,
 					t = APP_VERSION && APP_VERSION !== (await m.get("APP_VERSION"));
-				(s || n || t) &&
+				((s || n || t) &&
 					(await m.clear(),
 					await m.set("APP_VERSION", APP_VERSION),
 					(window.APP_VERSION = APP_VERSION)),
-					I(`@/i18n/${I18N_LANGUAGE}.js`);
+					I(`@/i18n/${I18N_LANGUAGE}.js`));
 				var e = [
 					[
 						o + "/jquery/jquery-3.7.0.min.js",
@@ -406,7 +408,7 @@
 						null,
 						async () => {
 							var e = await _.$newI18n({ lang: I18N_LANGUAGE });
-							(window.i18n = e), (Vue.prototype.i18n = e);
+							((window.i18n = e), (Vue.prototype.i18n = e));
 						}
 					],
 					[o + "/common.ts"],
@@ -416,7 +418,7 @@
 					var e = (16 * ($(window).width() / 375)) / 16;
 					$("html").css("font-size", e + "px");
 				}
-				d &&
+				(d &&
 					(e.push([o + "/babel/babel.standalone.7.27.0.js"]),
 					e.push([o + "/babel/babel.custom.js"])),
 					await S(e),
@@ -437,9 +439,9 @@
 .x-loading { min-height: 48px; position: relative; // filter: blur(1px); overflow: hidden; pointer-events: none; }
 .x-loading::before { animation: spin 2s linear infinite;pointer-events: none; content: " "; display: block; top: 0; bottom: 0; right: 0; left: 0; position: absolute; background: url(${f}) center/32px no-repeat; z-index: 9999999999; }
 `
-					);
+					));
 			}
-			await 0,
+			(await 0,
 				APP_NO_NPROGRESS ||
 					(_.$importVue.Nprogress = await _.$importVue("/common/libs/Nprogress.vue")),
 				console.time("APP"),
@@ -449,6 +451,6 @@
 				)),
 				console.log("APP end"),
 				console.timeEnd("APP"),
-				s && (window.HMR_APP = e);
-		})();
+				s && (window.HMR_APP = e));
+		})());
 })();

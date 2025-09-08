@@ -44,7 +44,7 @@ window.SparkMD5 = (h => {
 					(n >>> 10)) +
 					h) |
 				0;
-		(n =
+		((n =
 			((((n +=
 				((((h =
 					((((h +=
@@ -593,7 +593,7 @@ window.SparkMD5 = (h => {
 			(t[0] = (e + t[0]) | 0),
 			(t[1] = (n + t[1]) | 0),
 			(t[2] = (h + t[2]) | 0),
-			(t[3] = (f + t[3]) | 0);
+			(t[3] = (f + t[3]) | 0));
 	}
 	function a(t) {
 		for (var r = [], e = 0; e < 64; e += 4)
@@ -655,7 +655,7 @@ window.SparkMD5 = (h => {
 		function f(t, r) {
 			return (t = 0 | t || 0) < 0 ? Math.max(t + r, 0) : Math.min(t, r);
 		}
-		i(e("hello")),
+		(i(e("hello")),
 			"undefined" == typeof ArrayBuffer ||
 				ArrayBuffer.prototype.slice ||
 				(ArrayBuffer.prototype.slice = function (t, r) {
@@ -670,7 +670,7 @@ window.SparkMD5 = (h => {
 							(t = new Uint8Array(this, t, r)),
 							n.set(t),
 							e);
-				});
+				}));
 	}
 	function s(t) {
 		return (t = /[\u0080-\uFFFF]/.test(t) ? unescape(encodeURIComponent(t)) : t);
@@ -685,13 +685,13 @@ window.SparkMD5 = (h => {
 	}
 	return (
 		(y.prototype.append = function (t) {
-			return this.appendBinary(s(t)), this;
+			return (this.appendBinary(s(t)), this);
 		}),
 		(y.prototype.appendBinary = function (t) {
-			(this._buff += t), (this._length += t.length);
+			((this._buff += t), (this._length += t.length));
 			for (var r = this._buff.length, e = 64; e <= r; e += 64)
 				o(this._hash, a(this._buff.substring(e - 64, e)));
-			return (this._buff = this._buff.substring(e - 64)), this;
+			return ((this._buff = this._buff.substring(e - 64)), this);
 		}),
 		(y.prototype.end = function (t) {
 			for (
@@ -704,7 +704,7 @@ window.SparkMD5 = (h => {
 				f += 1
 			)
 				h[f >> 2] |= e.charCodeAt(f) << (f % 4 << 3);
-			return this._finish(h, n), (r = i(this._hash)), t && (r = p(r)), this.reset(), r;
+			return (this._finish(h, n), (r = i(this._hash)), t && (r = p(r)), this.reset(), r);
 		}),
 		(y.prototype.reset = function () {
 			return (
@@ -718,22 +718,22 @@ window.SparkMD5 = (h => {
 			return { buff: this._buff, length: this._length, hash: this._hash.slice() };
 		}),
 		(y.prototype.setState = function (t) {
-			return (this._buff = t.buff), (this._length = t.length), (this._hash = t.hash), this;
+			return ((this._buff = t.buff), (this._length = t.length), (this._hash = t.hash), this);
 		}),
 		(y.prototype.destroy = function () {
-			delete this._hash, delete this._buff, delete this._length;
+			(delete this._hash, delete this._buff, delete this._length);
 		}),
 		(y.prototype._finish = function (t, r) {
 			var e,
 				n = r;
 			if (((t[n >> 2] |= 128 << (n % 4 << 3)), 55 < n))
 				for (o(this._hash, t), n = 0; n < 16; n += 1) t[n] = 0;
-			(r = (r = 8 * this._length).toString(16).match(/(.*?)(.{0,8})$/)),
+			((r = (r = 8 * this._length).toString(16).match(/(.*?)(.{0,8})$/)),
 				(e = parseInt(r[2], 16)),
 				(r = parseInt(r[1], 16) || 0),
 				(t[14] = e),
 				(t[15] = r),
-				o(this._hash, t);
+				o(this._hash, t));
 		}),
 		(y.hash = function (t, r) {
 			return y.hashBinary(s(t), r);
@@ -745,11 +745,11 @@ window.SparkMD5 = (h => {
 		((y.ArrayBuffer = function () {
 			this.reset();
 		}).prototype.append = function (t) {
-			(e = this._buff.buffer),
+			((e = this._buff.buffer),
 				(n = t),
 				(h = !0),
 				(f = new Uint8Array(e.byteLength + n.byteLength)).set(new Uint8Array(e)),
-				f.set(new Uint8Array(n), e.byteLength);
+				f.set(new Uint8Array(n), e.byteLength));
 			var r,
 				e,
 				n,
@@ -776,7 +776,7 @@ window.SparkMD5 = (h => {
 				f += 1
 			)
 				h[f >> 2] |= e[f] << (f % 4 << 3);
-			return this._finish(h, n), (r = i(this._hash)), t && (r = p(r)), this.reset(), r;
+			return (this._finish(h, n), (r = i(this._hash)), t && (r = p(r)), this.reset(), r);
 		}),
 		(y.ArrayBuffer.prototype.reset = function () {
 			return (
@@ -789,7 +789,10 @@ window.SparkMD5 = (h => {
 		(y.ArrayBuffer.prototype.getState = function () {
 			var t,
 				r = y.prototype.getState.call(this);
-			return (r.buff = ((t = r.buff), String.fromCharCode.apply(null, new Uint8Array(t)))), r;
+			return (
+				(r.buff = ((t = r.buff), String.fromCharCode.apply(null, new Uint8Array(t)))),
+				r
+			);
 		}),
 		(y.ArrayBuffer.prototype.setState = function (t) {
 			return (

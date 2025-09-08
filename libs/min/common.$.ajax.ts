@@ -3,9 +3,9 @@ _.$ajax = (() => {
 			function (a = {}) {
 				let { requestInjector: e, responseInjector: s } = this;
 				var r = e => e;
-				(e = e || r), (s = s || r);
+				((e = e || r), (s = s || r));
 				let { type: t, url: o, options: n, success: i, error: d } = a;
-				(n = n || {}), (d = d || (() => null));
+				((n = n || {}), (d = d || (() => null)));
 				var r = ["POST", "PUT"].includes(_.toUpper(t))
 						? (n.query &&
 								(o = _.isString(n.query)
@@ -46,12 +46,15 @@ _.$ajax = (() => {
 								if (n && l.includes(n)) return void d(e.body || e);
 								if (e && e.status)
 									if (l.includes(e.status))
-										return ({ body: n, message: o } = e || {}), void d(n || o);
+										return (
+											({ body: n, message: o } = e || {}),
+											void d(n || o)
+										);
 							}
 							return i(e, r, t);
 						},
 						error: function (e) {
-							return (e = s(e, { API_OPTIONS: a })), d(e);
+							return ((e = s(e, { API_OPTIONS: a })), d(e));
 						},
 						url: c(o)
 					}),
@@ -73,7 +76,7 @@ _.$ajax = (() => {
 				(a = a || (() => null)),
 				new Promise((e, r) => {
 					e = l({ type: t, options: {}, headers: s || {}, url: o, success: e, error: r });
-					delete e.dateType,
+					(delete e.dateType,
 						(e.data = n),
 						(e.processData = !1),
 						(e.contentType = !1),
@@ -91,7 +94,7 @@ _.$ajax = (() => {
 									e
 								);
 						}),
-						$.ajax(e);
+						$.ajax(e));
 				})
 			),
 			downloadOctetStream({
@@ -132,7 +135,7 @@ _.$ajax = (() => {
 													s,
 													(e, r) => {
 														var [r, t] = r.split("=");
-														return (e[_.toLower(r)] = t), e;
+														return ((e[_.toLower(r)] = t), e);
 													},
 													{}
 												).filename,

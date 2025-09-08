@@ -29,7 +29,7 @@
 			forceAbsolute: !1
 		};
 	function t(t, e, o) {
-		(this._reference = t.jquery ? t[0] : t), (this.state = {});
+		((this._reference = t.jquery ? t[0] : t), (this.state = {}));
 		var t = null == e,
 			i = e && "[object Object]" === Object.prototype.toString.call(e);
 		return (
@@ -62,7 +62,7 @@
 			r = parseFloat(i.marginTop) + parseFloat(i.marginBottom),
 			i = parseFloat(i.marginLeft) + parseFloat(i.marginRight),
 			i = { width: t.offsetWidth + i, height: t.offsetHeight + r };
-		return (t.style.display = e), (t.style.visibility = o), i;
+		return ((t.style.display = e), (t.style.visibility = o), i);
 	}
 	function f(t) {
 		var e = { left: "right", right: "left", bottom: "top", top: "bottom" };
@@ -72,7 +72,7 @@
 	}
 	function d(t) {
 		t = Object.assign({}, t);
-		return (t.right = t.left + t.width), (t.bottom = t.top + t.height), t;
+		return ((t.right = t.left + t.width), (t.bottom = t.top + t.height), t);
 	}
 	function i(t, e) {
 		var o,
@@ -108,17 +108,17 @@
 		Object.keys(r).forEach(function (t) {
 			var e,
 				o = "";
-			-1 !== ["width", "height", "top", "right", "bottom", "left"].indexOf(t) &&
+			(-1 !== ["width", "height", "top", "right", "bottom", "left"].indexOf(t) &&
 				"" !== (e = r[t]) &&
 				!isNaN(parseFloat(e)) &&
 				isFinite(e) &&
 				(o = "px"),
-				(i.style[t] = r[t] + o);
+				(i.style[t] = r[t] + o));
 		});
 	}
 	function c(t) {
 		t = { width: t.offsetWidth, height: t.offsetHeight, left: t.offsetLeft, top: t.offsetTop };
-		return (t.right = t.left + t.width), (t.bottom = t.top + t.height), t;
+		return ((t.right = t.left + t.width), (t.bottom = t.top + t.height), t);
 	}
 	function s(t) {
 		var e = t.getBoundingClientRect(),
@@ -157,7 +157,7 @@
 		}),
 		(t.prototype.update = function () {
 			var t = { instance: this, styles: {} };
-			(t.placement = this._options.placement),
+			((t.placement = this._options.placement),
 				(t._originalPlacement = this._options.placement),
 				(t.offsets = this._getOffsets(this._popper, this._reference, t.placement)),
 				(t.boundaries = this._getBoundaries(
@@ -166,13 +166,13 @@
 					this._options.boundariesElement
 				)),
 				(t = this.runModifiers(t, this._options.modifiers)),
-				"function" == typeof this.state.updateCallback && this.state.updateCallback(t);
+				"function" == typeof this.state.updateCallback && this.state.updateCallback(t));
 		}),
 		(t.prototype.onCreate = function (t) {
-			return t(this), this;
+			return (t(this), this);
 		}),
 		(t.prototype.onUpdate = function (t) {
-			return (this.state.updateCallback = t), this;
+			return ((this.state.updateCallback = t), this);
 		}),
 		(t.prototype.parse = function (t) {
 			var e = {
@@ -284,7 +284,7 @@
 		}),
 		(t.prototype._setupEventListeners = function () {
 			var t;
-			(this.state.updateBound = this.update.bind(this)),
+			((this.state.updateBound = this.update.bind(this)),
 				p.addEventListener("resize", this.state.updateBound),
 				"window" !== this._options.boundariesElement &&
 					((t =
@@ -292,15 +292,15 @@
 						t !== p.document.documentElement
 							? t
 							: p).addEventListener("scroll", this.state.updateBound),
-					(this.state.scrollTarget = t));
+					(this.state.scrollTarget = t)));
 		}),
 		(t.prototype._removeEventListeners = function () {
-			p.removeEventListener("resize", this.state.updateBound),
+			(p.removeEventListener("resize", this.state.updateBound),
 				"window" !== this._options.boundariesElement &&
 					this.state.scrollTarget &&
 					(this.state.scrollTarget.removeEventListener("scroll", this.state.updateBound),
 					(this.state.scrollTarget = null)),
-				(this.state.updateBound = null);
+				(this.state.updateBound = null));
 		}),
 		(t.prototype._getBoundaries = function (t, e, o) {
 			var i,

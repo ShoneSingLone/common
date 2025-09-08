@@ -8,9 +8,9 @@
 	function K(e, t) {
 		return e._indexes[t];
 	}
-	((Y = R.exports).SetArray = class {
+	(((Y = R.exports).SetArray = class {
 		constructor() {
-			(this._indexes = { __proto__: null }), (this.array = []);
+			((this._indexes = { __proto__: null }), (this.array = []));
 		}
 	}),
 		(Y.get = K),
@@ -32,10 +32,10 @@
 					var a = r[e];
 					i[(r[e - 1] = a)]--;
 				}
-				(i[t] = void 0), r.pop();
+				((i[t] = void 0), r.pop());
 			}
 		}),
-		Object.defineProperty(Y, "__esModule", { value: !0 });
+		Object.defineProperty(Y, "__esModule", { value: !0 }));
 	var Y = { exports: {} },
 		n = Y.exports;
 	{
@@ -46,7 +46,7 @@
 			o = new Uint8Array(128);
 		for (let e = 0; e < t.length; e++) {
 			var V = t.charCodeAt(e);
-			(i[e] = V), (o[V] = e);
+			((i[e] = V), (o[V] = e));
 		}
 		function g(e, t) {
 			let n = 0,
@@ -56,14 +56,14 @@
 					i = o[i];
 			} while (((n |= (31 & i) << r), (r += 5), 32 & i));
 			var a = 1 & n;
-			return (n >>>= 1), t + (n = a ? -2147483648 | -n : n);
+			return ((n >>>= 1), t + (n = a ? -2147483648 | -n : n));
 		}
 		function T(t, e, n) {
 			let r = e - n;
 			r = r < 0 ? (-r << 1) | 1 : r << 1;
 			do {
 				let e = 31 & r;
-				0 < (r >>>= 5) && (e |= 32), t.write(i[e]);
+				(0 < (r >>>= 5) && (e |= 32), t.write(i[e]));
 			} while (0 < r);
 			return e;
 		}
@@ -88,12 +88,12 @@
 						};
 		class Jl {
 			constructor() {
-				(this.pos = 0), (this.out = ""), (this.buffer = new Uint8Array(16384));
+				((this.pos = 0), (this.out = ""), (this.buffer = new Uint8Array(16384)));
 			}
 			write(e) {
 				var t = this.buffer;
-				(t[this.pos++] = e),
-					16384 === this.pos && ((this.out += r.decode(t)), (this.pos = 0));
+				((t[this.pos++] = e),
+					16384 === this.pos && ((this.out += r.decode(t)), (this.pos = 0)));
 			}
 			flush() {
 				var { buffer: e, out: t, pos: n } = this;
@@ -102,7 +102,7 @@
 		}
 		class Xl {
 			constructor(e) {
-				(this.pos = 0), (this.buffer = e);
+				((this.pos = 0), (this.buffer = e));
 			}
 			next() {
 				return this.buffer.charCodeAt(this.pos++);
@@ -123,7 +123,7 @@
 		function q(e, t) {
 			return e[0] - t[0];
 		}
-		(n.decode = function (e) {
+		((n.decode = function (e) {
 			var t = e.length,
 				r = new Xl(e),
 				i = [];
@@ -139,7 +139,7 @@
 					n = 0;
 				for (a = 0; r.pos < u; ) {
 					let e;
-					(a = g(r, a)) < n && (t = !1),
+					((a = g(r, a)) < n && (t = !1),
 						(n = a),
 						(e = J(r, u)
 							? ((o = g(r, o)),
@@ -148,9 +148,9 @@
 								J(r, u) ? ((p = g(r, p)), [a, o, s, l, p]) : [a, o, s, l])
 							: [a]),
 						c.push(e),
-						r.pos++;
+						r.pos++);
 				}
-				t || c.sort(q), i.push(c), (r.pos = u + 1);
+				(t || c.sort(q), i.push(c), (r.pos = u + 1));
 			} while (r.pos <= t);
 			return i;
 		}),
@@ -198,7 +198,7 @@
 							) {
 								n = [];
 								do {
-									(f = s), (y = r);
+									((f = s), (y = r));
 									var b = g(i, 0);
 									let t;
 									if (b < -1) {
@@ -215,12 +215,12 @@
 									n.push(t);
 								} while (J(i, m));
 							}
-							(t.bindings = n), a.push(t), o.push(t);
+							((t.bindings = n), a.push(t), o.push(t));
 						} else {
 							h = o.pop();
-							(h[2] = s), (h[3] = r);
+							((h[2] = s), (h[3] = r));
 						}
-					s++, (i.pos = m + 1);
+					(s++, (i.pos = m + 1));
 				} while (i.pos < t);
 				return a;
 			}),
@@ -244,10 +244,10 @@
 								e.push(l);
 							} while (J(n, t));
 						}
-						(s.vars = e), r.push(s), i.push(s);
+						((s.vars = e), r.push(s), i.push(s));
 					} else {
 						s = i.pop();
-						(s[2] = a), (s[3] = o);
+						((s[2] = a), (s[3] = o));
 					}
 				}
 				return r;
@@ -264,14 +264,14 @@
 						let t = 0;
 						for (let e = 0; e < s.length; e++) {
 							var l = s[e];
-							0 < e && n.write(m),
+							(0 < e && n.write(m),
 								(t = T(n, l[0], t)),
 								1 !== l.length &&
 									((r = T(n, l[1], r)),
 									(i = T(n, l[2], i)),
 									(a = T(n, l[3], a)),
 									4 !== l.length) &&
-									(o = T(n, l[4], o));
+									(o = T(n, l[4], o)));
 						}
 					}
 				}
@@ -290,16 +290,16 @@
 						T(o, f, 0);
 						if (6 === l.length) {
 							let { 4: e, 5: t } = l;
-							e !== s[2] && (s[3] = 0),
+							(e !== s[2] && (s[3] = 0),
 								(s[2] = T(o, e, s[2])),
-								(s[3] = T(o, t, s[3]));
+								(s[3] = T(o, t, s[3])));
 						}
 						if (n) {
 							let { 0: e, 1: t, 2: n } = l.callsite;
-							e !== s[4] ? ((s[5] = 0), (s[6] = 0)) : t !== s[5] && (s[6] = 0),
+							(e !== s[4] ? ((s[5] = 0), (s[6] = 0)) : t !== s[5] && (s[6] = 0),
 								(s[4] = T(o, e, s[4])),
 								(s[5] = T(o, t, s[5])),
-								(s[6] = T(o, n, s[6]));
+								(s[6] = T(o, n, s[6])));
 						}
 						if (d)
 							for (var y of d) {
@@ -309,7 +309,7 @@
 									r = p;
 								for (let t = 1; t < y.length; t++) {
 									let e = y[t];
-									(n = T(o, e[1], n)), (r = T(o, e[2], r)), T(o, e[0], 0);
+									((n = T(o, e[1], n)), (r = T(o, e[2], r)), T(o, e[0], 0));
 								}
 							}
 						for (a++; a < i.length; ) {
@@ -351,7 +351,7 @@
 					})(t, e, n, [0]);
 				return n.flush();
 			}),
-			Object.defineProperty(n, "__esModule", { value: !0 });
+			Object.defineProperty(n, "__esModule", { value: !0 }));
 	}
 	var n = { exports: {} },
 		t = { exports: {} },
@@ -445,7 +445,7 @@
 					}
 					let l = "";
 					for (let e = 1; e < i; e++) l += "/" + r[e];
-					(l && (!o || l.endsWith("/.."))) || (l += "/"), (e.path = l);
+					((l && (!o || l.endsWith("/.."))) || (l += "/"), (e.path = l));
 				}
 				return function (e, t) {
 					if (!e && !t) return "";
@@ -464,7 +464,7 @@
 								a.query = s.query;
 							case 3:
 							case 4:
-								(n = a),
+								((n = a),
 									f((r = s), r.type),
 									"/" === n.path
 										? (n.path = r.path)
@@ -472,9 +472,9 @@
 												((r = r.path).endsWith("/..")
 													? r
 													: ((i = r.lastIndexOf("/")),
-														r.slice(0, i + 1))) + n.path);
+														r.slice(0, i + 1))) + n.path));
 							case 5:
-								(a.user = s.user), (a.host = s.host), (a.port = s.port);
+								((a.user = s.user), (a.host = s.host), (a.port = s.port));
 							case 6:
 								a.scheme = s.scheme;
 						}
@@ -501,7 +501,7 @@
 		var U = Y.exports,
 			W = t.exports;
 		function G(e, t) {
-			return t && !t.endsWith("/") && (t += "/"), W(e, t);
+			return (t && !t.endsWith("/") && (t += "/"), W(e, t));
 		}
 		let A = 0,
 			O = 1,
@@ -550,7 +550,7 @@
 			let s = 0,
 				l = e.length - 1;
 			if (r === i) {
-				if (t === a) return (m = -1 !== o && e[o][A] === t), o;
+				if (t === a) return ((m = -1 !== o && e[o][A] === t), o);
 				a <= t ? (s = -1 === o ? 0 : o) : (l = o);
 			}
 			return (
@@ -560,10 +560,10 @@
 					for (; n <= r; ) {
 						var i = n + ((r - n) >> 1),
 							a = e[i][A] - t;
-						if (0 == a) return (m = !0), i;
+						if (0 == a) return ((m = !0), i);
 						a < 0 ? (n = i + 1) : (r = i - 1);
 					}
-					return (m = !1), n - 1;
+					return ((m = !1), n - 1);
 				})(e, t, s, l))
 			);
 		}
@@ -580,7 +580,7 @@
 					{ map: m, offset: T } = f[n];
 				let e = c,
 					t = d;
-				n + 1 < f.length &&
+				(n + 1 < f.length &&
 					((y = f[n + 1].offset),
 					(e = Math.min(c, p + y.line)) === c
 						? (t = Math.min(d, u + y.column))
@@ -622,7 +622,7 @@
 										));
 							}
 						}
-					})(m, r, i, a, o, s, l, p + T.line, u + T.column, e, t);
+					})(m, r, i, a, o, s, l, p + T.line, u + T.column, e, t));
 			}
 		}
 		function ae(t, n) {
@@ -645,22 +645,22 @@
 						sources: s,
 						sourcesContent: l
 					} = e;
-				(this.version = r),
+				((this.version = r),
 					(this.file = i),
 					(this.names = a || []),
 					(this.sourceRoot = o),
 					(this.sources = s),
 					(this.sourcesContent = l),
-					(this.ignoreList = e.ignoreList || e.x_google_ignoreList || void 0);
+					(this.ignoreList = e.ignoreList || e.x_google_ignoreList || void 0));
 				let p = G(o || "", (r = t) ? ((i = r.lastIndexOf("/")), r.slice(0, i + 1)) : "");
 				this.resolvedSources = s.map(e => G(e || "", p));
 				a = e.mappings;
-				"string" == typeof a
+				("string" == typeof a
 					? ((this._encoded = a), (this._decoded = void 0))
 					: ((this._encoded = void 0), (this._decoded = z(a, n))),
 					(this._decodedMemo = ee()),
 					(this._bySources = void 0),
-					(this._bySourceMemos = void 0);
+					(this._bySourceMemos = void 0));
 			}
 		}
 		function oe(e) {
@@ -677,7 +677,7 @@
 		}
 		function pe(e, t) {
 			t = new ql(ue(e, []), t);
-			return (t._decoded = e.mappings), t;
+			return ((t._decoded = e.mappings), t);
 		}
 		function ue(e, t) {
 			return {
@@ -755,7 +755,7 @@
 			}
 			return -1 === (t = fe(l, n, r, i, a)) ? de(null, null) : de((s = l[t])[f] + 1, s[y]);
 		}
-		(i.AnyMap = function (e, t) {
+		((i.AnyMap = function (e, t) {
 			var n,
 				r,
 				i,
@@ -799,7 +799,7 @@
 							t = null,
 							n = null,
 							r = null;
-						1 !== u.length && ((e = l[u[1]]), (t = u[2] + 1), (n = u[3])),
+						(1 !== u.length && ((e = l[u[1]]), (t = u[2] + 1), (n = u[3])),
 							5 === u.length && (r = s[u[4]]),
 							o({
 								generatedLine: c,
@@ -808,7 +808,7 @@
 								originalLine: t,
 								originalColumn: n,
 								name: r
-							});
+							}));
 					}
 				}
 			}),
@@ -846,7 +846,7 @@
 				return t >= r.length || -1 === (e = fe((r = r[t]), e._decodedMemo, t, n, b))
 					? null
 					: r[e];
-			});
+			}));
 	}
 	t = e.exports;
 	{
@@ -861,17 +861,17 @@
 			h = -1;
 		class Ul {
 			constructor({ file: e, sourceRoot: t } = {}) {
-				(this._names = new me.SetArray()),
+				((this._names = new me.SetArray()),
 					(this._sources = new me.SetArray()),
 					(this._sourcesContent = []),
 					(this._mappings = []),
 					(this.file = e),
 					(this.sourceRoot = t),
-					(this._ignoreList = new me.SetArray());
+					(this._ignoreList = new me.SetArray()));
 			}
 		}
-		(i = (e, t, n, r, i, a, o, s) => be(!0, e, t, n, r, i, a, o, s)),
-			(R = (e, t) => ge(!0, e, t));
+		((i = (e, t, n, r, i, a, o, s) => be(!0, e, t, n, r, i, a, o, s)),
+			(R = (e, t) => ge(!0, e, t)));
 		function Se(e) {
 			var { _mappings: n, _sources: t, _sourcesContent: r, _names: i, _ignoreList: a } = e;
 			{
@@ -937,7 +937,7 @@
 				? be(e, t, n.line - 1, n.column, r, i.line - 1, i.column, a, o)
 				: be(e, t, n.line - 1, n.column, null, null, null, null, null);
 		}
-		(t.GenMapping = Ul),
+		((t.GenMapping = Ul),
 			(t.addMapping = function (e, t) {
 				return ge(!1, e, t);
 			}),
@@ -955,12 +955,12 @@
 						let e = void 0,
 							t = void 0,
 							n = void 0;
-						1 !== p.length &&
+						(1 !== p.length &&
 							((e = o.array[p[f]]),
 							(t = { line: p[y] + 1, column: p[m] }),
 							5 === p.length) &&
 							(n = s.array[p[T]]),
-							a.push({ generated: u, source: e, original: t, name: n });
+							a.push({ generated: u, source: e, original: t, name: n }));
 					}
 				}
 				return a;
@@ -981,8 +981,8 @@
 			(t.maybeAddSegment = i),
 			(t.setIgnore = function (e, t, n = !0) {
 				var { _sources: e, _sourcesContent: r, _ignoreList: i } = e;
-				(e = me.put(e, t)) === r.length && (r[e] = null),
-					n ? me.put(i, e) : me.remove(i, e);
+				((e = me.put(e, t)) === r.length && (r[e] = null),
+					n ? me.put(i, e) : me.remove(i, e));
 			}),
 			(t.setSourceContent = function (e, t, n) {
 				var { _sources: e, _sourcesContent: r } = e;
@@ -995,20 +995,20 @@
 					Object.assign(Object.assign({}, e), { mappings: Te.encode(e.mappings) })
 				);
 			}),
-			Object.defineProperty(t, "__esModule", { value: !0 });
+			Object.defineProperty(t, "__esModule", { value: !0 }));
 	}
-	Object.defineProperty(F, "__esModule", { value: !0 }), (F.default = void 0);
+	(Object.defineProperty(F, "__esModule", { value: !0 }), (F.default = void 0));
 	var Pe = e.exports,
 		xe = n.exports;
 	F.default = class {
 		constructor(e, t) {
-			(this._map = void 0),
+			((this._map = void 0),
 				(this._rawMappings = void 0),
 				(this._sourceFileName = void 0),
 				(this._lastGenLine = 0),
 				(this._lastSourceLine = 0),
 				(this._lastSourceColumn = 0),
-				(this._inputMap = void 0);
+				(this._inputMap = void 0));
 			var n,
 				r = (this._map = new Pe.GenMapping({ sourceRoot: e.sourceRoot }));
 			if (
@@ -1046,7 +1046,7 @@
 		mark(e, t, n, r, i, a) {
 			this._rawMappings = void 0;
 			let o;
-			null != t &&
+			(null != t &&
 				(this._inputMap
 					? !(o = (0, xe.originalPositionFor)(this._inputMap, { line: t, column: n }))
 							.name &&
@@ -1065,14 +1065,14 @@
 					generated: e,
 					source: null == (i = o) ? void 0 : i.source,
 					original: o
-				});
+				}));
 		}
 	};
-	(Y = {}), (R = {});
-	Object.defineProperty(R, "__esModule", { value: !0 }), (R.default = void 0);
+	((Y = {}), (R = {}));
+	(Object.defineProperty(R, "__esModule", { value: !0 }), (R.default = void 0));
 	R.default = class {
 		constructor(e, t) {
-			(this._map = null),
+			((this._map = null),
 				(this._buf = ""),
 				(this._str = ""),
 				(this._appendCount = 0),
@@ -1091,7 +1091,7 @@
 					filename: void 0
 				}),
 				(this._map = e),
-				(this._indentChar = t);
+				(this._indentChar = t));
 			for (let e = 0; e < 64; e++) this._fastIndentations.push(t.repeat(e));
 			this._allocQueue();
 		}
@@ -1111,12 +1111,12 @@
 		_pushQueue(e, t, n, r, i) {
 			var a = this._queueCursor,
 				a = (a === this._queue.length && this._allocQueue(), this._queue[a]);
-			(a.char = e),
+			((a.char = e),
 				(a.repeat = t),
 				(a.line = n),
 				(a.column = r),
 				(a.filename = i),
-				this._queueCursor++;
+				this._queueCursor++);
 		}
 		_popQueue() {
 			if (0 === this._queueCursor) throw new Error("Cannot pop from empty queue");
@@ -1149,10 +1149,10 @@
 			return n;
 		}
 		append(e, t) {
-			this._flush(), this._append(e, this._sourcePosition, t);
+			(this._flush(), this._append(e, this._sourcePosition, t));
 		}
 		appendChar(e) {
-			this._flush(), this._appendChar(e, 1, this._sourcePosition);
+			(this._flush(), this._appendChar(e, 1, this._sourcePosition));
 		}
 		queue(e) {
 			if (10 === e)
@@ -1178,7 +1178,7 @@
 		}
 		_appendChar(e, t, n) {
 			var r;
-			-1 === (this._last = e)
+			(-1 === (this._last = e)
 				? ((r = this._fastIndentations[t]),
 					(this._str +=
 						void 0 !== r ? r : 1 < t ? this._indentChar.repeat(t) : this._indentChar))
@@ -1194,7 +1194,7 @@
 						(this._position.column += t))
 					: (this._position.line++, (this._position.column = 0)),
 				this._canMarkIdName &&
-					((n.identifierName = void 0), (n.identifierNamePos = void 0));
+					((n.identifierName = void 0), (n.identifierNamePos = void 0)));
 		}
 		_append(r, i, a) {
 			var o = r.length,
@@ -1218,10 +1218,10 @@
 						r.indexOf("\n")),
 					n = 0;
 				for (0 !== t && this._mark(e, a, l, p, u); -1 !== t; )
-					s.line++,
+					(s.line++,
 						(s.column = 0),
 						(n = t + 1) < o && void 0 !== e && this._mark(++e, 0, null, null, u),
-						(t = r.indexOf("\n", n));
+						(t = r.indexOf("\n", n)));
 				s.column += o - n;
 			} else s.column += o;
 		}
@@ -1295,7 +1295,7 @@
 				i = 0;
 			for (let e = 0; e < n; e++) {
 				var a = t[e];
-				10 === a.char && (r = i), (i += a.repeat);
+				(10 === a.char && (r = i), (i += a.repeat));
 			}
 			return -1 === r ? this._position.column + i : i - 1 - r;
 		}
@@ -1314,14 +1314,14 @@
 		Oe = {},
 		r = {},
 		_e = {};
-	Object.defineProperty(_e, "__esModule", { value: !0 }),
+	(Object.defineProperty(_e, "__esModule", { value: !0 }),
 		(_e.default = function (e, t) {
 			var n = Object.keys(t);
 			for (var r of n) if (e[r] !== t[r]) return !1;
 			return !0;
-		});
+		}));
 	var Ie = {};
-	Object.defineProperty(Ie, "__esModule", { value: !0 }),
+	(Object.defineProperty(Ie, "__esModule", { value: !0 }),
 		(Ie.default = function (e, t, n = "") {
 			var r, i;
 			Ce.has(e) ||
@@ -1353,9 +1353,9 @@
 ` +
 						i
 				);
-		});
+		}));
 	let Ce = new Set();
-	Object.defineProperty(r, "__esModule", { value: !0 }),
+	(Object.defineProperty(r, "__esModule", { value: !0 }),
 		(r.isAccessor = function (e, t) {
 			if (!e) return !1;
 			if ("ClassAccessorProperty" !== e.type) return !1;
@@ -2333,7 +2333,10 @@
 			return !!e && "MixedTypeAnnotation" === e.type && (null == t || (0, a.default)(e, t));
 		}),
 		(r.isModuleDeclaration = function (e, t) {
-			return (0, De.default)("isModuleDeclaration", "isImportOrExportDeclaration"), Ne(e, t);
+			return (
+				(0, De.default)("isModuleDeclaration", "isImportOrExportDeclaration"),
+				Ne(e, t)
+			);
 		}),
 		(r.isModuleExpression = function (e, t) {
 			return !!e && "ModuleExpression" === e.type && (null == t || (0, a.default)(e, t));
@@ -3397,7 +3400,7 @@
 		}),
 		(r.isYieldExpression = function (e, t) {
 			return !!e && "YieldExpression" === e.type && (null == t || (0, a.default)(e, t));
-		});
+		}));
 	var a = _e,
 		De = Ie;
 	function Ne(e, t) {
@@ -3413,7 +3416,7 @@
 		}
 		return null == t || (0, a.default)(e, t);
 	}
-	Object.defineProperty(Oe, "__esModule", { value: !0 }),
+	(Object.defineProperty(Oe, "__esModule", { value: !0 }),
 		(Oe.default = function (e, t, n) {
 			if (!(0, we.isMemberExpression)(e)) return !1;
 			let r = Array.isArray(t) ? t : t.split("."),
@@ -3434,21 +3437,21 @@
 				if (r[t] !== e) return !1;
 			}
 			return !0;
-		});
+		}));
 	var we = r;
-	Object.defineProperty(Ae, "__esModule", { value: !0 }),
+	(Object.defineProperty(Ae, "__esModule", { value: !0 }),
 		(Ae.default = function (e, t) {
 			let n = e.split(".");
 			return e => (0, je.default)(e, n, t);
-		});
+		}));
 	var je = Oe;
 	Object.defineProperty(n, "__esModule", { value: !0 });
 	var ke = ((n.default = void 0), Ae.default)("React.Component"),
 		ke = ((n.default = ke), {});
-	Object.defineProperty(ke, "__esModule", { value: !0 }),
+	(Object.defineProperty(ke, "__esModule", { value: !0 }),
 		(ke.default = function (e) {
 			return !!e && /^[a-z]/.test(e);
-		});
+		}));
 	var Le = {},
 		o = {},
 		s = {},
@@ -3482,7 +3485,7 @@
 				return !1;
 			}),
 			Be);
-	Object.defineProperty(Fe, "__esModule", { value: !0 }),
+	(Object.defineProperty(Fe, "__esModule", { value: !0 }),
 		(Fe.default = function (e, t, n) {
 			if (!t) return !1;
 			var r = (0, Xe.default)(t.type, e);
@@ -3494,7 +3497,7 @@
 					(0, qe.default)(t.expectedNode, e)
 				);
 			return void 0 === n || (0, Je.default)(t, n);
-		});
+		}));
 	var Je = _e,
 		Xe = Re,
 		qe = Ye,
@@ -3608,7 +3611,7 @@
 	var nt,
 		rt,
 		c = {};
-	Object.defineProperty(c, "__esModule", { value: !0 }),
+	(Object.defineProperty(c, "__esModule", { value: !0 }),
 		(c.isKeyword = function (e) {
 			return st.has(e);
 		}),
@@ -3617,7 +3620,7 @@
 		(c.isStrictBindReservedWord = function (e, t) {
 			return ct(e, t) || dt(e);
 		}),
-		(c.isStrictReservedWord = ct);
+		(c.isStrictReservedWord = ct));
 	const it = [
 			"break",
 			"case",
@@ -3679,7 +3682,7 @@
 	function dt(e) {
 		return pt.has(e);
 	}
-	(d = Ge),
+	((d = Ge),
 		Object.defineProperty(d, "__esModule", { value: !0 }),
 		Object.defineProperty(d, "isIdentifierChar", {
 			enumerable: !0,
@@ -3736,7 +3739,7 @@
 			if ("string" != typeof e) return !1;
 			if (t && ((0, ft.isKeyword)(e) || (0, ft.isStrictReservedWord)(e, !0))) return !1;
 			return (0, ft.isIdentifierName)(e);
-		});
+		}));
 	var ft = Ge;
 	var d = {},
 		yt =
@@ -3753,7 +3756,7 @@
 					d = t.length;
 				for (;;) {
 					if (n >= d) {
-						a.unterminated(o, s, l), (p += t.slice(c, n));
+						(a.unterminated(o, s, l), (p += t.slice(c, n)));
 						break;
 					}
 					var f,
@@ -3803,7 +3806,7 @@
 										case 13:
 											10 === n.charCodeAt(r) && ++r;
 										case 10:
-											(i = r), ++a;
+											((i = r), ++a);
 										case 8232:
 										case 8233:
 											return l("");
@@ -3816,9 +3819,9 @@
 												var u = r - 1;
 												let e = /^[0-7]+/.exec(n.slice(u, r + 2))[0],
 													t = parseInt(e, 8);
-												255 < t &&
+												(255 < t &&
 													((e = e.slice(0, -1)), (t = parseInt(e, 8))),
-													(r += e.length - 1);
+													(r += e.length - 1));
 												var c = n.charCodeAt(r);
 												if ("0" !== e || 56 === c || 57 === c) {
 													if (o) return l(null);
@@ -3906,10 +3909,10 @@
 					if (e <= 9 && u.invalidDigit(r, i, a, o)) e = 0;
 					else {
 						if (!l) break;
-						(e = 0), (y = !0);
+						((e = 0), (y = !0));
 					}
 				}
-				++r, (m = m * o + e);
+				(++r, (m = m * o + e));
 			}
 		}
 		return r === e || (null != s && r - e !== s) || y ? { n: null, pos: r } : { n: m, pos: r };
@@ -4015,7 +4018,7 @@
 							JSON.stringify(null == n ? void 0 : n.type)
 					);
 				}
-				return (e.oneOfNodeOrValueTypes = i), e;
+				return ((e.oneOfNodeOrValueTypes = i), e);
 			}),
 			(y.assertNodeType = kt),
 			(y.assertOneOf = function (...r) {
@@ -4026,7 +4029,7 @@
 								JSON.stringify(n)
 						);
 				}
-				return (e.oneOf = r), e;
+				return ((e.oneOf = r), e);
 			}),
 			(y.assertOptionalChainStart = function () {
 				return function (e) {
@@ -4066,7 +4069,7 @@
 ` + i.join("\n")
 						);
 				}
-				return (e.shapeOf = a), e;
+				return ((e.shapeOf = a), e);
 			}),
 			(y.assertValueType = Lt),
 			(y.chain = Mt),
@@ -4086,7 +4089,7 @@
 							: (n = []),
 						(t.aliases = n));
 					var i = a.filter(e => !n.includes(e));
-					n.unshift(...i), Kt(e, t);
+					(n.unshift(...i), Kt(e, t));
 				};
 			}),
 			(y.validate = Dt),
@@ -4130,10 +4133,10 @@
 				for (let e = 0; e < r.length; e++) {
 					var i = `${n}[${e}]`,
 						a = r[e];
-					o(t, i, a), s(t, i, a);
+					(o(t, i, a), s(t, i, a));
 				}
 		}
-		return (e.each = o), e;
+		return ((e.each = o), e);
 	}
 	function kt(...i) {
 		function e(e, t, n) {
@@ -4143,14 +4146,14 @@
 					JSON.stringify(null == n ? void 0 : n.type)
 			);
 		}
-		return (e.oneOfNodeTypes = i), e;
+		return ((e.oneOfNodeTypes = i), e);
 	}
 	function Lt(r) {
 		function e(e, t, n) {
 			if (!(Ct(n) === r))
 				throw new TypeError(`Property ${t} expected type of ${r} but got ` + Ct(n));
 		}
-		return (e.type = r), e;
+		return ((e.type = r), e);
 	}
 	function Mt(...n) {
 		function e(...e) {
@@ -4210,23 +4213,23 @@
 		for (p of Object.keys(i)) {
 			var f,
 				y = i[p];
-			void 0 === y.default || d.includes(p) || (y.optional = !0),
+			(void 0 === y.default || d.includes(p) || (y.optional = !0),
 				void 0 === y.default
 					? (y.default = null)
-					: y.validate || null == y.default || (y.validate = Lt(Ct(y.default)));
+					: y.validate || null == y.default || (y.validate = Lt(Ct(y.default))));
 			for (f of Object.keys(y))
 				if (!Ft.has(f)) throw new Error(`Unknown field key "${f}" on ${t}.` + p);
 		}
-		(gt[t] = e.visitor = u),
+		((gt[t] = e.visitor = u),
 			(Ot[t] = e.builder = d),
 			(At[t] = e.fields = i),
 			(Pt[t] = e.aliases = c).forEach(e => {
-				(xt[e] = xt[e] || []), xt[e].push(t);
+				((xt[e] = xt[e] || []), xt[e].push(t));
 			}),
 			e.validate && (It[t] = e.validate),
-			(Rt[t] = e);
+			(Rt[t] = e));
 	}
-	Object.defineProperty(p, "__esModule", { value: !0 }),
+	(Object.defineProperty(p, "__esModule", { value: !0 }),
 		(p.patternLikeCommon =
 			p.importAttributes =
 			p.functionTypeAnnotationCommon =
@@ -4234,7 +4237,7 @@
 			p.functionCommon =
 			p.classMethodOrPropertyCommon =
 			p.classMethodOrDeclareMethodCommon =
-				void 0);
+				void 0));
 	var Yt = Fe,
 		Vt = We,
 		Jt = Ge,
@@ -4242,7 +4245,7 @@
 		qt = u,
 		m = y,
 		f = (0, m.defineAliasedType)("Standardized");
-	f("ArrayExpression", {
+	(f("ArrayExpression", {
 		fields: {
 			elements: {
 				validate: (0, m.arrayOf)(
@@ -4468,7 +4471,7 @@
 				update: { validate: (0, m.assertNodeType)("Expression"), optional: !0 },
 				body: { validate: (0, m.assertNodeType)("Statement") }
 			}
-		});
+		}));
 	let Ut = () => ({
 		params: (0, m.validateArrayOfType)("Identifier", "Pattern", "RestElement"),
 		generator: { default: !1 },
@@ -5226,7 +5229,7 @@
 					validate: (0, m.arrayOfType)("ImportAttribute")
 				}
 			}));
-	f("ExportAllDeclaration", {
+	(f("ExportAllDeclaration", {
 		builder: ["source"],
 		visitor: ["source", "attributes", "assertions"],
 		aliases: ["Statement", "Declaration", "ImportOrExportDeclaration", "ExportDeclaration"],
@@ -5449,7 +5452,7 @@
 				},
 				property: { validate: (0, m.assertNodeType)("Identifier") }
 			}
-		});
+		}));
 	let Wt = () => ({
 		abstract: { validate: (0, m.assertValueType)("boolean"), optional: !0 },
 		accessibility: {
@@ -6473,7 +6476,7 @@ Expected ${n.length + 1} quasis but got ` + e.quasis.length
 	let Qt = (d.PLACEHOLDERS_FLIPPED_ALIAS = {});
 	Object.keys(Ht).forEach(t => {
 		Ht[t].forEach(e => {
-			hasOwnProperty.call(Qt, e) || (Qt[e] = []), Qt[e].push(t);
+			(hasOwnProperty.call(Qt, e) || (Qt[e] = []), Qt[e].push(t));
 		});
 	});
 	var c = y,
@@ -6660,7 +6663,7 @@ Expected ${n.length + 1} quasis but got ` + e.quasis.length
 				computed: { default: !1 },
 				optional: (0, v.validateOptional)(en)
 			}));
-	P("TSPropertySignature", {
+	(P("TSPropertySignature", {
 		aliases: ["TSTypeElement"],
 		visitor: ["key", "typeAnnotation"],
 		fields: Object.assign({}, p(), {
@@ -6685,7 +6688,7 @@ Expected ${n.length + 1} quasis but got ` + e.quasis.length
 				parameters: (0, v.validateArrayOfType)("Identifier"),
 				typeAnnotation: (0, v.validateOptionalType)("TSTypeAnnotation")
 			}
-		});
+		}));
 	for (tn of [
 		"TSAnyKeyword",
 		"TSBooleanKeyword",
@@ -7176,7 +7179,7 @@ Expected ${n.length + 1} quasis but got ` + e.quasis.length
 			null != (r = on.NODE_PARENT_VALIDATIONS[r]) &&
 			r.call(on.NODE_PARENT_VALIDATIONS, e, t, n);
 	}
-	Object.defineProperty(l, "__esModule", { value: !0 }),
+	(Object.defineProperty(l, "__esModule", { value: !0 }),
 		(l.anyTypeAnnotation = function () {
 			return { type: "AnyTypeAnnotation" };
 		}),
@@ -7186,17 +7189,17 @@ Expected ${n.length + 1} quasis but got ` + e.quasis.length
 		(l.arrayExpression = function (e = []) {
 			var t = { type: "ArrayExpression", elements: e },
 				n = A.ArrayExpression;
-			return x(n.elements, t, "elements", e, 1), t;
+			return (x(n.elements, t, "elements", e, 1), t);
 		}),
 		(l.arrayPattern = function (e) {
 			var t = { type: "ArrayPattern", elements: e },
 				n = A.ArrayPattern;
-			return x(n.elements, t, "elements", e, 1), t;
+			return (x(n.elements, t, "elements", e, 1), t);
 		}),
 		(l.arrayTypeAnnotation = function (e) {
 			var t = { type: "ArrayTypeAnnotation", elementType: e },
 				n = A.ArrayTypeAnnotation;
-			return x(n.elementType, t, "elementType", e, 1), t;
+			return (x(n.elementType, t, "elementType", e, 1), t);
 		}),
 		(l.arrowFunctionExpression = function (e, t, n = !1) {
 			var r = {
@@ -7227,17 +7230,17 @@ Expected ${n.length + 1} quasis but got ` + e.quasis.length
 		(l.assignmentPattern = function (e, t) {
 			var n = { type: "AssignmentPattern", left: e, right: t },
 				r = A.AssignmentPattern;
-			return x(r.left, n, "left", e, 1), x(r.right, n, "right", t, 1), n;
+			return (x(r.left, n, "left", e, 1), x(r.right, n, "right", t, 1), n);
 		}),
 		(l.awaitExpression = function (e) {
 			var t = { type: "AwaitExpression", argument: e },
 				n = A.AwaitExpression;
-			return x(n.argument, t, "argument", e, 1), t;
+			return (x(n.argument, t, "argument", e, 1), t);
 		}),
 		(l.bigIntLiteral = function (e) {
 			var t = { type: "BigIntLiteral", value: e },
 				n = A.BigIntLiteral;
-			return x(n.value, t, "value", e), t;
+			return (x(n.value, t, "value", e), t);
 		}),
 		(l.binaryExpression = function (e, t, n) {
 			var r = { type: "BinaryExpression", operator: e, left: t, right: n },
@@ -7252,22 +7255,22 @@ Expected ${n.length + 1} quasis but got ` + e.quasis.length
 		(l.bindExpression = function (e, t) {
 			var n = { type: "BindExpression", object: e, callee: t },
 				r = A.BindExpression;
-			return x(r.object, n, "object", e, 1), x(r.callee, n, "callee", t, 1), n;
+			return (x(r.object, n, "object", e, 1), x(r.callee, n, "callee", t, 1), n);
 		}),
 		(l.blockStatement = function (e, t = []) {
 			var n = { type: "BlockStatement", body: e, directives: t },
 				r = A.BlockStatement;
-			return x(r.body, n, "body", e, 1), x(r.directives, n, "directives", t, 1), n;
+			return (x(r.body, n, "body", e, 1), x(r.directives, n, "directives", t, 1), n);
 		}),
 		(l.booleanLiteral = function (e) {
 			var t = { type: "BooleanLiteral", value: e },
 				n = A.BooleanLiteral;
-			return x(n.value, t, "value", e), t;
+			return (x(n.value, t, "value", e), t);
 		}),
 		(l.booleanLiteralTypeAnnotation = function (e) {
 			var t = { type: "BooleanLiteralTypeAnnotation", value: e },
 				n = A.BooleanLiteralTypeAnnotation;
-			return x(n.value, t, "value", e), t;
+			return (x(n.value, t, "value", e), t);
 		}),
 		(l.booleanTypeAnnotation = function () {
 			return { type: "BooleanTypeAnnotation" };
@@ -7275,17 +7278,17 @@ Expected ${n.length + 1} quasis but got ` + e.quasis.length
 		(l.breakStatement = function (e = null) {
 			var t = { type: "BreakStatement", label: e },
 				n = A.BreakStatement;
-			return x(n.label, t, "label", e, 1), t;
+			return (x(n.label, t, "label", e, 1), t);
 		}),
 		(l.callExpression = function (e, t) {
 			var n = { type: "CallExpression", callee: e, arguments: t },
 				r = A.CallExpression;
-			return x(r.callee, n, "callee", e, 1), x(r.arguments, n, "arguments", t, 1), n;
+			return (x(r.callee, n, "callee", e, 1), x(r.arguments, n, "arguments", t, 1), n);
 		}),
 		(l.catchClause = function (e = null, t) {
 			var n = { type: "CatchClause", param: e, body: t },
 				r = A.CatchClause;
-			return x(r.param, n, "param", e, 1), x(r.body, n, "body", t, 1), n;
+			return (x(r.param, n, "param", e, 1), x(r.body, n, "body", t, 1), n);
 		}),
 		(l.classAccessorProperty = function (e, t = null, n = null, r = null, i = !1, a = !1) {
 			var o = {
@@ -7311,7 +7314,7 @@ Expected ${n.length + 1} quasis but got ` + e.quasis.length
 		(l.classBody = function (e) {
 			var t = { type: "ClassBody", body: e },
 				n = A.ClassBody;
-			return x(n.body, t, "body", e, 1), t;
+			return (x(n.body, t, "body", e, 1), t);
 		}),
 		(l.classDeclaration = function (e = null, t = null, n, r = null) {
 			var i = { type: "ClassDeclaration", id: e, superClass: t, body: n, decorators: r },
@@ -7338,7 +7341,7 @@ Expected ${n.length + 1} quasis but got ` + e.quasis.length
 		(l.classImplements = function (e, t = null) {
 			var n = { type: "ClassImplements", id: e, typeParameters: t },
 				r = A.ClassImplements;
-			return x(r.id, n, "id", e, 1), x(r.typeParameters, n, "typeParameters", t, 1), n;
+			return (x(r.id, n, "id", e, 1), x(r.typeParameters, n, "typeParameters", t, 1), n);
 		}),
 		(l.classMethod = function (e = "method", t, n, r, i = !1, a = !1, o = !1, s = !1) {
 			var l = {
@@ -7422,7 +7425,7 @@ Expected ${n.length + 1} quasis but got ` + e.quasis.length
 		(l.continueStatement = function (e = null) {
 			var t = { type: "ContinueStatement", label: e },
 				n = A.ContinueStatement;
-			return x(n.label, t, "label", e, 1), t;
+			return (x(n.label, t, "label", e, 1), t);
 		}),
 		(l.debuggerStatement = function () {
 			return { type: "DebuggerStatement" };
@@ -7430,7 +7433,7 @@ Expected ${n.length + 1} quasis but got ` + e.quasis.length
 		(l.decimalLiteral = function (e) {
 			var t = { type: "DecimalLiteral", value: e },
 				n = A.DecimalLiteral;
-			return x(n.value, t, "value", e), t;
+			return (x(n.value, t, "value", e), t);
 		}),
 		(l.declareClass = function (e, t = null, n = null, r) {
 			var i = { type: "DeclareClass", id: e, typeParameters: t, extends: n, body: r },
@@ -7446,7 +7449,7 @@ Expected ${n.length + 1} quasis but got ` + e.quasis.length
 		(l.declareExportAllDeclaration = function (e, t = null) {
 			var n = { type: "DeclareExportAllDeclaration", source: e, attributes: t },
 				r = A.DeclareExportAllDeclaration;
-			return x(r.source, n, "source", e, 1), x(r.attributes, n, "attributes", t, 1), n;
+			return (x(r.source, n, "source", e, 1), x(r.attributes, n, "attributes", t, 1), n);
 		}),
 		(l.declareExportDeclaration = function (e = null, t = null, n = null, r = null) {
 			var i = {
@@ -7468,7 +7471,7 @@ Expected ${n.length + 1} quasis but got ` + e.quasis.length
 		(l.declareFunction = function (e) {
 			var t = { type: "DeclareFunction", id: e },
 				n = A.DeclareFunction;
-			return x(n.id, t, "id", e, 1), t;
+			return (x(n.id, t, "id", e, 1), t);
 		}),
 		(l.declareInterface = function (e, t = null, n = null, r) {
 			var i = { type: "DeclareInterface", id: e, typeParameters: t, extends: n, body: r },
@@ -7484,12 +7487,12 @@ Expected ${n.length + 1} quasis but got ` + e.quasis.length
 		(l.declareModule = function (e, t, n = null) {
 			var r = { type: "DeclareModule", id: e, body: t, kind: n },
 				i = A.DeclareModule;
-			return x(i.id, r, "id", e, 1), x(i.body, r, "body", t, 1), x(i.kind, r, "kind", n), r;
+			return (x(i.id, r, "id", e, 1), x(i.body, r, "body", t, 1), x(i.kind, r, "kind", n), r);
 		}),
 		(l.declareModuleExports = function (e) {
 			var t = { type: "DeclareModuleExports", typeAnnotation: e },
 				n = A.DeclareModuleExports;
-			return x(n.typeAnnotation, t, "typeAnnotation", e, 1), t;
+			return (x(n.typeAnnotation, t, "typeAnnotation", e, 1), t);
 		}),
 		(l.declareOpaqueType = function (e, t = null, n = null) {
 			var r = { type: "DeclareOpaqueType", id: e, typeParameters: t, supertype: n },
@@ -7514,37 +7517,37 @@ Expected ${n.length + 1} quasis but got ` + e.quasis.length
 		(l.declareVariable = function (e) {
 			var t = { type: "DeclareVariable", id: e },
 				n = A.DeclareVariable;
-			return x(n.id, t, "id", e, 1), t;
+			return (x(n.id, t, "id", e, 1), t);
 		}),
 		(l.declaredPredicate = function (e) {
 			var t = { type: "DeclaredPredicate", value: e },
 				n = A.DeclaredPredicate;
-			return x(n.value, t, "value", e, 1), t;
+			return (x(n.value, t, "value", e, 1), t);
 		}),
 		(l.decorator = function (e) {
 			var t = { type: "Decorator", expression: e },
 				n = A.Decorator;
-			return x(n.expression, t, "expression", e, 1), t;
+			return (x(n.expression, t, "expression", e, 1), t);
 		}),
 		(l.directive = function (e) {
 			var t = { type: "Directive", value: e },
 				n = A.Directive;
-			return x(n.value, t, "value", e, 1), t;
+			return (x(n.value, t, "value", e, 1), t);
 		}),
 		(l.directiveLiteral = function (e) {
 			var t = { type: "DirectiveLiteral", value: e },
 				n = A.DirectiveLiteral;
-			return x(n.value, t, "value", e), t;
+			return (x(n.value, t, "value", e), t);
 		}),
 		(l.doExpression = function (e, t = !1) {
 			var n = { type: "DoExpression", body: e, async: t },
 				r = A.DoExpression;
-			return x(r.body, n, "body", e, 1), x(r.async, n, "async", t), n;
+			return (x(r.body, n, "body", e, 1), x(r.async, n, "async", t), n);
 		}),
 		(l.doWhileStatement = function (e, t) {
 			var n = { type: "DoWhileStatement", test: e, body: t },
 				r = A.DoWhileStatement;
-			return x(r.test, n, "test", e, 1), x(r.body, n, "body", t, 1), n;
+			return (x(r.test, n, "test", e, 1), x(r.body, n, "body", t, 1), n);
 		}),
 		(l.emptyStatement = function () {
 			return { type: "EmptyStatement" };
@@ -7560,22 +7563,22 @@ Expected ${n.length + 1} quasis but got ` + e.quasis.length
 					hasUnknownMembers: null
 				},
 				n = A.EnumBooleanBody;
-			return x(n.members, t, "members", e, 1), t;
+			return (x(n.members, t, "members", e, 1), t);
 		}),
 		(l.enumBooleanMember = function (e) {
 			var t = { type: "EnumBooleanMember", id: e, init: null },
 				n = A.EnumBooleanMember;
-			return x(n.id, t, "id", e, 1), t;
+			return (x(n.id, t, "id", e, 1), t);
 		}),
 		(l.enumDeclaration = function (e, t) {
 			var n = { type: "EnumDeclaration", id: e, body: t },
 				r = A.EnumDeclaration;
-			return x(r.id, n, "id", e, 1), x(r.body, n, "body", t, 1), n;
+			return (x(r.id, n, "id", e, 1), x(r.body, n, "body", t, 1), n);
 		}),
 		(l.enumDefaultedMember = function (e) {
 			var t = { type: "EnumDefaultedMember", id: e },
 				n = A.EnumDefaultedMember;
-			return x(n.id, t, "id", e, 1), t;
+			return (x(n.id, t, "id", e, 1), t);
 		}),
 		(l.enumNumberBody = function (e) {
 			var t = {
@@ -7585,12 +7588,12 @@ Expected ${n.length + 1} quasis but got ` + e.quasis.length
 					hasUnknownMembers: null
 				},
 				n = A.EnumNumberBody;
-			return x(n.members, t, "members", e, 1), t;
+			return (x(n.members, t, "members", e, 1), t);
 		}),
 		(l.enumNumberMember = function (e, t) {
 			var n = { type: "EnumNumberMember", id: e, init: t },
 				r = A.EnumNumberMember;
-			return x(r.id, n, "id", e, 1), x(r.init, n, "init", t, 1), n;
+			return (x(r.id, n, "id", e, 1), x(r.init, n, "init", t, 1), n);
 		}),
 		(l.enumStringBody = function (e) {
 			var t = {
@@ -7600,17 +7603,17 @@ Expected ${n.length + 1} quasis but got ` + e.quasis.length
 					hasUnknownMembers: null
 				},
 				n = A.EnumStringBody;
-			return x(n.members, t, "members", e, 1), t;
+			return (x(n.members, t, "members", e, 1), t);
 		}),
 		(l.enumStringMember = function (e, t) {
 			var n = { type: "EnumStringMember", id: e, init: t },
 				r = A.EnumStringMember;
-			return x(r.id, n, "id", e, 1), x(r.init, n, "init", t, 1), n;
+			return (x(r.id, n, "id", e, 1), x(r.init, n, "init", t, 1), n);
 		}),
 		(l.enumSymbolBody = function (e) {
 			var t = { type: "EnumSymbolBody", members: e, hasUnknownMembers: null },
 				n = A.EnumSymbolBody;
-			return x(n.members, t, "members", e, 1), t;
+			return (x(n.members, t, "members", e, 1), t);
 		}),
 		(l.existsTypeAnnotation = function () {
 			return { type: "ExistsTypeAnnotation" };
@@ -7618,17 +7621,17 @@ Expected ${n.length + 1} quasis but got ` + e.quasis.length
 		(l.exportAllDeclaration = function (e) {
 			var t = { type: "ExportAllDeclaration", source: e },
 				n = A.ExportAllDeclaration;
-			return x(n.source, t, "source", e, 1), t;
+			return (x(n.source, t, "source", e, 1), t);
 		}),
 		(l.exportDefaultDeclaration = function (e) {
 			var t = { type: "ExportDefaultDeclaration", declaration: e },
 				n = A.ExportDefaultDeclaration;
-			return x(n.declaration, t, "declaration", e, 1), t;
+			return (x(n.declaration, t, "declaration", e, 1), t);
 		}),
 		(l.exportDefaultSpecifier = function (e) {
 			var t = { type: "ExportDefaultSpecifier", exported: e },
 				n = A.ExportDefaultSpecifier;
-			return x(n.exported, t, "exported", e, 1), t;
+			return (x(n.exported, t, "exported", e, 1), t);
 		}),
 		(l.exportNamedDeclaration = function (e = null, t = [], n = null) {
 			var r = { type: "ExportNamedDeclaration", declaration: e, specifiers: t, source: n },
@@ -7643,17 +7646,17 @@ Expected ${n.length + 1} quasis but got ` + e.quasis.length
 		(l.exportNamespaceSpecifier = function (e) {
 			var t = { type: "ExportNamespaceSpecifier", exported: e },
 				n = A.ExportNamespaceSpecifier;
-			return x(n.exported, t, "exported", e, 1), t;
+			return (x(n.exported, t, "exported", e, 1), t);
 		}),
 		(l.exportSpecifier = function (e, t) {
 			var n = { type: "ExportSpecifier", local: e, exported: t },
 				r = A.ExportSpecifier;
-			return x(r.local, n, "local", e, 1), x(r.exported, n, "exported", t, 1), n;
+			return (x(r.local, n, "local", e, 1), x(r.exported, n, "exported", t, 1), n);
 		}),
 		(l.expressionStatement = function (e) {
 			var t = { type: "ExpressionStatement", expression: e },
 				n = A.ExpressionStatement;
-			return x(n.expression, t, "expression", e, 1), t;
+			return (x(n.expression, t, "expression", e, 1), t);
 		}),
 		(l.file = function (e, t = null, n = null) {
 			var r = { type: "File", program: e, comments: t, tokens: n },
@@ -7755,17 +7758,17 @@ Expected ${n.length + 1} quasis but got ` + e.quasis.length
 		(l.functionTypeParam = function (e = null, t) {
 			var n = { type: "FunctionTypeParam", name: e, typeAnnotation: t },
 				r = A.FunctionTypeParam;
-			return x(r.name, n, "name", e, 1), x(r.typeAnnotation, n, "typeAnnotation", t, 1), n;
+			return (x(r.name, n, "name", e, 1), x(r.typeAnnotation, n, "typeAnnotation", t, 1), n);
 		}),
 		(l.genericTypeAnnotation = function (e, t = null) {
 			var n = { type: "GenericTypeAnnotation", id: e, typeParameters: t },
 				r = A.GenericTypeAnnotation;
-			return x(r.id, n, "id", e, 1), x(r.typeParameters, n, "typeParameters", t, 1), n;
+			return (x(r.id, n, "id", e, 1), x(r.typeParameters, n, "typeParameters", t, 1), n);
 		}),
 		(l.identifier = function (e) {
 			var t = { type: "Identifier", name: e },
 				n = A.Identifier;
-			return x(n.name, t, "name", e), t;
+			return (x(n.name, t, "name", e), t);
 		}),
 		(l.ifStatement = function (e, t, n = null) {
 			var r = { type: "IfStatement", test: e, consequent: t, alternate: n },
@@ -7783,37 +7786,41 @@ Expected ${n.length + 1} quasis but got ` + e.quasis.length
 		(l.importAttribute = function (e, t) {
 			var n = { type: "ImportAttribute", key: e, value: t },
 				r = A.ImportAttribute;
-			return x(r.key, n, "key", e, 1), x(r.value, n, "value", t, 1), n;
+			return (x(r.key, n, "key", e, 1), x(r.value, n, "value", t, 1), n);
 		}),
 		(l.importDeclaration = function (e, t) {
 			var n = { type: "ImportDeclaration", specifiers: e, source: t },
 				r = A.ImportDeclaration;
-			return x(r.specifiers, n, "specifiers", e, 1), x(r.source, n, "source", t, 1), n;
+			return (x(r.specifiers, n, "specifiers", e, 1), x(r.source, n, "source", t, 1), n);
 		}),
 		(l.importDefaultSpecifier = function (e) {
 			var t = { type: "ImportDefaultSpecifier", local: e },
 				n = A.ImportDefaultSpecifier;
-			return x(n.local, t, "local", e, 1), t;
+			return (x(n.local, t, "local", e, 1), t);
 		}),
 		(l.importExpression = function (e, t = null) {
 			var n = { type: "ImportExpression", source: e, options: t },
 				r = A.ImportExpression;
-			return x(r.source, n, "source", e, 1), x(r.options, n, "options", t, 1), n;
+			return (x(r.source, n, "source", e, 1), x(r.options, n, "options", t, 1), n);
 		}),
 		(l.importNamespaceSpecifier = function (e) {
 			var t = { type: "ImportNamespaceSpecifier", local: e },
 				n = A.ImportNamespaceSpecifier;
-			return x(n.local, t, "local", e, 1), t;
+			return (x(n.local, t, "local", e, 1), t);
 		}),
 		(l.importSpecifier = function (e, t) {
 			var n = { type: "ImportSpecifier", local: e, imported: t },
 				r = A.ImportSpecifier;
-			return x(r.local, n, "local", e, 1), x(r.imported, n, "imported", t, 1), n;
+			return (x(r.local, n, "local", e, 1), x(r.imported, n, "imported", t, 1), n);
 		}),
 		(l.indexedAccessType = function (e, t) {
 			var n = { type: "IndexedAccessType", objectType: e, indexType: t },
 				r = A.IndexedAccessType;
-			return x(r.objectType, n, "objectType", e, 1), x(r.indexType, n, "indexType", t, 1), n;
+			return (
+				x(r.objectType, n, "objectType", e, 1),
+				x(r.indexType, n, "indexType", t, 1),
+				n
+			);
 		}),
 		(l.inferredPredicate = function () {
 			return { type: "InferredPredicate" };
@@ -7832,34 +7839,34 @@ Expected ${n.length + 1} quasis but got ` + e.quasis.length
 		(l.interfaceExtends = function (e, t = null) {
 			var n = { type: "InterfaceExtends", id: e, typeParameters: t },
 				r = A.InterfaceExtends;
-			return x(r.id, n, "id", e, 1), x(r.typeParameters, n, "typeParameters", t, 1), n;
+			return (x(r.id, n, "id", e, 1), x(r.typeParameters, n, "typeParameters", t, 1), n);
 		}),
 		(l.interfaceTypeAnnotation = function (e = null, t) {
 			var n = { type: "InterfaceTypeAnnotation", extends: e, body: t },
 				r = A.InterfaceTypeAnnotation;
-			return x(r.extends, n, "extends", e, 1), x(r.body, n, "body", t, 1), n;
+			return (x(r.extends, n, "extends", e, 1), x(r.body, n, "body", t, 1), n);
 		}),
 		(l.interpreterDirective = function (e) {
 			var t = { type: "InterpreterDirective", value: e },
 				n = A.InterpreterDirective;
-			return x(n.value, t, "value", e), t;
+			return (x(n.value, t, "value", e), t);
 		}),
 		(l.intersectionTypeAnnotation = function (e) {
 			var t = { type: "IntersectionTypeAnnotation", types: e },
 				n = A.IntersectionTypeAnnotation;
-			return x(n.types, t, "types", e, 1), t;
+			return (x(n.types, t, "types", e, 1), t);
 		}),
 		(l.jSXAttribute = l.jsxAttribute =
 			function (e, t = null) {
 				var n = { type: "JSXAttribute", name: e, value: t },
 					r = A.JSXAttribute;
-				return x(r.name, n, "name", e, 1), x(r.value, n, "value", t, 1), n;
+				return (x(r.name, n, "name", e, 1), x(r.value, n, "value", t, 1), n);
 			}),
 		(l.jSXClosingElement = l.jsxClosingElement =
 			function (e) {
 				var t = { type: "JSXClosingElement", name: e },
 					n = A.JSXClosingElement;
-				return x(n.name, t, "name", e, 1), t;
+				return (x(n.name, t, "name", e, 1), t);
 			}),
 		(l.jSXClosingFragment = l.jsxClosingFragment =
 			function () {
@@ -7891,7 +7898,7 @@ Expected ${n.length + 1} quasis but got ` + e.quasis.length
 			function (e) {
 				var t = { type: "JSXExpressionContainer", expression: e },
 					n = A.JSXExpressionContainer;
-				return x(n.expression, t, "expression", e, 1), t;
+				return (x(n.expression, t, "expression", e, 1), t);
 			}),
 		(l.jSXFragment = l.jsxFragment =
 			function (e, t, n) {
@@ -7913,19 +7920,19 @@ Expected ${n.length + 1} quasis but got ` + e.quasis.length
 			function (e) {
 				var t = { type: "JSXIdentifier", name: e },
 					n = A.JSXIdentifier;
-				return x(n.name, t, "name", e), t;
+				return (x(n.name, t, "name", e), t);
 			}),
 		(l.jSXMemberExpression = l.jsxMemberExpression =
 			function (e, t) {
 				var n = { type: "JSXMemberExpression", object: e, property: t },
 					r = A.JSXMemberExpression;
-				return x(r.object, n, "object", e, 1), x(r.property, n, "property", t, 1), n;
+				return (x(r.object, n, "object", e, 1), x(r.property, n, "property", t, 1), n);
 			}),
 		(l.jSXNamespacedName = l.jsxNamespacedName =
 			function (e, t) {
 				var n = { type: "JSXNamespacedName", namespace: e, name: t },
 					r = A.JSXNamespacedName;
-				return x(r.namespace, n, "namespace", e, 1), x(r.name, n, "name", t, 1), n;
+				return (x(r.namespace, n, "namespace", e, 1), x(r.name, n, "name", t, 1), n);
 			}),
 		(l.jSXOpeningElement = l.jsxOpeningElement =
 			function (e, t, n = !1) {
@@ -7946,24 +7953,24 @@ Expected ${n.length + 1} quasis but got ` + e.quasis.length
 			function (e) {
 				var t = { type: "JSXSpreadAttribute", argument: e },
 					n = A.JSXSpreadAttribute;
-				return x(n.argument, t, "argument", e, 1), t;
+				return (x(n.argument, t, "argument", e, 1), t);
 			}),
 		(l.jSXSpreadChild = l.jsxSpreadChild =
 			function (e) {
 				var t = { type: "JSXSpreadChild", expression: e },
 					n = A.JSXSpreadChild;
-				return x(n.expression, t, "expression", e, 1), t;
+				return (x(n.expression, t, "expression", e, 1), t);
 			}),
 		(l.jSXText = l.jsxText =
 			function (e) {
 				var t = { type: "JSXText", value: e },
 					n = A.JSXText;
-				return x(n.value, t, "value", e), t;
+				return (x(n.value, t, "value", e), t);
 			}),
 		(l.labeledStatement = function (e, t) {
 			var n = { type: "LabeledStatement", label: e, body: t },
 				r = A.LabeledStatement;
-			return x(r.label, n, "label", e, 1), x(r.body, n, "body", t, 1), n;
+			return (x(r.label, n, "label", e, 1), x(r.body, n, "body", t, 1), n);
 		}),
 		(l.logicalExpression = function (e, t, n) {
 			var r = { type: "LogicalExpression", operator: e, left: t, right: n },
@@ -7989,7 +7996,7 @@ Expected ${n.length + 1} quasis but got ` + e.quasis.length
 		(l.metaProperty = function (e, t) {
 			var n = { type: "MetaProperty", meta: e, property: t },
 				r = A.MetaProperty;
-			return x(r.meta, n, "meta", e, 1), x(r.property, n, "property", t, 1), n;
+			return (x(r.meta, n, "meta", e, 1), x(r.property, n, "property", t, 1), n);
 		}),
 		(l.mixedTypeAnnotation = function () {
 			return { type: "MixedTypeAnnotation" };
@@ -7997,12 +8004,12 @@ Expected ${n.length + 1} quasis but got ` + e.quasis.length
 		(l.moduleExpression = function (e) {
 			var t = { type: "ModuleExpression", body: e },
 				n = A.ModuleExpression;
-			return x(n.body, t, "body", e, 1), t;
+			return (x(n.body, t, "body", e, 1), t);
 		}),
 		(l.newExpression = function (e, t) {
 			var n = { type: "NewExpression", callee: e, arguments: t },
 				r = A.NewExpression;
-			return x(r.callee, n, "callee", e, 1), x(r.arguments, n, "arguments", t, 1), n;
+			return (x(r.callee, n, "callee", e, 1), x(r.arguments, n, "arguments", t, 1), n);
 		}),
 		(l.noop = function () {
 			return { type: "Noop" };
@@ -8016,15 +8023,15 @@ Expected ${n.length + 1} quasis but got ` + e.quasis.length
 		(l.nullableTypeAnnotation = function (e) {
 			var t = { type: "NullableTypeAnnotation", typeAnnotation: e },
 				n = A.NullableTypeAnnotation;
-			return x(n.typeAnnotation, t, "typeAnnotation", e, 1), t;
+			return (x(n.typeAnnotation, t, "typeAnnotation", e, 1), t);
 		}),
 		(l.numberLiteral = function (e) {
-			return (0, pn.default)("NumberLiteral", "NumericLiteral", "The node type "), un(e);
+			return ((0, pn.default)("NumberLiteral", "NumericLiteral", "The node type "), un(e));
 		}),
 		(l.numberLiteralTypeAnnotation = function (e) {
 			var t = { type: "NumberLiteralTypeAnnotation", value: e },
 				n = A.NumberLiteralTypeAnnotation;
-			return x(n.value, t, "value", e), t;
+			return (x(n.value, t, "value", e), t);
 		}),
 		(l.numberTypeAnnotation = function () {
 			return { type: "NumberTypeAnnotation" };
@@ -8033,7 +8040,7 @@ Expected ${n.length + 1} quasis but got ` + e.quasis.length
 		(l.objectExpression = function (e) {
 			var t = { type: "ObjectExpression", properties: e },
 				n = A.ObjectExpression;
-			return x(n.properties, t, "properties", e, 1), t;
+			return (x(n.properties, t, "properties", e, 1), t);
 		}),
 		(l.objectMethod = function (e = "method", t, n, r, i = !1, a = !1, o = !1) {
 			var s = {
@@ -8061,7 +8068,7 @@ Expected ${n.length + 1} quasis but got ` + e.quasis.length
 		(l.objectPattern = function (e) {
 			var t = { type: "ObjectPattern", properties: e },
 				n = A.ObjectPattern;
-			return x(n.properties, t, "properties", e, 1), t;
+			return (x(n.properties, t, "properties", e, 1), t);
 		}),
 		(l.objectProperty = function (e, t, n = !1, r = !1, i = null) {
 			var a = {
@@ -8104,7 +8111,7 @@ Expected ${n.length + 1} quasis but got ` + e.quasis.length
 		(l.objectTypeCallProperty = function (e) {
 			var t = { type: "ObjectTypeCallProperty", value: e, static: null },
 				n = A.ObjectTypeCallProperty;
-			return x(n.value, t, "value", e, 1), t;
+			return (x(n.value, t, "value", e, 1), t);
 		}),
 		(l.objectTypeIndexer = function (e = null, t, n, r = null) {
 			var i = {
@@ -8166,7 +8173,7 @@ Expected ${n.length + 1} quasis but got ` + e.quasis.length
 		(l.objectTypeSpreadProperty = function (e) {
 			var t = { type: "ObjectTypeSpreadProperty", argument: e },
 				n = A.ObjectTypeSpreadProperty;
-			return x(n.argument, t, "argument", e, 1), t;
+			return (x(n.argument, t, "argument", e, 1), t);
 		}),
 		(l.opaqueType = function (e, t = null, n = null, r) {
 			var i = { type: "OpaqueType", id: e, typeParameters: t, supertype: n, impltype: r },
@@ -8197,7 +8204,11 @@ Expected ${n.length + 1} quasis but got ` + e.quasis.length
 					optional: null
 				},
 				r = A.OptionalIndexedAccessType;
-			return x(r.objectType, n, "objectType", e, 1), x(r.indexType, n, "indexType", t, 1), n;
+			return (
+				x(r.objectType, n, "objectType", e, 1),
+				x(r.indexType, n, "indexType", t, 1),
+				n
+			);
 		}),
 		(l.optionalMemberExpression = function (e, t, n = !1, r) {
 			var i = {
@@ -8219,12 +8230,12 @@ Expected ${n.length + 1} quasis but got ` + e.quasis.length
 		(l.parenthesizedExpression = function (e) {
 			var t = { type: "ParenthesizedExpression", expression: e },
 				n = A.ParenthesizedExpression;
-			return x(n.expression, t, "expression", e, 1), t;
+			return (x(n.expression, t, "expression", e, 1), t);
 		}),
 		(l.pipelineBareFunction = function (e) {
 			var t = { type: "PipelineBareFunction", callee: e },
 				n = A.PipelineBareFunction;
-			return x(n.callee, t, "callee", e, 1), t;
+			return (x(n.callee, t, "callee", e, 1), t);
 		}),
 		(l.pipelinePrimaryTopicReference = function () {
 			return { type: "PipelinePrimaryTopicReference" };
@@ -8232,17 +8243,17 @@ Expected ${n.length + 1} quasis but got ` + e.quasis.length
 		(l.pipelineTopicExpression = function (e) {
 			var t = { type: "PipelineTopicExpression", expression: e },
 				n = A.PipelineTopicExpression;
-			return x(n.expression, t, "expression", e, 1), t;
+			return (x(n.expression, t, "expression", e, 1), t);
 		}),
 		(l.placeholder = function (e, t) {
 			var n = { type: "Placeholder", expectedNode: e, name: t },
 				r = A.Placeholder;
-			return x(r.expectedNode, n, "expectedNode", e), x(r.name, n, "name", t, 1), n;
+			return (x(r.expectedNode, n, "expectedNode", e), x(r.name, n, "name", t, 1), n);
 		}),
 		(l.privateName = function (e) {
 			var t = { type: "PrivateName", id: e },
 				n = A.PrivateName;
-			return x(n.id, t, "id", e, 1), t;
+			return (x(n.id, t, "id", e, 1), t);
 		}),
 		(l.program = function (e, t = [], n = "script", r = null) {
 			var i = { type: "Program", body: e, directives: t, sourceType: n, interpreter: r },
@@ -8258,49 +8269,49 @@ Expected ${n.length + 1} quasis but got ` + e.quasis.length
 		(l.qualifiedTypeIdentifier = function (e, t) {
 			var n = { type: "QualifiedTypeIdentifier", id: e, qualification: t },
 				r = A.QualifiedTypeIdentifier;
-			return x(r.id, n, "id", e, 1), x(r.qualification, n, "qualification", t, 1), n;
+			return (x(r.id, n, "id", e, 1), x(r.qualification, n, "qualification", t, 1), n);
 		}),
 		(l.recordExpression = function (e) {
 			var t = { type: "RecordExpression", properties: e },
 				n = A.RecordExpression;
-			return x(n.properties, t, "properties", e, 1), t;
+			return (x(n.properties, t, "properties", e, 1), t);
 		}),
 		(l.regExpLiteral = cn),
 		(l.regexLiteral = function (e, t = "") {
-			return (0, pn.default)("RegexLiteral", "RegExpLiteral", "The node type "), cn(e, t);
+			return ((0, pn.default)("RegexLiteral", "RegExpLiteral", "The node type "), cn(e, t));
 		}),
 		(l.restElement = dn),
 		(l.restProperty = function (e) {
-			return (0, pn.default)("RestProperty", "RestElement", "The node type "), dn(e);
+			return ((0, pn.default)("RestProperty", "RestElement", "The node type "), dn(e));
 		}),
 		(l.returnStatement = function (e = null) {
 			var t = { type: "ReturnStatement", argument: e },
 				n = A.ReturnStatement;
-			return x(n.argument, t, "argument", e, 1), t;
+			return (x(n.argument, t, "argument", e, 1), t);
 		}),
 		(l.sequenceExpression = function (e) {
 			var t = { type: "SequenceExpression", expressions: e },
 				n = A.SequenceExpression;
-			return x(n.expressions, t, "expressions", e, 1), t;
+			return (x(n.expressions, t, "expressions", e, 1), t);
 		}),
 		(l.spreadElement = fn),
 		(l.spreadProperty = function (e) {
-			return (0, pn.default)("SpreadProperty", "SpreadElement", "The node type "), fn(e);
+			return ((0, pn.default)("SpreadProperty", "SpreadElement", "The node type "), fn(e));
 		}),
 		(l.staticBlock = function (e) {
 			var t = { type: "StaticBlock", body: e },
 				n = A.StaticBlock;
-			return x(n.body, t, "body", e, 1), t;
+			return (x(n.body, t, "body", e, 1), t);
 		}),
 		(l.stringLiteral = function (e) {
 			var t = { type: "StringLiteral", value: e },
 				n = A.StringLiteral;
-			return x(n.value, t, "value", e), t;
+			return (x(n.value, t, "value", e), t);
 		}),
 		(l.stringLiteralTypeAnnotation = function (e) {
 			var t = { type: "StringLiteralTypeAnnotation", value: e },
 				n = A.StringLiteralTypeAnnotation;
-			return x(n.value, t, "value", e), t;
+			return (x(n.value, t, "value", e), t);
 		}),
 		(l.stringTypeAnnotation = function () {
 			return { type: "StringTypeAnnotation" };
@@ -8311,12 +8322,12 @@ Expected ${n.length + 1} quasis but got ` + e.quasis.length
 		(l.switchCase = function (e = null, t) {
 			var n = { type: "SwitchCase", test: e, consequent: t },
 				r = A.SwitchCase;
-			return x(r.test, n, "test", e, 1), x(r.consequent, n, "consequent", t, 1), n;
+			return (x(r.test, n, "test", e, 1), x(r.consequent, n, "consequent", t, 1), n);
 		}),
 		(l.switchStatement = function (e, t) {
 			var n = { type: "SwitchStatement", discriminant: e, cases: t },
 				r = A.SwitchStatement;
-			return x(r.discriminant, n, "discriminant", e, 1), x(r.cases, n, "cases", t, 1), n;
+			return (x(r.discriminant, n, "discriminant", e, 1), x(r.cases, n, "cases", t, 1), n);
 		}),
 		(l.symbolTypeAnnotation = function () {
 			return { type: "SymbolTypeAnnotation" };
@@ -8324,17 +8335,17 @@ Expected ${n.length + 1} quasis but got ` + e.quasis.length
 		(l.taggedTemplateExpression = function (e, t) {
 			var n = { type: "TaggedTemplateExpression", tag: e, quasi: t },
 				r = A.TaggedTemplateExpression;
-			return x(r.tag, n, "tag", e, 1), x(r.quasi, n, "quasi", t, 1), n;
+			return (x(r.tag, n, "tag", e, 1), x(r.quasi, n, "quasi", t, 1), n);
 		}),
 		(l.templateElement = function (e, t = !1) {
 			var n = { type: "TemplateElement", value: e, tail: t },
 				r = A.TemplateElement;
-			return x(r.value, n, "value", e), x(r.tail, n, "tail", t), n;
+			return (x(r.value, n, "value", e), x(r.tail, n, "tail", t), n);
 		}),
 		(l.templateLiteral = function (e, t) {
 			var n = { type: "TemplateLiteral", quasis: e, expressions: t },
 				r = A.TemplateLiteral;
-			return x(r.quasis, n, "quasis", e, 1), x(r.expressions, n, "expressions", t, 1), n;
+			return (x(r.quasis, n, "quasis", e, 1), x(r.expressions, n, "expressions", t, 1), n);
 		}),
 		(l.thisExpression = function () {
 			return { type: "ThisExpression" };
@@ -8345,7 +8356,7 @@ Expected ${n.length + 1} quasis but got ` + e.quasis.length
 		(l.throwStatement = function (e) {
 			var t = { type: "ThrowStatement", argument: e },
 				n = A.ThrowStatement;
-			return x(n.argument, t, "argument", e, 1), t;
+			return (x(n.argument, t, "argument", e, 1), t);
 		}),
 		(l.topicReference = function () {
 			return { type: "TopicReference" };
@@ -8368,7 +8379,7 @@ Expected ${n.length + 1} quasis but got ` + e.quasis.length
 			function (e) {
 				var t = { type: "TSArrayType", elementType: e },
 					n = A.TSArrayType;
-				return x(n.elementType, t, "elementType", e, 1), t;
+				return (x(n.elementType, t, "elementType", e, 1), t);
 			}),
 		(l.tSAsExpression = l.tsAsExpression =
 			function (e, t) {
@@ -8496,25 +8507,25 @@ Expected ${n.length + 1} quasis but got ` + e.quasis.length
 			function (e) {
 				var t = { type: "TSEnumBody", members: e },
 					n = A.TSEnumBody;
-				return x(n.members, t, "members", e, 1), t;
+				return (x(n.members, t, "members", e, 1), t);
 			}),
 		(l.tSEnumDeclaration = l.tsEnumDeclaration =
 			function (e, t) {
 				var n = { type: "TSEnumDeclaration", id: e, members: t },
 					r = A.TSEnumDeclaration;
-				return x(r.id, n, "id", e, 1), x(r.members, n, "members", t, 1), n;
+				return (x(r.id, n, "id", e, 1), x(r.members, n, "members", t, 1), n);
 			}),
 		(l.tSEnumMember = l.tsEnumMember =
 			function (e, t = null) {
 				var n = { type: "TSEnumMember", id: e, initializer: t },
 					r = A.TSEnumMember;
-				return x(r.id, n, "id", e, 1), x(r.initializer, n, "initializer", t, 1), n;
+				return (x(r.id, n, "id", e, 1), x(r.initializer, n, "initializer", t, 1), n);
 			}),
 		(l.tSExportAssignment = l.tsExportAssignment =
 			function (e) {
 				var t = { type: "TSExportAssignment", expression: e },
 					n = A.TSExportAssignment;
-				return x(n.expression, t, "expression", e, 1), t;
+				return (x(n.expression, t, "expression", e, 1), t);
 			}),
 		(l.tSExpressionWithTypeArguments = l.tsExpressionWithTypeArguments =
 			function (e, t = null) {
@@ -8530,7 +8541,7 @@ Expected ${n.length + 1} quasis but got ` + e.quasis.length
 			function (e) {
 				var t = { type: "TSExternalModuleReference", expression: e },
 					n = A.TSExternalModuleReference;
-				return x(n.expression, t, "expression", e, 1), t;
+				return (x(n.expression, t, "expression", e, 1), t);
 			}),
 		(l.tSFunctionType = l.tsFunctionType =
 			function (e = null, t, n = null) {
@@ -8557,7 +8568,11 @@ Expected ${n.length + 1} quasis but got ` + e.quasis.length
 						isExport: null
 					},
 					r = A.TSImportEqualsDeclaration;
-				return x(r.id, n, "id", e, 1), x(r.moduleReference, n, "moduleReference", t, 1), n;
+				return (
+					x(r.id, n, "id", e, 1),
+					x(r.moduleReference, n, "moduleReference", t, 1),
+					n
+				);
 			}),
 		(l.tSImportType = l.tsImportType =
 			function (e, t = null, n = null) {
@@ -8585,14 +8600,16 @@ Expected ${n.length + 1} quasis but got ` + e.quasis.length
 				var n = { type: "TSIndexedAccessType", objectType: e, indexType: t },
 					r = A.TSIndexedAccessType;
 				return (
-					x(r.objectType, n, "objectType", e, 1), x(r.indexType, n, "indexType", t, 1), n
+					x(r.objectType, n, "objectType", e, 1),
+					x(r.indexType, n, "indexType", t, 1),
+					n
 				);
 			}),
 		(l.tSInferType = l.tsInferType =
 			function (e) {
 				var t = { type: "TSInferType", typeParameter: e },
 					n = A.TSInferType;
-				return x(n.typeParameter, t, "typeParameter", e, 1), t;
+				return (x(n.typeParameter, t, "typeParameter", e, 1), t);
 			}),
 		(l.tSInstantiationExpression = l.tsInstantiationExpression =
 			function (e, t = null) {
@@ -8608,7 +8625,7 @@ Expected ${n.length + 1} quasis but got ` + e.quasis.length
 			function (e) {
 				var t = { type: "TSInterfaceBody", body: e },
 					n = A.TSInterfaceBody;
-				return x(n.body, t, "body", e, 1), t;
+				return (x(n.body, t, "body", e, 1), t);
 			}),
 		(l.tSInterfaceDeclaration = l.tsInterfaceDeclaration =
 			function (e, t = null, n = null, r) {
@@ -8632,7 +8649,7 @@ Expected ${n.length + 1} quasis but got ` + e.quasis.length
 			function (e) {
 				var t = { type: "TSIntersectionType", types: e },
 					n = A.TSIntersectionType;
-				return x(n.types, t, "types", e, 1), t;
+				return (x(n.types, t, "types", e, 1), t);
 			}),
 		(l.tSIntrinsicKeyword = l.tsIntrinsicKeyword =
 			function () {
@@ -8642,7 +8659,7 @@ Expected ${n.length + 1} quasis but got ` + e.quasis.length
 			function (e) {
 				var t = { type: "TSLiteralType", literal: e },
 					n = A.TSLiteralType;
-				return x(n.literal, t, "literal", e, 1), t;
+				return (x(n.literal, t, "literal", e, 1), t);
 			}),
 		(l.tSMappedType = l.tsMappedType =
 			function (e, t = null, n = null) {
@@ -8678,13 +8695,13 @@ Expected ${n.length + 1} quasis but got ` + e.quasis.length
 			function (e) {
 				var t = { type: "TSModuleBlock", body: e },
 					n = A.TSModuleBlock;
-				return x(n.body, t, "body", e, 1), t;
+				return (x(n.body, t, "body", e, 1), t);
 			}),
 		(l.tSModuleDeclaration = l.tsModuleDeclaration =
 			function (e, t) {
 				var n = { type: "TSModuleDeclaration", id: e, body: t, kind: null },
 					r = A.TSModuleDeclaration;
-				return x(r.id, n, "id", e, 1), x(r.body, n, "body", t, 1), n;
+				return (x(r.id, n, "id", e, 1), x(r.body, n, "body", t, 1), n);
 			}),
 		(l.tSNamedTupleMember = l.tsNamedTupleMember =
 			function (e, t, n = !1) {
@@ -8701,7 +8718,7 @@ Expected ${n.length + 1} quasis but got ` + e.quasis.length
 			function (e) {
 				var t = { type: "TSNamespaceExportDeclaration", id: e },
 					n = A.TSNamespaceExportDeclaration;
-				return x(n.id, t, "id", e, 1), t;
+				return (x(n.id, t, "id", e, 1), t);
 			}),
 		(l.tSNeverKeyword = l.tsNeverKeyword =
 			function () {
@@ -8711,7 +8728,7 @@ Expected ${n.length + 1} quasis but got ` + e.quasis.length
 			function (e) {
 				var t = { type: "TSNonNullExpression", expression: e },
 					n = A.TSNonNullExpression;
-				return x(n.expression, t, "expression", e, 1), t;
+				return (x(n.expression, t, "expression", e, 1), t);
 			}),
 		(l.tSNullKeyword = l.tsNullKeyword =
 			function () {
@@ -8729,37 +8746,41 @@ Expected ${n.length + 1} quasis but got ` + e.quasis.length
 			function (e) {
 				var t = { type: "TSOptionalType", typeAnnotation: e },
 					n = A.TSOptionalType;
-				return x(n.typeAnnotation, t, "typeAnnotation", e, 1), t;
+				return (x(n.typeAnnotation, t, "typeAnnotation", e, 1), t);
 			}),
 		(l.tSParameterProperty = l.tsParameterProperty =
 			function (e) {
 				var t = { type: "TSParameterProperty", parameter: e },
 					n = A.TSParameterProperty;
-				return x(n.parameter, t, "parameter", e, 1), t;
+				return (x(n.parameter, t, "parameter", e, 1), t);
 			}),
 		(l.tSParenthesizedType = l.tsParenthesizedType =
 			function (e) {
 				var t = { type: "TSParenthesizedType", typeAnnotation: e },
 					n = A.TSParenthesizedType;
-				return x(n.typeAnnotation, t, "typeAnnotation", e, 1), t;
+				return (x(n.typeAnnotation, t, "typeAnnotation", e, 1), t);
 			}),
 		(l.tSPropertySignature = l.tsPropertySignature =
 			function (e, t = null) {
 				var n = { type: "TSPropertySignature", key: e, typeAnnotation: t },
 					r = A.TSPropertySignature;
-				return x(r.key, n, "key", e, 1), x(r.typeAnnotation, n, "typeAnnotation", t, 1), n;
+				return (
+					x(r.key, n, "key", e, 1),
+					x(r.typeAnnotation, n, "typeAnnotation", t, 1),
+					n
+				);
 			}),
 		(l.tSQualifiedName = l.tsQualifiedName =
 			function (e, t) {
 				var n = { type: "TSQualifiedName", left: e, right: t },
 					r = A.TSQualifiedName;
-				return x(r.left, n, "left", e, 1), x(r.right, n, "right", t, 1), n;
+				return (x(r.left, n, "left", e, 1), x(r.right, n, "right", t, 1), n);
 			}),
 		(l.tSRestType = l.tsRestType =
 			function (e) {
 				var t = { type: "TSRestType", typeAnnotation: e },
 					n = A.TSRestType;
-				return x(n.typeAnnotation, t, "typeAnnotation", e, 1), t;
+				return (x(n.typeAnnotation, t, "typeAnnotation", e, 1), t);
 			}),
 		(l.tSSatisfiesExpression = l.tsSatisfiesExpression =
 			function (e, t) {
@@ -8783,7 +8804,7 @@ Expected ${n.length + 1} quasis but got ` + e.quasis.length
 			function (e, t) {
 				var n = { type: "TSTemplateLiteralType", quasis: e, types: t },
 					r = A.TSTemplateLiteralType;
-				return x(r.quasis, n, "quasis", e, 1), x(r.types, n, "types", t, 1), n;
+				return (x(r.quasis, n, "quasis", e, 1), x(r.types, n, "types", t, 1), n);
 			}),
 		(l.tSThisType = l.tsThisType =
 			function () {
@@ -8793,7 +8814,7 @@ Expected ${n.length + 1} quasis but got ` + e.quasis.length
 			function (e) {
 				var t = { type: "TSTupleType", elementTypes: e },
 					n = A.TSTupleType;
-				return x(n.elementTypes, t, "elementTypes", e, 1), t;
+				return (x(n.elementTypes, t, "elementTypes", e, 1), t);
 			}),
 		(l.tSTypeAliasDeclaration = l.tsTypeAliasDeclaration =
 			function (e, t = null, n) {
@@ -8815,7 +8836,7 @@ Expected ${n.length + 1} quasis but got ` + e.quasis.length
 			function (e) {
 				var t = { type: "TSTypeAnnotation", typeAnnotation: e },
 					n = A.TSTypeAnnotation;
-				return x(n.typeAnnotation, t, "typeAnnotation", e, 1), t;
+				return (x(n.typeAnnotation, t, "typeAnnotation", e, 1), t);
 			}),
 		(l.tSTypeAssertion = l.tsTypeAssertion =
 			function (e, t) {
@@ -8831,13 +8852,13 @@ Expected ${n.length + 1} quasis but got ` + e.quasis.length
 			function (e) {
 				var t = { type: "TSTypeLiteral", members: e },
 					n = A.TSTypeLiteral;
-				return x(n.members, t, "members", e, 1), t;
+				return (x(n.members, t, "members", e, 1), t);
 			}),
 		(l.tSTypeOperator = l.tsTypeOperator =
 			function (e) {
 				var t = { type: "TSTypeOperator", typeAnnotation: e, operator: null },
 					n = A.TSTypeOperator;
-				return x(n.typeAnnotation, t, "typeAnnotation", e, 1), t;
+				return (x(n.typeAnnotation, t, "typeAnnotation", e, 1), t);
 			}),
 		(l.tSTypeParameter = l.tsTypeParameter =
 			function (e = null, t = null, n) {
@@ -8854,13 +8875,13 @@ Expected ${n.length + 1} quasis but got ` + e.quasis.length
 			function (e) {
 				var t = { type: "TSTypeParameterDeclaration", params: e },
 					n = A.TSTypeParameterDeclaration;
-				return x(n.params, t, "params", e, 1), t;
+				return (x(n.params, t, "params", e, 1), t);
 			}),
 		(l.tSTypeParameterInstantiation = l.tsTypeParameterInstantiation =
 			function (e) {
 				var t = { type: "TSTypeParameterInstantiation", params: e },
 					n = A.TSTypeParameterInstantiation;
-				return x(n.params, t, "params", e, 1), t;
+				return (x(n.params, t, "params", e, 1), t);
 			}),
 		(l.tSTypePredicate = l.tsTypePredicate =
 			function (e, t = null, n = null) {
@@ -8906,7 +8927,7 @@ Expected ${n.length + 1} quasis but got ` + e.quasis.length
 			function (e) {
 				var t = { type: "TSUnionType", types: e },
 					n = A.TSUnionType;
-				return x(n.types, t, "types", e, 1), t;
+				return (x(n.types, t, "types", e, 1), t);
 			}),
 		(l.tSUnknownKeyword = l.tsUnknownKeyword =
 			function () {
@@ -8919,12 +8940,12 @@ Expected ${n.length + 1} quasis but got ` + e.quasis.length
 		(l.tupleExpression = function (e = []) {
 			var t = { type: "TupleExpression", elements: e },
 				n = A.TupleExpression;
-			return x(n.elements, t, "elements", e, 1), t;
+			return (x(n.elements, t, "elements", e, 1), t);
 		}),
 		(l.tupleTypeAnnotation = function (e) {
 			var t = { type: "TupleTypeAnnotation", types: e },
 				n = A.TupleTypeAnnotation;
-			return x(n.types, t, "types", e, 1), t;
+			return (x(n.types, t, "types", e, 1), t);
 		}),
 		(l.typeAlias = function (e, t = null, n) {
 			var r = { type: "TypeAlias", id: e, typeParameters: t, right: n },
@@ -8939,7 +8960,7 @@ Expected ${n.length + 1} quasis but got ` + e.quasis.length
 		(l.typeAnnotation = function (e) {
 			var t = { type: "TypeAnnotation", typeAnnotation: e },
 				n = A.TypeAnnotation;
-			return x(n.typeAnnotation, t, "typeAnnotation", e, 1), t;
+			return (x(n.typeAnnotation, t, "typeAnnotation", e, 1), t);
 		}),
 		(l.typeCastExpression = function (e, t) {
 			var n = { type: "TypeCastExpression", expression: e, typeAnnotation: t },
@@ -8963,17 +8984,17 @@ Expected ${n.length + 1} quasis but got ` + e.quasis.length
 		(l.typeParameterDeclaration = function (e) {
 			var t = { type: "TypeParameterDeclaration", params: e },
 				n = A.TypeParameterDeclaration;
-			return x(n.params, t, "params", e, 1), t;
+			return (x(n.params, t, "params", e, 1), t);
 		}),
 		(l.typeParameterInstantiation = function (e) {
 			var t = { type: "TypeParameterInstantiation", params: e },
 				n = A.TypeParameterInstantiation;
-			return x(n.params, t, "params", e, 1), t;
+			return (x(n.params, t, "params", e, 1), t);
 		}),
 		(l.typeofTypeAnnotation = function (e) {
 			var t = { type: "TypeofTypeAnnotation", argument: e },
 				n = A.TypeofTypeAnnotation;
-			return x(n.argument, t, "argument", e, 1), t;
+			return (x(n.argument, t, "argument", e, 1), t);
 		}),
 		(l.unaryExpression = function (e, t, n = !0) {
 			var r = { type: "UnaryExpression", operator: e, argument: t, prefix: n },
@@ -8988,7 +9009,7 @@ Expected ${n.length + 1} quasis but got ` + e.quasis.length
 		(l.unionTypeAnnotation = function (e) {
 			var t = { type: "UnionTypeAnnotation", types: e },
 				n = A.UnionTypeAnnotation;
-			return x(n.types, t, "types", e, 1), t;
+			return (x(n.types, t, "types", e, 1), t);
 		}),
 		(l.updateExpression = function (e, t, n = !1) {
 			var r = { type: "UpdateExpression", operator: e, argument: t, prefix: n },
@@ -9003,22 +9024,22 @@ Expected ${n.length + 1} quasis but got ` + e.quasis.length
 		(l.v8IntrinsicIdentifier = function (e) {
 			var t = { type: "V8IntrinsicIdentifier", name: e },
 				n = A.V8IntrinsicIdentifier;
-			return x(n.name, t, "name", e), t;
+			return (x(n.name, t, "name", e), t);
 		}),
 		(l.variableDeclaration = function (e, t) {
 			var n = { type: "VariableDeclaration", kind: e, declarations: t },
 				r = A.VariableDeclaration;
-			return x(r.kind, n, "kind", e), x(r.declarations, n, "declarations", t, 1), n;
+			return (x(r.kind, n, "kind", e), x(r.declarations, n, "declarations", t, 1), n);
 		}),
 		(l.variableDeclarator = function (e, t = null) {
 			var n = { type: "VariableDeclarator", id: e, init: t },
 				r = A.VariableDeclarator;
-			return x(r.id, n, "id", e, 1), x(r.init, n, "init", t, 1), n;
+			return (x(r.id, n, "id", e, 1), x(r.init, n, "init", t, 1), n);
 		}),
 		(l.variance = function (e) {
 			var t = { type: "Variance", kind: e },
 				n = A.Variance;
-			return x(n.kind, t, "kind", e), t;
+			return (x(n.kind, t, "kind", e), t);
 		}),
 		(l.voidTypeAnnotation = function () {
 			return { type: "VoidTypeAnnotation" };
@@ -9026,40 +9047,40 @@ Expected ${n.length + 1} quasis but got ` + e.quasis.length
 		(l.whileStatement = function (e, t) {
 			var n = { type: "WhileStatement", test: e, body: t },
 				r = A.WhileStatement;
-			return x(r.test, n, "test", e, 1), x(r.body, n, "body", t, 1), n;
+			return (x(r.test, n, "test", e, 1), x(r.body, n, "body", t, 1), n);
 		}),
 		(l.withStatement = function (e, t) {
 			var n = { type: "WithStatement", object: e, body: t },
 				r = A.WithStatement;
-			return x(r.object, n, "object", e, 1), x(r.body, n, "body", t, 1), n;
+			return (x(r.object, n, "object", e, 1), x(r.body, n, "body", t, 1), n);
 		}),
 		(l.yieldExpression = function (e = null, t = !1) {
 			var n = { type: "YieldExpression", argument: e, delegate: t },
 				r = A.YieldExpression;
-			return x(r.argument, n, "argument", e, 1), x(r.delegate, n, "delegate", t), n;
-		});
+			return (x(r.argument, n, "argument", e, 1), x(r.delegate, n, "delegate", t), n);
+		}));
 	var pn = Ie;
 	let x = Me.validateInternal,
 		A = y.NODE_FIELDS;
 	function un(e) {
 		var t = { type: "NumericLiteral", value: e },
 			n = A.NumericLiteral;
-		return x(n.value, t, "value", e), t;
+		return (x(n.value, t, "value", e), t);
 	}
 	function cn(e, t = "") {
 		var n = { type: "RegExpLiteral", pattern: e, flags: t },
 			r = A.RegExpLiteral;
-		return x(r.pattern, n, "pattern", e), x(r.flags, n, "flags", t), n;
+		return (x(r.pattern, n, "pattern", e), x(r.flags, n, "flags", t), n);
 	}
 	function dn(e) {
 		var t = { type: "RestElement", argument: e },
 			n = A.RestElement;
-		return x(n.argument, t, "argument", e, 1), t;
+		return (x(n.argument, t, "argument", e, 1), t);
 	}
 	function fn(e) {
 		var t = { type: "SpreadElement", argument: e },
 			n = A.SpreadElement;
-		return x(n.argument, t, "argument", e, 1), t;
+		return (x(n.argument, t, "argument", e, 1), t);
 	}
 	var O,
 		yn,
@@ -10644,14 +10665,14 @@ Expected ${n.length + 1} quasis but got ` + e.quasis.length
 						s = t === n.length - 1,
 						l = t === r;
 					let e = a.replace(/\t/g, " ");
-					o || (e = e.replace(/^ +/, "")),
-						(e = s ? e : e.replace(/ +$/, "")) && (l || (e += " "), (i += e));
+					(o || (e = e.replace(/^ +/, "")),
+						(e = s ? e : e.replace(/ +$/, "")) && (l || (e += " "), (i += e)));
 				}
 				i && t.push((0, Sn.inherits)((0, hn.stringLiteral)(i), e));
 			}),
 			s),
 		Sn = e;
-	Object.defineProperty(Le, "__esModule", { value: !0 }),
+	(Object.defineProperty(Le, "__esModule", { value: !0 }),
 		(Le.default = function (n) {
 			var r = [];
 			for (let t = 0; t < n.children.length; t++) {
@@ -10662,7 +10683,7 @@ Expected ${n.length + 1} quasis but got ` + e.quasis.length
 						(0, bn.isJSXEmptyExpression)(e) || r.push(e));
 			}
 			return r;
-		});
+		}));
 	var bn = r,
 		En = o;
 	var f = {},
@@ -10673,17 +10694,17 @@ Expected ${n.length + 1} quasis but got ` + e.quasis.length
 				return !(!e || !vn.VISITOR_KEYS[e.type]);
 			}),
 			Be);
-	Object.defineProperty(f, "__esModule", { value: !0 }),
+	(Object.defineProperty(f, "__esModule", { value: !0 }),
 		(f.default = function (e) {
 			{
 				var t;
 				if (!(0, gn.default)(e))
 					throw (
-						((t = null != (t = null == e ? void 0 : e.type) ? t : JSON.stringify(e)),
-						new TypeError(`Not a valid node of type "${t}"`))
+						(t = null != (t = null == e ? void 0 : e.type) ? t : JSON.stringify(e)),
+						new TypeError(`Not a valid node of type "${t}"`)
 					);
 			}
-		});
+		}));
 	var gn = d;
 	var p = {},
 		Pn =
@@ -11115,8 +11136,8 @@ Expected ${n.length + 1} quasis but got ` + e.quasis.length
 				_("MixedTypeAnnotation", e, t);
 			}),
 			(p.assertModuleDeclaration = function (e, t) {
-				(0, xn.default)("assertModuleDeclaration", "assertImportOrExportDeclaration"),
-					_("ModuleDeclaration", e, t);
+				((0, xn.default)("assertModuleDeclaration", "assertImportOrExportDeclaration"),
+					_("ModuleDeclaration", e, t));
 			}),
 			(p.assertModuleExpression = function (e, t) {
 				_("ModuleExpression", e, t);
@@ -11140,8 +11161,8 @@ Expected ${n.length + 1} quasis but got ` + e.quasis.length
 				_("NullableTypeAnnotation", e, t);
 			}),
 			(p.assertNumberLiteral = function (e, t) {
-				(0, xn.default)("assertNumberLiteral", "assertNumericLiteral"),
-					_("NumberLiteral", e, t);
+				((0, xn.default)("assertNumberLiteral", "assertNumericLiteral"),
+					_("NumberLiteral", e, t));
 			}),
 			(p.assertNumberLiteralTypeAnnotation = function (e, t) {
 				_("NumberLiteralTypeAnnotation", e, t);
@@ -11243,14 +11264,15 @@ Expected ${n.length + 1} quasis but got ` + e.quasis.length
 				_("RegExpLiteral", e, t);
 			}),
 			(p.assertRegexLiteral = function (e, t) {
-				(0, xn.default)("assertRegexLiteral", "assertRegExpLiteral"),
-					_("RegexLiteral", e, t);
+				((0, xn.default)("assertRegexLiteral", "assertRegExpLiteral"),
+					_("RegexLiteral", e, t));
 			}),
 			(p.assertRestElement = function (e, t) {
 				_("RestElement", e, t);
 			}),
 			(p.assertRestProperty = function (e, t) {
-				(0, xn.default)("assertRestProperty", "assertRestElement"), _("RestProperty", e, t);
+				((0, xn.default)("assertRestProperty", "assertRestElement"),
+					_("RestProperty", e, t));
 			}),
 			(p.assertReturnStatement = function (e, t) {
 				_("ReturnStatement", e, t);
@@ -11265,8 +11287,8 @@ Expected ${n.length + 1} quasis but got ` + e.quasis.length
 				_("SpreadElement", e, t);
 			}),
 			(p.assertSpreadProperty = function (e, t) {
-				(0, xn.default)("assertSpreadProperty", "assertSpreadElement"),
-					_("SpreadProperty", e, t);
+				((0, xn.default)("assertSpreadProperty", "assertSpreadElement"),
+					_("SpreadProperty", e, t));
 			}),
 			(p.assertStandardized = function (e, t) {
 				_("Standardized", e, t);
@@ -11679,11 +11701,11 @@ Expected ${n.length + 1} quasis but got ` + e.quasis.length
 	function _n(e) {
 		return (0, On.isIdentifier)(e) ? e.name : e.id.name + "." + _n(e.qualification);
 	}
-	Object.defineProperty(y, "__esModule", { value: !0 }),
+	(Object.defineProperty(y, "__esModule", { value: !0 }),
 		(y.default = function (e) {
 			e = (0, Cn.default)(e);
 			return 1 === e.length ? e[0] : (0, In.unionTypeAnnotation)(e);
-		});
+		}));
 	var In = s,
 		Cn = E;
 	var l = {},
@@ -11731,12 +11753,12 @@ Expected ${n.length + 1} quasis but got ` + e.quasis.length
 				? "this"
 				: e.right.name + "." + Nn(e.left);
 	}
-	Object.defineProperty(l, "__esModule", { value: !0 }),
+	(Object.defineProperty(l, "__esModule", { value: !0 }),
 		(l.default = function (e) {
-			(e = e.map(e => ((0, kn.isTSTypeAnnotation)(e) ? e.typeAnnotation : e))),
-				(e = (0, jn.default)(e));
+			((e = e.map(e => ((0, kn.isTSTypeAnnotation)(e) ? e.typeAnnotation : e))),
+				(e = (0, jn.default)(e)));
 			return 1 === e.length ? e[0] : (0, wn.tsUnionType)(e);
-		});
+		}));
 	var wn = s,
 		jn = c,
 		kn = r;
@@ -11767,12 +11789,12 @@ Expected ${n.length + 1} quasis but got ` + e.quasis.length
 		var i = e.type,
 			a = { type: e.type };
 		if ((0, Bn.isIdentifier)(e))
-			(a.name = e.name),
+			((a.name = e.name),
 				Fn(e, "optional") && "boolean" == typeof e.optional && (a.optional = e.optional),
 				Fn(e, "typeAnnotation") &&
 					(a.typeAnnotation = t ? Kn(e.typeAnnotation, !0, n, r) : e.typeAnnotation),
 				Fn(e, "decorators") &&
-					(a.decorators = t ? Kn(e.decorators, !0, n, r) : e.decorators);
+					(a.decorators = t ? Kn(e.decorators, !0, n, r) : e.decorators));
 		else {
 			if (!Fn(Mn.NODE_FIELDS, i)) throw new Error(`Unknown node type: "${i}"`);
 			for (var o of Object.keys(Mn.NODE_FIELDS[i]))
@@ -11839,7 +11861,7 @@ Expected ${n.length + 1} quasis but got ` + e.quasis.length
 			c);
 	var C = {},
 		Hn = {};
-	Object.defineProperty(Hn, "__esModule", { value: !0 }),
+	(Object.defineProperty(Hn, "__esModule", { value: !0 }),
 		(Hn.default = function (e, t, n) {
 			var r;
 			return (
@@ -11856,18 +11878,18 @@ Expected ${n.length + 1} quasis but got ` + e.quasis.length
 		Object.defineProperty(C, "__esModule", { value: !0 }),
 		(C.default = function (e, t, n, r) {
 			return (0, $n.default)(e, t, [{ type: r ? "CommentLine" : "CommentBlock", value: n }]);
-		});
+		}));
 	var $n = Hn;
 	var D = {},
 		Qn = {};
-	Object.defineProperty(Qn, "__esModule", { value: !0 }),
+	(Object.defineProperty(Qn, "__esModule", { value: !0 }),
 		(Qn.default = function (e, t, n) {
 			t && n && (t[e] = Array.from(new Set([].concat(t[e], n[e]).filter(Boolean))));
 		}),
 		Object.defineProperty(D, "__esModule", { value: !0 }),
 		(D.default = function (e, t) {
 			(0, Zn.default)("innerComments", e, t);
-		});
+		}));
 	var Zn = Qn;
 	var N = {},
 		er =
@@ -11884,10 +11906,10 @@ Expected ${n.length + 1} quasis but got ` + e.quasis.length
 				(0, rr.default)("trailingComments", e, t);
 			}),
 			Qn);
-	Object.defineProperty(tr, "__esModule", { value: !0 }),
+	(Object.defineProperty(tr, "__esModule", { value: !0 }),
 		(tr.default = function (e, t) {
-			return (0, ir.default)(e, t), (0, ar.default)(e, t), (0, or.default)(e, t), e;
-		});
+			return ((0, ir.default)(e, t), (0, ar.default)(e, t), (0, or.default)(e, t), e);
+		}));
 	var ir = nr,
 		ar = N,
 		or = D;
@@ -12030,11 +12052,11 @@ Expected ${n.length + 1} quasis but got ` + e.quasis.length
 			}),
 			r),
 		ur = s;
-	Object.defineProperty(j, "__esModule", { value: !0 }),
+	(Object.defineProperty(j, "__esModule", { value: !0 }),
 		(j.default = function (e, t = "body") {
 			var n = (0, cr.default)(e[t], e);
 			return (e[t] = n);
-		});
+		}));
 	var cr = lr;
 	var dr = {},
 		fr = {},
@@ -12043,19 +12065,19 @@ Expected ${n.length + 1} quasis but got ` + e.quasis.length
 			(fr.default = function (e) {
 				let t = "";
 				for (var n of (e += "")) t += (0, mr.isIdentifierChar)(n.codePointAt(0)) ? n : "-";
-				(t = (t = t.replace(/^[-0-9]+/, "")).replace(/[-\s]+(.)?/g, function (e, t) {
+				((t = (t = t.replace(/^[-0-9]+/, "")).replace(/[-\s]+(.)?/g, function (e, t) {
 					return t ? t.toUpperCase() : "";
 				})),
-					(0, yr.default)(t) || (t = "_" + t);
+					(0, yr.default)(t) || (t = "_" + t));
 				return t || "_";
 			}),
 			We),
 		mr = Ge;
-	Object.defineProperty(dr, "__esModule", { value: !0 }),
+	(Object.defineProperty(dr, "__esModule", { value: !0 }),
 		(dr.default = function (e) {
 			("eval" !== (e = (0, Tr.default)(e)) && "arguments" !== e) || (e = "_" + e);
 			return e;
-		});
+		}));
 	var Tr = fr;
 	var Ge = {},
 		hr =
@@ -12096,23 +12118,23 @@ Expected ${n.length + 1} quasis but got ` + e.quasis.length
 			}),
 			Be);
 	var Ar = {};
-	Object.defineProperty(Ar, "__esModule", { value: !0 }),
+	(Object.defineProperty(Ar, "__esModule", { value: !0 }),
 		(Ar.default = function (e, t = {}) {
 			t = t.preserveComments ? Or : _r;
 			for (var n of t) null != e[n] && (e[n] = void 0);
 			for (var r of Object.keys(e)) "_" === r[0] && null != e[r] && (e[r] = void 0);
 			t = Object.getOwnPropertySymbols(e);
 			for (var i of t) e[i] = null;
-		});
+		}));
 	let Or = ["tokens", "start", "end", "loc", "raw", "rawValue"],
 		_r = [...u.COMMENT_KEYS, "comments", ...Or];
-	Object.defineProperty(gr, "__esModule", { value: !0 }),
+	(Object.defineProperty(gr, "__esModule", { value: !0 }),
 		(gr.default = function (e, t) {
-			return (0, Ir.default)(e, Cr.default, t), e;
-		});
+			return ((0, Ir.default)(e, Cr.default, t), e);
+		}));
 	var Ir = Pr,
 		Cr = Ar;
-	Object.defineProperty(vr, "__esModule", { value: !0 }), (vr.default = jr);
+	(Object.defineProperty(vr, "__esModule", { value: !0 }), (vr.default = jr));
 	var Dr = r,
 		Nr = c,
 		wr = gr;
@@ -12128,10 +12150,10 @@ Expected ${n.length + 1} quasis but got ` + e.quasis.length
 				e.computed && (n = `[${n}]`),
 				(n = e.static ? "static:" + n : n));
 	}
-	(jr.uid = 0),
+	((jr.uid = 0),
 		(jr.increment = function () {
 			return jr.uid >= Number.MAX_SAFE_INTEGER ? (jr.uid = 0) : jr.uid++;
-		});
+		}));
 	var kr = {},
 		Lr = (Object.defineProperty(kr, "__esModule", { value: !0 }), (kr.default = void 0), r),
 		Mr = s;
@@ -12139,8 +12161,8 @@ Expected ${n.length + 1} quasis but got ` + e.quasis.length
 		if (!(0, Lr.isStatement)(n)) {
 			let e = !1,
 				t;
-			if ((0, Lr.isClass)(n)) (e = !0), (t = "ClassDeclaration");
-			else if ((0, Lr.isFunction)(n)) (e = !0), (t = "FunctionDeclaration");
+			if ((0, Lr.isClass)(n)) ((e = !0), (t = "ClassDeclaration"));
+			else if ((0, Lr.isFunction)(n)) ((e = !0), (t = "FunctionDeclaration"));
 			else if ((0, Lr.isAssignmentExpression)(n)) return (0, Mr.expressionStatement)(n);
 			if (!(t = e && !n.id ? !1 : t)) {
 				if (r) return !1;
@@ -12163,8 +12185,8 @@ Expected ${n.length + 1} quasis but got ` + e.quasis.length
 			if (Number.isFinite(r)) t = (0, Rr.numericLiteral)(Math.abs(r));
 			else {
 				let e;
-				(e = Number.isNaN(r) ? (0, Rr.numericLiteral)(0) : (0, Rr.numericLiteral)(1)),
-					(t = (0, Rr.binaryExpression)("/", e, (0, Rr.numericLiteral)(0)));
+				((e = Number.isNaN(r) ? (0, Rr.numericLiteral)(0) : (0, Rr.numericLiteral)(1)),
+					(t = (0, Rr.binaryExpression)("/", e, (0, Rr.numericLiteral)(0))));
 			}
 			return (t = r < 0 || Object.is(r, -0) ? (0, Rr.unaryExpression)("-", t) : t);
 		}
@@ -12178,8 +12200,8 @@ Expected ${n.length + 1} quasis but got ` + e.quasis.length
 			let t = [];
 			for (var i of Object.keys(r)) {
 				let e;
-				(e = ((0, Fr.default)(i) ? (0, Rr.identifier) : (0, Rr.stringLiteral))(i)),
-					t.push((0, Rr.objectProperty)(e, n(r[i])));
+				((e = ((0, Fr.default)(i) ? (0, Rr.identifier) : (0, Rr.stringLiteral))(i)),
+					t.push((0, Rr.objectProperty)(e, n(r[i]))));
 			}
 			return (0, Rr.objectExpression)(t);
 		}
@@ -12229,12 +12251,12 @@ Expected ${n.length + 1} quasis but got ` + e.quasis.length
 			(Gr.default = function (e, t) {
 				if ((0, Hr.isSuper)(e.object))
 					throw new Error("Cannot prepend node to super property access (`super.foo`).");
-				return (e.object = (0, zr.memberExpression)(t, e.object)), e;
+				return ((e.object = (0, zr.memberExpression)(t, e.object)), e);
 			}),
 			s),
 		Hr = e;
 	var $r = {};
-	Object.defineProperty($r, "__esModule", { value: !0 }),
+	(Object.defineProperty($r, "__esModule", { value: !0 }),
 		($r.default = function (e) {
 			var t = [].concat(e),
 				n = Object.create(null);
@@ -12269,7 +12291,7 @@ Expected ${n.length + 1} quasis but got ` + e.quasis.length
 					}
 			}
 			return n;
-		});
+		}));
 	var Qr = {},
 		Zr = (Object.defineProperty(Qr, "__esModule", { value: !0 }), (Qr.default = ei), r);
 	function ei(e, t, n, r) {
@@ -12453,14 +12475,14 @@ Expected ${n.length + 1} quasis but got ` + e.quasis.length
 			}),
 			r),
 		fi = u;
-	Object.defineProperty(ui, "__esModule", { value: !0 }),
+	(Object.defineProperty(ui, "__esModule", { value: !0 }),
 		(ui.default = function (e) {
 			return (
 				(0, yi.isFunctionDeclaration)(e) ||
 				(0, yi.isClassDeclaration)(e) ||
 				(0, mi.default)(e)
 			);
-		});
+		}));
 	var yi = r,
 		mi = ci;
 	var Ti = {},
@@ -12501,7 +12523,7 @@ Expected ${n.length + 1} quasis but got ` + e.quasis.length
 			}),
 			Be);
 	var vi = {};
-	Object.defineProperty(vi, "__esModule", { value: !0 }),
+	(Object.defineProperty(vi, "__esModule", { value: !0 }),
 		(vi.default = function (e, t, n) {
 			switch (t.type) {
 				case "MemberExpression":
@@ -12565,7 +12587,7 @@ Expected ${n.length + 1} quasis but got ` + e.quasis.length
 					return t.key === e ? !!t.computed : !0;
 			}
 			return !0;
-		});
+		}));
 	var gi = {},
 		Pi =
 			(Object.defineProperty(gi, "__esModule", { value: !0 }),
@@ -12674,7 +12696,7 @@ Expected ${n.length + 1} quasis but got ` + e.quasis.length
 		Mi = s,
 		Bi = o,
 		Fi = c;
-	Object.defineProperty(wi, "__esModule", { value: !0 }),
+	(Object.defineProperty(wi, "__esModule", { value: !0 }),
 		(wi.default = function (e, t) {
 			if (null != e && e.length) {
 				var n = [],
@@ -12684,7 +12706,7 @@ Expected ${n.length + 1} quasis but got ` + e.quasis.length
 					return e;
 				}
 			}
-		});
+		}));
 	var k,
 		Ri,
 		Ki,
@@ -12752,7 +12774,7 @@ Expected ${n.length + 1} quasis but got ` + e.quasis.length
 		Ga,
 		za,
 		Ha = ji;
-	(k = e),
+	((k = e),
 		Object.defineProperty(k, "__esModule", { value: !0 }),
 		(Ri = {
 			react: !0,
@@ -13339,7 +13361,7 @@ Expected ${n.length + 1} quasis but got ` + e.quasis.length
 				"BABEL_TYPES_8_BREAKING is not supported anymore. Use the latest Babel 8.0.0 pre-release instead!"
 			),
 		Object.defineProperty(t, "__esModule", { value: !0 }),
-		(t.nodes = void 0);
+		(t.nodes = void 0));
 	let $a = e,
 		{
 			FLIPPED_ALIAS_KEYS: Qa,
@@ -13428,7 +13450,7 @@ Expected ${n.length + 1} quasis but got ` + e.quasis.length
 			if (no(e.consequent)) return 3;
 		}
 	});
-	(mo.ObjectProperty =
+	((mo.ObjectProperty =
 		mo.ObjectTypeProperty =
 		mo.ObjectMethod =
 			function (e, t) {
@@ -13470,9 +13492,9 @@ Expected ${n.length + 1} quasis but got ` + e.quasis.length
 				let t = n ? 3 : 0;
 				mo[e] = () => t;
 			});
-		});
+		}));
 	f = {};
-	Object.defineProperty(f, "__esModule", { value: !0 }),
+	(Object.defineProperty(f, "__esModule", { value: !0 }),
 		(f.AssignmentExpression = function (e, t, n) {
 			return !(!wo(n) || !Po(e.left)) || Lo(e, t);
 		}),
@@ -13691,7 +13713,7 @@ Expected ${n.length + 1} quasis but got ` + e.quasis.length
 					Do(e, t) ||
 					Co(n)
 				);
-			});
+			}));
 	var To = i;
 	let {
 			isArrayTypeAnnotation: ho,
@@ -13798,7 +13820,7 @@ Expected ${n.length + 1} quasis but got ` + e.quasis.length
 			) || ko(e, t)
 		);
 	}
-	Object.defineProperty(i, "__esModule", { value: !0 }),
+	(Object.defineProperty(i, "__esModule", { value: !0 }),
 		(i.TokenContext = void 0),
 		(i.isLastChild = function (t, n) {
 			var r = Ko[t.type];
@@ -13835,7 +13857,7 @@ Expected ${n.length + 1} quasis but got ` + e.quasis.length
 		}),
 		(i.needsWhitespaceBefore = function (e, t) {
 			return Ho(e, t, 1);
-		});
+		}));
 	let Mo = t,
 		Bo = f,
 		Fo = e,
@@ -13902,7 +13924,7 @@ Expected ${n.length + 1} quasis but got ` + e.quasis.length
 		{ traverseFast: es, VISITOR_KEYS: ts } = Zo;
 	class ns {
 		constructor(e, t, n) {
-			(this._tokens = void 0),
+			((this._tokens = void 0),
 				(this._source = void 0),
 				(this._nodesToTokenIndexes = new Map()),
 				(this._nodesOccurrencesCountCache = new Map()),
@@ -13913,7 +13935,7 @@ Expected ${n.length + 1} quasis but got ` + e.quasis.length
 					var t = this._getTokensIndexesOfNode(e);
 					0 < t.length && this._nodesToTokenIndexes.set(e, t);
 				}),
-				(this._tokensCache = null);
+				(this._tokensCache = null));
 		}
 		has(e) {
 			return this._nodesToTokenIndexes.has(e);
@@ -14000,7 +14022,7 @@ Expected ${n.length + 1} quasis but got ` + e.quasis.length
 					if ("TemplateLiteral" === t.type) {
 						yield t.quasis[0];
 						for (let e = 1; e < t.quasis.length; e++)
-							yield t.expressions[e - 1], yield t.quasis[e];
+							(yield t.expressions[e - 1], yield t.quasis[e]);
 					} else {
 						var e;
 						for (e of ts[t.type]) {
@@ -14060,10 +14082,10 @@ Expected ${n.length + 1} quasis but got ` + e.quasis.length
 		}
 	}
 	Qo.TokenMap = ns;
-	(p = {}), (h = {});
-	Object.defineProperty(h, "__esModule", { value: !0 }),
+	((p = {}), (h = {}));
+	(Object.defineProperty(h, "__esModule", { value: !0 }),
 		(h.TaggedTemplateExpression = function (e) {
-			this.print(e.tag), this.print(e.typeParameters), this.print(e.quasi);
+			(this.print(e.tag), this.print(e.typeParameters), this.print(e.quasi));
 		}),
 		(h.TemplateElement = function () {
 			throw new Error("TemplateElement printing is handled in TemplateLiteral");
@@ -14076,53 +14098,54 @@ Expected ${n.length + 1} quasis but got ` + e.quasis.length
 				i = "`";
 			for (let e = 0; e < r.length - 1; e++) {
 				var a;
-				(i += r[e].value.raw),
+				((i += r[e].value.raw),
 					this.token(i + "${", !0),
 					this.print(n[e]),
 					(i = "}"),
 					this.tokenMap &&
 						(a = this.tokenMap.findMatching(t, "}", e)) &&
-						this._catchUpTo(a.loc.start);
+						this._catchUpTo(a.loc.start));
 			}
-			(i += r[r.length - 1].value.raw), this.token(i + "`", !0);
-		});
+			((i += r[r.length - 1].value.raw), this.token(i + "`", !0));
+		}));
 	y = {};
-	Object.defineProperty(y, "__esModule", { value: !0 }),
+	(Object.defineProperty(y, "__esModule", { value: !0 }),
 		(y.LogicalExpression =
 			y.BinaryExpression =
 			y.AssignmentExpression =
 				function (e) {
-					this.print(e.left),
+					(this.print(e.left),
 						this.space(),
 						"in" === e.operator || "instanceof" === e.operator
 							? this.word(e.operator)
-							: (this.token(e.operator), (this._endsWithDiv = "/" === e.operator));
-					this.space(), this.print(e.right);
+							: (this.token(e.operator), (this._endsWithDiv = "/" === e.operator)));
+					(this.space(), this.print(e.right));
 				}),
 		(y.AssignmentPattern = function (e) {
-			this.print(e.left),
+			(this.print(e.left),
 				("Identifier" !== e.left.type && !ls(e.left)) ||
-					(e.left.optional && this.tokenChar(63), this.print(e.left.typeAnnotation));
-			this.space(), this.tokenChar(61), this.space(), this.print(e.right);
+					(e.left.optional && this.tokenChar(63), this.print(e.left.typeAnnotation)));
+			(this.space(), this.tokenChar(61), this.space(), this.print(e.right));
 		}),
 		(y.AwaitExpression = function (e) {
-			this.word("await"), e.argument && (this.space(), this.printTerminatorless(e.argument));
+			(this.word("await"),
+				e.argument && (this.space(), this.printTerminatorless(e.argument)));
 		}),
 		(y.BindExpression = function (e) {
-			this.print(e.object), this.token("::"), this.print(e.callee);
+			(this.print(e.object), this.token("::"), this.print(e.callee));
 		}),
 		(y.CallExpression = function (e) {
-			this.print(e.callee),
+			(this.print(e.callee),
 				this.print(e.typeArguments),
 				this.print(e.typeParameters),
-				this.tokenChar(40);
+				this.tokenChar(40));
 			var t = this.enterDelimited();
-			this.printList(e.arguments, this.shouldPrintTrailingComma(")")),
+			(this.printList(e.arguments, this.shouldPrintTrailingComma(")")),
 				t(),
-				this.rightParens(e);
+				this.rightParens(e));
 		}),
 		(y.ConditionalExpression = function (e) {
-			this.print(e.test),
+			(this.print(e.test),
 				this.space(),
 				this.tokenChar(63),
 				this.space(),
@@ -14130,22 +14153,22 @@ Expected ${n.length + 1} quasis but got ` + e.quasis.length
 				this.space(),
 				this.tokenChar(58),
 				this.space(),
-				this.print(e.alternate);
+				this.print(e.alternate));
 		}),
 		(y.Decorator = function (e) {
-			this.tokenChar(64), this.print(e.expression), this.newline();
+			(this.tokenChar(64), this.print(e.expression), this.newline());
 		}),
 		(y.DoExpression = function (e) {
 			e.async && (this.word("async", !0), this.space());
-			this.word("do"), this.space(), this.print(e.body);
+			(this.word("do"), this.space(), this.print(e.body));
 		}),
 		(y.EmptyStatement = function () {
 			this.semicolon(!0);
 		}),
 		(y.ExpressionStatement = function (e) {
-			(this.tokenContext |= rs.TokenContext.expressionStatement),
+			((this.tokenContext |= rs.TokenContext.expressionStatement),
 				this.print(e.expression),
-				this.semicolon();
+				this.semicolon());
 		}),
 		(y.Import = function () {
 			this.word("import");
@@ -14167,16 +14190,16 @@ Expected ${n.length + 1} quasis but got ` + e.quasis.length
 			}
 		}),
 		(y.MetaProperty = function (e) {
-			this.print(e.meta), this.tokenChar(46), this.print(e.property);
+			(this.print(e.meta), this.tokenChar(46), this.print(e.property));
 		}),
 		(y.ModuleExpression = function (e) {
-			this.word("module", !0), this.space(), this.tokenChar(123), this.indent();
+			(this.word("module", !0), this.space(), this.tokenChar(123), this.indent());
 			var t = e.body;
 			(t.body.length || t.directives.length) && this.newline();
-			this.print(t), this.dedent(), this.rightBrace(e);
+			(this.print(t), this.dedent(), this.rightBrace(e));
 		}),
 		(y.NewExpression = function (e, t) {
-			this.word("new"),
+			(this.word("new"),
 				this.space(),
 				this.print(e.callee),
 				(!this.format.minified ||
@@ -14195,13 +14218,13 @@ Expected ${n.length + 1} quasis but got ` + e.quasis.length
 						(t = this.enterDelimited()),
 						this.printList(e.arguments, this.shouldPrintTrailingComma(")")),
 						t(),
-						this.rightParens(e)));
+						this.rightParens(e))));
 		}),
 		(y.OptionalCallExpression = function (e) {
-			this.print(e.callee), this.print(e.typeParameters), e.optional && this.token("?.");
-			this.print(e.typeArguments), this.tokenChar(40);
+			(this.print(e.callee), this.print(e.typeParameters), e.optional && this.token("?."));
+			(this.print(e.typeArguments), this.tokenChar(40));
 			var t = this.enterDelimited();
-			this.printList(e.arguments), t(), this.rightParens(e);
+			(this.printList(e.arguments), t(), this.rightParens(e));
 		}),
 		(y.OptionalMemberExpression = function (e) {
 			let t = e.computed,
@@ -14217,10 +14240,10 @@ Expected ${n.length + 1} quasis but got ` + e.quasis.length
 		(y.ParenthesizedExpression = function (e) {
 			this.tokenChar(40);
 			var t = this.enterDelimited();
-			this.print(e.expression), t(), this.rightParens(e);
+			(this.print(e.expression), t(), this.rightParens(e));
 		}),
 		(y.PrivateName = function (e) {
-			this.tokenChar(35), this.print(e.id);
+			(this.tokenChar(35), this.print(e.id));
 		}),
 		(y.SequenceExpression = function (e) {
 			this.printList(e.expressions);
@@ -14244,19 +14267,19 @@ Expected ${n.length + 1} quasis but got ` + e.quasis.length
 				: (this.print(e.argument, !0), this.token(e.operator));
 		}),
 		(y.V8IntrinsicIdentifier = function (e) {
-			this.tokenChar(37), this.word(e.name);
+			(this.tokenChar(37), this.word(e.name));
 		}),
 		(y.YieldExpression = function (e) {
-			this.word("yield", !0),
+			(this.word("yield", !0),
 				e.delegate
 					? (this.tokenChar(42), e.argument && (this.space(), this.print(e.argument)))
-					: e.argument && (this.space(), this.printTerminatorless(e.argument));
+					: e.argument && (this.space(), this.printTerminatorless(e.argument)));
 		}),
 		(y._shouldPrintDecoratorsBeforeExport = function (e) {
 			return "boolean" != typeof this.format.decoratorsBeforeExport
 				? "number" == typeof e.start && e.start === e.declaration.start
 				: this.format.decoratorsBeforeExport;
-		});
+		}));
 	var rs = i;
 	let {
 		isCallExpression: is,
@@ -14266,29 +14289,29 @@ Expected ${n.length + 1} quasis but got ` + e.quasis.length
 		isPattern: ls
 	} = e;
 	l = {};
-	Object.defineProperty(l, "__esModule", { value: !0 }),
+	(Object.defineProperty(l, "__esModule", { value: !0 }),
 		(l.BreakStatement = function (e) {
-			this.word("break"), ms(this, e.label);
+			(this.word("break"), ms(this, e.label));
 		}),
 		(l.CatchClause = function (e) {
-			this.word("catch"),
+			(this.word("catch"),
 				this.space(),
 				e.param &&
 					(this.tokenChar(40),
 					this.print(e.param),
 					this.print(e.param.typeAnnotation),
 					this.tokenChar(41),
-					this.space());
+					this.space()));
 			this.print(e.body);
 		}),
 		(l.ContinueStatement = function (e) {
-			this.word("continue"), ms(this, e.label);
+			(this.word("continue"), ms(this, e.label));
 		}),
 		(l.DebuggerStatement = function () {
-			this.word("debugger"), this.semicolon();
+			(this.word("debugger"), this.semicolon());
 		}),
 		(l.DoWhileStatement = function (e) {
-			this.word("do"),
+			(this.word("do"),
 				this.space(),
 				this.print(e.body),
 				this.space(),
@@ -14297,26 +14320,26 @@ Expected ${n.length + 1} quasis but got ` + e.quasis.length
 				this.tokenChar(40),
 				this.print(e.test),
 				this.tokenChar(41),
-				this.semicolon();
+				this.semicolon());
 		}),
 		(l.ForOfStatement = l.ForInStatement = void 0),
 		(l.ForStatement = function (e) {
-			this.word("for"), this.space(), this.tokenChar(40);
+			(this.word("for"), this.space(), this.tokenChar(40));
 			{
 				var t = this.enterForStatementInit();
-				(this.tokenContext |= ps.TokenContext.forHead), this.print(e.init), t();
+				((this.tokenContext |= ps.TokenContext.forHead), this.print(e.init), t());
 			}
-			this.tokenChar(59), e.test && (this.space(), this.print(e.test));
-			this.token(";", !1, 1), e.update && (this.space(), this.print(e.update));
-			this.tokenChar(41), this.printBlock(e);
+			(this.tokenChar(59), e.test && (this.space(), this.print(e.test)));
+			(this.token(";", !1, 1), e.update && (this.space(), this.print(e.update)));
+			(this.tokenChar(41), this.printBlock(e));
 		}),
 		(l.IfStatement = function (e) {
-			this.word("if"),
+			(this.word("if"),
 				this.space(),
 				this.tokenChar(40),
 				this.print(e.test),
 				this.tokenChar(41),
-				this.space();
+				this.space());
 			var t =
 				e.alternate &&
 				ds(
@@ -14327,8 +14350,8 @@ Expected ${n.length + 1} quasis but got ` + e.quasis.length
 					})(e.consequent)
 				);
 			t && (this.tokenChar(123), this.newline(), this.indent());
-			this.printAndIndentOnComments(e.consequent),
-				t && (this.dedent(), this.newline(), this.tokenChar(125));
+			(this.printAndIndentOnComments(e.consequent),
+				t && (this.dedent(), this.newline(), this.tokenChar(125)));
 			e.alternate &&
 				(this.endsWith(125) && this.space(),
 				this.word("else"),
@@ -14336,18 +14359,18 @@ Expected ${n.length + 1} quasis but got ` + e.quasis.length
 				this.printAndIndentOnComments(e.alternate));
 		}),
 		(l.LabeledStatement = function (e) {
-			this.print(e.label), this.tokenChar(58), this.space(), this.print(e.body);
+			(this.print(e.label), this.tokenChar(58), this.space(), this.print(e.body));
 		}),
 		(l.ReturnStatement = function (e) {
-			this.word("return"), ms(this, e.argument);
+			(this.word("return"), ms(this, e.argument));
 		}),
 		(l.SwitchCase = function (e) {
-			e.test ? (this.word("case"), this.space(), this.print(e.test)) : this.word("default"),
-				this.tokenChar(58);
+			(e.test ? (this.word("case"), this.space(), this.print(e.test)) : this.word("default"),
+				this.tokenChar(58));
 			e.consequent.length && (this.newline(), this.printSequence(e.consequent, !0));
 		}),
 		(l.SwitchStatement = function (n) {
-			this.word("switch"),
+			(this.word("switch"),
 				this.space(),
 				this.tokenChar(40),
 				this.print(n.discriminant),
@@ -14357,17 +14380,17 @@ Expected ${n.length + 1} quasis but got ` + e.quasis.length
 				this.printSequence(n.cases, !0, void 0, function (e, t) {
 					if (!e && n.cases[n.cases.length - 1] === t) return -1;
 				}),
-				this.rightBrace(n);
+				this.rightBrace(n));
 		}),
 		(l.ThrowStatement = function (e) {
-			this.word("throw"), ms(this, e.argument);
+			(this.word("throw"), ms(this, e.argument));
 		}),
 		(l.TryStatement = function (e) {
-			this.word("try"),
+			(this.word("try"),
 				this.space(),
 				this.print(e.block),
 				this.space(),
-				e.handlers ? this.print(e.handlers[0]) : this.print(e.handler);
+				e.handlers ? this.print(e.handlers[0]) : this.print(e.handler));
 			e.finalizer &&
 				(this.space(), this.word("finally"), this.space(), this.print(e.finalizer));
 		}),
@@ -14388,7 +14411,7 @@ Expected ${n.length + 1} quasis but got ` + e.quasis.length
 					1 < e.declarations.length,
 					r
 						? function (e) {
-								this.token(",", !1, e), this.newline();
+								(this.token(",", !1, e), this.newline());
 							}
 						: void 0
 				),
@@ -14400,37 +14423,37 @@ Expected ${n.length + 1} quasis but got ` + e.quasis.length
 			this.semicolon();
 		}),
 		(l.VariableDeclarator = function (e) {
-			this.print(e.id), e.definite && this.tokenChar(33);
-			this.print(e.id.typeAnnotation),
-				e.init && (this.space(), this.tokenChar(61), this.space(), this.print(e.init));
+			(this.print(e.id), e.definite && this.tokenChar(33));
+			(this.print(e.id.typeAnnotation),
+				e.init && (this.space(), this.tokenChar(61), this.space(), this.print(e.init)));
 		}),
 		(l.WhileStatement = function (e) {
-			this.word("while"),
+			(this.word("while"),
 				this.space(),
 				this.tokenChar(40),
 				this.print(e.test),
 				this.tokenChar(41),
-				this.printBlock(e);
+				this.printBlock(e));
 		}),
 		(l.WithStatement = function (e) {
-			this.word("with"),
+			(this.word("with"),
 				this.space(),
 				this.tokenChar(40),
 				this.print(e.object),
 				this.tokenChar(41),
-				this.printBlock(e);
-		});
+				this.printBlock(e));
+		}));
 	var ps = i;
 	let { isFor: us, isForStatement: cs, isIfStatement: ds, isStatement: fs } = e;
 	function ys(e) {
-		this.word("for"), this.space();
+		(this.word("for"), this.space());
 		var t = "ForOfStatement" === e.type,
 			n =
 				(t && e.await && (this.word("await"), this.space()),
 				this.noIndentInnerCommentsHere(),
 				this.tokenChar(40),
 				t ? null : this.enterForStatementInit());
-		(this.tokenContext |= t ? ps.TokenContext.forOfHead : ps.TokenContext.forInHead),
+		((this.tokenContext |= t ? ps.TokenContext.forOfHead : ps.TokenContext.forInHead),
 			this.print(e.left),
 			null != n && n(),
 			this.space(),
@@ -14438,34 +14461,34 @@ Expected ${n.length + 1} quasis but got ` + e.quasis.length
 			this.space(),
 			this.print(e.right),
 			this.tokenChar(41),
-			this.printBlock(e);
+			this.printBlock(e));
 	}
 	function ms(e, t) {
-		t && (e.space(), e.printTerminatorless(t)), e.semicolon();
+		(t && (e.space(), e.printTerminatorless(t)), e.semicolon());
 	}
-	(l.ForInStatement = ys), (l.ForOfStatement = ys);
+	((l.ForInStatement = ys), (l.ForOfStatement = ys));
 	o = {};
-	Object.defineProperty(o, "__esModule", { value: !0 }),
+	(Object.defineProperty(o, "__esModule", { value: !0 }),
 		(o.ClassAccessorProperty = function (e) {
 			this.printJoin(e.decorators);
 			var t = null == (t = e.key.loc) || null == (t = t.end) ? void 0 : t.line;
 			t && this.catchUp(t);
-			this.tsPrintClassMemberModifiers(e),
+			(this.tsPrintClassMemberModifiers(e),
 				this.word("accessor", !0),
 				this.space(),
 				e.computed
 					? (this.tokenChar(91), this.print(e.key), this.tokenChar(93))
-					: (this._variance(e), this.print(e.key));
+					: (this._variance(e), this.print(e.key)));
 			e.optional && this.tokenChar(63);
 			e.definite && this.tokenChar(33);
-			this.print(e.typeAnnotation),
-				e.value && (this.space(), this.tokenChar(61), this.space(), this.print(e.value));
+			(this.print(e.typeAnnotation),
+				e.value && (this.space(), this.tokenChar(61), this.space(), this.print(e.value)));
 			this.semicolon();
 		}),
 		(o.ClassBody = function (e) {
 			{
 				var t, n;
-				this.tokenChar(123),
+				(this.tokenChar(123),
 					0 === e.body.length
 						? this.tokenChar(125)
 						: (this.newline(),
@@ -14495,7 +14518,7 @@ Expected ${n.length + 1} quasis but got ` + e.quasis.length
 											n.start < t;
 
 										)
-											r.token(";", void 0, s++), o++;
+											(r.token(";", void 0, s++), o++);
 									}
 								);
 							})(this, e)),
@@ -14504,7 +14527,7 @@ Expected ${n.length + 1} quasis but got ` + e.quasis.length
 							this.printJoin(e.body, !0, !0, t, !0),
 							n(),
 							this.endsWith(10) || this.newline(),
-							this.rightBrace(e));
+							this.rightBrace(e)));
 			}
 		}),
 		(o.ClassExpression = o.ClassDeclaration =
@@ -14513,105 +14536,105 @@ Expected ${n.length + 1} quasis but got ` + e.quasis.length
 				(n && this._shouldPrintDecoratorsBeforeExport(t)) || this.printJoin(e.decorators);
 				e.declare && (this.word("declare"), this.space());
 				e.abstract && (this.word("abstract"), this.space());
-				this.word("class"), e.id && (this.space(), this.print(e.id));
-				this.print(e.typeParameters),
+				(this.word("class"), e.id && (this.space(), this.print(e.id)));
+				(this.print(e.typeParameters),
 					e.superClass &&
 						(this.space(),
 						this.word("extends"),
 						this.space(),
 						this.print(e.superClass),
-						this.print(e.superTypeParameters));
+						this.print(e.superTypeParameters)));
 				e.implements &&
 					(this.space(),
 					this.word("implements"),
 					this.space(),
 					this.printList(e.implements));
-				this.space(), this.print(e.body);
+				(this.space(), this.print(e.body));
 			}),
 		(o.ClassMethod = function (e) {
-			this._classMethodHead(e), this.space(), this.print(e.body);
+			(this._classMethodHead(e), this.space(), this.print(e.body));
 		}),
 		(o.ClassPrivateMethod = function (e) {
-			this._classMethodHead(e), this.space(), this.print(e.body);
+			(this._classMethodHead(e), this.space(), this.print(e.body));
 		}),
 		(o.ClassPrivateProperty = function (e) {
-			this.printJoin(e.decorators),
+			(this.printJoin(e.decorators),
 				this.tsPrintClassMemberModifiers(e),
 				this.print(e.key),
-				e.optional && this.tokenChar(63);
+				e.optional && this.tokenChar(63));
 			e.definite && this.tokenChar(33);
-			this.print(e.typeAnnotation),
-				e.value && (this.space(), this.tokenChar(61), this.space(), this.print(e.value));
+			(this.print(e.typeAnnotation),
+				e.value && (this.space(), this.tokenChar(61), this.space(), this.print(e.value)));
 			this.semicolon();
 		}),
 		(o.ClassProperty = function (e) {
 			{
 				var t;
-				this.printJoin(e.decorators),
+				(this.printJoin(e.decorators),
 					e.static ||
 						this.format.preserveFormat ||
 						((t = null == (t = e.key.loc) || null == (t = t.end) ? void 0 : t.line) &&
-							this.catchUp(t));
+							this.catchUp(t)));
 			}
-			this.tsPrintClassMemberModifiers(e),
+			(this.tsPrintClassMemberModifiers(e),
 				e.computed
 					? (this.tokenChar(91), this.print(e.key), this.tokenChar(93))
-					: (this._variance(e), this.print(e.key));
+					: (this._variance(e), this.print(e.key)));
 			e.optional && this.tokenChar(63);
 			e.definite && this.tokenChar(33);
-			this.print(e.typeAnnotation),
-				e.value && (this.space(), this.tokenChar(61), this.space(), this.print(e.value));
+			(this.print(e.typeAnnotation),
+				e.value && (this.space(), this.tokenChar(61), this.space(), this.print(e.value)));
 			this.semicolon();
 		}),
 		(o.StaticBlock = function (e) {
-			this.word("static"),
+			(this.word("static"),
 				this.space(),
 				this.tokenChar(123),
 				0 === e.body.length
 					? this.tokenChar(125)
-					: (this.newline(), this.printSequence(e.body, !0), this.rightBrace(e));
+					: (this.newline(), this.printSequence(e.body, !0), this.rightBrace(e)));
 		}),
 		(o._classMethodHead = function (e) {
 			{
 				var t;
-				this.printJoin(e.decorators),
+				(this.printJoin(e.decorators),
 					this.format.preserveFormat ||
 						((t = null == (t = e.key.loc) || null == (t = t.end) ? void 0 : t.line) &&
-							this.catchUp(t));
+							this.catchUp(t)));
 			}
-			this.tsPrintClassMemberModifiers(e), this._methodHead(e);
-		});
+			(this.tsPrintClassMemberModifiers(e), this._methodHead(e));
+		}));
 	let { isExportDefaultDeclaration: Ts, isExportNamedDeclaration: hs } = e;
 	s = {};
-	Object.defineProperty(s, "__esModule", { value: !0 }),
+	(Object.defineProperty(s, "__esModule", { value: !0 }),
 		(s.ArrowFunctionExpression = function (e, t) {
 			e.async && (this.word("async", !0), this.space());
 			this._shouldPrintArrowParamsParens(e)
 				? this._params(e, void 0, t)
 				: this.print(e.params[0], !0);
-			this._predicate(e, !0),
+			(this._predicate(e, !0),
 				this.space(),
 				this.printInnerComments(),
 				this.token("=>"),
 				this.space(),
 				(this.tokenContext |= Ss.TokenContext.arrowBody),
-				this.print(e.body);
+				this.print(e.body));
 		}),
 		(s.FunctionDeclaration = s.FunctionExpression =
 			function (e, t) {
-				this._functionHead(e, t), this.space(), this.print(e.body);
+				(this._functionHead(e, t), this.space(), this.print(e.body));
 			}),
 		(s._functionHead = function (e, t) {
 			e.async &&
 				(this.word("async"),
 				this.format.preserveFormat || (this._endsWithInnerRaw = !1),
 				this.space());
-			this.word("function"),
+			(this.word("function"),
 				e.generator &&
 					(this.format.preserveFormat || (this._endsWithInnerRaw = !1),
-					this.tokenChar(42));
-			this.space(), e.id && this.print(e.id);
-			this._params(e, e.id, t), "TSDeclareFunction" !== e.type && this._predicate(e);
+					this.tokenChar(42)));
+			(this.space(), e.id && this.print(e.id));
+			(this._params(e, e.id, t), "TSDeclareFunction" !== e.type && this._predicate(e));
 		}),
 		(s._methodHead = function (e) {
 			var t = e.kind,
@@ -14624,7 +14647,7 @@ Expected ${n.length + 1} quasis but got ` + e.quasis.length
 			this._params(e, e.computed && "StringLiteral" !== e.key.type ? void 0 : e.key, void 0);
 		}),
 		(s._param = function (e) {
-			this.printJoin(e.decorators), this.print(e), e.optional && this.tokenChar(63);
+			(this.printJoin(e.decorators), this.print(e), e.optional && this.tokenChar(63));
 			this.print(e.typeAnnotation);
 		}),
 		(s._parameters = function (t, e) {
@@ -14632,8 +14655,8 @@ Expected ${n.length + 1} quasis but got ` + e.quasis.length
 				r = this.shouldPrintTrailingComma(e),
 				i = t.length;
 			for (let e = 0; e < i; e++)
-				this._param(t[e]), (r || e < i - 1) && (this.token(",", null, e), this.space());
-			this.token(e), n();
+				(this._param(t[e]), (r || e < i - 1) && (this.token(",", null, e), this.space()));
+			(this.token(e), n());
 		}),
 		(s._params = function (e, t, n) {
 			this.print(e.typeParameters);
@@ -14673,9 +14696,9 @@ Expected ${n.length + 1} quasis but got ` + e.quasis.length
 				}
 			}.call(this, t, n);
 			t && this.sourceIdentifierName(t.name, t.pos);
-			this.tokenChar(40), this._parameters(e.params, ")");
+			(this.tokenChar(40), this._parameters(e.params, ")"));
 			n = "ArrowFunctionExpression" === e.type;
-			this.print(e.returnType, n), (this._noLineTerminator = n);
+			(this.print(e.returnType, n), (this._noLineTerminator = n));
 		}),
 		(s._predicate = function (e, t) {
 			e.predicate &&
@@ -14702,35 +14725,35 @@ Expected ${n.length + 1} quasis but got ` + e.quasis.length
 					n.loc.start.line !== e.loc.start.line
 				);
 			return !!this.format.retainLines;
-		});
+		}));
 	var Ss = i;
 	let bs = e.isIdentifier;
 	c = {};
-	Object.defineProperty(c, "__esModule", { value: !0 }),
+	(Object.defineProperty(c, "__esModule", { value: !0 }),
 		(c.ExportAllDeclaration = function (e) {
 			var t;
-			this.word("export"),
+			(this.word("export"),
 				this.space(),
-				"type" === e.exportKind && (this.word("type"), this.space());
-			this.tokenChar(42),
+				"type" === e.exportKind && (this.word("type"), this.space()));
+			(this.tokenChar(42),
 				this.space(),
 				this.word("from"),
 				this.space(),
 				(null != (t = e.attributes) && t.length) || (null != (t = e.assertions) && t.length)
 					? (this.print(e.source, !0), this.space(), this._printAttributes(e, !1))
-					: this.print(e.source);
+					: this.print(e.source));
 			this.semicolon();
 		}),
 		(c.ExportDefaultDeclaration = function (e) {
-			Is(this, e),
+			(Is(this, e),
 				this.word("export"),
 				this.noIndentInnerCommentsHere(),
 				this.space(),
 				this.word("default"),
 				this.space(),
-				(this.tokenContext |= Es.TokenContext.exportDefault);
+				(this.tokenContext |= Es.TokenContext.exportDefault));
 			e = e.declaration;
-			this.print(e), Os(e) || this.semicolon();
+			(this.print(e), Os(e) || this.semicolon());
 		}),
 		(c.ExportDefaultSpecifier = function (e) {
 			this.print(e.exported);
@@ -14738,7 +14761,7 @@ Expected ${n.length + 1} quasis but got ` + e.quasis.length
 		(c.ExportNamedDeclaration = function (i) {
 			if ((Is(this, i), this.word("export"), this.space(), i.declaration)) {
 				var e = i.declaration;
-				this.print(e), Os(e) || this.semicolon();
+				(this.print(e), Os(e) || this.semicolon());
 			} else {
 				"type" === i.exportKind && (this.word("type"), this.space());
 				var a = i.specifiers.slice(0);
@@ -14746,12 +14769,14 @@ Expected ${n.length + 1} quasis but got ` + e.quasis.length
 				for (;;) {
 					var o = a[0];
 					if (!gs(o) && !Ps(o)) break;
-					(e = !0), this.print(a.shift()), a.length && (this.tokenChar(44), this.space());
+					((e = !0),
+						this.print(a.shift()),
+						a.length && (this.tokenChar(44), this.space()));
 				}
 				let t = !1,
 					n,
 					r;
-				(!a.length && (a.length, e)) ||
+				((!a.length && (a.length, e)) ||
 					((t = !0),
 					this.tokenChar(123),
 					a.length &&
@@ -14767,24 +14792,28 @@ Expected ${n.length + 1} quasis but got ` + e.quasis.length
 						(null != (r = i.assertions) && r.length)
 							? (this.print(i.source, !0), this.space(), this._printAttributes(i, t))
 							: this.print(i.source)),
-					this.semicolon();
+					this.semicolon());
 			}
 		}),
 		(c.ExportNamespaceSpecifier = function (e) {
-			this.tokenChar(42), this.space(), this.word("as"), this.space(), this.print(e.exported);
+			(this.tokenChar(42),
+				this.space(),
+				this.word("as"),
+				this.space(),
+				this.print(e.exported));
 		}),
 		(c.ExportSpecifier = function (e) {
 			"type" === e.exportKind && (this.word("type"), this.space());
-			this.print(e.local),
+			(this.print(e.local),
 				e.exported &&
 					e.local.name !== e.exported.name &&
-					(this.space(), this.word("as"), this.space(), this.print(e.exported));
+					(this.space(), this.word("as"), this.space(), this.print(e.exported)));
 		}),
 		(c.ImportAttribute = function (e) {
-			this.print(e.key), this.tokenChar(58), this.space(), this.print(e.value);
+			(this.print(e.key), this.tokenChar(58), this.space(), this.print(e.value));
 		}),
 		(c.ImportDeclaration = function (e) {
-			this.word("import"), this.space();
+			(this.word("import"), this.space());
 			var t = "type" === e.importKind || "typeof" === e.importKind;
 			t
 				? (this.noIndentInnerCommentsHere(), this.word(e.importKind), this.space())
@@ -14797,7 +14826,7 @@ Expected ${n.length + 1} quasis but got ` + e.quasis.length
 			for (; r; ) {
 				var i = n[0];
 				if (!xs(i) && !As(i)) break;
-				this.print(n.shift()), n.length && (this.tokenChar(44), this.space());
+				(this.print(n.shift()), n.length && (this.tokenChar(44), this.space()));
 			}
 			let a = !1;
 			n.length
@@ -14818,22 +14847,22 @@ Expected ${n.length + 1} quasis but got ` + e.quasis.length
 			this.print(e.local);
 		}),
 		(c.ImportExpression = function (e) {
-			this.word("import"), e.phase && (this.tokenChar(46), this.word(e.phase));
-			this.tokenChar(40),
+			(this.word("import"), e.phase && (this.tokenChar(46), this.word(e.phase)));
+			(this.tokenChar(40),
 				this.print(e.source),
-				null != e.options && (this.tokenChar(44), this.space(), this.print(e.options));
+				null != e.options && (this.tokenChar(44), this.space(), this.print(e.options)));
 			this.tokenChar(41);
 		}),
 		(c.ImportNamespaceSpecifier = function (e) {
-			this.tokenChar(42), this.space(), this.word("as"), this.space(), this.print(e.local);
+			(this.tokenChar(42), this.space(), this.word("as"), this.space(), this.print(e.local));
 		}),
 		(c.ImportSpecifier = function (e) {
 			("type" !== e.importKind && "typeof" !== e.importKind) ||
 				(this.word(e.importKind), this.space());
-			this.print(e.imported),
+			(this.print(e.imported),
 				e.local &&
 					e.local.name !== e.imported.name &&
-					(this.space(), this.word("as"), this.space(), this.print(e.local));
+					(this.space(), this.word("as"), this.space(), this.print(e.local)));
 		}),
 		(c._printAttributes = function (e, t) {
 			var n = this.format.importAttributesKeyword,
@@ -14846,7 +14875,7 @@ Expected ${n.length + 1} quasis but got ` + e.quasis.length
 					'You are using import attributes, without specifying the desired output syntax.\nPlease specify the "importAttributesKeyword" generator option, whose value can be one of:\n - "with"        : `import { a } from "b" with { type: "json" };`\n - "assert"      : `import { a } from "b" assert { type: "json" };`\n - "with-legacy" : `import { a } from "b" with type: "json";`\n'
 				));
 			var i = "assert" === n || (!n && r);
-			this.word(i ? "assert" : "with"),
+			(this.word(i ? "assert" : "with"),
 				this.space(),
 				i || "with" === n
 					? (this.token("{", null, (i = t ? 1 : 0)),
@@ -14854,8 +14883,8 @@ Expected ${n.length + 1} quasis but got ` + e.quasis.length
 						this.printList(e || r, this.shouldPrintTrailingComma("}")),
 						this.space(),
 						this.token("}", null, i))
-					: this.printList(e || r);
-		});
+					: this.printList(e || r));
+		}));
 	var Es = i;
 	let {
 		isClassDeclaration: vs,
@@ -14871,7 +14900,7 @@ Expected ${n.length + 1} quasis but got ` + e.quasis.length
 			e._shouldPrintDecoratorsBeforeExport(t) &&
 			e.printJoin(t.declaration.decorators);
 	}
-	(I = {}), (Xn = {});
+	((I = {}), (Xn = {}));
 	let Cs = Xn.hasOwnProperty,
 		Ds = (e, t) => {
 			for (var n in e) Cs.call(e, n) && t(n, e[n]);
@@ -14893,7 +14922,7 @@ Expected ${n.length + 1} quasis but got ` + e.quasis.length
 		Vs = (n, l) => {
 			var r,
 				e = () => {
-					(o = a), ++l.indentLevel, (a = l.indent.repeat(l.indentLevel));
+					((o = a), ++l.indentLevel, (a = l.indent.repeat(l.indentLevel)));
 				},
 				t = {
 					escapeEverything: !1,
@@ -14963,9 +14992,9 @@ Expected ${n.length + 1} quasis but got ` + e.quasis.length
 							let r = -1;
 							for (; ++r < n; ) t(e[r]);
 						})(n, e => {
-							(y = !1),
+							((y = !1),
 								s && (l.__inline2__ = !1),
-								f.push((i || s ? "" : a) + Vs(e, l));
+								f.push((i || s ? "" : a) + Vs(e, l)));
 						}),
 						y
 							? "[]"
@@ -14979,7 +15008,7 @@ Expected ${n.length + 1} quasis but got ` + e.quasis.length
 					if (h) t = String(n);
 					else if (S) {
 						let e = n.toString(16);
-						c || (e = e.toUpperCase()), (t = "0x" + e);
+						(c || (e = e.toUpperCase()), (t = "0x" + e));
 					} else m ? (t = "0b" + n.toString(2)) : T && (t = "0o" + n.toString(8));
 					return Ls(n) ? t + "n" : t;
 				}
@@ -14996,14 +15025,14 @@ Expected ${n.length + 1} quasis but got ` + e.quasis.length
 								(l.wrap = !0),
 								e(),
 								Ds(n, (e, t) => {
-									(y = !1),
+									((y = !1),
 										f.push(
 											(i ? "" : a) +
 												Vs(e, l) +
 												":" +
 												(i ? "" : " ") +
 												Vs(t, l)
-										);
+										));
 								}),
 								y ? "{}" : "{" + d + f.join("," + d) + d + (i ? "" : o) + "}"));
 			}
@@ -15047,7 +15076,7 @@ Expected ${n.length + 1} quasis but got ` + e.quasis.length
 		};
 	Vs.version = "3.0.2";
 	Un = Vs;
-	Object.defineProperty(I, "__esModule", { value: !0 }),
+	(Object.defineProperty(I, "__esModule", { value: !0 }),
 		(I.ArgumentPlaceholder = function () {
 			this.tokenChar(63);
 		}),
@@ -15063,7 +15092,7 @@ Expected ${n.length + 1} quasis but got ` + e.quasis.length
 						this.shouldPrintTrailingComma("]")) &&
 						this.token(",", !1, e);
 				}
-				e(), this.tokenChar(93);
+				(e(), this.tokenChar(93));
 			}),
 		(I.BigIntLiteral = function (e) {
 			var t = this.getPossibleRaw(e);
@@ -15074,8 +15103,8 @@ Expected ${n.length + 1} quasis but got ` + e.quasis.length
 		}),
 		(I.Identifier = function (e) {
 			var t;
-			this.sourceIdentifierName((null == (t = e.loc) ? void 0 : t.identifierName) || e.name),
-				this.word(this.tokenMap ? this._getRawIdentifier(e) : e.name);
+			(this.sourceIdentifierName((null == (t = e.loc) ? void 0 : t.identifierName) || e.name),
+				this.word(this.tokenMap ? this._getRawIdentifier(e) : e.name));
 		}),
 		(I.NullLiteral = function () {
 			this.word("null");
@@ -15098,22 +15127,22 @@ Expected ${n.length + 1} quasis but got ` + e.quasis.length
 				var t = e.properties;
 				{
 					var n;
-					this.tokenChar(123),
+					(this.tokenChar(123),
 						t.length &&
 							((n = this.enterDelimited()),
 							this.space(),
 							this.printList(t, this.shouldPrintTrailingComma("}"), !0, !0),
 							this.space(),
-							n());
+							n()));
 				}
-				this.sourceWithOffset("end", e.loc, -1), this.tokenChar(125);
+				(this.sourceWithOffset("end", e.loc, -1), this.tokenChar(125));
 			}),
 		(I.ObjectMethod = function (e) {
-			this.printJoin(e.decorators), this._methodHead(e), this.space(), this.print(e.body);
+			(this.printJoin(e.decorators), this._methodHead(e), this.space(), this.print(e.body));
 		}),
 		(I.ObjectProperty = function (e) {
 			if ((this.printJoin(e.decorators), e.computed))
-				this.tokenChar(91), this.print(e.key), this.tokenChar(93);
+				(this.tokenChar(91), this.print(e.key), this.tokenChar(93));
 			else {
 				if (Xs(e.value) && qs(e.key) && e.key.name === e.value.left.name)
 					return void this.print(e.value);
@@ -15123,7 +15152,7 @@ Expected ${n.length + 1} quasis but got ` + e.quasis.length
 				)
 					return;
 			}
-			this.tokenChar(58), this.space(), this.print(e.value);
+			(this.tokenChar(58), this.space(), this.print(e.value));
 		}),
 		(I.PipelineBareFunction = function (e) {
 			this.print(e.callee);
@@ -15138,7 +15167,7 @@ Expected ${n.length + 1} quasis but got ` + e.quasis.length
 			let t = e.properties,
 				n,
 				r;
-			if ("bar" === this.format.recordAndTupleSyntaxType) (n = "{|"), (r = "|}");
+			if ("bar" === this.format.recordAndTupleSyntaxType) ((n = "{|"), (r = "|}"));
 			else {
 				if (
 					"hash" !== this.format.recordAndTupleSyntaxType &&
@@ -15147,13 +15176,13 @@ Expected ${n.length + 1} quasis but got ` + e.quasis.length
 					throw new Error(
 						`The "recordAndTupleSyntaxType" generator option must be "bar" or "hash" (${JSON.stringify(this.format.recordAndTupleSyntaxType)} received).`
 					);
-				(n = "#{"), (r = "}");
+				((n = "#{"), (r = "}"));
 			}
-			this.token(n),
+			(this.token(n),
 				t.length &&
 					(this.space(),
 					this.printList(t, this.shouldPrintTrailingComma(r), !0, !0),
-					this.space());
+					this.space()));
 			this.token(r);
 		}),
 		(I.RegExpLiteral = function (e) {
@@ -15161,7 +15190,7 @@ Expected ${n.length + 1} quasis but got ` + e.quasis.length
 		}),
 		(I.SpreadElement = I.RestElement =
 			function (e) {
-				this.token("..."), this.print(e.argument);
+				(this.token("..."), this.print(e.argument));
 			}),
 		(I.StringLiteral = function (e) {
 			var t = this.getPossibleRaw(e);
@@ -15175,11 +15204,11 @@ Expected ${n.length + 1} quasis but got ` + e.quasis.length
 				var t, n;
 				if (!Gs.has(e))
 					throw (
-						((t = JSON.stringify(e)),
+						(t = JSON.stringify(e)),
 						(n = Array.from(Gs, e => JSON.stringify(e))),
 						new Error(
 							`The "topicToken" generator option must be one of ${n.join(", ")} (${t} received instead).`
-						))
+						)
 					);
 				this.token(e);
 			}
@@ -15189,14 +15218,14 @@ Expected ${n.length + 1} quasis but got ` + e.quasis.length
 				n = t.length,
 				r,
 				i;
-			if ("bar" === this.format.recordAndTupleSyntaxType) (r = "[|"), (i = "|]");
+			if ("bar" === this.format.recordAndTupleSyntaxType) ((r = "[|"), (i = "|]"));
 			else {
 				if ("hash" !== this.format.recordAndTupleSyntaxType)
 					throw new Error(
 						this.format.recordAndTupleSyntaxType +
 							" is not a valid recordAndTuple syntax type"
 					);
-				(r = "#["), (i = "]");
+				((r = "#["), (i = "]"));
 			}
 			this.token(r);
 			for (let e = 0; e < t.length; e++) {
@@ -15215,7 +15244,7 @@ Expected ${n.length + 1} quasis but got ` + e.quasis.length
 				n = this.tokenMap.find(e, e => e.value === t);
 			if (n) return (Ws = this._originalCode.slice(n.start, n.end));
 			return (Ws = e.name);
-		});
+		}));
 	var Js = Un;
 	let { isAssignmentPattern: Xs, isIdentifier: qs } = e,
 		Us = null,
@@ -15223,13 +15252,13 @@ Expected ${n.length + 1} quasis but got ` + e.quasis.length
 	let Gs = new Set(["^^", "@@", "^", "%", "#"]);
 	Gn = {};
 	{
-		(C = Gn),
+		((C = Gn),
 			Object.defineProperty(C, "__esModule", { value: !0 }),
 			(C.AnyTypeAnnotation = function () {
 				this.word("any");
 			}),
 			(C.ArrayTypeAnnotation = function (e) {
-				this.print(e.elementType, !0), this.tokenChar(91), this.tokenChar(93);
+				(this.print(e.elementType, !0), this.tokenChar(91), this.tokenChar(93));
 			}),
 			(C.BooleanLiteralTypeAnnotation = function (e) {
 				this.word(e.value ? "true" : "false");
@@ -15239,17 +15268,17 @@ Expected ${n.length + 1} quasis but got ` + e.quasis.length
 			}),
 			(C.DeclareClass = function (e, t) {
 				n(t) || (this.word("declare"), this.space());
-				this.word("class"), this.space(), this._interfaceish(e);
+				(this.word("class"), this.space(), this._interfaceish(e));
 			}),
 			(C.DeclareExportAllDeclaration = function (e) {
-				this.word("declare"), this.space(), zs.ExportAllDeclaration.call(this, e);
+				(this.word("declare"), this.space(), zs.ExportAllDeclaration.call(this, e));
 			}),
 			(C.DeclareExportDeclaration = function (e) {
-				this.word("declare"),
+				(this.word("declare"),
 					this.space(),
 					this.word("export"),
 					this.space(),
-					e.default && (this.word("default"), this.space());
+					e.default && (this.word("default"), this.space()));
 				!function (e) {
 					{
 						var t;
@@ -15270,95 +15299,95 @@ Expected ${n.length + 1} quasis but got ` + e.quasis.length
 			}),
 			(C.DeclareFunction = function (e, t) {
 				n(t) || (this.word("declare"), this.space());
-				this.word("function"),
+				(this.word("function"),
 					this.space(),
 					this.print(e.id),
 					this.print(e.id.typeAnnotation.typeAnnotation),
-					e.predicate && (this.space(), this.print(e.predicate));
+					e.predicate && (this.space(), this.print(e.predicate)));
 				this.semicolon();
 			}),
 			(C.DeclareInterface = function (e) {
-				this.word("declare"), this.space(), this.InterfaceDeclaration(e);
+				(this.word("declare"), this.space(), this.InterfaceDeclaration(e));
 			}),
 			(C.DeclareModule = function (e) {
-				this.word("declare"),
+				(this.word("declare"),
 					this.space(),
 					this.word("module"),
 					this.space(),
 					this.print(e.id),
 					this.space(),
-					this.print(e.body);
+					this.print(e.body));
 			}),
 			(C.DeclareModuleExports = function (e) {
-				this.word("declare"),
+				(this.word("declare"),
 					this.space(),
 					this.word("module"),
 					this.tokenChar(46),
 					this.word("exports"),
-					this.print(e.typeAnnotation);
+					this.print(e.typeAnnotation));
 			}),
 			(C.DeclareOpaqueType = function (e, t) {
 				n(t) || (this.word("declare"), this.space());
 				this.OpaqueType(e);
 			}),
 			(C.DeclareTypeAlias = function (e) {
-				this.word("declare"), this.space(), this.TypeAlias(e);
+				(this.word("declare"), this.space(), this.TypeAlias(e));
 			}),
 			(C.DeclareVariable = function (e, t) {
 				n(t) || (this.word("declare"), this.space());
-				this.word("var"),
+				(this.word("var"),
 					this.space(),
 					this.print(e.id),
 					this.print(e.id.typeAnnotation),
-					this.semicolon();
+					this.semicolon());
 			}),
 			(C.DeclaredPredicate = function (e) {
-				this.tokenChar(37),
+				(this.tokenChar(37),
 					this.word("checks"),
 					this.tokenChar(40),
 					this.print(e.value),
-					this.tokenChar(41);
+					this.tokenChar(41));
 			}),
 			(C.EmptyTypeAnnotation = function () {
 				this.word("empty");
 			}),
 			(C.EnumBooleanBody = function (e) {
 				var t = e.explicitType;
-				Qs(this, "boolean", t), Zs(this, e);
+				(Qs(this, "boolean", t), Zs(this, e));
 			}),
 			(C.EnumBooleanMember = function (e) {
 				el(this, e);
 			}),
 			(C.EnumDeclaration = function (e) {
 				var { id: e, body: t } = e;
-				this.word("enum"), this.space(), this.print(e), this.print(t);
+				(this.word("enum"), this.space(), this.print(e), this.print(t));
 			}),
 			(C.EnumDefaultedMember = function (e) {
 				e = e.id;
-				this.print(e), this.tokenChar(44);
+				(this.print(e), this.tokenChar(44));
 			}),
 			(C.EnumNumberBody = function (e) {
 				var t = e.explicitType;
-				Qs(this, "number", t), Zs(this, e);
+				(Qs(this, "number", t), Zs(this, e));
 			}),
 			(C.EnumNumberMember = function (e) {
 				el(this, e);
 			}),
 			(C.EnumStringBody = function (e) {
 				var t = e.explicitType;
-				Qs(this, "string", t), Zs(this, e);
+				(Qs(this, "string", t), Zs(this, e));
 			}),
 			(C.EnumStringMember = function (e) {
 				el(this, e);
 			}),
 			(C.EnumSymbolBody = function (e) {
-				Qs(this, "symbol", !0), Zs(this, e);
+				(Qs(this, "symbol", !0), Zs(this, e));
 			}),
 			(C.ExistsTypeAnnotation = function () {
 				this.tokenChar(42);
 			}),
 			(C.FunctionTypeAnnotation = function (e, t) {
-				this.print(e.typeParameters),
+				(this.print(e.typeParameters),
 					this.tokenChar(40),
 					e.this &&
 						(this.word("this"),
@@ -15366,12 +15395,12 @@ Expected ${n.length + 1} quasis but got ` + e.quasis.length
 						this.space(),
 						this.print(e.this.typeAnnotation),
 						e.params.length || e.rest) &&
-						(this.tokenChar(44), this.space());
-				this.printList(e.params),
+						(this.tokenChar(44), this.space()));
+				(this.printList(e.params),
 					e.rest &&
 						(e.params.length && (this.tokenChar(44), this.space()),
 						this.token("..."),
-						this.print(e.rest));
+						this.print(e.rest)));
 				this.tokenChar(41);
 				var n = null == t ? void 0 : t.type;
 				null != n &&
@@ -15381,41 +15410,41 @@ Expected ${n.length + 1} quasis but got ` + e.quasis.length
 					("ObjectTypeProperty" === n && t.method))
 					? this.tokenChar(58)
 					: (this.space(), this.token("=>"));
-				this.space(), this.print(e.returnType);
+				(this.space(), this.print(e.returnType));
 			}),
 			(C.FunctionTypeParam = function (e) {
-				this.print(e.name), e.optional && this.tokenChar(63);
+				(this.print(e.name), e.optional && this.tokenChar(63));
 				e.name && (this.tokenChar(58), this.space());
 				this.print(e.typeAnnotation);
 			}),
 			(C.IndexedAccessType = function (e) {
-				this.print(e.objectType, !0),
+				(this.print(e.objectType, !0),
 					this.tokenChar(91),
 					this.print(e.indexType),
-					this.tokenChar(93);
+					this.tokenChar(93));
 			}),
 			(C.InferredPredicate = function () {
-				this.tokenChar(37), this.word("checks");
+				(this.tokenChar(37), this.word("checks"));
 			}),
 			(C.InterfaceDeclaration = function (e) {
-				this.word("interface"), this.space(), this._interfaceish(e);
+				(this.word("interface"), this.space(), this._interfaceish(e));
 			}),
 			(C.GenericTypeAnnotation =
 				C.ClassImplements =
 				C.InterfaceExtends =
 					function (e) {
-						this.print(e.id), this.print(e.typeParameters, !0);
+						(this.print(e.id), this.print(e.typeParameters, !0));
 					}),
 			(C.InterfaceTypeAnnotation = function (e) {
 				var t;
-				this.word("interface"),
+				(this.word("interface"),
 					null != (t = e.extends) &&
 						t.length &&
 						(this.space(),
 						this.word("extends"),
 						this.space(),
-						this.printList(e.extends));
-				this.space(), this.print(e.body);
+						this.printList(e.extends)));
+				(this.space(), this.print(e.body));
 			}),
 			(C.IntersectionTypeAnnotation = function (e) {
 				this.printJoin(e.types, void 0, void 0, tl);
@@ -15427,7 +15456,7 @@ Expected ${n.length + 1} quasis but got ` + e.quasis.length
 				this.word("null");
 			}),
 			(C.NullableTypeAnnotation = function (e) {
-				this.tokenChar(63), this.print(e.typeAnnotation);
+				(this.tokenChar(63), this.print(e.typeAnnotation));
 			}),
 			Object.defineProperty(C, "NumberLiteralTypeAnnotation", {
 				enumerable: !0,
@@ -15473,23 +15502,23 @@ Expected ${n.length + 1} quasis but got ` + e.quasis.length
 			}),
 			(C.ObjectTypeIndexer = function (e) {
 				e.static && (this.word("static"), this.space());
-				this._variance(e),
+				(this._variance(e),
 					this.tokenChar(91),
-					e.id && (this.print(e.id), this.tokenChar(58), this.space());
-				this.print(e.key),
+					e.id && (this.print(e.id), this.tokenChar(58), this.space()));
+				(this.print(e.key),
 					this.tokenChar(93),
 					this.tokenChar(58),
 					this.space(),
-					this.print(e.value);
+					this.print(e.value));
 			}),
 			(C.ObjectTypeInternalSlot = function (e) {
 				e.static && (this.word("static"), this.space());
-				this.tokenChar(91),
+				(this.tokenChar(91),
 					this.tokenChar(91),
 					this.print(e.id),
 					this.tokenChar(93),
 					this.tokenChar(93),
-					e.optional && this.tokenChar(63);
+					e.optional && this.tokenChar(63));
 				e.method || (this.tokenChar(58), this.space());
 				this.print(e.value);
 			}),
@@ -15497,31 +15526,31 @@ Expected ${n.length + 1} quasis but got ` + e.quasis.length
 				e.proto && (this.word("proto"), this.space());
 				e.static && (this.word("static"), this.space());
 				("get" !== e.kind && "set" !== e.kind) || (this.word(e.kind), this.space());
-				this._variance(e), this.print(e.key), e.optional && this.tokenChar(63);
+				(this._variance(e), this.print(e.key), e.optional && this.tokenChar(63));
 				e.method || (this.tokenChar(58), this.space());
 				this.print(e.value);
 			}),
 			(C.ObjectTypeSpreadProperty = function (e) {
-				this.token("..."), this.print(e.argument);
+				(this.token("..."), this.print(e.argument));
 			}),
 			(C.OpaqueType = function (e) {
-				this.word("opaque"),
+				(this.word("opaque"),
 					this.space(),
 					this.word("type"),
 					this.space(),
 					this.print(e.id),
 					this.print(e.typeParameters),
-					e.supertype && (this.tokenChar(58), this.space(), this.print(e.supertype));
+					e.supertype && (this.tokenChar(58), this.space(), this.print(e.supertype)));
 				e.impltype &&
 					(this.space(), this.tokenChar(61), this.space(), this.print(e.impltype));
 				this.semicolon();
 			}),
 			(C.OptionalIndexedAccessType = function (e) {
-				this.print(e.objectType), e.optional && this.token("?.");
-				this.tokenChar(91), this.print(e.indexType), this.tokenChar(93);
+				(this.print(e.objectType), e.optional && this.token("?."));
+				(this.tokenChar(91), this.print(e.indexType), this.tokenChar(93));
 			}),
 			(C.QualifiedTypeIdentifier = function (e) {
-				this.print(e.qualification), this.tokenChar(46), this.print(e.id);
+				(this.print(e.qualification), this.tokenChar(46), this.print(e.id));
 			}),
 			Object.defineProperty(C, "StringLiteralTypeAnnotation", {
 				enumerable: !0,
@@ -15539,10 +15568,10 @@ Expected ${n.length + 1} quasis but got ` + e.quasis.length
 				this.word("this");
 			}),
 			(C.TupleTypeAnnotation = function (e) {
-				this.tokenChar(91), this.printList(e.types), this.tokenChar(93);
+				(this.tokenChar(91), this.printList(e.types), this.tokenChar(93));
 			}),
 			(C.TypeAlias = function (e) {
-				this.word("type"),
+				(this.word("type"),
 					this.space(),
 					this.print(e.id),
 					this.print(e.typeParameters),
@@ -15550,33 +15579,33 @@ Expected ${n.length + 1} quasis but got ` + e.quasis.length
 					this.tokenChar(61),
 					this.space(),
 					this.print(e.right),
-					this.semicolon();
+					this.semicolon());
 			}),
 			(C.TypeAnnotation = function (e, t) {
-				this.tokenChar(58),
+				(this.tokenChar(58),
 					this.space(),
 					"ArrowFunctionExpression" === t.type
 						? (this.tokenContext |= Hs.TokenContext.arrowFlowReturnType)
-						: e.optional && this.tokenChar(63);
+						: e.optional && this.tokenChar(63));
 				this.print(e.typeAnnotation);
 			}),
 			(C.TypeCastExpression = function (e) {
-				this.tokenChar(40),
+				(this.tokenChar(40),
 					this.print(e.expression),
 					this.print(e.typeAnnotation),
-					this.tokenChar(41);
+					this.tokenChar(41));
 			}),
 			(C.TypeParameter = function (e) {
-				this._variance(e), this.word(e.name), e.bound && this.print(e.bound);
+				(this._variance(e), this.word(e.name), e.bound && this.print(e.bound));
 				e.default &&
 					(this.space(), this.tokenChar(61), this.space(), this.print(e.default));
 			}),
 			(C.TypeParameterDeclaration = C.TypeParameterInstantiation =
 				function (e) {
-					this.tokenChar(60), this.printList(e.params), this.tokenChar(62);
+					(this.tokenChar(60), this.printList(e.params), this.tokenChar(62));
 				}),
 			(C.TypeofTypeAnnotation = function (e) {
-				this.word("typeof"), this.space(), this.print(e.argument);
+				(this.word("typeof"), this.space(), this.print(e.argument));
 			}),
 			(C.UnionTypeAnnotation = function (e) {
 				this.printJoin(e.types, void 0, void 0, nl);
@@ -15589,14 +15618,14 @@ Expected ${n.length + 1} quasis but got ` + e.quasis.length
 			}),
 			(C._interfaceish = function (e) {
 				var t;
-				this.print(e.id),
+				(this.print(e.id),
 					this.print(e.typeParameters),
 					null != (t = e.extends) &&
 						t.length &&
 						(this.space(),
 						this.word("extends"),
 						this.space(),
-						this.printList(e.extends));
+						this.printList(e.extends)));
 				"DeclareClass" === e.type &&
 					(null != (t = e.mixins) &&
 						t.length &&
@@ -15607,39 +15636,39 @@ Expected ${n.length + 1} quasis but got ` + e.quasis.length
 					this.word("implements"),
 					this.space(),
 					this.printList(e.implements));
-				this.space(), this.print(e.body);
+				(this.space(), this.print(e.body));
 			}),
 			(C._variance = function (e) {
 				e = null == (e = e.variance) ? void 0 : e.kind;
 				null != e &&
 					("plus" === e ? this.tokenChar(43) : "minus" === e && this.tokenChar(45));
-			});
+			}));
 		var zs = c,
 			Hs = i,
 			$s = I;
 		let { isDeclareExportDeclaration: n, isStatement: r } = e;
 		function Qs(e, t, n) {
-			n && (e.space(), e.word("of"), e.space(), e.word(t)), e.space();
+			(n && (e.space(), e.word("of"), e.space(), e.word(t)), e.space());
 		}
 		function Zs(e, t) {
 			var n,
 				r = t.members;
-			e.token("{"), e.indent(), e.newline();
-			for (n of r) e.print(n), e.newline();
-			t.hasUnknownMembers && (e.token("..."), e.newline()), e.dedent(), e.token("}");
+			(e.token("{"), e.indent(), e.newline());
+			for (n of r) (e.print(n), e.newline());
+			(t.hasUnknownMembers && (e.token("..."), e.newline()), e.dedent(), e.token("}"));
 		}
 		function el(e, t) {
-			e.print(t.id), e.space(), e.token("="), e.space(), e.print(t.init), e.token(",");
+			(e.print(t.id), e.space(), e.token("="), e.space(), e.print(t.init), e.token(","));
 		}
 		function tl(e) {
-			this.space(), this.token("&", !1, e), this.space();
+			(this.space(), this.token("&", !1, e), this.space());
 		}
 		function nl(e) {
-			this.space(), this.token("|", !1, e), this.space();
+			(this.space(), this.token("|", !1, e), this.space());
 		}
 	}
 	Hn = {};
-	Object.defineProperty(Hn, "__esModule", { value: !0 }),
+	(Object.defineProperty(Hn, "__esModule", { value: !0 }),
 		(Hn.BlockStatement = function (e) {
 			this.tokenChar(123);
 			var t = this.enterDelimited(),
@@ -15652,10 +15681,10 @@ Expected ${n.length + 1} quasis but got ` + e.quasis.length
 					(null != (n = e.directives[n - 1].trailingComments) && n.length) ||
 						this.newline(r));
 			}
-			this.printSequence(e.body, !0), t(), this.rightBrace(e);
+			(this.printSequence(e.body, !0), t(), this.rightBrace(e));
 		}),
 		(Hn.Directive = function (e) {
-			this.print(e.value), this.semicolon();
+			(this.print(e.value), this.semicolon());
 		}),
 		(Hn.DirectiveLiteral = function (e) {
 			var t = this.getPossibleRaw(e);
@@ -15675,16 +15704,16 @@ Expected ${n.length + 1} quasis but got ` + e.quasis.length
 			this.print(e.program);
 		}),
 		(Hn.InterpreterDirective = function (e) {
-			this.token("#!" + e.value), this.newline(1, !0);
+			(this.token("#!" + e.value), this.newline(1, !0));
 		}),
 		(Hn.Placeholder = function (e) {
-			this.token("%%"),
+			(this.token("%%"),
 				this.print(e.name),
 				this.token("%%"),
-				"Statement" === e.expectedNode && this.semicolon();
+				"Statement" === e.expectedNode && this.semicolon());
 		}),
 		(Hn.Program = function (e) {
-			this.noIndentInnerCommentsHere(), this.printInnerComments();
+			(this.noIndentInnerCommentsHere(), this.printInnerComments());
 			var t = null == (t = e.directives) ? void 0 : t.length;
 			{
 				var n;
@@ -15695,72 +15724,74 @@ Expected ${n.length + 1} quasis but got ` + e.quasis.length
 						this.newline(n));
 			}
 			this.printSequence(e.body);
-		});
+		}));
 	let rl = /(?:^|[^\\])(?:\\\\)*'/,
 		il = /(?:^|[^\\])(?:\\\\)*"/;
 	D = {};
 	function al() {
 		this.space();
 	}
-	Object.defineProperty(D, "__esModule", { value: !0 }),
+	(Object.defineProperty(D, "__esModule", { value: !0 }),
 		(D.JSXAttribute = function (e) {
-			this.print(e.name), e.value && (this.tokenChar(61), this.print(e.value));
+			(this.print(e.name), e.value && (this.tokenChar(61), this.print(e.value)));
 		}),
 		(D.JSXClosingElement = function (e) {
-			this.tokenChar(60), this.tokenChar(47), this.print(e.name), this.tokenChar(62);
+			(this.tokenChar(60), this.tokenChar(47), this.print(e.name), this.tokenChar(62));
 		}),
 		(D.JSXClosingFragment = function () {
-			this.token("</"), this.tokenChar(62);
+			(this.token("</"), this.tokenChar(62));
 		}),
 		(D.JSXElement = function (e) {
 			var t = e.openingElement;
 			if ((this.print(t), !t.selfClosing)) {
 				this.indent();
 				for (var n of e.children) this.print(n);
-				this.dedent(), this.print(e.closingElement);
+				(this.dedent(), this.print(e.closingElement));
 			}
 		}),
 		(D.JSXEmptyExpression = function () {
 			this.printInnerComments();
 		}),
 		(D.JSXExpressionContainer = function (e) {
-			this.tokenChar(123), this.print(e.expression), this.rightBrace(e);
+			(this.tokenChar(123), this.print(e.expression), this.rightBrace(e));
 		}),
 		(D.JSXFragment = function (e) {
-			this.print(e.openingFragment), this.indent();
+			(this.print(e.openingFragment), this.indent());
 			for (var t of e.children) this.print(t);
-			this.dedent(), this.print(e.closingFragment);
+			(this.dedent(), this.print(e.closingFragment));
 		}),
 		(D.JSXIdentifier = function (e) {
 			this.word(e.name);
 		}),
 		(D.JSXMemberExpression = function (e) {
-			this.print(e.object), this.tokenChar(46), this.print(e.property);
+			(this.print(e.object), this.tokenChar(46), this.print(e.property));
 		}),
 		(D.JSXNamespacedName = function (e) {
-			this.print(e.namespace), this.tokenChar(58), this.print(e.name);
+			(this.print(e.namespace), this.tokenChar(58), this.print(e.name));
 		}),
 		(D.JSXOpeningElement = function (e) {
-			this.tokenChar(60), this.print(e.name), e.typeArguments && this.print(e.typeArguments);
-			this.print(e.typeParameters),
+			(this.tokenChar(60),
+				this.print(e.name),
+				e.typeArguments && this.print(e.typeArguments));
+			(this.print(e.typeParameters),
 				0 < e.attributes.length &&
-					(this.space(), this.printJoin(e.attributes, void 0, void 0, al));
+					(this.space(), this.printJoin(e.attributes, void 0, void 0, al)));
 			e.selfClosing && (this.space(), this.tokenChar(47));
 			this.tokenChar(62);
 		}),
 		(D.JSXOpeningFragment = function () {
-			this.tokenChar(60), this.tokenChar(62);
+			(this.tokenChar(60), this.tokenChar(62));
 		}),
 		(D.JSXSpreadAttribute = function (e) {
-			this.tokenChar(123), this.token("..."), this.print(e.argument), this.rightBrace(e);
+			(this.tokenChar(123), this.token("..."), this.print(e.argument), this.rightBrace(e));
 		}),
 		(D.JSXSpreadChild = function (e) {
-			this.tokenChar(123), this.token("..."), this.print(e.expression), this.rightBrace(e);
+			(this.tokenChar(123), this.token("..."), this.print(e.expression), this.rightBrace(e));
 		}),
 		(D.JSXText = function (e) {
 			var t = this.getPossibleRaw(e);
 			void 0 !== t ? this.token(t, !0) : this.token(e.value, !0);
-		});
+		}));
 	var L,
 		ol,
 		sl,
@@ -15784,10 +15815,10 @@ Expected ${n.length + 1} quasis but got ` + e.quasis.length
 	function Sl(e, t, n) {
 		let r,
 			i = 0;
-		null != (r = e.tokenMap) && r.startMatches(t, n) && ((i = 1), e.token(n)),
+		(null != (r = e.tokenMap) && r.startMatches(t, n) && ((i = 1), e.token(n)),
 			e.printJoin(t.types, void 0, void 0, function (e) {
-				this.space(), this.token(n, null, e + i), this.space();
-			});
+				(this.space(), this.token(n, null, e + i), this.space());
+			}));
 	}
 	function bl(e, t) {
 		!0 !== t && e.token(t);
@@ -15806,7 +15837,7 @@ Expected ${n.length + 1} quasis but got ` + e.quasis.length
 	function vl(e, t, n) {
 		e.token("{");
 		var r = e.enterDelimited();
-		n(), r(), e.rightBrace(t);
+		(n(), r(), e.rightBrace(t));
 	}
 	function gl(t, e, n) {
 		let r,
@@ -15815,25 +15846,25 @@ Expected ${n.length + 1} quasis but got ` + e.quasis.length
 		null != (r = t.tokenMap) &&
 			r.find(e, e => {
 				if (i.has(e.value))
-					return t.token(e.value), t.space(), i.delete(e.value), 0 === i.size;
+					return (t.token(e.value), t.space(), i.delete(e.value), 0 === i.size);
 			});
-		for (var o of i) t.word(o), t.space();
+		for (var o of i) (t.word(o), t.space());
 	}
-	Object.defineProperty(N, "__esModule", { value: !0 }),
+	(Object.defineProperty(N, "__esModule", { value: !0 }),
 		(N.TSAnyKeyword = function () {
 			this.word("any");
 		}),
 		(N.TSArrayType = function (e) {
-			this.print(e.elementType, !0), this.tokenChar(91), this.tokenChar(93);
+			(this.print(e.elementType, !0), this.tokenChar(91), this.tokenChar(93));
 		}),
 		(N.TSSatisfiesExpression = N.TSAsExpression =
 			function (e) {
 				var { type: e, expression: t, typeAnnotation: n } = e;
-				this.print(t, !0),
+				(this.print(t, !0),
 					this.space(),
 					this.word("TSAsExpression" === e ? "as" : "satisfies"),
 					this.space(),
-					this.print(n);
+					this.print(n));
 			}),
 		(N.TSBigIntKeyword = function () {
 			this.word("bigint");
@@ -15842,14 +15873,14 @@ Expected ${n.length + 1} quasis but got ` + e.quasis.length
 			this.word("boolean");
 		}),
 		(N.TSCallSignatureDeclaration = function (e) {
-			this.tsPrintSignatureDeclarationBase(e), hl(this, e);
+			(this.tsPrintSignatureDeclarationBase(e), hl(this, e));
 		}),
 		(N.TSInterfaceHeritage = N.TSClassImplements =
 			function (e) {
-				this.print(e.expression), this.print(e.typeArguments);
+				(this.print(e.expression), this.print(e.typeArguments));
 			}),
 		(N.TSConditionalType = function (e) {
-			this.print(e.checkType),
+			(this.print(e.checkType),
 				this.space(),
 				this.word("extends"),
 				this.space(),
@@ -15861,43 +15892,43 @@ Expected ${n.length + 1} quasis but got ` + e.quasis.length
 				this.space(),
 				this.tokenChar(58),
 				this.space(),
-				this.print(e.falseType);
+				this.print(e.falseType));
 		}),
 		(N.TSConstructSignatureDeclaration = function (e) {
-			this.word("new"), this.space(), this.tsPrintSignatureDeclarationBase(e), hl(this, e);
+			(this.word("new"), this.space(), this.tsPrintSignatureDeclarationBase(e), hl(this, e));
 		}),
 		(N.TSConstructorType = function (e) {
 			e.abstract && (this.word("abstract"), this.space());
-			this.word("new"), this.space(), this.tsPrintFunctionOrConstructorType(e);
+			(this.word("new"), this.space(), this.tsPrintFunctionOrConstructorType(e));
 		}),
 		(N.TSDeclareFunction = function (e, t) {
 			e.declare && (this.word("declare"), this.space());
-			this._functionHead(e, t), this.semicolon();
+			(this._functionHead(e, t), this.semicolon());
 		}),
 		(N.TSDeclareMethod = function (e) {
-			this._classMethodHead(e), this.semicolon();
+			(this._classMethodHead(e), this.semicolon());
 		}),
 		(N.TSEnumBody = El),
 		(N.TSEnumDeclaration = function (e) {
 			var { declare: t, const: n, id: r } = e;
 			t && (this.word("declare"), this.space());
 			n && (this.word("const"), this.space());
-			this.word("enum"), this.space(), this.print(r), this.space(), El.call(this, e);
+			(this.word("enum"), this.space(), this.print(r), this.space(), El.call(this, e));
 		}),
 		(N.TSEnumMember = function (e) {
 			var { id: e, initializer: t } = e;
-			this.print(e), t && (this.space(), this.tokenChar(61), this.space(), this.print(t));
+			(this.print(e), t && (this.space(), this.tokenChar(61), this.space(), this.print(t)));
 		}),
 		(N.TSExportAssignment = function (e) {
-			this.word("export"),
+			(this.word("export"),
 				this.space(),
 				this.tokenChar(61),
 				this.space(),
 				this.print(e.expression),
-				this.semicolon();
+				this.semicolon());
 		}),
 		(N.TSExternalModuleReference = function (e) {
-			this.token("require("), this.print(e.expression), this.tokenChar(41);
+			(this.token("require("), this.print(e.expression), this.tokenChar(41));
 		}),
 		(N.TSFunctionType = function (e) {
 			this.tsPrintFunctionOrConstructorType(e);
@@ -15905,22 +15936,22 @@ Expected ${n.length + 1} quasis but got ` + e.quasis.length
 		(N.TSImportEqualsDeclaration = function (e) {
 			var { id: t, moduleReference: n } = e;
 			e.isExport && (this.word("export"), this.space());
-			this.word("import"),
+			(this.word("import"),
 				this.space(),
 				this.print(t),
 				this.space(),
 				this.tokenChar(61),
 				this.space(),
 				this.print(n),
-				this.semicolon();
+				this.semicolon());
 		}),
 		(N.TSImportType = function (e) {
 			var { argument: t, qualifier: n, options: r } = e;
-			this.word("import"),
+			(this.word("import"),
 				this.tokenChar(40),
 				this.print(t),
-				r && (this.tokenChar(44), this.print(r));
-			this.tokenChar(41), n && (this.tokenChar(46), this.print(n));
+				r && (this.tokenChar(44), this.print(r)));
+			(this.tokenChar(41), n && (this.tokenChar(46), this.print(n)));
 			t = e.typeParameters;
 			t && this.print(t);
 		}),
@@ -15928,22 +15959,22 @@ Expected ${n.length + 1} quasis but got ` + e.quasis.length
 			var { readonly: t, static: n } = e;
 			n && (this.word("static"), this.space());
 			t && (this.word("readonly"), this.space());
-			this.tokenChar(91),
+			(this.tokenChar(91),
 				this._parameters(e.parameters, "]"),
 				this.print(e.typeAnnotation),
-				hl(this, e);
+				hl(this, e));
 		}),
 		(N.TSIndexedAccessType = function (e) {
-			this.print(e.objectType, !0),
+			(this.print(e.objectType, !0),
 				this.tokenChar(91),
 				this.print(e.indexType),
-				this.tokenChar(93);
+				this.tokenChar(93));
 		}),
 		(N.TSInferType = function (e) {
-			this.word("infer"), this.print(e.typeParameter);
+			(this.word("infer"), this.print(e.typeParameter));
 		}),
 		(N.TSInstantiationExpression = function (e) {
-			this.print(e.expression), this.print(e.typeParameters);
+			(this.print(e.expression), this.print(e.typeParameters));
 		}),
 		(N.TSInterfaceBody = function (e) {
 			vl(this, e, () => this.printJoin(e.body, !0, !0));
@@ -15951,14 +15982,14 @@ Expected ${n.length + 1} quasis but got ` + e.quasis.length
 		(N.TSInterfaceDeclaration = function (e) {
 			var { declare: e, id: t, typeParameters: n, extends: r, body: i } = e;
 			e && (this.word("declare"), this.space());
-			this.word("interface"),
+			(this.word("interface"),
 				this.space(),
 				this.print(t),
 				this.print(n),
 				null != r &&
 					r.length &&
-					(this.space(), this.word("extends"), this.space(), this.printList(r));
-			this.space(), this.print(i);
+					(this.space(), this.word("extends"), this.space(), this.printList(r)));
+			(this.space(), this.print(i));
 		}),
 		(N.TSIntersectionType = function (e) {
 			Sl(this, e, "&");
@@ -15972,24 +16003,24 @@ Expected ${n.length + 1} quasis but got ` + e.quasis.length
 		(N.TSMappedType = function (e) {
 			var { nameType: t, optional: n, readonly: r, typeAnnotation: i } = e,
 				a = (this.tokenChar(123), this.enterDelimited());
-			this.space(), r && (bl(this, r), this.word("readonly"), this.space());
-			this.tokenChar(91),
+			(this.space(), r && (bl(this, r), this.word("readonly"), this.space()));
+			(this.tokenChar(91),
 				this.word(e.typeParameter.name),
 				this.space(),
 				this.word("in"),
 				this.space(),
 				this.print(e.typeParameter.constraint),
-				t && (this.space(), this.word("as"), this.space(), this.print(t));
-			this.tokenChar(93), n && (bl(this, n), this.tokenChar(63));
+				t && (this.space(), this.word("as"), this.space(), this.print(t)));
+			(this.tokenChar(93), n && (bl(this, n), this.tokenChar(63)));
 			i && (this.tokenChar(58), this.space(), this.print(i));
-			this.space(), a(), this.tokenChar(125);
+			(this.space(), a(), this.tokenChar(125));
 		}),
 		(N.TSMethodSignature = function (e) {
 			var t = e.kind;
 			("set" !== t && "get" !== t) || (this.word(t), this.space());
-			this.tsPrintPropertyOrMethodName(e),
+			(this.tsPrintPropertyOrMethodName(e),
 				this.tsPrintSignatureDeclarationBase(e),
-				hl(this, e);
+				hl(this, e));
 		}),
 		(N.TSModuleBlock = function (e) {
 			vl(this, e, () => this.printSequence(e.body, !0));
@@ -16006,29 +16037,29 @@ Expected ${n.length + 1} quasis but got ` + e.quasis.length
 			) {
 				let e = t.body;
 				for (; "TSModuleDeclaration" === e.type; )
-					this.tokenChar(46), this.print(e.id), (e = e.body);
-				this.space(), this.print(e);
+					(this.tokenChar(46), this.print(e.id), (e = e.body));
+				(this.space(), this.print(e));
 			} else this.semicolon();
 		}),
 		(N.TSNamedTupleMember = function (e) {
-			this.print(e.label), e.optional && this.tokenChar(63);
-			this.tokenChar(58), this.space(), this.print(e.elementType);
+			(this.print(e.label), e.optional && this.tokenChar(63));
+			(this.tokenChar(58), this.space(), this.print(e.elementType));
 		}),
 		(N.TSNamespaceExportDeclaration = function (e) {
-			this.word("export"),
+			(this.word("export"),
 				this.space(),
 				this.word("as"),
 				this.space(),
 				this.word("namespace"),
 				this.space(),
 				this.print(e.id),
-				this.semicolon();
+				this.semicolon());
 		}),
 		(N.TSNeverKeyword = function () {
 			this.word("never");
 		}),
 		(N.TSNonNullExpression = function (e) {
-			this.print(e.expression), this.tokenChar(33);
+			(this.print(e.expression), this.tokenChar(33));
 		}),
 		(N.TSNullKeyword = function () {
 			this.word("null");
@@ -16040,7 +16071,7 @@ Expected ${n.length + 1} quasis but got ` + e.quasis.length
 			this.word("object");
 		}),
 		(N.TSOptionalType = function (e) {
-			this.print(e.typeAnnotation), this.tokenChar(63);
+			(this.print(e.typeAnnotation), this.tokenChar(63));
 		}),
 		(N.TSParameterProperty = function (e) {
 			e.accessibility && (this.word(e.accessibility), this.space());
@@ -16048,18 +16079,18 @@ Expected ${n.length + 1} quasis but got ` + e.quasis.length
 			this._param(e.parameter);
 		}),
 		(N.TSParenthesizedType = function (e) {
-			this.tokenChar(40), this.print(e.typeAnnotation), this.tokenChar(41);
+			(this.tokenChar(40), this.print(e.typeAnnotation), this.tokenChar(41));
 		}),
 		(N.TSPropertySignature = function (e) {
 			var t = e.readonly;
 			t && (this.word("readonly"), this.space());
-			this.tsPrintPropertyOrMethodName(e), this.print(e.typeAnnotation), hl(this, e);
+			(this.tsPrintPropertyOrMethodName(e), this.print(e.typeAnnotation), hl(this, e));
 		}),
 		(N.TSQualifiedName = function (e) {
-			this.print(e.left), this.tokenChar(46), this.print(e.right);
+			(this.print(e.left), this.tokenChar(46), this.print(e.right));
 		}),
 		(N.TSRestType = function (e) {
-			this.token("..."), this.print(e.typeAnnotation);
+			(this.token("..."), this.print(e.typeAnnotation));
 		}),
 		(N.TSStringKeyword = function () {
 			this.word("string");
@@ -16074,14 +16105,14 @@ Expected ${n.length + 1} quasis but got ` + e.quasis.length
 			this.word("this");
 		}),
 		(N.TSTupleType = function (e) {
-			this.tokenChar(91),
+			(this.tokenChar(91),
 				this.printList(e.elementTypes, this.shouldPrintTrailingComma("]")),
-				this.tokenChar(93);
+				this.tokenChar(93));
 		}),
 		(N.TSTypeAliasDeclaration = function (e) {
 			var { declare: e, id: t, typeParameters: n, typeAnnotation: r } = e;
 			e && (this.word("declare"), this.space());
-			this.word("type"),
+			(this.word("type"),
 				this.space(),
 				this.print(t),
 				this.print(n),
@@ -16089,35 +16120,35 @@ Expected ${n.length + 1} quasis but got ` + e.quasis.length
 				this.tokenChar(61),
 				this.space(),
 				this.print(r),
-				this.semicolon();
+				this.semicolon());
 		}),
 		(N.TSTypeAnnotation = function (e, t) {
-			this.token(
+			(this.token(
 				("TSFunctionType" !== t.type && "TSConstructorType" !== t.type) ||
 					t.typeAnnotation !== e
 					? ":"
 					: "=>"
 			),
 				this.space(),
-				e.optional && this.tokenChar(63);
+				e.optional && this.tokenChar(63));
 			this.print(e.typeAnnotation);
 		}),
 		(N.TSTypeAssertion = function (e) {
 			var { typeAnnotation: e, expression: t } = e;
-			this.tokenChar(60), this.print(e), this.tokenChar(62), this.space(), this.print(t);
+			(this.tokenChar(60), this.print(e), this.tokenChar(62), this.space(), this.print(t));
 		}),
 		(N.TSTypeLiteral = function (e) {
 			vl(this, e, () => this.printJoin(e.members, !0, !0));
 		}),
 		(N.TSTypeOperator = function (e) {
-			this.word(e.operator), this.space(), this.print(e.typeAnnotation);
+			(this.word(e.operator), this.space(), this.print(e.typeAnnotation));
 		}),
 		(N.TSTypeParameter = function (e) {
 			e.in && (this.word("in"), this.space());
 			e.out && (this.word("out"), this.space());
-			this.word(e.name),
+			(this.word(e.name),
 				e.constraint &&
-					(this.space(), this.word("extends"), this.space(), this.print(e.constraint));
+					(this.space(), this.word("extends"), this.space(), this.print(e.constraint)));
 			e.default && (this.space(), this.tokenChar(61), this.space(), this.print(e.default));
 		}),
 		(N.TSTypeParameterDeclaration = N.TSTypeParameterInstantiation =
@@ -16132,25 +16163,25 @@ Expected ${n.length + 1} quasis but got ` + e.quasis.length
 							n &&
 							!!this.tokenMap.find(e, e => this.tokenMap.matchesOriginal(e, ","))) ||
 						this.shouldPrintTrailingComma(">"));
-				this.printList(e.params, n), this.tokenChar(62);
+				(this.printList(e.params, n), this.tokenChar(62));
 			}),
 		(N.TSTypePredicate = function (e) {
 			e.asserts && (this.word("asserts"), this.space());
-			this.print(e.parameterName),
+			(this.print(e.parameterName),
 				e.typeAnnotation &&
 					(this.space(),
 					this.word("is"),
 					this.space(),
-					this.print(e.typeAnnotation.typeAnnotation));
+					this.print(e.typeAnnotation.typeAnnotation)));
 		}),
 		(N.TSTypeQuery = function (e) {
-			this.word("typeof"), this.space(), this.print(e.exprName);
+			(this.word("typeof"), this.space(), this.print(e.exprName));
 			e = e.typeParameters;
 			e && this.print(e);
 		}),
 		(N.TSTypeReference = function (e) {
 			var t = e.typeParameters;
-			this.print(e.typeName, !!t), this.print(t);
+			(this.print(e.typeName, !!t), this.print(t));
 		}),
 		(N.TSUndefinedKeyword = function () {
 			this.word("undefined");
@@ -16167,8 +16198,8 @@ Expected ${n.length + 1} quasis but got ` + e.quasis.length
 		(N.tsPrintClassMemberModifiers = function (e) {
 			var t = "ClassPrivateProperty" === e.type,
 				n = "ClassAccessorProperty" === e.type || "ClassProperty" === e.type;
-			gl(this, e, [n && e.declare && "declare", !t && e.accessibility]),
-				e.static && (this.word("static"), this.space());
+			(gl(this, e, [n && e.declare && "declare", !t && e.accessibility]),
+				e.static && (this.word("static"), this.space()));
 			gl(this, e, [
 				!t && e.abstract && "abstract",
 				!t && e.override && "override",
@@ -16188,7 +16219,7 @@ Expected ${n.length + 1} quasis but got ` + e.quasis.length
 		}),
 		(N.tsPrintPropertyOrMethodName = function (e) {
 			e.computed && this.tokenChar(91);
-			this.print(e.key), e.computed && this.tokenChar(93);
+			(this.print(e.key), e.computed && this.tokenChar(93));
 			e.optional && this.tokenChar(63);
 		}),
 		(N.tsPrintSignatureDeclarationBase = function (e) {
@@ -16330,14 +16361,14 @@ Expected ${n.length + 1} quasis but got ` + e.quasis.length
 						return Tl[e];
 					}
 				});
-		});
+		}));
 	tr = {};
-	Object.defineProperty(tr, "__esModule", { value: !0 }),
+	(Object.defineProperty(tr, "__esModule", { value: !0 }),
 		(tr.addDeprecatedGenerators = function (e) {
 			Object.assign(e.prototype, {
 				Noop() {},
 				TSExpressionWithTypeArguments(e) {
-					this.print(e.expression), this.print(e.typeParameters);
+					(this.print(e.expression), this.print(e.typeParameters));
 				},
 				DecimalLiteral(e) {
 					var t = this.getPossibleRaw(e);
@@ -16346,7 +16377,7 @@ Expected ${n.length + 1} quasis but got ` + e.quasis.length
 			});
 		}),
 		Object.defineProperty(Y, "__esModule", { value: !0 }),
-		(Y.default = void 0);
+		(Y.default = void 0));
 	var Pl = R,
 		xl = i,
 		Al = Qo,
@@ -16369,7 +16400,7 @@ Expected ${n.length + 1} quasis but got ` + e.quasis.length
 	let Bl = xl.needsParens;
 	class Fl {
 		constructor(e, t, n, r) {
-			(this.inForStatementInit = !1),
+			((this.inForStatementInit = !1),
 				(this.tokenContext = 0),
 				(this._tokens = null),
 				(this._originalCode = null),
@@ -16396,7 +16427,7 @@ Expected ${n.length + 1} quasis but got ` + e.quasis.length
 				(this._originalCode = r),
 				(this._indentRepeat = e.indent.style.length),
 				(this._inputMap = null == t ? void 0 : t._inputMap),
-				(this._buf = new Pl.default(t, e.indent.style[0]));
+				(this._buf = new Pl.default(t, e.indent.style[0])));
 		}
 		enterForStatementInit() {
 			return this.inForStatementInit
@@ -16414,7 +16445,7 @@ Expected ${n.length + 1} quasis but got ` + e.quasis.length
 				: ((this.inForStatementInit = !1),
 					(this._noLineTerminatorAfterNode = null),
 					() => {
-						(this.inForStatementInit = e), (this._noLineTerminatorAfterNode = t);
+						((this.inForStatementInit = e), (this._noLineTerminatorAfterNode = t));
 					});
 		}
 		generate(e) {
@@ -16452,12 +16483,12 @@ Expected ${n.length + 1} quasis but got ` + e.quasis.length
 			this._noLineTerminator = !1;
 		}
 		rightBrace(e) {
-			this.format.minified && this._buf.removeLastSemicolon(),
+			(this.format.minified && this._buf.removeLastSemicolon(),
 				this.sourceWithOffset("end", e.loc, -1),
-				this.tokenChar(125);
+				this.tokenChar(125));
 		}
 		rightParens(e) {
-			this.sourceWithOffset("end", e.loc, -1), this.tokenChar(41);
+			(this.sourceWithOffset("end", e.loc, -1), this.tokenChar(41));
 		}
 		space(e = !1) {
 			var t = this.format;
@@ -16467,7 +16498,7 @@ Expected ${n.length + 1} quasis but got ` + e.quasis.length
 					this._space());
 		}
 		word(e, t = !1) {
-			(this.tokenContext = 0),
+			((this.tokenContext = 0),
 				this._maybePrintInnerComments(e),
 				this._maybeAddAuxComment(),
 				this.tokenMap && this._catchUpToCurrentToken(e),
@@ -16475,10 +16506,10 @@ Expected ${n.length + 1} quasis but got ` + e.quasis.length
 					this._space(),
 				this._append(e, !1),
 				(this._endsWithWord = !0),
-				(this._noLineTerminator = t);
+				(this._noLineTerminator = t));
 		}
 		number(e, t) {
-			this.word(e),
+			(this.word(e),
 				(this._endsWithInteger =
 					Number.isInteger(t) &&
 					!(e =>
@@ -16487,22 +16518,22 @@ Expected ${n.length + 1} quasis but got ` + e.quasis.length
 						(98 === (e = e.charCodeAt(1)) || 111 === e || 120 === e))(e) &&
 					!wl.test(e) &&
 					!jl.test(e) &&
-					46 !== e.charCodeAt(e.length - 1));
+					46 !== e.charCodeAt(e.length - 1)));
 		}
 		token(e, t = !1, n = 0) {
-			(this.tokenContext = 0),
+			((this.tokenContext = 0),
 				this._maybePrintInnerComments(e, n),
 				this._maybeAddAuxComment(),
-				this.tokenMap && this._catchUpToCurrentToken(e, n);
+				this.tokenMap && this._catchUpToCurrentToken(e, n));
 			var n = this.getLastChar(),
 				r = e.charCodeAt(0);
-			((33 === n && ("--" === e || 61 === r)) ||
+			(((33 === n && ("--" === e || 61 === r)) ||
 				(43 === r && 43 === n) ||
 				(45 === r && 45 === n) ||
 				(46 === r && this._endsWithInteger)) &&
 				this._space(),
 				this._append(e, t),
-				(this._noLineTerminator = !1);
+				(this._noLineTerminator = !1));
 		}
 		tokenChar(e) {
 			this.tokenContext = 0;
@@ -16512,12 +16543,12 @@ Expected ${n.length + 1} quasis but got ` + e.quasis.length
 					this._maybeAddAuxComment(),
 					this.tokenMap && this._catchUpToCurrentToken(t),
 					this.getLastChar());
-			((43 === e && 43 === t) ||
+			(((43 === e && 43 === t) ||
 				(45 === e && 45 === t) ||
 				(46 === e && this._endsWithInteger)) &&
 				this._space(),
 				this._appendChar(e),
-				(this._noLineTerminator = !1);
+				(this._noLineTerminator = !1));
 		}
 		newline(t = 1, e) {
 			if (!(t <= 0)) {
@@ -16525,7 +16556,7 @@ Expected ${n.length + 1} quasis but got ` + e.quasis.length
 					if (this.format.retainLines || this.format.compact) return;
 					if (this.format.concise) return void this.space();
 				}
-				2 < t && (t = 2), (t -= this._buf.getNewlineCount());
+				(2 < t && (t = 2), (t -= this._buf.getNewlineCount()));
 				for (let e = 0; e < t; e++) this._newline();
 			}
 		}
@@ -16565,7 +16596,7 @@ Expected ${n.length + 1} quasis but got ` + e.quasis.length
 		}
 		_catchUpToCurrentToken(e, t = 0) {
 			e = this.tokenMap.findMatching(this._currentNode, e, t);
-			e && this._catchUpTo(e.loc.start),
+			(e && this._catchUpTo(e.loc.start),
 				-1 !== this._printSemicolonBeforeNextToken &&
 					this._printSemicolonBeforeNextToken === this._buf.getCurrentLine() &&
 					(this._buf.appendChar(59),
@@ -16573,27 +16604,27 @@ Expected ${n.length + 1} quasis but got ` + e.quasis.length
 					(this._endsWithInteger = !1),
 					(this._endsWithDiv = !1)),
 				(this._printSemicolonBeforeNextToken = -1),
-				(this._printSemicolonBeforeNextNode = -1);
+				(this._printSemicolonBeforeNextNode = -1));
 		}
 		_append(e, t) {
-			this._maybeIndent(e.charCodeAt(0)),
+			(this._maybeIndent(e.charCodeAt(0)),
 				this._buf.append(e, t),
 				(this._endsWithWord = !1),
 				(this._endsWithInteger = !1),
-				(this._endsWithDiv = !1);
+				(this._endsWithDiv = !1));
 		}
 		_appendChar(e) {
-			this._maybeIndent(e),
+			(this._maybeIndent(e),
 				this._buf.appendChar(e),
 				(this._endsWithWord = !1),
 				(this._endsWithInteger = !1),
-				(this._endsWithDiv = !1);
+				(this._endsWithDiv = !1));
 		}
 		_queue(e) {
-			this._maybeIndent(e),
+			(this._maybeIndent(e),
 				this._buf.queue(e),
 				(this._endsWithWord = !1),
-				(this._endsWithInteger = !1);
+				(this._endsWithInteger = !1));
 		}
 		_maybeIndent(e) {
 			this._indent &&
@@ -16638,7 +16669,7 @@ Expected ${n.length + 1} quasis but got ` + e.quasis.length
 			return this._indentRepeat * this._indent;
 		}
 		printTerminatorless(e) {
-			(this._noLineTerminator = !0), this.print(e);
+			((this._noLineTerminator = !0), this.print(e));
 		}
 		print(a, o, s) {
 			if (a) {
@@ -16702,7 +16733,7 @@ Expected ${n.length + 1} quasis but got ` + e.quasis.length
 							a.loc.start.line > this._buf.getCurrentLine())) &&
 					((e = !0), (t = !0));
 				let n, r, i;
-				e ||
+				(e ||
 					((o =
 						o ||
 						(d && this._noLineTerminatorAfterNode === d && xl.isLastChild(d, a))) &&
@@ -16718,9 +16749,9 @@ Expected ${n.length + 1} quasis but got ` + e.quasis.length
 						(n = this._noLineTerminatorAfterNode),
 						(this._noLineTerminatorAfterNode = null)),
 					(this._lastCommentLine = 0),
-					this._printLeadingComments(a, d);
+					this._printLeadingComments(a, d));
 				y = "Program" === l || "File" === l ? null : a.loc;
-				this.exactSource(y, c.bind(this, a, d)),
+				(this.exactSource(y, c.bind(this, a, d)),
 					e
 						? (this._printTrailingComments(a, d),
 							t && (this.dedent(), this.newline()),
@@ -16734,11 +16765,11 @@ Expected ${n.length + 1} quasis but got ` + e.quasis.length
 					(p.concise = u),
 					(this._insideAux = f),
 					void 0 !== n && (this._noLineTerminatorAfterNode = n),
-					(this._endsWithInnerRaw = !1);
+					(this._endsWithInnerRaw = !1));
 			}
 		}
 		_maybeAddAuxComment(e) {
-			e && this._printAuxBeforeComment(), this._insideAux || this._printAuxAfterComment();
+			(e && this._printAuxBeforeComment(), this._insideAux || this._printAuxAfterComment());
 		}
 		_printAuxBeforeComment() {
 			var e;
@@ -16798,16 +16829,16 @@ Expected ${n.length + 1} quasis but got ` + e.quasis.length
 		}
 		printAndIndentOnComments(e) {
 			var t = e.leadingComments && 0 < e.leadingComments.length;
-			t && this.indent(), this.print(e), t && this.dedent();
+			(t && this.indent(), this.print(e), t && this.dedent());
 		}
 		printBlock(e) {
 			e = e.body;
-			"EmptyStatement" !== e.type && this.space(), this.print(e);
+			("EmptyStatement" !== e.type && this.space(), this.print(e));
 		}
 		_printTrailingComments(e, t, n) {
 			var { innerComments: r, trailingComments: i } = e;
-			null != r && r.length && this._printComments(2, r, e, t, n),
-				null != i && i.length && this._printComments(2, i, e, t, n);
+			(null != r && r.length && this._printComments(2, r, e, t, n),
+				null != i && i.length && this._printComments(2, i, e, t, n));
 		}
 		_printLeadingComments(e, t) {
 			var n = e.leadingComments;
@@ -16815,12 +16846,12 @@ Expected ${n.length + 1} quasis but got ` + e.quasis.length
 		}
 		_maybePrintInnerComments(e, t) {
 			var n;
-			this._endsWithInnerRaw &&
+			(this._endsWithInnerRaw &&
 				this.printInnerComments(
 					null == (n = this.tokenMap) ? void 0 : n.findMatching(this._currentNode, e, t)
 				),
 				(this._endsWithInnerRaw = !0),
-				(this._indentInnerComments = !0);
+				(this._indentInnerComments = !0));
 		}
 		printInnerComments(e) {
 			var t,
@@ -16862,7 +16893,7 @@ Expected ${n.length + 1} quasis but got ` + e.quasis.length
 			if (!n.retainLines && !n.compact)
 				if (n.concise) this.space();
 				else if (e) {
-					(n = t.nextNodeStartLine), (e = this._lastCommentLine);
+					((n = t.nextNodeStartLine), (e = this._lastCommentLine));
 					if (0 < n && 0 < e) {
 						t = n - e;
 						if (0 <= t) return void this.newline(t || 1);
@@ -16878,7 +16909,7 @@ Expected ${n.length + 1} quasis but got ` + e.quasis.length
 				var n = this.tokenMap.find(this._currentNode, e => e.value === t.value);
 				if (n && n.start > e.start) return 2;
 			}
-			return this._printedComments.add(t), this.format.shouldPrintComment(t.value) ? 1 : 0;
+			return (this._printedComments.add(t), this.format.shouldPrintComment(t.value) ? 1 : 0);
 		}
 		_printComment(e, t) {
 			var n,
@@ -16904,17 +16935,17 @@ Expected ${n.length + 1} quasis but got ` + e.quasis.length
 						);
 					else {
 						let e = this.format.retainLines ? 0 : this._buf.getCurrentColumn();
-						(this._shouldIndent(47) || this.format.retainLines) &&
+						((this._shouldIndent(47) || this.format.retainLines) &&
 							(e += this._getIndent()),
 							(s = s.replace(
 								/\n(?!$)/g,
 								`
 ` + " ".repeat(e)
-							));
+							)));
 					}
 				}
 			} else s = r ? `/*${e.value}*/` : "//" + e.value;
-			this._endsWithDiv && this._space(),
+			(this._endsWithDiv && this._space(),
 				this.tokenMap
 					? (({ _printSemicolonBeforeNextToken: o, _printSemicolonBeforeNextNode: n } =
 							this),
@@ -16926,7 +16957,7 @@ Expected ${n.length + 1} quasis but got ` + e.quasis.length
 						(this._printSemicolonBeforeNextToken = o))
 					: (this.source("start", e.loc), this._append(s, i)),
 				i || r || this.newline(1, !0),
-				a && 3 !== t && this.newline(1);
+				a && 3 !== t && this.newline(1));
 		}
 		_printComments(e, n, r, i, a = 0, o) {
 			var t = r.loc,
@@ -16950,7 +16981,7 @@ Expected ${n.length + 1} quasis but got ` + e.quasis.length
 						S = y.loc.end.line;
 					if (0 === e) {
 						let e = 0;
-						0 === t
+						(0 === t
 							? !this._buf.hasContent() ||
 								("CommentLine" !== y.type && h === S) ||
 								(e = d = 1)
@@ -16958,7 +16989,7 @@ Expected ${n.length + 1} quasis but got ` + e.quasis.length
 							(c = S),
 							f(e),
 							this._printComment(y, 1),
-							t + 1 === s && (f(Math.max(p - c, d)), (c = p));
+							t + 1 === s && (f(Math.max(p - c, d)), (c = p)));
 					} else
 						1 === e
 							? ((T = h - (0 === t ? p : c)),
@@ -16971,7 +17002,7 @@ Expected ${n.length + 1} quasis but got ` + e.quasis.length
 								f(T),
 								this._printComment(y, 1));
 				} else
-					(l = !1),
+					((l = !1),
 						1 === m &&
 							(1 === s
 								? ((S =
@@ -16998,18 +17029,18 @@ Expected ${n.length + 1} quasis but got ` + e.quasis.length
 									  "ClassBody" === r.type ||
 									  "TSInterfaceBody" === r.type
 									? this._printComment(y, 0)
-									: this._printComment(y, 0 === t ? 2 : t === s - 1 ? 3 : 0));
+									: this._printComment(y, 0 === t ? 2 : t === s - 1 ? 3 : 0)));
 			}
 			2 === e && l && c && (this._lastCommentLine = c);
 		}
 	}
 	function Rl(e, t) {
-		this.token(",", !1, e), t || this.space();
+		(this.token(",", !1, e), t || this.space());
 	}
-	Object.assign(Fl.prototype, p),
+	(Object.assign(Fl.prototype, p),
 		(0, nr.addDeprecatedGenerators)(Fl),
 		(Y.default = Fl),
-		Object.defineProperty(B, "__esModule", { value: !0 });
+		Object.defineProperty(B, "__esModule", { value: !0 }));
 	var Qn = (B.default = function (e, t = {}, n) {
 			var r = Vl(n, t, e),
 				t = t.sourceMaps ? new Kl.default(t, n) : null,
@@ -17065,7 +17096,7 @@ Expected ${n.length + 1} quasis but got ` + e.quasis.length
 				importAttributesKeyword: t.importAttributesKeyword
 			},
 			i;
-		(r.decoratorsBeforeExport = t.decoratorsBeforeExport),
+		((r.decoratorsBeforeExport = t.decoratorsBeforeExport),
 			(r.jsescOption.json = t.jsonCompatibleStrings),
 			(r.recordAndTupleSyntaxType = null != (i = t.recordAndTupleSyntaxType) ? i : "hash"),
 			r.minified
@@ -17079,7 +17110,7 @@ Expected ${n.length + 1} quasis but got ` + e.quasis.length
 				console.error(
 					`[BABEL] Note: The code generator has deoptimised the styling of ${t.filename} as it exceeds the max of 500KB.`
 				),
-			(r.compact || r.preserveFormat) && (r.indent.adjustMultilineComment = !1);
+			(r.compact || r.preserveFormat) && (r.indent.adjustMultilineComment = !1));
 		var { auxiliaryCommentBefore: n, auxiliaryCommentAfter: e, shouldPrintComment: t } = r;
 		return (
 			n && !t(n) && (r.auxiliaryCommentBefore = void 0),
@@ -17087,18 +17118,18 @@ Expected ${n.length + 1} quasis but got ` + e.quasis.length
 			r
 		);
 	}
-	(B.CodeGenerator = class {
+	((B.CodeGenerator = class {
 		constructor(e, t = {}, n) {
-			(this._ast = void 0),
+			((this._ast = void 0),
 				(this._format = void 0),
 				(this._map = void 0),
 				(this._ast = e),
 				(this._format = Vl(n, t, e)),
-				(this._map = t.sourceMaps ? new Kl.default(t, n) : null);
+				(this._map = t.sourceMaps ? new Kl.default(t, n) : null));
 		}
 		generate() {
 			return new Yl.default(this._format, this._map).generate(this._ast);
 		}
 	}),
-		(M.Babel.generator = Qn);
+		(M.Babel.generator = Qn));
 });

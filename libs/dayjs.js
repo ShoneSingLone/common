@@ -79,32 +79,32 @@
 		M = function (t, n, e) {
 			var r;
 			if (!t) return l;
-			if ("string" == typeof t) m[t] && (r = t), n && ((m[t] = n), (r = t));
+			if ("string" == typeof t) (m[t] && (r = t), n && ((m[t] = n), (r = t)));
 			else {
 				var i = t.name;
-				(m[i] = t), (r = i);
+				((m[i] = t), (r = i));
 			}
-			return e || (l = r), r;
+			return (e || (l = r), r);
 		},
 		g = function (t, n, e) {
 			if (y(t)) return t.clone();
 			var r = n ? ("string" == typeof n ? { format: n, pl: e } : n) : {};
-			return (r.date = t), new v(r);
+			return ((r.date = t), new v(r));
 		},
 		D = d;
-	(D.l = M),
+	((D.l = M),
 		(D.i = y),
 		(D.w = function (t, n) {
 			return g(t, { locale: n.$L, utc: n.$u, $offset: n.$offset });
-		});
+		}));
 	var v = (function () {
 		function c(t) {
-			(this.$L = this.$L || M(t.locale, null, !0)), this.parse(t);
+			((this.$L = this.$L || M(t.locale, null, !0)), this.parse(t));
 		}
 		var d = c.prototype;
 		return (
 			(d.parse = function (t) {
-				(this.$d = (function (t) {
+				((this.$d = (function (t) {
 					var n = t.date,
 						e = t.utc;
 					if (null === n) return new Date(NaN);
@@ -137,18 +137,18 @@
 					}
 					return new Date(n);
 				})(t)),
-					this.init();
+					this.init());
 			}),
 			(d.init = function () {
 				var t = this.$d;
-				(this.$y = t.getFullYear()),
+				((this.$y = t.getFullYear()),
 					(this.$M = t.getMonth()),
 					(this.$D = t.getDate()),
 					(this.$W = t.getDay()),
 					(this.$H = t.getHours()),
 					(this.$m = t.getMinutes()),
 					(this.$s = t.getSeconds()),
-					(this.$ms = t.getMilliseconds());
+					(this.$ms = t.getMilliseconds()));
 			}),
 			(d.$utils = function () {
 				return D;
@@ -263,11 +263,11 @@
 					$ = f === i ? this.$D + (o - this.$W) : o;
 				if (f === u || f === a) {
 					var l = this.clone().set("date", 1);
-					l.$d[d]($),
+					(l.$d[d]($),
 						l.init(),
-						(this.$d = l.set("date", Math.min(this.$D, l.daysInMonth())).toDate());
+						(this.$d = l.set("date", Math.min(this.$D, l.daysInMonth())).toDate()));
 				} else d && this.$d[d]($);
-				return this.init(), this;
+				return (this.init(), this);
 			}),
 			(d.set = function (t, n) {
 				return this.clone().$set(t, n);
@@ -383,7 +383,7 @@
 				if (!t) return this.$L;
 				var e = this.clone(),
 					r = M(t, n, !0);
-				return r && (e.$L = r), e;
+				return (r && (e.$L = r), e);
 			}),
 			(d.clone = function () {
 				return D.w(this.$d, this);
@@ -406,7 +406,7 @@
 	return (
 		(g.prototype = v.prototype),
 		(g.extend = function (t, n) {
-			return t(n, v, g), g;
+			return (t(n, v, g), g);
 		}),
 		(g.locale = M),
 		(g.isDayjs = y),

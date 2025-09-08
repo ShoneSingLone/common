@@ -25,7 +25,7 @@ export default async function () {
 					b = !0;
 					var c = "__" + Math.round(1e7 * Math.random());
 					try {
-						a.setItem(c, c), a.removeItem(c);
+						(a.setItem(c, c), a.removeItem(c));
 					} catch (d) {
 						b = !1;
 					}
@@ -67,9 +67,9 @@ export default async function () {
 				return b;
 			}
 			function g(a, b) {
-				(this.c = new Date().getTime()), (b = b || m);
+				((this.c = new Date().getTime()), (b = b || m));
 				var c = e(b);
-				(this.e = c.getTime()), (this.v = a);
+				((this.e = c.getTime()), (this.v = a));
 			}
 			function h(a) {
 				return "object" != typeof a ? !1 : a && "c" in a && "e" in a && "v" in a ? !0 : !1;
@@ -97,7 +97,7 @@ export default async function () {
 				m = h;
 				var i = c(g.storage),
 					j = b(i);
-				(this.isSupported = function () {
+				((this.isSupported = function () {
 					return j;
 				}),
 					j
@@ -111,13 +111,13 @@ export default async function () {
 											"] and try execute `set` method again!"
 									);
 									try {
-										(c.force = !1), this.set(a, b, c);
+										((c.force = !1), this.set(a, b, c));
 									} catch (e) {
 										console.warn(e);
 									}
 								}
 							}))
-						: a(this, o);
+						: a(this, o));
 			}
 			var l = new Date("Fri, 31 Dec 9999 23:59:59 UTC"),
 				m = l,
@@ -175,7 +175,7 @@ export default async function () {
 						return null;
 					},
 					delete: function (a) {
-						return (a = j(a)), this.storage.removeItem(a), a;
+						return ((a = j(a)), this.storage.removeItem(a), a);
 					},
 					deleteAllExpires: function () {
 						for (var a = this.storage.length, b = [], c = this, d = 0; a > d; d++) {
@@ -200,14 +200,14 @@ export default async function () {
 						this.storage.clear();
 					},
 					add: function (b, c, d) {
-						(b = j(b)),
+						((b = j(b)),
 							"number" == typeof d && (d = { exp: d }),
-							(d = a({ force: !0 }, d));
+							(d = a({ force: !0 }, d)));
 						try {
 							var e = n.deserialize(this.storage.getItem(b));
-							if (!h(e) || !i(e)) return this.set(b, c, d), !0;
+							if (!h(e) || !i(e)) return (this.set(b, c, d), !0);
 						} catch (f) {
-							return this.set(b, c, d), !0;
+							return (this.set(b, c, d), !0);
 						}
 						return !1;
 					},
@@ -220,7 +220,7 @@ export default async function () {
 							return !1;
 						}
 						if (h(d)) {
-							if (i(d)) return this.set(a, b, c), !0;
+							if (i(d)) return (this.set(a, b, c), !0);
 							this["delete"](a);
 						}
 						return !1;
@@ -234,13 +234,13 @@ export default async function () {
 							return !1;
 						}
 						if (h(c)) {
-							if (i(c)) return this.set(a, this.get(a), { exp: b }), !0;
+							if (i(c)) return (this.set(a, this.get(a), { exp: b }), !0);
 							this["delete"](a);
 						}
 						return !1;
 					}
 				};
-			return (k.prototype = p), k;
+			return ((k.prototype = p), k);
 		});
 	}
 	return window.WebStorageCache;

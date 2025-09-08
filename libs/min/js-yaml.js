@@ -40,14 +40,14 @@
 			: i;
 	}
 	function t(e, t) {
-		Error.call(this),
+		(Error.call(this),
 			(this.name = "YAMLException"),
 			(this.reason = e),
 			(this.mark = t),
 			(this.message = h(this, !1)),
 			Error.captureStackTrace
 				? Error.captureStackTrace(this, this.constructor)
-				: (this.stack = new Error().stack || "");
+				: (this.stack = new Error().stack || ""));
 	}
 	((t.prototype = Object.create(Error.prototype)).constructor = t).prototype.toString = function (
 		e
@@ -70,14 +70,14 @@
 	}
 	var _ = function (e, t) {
 			if (((t = Object.create(t || null)), !e.buffer)) return null;
-			t.maxLength || (t.maxLength = 79),
+			(t.maxLength || (t.maxLength = 79),
 				"number" != typeof t.indent && (t.indent = 1),
 				"number" != typeof t.linesBefore && (t.linesBefore = 3),
-				"number" != typeof t.linesAfter && (t.linesAfter = 2);
+				"number" != typeof t.linesAfter && (t.linesAfter = 2));
 			for (var n, i = /\r?\n|\r|\0/g, r = [0], o = [], a = -1; (n = i.exec(e.buffer)); )
-				o.push(n.index),
+				(o.push(n.index),
 					r.push(n.index + n[0].length),
-					e.position <= n.index && a < 0 && (a = r.length - 2);
+					e.position <= n.index && a < 0 && (a = r.length - 2));
 			a < 0 && (a = r.length - 1);
 			for (
 				var l,
@@ -88,14 +88,14 @@
 				p <= t.linesBefore && !(a - p < 0);
 				p++
 			)
-				(l = f(e.buffer, r[a - p], o[a - p], e.position - (r[a] - r[a - p]), u)),
+				((l = f(e.buffer, r[a - p], o[a - p], e.position - (r[a] - r[a - p]), u)),
 					(s =
 						g.repeat(" ", t.indent) +
 						d((e.line - p + 1).toString(), c) +
 						" | " +
 						l.str +
 						"\n" +
-						s);
+						s));
 			for (
 				l = f(e.buffer, r[a], o[a], e.position, u),
 					s =
@@ -110,13 +110,13 @@
 				p <= t.linesAfter && !(o.length <= a + p);
 				p++
 			)
-				(l = f(e.buffer, r[a + p], o[a + p], e.position - (r[a] - r[a + p]), u)),
+				((l = f(e.buffer, r[a + p], o[a + p], e.position - (r[a] - r[a + p]), u)),
 					(s +=
 						g.repeat(" ", t.indent) +
 						d((e.line + p + 1).toString(), c) +
 						" | " +
 						l.str +
-						"\n");
+						"\n"));
 			return s.replace(/\n$/, "");
 		},
 		D = [
@@ -180,10 +180,10 @@
 		return (
 			e[t].forEach(function (n) {
 				var i = r.length;
-				r.forEach(function (e, t) {
+				(r.forEach(function (e, t) {
 					e.tag === n.tag && e.kind === n.kind && e.multi === n.multi && (i = t);
 				}),
-					(r[i] = n);
+					(r[i] = n));
 			}),
 			r
 		);
@@ -201,9 +201,9 @@
 				throw new R(
 					"Schema.extend argument should be a Type, [ Type ], or a schema definition ({ implicit: [...], explicit: [...] })"
 				);
-			e.implicit && (t = t.concat(e.implicit)), e.explicit && (n = n.concat(e.explicit));
+			(e.implicit && (t = t.concat(e.implicit)), e.explicit && (n = n.concat(e.explicit)));
 		}
-		t.forEach(function (e) {
+		(t.forEach(function (e) {
 			if (!(e instanceof i))
 				throw new R(
 					"Specified list of YAML types (or a single Type object) contains a non-Type object."
@@ -222,7 +222,7 @@
 					throw new R(
 						"Specified list of YAML types (or a single Type object) contains a non-Type object."
 					);
-			});
+			}));
 		e = Object.create(r.prototype);
 		return (
 			(e.implicit = (this.implicit || []).concat(t)),
@@ -490,7 +490,7 @@
 							return "-.Inf";
 					}
 				else if (g.isNegativeZero(e)) return "-0.0";
-				return (t = e.toString(10)), Z.test(t) ? t.replace("e", ".e") : t;
+				return ((t = e.toString(10)), Z.test(t) ? t.replace("e", ".e") : t);
 			},
 			defaultStyle: "lowercase"
 		}),
@@ -557,10 +557,10 @@
 					a < n;
 					a++
 				)
-					a % 4 == 0 &&
+					(a % 4 == 0 &&
 						a &&
 						(o.push((r >> 16) & 255), o.push((r >> 8) & 255), o.push(255 & r)),
-						(r = (r << 6) | i.indexOf(t.charAt(a)));
+						(r = (r << 6) | i.indexOf(t.charAt(a))));
 				return (
 					0 == (e = (n % 4) * 6)
 						? (o.push((r >> 16) & 255), o.push((r >> 8) & 255), o.push(255 & r))
@@ -575,13 +575,13 @@
 			},
 			represent: function (e) {
 				for (var t, n = "", i = 0, r = e.length, o = ne, a = 0; a < r; a++)
-					a % 3 == 0 &&
+					(a % 3 == 0 &&
 						a &&
 						(n =
 							(n = n + o[(i >> 18) & 63] + o[(i >> 12) & 63]) +
 							o[(i >> 6) & 63] +
 							o[63 & i]),
-						(i = (i << 8) + e[a]);
+						(i = (i << 8) + e[a]));
 				return (
 					0 == (t = r % 3)
 						? (n =
@@ -641,7 +641,7 @@
 			construct: function (e) {
 				if (null === e) return [];
 				for (var t, n, i = e, r = new Array(i.length), o = 0, a = i.length; o < a; o += 1)
-					(t = i[o]), (n = Object.keys(t)), (r[o] = [n[0], t[n[0]]]);
+					((t = i[o]), (n = Object.keys(t)), (r[o] = [n[0], t[n[0]]]));
 				return r;
 			}
 		}),
@@ -728,9 +728,9 @@
 																			: "";
 	}
 	for (var Ce = new Array(256), xe = new Array(256), s = 0; s < 256; s++)
-		(Ce[s] = we(s) ? 1 : 0), (xe[s] = we(s));
+		((Ce[s] = we(s) ? 1 : 0), (xe[s] = we(s)));
 	function Ie(e, t) {
-		(this.input = e),
+		((this.input = e),
 			(this.filename = t.filename || null),
 			(this.schema = t.schema || ue),
 			(this.onWarning = t.onWarning || null),
@@ -745,7 +745,7 @@
 			(this.lineStart = 0),
 			(this.lineIndent = 0),
 			(this.firstTabInLine = -1),
-			(this.documents = []);
+			(this.documents = []));
 	}
 	function Se(e, t) {
 		e = {
@@ -755,7 +755,7 @@
 			line: e.line,
 			column: e.position - e.lineStart
 		};
-		return (e.snippet = _(e)), new R(t, e);
+		return ((e.snippet = _(e)), new R(t, e));
 	}
 	function C(e, t) {
 		throw Se(e, t);
@@ -766,7 +766,7 @@
 	var Oe = {
 		YAML: function (e, t, n) {
 			var i, r;
-			null !== e.version && C(e, "duplication of %YAML directive"),
+			(null !== e.version && C(e, "duplication of %YAML directive"),
 				1 !== n.length && C(e, "YAML directive accepts exactly one argument"),
 				null === (r = /^([0-9]+)\.([0-9]+)$/.exec(n[0])) &&
 					C(e, "ill-formed argument of the YAML directive"),
@@ -775,17 +775,17 @@
 				1 !== i && C(e, "unacceptable YAML version of the document"),
 				(e.version = n[0]),
 				(e.checkLineBreaks = r < 2),
-				1 !== r && 2 !== r && u(e, "unsupported YAML version of the document");
+				1 !== r && 2 !== r && u(e, "unsupported YAML version of the document"));
 		},
 		TAG: function (t, e, n) {
 			var i;
-			2 !== n.length && C(t, "TAG directive accepts exactly two arguments"),
+			(2 !== n.length && C(t, "TAG directive accepts exactly two arguments"),
 				(i = n[1]),
 				Ae.test((n = n[0])) ||
 					C(t, "ill-formed tag handle (first argument) of the TAG directive"),
 				m.call(t.tagMap, n) &&
 					C(t, 'there is a previously declared suffix for "' + n + '" tag handle'),
-				ve.test(i) || C(t, "ill-formed tag prefix (second argument) of the TAG directive");
+				ve.test(i) || C(t, "ill-formed tag prefix (second argument) of the TAG directive"));
 			try {
 				i = decodeURIComponent(i);
 			} catch (e) {
@@ -816,16 +816,16 @@
 			a < l;
 			a += 1
 		)
-			(o = r[a]), m.call(t, o) || ((t[o] = n[o]), (i[o] = !0));
+			((o = r[a]), m.call(t, o) || ((t[o] = n[o]), (i[o] = !0)));
 	}
 	function I(e, t, n, i, r, o, a, l, s) {
 		var c, u;
 		if (Array.isArray(r))
 			for (c = 0, u = (r = Array.prototype.slice.call(r)).length; c < u; c += 1)
-				Array.isArray(r[c]) && C(e, "nested arrays are not supported inside keys"),
+				(Array.isArray(r[c]) && C(e, "nested arrays are not supported inside keys"),
 					"object" == typeof r &&
 						"[object Object]" === ke(r[c]) &&
-						(r[c] = "[object Object]");
+						(r[c] = "[object Object]"));
 		if (
 			("object" == typeof r && "[object Object]" === ke(r) && (r = "[object Object]"),
 			(r = String(r)),
@@ -835,7 +835,7 @@
 			if (Array.isArray(o)) for (c = 0, u = o.length; c < u; c += 1) je(e, t, o[c], n);
 			else je(e, t, o, n);
 		else
-			e.json ||
+			(e.json ||
 				m.call(n, r) ||
 				!m.call(t, r) ||
 				((e.line = a || e.line),
@@ -850,32 +850,32 @@
 							value: o
 						})
 					: (t[r] = o),
-				delete n[r];
+				delete n[r]);
 		return t;
 	}
 	function Te(e) {
 		var t = e.input.charCodeAt(e.position);
-		10 === t
+		(10 === t
 			? e.position++
 			: 13 === t
 				? (e.position++, 10 === e.input.charCodeAt(e.position) && e.position++)
 				: C(e, "a line break is expected"),
 			(e.line += 1),
 			(e.lineStart = e.position),
-			(e.firstTabInLine = -1);
+			(e.firstTabInLine = -1));
 	}
 	function S(e, t, n) {
 		for (var i = 0, r = e.input.charCodeAt(e.position); 0 !== r; ) {
 			for (; v(r); )
-				9 === r && -1 === e.firstTabInLine && (e.firstTabInLine = e.position),
-					(r = e.input.charCodeAt(++e.position));
+				(9 === r && -1 === e.firstTabInLine && (e.firstTabInLine = e.position),
+					(r = e.input.charCodeAt(++e.position)));
 			if (t && 35 === r)
 				for (; 10 !== (r = e.input.charCodeAt(++e.position)) && 13 !== r && 0 !== r; );
 			if (!y(r)) break;
 			for (Te(e), r = e.input.charCodeAt(e.position), i++, e.lineIndent = 0; 32 === r; )
-				e.lineIndent++, (r = e.input.charCodeAt(++e.position));
+				(e.lineIndent++, (r = e.input.charCodeAt(++e.position)));
 		}
-		return -1 !== n && 0 !== i && e.lineIndent < n && u(e, "deficient indentation"), i;
+		return (-1 !== n && 0 !== i && e.lineIndent < n && u(e, "deficient indentation"), i);
 	}
 	function O(e) {
 		var t = e.position,
@@ -905,14 +905,14 @@
 				0 !== (c = e.input.charCodeAt(e.position));
 
 			) {
-				if (34 === c) return x(e, n, e.position, !0), e.position++, 1;
+				if (34 === c) return (x(e, n, e.position, !0), e.position++, 1);
 				if (92 === c) {
 					if ((x(e, n, e.position, !0), y((c = e.input.charCodeAt(++e.position)))))
 						S(e, !1, t);
-					else if (c < 256 && Ce[c]) (e.result += xe[c]), e.position++;
+					else if (c < 256 && Ce[c]) ((e.result += xe[c]), e.position++);
 					else if (0 < (a = 120 === (s = c) ? 2 : 117 === s ? 4 : 85 === s ? 8 : 0)) {
 						for (r = a, o = 0; 0 < r; r--)
-							(c = e.input.charCodeAt(++e.position)),
+							((c = e.input.charCodeAt(++e.position)),
 								0 <=
 								(a =
 									48 <= (l = c) && l <= 57
@@ -921,15 +921,15 @@
 											? l - 97 + 10
 											: -1)
 									? (o = (o << 4) + a)
-									: C(e, "expected hexadecimal character");
-						(e.result +=
+									: C(e, "expected hexadecimal character"));
+						((e.result +=
 							(s = o) <= 65535
 								? String.fromCharCode(s)
 								: String.fromCharCode(
 										55296 + ((s - 65536) >> 10),
 										56320 + ((s - 65536) & 1023)
 									)),
-							e.position++;
+							e.position++);
 					} else C(e, "unknown escape sequence");
 					n = i = e.position;
 				} else
@@ -961,7 +961,7 @@
 
 		)
 			if (((l = !0), e.position++, S(e, !0, -1) && e.lineIndent <= t))
-				a.push(null), (i = e.input.charCodeAt(e.position));
+				(a.push(null), (i = e.input.charCodeAt(e.position)));
 			else if (
 				((n = e.line),
 				j(e, t, fe, !1, !0),
@@ -1029,7 +1029,7 @@
 								: C(t, "unexpected end of the stream within a verbatim tag");
 						} else {
 							for (; 0 !== a && !k(a); )
-								33 === a &&
+								(33 === a &&
 									(o
 										? C(t, "tag suffix cannot contain exclamation marks")
 										: ((n = t.input.slice(e - 1, t.position + 1)),
@@ -1040,10 +1040,10 @@
 												),
 											(o = !0),
 											(e = t.position + 1))),
-									(a = t.input.charCodeAt(++t.position));
-							(i = t.input.slice(e, t.position)),
+									(a = t.input.charCodeAt(++t.position)));
+							((i = t.input.slice(e, t.position)),
 								be.test(i) &&
-									C(t, "tag suffix cannot contain flow indicator characters");
+									C(t, "tag suffix cannot contain flow indicator characters"));
 						}
 						i && !ve.test(i) && C(t, "tag name cannot contain such characters: " + i);
 						try {
@@ -1151,7 +1151,9 @@
 													for (c = e.input.charCodeAt(e.position); v(c); )
 														c = e.input.charCodeAt(++e.position);
 													if (58 === c)
-														k((c = e.input.charCodeAt(++e.position))) ||
+														(k(
+															(c = e.input.charCodeAt(++e.position))
+														) ||
 															C(
 																e,
 																"a whitespace character is expected after the key-value separator within a block mapping"
@@ -1161,24 +1163,24 @@
 																(h = g = m = null)),
 															(r = y = !(b = !0)),
 															(h = e.tag),
-															(g = e.result);
+															(g = e.result));
 													else {
 														if (!b)
-															return (e.tag = u), (e.anchor = p), 1;
+															return ((e.tag = u), (e.anchor = p), 1);
 														C(
 															e,
 															"can not read an implicit mapping pair; a colon is missed"
 														);
 													}
 												} else {
-													if (!b) return (e.tag = u), (e.anchor = p), 1;
+													if (!b) return ((e.tag = u), (e.anchor = p), 1);
 													C(
 														e,
 														"can not read a block mapping entry; a multiline key may not be an implicit key"
 													);
 												}
 											} else
-												63 === c
+												(63 === c
 													? (y &&
 															(I(e, f, d, h, g, null, a, l, s),
 															(h = g = m = null)),
@@ -1190,7 +1192,7 @@
 																"incomplete explicit mapping pair; a key node is missed; or followed by a non-tabulated empty line"
 															),
 													(e.position += 1),
-													(c = i);
+													(c = i));
 											if (
 												((e.line === o || e.lineIndent > t) &&
 													(y &&
@@ -1237,10 +1239,10 @@
 								g = e.anchor,
 								m = Object.create(null),
 								y = e.input.charCodeAt(e.position);
-							if (91 === y) (c = !(a = 93)), (o = []);
+							if (91 === y) ((c = !(a = 93)), (o = []));
 							else {
 								if (123 !== y) return;
-								(a = 125), (c = !0), (o = {});
+								((a = 125), (c = !0), (o = {}));
 							}
 							for (
 								null !== e.anchor && (e.anchorMap[e.anchor] = o),
@@ -1257,7 +1259,7 @@
 										(e.result = o),
 										1
 									);
-								d
+								(d
 									? 44 === y && C(e, "expected the node content, but found ','")
 									: C(e, "missed comma between flow collection entries"),
 									(f = null),
@@ -1288,7 +1290,7 @@
 									S(e, !0, t),
 									44 === (y = e.input.charCodeAt(e.position))
 										? ((d = !0), (y = e.input.charCodeAt(++e.position)))
-										: (d = !1);
+										: (d = !1));
 							}
 							C(e, "unexpected end of the stream within a flow collection");
 						})(e, i)
@@ -1353,7 +1355,8 @@
 											(!l || e.lineIndent < s) && 32 === p;
 
 										)
-											e.lineIndent++, (p = e.input.charCodeAt(++e.position));
+											(e.lineIndent++,
+												(p = e.input.charCodeAt(++e.position)));
 										if ((!l && e.lineIndent > s && (s = e.lineIndent), y(p)))
 											c++;
 										else {
@@ -1409,7 +1412,7 @@
 												39 !== (r = e.input.charCodeAt(++e.position)))
 											)
 												return 1;
-											(n = e.position), e.position++, (i = e.position);
+											((n = e.position), e.position++, (i = e.position));
 										} else
 											y(r)
 												? (x(e, n, i, !0),
@@ -1526,29 +1529,29 @@
 																S(e, !1, -1),
 																t <= e.lineIndent)
 															) {
-																(a = !0),
+																((a = !0),
 																	(f = e.input.charCodeAt(
 																		e.position
-																	));
+																	)));
 																continue;
 															}
-															(e.position = o),
+															((e.position = o),
 																(e.line = l),
 																(e.lineStart = s),
-																(e.lineIndent = c);
+																(e.lineIndent = c));
 															break;
 														}
 													}
-													a &&
+													(a &&
 														(x(e, r, o, !1),
 														Ne(e, e.line - l),
 														(r = o = e.position),
 														(a = !1)),
 														v(f) || (o = e.position + 1),
-														(f = e.input.charCodeAt(++e.position));
+														(f = e.input.charCodeAt(++e.position)));
 												}
 												if ((x(e, r, o, !1), e.result)) return 1;
-												(e.kind = u), (e.result = p);
+												((e.kind = u), (e.result = p));
 											}
 										})(e, i, b === n) &&
 										((h = !0), null === e.tag) &&
@@ -1574,9 +1577,9 @@
 				s += 1
 			)
 				if ((p = e.implicitTypes[s]).resolve(e.result)) {
-					(e.result = p.construct(e.result)),
+					((e.result = p.construct(e.result)),
 						(e.tag = p.tag),
-						null !== e.anchor && (e.anchorMap[e.anchor] = e.result);
+						null !== e.anchor && (e.anchorMap[e.anchor] = e.result));
 					break;
 				}
 		} else if ("!" !== e.tag) {
@@ -1592,7 +1595,7 @@
 						p = u[s];
 						break;
 					}
-			p || C(e, "unknown tag !<" + e.tag + ">"),
+			(p || C(e, "unknown tag !<" + e.tag + ">"),
 				null !== e.result &&
 					p.kind !== e.kind &&
 					C(
@@ -1608,10 +1611,11 @@
 				p.resolve(e.result, e.tag)
 					? ((e.result = p.construct(e.result, e.tag)),
 						null !== e.anchor && (e.anchorMap[e.anchor] = e.result))
-					: C(e, "cannot resolve a node with !<" + e.tag + "> explicit tag");
+					: C(e, "cannot resolve a node with !<" + e.tag + "> explicit tag"));
 		}
 		return (
-			null !== e.listener && e.listener("close", e), null !== e.tag || null !== e.anchor || h
+			null !== e.listener && e.listener("close", e),
+			null !== e.tag || null !== e.anchor || h
 		);
 	}
 	function Me(e, t) {
@@ -1634,7 +1638,7 @@
 			32 === n.input.charCodeAt(n.position);
 
 		)
-			(n.lineIndent += 1), (n.position += 1);
+			((n.lineIndent += 1), (n.position += 1));
 		for (; n.position < n.length - 1; ) {
 			a = c = o = r = i = s = l = void 0;
 			var i,
@@ -1677,10 +1681,12 @@
 					for (i = l.position; 0 !== a && !k(a); ) a = l.input.charCodeAt(++l.position);
 					o.push(l.input.slice(i, l.position));
 				}
-				0 !== a && Te(l),
-					m.call(Oe, r) ? Oe[r](l, r, o) : u(l, 'unknown document directive "' + r + '"');
+				(0 !== a && Te(l),
+					m.call(Oe, r)
+						? Oe[r](l, r, o)
+						: u(l, 'unknown document directive "' + r + '"'));
 			}
-			S(l, !0, -1),
+			(S(l, !0, -1),
 				0 === l.lineIndent &&
 				45 === l.input.charCodeAt(l.position) &&
 				45 === l.input.charCodeAt(l.position + 1) &&
@@ -1696,7 +1702,7 @@
 				l.position === l.lineStart && O(l)
 					? 46 === l.input.charCodeAt(l.position) && ((l.position += 3), S(l, !0, -1))
 					: l.position < l.length - 1 &&
-						C(l, "end of the stream or a document separator is expected");
+						C(l, "end of the stream or a document separator is expected"));
 		}
 		return n.documents;
 	}
@@ -1780,7 +1786,7 @@
 	var st = 1,
 		N = 2;
 	function ct(e) {
-		(this.schema = e.schema || ue),
+		((this.schema = e.schema || ue),
 			(this.indent = Math.max(1, e.indent || 2)),
 			(this.noArrayIndent = e.noArrayIndent || !1),
 			(this.skipInvalid = e.skipInvalid || !1),
@@ -1789,13 +1795,13 @@
 				var n, i, r, o, a, l, s;
 				if (null === t) return {};
 				for (n = {}, r = 0, o = (i = Object.keys(t)).length; r < o; r += 1)
-					(a = i[r]),
+					((a = i[r]),
 						(l = String(t[a])),
 						"!!" === a.slice(0, 2) && (a = "tag:yaml.org,2002:" + a.slice(2)),
 						(s = e.compiledTypeMap.fallback[a]) &&
 							_e.call(s.styleAliases, l) &&
 							(l = s.styleAliases[l]),
-						(n[a] = l);
+						(n[a] = l));
 				return n;
 			})(this.schema, e.styles || null)),
 			(this.sortKeys = e.sortKeys || !1),
@@ -1811,16 +1817,16 @@
 			(this.tag = null),
 			(this.result = ""),
 			(this.duplicates = []),
-			(this.usedDuplicates = null);
+			(this.usedDuplicates = null));
 	}
 	function ut(e, t) {
 		for (var n, i, r = g.repeat(" ", t), o = 0, a = "", l = e.length; o < l; )
-			(o =
+			((o =
 				-1 === (n = e.indexOf("\n", o))
 					? ((i = e.slice(o)), l)
 					: ((i = e.slice(o, n + 1)), n + 1)),
 				i.length && "\n" !== i && (a += r),
-				(a += i);
+				(a += i));
 		return a;
 	}
 	function pt(e, t) {
@@ -1907,14 +1913,14 @@
 		if (t || a)
 			for (s = 0; s < e.length; 65536 <= u ? (s += 2) : s++) {
 				if (!E((u = M(e, s)))) return L;
-				(m = m && dt(u, p, l)), (p = u);
+				((m = m && dt(u, p, l)), (p = u));
 			}
 		else {
 			for (s = 0; s < e.length; 65536 <= u ? (s += 2) : s++) {
 				if ((u = M(e, s)) === B)
-					(f = !0), h && ((d = d || (i < s - g - 1 && " " !== e[g + 1])), (g = s));
+					((f = !0), h && ((d = d || (i < s - g - 1 && " " !== e[g + 1])), (g = s)));
 				else if (!E(u)) return L;
-				(m = m && dt(u, p, l)), (p = u);
+				((m = m && dt(u, p, l)), (p = u));
 			}
 			d = d || (h && i < s - g - 1 && " " !== e[g + 1]);
 		}
@@ -1976,7 +1982,7 @@
 											i = /(\n+)([^\n]*)/g,
 											r = (() => {
 												var e = -1 !== (e = t.indexOf("\n")) ? e : t.length;
-												return (i.lastIndex = e), Ct(t.slice(0, e), n);
+												return ((i.lastIndex = e), Ct(t.slice(0, e), n));
 											})(),
 											o = "\n" === t[0] || " " === t[0];
 										(l = i.exec(t));
@@ -1984,9 +1990,9 @@
 									) {
 										var a = l[1],
 											l = l[2];
-										(e = " " === l[0]),
+										((e = " " === l[0]),
 											(r += a + (o || e || "" === l ? "" : "\n") + Ct(l, n)),
-											(o = e);
+											(o = e));
 									}
 									return r;
 								})(i, t),
@@ -2003,7 +2009,7 @@
 								r < e.length;
 								65536 <= i ? (r += 2) : r++
 							)
-								(i = M(e, r)),
+								((i = M(e, r)),
 									!(t = ot[i]) && E(i)
 										? ((n += e[r]), 65536 <= i && (n += e[r + 1]))
 										: (n +=
@@ -2012,19 +2018,19 @@
 													var t,
 														n,
 														i = e.toString(16).toUpperCase();
-													if (e <= 255) (t = "x"), (n = 2);
-													else if (e <= 65535) (t = "u"), (n = 4);
+													if (e <= 255) ((t = "x"), (n = 2));
+													else if (e <= 65535) ((t = "u"), (n = 4));
 													else {
 														if (!(e <= 4294967295))
 															throw new R(
 																"code point within a string may not be greater than 0xFFFFFFFF"
 															);
-														(t = "U"), (n = 8);
+														((t = "U"), (n = 8));
 													}
 													return (
 														"\\" + t + g.repeat("0", n - i.length) + i
 													);
-												})(i));
+												})(i)));
 							return n;
 						})(i) +
 						'"'
@@ -2045,8 +2051,8 @@
 	function Ct(e, t) {
 		if ("" === e || " " === e[0]) return e;
 		for (var n, i, r = / [^ ]/g, o = 0, a = 0, l = ""; (i = r.exec(e)); )
-			t < (i = i.index) - o && ((l += "\n" + e.slice(o, (n = o < a ? a : i))), (o = n + 1)),
-				(a = i);
+			(t < (i = i.index) - o && ((l += "\n" + e.slice(o, (n = o < a ? a : i))), (o = n + 1)),
+				(a = i));
 		return (
 			(l += "\n"),
 			e.length - o > t && o < a
@@ -2057,14 +2063,14 @@
 	}
 	function xt(e, t, n, i) {
 		for (var r, o = "", a = e.tag, l = 0, s = n.length; l < s; l += 1)
-			(r = n[l]),
+			((r = n[l]),
 				e.replacer && (r = e.replacer.call(n, String(l), r)),
 				(K(e, t + 1, r, !0, !0, !1, !0) ||
 					(void 0 === r && K(e, t + 1, null, !0, !0, !1, !0))) &&
 					((i && "" === o) || (o += pt(e, t)),
 					e.dump && B === e.dump.charCodeAt(0) ? (o += "-") : (o += "- "),
-					(o += e.dump));
-		(e.tag = a), (e.dump = o || "[]");
+					(o += e.dump)));
+		((e.tag = a), (e.dump = o || "[]"));
 	}
 	function It(e, t, n) {
 		for (
@@ -2103,7 +2109,7 @@
 			}
 	}
 	function K(e, t, n, i, r, o, a) {
-		(e.tag = null), (e.dump = n), It(e, n, !1) || It(e, n, !0);
+		((e.tag = null), (e.dump = n), It(e, n, !1) || It(e, n, !0));
 		var l,
 			s,
 			c = Le.call(e.dump),
@@ -2139,7 +2145,7 @@
 					else if ("function" == typeof m.sortKeys) v.sort(m.sortKeys);
 					else if (m.sortKeys) throw new R("sortKeys must be a boolean or a function");
 					for (p = 0, f = v.length; p < f; p += 1)
-						(g = ""),
+						((g = ""),
 							(U && "" === A) || (g += pt(m, y)),
 							(d = b[(h = v[p])]),
 							m.replacer && (d = m.replacer.call(b, h, d)),
@@ -2154,8 +2160,8 @@
 								h && (g += pt(m, y)),
 								K(m, y + 1, d, !0, h)) &&
 								(m.dump && B === m.dump.charCodeAt(0) ? (g += ":") : (g += ": "),
-								(A += g += m.dump));
-					(m.tag = n), (m.dump = A || "{}"), s && (e.dump = "&ref_" + l + e.dump);
+								(A += g += m.dump)));
+					((m.tag = n), (m.dump = A || "{}"), s && (e.dump = "&ref_" + l + e.dump));
 				} else {
 					for (
 						var k,
@@ -2172,7 +2178,7 @@
 						T < q;
 						T += 1
 					)
-						(C = "") !== O && (C += ", "),
+						((C = "") !== O && (C += ", "),
 							x.condenseFlow && (C += '"'),
 							(w = S[(k = j[T])]),
 							x.replacer && (w = x.replacer.call(S, k, w)),
@@ -2184,29 +2190,29 @@
 									":" +
 									(x.condenseFlow ? "" : " ")),
 								K(x, I, w, !1, !1)) &&
-								(O += C += x.dump);
-					(x.tag = u),
+								(O += C += x.dump));
+					((x.tag = u),
 						(x.dump = "{" + O + "}"),
-						s && (e.dump = "&ref_" + l + " " + e.dump);
+						s && (e.dump = "&ref_" + l + " " + e.dump));
 				}
 			else if ("[object Array]" === c)
 				if (i && 0 !== e.dump.length)
-					e.noArrayIndent && !a && 0 < t ? xt(e, t - 1, e.dump, r) : xt(e, t, e.dump, r),
-						s && (e.dump = "&ref_" + l + e.dump);
+					(e.noArrayIndent && !a && 0 < t ? xt(e, t - 1, e.dump, r) : xt(e, t, e.dump, r),
+						s && (e.dump = "&ref_" + l + e.dump));
 				else {
 					for (
 						var N, F = e, E = t, M = e.dump, L = "", n = F.tag, _ = 0, Y = M.length;
 						_ < Y;
 						_ += 1
 					)
-						(N = M[_]),
+						((N = M[_]),
 							F.replacer && (N = F.replacer.call(M, String(_), N)),
 							(K(F, E, N, !1, !1) || (void 0 === N && K(F, E, null, !1, !1))) &&
 								("" !== L && (L += "," + (F.condenseFlow ? "" : " ")),
-								(L += F.dump));
-					(F.tag = n),
+								(L += F.dump)));
+					((F.tag = n),
 						(F.dump = "[" + L + "]"),
-						s && (e.dump = "&ref_" + l + " " + e.dump);
+						s && (e.dump = "&ref_" + l + " " + e.dump));
 				}
 			else {
 				if ("[object String]" !== c) {
@@ -2312,7 +2318,7 @@
 			safeLoadAll: n,
 			safeDump: o
 		};
-	(e.CORE_SCHEMA = Q),
+	((e.CORE_SCHEMA = Q),
 		(e.DEFAULT_SCHEMA = Tt),
 		(e.FAILSAFE_SCHEMA = H),
 		(e.JSON_SCHEMA = J),
@@ -2327,5 +2333,5 @@
 		(e.safeLoad = a),
 		(e.safeLoadAll = n),
 		(e.types = l),
-		Object.defineProperty(e, "__esModule", { value: !0 });
+		Object.defineProperty(e, "__esModule", { value: !0 }));
 });
