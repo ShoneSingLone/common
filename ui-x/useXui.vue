@@ -227,19 +227,23 @@ export default async function ({
 
 					let prop = props[level];
 					let sortBy = Number;
+					let _groupBy = _.groupBy;
+					let _sortedKeys;
 
 					// Handle object format prop with custom sort
 					if (typeof prop === "object") {
-						const [key, sort] = Object.entries(prop)[0];
+						const { key, sort, sortedKeys, groupBy } = prop;
 						prop = key;
-						sortBy = sort;
+						sortBy = sort || Number;
+						_groupBy = groupBy;
+						_sortedKeys = sortedKeys && sortedKeys({ rows });
 					}
 
 					// Group rows by current prop
-					const groups = _.groupBy(rows, prop);
-					const sortedKeys = _.sortBy(Object.keys(groups), sortBy);
+					const groups = _groupBy(rows, prop);
+					_sortedKeys = _sortedKeys || _.sortBy(Object.keys(groups), sortBy);
 					// Process each group
-					return _.flatMap(sortedKeys, key => {
+					const result = _.flatMap(_sortedKeys, key => {
 						const groupRows = groups[key];
 
 						// Set row spans for current group
@@ -251,6 +255,7 @@ export default async function ({
 						// Process next level recursively
 						return processGroup(rowsWithSpan, props, level + 1);
 					});
+					return result;
 				}
 
 				// Start processing from first group level
