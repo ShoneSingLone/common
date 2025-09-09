@@ -668,10 +668,10 @@ export default async function ({ PRIVATE_GLOBAL }) {
 			align-items: flex-end;
 			margin: var(--xItem-label-margin, 0 16px 0 0);
 		}
-
 		.xItem_controller {
 			width: var(--xItem-controller-width, unset);
 			height: var(--xItem-controller-height, unset);
+			min-height: var(--xItem-controller-min-height, var(--ui-height));
 			display: flex;
 			flex: var(--xItem-controller-flex, 1);
 			flex-flow: row nowrap;
