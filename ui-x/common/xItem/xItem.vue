@@ -668,6 +668,7 @@ export default async function ({ PRIVATE_GLOBAL }) {
 			align-items: flex-end;
 			margin: var(--xItem-label-margin, 0 16px 0 0);
 		}
+
 		.xItem_controller {
 			width: var(--xItem-controller-width, unset);
 			height: var(--xItem-controller-height, unset);
@@ -723,7 +724,7 @@ export default async function ({ PRIVATE_GLOBAL }) {
 		padding-left: var(--xItem-msg-padding-left);
 
 		.xItem-msg-content {
-			margin-top: 10px;
+			margin-top: var(--xItem-msg-content-margin-top, 10px);
 		}
 	}
 }

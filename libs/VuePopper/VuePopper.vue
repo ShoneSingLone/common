@@ -85,7 +85,11 @@ export default async function () {
 
 				if (!popper || !reference) return;
 				if (this.visibleArrow) this.appendArrow(popper);
-				if (this.appendToBody) document.body.appendChild(this.popperElm);
+				if (this.appendToBody) {
+					document.body.appendChild(this.popperElm);
+				} else {
+					debugger;
+				}
 				if (this.popperJS && this.popperJS.destroy) {
 					this.popperJS.destroy();
 				}

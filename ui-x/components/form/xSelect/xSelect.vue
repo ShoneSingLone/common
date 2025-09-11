@@ -122,6 +122,7 @@
 		<transition name="el-zoom-in-top" @before-enter="handleMenuEnter" @after-leave="doDestroy">
 			<xSelectDropdown
 				ref="popper"
+				:data-tag="xItem.cptConfigs?.dropdownId"
 				:append-to-body="popperAppendToBody"
 				v-show="visible && emptyText !== false">
 				<xScrollbar
@@ -131,7 +132,7 @@
 					ref="scrollbar"
 					:class="{ 'is-empty': !allowCreate && query && filteredOptionsCount === 0 }"
 					v-show="options.length > 0 && !loading">
-					<xOption :value="query" created v-if="showNewOption"> </xOption>
+					<xOption :value="query" created v-if="showNewOption"></xOption>
 					<slot></slot>
 				</xScrollbar>
 				<template
@@ -1010,6 +1011,7 @@ export default async function ({ PRIVATE_GLOBAL }) {
 	.el-input__inner {
 		cursor: pointer;
 		padding-right: 35px;
+
 		&:focus {
 			border-color: var(--el-color-primary);
 		}
@@ -1027,6 +1029,7 @@ export default async function ({ PRIVATE_GLOBAL }) {
 		-webkit-transform: rotateZ(180deg);
 		transform: rotateZ(0);
 		cursor: pointer;
+
 		&.el-input__icon {
 			width: 16px;
 		}
@@ -1043,6 +1046,7 @@ export default async function ({ PRIVATE_GLOBAL }) {
 				color: var(--el-text-color-disabled);
 				-webkit-transition: color 0.2s cubic-bezier(0.645, 0.045, 0.355, 1);
 				transition: color 0.2s cubic-bezier(0.645, 0.045, 0.355, 1);
+
 				&:hover {
 					color: var(--el-text-color-secondary);
 				}
@@ -1266,6 +1270,7 @@ export default async function ({ PRIVATE_GLOBAL }) {
 	color: var(--el-text-color-disabled);
 	line-height: 18px;
 	font-size: 14px;
+
 	&:hover {
 		color: var(--el-text-color-secondary);
 	}
