@@ -23,6 +23,9 @@ export default async function () {
 				type: vm.$attrs.type || _.$val(vm, "configs.type") || "text"
 			};
 			if (vm.readonly) {
+				if(vm.isShowPassword){
+					return h("xInput", { readonly: true, value: '······', type: attrs.type });
+				}
 				return h("xInput", { readonly: true, value: vm.mixin_value, type: attrs.type });
 			}
 			if (this.isNumber) {
