@@ -2404,9 +2404,18 @@
 			try {
 				const { options, value } = xItemConfigs;
 				if (_.$isArrayFill(options) && _.$isInput(value)) {
-					const item = _.find(options, { value });
-					if (item) {
-						defaultValue = item;
+					if (_.isArray(value)) {
+						const item = _.filter(options, option => {
+							return _.includes(value, option.value);
+						});
+						if (!_.isEmpty(item)) {
+							defaultValue = item;
+						}
+					} else {
+						const item = _.find(options, { value });
+						if (item) {
+							defaultValue = item;
+						}
 					}
 				}
 			} catch (error) {
