@@ -376,7 +376,7 @@ export default async function ({ PRIVATE_GLOBAL }) {
 					) || {}
 				);
 			},
-			cpt_isHide() {
+			cpt_is_hide() {
 				const vm = this;
 				if (_.isBoolean(_.$val(vm, "cptConfigs.isHide"))) {
 					return vm.cptConfigs.isHide;

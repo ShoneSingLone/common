@@ -6,7 +6,7 @@ export default async function () {
 		return h(
 			"div",
 			{
-				vIf: !vm.cpt_isHide,
+				vIf: !vm.cpt_is_hide,
 				staticClass: "xItem-wrapper flex vertical",
 				attrs: {
 					"data-form-item-type": vm.itemType,

@@ -40,7 +40,7 @@ export default async function () {
 		};
 
 		const xItemWrapperProps = {
-			vIf: !vm.cpt_isHide,
+			vIf: !vm.cpt_is_hide,
 			staticClass: "xItem-wrapper flex vertical",
 			class: CONFIGS.class || {},
 			attrs: {
