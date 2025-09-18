@@ -80,8 +80,10 @@
 			};
 			const error = async function (response) {
 				try {
-					response = await responseInjector(response, { API_OPTIONS });
-					return reject(response);
+					response = await responseInjector(response, { API_OPTIONS, reject, resolve });
+					if (response) {
+						return reject(response);
+					}
 				} catch (response) {
 					return reject(response);
 				}
@@ -110,6 +112,7 @@
 		}
 
 		const optionsWrapper = options => {
+			options.origion_options = _.clone(options);
 			return configs.call($ajax, options);
 		};
 
@@ -125,58 +128,129 @@
 				return url;
 			}
 		};
-		const $ajax = {
-			urlWrapper,
-			upload: ({ method, url, formData, callback, headers /* headers信息 */ }) => {
-				method = method || "post";
-				callback = callback || (() => null);
-				return new Promise((resolve, reject) => {
-					const options = optionsWrapper({
-						type: method,
-						options: {},
-						headers: headers || {},
-						url,
-						success: resolve,
-						error: reject
-					});
 
-					delete options.dateType;
-					options.data = formData;
-					options.processData = false;
-					options.contentType = false;
-					options.xhr = () => {
-						// 监听 xhr
-						const xhr = $.ajaxSettings.xhr();
-						if (xhr.upload) {
-							xhr.upload.addEventListener(
-								"progress",
-								event => {
-									callback("onprogress", event);
-								},
-								false
-							);
-							return xhr;
-						}
-					};
-					$.ajax(options);
+		function post(url, options = {}) {
+			options.tryAgain = () =>
+				new Promise((resolve, reject) => {
+					$.ajax(
+						optionsWrapper({
+							type: "POST",
+							options,
+							url,
+							success: resolve,
+							error: reject
+						})
+					);
+				});
+			return options.tryAgain();
+		}
+		function get(url, options = {}) {
+			options.tryAgain = () => {
+				return new Promise((resolve, reject) => {
+					$.ajax(
+						optionsWrapper({
+							type: "GET",
+							url,
+							options,
+							timeout: 1000 * 60,
+							success: resolve,
+							error: reject
+						})
+					);
+				});
+			};
+			return options.tryAgain();
+		}
+
+		function ajax_delete(url, options = {}) {
+			options.tryAgain = () => {
+				return new Promise((resolve, reject) => {
+					$.ajax(
+						optionsWrapper({
+							type: "delete",
+							url,
+							options,
+							success: resolve,
+							error: reject
+						})
+					);
+				});
+			};
+			return options.tryAgain();
+		}
+
+		function put(url, options = {}) {
+			options.tryAgain = () => {
+				return new Promise((resolve, reject) => {
+					$.ajax(
+						optionsWrapper({
+							type: "put",
+							url,
+							options,
+							success: resolve,
+							error: reject
+						})
+					);
+				});
+			};
+			return options.tryAgain();
+		}
+
+		function upload_ajax({ method, url, formData, callback, headers /* headers信息 */ }) {
+			method = method || "post";
+			callback = callback || (() => null);
+			return new Promise((resolve, reject) => {
+				const options = optionsWrapper({
+					type: method,
+					options: {},
+					headers: headers || {},
+					url,
+					success: resolve,
+					error: reject
 				});
 
-				// return new Promise((resolve, reject) => {
-				// 	let xhr = new XMLHttpRequest();
-				// 	xhr.onprogress = event => {
-				// 		callback("onprogress", event);
-				// 	};
-				// 	// 当上传完成时调用
-				// 	xhr.onload = function () {
-				// 		if (xhr.status === 200) {
-				// 			return resolve(file);
-				// 		}
-				// 	};
-				// 	xhr.onerror = () => reject(file);
-				// 	xhr.open(method, urlWrapper(url), true);
-				// 	xhr.send(file);
-				// });
-			},
+				delete options.dateType;
+				options.data = formData;
+				options.processData = false;
+				options.contentType = false;
+				options.xhr = () => {
+					// 监听 xhr
+					const xhr = $.ajaxSettings.xhr();
+					if (xhr.upload) {
+						xhr.upload.addEventListener(
+							"progress",
+							event => {
+								callback("onprogress", event);
+							},
+							false
+						);
+						return xhr;
+					}
+				};
+				$.ajax(options);
+			});
+
+			// return new Promise((resolve, reject) => {
+			// 	let xhr = new XMLHttpRequest();
+			// 	xhr.onprogress = event => {
+			// 		callback("onprogress", event);
+			// 	};
+			// 	// 当上传完成时调用
+			// 	xhr.onload = function () {
+			// 		if (xhr.status === 200) {
+			// 			return resolve(file);
+			// 		}
+			// 	};
+			// 	xhr.onerror = () => reject(file);
+			// 	xhr.open(method, urlWrapper(url), true);
+			// 	xhr.send(file);
+			// });
+		}
+
+		const $ajax = {
+			urlWrapper,
+			upload: upload_ajax,
+			UPLOAD: upload_ajax,
 			downloadOctetStream({
 				url,
 				method,
@@ -281,59 +355,14 @@
 					);
 				});
 			},
-			post: (url, options = {}) => {
-				return new Promise((resolve, reject) => {
-					$.ajax(
-						optionsWrapper({
-							type: "POST",
-							options,
-							url,
-							success: resolve,
-							error: reject
-						})
-					);
-				});
-			},
-			get: (url, options = {}) => {
-				return new Promise((resolve, reject) => {
-					$.ajax(
-						optionsWrapper({
-							type: "GET",
-							url,
-							options,
-							timeout: 1000 * 60,
-							success: resolve,
-							error: reject
-						})
-					);
-				});
-			},
-			put: (url, options = {}) => {
-				return new Promise((resolve, reject) => {
-					$.ajax(
-						optionsWrapper({
-							type: "put",
-							url,
-							options,
-							success: resolve,
-							error: reject
-						})
-					);
-				});
-			},
-			delete: (url, options = {}) => {
-				return new Promise((resolve, reject) => {
-					$.ajax(
-						optionsWrapper({
-							type: "delete",
-							url,
-							options,
-							success: resolve,
-							error: reject
-						})
-					);
-				});
-			}
+			post,
+			POST: post,
+			get,
+			GET: get,
+			put,
+			PUT: put,
+			delete: ajax_delete,
+			DELETE: ajax_delete
 		};
 		return $ajax;
 	})();

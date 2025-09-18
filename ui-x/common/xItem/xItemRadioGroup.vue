@@ -1,7 +1,6 @@
 <script lang="ts">
 export default async function () {
 	const { mixins } = await _.$importVue("/common/ui-x/common/ItemMixins.vue");
-	debugger;
 	return {
 		mixins: [mixins],
 		props: ["options"],
@@ -98,7 +97,6 @@ export default async function () {
 			}
 		},
 		render() {
-			debugger;
 			const vm = this;
 			if (vm.readonly) {
 				const item = _.find(vm.selectOptions, { value: vm.mixin_value });
