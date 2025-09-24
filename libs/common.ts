@@ -1042,6 +1042,8 @@
 		};
 	}
 
+	_.$transToUrl = transToUrl;
+
 	(() => {
 		/**
 		 * 将一个url转换为VueRouter使用的a标签href
@@ -1605,7 +1607,7 @@
 			}
 
 			return _.$notify.error({
-				title: i18n("错误"),
+				title: i18n("error"),
 				message: tipsInfo
 			});
 		};
@@ -2339,11 +2341,16 @@
 				_.map(values, async (value, prop) => {
 					/* 允许null，代表使用configs.value */
 					if (_.isPlainObject(xItemFormConfigs[prop])) {
-						if (_.includes(["xItemSelect"], xItemFormConfigs[prop]?.itemType)) {
+						if (
+							_.includes(
+								["xItemSelect", "xItemRadioGroup"],
+								xItemFormConfigs[prop]?.itemType
+							)
+						) {
 							await _.$ensure(() => xItemFormConfigs[prop]?.options?.length);
 							if (_.isUndefined(value)) {
 								if (options.FIRST_OPTION_AS_VALUE) {
-									value = _.first(xItemFormConfigs[prop]?.options).value;
+									value = _.first(xItemFormConfigs[prop].options).value;
 								}
 							}
 						}
