@@ -1566,7 +1566,7 @@
 			if (!tipsInfo) {
 				return;
 			}
-			console.log("🚀 ERROR: ", tipsInfo);
+			console.log("🚀 $msgError: ", tipsInfo);
 			/*如果返回的是一個對象，且对象status为200，则不提示*/
 			if (_.isPlainObject(tipsInfo)) {
 				/* @ts-ignore */
