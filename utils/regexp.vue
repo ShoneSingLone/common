@@ -1,7 +1,292 @@
 <script lang="ts">
 export default async function () {
+	/**
+	 * CIDR校验工具，用于验证IPv4 CIDR地址的合法性
+	 */
+	class CIDRValidator {
+		/**
+		 * 校验CIDR是否合法
+		 * @param {string} cidr - 待校验的CIDR字符串，格式如"192.168.1.0/24"
+		 * @returns {Object} 校验结果，包含是否合法及相关信息
+		 */
+		validate(cidr) {
+			// 步骤1: 检查基本格式
+			const formatResult = this.checkFormat(cidr);
+			if (!formatResult.valid) {
+				return formatResult;
+			}
+
+			const { ip, prefix } = formatResult;
+
+			// 步骤2: 检查IP地址各段是否合法
+			const ipSegments = ip.split(".").map(Number);
+			const ipResult = this.checkIpSegments(ipSegments);
+			if (!ipResult.valid) {
+				return ipResult;
+			}
+
+			// 步骤3: 检查前缀长度是否合法
+			const prefixResult = this.checkPrefix(prefix);
+			if (!prefixResult.valid) {
+				return prefixResult;
+			}
+
+			// 步骤4: 检查网络位与主机位是否合法
+			const networkResult = this.checkNetworkHostBits(ipSegments, prefix);
+			if (!networkResult.valid) {
+				return networkResult;
+			}
+
+			// 所有检查通过，返回详细信息
+			return {
+				valid: true,
+				ip,
+				prefix,
+				subnetMask: this.calculateSubnetMask(prefix),
+				networkAddress: this.calculateNetworkAddress(ipSegments, prefix),
+				broadcastAddress: this.calculateBroadcastAddress(ipSegments, prefix),
+				message: "CIDR地址合法"
+			};
+		}
+
+		/**
+		 * 检查CIDR的基本格式
+		 * @param {string} cidr - 待校验的CIDR字符串
+		 * @returns {Object} 格式检查结果
+		 */
+		checkFormat(cidr) {
+			// 基本格式正则: 四组数字.四组数字.四组数字.四组数字/前缀
+			const cidrRegex = /^(\d{1,3}\.){3}\d{1,3}\/\d{1,2}$/;
+
+			if (!cidrRegex.test(cidr)) {
+				return {
+					valid: false,
+					message: 'CIDR格式不正确，正确格式应为"x.x.x.x/y"，如"192.168.1.0/24"'
+				};
+			}
+
+			// 分割IP和前缀
+			const [ip, prefixStr] = cidr.split("/");
+			const prefix = parseInt(prefixStr, 10);
+
+			// 检查IP部分是否有前导零（0除外）
+			const ipSegments = ip.split(".");
+			for (const segment of ipSegments) {
+				if (segment.length > 1 && segment.startsWith("0")) {
+					return {
+						valid: false,
+						message: `IP地址包含无效的前导零: ${segment}`
+					};
+				}
+			}
+
+			return {
+				valid: true,
+				ip,
+				prefix
+			};
+		}
+
+		/**
+		 * 检查IP地址各段是否在合法范围内
+		 * @param {number[]} segments - IP地址的四个段
+		 * @returns {Object} 检查结果
+		 */
+		checkIpSegments(segments) {
+			if (segments.length !== 4) {
+				return {
+					valid: false,
+					message: "IP地址必须包含4个段"
+				};
+			}
+
+			for (let i = 0; i < 4; i++) {
+				const segment = segments[i];
+				if (isNaN(segment) || segment < 0 || segment > 255) {
+					return {
+						valid: false,
+						message: `IP地址第${i + 1}段(${segment})无效，必须在0-255之间`
+					};
+				}
+			}
+
+			return { valid: true };
+		}
+
+		/**
+		 * 检查前缀长度是否合法
+		 * @param {number} prefix - 前缀长度
+		 * @returns {Object} 检查结果
+		 */
+		checkPrefix(prefix) {
+			if (isNaN(prefix) || prefix < 0 || prefix > 32) {
+				return {
+					valid: false,
+					message: `前缀长度(${prefix})无效，IPv4的前缀长度必须在0-32之间`
+				};
+			}
+			return { valid: true };
+		}
+
+		/**
+		 * 检查网络位与主机位是否合法
+		 * @param {number[]} ipSegments - IP地址的四个段
+		 * @param {number} prefix - 前缀长度
+		 * @returns {Object} 检查结果
+		 */
+		checkNetworkHostBits(ipSegments, prefix) {
+			// 对于/32前缀，主机位为0，任何IP都是合法的
+			if (prefix === 32) {
+				return { valid: true };
+			}
+
+			// 对于/0前缀，只有0.0.0.0/0是合法的
+			if (prefix === 0) {
+				if (ipSegments.join(".") === "0.0.0.0") {
+					return { valid: true };
+				} else {
+					return {
+						valid: false,
+						message: "前缀为0时，IP地址必须是0.0.0.0"
+					};
+				}
+			}
+
+			// 计算网络地址
+			const networkAddress = this.calculateNetworkAddress(ipSegments, prefix);
+			const originalIp = ipSegments.join(".");
+
+			if (networkAddress !== originalIp) {
+				return {
+					valid: false,
+					message: `IP地址的主机位必须全为0，正确的网络地址应为${networkAddress}`
+				};
+			}
+
+			return { valid: true };
+		}
+
+		/**
+		 * 计算子网掩码
+		 * @param {number} prefix - 前缀长度
+		 * @returns {string} 子网掩码字符串
+		 */
+		calculateSubnetMask(prefix) {
+			// 创建32位的子网掩码二进制数组
+			const maskBits = new Array(32).fill(0).map((_, i) => (i < prefix ? 1 : 0));
+
+			// 分成4个字节并转换为十进制
+			const octets = [];
+			for (let i = 0; i < 4; i++) {
+				const start = i * 8;
+				const end = start + 8;
+				const bits = maskBits.slice(start, end).join("");
+				octets.push(parseInt(bits, 2));
+			}
+
+			return octets.join(".");
+		}
+
+		/**
+		 * 计算网络地址
+		 * @param {number[]} ipSegments - IP地址的四个段
+		 * @param {number} prefix - 前缀长度
+		 * @returns {string} 网络地址字符串
+		 */
+		calculateNetworkAddress(ipSegments, prefix) {
+			// 将IP转换为32位二进制
+			const ipBits = [];
+			for (const segment of ipSegments) {
+				// 转换为8位二进制，不足8位前面补0
+				const bits = segment.toString(2).padStart(8, "0");
+				ipBits.push(...bits.split("").map(Number));
+			}
+
+			// 将主机位设为0
+			for (let i = prefix; i < 32; i++) {
+				ipBits[i] = 0;
+			}
+
+			// 转换回四段十进制格式
+			const octets = [];
+			for (let i = 0; i < 4; i++) {
+				const start = i * 8;
+				const end = start + 8;
+				const bits = ipBits.slice(start, end).join("");
+				octets.push(parseInt(bits, 2));
+			}
+
+			return octets.join(".");
+		}
+
+		/**
+		 * 计算广播地址
+		 * @param {number[]} ipSegments - IP地址的四个段
+		 * @param {number} prefix - 前缀长度
+		 * @returns {string} 广播地址字符串
+		 */
+		calculateBroadcastAddress(ipSegments, prefix) {
+			// 对于/32前缀，广播地址就是IP本身
+			if (prefix === 32) {
+				return ipSegments.join(".");
+			}
+
+			// 将IP转换为32位二进制
+			const ipBits = [];
+			for (const segment of ipSegments) {
+				const bits = segment.toString(2).padStart(8, "0");
+				ipBits.push(...bits.split("").map(Number));
+			}
+
+			// 将主机位设为1
+			for (let i = prefix; i < 32; i++) {
+				ipBits[i] = 1;
+			}
+
+			// 转换回四段十进制格式
+			const octets = [];
+			for (let i = 0; i < 4; i++) {
+				const start = i * 8;
+				const end = start + 8;
+				const bits = ipBits.slice(start, end).join("");
+				octets.push(parseInt(bits, 2));
+			}
+
+			return octets.join(".");
+		}
+
+		/**
+		 * 判断IP是否为私有地址
+		 * @param {string} ip - IP地址
+		 * @returns {boolean} 是否为私有地址
+		 */
+		isPrivateIp(ip) {
+			const segments = ip.split(".").map(Number);
+
+			// 10.0.0.0/8 私有网段
+			if (segments[0] === 10) {
+				return true;
+			}
+
+			// 172.16.0.0/12 私有网段 (172.16.0.0 - 172.31.255.255)
+			if (segments[0] === 172 && segments[1] >= 16 && segments[1] <= 31) {
+				return true;
+			}
+
+			// 192.168.0.0/16 私有网段
+			if (segments[0] === 192 && segments[1] === 168) {
+				return true;
+			}
+
+			return false;
+		}
+	}
+
 	if (!window._reg) {
+		const validator_cidr = new CIDRValidator();
+
 		window._reg = {
+			validator_cidr,
 			serviceName: () => /^[^\d][a-z0-9-]{0,62}[a-z0-9]$/,
 			email: () => /^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/,
 			mobile: () => /^1[34578]\d{9}$/,
@@ -134,7 +419,6 @@ export default async function () {
 			scEnvName: () => /[-._a-zA-Z][-._a-zA-Z0-9]*'/
 		};
 	}
-
 	return window._reg;
 }
 </script>

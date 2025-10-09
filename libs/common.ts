@@ -2245,6 +2245,7 @@
 				vm = _.$val(Vue, `_X_ITEM_VM_S.${formItemId || "________No"}`) || {};
 			}
 		} catch (error) {
+			console.log("🚀 ~ error:", error);
 		} finally {
 			return vm;
 		}

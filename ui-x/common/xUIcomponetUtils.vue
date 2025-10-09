@@ -1017,18 +1017,20 @@ export default async function ({ PRIVATE_GLOBAL }) {
 
 			if (prop === "width") {
 				if (width$.value !== value) {
+					console.log("🚀 ~ useAutoResize_setValue ~ value:", prop, value);
 					width$.value = value;
 				}
 			}
 			if (prop === "height") {
 				if (height$.value !== value) {
+					console.log("🚀 ~ useAutoResize_setValue ~ value:", prop, value);
 					height$.value = value;
 				}
 			}
 		};
 
 		/*关键*/
-		const setValue = _.throttle(_setValue, 18);
+		const setValue = _setValue;
 
 		onMounted(() => {
 			resizerStopper = useResizeObserver(sizer, ([entry]) => {
