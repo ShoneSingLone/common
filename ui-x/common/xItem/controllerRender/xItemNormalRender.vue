@@ -1,5 +1,5 @@
 <script lang="ts">
-export default async function () {
+export default async function ({ PRIVATE_GLOBAL }) {
 	return function render() {
 		const vm = this;
 		const CONFIGS = this.cptConfigs;
@@ -159,7 +159,9 @@ export default async function () {
 										},
 										[
 											h("xIcon", {
-												icon: "exclamationMark",
+												icon:
+													PRIVATE_GLOBAL.x_item_error_tips_icon ||
+													"exclamationMark",
 												staticClass: "xItem_error-msg ml4"
 											})
 										]

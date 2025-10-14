@@ -10,6 +10,7 @@ export default async function ({
 	x_switch_width,
 	x_page_title_back_icon,
 	x_item_is_show_item_colon,
+	x_item_error_tips_icon,
 	x_modal_close_icon,
 	x_pagination_pagination_component,
 	x_pagination_position,
@@ -36,6 +37,7 @@ export default async function ({
 		PRIVATE_GLOBAL.x_switch_width = x_switch_width || 40;
 		PRIVATE_GLOBAL.x_page_title_back_icon = x_page_title_back_icon || "icon_back";
 		PRIVATE_GLOBAL.x_item_is_show_item_colon = x_item_is_show_item_colon || false;
+		PRIVATE_GLOBAL.x_item_error_tips_icon = x_item_error_tips_icon || "exclamationMark";
 		PRIVATE_GLOBAL.x_modal_close_icon = x_modal_close_icon || "icon_close";
 		PRIVATE_GLOBAL.x_pagination_pagination_component =
 			x_pagination_pagination_component || "PrivatePagination";
