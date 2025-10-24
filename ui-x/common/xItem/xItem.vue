@@ -649,9 +649,9 @@ export default async function ({ PRIVATE_GLOBAL }) {
 	height: var(--xItem-wrapper-height, auto);
 	min-width: 1px;
 
-	.xItem-label_controller_wrapper {
-		width: var(--xItem-label_controller_wrapper-width, unset);
-		height: var(--xItem-label_controller_wrapper-height, unset);
+	.x-item-label-controller-wrapper {
+		width: var(--x-item-label-controller-wrapper-width, unset);
+		height: var(--x-item-label-controller-wrapper-height, unset);
 		position: relative;
 		display: flex;
 		flex-flow: var(--xItem-flex-flow, row nowrap);

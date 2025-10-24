@@ -20,7 +20,7 @@ export default async function ({ PRIVATE_GLOBAL }) {
 				h(
 					"div",
 					{
-						staticClass: "xItem-label_controller_wrapper"
+						staticClass: "x-item-label-controller-wrapper"
 					},
 					[
 						/* label */
