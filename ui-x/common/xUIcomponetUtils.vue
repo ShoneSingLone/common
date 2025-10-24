@@ -1017,13 +1017,13 @@ export default async function ({ PRIVATE_GLOBAL }) {
 
 			if (prop === "width") {
 				if (width$.value !== value) {
-					console.log("🚀 ~ useAutoResize_setValue ~ value:", prop, value);
+					console.warn("🚀 ~ useAutoResize_setValue ~ value:", prop, value);
 					width$.value = value;
 				}
 			}
 			if (prop === "height") {
 				if (height$.value !== value) {
-					console.log("🚀 ~ useAutoResize_setValue ~ value:", prop, value);
+					console.warn("🚀 ~ useAutoResize_setValue ~ value:", prop, value);
 					height$.value = value;
 				}
 			}
