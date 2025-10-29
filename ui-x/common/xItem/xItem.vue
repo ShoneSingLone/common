@@ -398,6 +398,7 @@ export default async function ({ PRIVATE_GLOBAL }) {
 				vm.p_debounceValidate = _.debounce(vm.validate, 1000);
 			}, 1000 * 3);
 			return {
+				hide_by_manually: false,
 				componentName: "xItem",
 				errorTips: "",
 				p_style: {},
@@ -605,6 +606,9 @@ export default async function ({ PRIVATE_GLOBAL }) {
 			}
 		},
 		render() {
+			if (this.hide_by_manually) {
+				return true;
+			}
 			if (!this.cptConfigs) debugger;
 
 			/* TODO:只读模式 */

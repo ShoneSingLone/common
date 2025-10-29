@@ -35,8 +35,15 @@ each(@list, {
 		margin-@{position}: @gap*1px;
 	}
 
+	.m@{type}@{gap}-important {
+		margin-@{position}: @gap*1px !important;
+	}
+
 	.p@{type}@{gap} {
 		padding-@{position}: @gap*1px;
+	}
+	.p@{type}@{gap}-important {
+		padding-@{position}: @gap*1px !important;
 	}
 }
 
@@ -60,19 +67,33 @@ each(@list, {
 
 .x-margin {
 	margin: var(--ui-one);
+
+	&-important {
+		padding: var(--ui-one) !important;
+	}
 }
 
 .x-padding {
 	padding: var(--ui-one);
+
+	&-important {
+		padding: var(--ui-one) !important;
+	}
 }
 
 .mpFn(@type;@position) {
 	.m@{type} {
 		margin-@{position}: var(--ui-one);
 	}
+	.m@{type}-important {
+		margin-@{position}: var(--ui-one) !important;
+	}
 
 	.p@{type} {
 		padding-@{position}: var(--ui-one);
+	}
+	.p@{type}-important {
+		padding-@{position}: var(--ui-one) !important;
 	}
 }
 
