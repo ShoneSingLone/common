@@ -61,9 +61,13 @@ export default async function ({ PRIVATE_GLOBAL }) {
 		setup(props) {
 			const vm = this;
 
-			const { onSetup } = vm.configs || {};
-			if (onSetup) {
-				onSetup.call(vm, props);
+			const { onMounted: configsOnMounted } = vm.configs || {};
+
+			if (configsOnMounted) {
+				configsOnMounted.call(vm.cptConfigs, {
+					xItem: vm,
+					props
+				});
 			}
 
 			/*** xItem对外暴露自身实例*/
