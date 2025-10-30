@@ -611,10 +611,11 @@ export default async function ({ PRIVATE_GLOBAL }) {
 		},
 		render() {
 			if (this.hide_by_manually) {
-				return true;
+				return null;
 			}
-			if (!this.cptConfigs) debugger;
-
+			if (!this.cptConfigs) {
+				debugger;
+			}
 			/* TODO:只读模式 */
 			if (this.readOnlyAs) {
 				if (_xItem_lazyLoadRender.ReadonlyAsRender) {
