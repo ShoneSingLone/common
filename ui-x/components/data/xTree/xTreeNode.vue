@@ -10,7 +10,7 @@
 		@drop="onDrop"
 		ref="node$"
 		role="treeitem"
-		tabindex="-1"
+		:data-tabindex="node.level"
 		:class="cptTreeNodeClass"
 		:aria-expanded="expanded"
 		:aria-disabled="disabled"
@@ -247,7 +247,7 @@ export default async function () {
 				// const onepice = Math.floor(event.target.offsetHeight / 3);
 
 				this.dropType = (function () {
-					/* 
+					/*
           if (offsetY < onepice) {
           	return "before";
           } else if (offsetY > onepice * 2) {
@@ -305,21 +305,25 @@ export default async function () {
 			color: var(--xTreeNode-text-color-current, white);
 		}
 	}
+
 	&.dragged {
 		opacity: 0.3;
 		transition: all 0.3s ease-in-out;
 	}
+
 	.indicator {
 		position: absolute;
 		z-index: 1;
 		display: none;
 		background-color: var(--el-color-primary);
+
 		&.top {
 			height: 2px;
 			left: 0;
 			top: 0;
 			right: 0;
 		}
+
 		&.right {
 			width: 2px;
 			// background-color: red;
@@ -327,6 +331,7 @@ export default async function () {
 			top: 0;
 			bottom: 0;
 		}
+
 		&.bottom {
 			height: 2px;
 			// background-color: green;
@@ -334,6 +339,7 @@ export default async function () {
 			right: 0;
 			bottom: 0;
 		}
+
 		&.left {
 			width: 2px;
 			// background-color: yellow;
@@ -345,6 +351,7 @@ export default async function () {
 
 	&.before {
 		transform: translate(2px, 2px);
+
 		.indicator {
 			&.left,
 			&.top {
@@ -352,6 +359,7 @@ export default async function () {
 			}
 		}
 	}
+
 	&.inner {
 		.indicator {
 			&.right,
@@ -362,8 +370,10 @@ export default async function () {
 			}
 		}
 	}
+
 	&.after {
 		transform: translate(-2px, -2px);
+
 		.indicator {
 			&.right,
 			&.bottom {

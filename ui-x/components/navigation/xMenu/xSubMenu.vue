@@ -56,7 +56,7 @@ export default async function () {
 			disabled: Boolean,
 			popperAppendToBody: {
 				type: Boolean,
-				default: undefined
+				default: true
 			}
 		},
 		data() {
