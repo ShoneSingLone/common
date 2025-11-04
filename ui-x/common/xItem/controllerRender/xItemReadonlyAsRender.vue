@@ -35,7 +35,7 @@ export default async function () {
 								h(
 									"span",
 									{
-										vIf: vm.cpt_isRequired,
+										vIf: vm.cpt_is_required,
 										staticClass: "xItem_label-required"
 									},
 									["*"]

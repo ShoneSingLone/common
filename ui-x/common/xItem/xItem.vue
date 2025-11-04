@@ -357,14 +357,14 @@ export default async function ({ PRIVATE_GLOBAL }) {
 				}
 				return false;
 			},
-			cpt_isRequired() {
+			cpt_is_required() {
 				try {
 					return _.some(this.cptConfigs.rules, rule => rule.name === "required");
 				} catch (error) {
 					return false;
 				}
 			},
-			cpt_rulesByTrigger() {
+			cpt_rules_by_trigger() {
 				return (
 					_.reduce(
 						_.$val(this, "cptConfigs.rules"),
@@ -501,7 +501,7 @@ export default async function ({ PRIVATE_GLOBAL }) {
 					}
 					this.$emit("change", val);
 					this.triggerOnEmitValue(val);
-					const rule = this.cpt_rulesByTrigger["change"];
+					const rule = this.cpt_rules_by_trigger["change"];
 					if (rule) {
 						this.debounceValidate();
 					}
@@ -589,7 +589,7 @@ export default async function ({ PRIVATE_GLOBAL }) {
 					listeners[eventName] = function (value, $event) {
 						const on = vm.cptConfigs.on;
 						/*除非主动调用 _.$validateForm，只有对应的事件才会触发校验*/
-						const rule = vm.cpt_rulesByTrigger[eventName];
+						const rule = vm.cpt_rules_by_trigger[eventName];
 						if (rule) {
 							vm.debounceValidate();
 						}
