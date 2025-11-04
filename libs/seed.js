@@ -509,7 +509,18 @@
 	};
 
 	var $ensure = (() => {
-		const logEnsure = () => null;
+		// 添加节流控制变量
+		let lastLogTime = 0;
+		const LOG_INTERVAL = 1000; // 日志打印间隔，单位：毫秒
+		
+		const logEnsure = (fnStr, count) => {
+			const now = Date.now();
+			// 只有在上次日志打印后的指定时间间隔后才打印
+			if (now - lastLogTime >= LOG_INTERVAL) {
+				console.log(`$ensure: 正在等待条件满足 (尝试次数: ${count})`, fnStr);
+				lastLogTime = now;
+			}
+		};
 
 		/**
 		 *

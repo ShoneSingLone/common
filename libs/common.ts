@@ -2338,28 +2338,50 @@
 		 */
 		/* @typescriptDeclare (xItemFormConfigs:object,values:object,options?:object)=>Promise<void[]> */
 		_.$asyncSetFormValues = async function (xItemFormConfigs, values, options = {}) {
-			return Promise.all(
-				_.map(values, async (value, prop) => {
-					/* 允许null，代表使用configs.value */
-					if (_.isPlainObject(xItemFormConfigs[prop])) {
-						if (
-							_.includes(
-								["xItemSelect", "xItemRadioGroup"],
-								xItemFormConfigs[prop]?.itemType
-							)
-						) {
-							await _.$ensure(() => xItemFormConfigs[prop]?.options?.length);
-							if (_.isUndefined(value)) {
-								if (options.FIRST_OPTION_AS_VALUE) {
-									value = _.first(xItemFormConfigs[prop].options).value;
+			try {
+				return await Promise.all(
+					_.map(values, async (value, prop) => {
+						try {
+							/* 允许null，代表使用configs.value */
+							if (_.isPlainObject(xItemFormConfigs[prop])) {
+								if (
+									_.includes(
+										["xItemSelect", "xItemRadioGroup"],
+										xItemFormConfigs[prop]?.itemType
+									)
+								) {
+									// console.log("asyncSetFormValues", prop);
+									if (_.isUndefined(value)) {
+										if (options.FIRST_OPTION_AS_VALUE) {
+											try {
+												await _.$ensure(() => xItemFormConfigs[prop]?.options?.length);
+												value = _.first(xItemFormConfigs[prop].options).value;
+											} catch (ensureError) {
+												console.error(`$asyncSetFormValues: Await处理超时或失败 for prop '${prop}'`, ensureError);
+												console.error(`属性配置:`, xItemFormConfigs[prop]);
+												console.error(`选项:`, options);
+												throw ensureError;
+											}
+										}
+									}
+									// console.log("asyncSetFormValues", prop, "end");
 								}
+								/*TODO:other type*/
+								xItemFormConfigs[prop].value = value;
 							}
+						} catch (propError) {
+							console.error(`$asyncSetFormValues: 处理属性 '${prop}' 时出错`, propError);
+							throw propError;
 						}
-						/*TODO:other type*/
-						xItemFormConfigs[prop].value = value;
-					}
-				})
-			);
+					})
+				);
+			} catch (error) {
+				console.error(`$asyncSetFormValues: 批量设置表单值失败`, error);
+				console.error(`表单配置:`, xItemFormConfigs);
+				console.error(`表单值:`, values);
+				console.error(`选项:`, options);
+				throw error;
+			}
 		};
 		_.$setFormValuesDelay = function (xItemFormConfigs, values, delay = 100) {
 			setTimeout(() => {
