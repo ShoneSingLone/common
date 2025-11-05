@@ -1373,32 +1373,70 @@
 	/* @typescriptDeclare (vm:any, fn:Function, wait:number)=>any */
 	_.$asyncDebounce = (vm, func, delay = 1000) => {
 		let timer;
-		let promise;
-		let _resolve, _reject;
-		return async function (...args) {
-			const runFn = () => {
-				return setTimeout(() => {
-					func.apply(vm, args).then(_resolve, _reject);
-				}, delay);
-			};
+		let promise = null;
+		let _resolve = null;
+		let _reject = null;
 
+		return async function (...args) {
+			// 清除之前的定时器
 			if (timer) {
-				/* 重新计时 */
 				clearTimeout(timer);
-				timer = runFn();
 			}
+
+			// 如果已经有promise在等待，返回该promise
 			if (promise) {
+				// 重设定时器，确保函数会在最后一次调用后延迟执行
+				timer = setTimeout(() => {
+					// 执行异步函数并正确处理结果
+					func.apply(vm, args)
+						.then(result => {
+							if (_resolve) {
+								_resolve(result);
+								// 重置状态，准备下一次防抖
+								resetState();
+							}
+						})
+						.catch(error => {
+							if (_reject) {
+								_reject(error);
+								// 出错时也要重置状态
+								resetState();
+							}
+						});
+				}, delay);
 				return promise;
 			} else {
+				// 创建新的promise
 				promise = new Promise((resolve, reject) => {
 					_resolve = resolve;
 					_reject = reject;
 
-					timer = runFn();
+					timer = setTimeout(() => {
+						// 执行异步函数并正确处理结果
+						func.apply(vm, args)
+							.then(result => {
+								resolve(result);
+								// 重置状态，准备下一次防抖
+								resetState();
+							})
+							.catch(error => {
+								reject(error);
+								// 出错时也要重置状态
+								resetState();
+							});
+					}, delay);
 				});
 				return promise;
 			}
 		};
+
+		// 重置状态函数
+		function resetState() {
+			timer = null;
+			promise = null;
+			_resolve = null;
+			_reject = null;
+		}
 	};
 	const windowConsole = window.console;
 	/**
@@ -2335,6 +2373,7 @@
 		 * @param {any} values
 		 * @param {any} options
 		 * 1.FIRST_OPTION_AS_VALUE 如果values的值为undefined，默认取options第一个值
+		 * 2.ENSURE_OPTIONS_FILL 需要等待options填充才算完成
 		 */
 		/* @typescriptDeclare (xItemFormConfigs:object,values:object,options?:object)=>Promise<void[]> */
 		_.$asyncSetFormValues = async function (xItemFormConfigs, values, options = {}) {
@@ -2350,27 +2389,43 @@
 										xItemFormConfigs[prop]?.itemType
 									)
 								) {
+									if (options.ENSURE_OPTIONS_FILL) {
+										await _.$ensure(
+											() => xItemFormConfigs[prop]?.options?.length
+										);
+									}
 									// console.log("asyncSetFormValues", prop);
 									if (_.isUndefined(value)) {
 										if (options.FIRST_OPTION_AS_VALUE) {
 											try {
-												await _.$ensure(() => xItemFormConfigs[prop]?.options?.length);
-												value = _.first(xItemFormConfigs[prop].options).value;
+												await _.$ensure(
+													() => xItemFormConfigs[prop]?.options?.length
+												);
+												value = _.first(
+													xItemFormConfigs[prop].options
+												).value;
 											} catch (ensureError) {
-												console.error(`$asyncSetFormValues: Await处理超时或失败 for prop '${prop}'`, ensureError);
+												console.error(
+													`$asyncSetFormValues: Await处理超时或失败 for prop '${prop}'`,
+													ensureError
+												);
 												console.error(`属性配置:`, xItemFormConfigs[prop]);
 												console.error(`选项:`, options);
 												throw ensureError;
 											}
 										}
 									}
+
 									// console.log("asyncSetFormValues", prop, "end");
 								}
 								/*TODO:other type*/
 								xItemFormConfigs[prop].value = value;
 							}
 						} catch (propError) {
-							console.error(`$asyncSetFormValues: 处理属性 '${prop}' 时出错`, propError);
+							console.error(
+								`$asyncSetFormValues: 处理属性 '${prop}' 时出错`,
+								propError
+							);
 							throw propError;
 						}
 					})
