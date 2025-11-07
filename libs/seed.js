@@ -512,7 +512,7 @@
 		// 添加节流控制变量
 		let lastLogTime = 0;
 		const LOG_INTERVAL = 1000; // 日志打印间隔，单位：毫秒
-		
+
 		const logEnsure = (fnStr, count) => {
 			const now = Date.now();
 			// 只有在上次日志打印后的指定时间间隔后才打印
@@ -788,7 +788,7 @@
 									const preloadArray = getPreload();
 									preloadArray.forEach(url => $loadText(url));
 								}
-							} catch (error) {}
+							} catch (error) { }
 						}
 					}
 				],
