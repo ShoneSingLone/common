@@ -2349,7 +2349,9 @@ export default async function ({ PRIVATE_GLOBAL, mergeProps4h }) {
 
 							const hCustomCell = slotsCell => {
 								/* 自定义的 slotsCell */
-								return h(CellRenderer, propsCell, [slotsCell(cellProps)]);
+								return h(CellRenderer, propsCell, [
+									slotsCell(cellProps, { defaultCell: hDefaultCell() })
+								]);
 							};
 
 							const hDefaultCell = () => {

@@ -2373,7 +2373,6 @@
 		 * @param {any} values
 		 * @param {any} options
 		 * 1.FIRST_OPTION_AS_VALUE 如果values的值为undefined，默认取options第一个值
-		 * 2.ENSURE_OPTIONS_FILL 需要等待options填充才算完成
 		 */
 		/* @typescriptDeclare (xItemFormConfigs:object,values:object,options?:object)=>Promise<void[]> */
 		_.$asyncSetFormValues = async function (xItemFormConfigs, values, options = {}) {
@@ -2389,11 +2388,7 @@
 										xItemFormConfigs[prop]?.itemType
 									)
 								) {
-									if (options.ENSURE_OPTIONS_FILL) {
-										await _.$ensure(
-											() => xItemFormConfigs[prop]?.options?.length
-										);
-									}
+									await _.$ensure(() => xItemFormConfigs[prop]?.options?.length);
 									// console.log("asyncSetFormValues", prop);
 									if (_.isUndefined(value)) {
 										if (options.FIRST_OPTION_AS_VALUE) {
