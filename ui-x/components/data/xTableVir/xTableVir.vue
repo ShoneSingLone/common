@@ -1179,7 +1179,7 @@ export default async function ({ PRIVATE_GLOBAL, mergeProps4h }) {
 	};
 	const useData = (props, { expandedRowKeys, lastRenderedRowIndex, resetAfterIndex }) => {
 		const depthMap = ref({});
-		/* 树形结构 */
+		/* 树形结构 - 为了支持展开行功能，我们需要特殊处理children数据 */
 		const flattenedData = computed(() => {
 			const depths = {};
 			const { data: allRows, rowKey } = props;
