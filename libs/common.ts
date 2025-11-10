@@ -2376,37 +2376,58 @@
 		 */
 		/* @typescriptDeclare (xItemFormConfigs:object,values:object,options?:object)=>Promise<void[]> */
 		_.$asyncSetFormValues = async function (xItemFormConfigs, values, options = {}) {
+			let logValues = _.reduce(
+				values,
+				(_logValues, value, prop) => {
+					_logValues[prop] = value;
+					return _logValues;
+				},
+				{}
+			);
 			try {
 				return await Promise.all(
 					_.map(values, async (value, prop) => {
 						try {
 							/* 允许null，代表使用configs.value */
 							if (_.isPlainObject(xItemFormConfigs[prop])) {
-								if (
-									_.includes(
-										["xItemSelect", "xItemRadioGroup"],
-										xItemFormConfigs[prop]?.itemType
-									)
-								) {
+								if (_.isArray(xItemFormConfigs[prop]?.options)) {
 									await _.$ensure(() => xItemFormConfigs[prop]?.options?.length);
 									// console.log("asyncSetFormValues", prop);
-									if (_.isUndefined(value)) {
-										if (options.FIRST_OPTION_AS_VALUE) {
-											try {
-												await _.$ensure(
-													() => xItemFormConfigs[prop]?.options?.length
-												);
-												value = _.first(
-													xItemFormConfigs[prop].options
-												).value;
-											} catch (ensureError) {
-												console.error(
-													`$asyncSetFormValues: Await处理超时或失败 for prop '${prop}'`,
-													ensureError
-												);
-												console.error(`属性配置:`, xItemFormConfigs[prop]);
-												console.error(`选项:`, options);
-												throw ensureError;
+									const needWait = (() => {
+										if (_.isBoolean(xItemFormConfigs[prop].isHide)) {
+											return !xItemFormConfigs[prop].isHide;
+										}
+
+										if (_.isFunction(xItemFormConfigs[prop].isHide)) {
+											return !xItemFormConfigs[prop].isHide();
+										}
+
+										return true;
+									})();
+
+									if (needWait) {
+										await _.$ensure(
+											() => xItemFormConfigs[prop]?.options?.length
+										);
+
+										if (_.isUndefined(value)) {
+											if (options.FIRST_OPTION_AS_VALUE) {
+												try {
+													value = _.first(
+														xItemFormConfigs[prop].options
+													).value;
+												} catch (ensureError) {
+													console.error(
+														`$asyncSetFormValues: Await处理超时或失败 for prop '${prop}'`,
+														ensureError
+													);
+													console.error(
+														`属性配置:`,
+														xItemFormConfigs[prop]
+													);
+													console.error(`选项:`, options);
+													throw ensureError;
+												}
 											}
 										}
 									}
@@ -2415,6 +2436,7 @@
 								}
 								/*TODO:other type*/
 								xItemFormConfigs[prop].value = value;
+								logValues[prop] = value;
 							}
 						} catch (propError) {
 							console.error(
@@ -2422,6 +2444,8 @@
 								propError
 							);
 							throw propError;
+						} finally {
+							console.log("asyncSetFormValues", logValues);
 						}
 					})
 				);
