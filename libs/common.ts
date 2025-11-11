@@ -2390,22 +2390,22 @@
 						try {
 							/* 允许null，代表使用configs.value */
 							if (_.isPlainObject(xItemFormConfigs[prop])) {
-								if (_.isArray(xItemFormConfigs[prop]?.options)) {
-									await _.$ensure(() => xItemFormConfigs[prop]?.options?.length);
+								if (["xItemSelect","xItemRadioGroup"].includes(xItemFormConfigs[prop].itemType)) {
+									await _.$ensure(() => xItemFormConfigs[prop].options?.length);
 									// console.log("asyncSetFormValues", prop);
-									const needWait = (() => {
+									const ignore = (() => {
 										if (_.isBoolean(xItemFormConfigs[prop].isHide)) {
-											return !xItemFormConfigs[prop].isHide;
+											return xItemFormConfigs[prop].isHide;
 										}
 
 										if (_.isFunction(xItemFormConfigs[prop].isHide)) {
-											return !xItemFormConfigs[prop].isHide();
+											return xItemFormConfigs[prop].isHide();
 										}
 
-										return true;
+										return false;
 									})();
 
-									if (needWait) {
+									if (!ignore) {
 										await _.$ensure(
 											() => xItemFormConfigs[prop]?.options?.length
 										);
