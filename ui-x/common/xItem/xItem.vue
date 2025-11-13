@@ -19,12 +19,12 @@ export default async function ({ PRIVATE_GLOBAL }) {
   xTableCol disabled
   */
 	/* cptConfigs {
-   	label:string
-   	disabled:boolean||function
-   	isHide:boolean||function
-   	itemType?:默认xItemInput，
-   	once:function 挂载的时候调用一次
-   	onEmitValue:function value每次变动后触发
+		  label:string
+		  disabled:boolean||function
+		  isHide:boolean||function
+		  itemType?:默认xItemInput，
+		  once:function 挂载的时候调用一次
+		  onEmitValue:function value每次变动后触发
    } */
 
 	return {
@@ -204,7 +204,7 @@ export default async function ({ PRIVATE_GLOBAL }) {
 										xItem_controller[0].scrollTop = 0;
 									}
 								}
-							} catch (e) {}
+							} catch (e) { }
 						}, 50);
 					}
 				});
@@ -402,6 +402,7 @@ export default async function ({ PRIVATE_GLOBAL }) {
 				vm.p_debounceValidate = _.debounce(vm.validate, 1000);
 			}, 1000 * 3);
 			return {
+				visible_hide_by_manually: false,
 				hide_by_manually: false,
 				componentName: "xItem",
 				errorTips: "",
@@ -531,7 +532,7 @@ export default async function ({ PRIVATE_GLOBAL }) {
 					this.p_debounceValidate();
 				}
 			},
-			reset() {},
+			reset() { },
 			async validate(payload) {
 				if (this.cptConfigs.rules && this.cptConfigs.rules.length > 0) {
 					for await (const rule of this.cptConfigs.rules) {
@@ -616,37 +617,45 @@ export default async function ({ PRIVATE_GLOBAL }) {
 			if (!this.cptConfigs) {
 				debugger;
 			}
-			/* TODO:只读模式 */
-			if (this.readOnlyAs) {
-				if (_xItem_lazyLoadRender.ReadonlyAsRender) {
-					return _xItem_lazyLoadRender.ReadonlyAsRender.call(this);
-				} else {
-					this.asyncLoadRender("ReadonlyAsRender");
+			const xItemVnode = (() => {
+				/* TODO:只读模式 */
+				if (this.readOnlyAs) {
+					if (_xItem_lazyLoadRender.ReadonlyAsRender) {
+						return _xItem_lazyLoadRender.ReadonlyAsRender.call(this);
+					} else {
+						this.asyncLoadRender("ReadonlyAsRender");
+					}
 				}
-			}
 
-			/* 与表单一致，只为了统一样式 */
-			if (_.$val(this, "cptConfigs.THIS_CONFIGS_ONLY_FOR_LABEL")) {
-				if (_xItem_lazyLoadRender.ItemAsWrapper) {
-					return _xItem_lazyLoadRender.ItemAsWrapper.call(this);
-				} else {
-					this.asyncLoadRender("ItemAsWrapper");
+				/* 与表单一致，只为了统一样式 */
+				if (_.$val(this, "cptConfigs.THIS_CONFIGS_ONLY_FOR_LABEL")) {
+					if (_xItem_lazyLoadRender.ItemAsWrapper) {
+						return _xItem_lazyLoadRender.ItemAsWrapper.call(this);
+					} else {
+						this.asyncLoadRender("ItemAsWrapper");
+					}
 				}
-			}
 
-			/* 正常 */
-			if (_xItem_lazyLoadRender.NormalRender) {
-				return _xItem_lazyLoadRender.NormalRender.call(this);
+				/* 正常 */
+				if (_xItem_lazyLoadRender.NormalRender) {
+					return _xItem_lazyLoadRender.NormalRender.call(this);
+				} else {
+					this.asyncLoadRender("NormalRender");
+				}
+
+				/* 骨架 */
+				return hDiv({ staticClass: "el-skeleton is-animated " }, [
+					hDiv({
+						staticClass: "el-skeleton__item el-skeleton__p el-skeleton__paragraph"
+					})
+				]);
+			})();
+
+			if (this.visible_hide_by_manually) {
+				return hDiv({ style: { position: "absolute", "z-index": -1, visibility: "hidden" } }, xItemVnode)
 			} else {
-				this.asyncLoadRender("NormalRender");
+				return xItemVnode
 			}
-
-			/* 骨架 */
-			return hDiv({ staticClass: "el-skeleton is-animated " }, [
-				hDiv({
-					staticClass: "el-skeleton__item el-skeleton__p el-skeleton__paragraph"
-				})
-			]);
 		}
 	};
 }
@@ -687,22 +696,23 @@ export default async function ({ PRIVATE_GLOBAL }) {
 			flex-flow: row nowrap;
 			align-items: center;
 
-			> [disabled="disabled"] {
+			>[disabled="disabled"] {
+
 				// opacity: 0.5;
 				&:hover {
 					cursor: not-allowed;
 				}
 			}
 
-			.after-flex1 + * {
+			.after-flex1+* {
 				flex: 1;
 			}
 
-			> [class^="el-"] {
+			>[class^="el-"] {
 				width: 100%;
 			}
 
-			> .xCascader,
+			>.xCascader,
 			.el-descriptions {
 				width: 100%;
 			}
@@ -716,10 +726,11 @@ export default async function ({ PRIVATE_GLOBAL }) {
 			}
 
 			.show-error {
+
 				[class$="__inner"],
 				.el-textarea__inner,
 				.el-input__inner,
-				> input {
+				>input {
 					border: 1px solid var(--ui-danger);
 				}
 			}
@@ -748,6 +759,7 @@ export default async function ({ PRIVATE_GLOBAL }) {
 		--xItem-layout-align-items: flex-start;
 
 		&.right {
+
 			// --xItem-layout-align-items: flex-end;
 			.xItem_label {
 				align-self: end;
@@ -780,12 +792,12 @@ export default async function ({ PRIVATE_GLOBAL }) {
 	}
 }
 
-.xItem-wrapper + .xItem-wrapper {
+.xItem-wrapper+.xItem-wrapper {
 	// margin-top: 24px;
 }
 
 .horizontal {
-	.xItem-wrapper + .xItem-wrapper {
+	.xItem-wrapper+.xItem-wrapper {
 		margin-top: 0;
 	}
 }
