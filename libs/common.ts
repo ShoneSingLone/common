@@ -2391,8 +2391,6 @@
 							/* 允许null，代表使用configs.value */
 							if (_.isPlainObject(xItemFormConfigs[prop])) {
 								if (["xItemSelect","xItemRadioGroup"].includes(xItemFormConfigs[prop].itemType)) {
-									await _.$ensure(() => xItemFormConfigs[prop].options?.length);
-									// console.log("asyncSetFormValues", prop);
 									const ignore = (() => {
 										if (_.isBoolean(xItemFormConfigs[prop].isHide)) {
 											return xItemFormConfigs[prop].isHide;
