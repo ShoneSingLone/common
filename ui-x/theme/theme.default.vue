@@ -551,8 +551,10 @@ svg.pointer {
 		grid-template-columns: 30% 70%;
 	}
 }
-
-.ellipsis {
+/* 如果出现省略号，会动态添加 title作为hover提示 */
+.ellipsis,
+/* 不会使用title */
+.ellipsis-no-title {
 	width: 100%;
 	overflow: hidden;
 	text-overflow: ellipsis;

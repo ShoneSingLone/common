@@ -592,7 +592,7 @@ export default async function ({ PRIVATE_GLOBAL, mergeProps4h }) {
 		} else if (_.$isInput(defaultValue)) {
 			return defaultValue;
 		} else {
-			return "--";
+			return PRIVATE_GLOBAL.x_table_vir_cell_no_data_placeholder ;
 		}
 	}
 
@@ -1785,7 +1785,7 @@ export default async function ({ PRIVATE_GLOBAL, mergeProps4h }) {
 			}
 			/* 从配置项获取cell的render */
 			const { cellRenderer, prop, dataGetter } = column;
-			const CellComponent = (function () {
+			const _CellRenderer = (function () {
 				const columnCellRenderer = componentToSlot(cellRenderer);
 				if (columnCellRenderer) {
 					return columnCellRenderer;
@@ -1803,7 +1803,7 @@ export default async function ({ PRIVATE_GLOBAL, mergeProps4h }) {
 				if (_.isFunction(dataGetter)) {
 					return dataGetter({ columns: columns, column, columnIndex, rowData, rowIndex });
 				} else {
-					return get(rowData, prop || "", "--");
+					return get(rowData, prop || "", PRIVATE_GLOBAL.x_table_vir_cell_no_data_placeholder );
 				}
 			})();
 
@@ -1825,8 +1825,7 @@ export default async function ({ PRIVATE_GLOBAL, mergeProps4h }) {
 				rowData,
 				rowIndex
 			};
-			const Cell = CellComponent(cellProps);
-
+			const Cell = _CellRenderer(cellProps);
 			const column_align = column.align || PRIVATE_GLOBAL.x_table_vir_column_row_cell_align;
 
 			const el_table_v2_row_cell_class = [
@@ -1970,11 +1969,11 @@ export default async function ({ PRIVATE_GLOBAL, mergeProps4h }) {
 		functional: true,
 		render: (h, { data: props, slots }) => {
 			const { column, ns, style, onColumnSorted } = props;
-			const cellStyle = enforceUnit(style);
+			const headerCellStyle = enforceUnit(style);
 			if (column.placeholderSign === placeholderSign) {
 				return hDiv({
 					class: ns.em("header-row-cell", "placeholder"),
-					style: cellStyle
+					style: headerCellStyle
 				});
 			}
 			const { headerCellRenderer, headerClass, sortable } = column;
@@ -1982,7 +1981,7 @@ export default async function ({ PRIVATE_GLOBAL, mergeProps4h }) {
 				...props,
 				class: ns.e("header-cell-text")
 			};
-			const cellRenderer = (function () {
+			const _HeaderCellRenderer = (function () {
 				let render = componentToSlot(headerCellRenderer);
 				if (render) {
 					return render;
@@ -1994,7 +1993,7 @@ export default async function ({ PRIVATE_GLOBAL, mergeProps4h }) {
 				return props2 => h(HeaderCell, props2);
 			})();
 			const vm = getCurrentInstance();
-			const Cell = cellRenderer(cellProps, { vm });
+			const _HeaderCell = _HeaderCellRenderer(cellProps, { vm });
 			const { sortBy, sortState, headerCellProps } = props;
 			let sorting, sortOrder;
 			if (sortState) {
@@ -2017,7 +2016,7 @@ export default async function ({ PRIVATE_GLOBAL, mergeProps4h }) {
 				role: "columnheader",
 				...tryCall(headerCellProps, props),
 				class: cellKls,
-				style: cellStyle,
+				style: headerCellStyle,
 				["data-key"]: column.key,
 				["data-prop"]: column.prop
 			};
@@ -2026,7 +2025,7 @@ export default async function ({ PRIVATE_GLOBAL, mergeProps4h }) {
 				cellWrapperProps.onClick = onColumnSorted;
 			}
 			return hDiv(cellWrapperProps, [
-				Cell,
+				_HeaderCell,
 				h(SortIcon, {
 					vIf: sortable,
 					class: [ns.e("sort-icon"), sorting && ns.is("sorting")],
