@@ -1505,23 +1505,13 @@ export default async function ({ PRIVATE_GLOBAL, mergeProps4h }) {
 		render: (h, { data: props, slots }) => {
 			const { cellData, style } = props;
 			const displayText = _.isUndefined(cellData) ? "" : String(cellData);
-			let attrs = {}
-			const dataKey = props.column?.dataKey;
-
-			const column = _.find(props.columns,{dataKey})
-				debugger;
-			if(column.unset_title){
-				debugger;
-			}else{
-				attrs = {
-					title: displayText
-				};
-			}
 			return h(
 				"div",
 				{
 					class: props.class,
-					attrs,
+					attrs: {
+						title: displayText
+					},
 					style: style
 				},
 				[slots.default ? slots.default(props) : displayText]
