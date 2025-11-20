@@ -1825,7 +1825,7 @@
 					`with ({...PRIVATE_GLOBAL,..._,...Vue,}){${innerCode};}`
 				);
 			} catch (e) {
-				console.error(innerCode);
+				console.info(innerCode);
 				throw e;
 			}
 			const fnPayload = new Proxy(payload, {
@@ -1843,7 +1843,7 @@
 			try {
 				component = await scfObjAsyncFn(fnPayload, PRIVATE_GLOBAL);
 			} catch (error) {
-				console.error(scritpSourceCode);
+				console.info(scritpSourceCode);
 				console.error("template中不可使用'`'");
 				console.error(error);
 			}
