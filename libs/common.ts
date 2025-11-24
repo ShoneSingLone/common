@@ -119,7 +119,7 @@
 		{
 			set(privateGlobal, prop, val) {
 				if (privateGlobal[prop]) {
-					alert(`PRIVATE_GLOBAL ${prop} 重复`);
+					console.error(`PRIVATE_GLOBAL ${prop} 重复`);
 				} else {
 					privateGlobal[prop] = val;
 					return true;
@@ -1825,7 +1825,7 @@
 					`with ({...PRIVATE_GLOBAL,..._,...Vue,}){${innerCode};}`
 				);
 			} catch (e) {
-				console.error(innerCode);
+				console.info(innerCode);
 				throw e;
 			}
 			const fnPayload = new Proxy(payload, {
