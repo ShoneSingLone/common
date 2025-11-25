@@ -162,7 +162,7 @@ export default async function () {
 				return this.options.offset || 0;
 			},
 			visible() {
-				return this.options.visible || false;
+				return this.options?.visible || false;
 			},
 			visibleArrow() {
 				return hasOwn(this.options, "visibleArrow") ? this.options.visibleArrow : true;
