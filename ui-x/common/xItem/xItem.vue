@@ -175,7 +175,7 @@ export default async function ({ PRIVATE_GLOBAL }) {
 				}
 			});
 
-			let cptDisabled = computed(() => {
+			let cpt_origin_disabled_value = computed(() => {
 				if (privateState.isDisabled === "disabled") {
 					return true;
 				}
@@ -191,15 +191,24 @@ export default async function ({ PRIVATE_GLOBAL }) {
 					return _.$val(vm, "cptConfigs.disabled");
 				}
 			});
+
+
+			let cptDisabled = computed(() => {
+				return Boolean(cpt_origin_disabled_value.value)
+			});
+
+
+
 			let cptDisabledTips = computed(() => {
-				if (cptDisabled.value) {
-					if (_.isString(cptDisabled.value)) {
-						return cptDisabled.value;
+				if (cpt_origin_disabled_value.value) {
+					if (_.isString(cpt_origin_disabled_value.value)) {
+						return cpt_origin_disabled_value.value;
 					}
 				}
-				return "";
 
+				return ""
 			});
+
 
 			(() => {
 				let timer;
@@ -267,6 +276,7 @@ export default async function ({ PRIVATE_GLOBAL }) {
 				labelWidth,
 				refItemLabel: sizer,
 				privateState,
+				cpt_origin_disabled_value,
 				cptDisabled,
 				cptDisabledTips,
 				cpt_options,

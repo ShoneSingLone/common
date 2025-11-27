@@ -26,7 +26,6 @@ export default async function ({ PRIVATE_GLOBAL }) {
 		};
 
 		if (vm.cptDisabledTips) {
-			debugger;
 			/* @ts-ignore */
 			controllerWrapperProps.directives = [
 				hTipsHover({ msg: vm.cptDisabledTips, placement: "left-start" })

@@ -102,7 +102,6 @@ export default async function ({ PRIVATE_GLOBAL }) {
 				return false;
 			},
 			cptDisabledTips() {
-				// return hDiv( { style: { color: "red" } }, [123]);
 				if (this.cptDisabled) {
 					if (_.isString(this.cptDisabled) || this.cptDisabled.TYPE_IS_VNODE) {
 						return this.cptDisabled;
@@ -189,10 +188,7 @@ export default async function ({ PRIVATE_GLOBAL }) {
 						}
 					});
 				}
-				// if (this.cptDisabledTips) {
-				// 	/* disabled提示 */
-				// 	directives.push({ name: "xtips", value: { content: this.cptDisabledTips, trigger: "hover", placement: "top", style: "--min-width:unset;" } });
-				// }
+				
 
 				if (_.$isArrayFill(this.$vnode.data.directives)) {
 					directives.push(...this.$vnode.data.directives);
