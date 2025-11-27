@@ -5,6 +5,10 @@
 		console.log("common.js");
 	}
 
+	_.mixin({
+		$$clean: obj => _.omitBy(obj, v => _.isUndefined(v) || _.isNull(v))
+	});
+
 	/**
 	 * 验证参数
 	 * @param "fn" type
