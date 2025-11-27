@@ -188,8 +188,17 @@ export default async function ({ PRIVATE_GLOBAL }) {
 						val: vm.p_value
 					});
 				} else {
-					return !!_.$val(vm, "cptConfigs.disabled");
+					return _.$val(vm, "cptConfigs.disabled");
 				}
+			});
+			let cptDisabledTips = computed(() => {
+				if (cptDisabled.value) {
+					if (_.isString(cptDisabled.value)) {
+						return cptDisabled.value;
+					}
+				}
+				return "";
+
 			});
 
 			(() => {
@@ -259,6 +268,7 @@ export default async function ({ PRIVATE_GLOBAL }) {
 				refItemLabel: sizer,
 				privateState,
 				cptDisabled,
+				cptDisabledTips,
 				cpt_options,
 				cptDepdata,
 				cptPlaceholder,
@@ -269,6 +279,20 @@ export default async function ({ PRIVATE_GLOBAL }) {
 			console.log("xItem onUpdate");
 		},
 		computed: {
+			cpt_visible_is_hide(vm) {
+
+				if (_.isBoolean(_.$val(vm, "cptConfigs.visibleIsHide")) && _.$val(vm, "cptConfigs.visibleIsHide")) {
+					return true;
+				}
+				if (_.isFunction(_.$val(vm, "cptConfigs.visibleIsHide"))) {
+					return vm.cptConfigs.visibleIsHide.call(vm.cptConfigs, {
+						xItem: vm,
+						val: vm.p_value
+					});
+				}
+				return !!_.$val(vm, "cptConfigs.visibleIsHide")
+
+			},
 			cptReadonly(vm) {
 				if (vm.X_ITEM_READONLY) {
 					return true;
@@ -404,7 +428,6 @@ export default async function ({ PRIVATE_GLOBAL }) {
 				vm.p_debounceValidate = _.debounce(vm.validate, 1000);
 			}, 1000 * 3);
 			return {
-				visible_hide_by_manually: false,
 				hide_by_manually: false,
 				componentName: "xItem",
 				errorTips: "",
@@ -414,6 +437,15 @@ export default async function ({ PRIVATE_GLOBAL }) {
 				p_listeners: {},
 				curUid: 0
 			};
+		},
+		watch: {
+			cpt_visible_is_hide(visible_is_hide) {
+				if (visible_is_hide) {
+					$(this.$el).addClass("x-item-hide-by-manually");
+				} else {
+					$(this.$el).removeClass("x-item-hide-by-manually");
+				}
+			}
 		},
 		methods: {
 			calTips() {
@@ -653,15 +685,7 @@ export default async function ({ PRIVATE_GLOBAL }) {
 				]);
 			})();
 
-			if (this.visible_hide_by_manually) {
-				/* TODO:用jQuery添加样式 */
-				return hDiv(
-					{ style: { position: "absolute", "z-index": -1, visibility: "hidden" } },
-					xItemVnode
-				);
-			} else {
-				return xItemVnode;
-			}
+			return xItemVnode;
 		}
 	};
 }
@@ -672,6 +696,13 @@ export default async function ({ PRIVATE_GLOBAL }) {
 	width: var(--xItem-wrapper-width, 320px);
 	height: var(--xItem-wrapper-height, auto);
 	min-width: 1px;
+
+	&.x-item-hide-by-manually {
+		position: absolute;
+		visibility: hidden;
+		opacity: 0;
+		z-index: -1;
+	}
 
 	.x-item-label-controller-wrapper {
 		width: var(--x-item-label-controller-wrapper-width, unset);

@@ -3,7 +3,6 @@ export default async function ({ PRIVATE_GLOBAL }) {
 	return function render() {
 		const vm = this;
 		const CONFIGS = this.cptConfigs;
-		const disabled_tips = CONFIGS.disabled;
 
 		const xItemWrapperProps = {
 			vIf: !vm.cpt_is_hide,
@@ -26,10 +25,11 @@ export default async function ({ PRIVATE_GLOBAL }) {
 			}
 		};
 
-		if (_.isString(disabled_tips) && disabled_tips) {
+		if (vm.cptDisabledTips) {
+			debugger;
 			/* @ts-ignore */
 			controllerWrapperProps.directives = [
-				hTipsHover({ msg: disabled_tips, placement: "left-start" })
+				hTipsHover({ msg: vm.cptDisabledTips, placement: "left-start" })
 			];
 		}
 
