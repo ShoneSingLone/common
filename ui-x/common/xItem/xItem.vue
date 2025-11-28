@@ -459,6 +459,9 @@ export default async function ({ PRIVATE_GLOBAL }) {
 		},
 		methods: {
 			calTips() {
+				if (this.$slots.tips) {
+					return this.$slots.tips;
+				}
 				if (_.isString(this.cptConfigs.tips)) {
 					return this.cptConfigs.tips;
 				}
