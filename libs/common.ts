@@ -1829,8 +1829,31 @@
 					`with ({...PRIVATE_GLOBAL,..._,...Vue,}){${innerCode};}`
 				);
 			} catch (e) {
-				console.info(innerCode);
-				throw e;
+				if (IS_DEV) {
+
+				scfObjAsyncFn = new Function(
+					"payload",
+					"PRIVATE_GLOBAL",
+					`with ({...PRIVATE_GLOBAL,..._,...Vue,}){
+					
+							return defineComponent({
+								template: "<pre @click='copy'><code>{{code}}</code></pre>",
+								data(vm) {
+									return {
+										code: ${JSON.stringify(innerCode)}
+									};
+								},
+								methods:{
+									copy(){
+										_.$copyToClipboard(this.code).then(()=>_.$msg('错误代码已复制到粘贴板'))
+									}
+								}
+							});
+					}`
+				);
+					
+				}
+				console.error(e);
 			}
 			const fnPayload = new Proxy(payload, {
 				get(obj, prop) {
