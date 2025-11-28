@@ -69,7 +69,7 @@ export default async function ({ PRIVATE_GLOBAL }) {
 						xItem: vm,
 						props
 					});
-				})
+				});
 			}
 
 			/*** xItem对外暴露自身实例*/
@@ -192,12 +192,9 @@ export default async function ({ PRIVATE_GLOBAL }) {
 				}
 			});
 
-
 			let cptDisabled = computed(() => {
-				return Boolean(cpt_origin_disabled_value.value)
+				return Boolean(cpt_origin_disabled_value.value);
 			});
-
-
 
 			let cptDisabledTips = computed(() => {
 				if (cpt_origin_disabled_value.value) {
@@ -206,9 +203,8 @@ export default async function ({ PRIVATE_GLOBAL }) {
 					}
 				}
 
-				return ""
+				return "";
 			});
-
 
 			(() => {
 				let timer;
@@ -224,7 +220,7 @@ export default async function ({ PRIVATE_GLOBAL }) {
 										xItem_controller[0].scrollTop = 0;
 									}
 								}
-							} catch (e) { }
+							} catch (e) {}
 						}, 50);
 					}
 				});
@@ -290,8 +286,10 @@ export default async function ({ PRIVATE_GLOBAL }) {
 		},
 		computed: {
 			cpt_visible_is_hide(vm) {
-
-				if (_.isBoolean(_.$val(vm, "cptConfigs.visibleIsHide")) && _.$val(vm, "cptConfigs.visibleIsHide")) {
+				if (
+					_.isBoolean(_.$val(vm, "cptConfigs.visibleIsHide")) &&
+					_.$val(vm, "cptConfigs.visibleIsHide")
+				) {
 					return true;
 				}
 				if (_.isFunction(_.$val(vm, "cptConfigs.visibleIsHide"))) {
@@ -300,8 +298,7 @@ export default async function ({ PRIVATE_GLOBAL }) {
 						val: vm.p_value
 					});
 				}
-				return !!_.$val(vm, "cptConfigs.visibleIsHide")
-
+				return !!_.$val(vm, "cptConfigs.visibleIsHide");
 			},
 			cptReadonly(vm) {
 				if (vm.X_ITEM_READONLY) {
@@ -579,7 +576,7 @@ export default async function ({ PRIVATE_GLOBAL }) {
 					this.p_debounceValidate();
 				}
 			},
-			reset() { },
+			reset() {},
 			async validate(payload) {
 				if (this.cptConfigs.rules && this.cptConfigs.rules.length > 0) {
 					for await (const rule of this.cptConfigs.rules) {
@@ -746,23 +743,22 @@ export default async function ({ PRIVATE_GLOBAL }) {
 			flex-flow: row nowrap;
 			align-items: center;
 
-			>[disabled="disabled"] {
-
+			> [disabled="disabled"] {
 				// opacity: 0.5;
 				&:hover {
 					cursor: not-allowed;
 				}
 			}
 
-			.after-flex1+* {
+			.after-flex1 + * {
 				flex: 1;
 			}
 
-			>[class^="el-"] {
+			> [class^="el-"] {
 				width: 100%;
 			}
 
-			>.xCascader,
+			> .xCascader,
 			.el-descriptions {
 				width: 100%;
 			}
@@ -776,11 +772,10 @@ export default async function ({ PRIVATE_GLOBAL }) {
 			}
 
 			.show-error {
-
 				[class$="__inner"],
 				.el-textarea__inner,
 				.el-input__inner,
-				>input {
+				> input {
 					border: 1px solid var(--ui-danger);
 				}
 			}
@@ -809,7 +804,6 @@ export default async function ({ PRIVATE_GLOBAL }) {
 		--xItem-layout-align-items: flex-start;
 
 		&.right {
-
 			// --xItem-layout-align-items: flex-end;
 			.xItem_label {
 				align-self: end;
@@ -842,12 +836,12 @@ export default async function ({ PRIVATE_GLOBAL }) {
 	}
 }
 
-.xItem-wrapper+.xItem-wrapper {
+.xItem-wrapper + .xItem-wrapper {
 	// margin-top: 24px;
 }
 
 .horizontal {
-	.xItem-wrapper+.xItem-wrapper {
+	.xItem-wrapper + .xItem-wrapper {
 		margin-top: 0;
 	}
 }

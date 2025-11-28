@@ -8,6 +8,7 @@
 	_.mixin({
 		$$clean: obj => _.omitBy(obj, v => _.isUndefined(v) || _.isNull(v))
 	});
+	pnpm;
 
 	/**
 	 * 验证参数
@@ -1830,11 +1831,10 @@
 				);
 			} catch (e) {
 				if (IS_DEV) {
-
-				scfObjAsyncFn = new Function(
-					"payload",
-					"PRIVATE_GLOBAL",
-					`with ({...PRIVATE_GLOBAL,..._,...Vue,}){
+					scfObjAsyncFn = new Function(
+						"payload",
+						"PRIVATE_GLOBAL",
+						`with ({...PRIVATE_GLOBAL,..._,...Vue,}){
 					
 							return defineComponent({
 								template: "<pre @click='copy'><code>{{code}}</code></pre>",
@@ -1850,8 +1850,7 @@
 								}
 							});
 					}`
-				);
-					
+					);
 				}
 				console.error(e);
 			}

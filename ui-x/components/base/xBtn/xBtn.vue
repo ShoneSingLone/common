@@ -188,7 +188,6 @@ export default async function ({ PRIVATE_GLOBAL }) {
 						}
 					});
 				}
-				
 
 				if (_.$isArrayFill(this.$vnode.data.directives)) {
 					directives.push(...this.$vnode.data.directives);
@@ -740,7 +739,7 @@ a.el-button {
 	}
 }
 
-.el-button+.el-button {
+.el-button + .el-button {
 	margin-left: 8px;
 }
 
@@ -761,7 +760,7 @@ a.el-button {
 	border: 0;
 }
 
-.el-button [class*="el-icon-"]+span {
+.el-button [class*="el-icon-"] + span {
 	margin-left: 5px;
 }
 
@@ -847,57 +846,57 @@ a.el-button {
 	clear: both;
 }
 
-.el-button-group>.el-button {
+.el-button-group > .el-button {
 	float: left;
 	position: relative;
 }
 
-.el-button-group>.el-button+.el-button {
+.el-button-group > .el-button + .el-button {
 	margin-left: 0;
 }
 
-.el-button-group>.el-button.is-disabled {
+.el-button-group > .el-button.is-disabled {
 	z-index: 1;
 }
 
-.el-button-group>.el-button:first-child {
+.el-button-group > .el-button:first-child {
 	border-top-right-radius: 0;
 	border-bottom-right-radius: 0;
 }
 
-.el-button-group>.el-button:last-child {
+.el-button-group > .el-button:last-child {
 	border-top-left-radius: 0;
 	border-bottom-left-radius: 0;
 }
 
-.el-button-group>.el-button:first-child:last-child {
+.el-button-group > .el-button:first-child:last-child {
 	border-radius: var(--border-radius);
 }
 
-.el-button-group>.el-button:first-child:last-child.is-round {
+.el-button-group > .el-button:first-child:last-child.is-round {
 	border-radius: 20px;
 }
 
-.el-button-group>.el-button:first-child:last-child.is-circle {
+.el-button-group > .el-button:first-child:last-child.is-circle {
 	border-radius: 50%;
 }
 
-.el-button-group>.el-button:not(:first-child):not(:last-child) {
+.el-button-group > .el-button:not(:first-child):not(:last-child) {
 	border-radius: 0;
 }
 
-.el-button-group>.el-button:not(:last-child) {
+.el-button-group > .el-button:not(:last-child) {
 	margin-right: -1px;
 }
 
-.el-button-group>.el-button.is-active,
-.el-button-group>.el-button:not(.is-disabled):active,
-.el-button-group>.el-button:not(.is-disabled):focus,
-.el-button-group>.el-button:not(.is-disabled):hover {
+.el-button-group > .el-button.is-active,
+.el-button-group > .el-button:not(.is-disabled):active,
+.el-button-group > .el-button:not(.is-disabled):focus,
+.el-button-group > .el-button:not(.is-disabled):hover {
 	z-index: 1;
 }
 
-.el-button-group>.el-dropdown>.el-button {
+.el-button-group > .el-dropdown > .el-button {
 	border-top-left-radius: 0;
 	border-bottom-left-radius: 0;
 	border-left-color: rgba(255, 255, 255, 0.5);
@@ -1078,7 +1077,7 @@ a.el-button {
 }
 
 .vertical {
-	>.xBtn+.xBtn {
+	> .xBtn + .xBtn {
 		margin-top: 10px;
 		margin-left: unset;
 	}

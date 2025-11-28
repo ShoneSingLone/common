@@ -592,7 +592,7 @@ export default async function ({ PRIVATE_GLOBAL, mergeProps4h }) {
 		} else if (_.$isInput(defaultValue)) {
 			return defaultValue;
 		} else {
-			return PRIVATE_GLOBAL.x_table_vir_cell_no_data_placeholder ;
+			return PRIVATE_GLOBAL.x_table_vir_cell_no_data_placeholder;
 		}
 	}
 
@@ -1803,7 +1803,11 @@ export default async function ({ PRIVATE_GLOBAL, mergeProps4h }) {
 				if (_.isFunction(dataGetter)) {
 					return dataGetter({ columns: columns, column, columnIndex, rowData, rowIndex });
 				} else {
-					return get(rowData, prop || "", PRIVATE_GLOBAL.x_table_vir_cell_no_data_placeholder );
+					return get(
+						rowData,
+						prop || "",
+						PRIVATE_GLOBAL.x_table_vir_cell_no_data_placeholder
+					);
 				}
 			})();
 

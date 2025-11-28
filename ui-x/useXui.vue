@@ -28,7 +28,8 @@ export default async function ({
 		};
 		PRIVATE_GLOBAL.x_open_modal_do_some_thing_before_open =
 			x_open_modal_do_some_thing_before_open;
-		PRIVATE_GLOBAL.x_table_vir_cell_no_data_placeholder = x_table_vir_cell_no_data_placeholder || "--";
+		PRIVATE_GLOBAL.x_table_vir_cell_no_data_placeholder =
+			x_table_vir_cell_no_data_placeholder || "--";
 		PRIVATE_GLOBAL.x_tooltip_effect = x_tooltip_effect || "dark";
 		/*列表 cell格 居中方式 center right*/
 		PRIVATE_GLOBAL.x_table_vir_column_row_cell_align = x_table_vir_column_row_cell_align || "";
