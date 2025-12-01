@@ -8,7 +8,6 @@
 	_.mixin({
 		$$clean: obj => _.omitBy(obj, v => _.isUndefined(v) || _.isNull(v))
 	});
-	pnpm;
 
 	/**
 	 * 验证参数
