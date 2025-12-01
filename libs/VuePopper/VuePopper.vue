@@ -84,11 +84,18 @@ export default async function () {
 				}
 
 				if (!popper || !reference) return;
-				if (this.visibleArrow) this.appendArrow(popper);
+				if (this.visibleArrow) {
+					this.appendArrow(popper);
+				}
 				if (this.appendToBody) {
-					document.body.appendChild(this.popperElm);
+					this.$nextTick(() => {
+						$(this.popperElm).addClass("x-popper--absolute");
+						document.body.appendChild(this.popperElm);
+					});
 				} else {
-					debugger;
+					this.$nextTick(() => {
+						$(this.popperElm).addClass("x-popper--relative");
+					});
 				}
 				if (this.popperJS && this.popperJS.destroy) {
 					this.popperJS.destroy();
