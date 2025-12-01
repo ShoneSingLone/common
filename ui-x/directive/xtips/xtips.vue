@@ -87,7 +87,7 @@ export default async function () {
 			/* popover使用onPopoverChange */
 			vmPopover.refId = refId;
 			vmPopover.options = TIPS_OPTIONS_MAP.get(refId);
-			vmPopover.options.$reference = $ele;
+			vmPopover.options && (vmPopover.options.$reference = $ele);
 
 			vmRefrence.onPopoverChange = vmRefrence.onPopoverChange || {};
 			vmRefrence.onPopoverChange[refId] = val => {

@@ -1829,28 +1829,6 @@
 					`with ({...PRIVATE_GLOBAL,..._,...Vue,}){${innerCode};}`
 				);
 			} catch (e) {
-				if (IS_DEV) {
-					scfObjAsyncFn = new Function(
-						"payload",
-						"PRIVATE_GLOBAL",
-						`with ({...PRIVATE_GLOBAL,..._,...Vue,}){
-					
-							return defineComponent({
-								template: "<pre @click='copy'><code>{{code}}</code></pre>",
-								data(vm) {
-									return {
-										code: ${JSON.stringify(innerCode)}
-									};
-								},
-								methods:{
-									copy(){
-										_.$copyToClipboard(this.code).then(()=>_.$msg('错误代码已复制到粘贴板'))
-									}
-								}
-							});
-					}`
-					);
-				}
 				console.error(e);
 			}
 			const fnPayload = new Proxy(payload, {
@@ -1868,9 +1846,31 @@
 			try {
 				component = await scfObjAsyncFn(fnPayload, PRIVATE_GLOBAL);
 			} catch (error) {
-				console.info(scritpSourceCode);
-				console.error("template中不可使用'`'");
-				console.error(error);
+				if (IS_DEV) {
+					scfObjAsyncFn = new Function(
+						"payload",
+						"PRIVATE_GLOBAL",
+						`with ({...PRIVATE_GLOBAL,..._,...Vue,}){
+							return defineComponent({
+								template: "<pre @click='copy' style='max-height: 400px;color: green;background-color: black;overflow: auto;'><code>{{code}}</code></pre>",
+								data(vm) {
+									return {
+										code: ${JSON.stringify(innerCode)}
+									};
+								},
+								methods:{
+									copy(){
+										_.$copyToClipboard(this.code).then(()=>_.$msg('错误代码已复制到粘贴板'))
+									}
+								}
+							});
+					}`
+					);
+					component = await scfObjAsyncFn(fnPayload, PRIVATE_GLOBAL);
+					templateSourceCode = "";
+				} else {
+					console.error(e);
+				}
 			}
 			/* 可以不返回对象，只执行外层 wrapper层的function */
 			/* template */
