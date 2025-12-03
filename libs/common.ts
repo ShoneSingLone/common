@@ -2399,8 +2399,12 @@
 		 * @param {any} options
 		 * 1.FIRST_OPTION_AS_VALUE 如果values的值为undefined，默认取options第一个值
 		 */
-		/* @typescriptDeclare (xItemFormConfigs:object,values:object,options?:object)=>Promise<void[]> */
-		_.$asyncSetFormValues = async function (xItemFormConfigs, values, options = {}) {
+		/* @typescriptDeclare (
+			xItemFormConfigs: object,
+			values: object,
+			options?: { FIRST_OPTION_AS_VALUE: boolean; [key: string]: any }
+		) => Promise<void[]> */
+		_.$xItemsValue = async function (xItemFormConfigs, values, options = {}) {
 			let logValues = _.reduce(
 				values,
 				(_logValues, value, prop) => {
@@ -2445,7 +2449,7 @@
 													).value;
 												} catch (ensureError) {
 													console.error(
-														`$asyncSetFormValues: Await处理超时或失败 for prop '${prop}'`,
+														`$xItemsValue: Await处理超时或失败 for prop '${prop}'`,
 														ensureError
 													);
 													console.error(
@@ -2458,26 +2462,21 @@
 											}
 										}
 									}
-
-									// console.log("asyncSetFormValues", prop, "end");
 								}
 								/*TODO:other type*/
 								xItemFormConfigs[prop].value = value;
 								logValues[prop] = value;
 							}
 						} catch (propError) {
-							console.error(
-								`$asyncSetFormValues: 处理属性 '${prop}' 时出错`,
-								propError
-							);
+							console.error(`$xItemsValue: 处理属性 '${prop}' 时出错`, propError);
 							throw propError;
 						} finally {
-							console.log("asyncSetFormValues", logValues);
+							console.log("xItemsValue", logValues);
 						}
 					})
 				);
 			} catch (error) {
-				console.error(`$asyncSetFormValues: 批量设置表单值失败`, error);
+				console.error(`$xItemsValue: 批量设置表单值失败`, error);
 				console.error(`表单配置:`, xItemFormConfigs);
 				console.error(`表单值:`, values);
 				console.error(`选项:`, options);
@@ -2530,7 +2529,7 @@
 		 * @param {*} xItemConfigs
 		 * @returns
 		 */
-		_.$getSelectedItemFrom = function (xItemConfigs) {
+		_.$xItemSelected = function (xItemConfigs) {
 			let defaultValue = { value: "", label: "", labelKey: "" };
 			try {
 				const { options, value } = xItemConfigs;
@@ -2550,7 +2549,7 @@
 					}
 				}
 			} catch (error) {
-				console.log("_.$getSelectedItemFrom", error);
+				console.log("_.$xItemSelected", error);
 			} finally {
 				return defaultValue;
 			}

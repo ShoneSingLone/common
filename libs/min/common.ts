@@ -1118,7 +1118,7 @@
 			let r = await Promise.all(_.map(e, e => _.$newI18n({ lang: e })));
 			return (...t) => _.map(r, e => e.apply(_, t));
 		}),
-		(_.$getSelectedItemFrom = function (e) {
+		(_.$xItemSelected = function (e) {
 			var { options: e, value: t } = e;
 			if (_.$isArrayFill(e) && _.$isInput(t)) {
 				e = _.find(e, { value: t });
