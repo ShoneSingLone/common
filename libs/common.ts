@@ -1588,7 +1588,7 @@
 	 * @param {*} options
 	 * @returns
 	 */
-	/* @typescriptDeclare (title:string,options?:any)=>Promise<any> */
+	/* @typescriptDeclare (msg:string)=>Promise<any> */
 	_.$msgSuccess = msg => {
 		return _.$notify.success({
 			title: i18n("tips"),
