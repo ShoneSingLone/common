@@ -1261,7 +1261,7 @@ export default async function ({ PRIVATE_GLOBAL, mergeProps4h }) {
 			if (_.isNumber(estimatedRowHeight)) {
 				return _data.length * estimatedRowHeight;
 			}
-			return _data.length * rowHeight;
+			return (_data?.length || 0) * rowHeight;
 		});
 		const fixedTableHeight = computed(() => {
 			const { maxHeight } = props;
@@ -1380,7 +1380,7 @@ export default async function ({ PRIVATE_GLOBAL, mergeProps4h }) {
 		const isScrolling = shallowRef(false);
 		const containerRef = ref();
 		const showEmpty = computed(() => {
-			const noData = unref(data).length === 0;
+			const noData = (unref(data)?.length || 0) === 0;
 			return _.isArray(props.fixedData) ? props.fixedData.length === 0 && noData : noData;
 		});
 

@@ -369,6 +369,24 @@ export default async function () {
 					trigger: ["change", "input", "blur"]
 				};
 			},
+			port(msg = i18n("请输入正确的端口号")) {
+				return {
+					name: "port",
+					async validator({ val }) {
+						// 纯端口校验函数
+						function validatePort(port) {
+							const portRegex =
+								/^((6553[0-5])|(655[0-2][0-9])|(65[0-4][0-9]{2})|(6[0-4][0-9]{3})|([1-5][0-9]{4})|([1-9][0-9]{0,3})|0)$/;
+							return portRegex.test(String(port));
+						}
+						if (validatePort(val)) {
+							return "";
+						}
+						return msg;
+					},
+					trigger: ["change", "input", "blur"]
+				};
+			},
 			ipAddress(msg = i18n("ruleEnterValidIPAddress")) {
 				return {
 					name: "ipAddress",
