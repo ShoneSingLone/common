@@ -1,6 +1,6 @@
 <template>
 	<xDatePicker
-		v-model="mixin_value"
+		v-model="x_item_value"
 		type="daterange"
 		v-bind="$attrs"
 		range-separator="-"

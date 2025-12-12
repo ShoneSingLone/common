@@ -20,7 +20,7 @@ export default async function () {
 			require(["vs/editor/editor.main"], function () {
 				const { monaco } = window;
 				vm.raw$editor = monaco.editor.create(container, {
-					value: vm.mixin_value || "",
+					value: vm.x_item_value || "",
 					language: _.$val(vm, "configs.language") || "json",
 					automaticLayout: true, //自动布局
 					readOnly: _.$val(vm, "configs.readOnly") || false,
@@ -52,7 +52,7 @@ export default async function () {
 					if (!_.isEqual(currentEditorContent, this.value)) {
 						const { direction } = options || {};
 						if (direction === "bottomToUp") {
-							this.mixin_value = currentEditorContent;
+							this.x_item_value = currentEditorContent;
 						} else {
 							this.raw$editor.setValue(this.value);
 						}

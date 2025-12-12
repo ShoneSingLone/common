@@ -1,6 +1,6 @@
 <template>
 	<div class="flex middle">
-		<xInput v-model="mixin_value" />
+		<xInput v-model="x_item_value" />
 		<xBtn @click="openCronExpressionDialog">{{ cptLabel }}</xBtn>
 	</div>
 </template>
@@ -28,7 +28,7 @@ export default async function () {
 		methods: {
 			onInput(e) {
 				debugger;
-				this.mixin_value = e;
+				this.x_item_value = e;
 			},
 			async openCronExpressionDialog() {
 				_.$openModal({

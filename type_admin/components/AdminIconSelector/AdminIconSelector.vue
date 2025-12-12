@@ -1,8 +1,8 @@
 <template>
-	<xSelect v-model="mixin_value" placeholder="请选择" @resize="handleSelectorResize">
+	<xSelect v-model="x_item_value" placeholder="请选择" @resize="handleSelectorResize">
 		<template #prepend>
-			<div class="flex middle" v-if="mixin_value">
-				<xIcon :icon="mixin_value | iconName" style="height: 18px; width: 18px" />
+			<div class="flex middle" v-if="x_item_value">
+				<xIcon :icon="x_item_value | iconName" style="height: 18px; width: 18px" />
 				<xGap l="8" />
 			</div>
 		</template>

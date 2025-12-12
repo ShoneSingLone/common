@@ -2,7 +2,7 @@
 	<div class="flex middle">
 		<xSelect
 			class="flex1"
-			v-model="mixin_value"
+			v-model="x_item_value"
 			v-bind="$attrs"
 			v-on="mixin_listeners"
 			:disabled="true || configs.options.length === 0">

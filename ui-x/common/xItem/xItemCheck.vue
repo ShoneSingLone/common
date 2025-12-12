@@ -14,16 +14,16 @@ export default async function () {
 			cptPrivateSet: {
 				get() {
 					try {
-						return new Set(this.mixin_value || []);
+						return new Set(this.x_item_value || []);
 					} catch (error) {
-						return new Set(this.mixin_value ? [this.cptDefaultItem.value] : []);
+						return new Set(this.x_item_value ? [this.cptDefaultItem.value] : []);
 					}
 				},
 				set(newSetOrVal) {
 					if (this.cpt_configs.isGroup) {
-						this.mixin_value = Array.from(newSetOrVal);
+						this.x_item_value = Array.from(newSetOrVal);
 					} else {
-						this.mixin_value = !!newSetOrVal.size;
+						this.x_item_value = !!newSetOrVal.size;
 					}
 				}
 			},

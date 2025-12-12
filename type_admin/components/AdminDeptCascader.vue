@@ -26,10 +26,10 @@ export default async function () {
 		computed: {
 			cptValue: {
 				get() {
-					return this.valueToArray(this.mixin_value);
+					return this.valueToArray(this.x_item_value);
 				},
 				set(val) {
-					this.mixin_value = _.last(val) || "";
+					this.x_item_value = _.last(val) || "";
 				}
 			}
 		},

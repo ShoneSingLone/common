@@ -1,6 +1,6 @@
 <template>
 	<div class="flex middle">
-		<xSelect class="flex1" v-model="mixin_value" v-bind="$attrs" v-on="mixin_listeners">
+		<xSelect class="flex1" v-model="x_item_value" v-bind="$attrs" v-on="mixin_listeners">
 			<xOption
 				v-for="item in configs.options"
 				:key="item.value || item.label"
@@ -54,7 +54,7 @@ export default async function () {
 					};
 					this.configs.options = options;
 					this.$emit("configschange", this.configs);
-					this.mixin_value = _.$getFirstOrDefaultValue(this.configs.options, "");
+					this.x_item_value = _.$getFirstOrDefaultValue(this.configs.options, "");
 				} catch (error) {
 					console.error(error);
 				} finally {

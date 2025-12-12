@@ -174,7 +174,7 @@ export default async function () {
 				};
 			},
 			mixins: {
-				/* xItem,value,configs,mixin_attrs,mixin_value,mixin_listeners */
+				/* xItem,value,configs,mixin_attrs,x_item_value,mixin_listeners */
 				inject: {
 					xItem: {
 						default: {}
@@ -189,7 +189,7 @@ export default async function () {
 					mixin_attrs() {
 						return _.merge({}, this.configs, this.$attrs);
 					},
-					mixin_value: {
+					x_item_value: {
 						get() {
 							if (_.isUndefined(this.value)) {
 								debugger;

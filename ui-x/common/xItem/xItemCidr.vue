@@ -61,7 +61,7 @@ export default async function () {
 				return options;
 			},
 			cptIpPort() {
-				const [ip, port] = String(this.mixin_value).split("/");
+				const [ip, port] = String(this.x_item_value).split("/");
 				return {
 					ip: ip || "",
 					port: port || ""
@@ -73,7 +73,7 @@ export default async function () {
 				},
 				set(newPort) {
 					if (this.cptIp === "" && newPort === "") {
-						this.mixin_value = "";
+						this.x_item_value = "";
 					} else {
 						try {
 							newPort = Number(newPort);
@@ -88,7 +88,7 @@ export default async function () {
 							}
 						} catch (error) {}
 
-						this.mixin_value = `${this.cptIp}/${newPort}`;
+						this.x_item_value = `${this.cptIp}/${newPort}`;
 					}
 				}
 			},
@@ -98,9 +98,9 @@ export default async function () {
 				},
 				set(newIp) {
 					if (this.cptPort === "" && newIp === "") {
-						this.mixin_value = "";
+						this.x_item_value = "";
 					} else {
-						this.mixin_value = `${newIp}/${this.cptPort}`;
+						this.x_item_value = `${newIp}/${this.cptPort}`;
 					}
 				}
 			}

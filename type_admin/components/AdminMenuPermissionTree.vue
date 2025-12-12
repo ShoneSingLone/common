@@ -12,7 +12,7 @@
 				:filterHandler="treeFilterMethod"
 				:data="treeData"
 				:props="propsForTree"
-				:checkedKeys.sync="mixin_value"
+				:checkedKeys.sync="x_item_value"
 				:expandedKeys.sync="expandedNodes"
 				@current-change="handleDeptChange"
 				:current-node-key="currentNodeKey" />

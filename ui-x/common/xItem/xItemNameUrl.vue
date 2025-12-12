@@ -15,7 +15,7 @@
 				</tr>
 			</thead>
 			<tbody>
-				<tr v-for="(row, index) in mixin_value" :key="index">
+				<tr v-for="(row, index) in x_item_value" :key="index">
 					<td>
 						<xItem
 							:configs="c_name"

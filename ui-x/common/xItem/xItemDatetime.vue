@@ -1,5 +1,5 @@
 <template>
-	<xDatePicker type="datetime" v-model="mixin_value" v-bind="mixin_attrs" />
+	<xDatePicker type="datetime" v-model="x_item_value" v-bind="mixin_attrs" />
 </template>
 <script lang="ts">
 export default async function () {

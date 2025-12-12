@@ -23,7 +23,7 @@ export default async function () {
 					on: vm.mixin_listeners,
 					/* configs,value */
 					onChange(val) {
-						vm.mixin_value = val;
+						vm.x_item_value = val;
 					}
 				},
 				_.$val(vm, "$vnode.data")
@@ -45,10 +45,10 @@ export default async function () {
 			})();
 
 			if (vm.readonly) {
-				const item = _.find(vm.selectOptions, { value: vm.mixin_value });
+				const item = _.find(vm.selectOptions, { value: vm.x_item_value });
 				return h("xInput", {
 					readonly: true,
-					value: _.$val(item, "label") || vm.mixin_value
+					value: _.$val(item, "label") || vm.x_item_value
 				});
 			}
 

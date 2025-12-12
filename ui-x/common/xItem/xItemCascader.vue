@@ -14,7 +14,7 @@ export default async function () {
 					on: vm.mixin_listeners,
 					/* configs,value */
 					onChange(val) {
-						vm.mixin_value = val;
+						vm.x_item_value = val;
 					}
 				},
 				_.$val(vm, "$vnode.data")

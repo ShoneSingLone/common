@@ -26,7 +26,7 @@ export default async function () {
 				if (vm.isShowPassword) {
 					return h("xInput", { readonly: true, value: "······", type: attrs.type });
 				}
-				return h("xInput", { readonly: true, value: vm.mixin_value, type: attrs.type });
+				return h("xInput", { readonly: true, value: vm.x_item_value, type: attrs.type });
 			}
 			if (this.isNumber) {
 				tag = "xInputNumber";
@@ -72,7 +72,7 @@ export default async function () {
 							on: vm.mixin_listeners,
 							/* configs,value */
 							onInput(val) {
-								vm.mixin_value = val;
+								vm.x_item_value = val;
 							}
 						},
 						_.$val(this, "$vnode.data")
@@ -89,7 +89,7 @@ export default async function () {
 						on: vm.mixin_listeners,
 						/* configs,value */
 						onInput(val) {
-							vm.mixin_value = val;
+							vm.x_item_value = val;
 						}
 					},
 					_.$val(this, "$vnode.data")

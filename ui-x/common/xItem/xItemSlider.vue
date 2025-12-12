@@ -1,7 +1,7 @@
 <template>
 	<xSlider
 		class="xItemSlider"
-		v-model="mixin_value"
+		v-model="x_item_value"
 		v-bind="$attrs"
 		:show-input-controls="showInputControls"
 		:format-tooltip="formatTooltip"

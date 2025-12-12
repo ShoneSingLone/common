@@ -1,7 +1,7 @@
 <template>
 	<div class="xItemCheckboxGroupWrapper flex middle">
 		<div v-if="readonly">{{ cpt_current_selected }}</div>
-		<xCheckboxGroup v-else v-model="mixin_value" v-bind="$attrs" v-on="mixin_listeners">
+		<xCheckboxGroup v-else v-model="x_item_value" v-bind="$attrs" v-on="mixin_listeners">
 			<template v-if="isButton">
 				<xCheckboxButton
 					v-for="option in selectOptions"
@@ -35,16 +35,16 @@ export default async function () {
 			cpt_current_selected() {
 				const vm = this;
 				if (vm.readonly) {
-					if (_.isArray(vm.mixin_value)) {
+					if (_.isArray(vm.x_item_value)) {
 						const target = [];
-						_.each(vm.mixin_value, value => {
+						_.each(vm.x_item_value, value => {
 							const item = _.find(vm.selectOptions, { value });
 							target.push(_.$val(item, "label") || value);
 						});
 						return target.join(",");
 					} else {
-						const item = _.find(vm.selectOptions, { value: vm.mixin_value });
-						return _.$val(item, "label") || vm.mixin_value;
+						const item = _.find(vm.selectOptions, { value: vm.x_item_value });
+						return _.$val(item, "label") || vm.x_item_value;
 					}
 				}
 			},

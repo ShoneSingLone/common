@@ -68,13 +68,13 @@ export default async function () {
 							{
 								label: value,
 								key: value,
-								value: vm.mixin_value,
+								value: vm.x_item_value,
 								disabled: vm.cptDisabled,
 								staticClass: "flex middle",
 								nativeOn: {
 									click: () => {
 										if (!vm.cptDisabled) {
-											vm.mixin_value = value;
+											vm.x_item_value = value;
 										}
 									}
 								}
@@ -99,8 +99,8 @@ export default async function () {
 		render() {
 			const vm = this;
 			if (vm.readonly) {
-				const item = _.find(vm.selectOptions, { value: vm.mixin_value });
-				return hDiv([_.$val(item, "label") || vm.mixin_value]);
+				const item = _.find(vm.selectOptions, { value: vm.x_item_value });
+				return hDiv([_.$val(item, "label") || vm.x_item_value]);
 			}
 			if (vm.cpt_is_button) {
 				return h(
@@ -110,7 +110,7 @@ export default async function () {
 							...item,
 							disabled: this.cptDisabled,
 							onClick: () => {
-								this.mixin_value = item.value;
+								this.x_item_value = item.value;
 							}
 						};
 						if (item.value === this.value) {
