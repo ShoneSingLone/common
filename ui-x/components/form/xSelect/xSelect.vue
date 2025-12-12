@@ -122,7 +122,7 @@
 		<transition name="el-zoom-in-top" @before-enter="handleMenuEnter" @after-leave="doDestroy">
 			<xSelectDropdown
 				ref="popper"
-				:data-tag="xItem.cptConfigs?.dropdownId"
+				:data-tag="xItem.cpt_configs?.dropdownId"
 				:append-to-body="popperAppendToBody"
 				v-show="visible && emptyText !== false">
 				<xScrollbar
@@ -955,8 +955,8 @@ export default async function ({ PRIVATE_GLOBAL }) {
 		},
 
 		mounted() {
-			if (_.isFunction(_.$val(this, "xItem.cptConfigs.refInnerComponent"))) {
-				this.xItem.cptConfigs.refInnerComponent({ vm: this });
+			if (_.isFunction(_.$val(this, "xItem.cpt_configs.refInnerComponent"))) {
+				this.xItem.cpt_configs.refInnerComponent({ vm: this });
 			}
 			if (this.multiple && Array.isArray(this.value) && this.value.length > 0) {
 				this.currentPlaceholder = "";

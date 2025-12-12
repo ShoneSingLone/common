@@ -2327,7 +2327,7 @@
 				if (prop === "_$item") {
 					return value => {
 						if (value === undefined) {
-							value = obj.p_value;
+							value = obj.cpt_value;
 						}
 						return _.$callFn(obj, "configs.options.find")(i => i.value === value) || {};
 					};

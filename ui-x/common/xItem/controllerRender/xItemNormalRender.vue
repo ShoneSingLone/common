@@ -2,7 +2,7 @@
 export default async function ({ PRIVATE_GLOBAL }) {
 	return function render() {
 		const vm = this;
-		const CONFIGS = this.cptConfigs;
+		const CONFIGS = this.cpt_configs;
 
 		const xItemWrapperProps = {
 			vIf: !vm.cpt_is_hide,
@@ -59,7 +59,7 @@ export default async function ({ PRIVATE_GLOBAL }) {
 							disabled: vm.cptDisabled,
 							options: vm.cpt_options
 						},
-						value: vm.p_value,
+						value: vm.cpt_value,
 						on: vm.p_listeners,
 						/* 监听配置项变化,需要主动调用 */
 						onConfigschange: configs => {
@@ -68,7 +68,7 @@ export default async function ({ PRIVATE_GLOBAL }) {
 							});
 						},
 						onChange: val => {
-							vm.p_value = val;
+							vm.cpt_value = val;
 						}
 					}
 				])

@@ -1062,7 +1062,7 @@
 				get(e, t) {
 					return "_$item" === t
 						? t => (
-								void 0 === t && (t = e.p_value),
+								void 0 === t && (t = e.cpt_value),
 								_.$callFn(e, "configs.options.find")(e => e.value === t) || {}
 							)
 						: e[t];

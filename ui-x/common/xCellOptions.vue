@@ -13,7 +13,7 @@ export default async function () {
 			cpt_prop() {
 				return this.configs.prop;
 			},
-			cpt_value() {
+			cpt_cell_value() {
 				return this.row(this.cpt_prop);
 			},
 			cpt_item() {
@@ -21,7 +21,7 @@ export default async function () {
 				return item || {};
 			},
 			cpt_label() {
-				return this.cpt_item.label || this.cpt_value;
+				return this.cpt_item.label || this.cpt_cell_value;
 			}
 		}
 	};
