@@ -59,7 +59,10 @@
 					:style="imgStyle"
 					@load="handleImgLoad"
 					@error="handleImgError"
-					@mousedown="handleMouseDown" />
+					@mousedown="handleMouseDown"
+					@touchstart="handleTouchStart"
+					@touchmove="handleTouchMove"
+					@touchend="handleTouchEnd" />
 			</div>
 		</div>
 	</transition>
@@ -107,6 +110,18 @@ export default async function () {
 					offsetX: 0,
 					offsetY: 0,
 					enableTransition: false
+				},
+				// 触摸相关状态
+				touchState: {
+					isDragging: false,
+					startX: 0,
+					startY: 0,
+					offsetX: 0,
+					offsetY: 0,
+					// 双指缩放相关
+					isPinching: false,
+					startDistance: 0,
+					startScale: 1
 				}
 			};
 		},
@@ -238,6 +253,75 @@ export default async function () {
 					_.$single.doc.off(MOUSE_MOVE, this._dragHandler);
 				});
 
+				e.preventDefault();
+			},
+			// 触摸开始事件处理
+			handleTouchStart(e) {
+				if (this.loading) return;
+
+				const touches = e.touches;
+				const { offsetX, offsetY, scale } = this.transform;
+
+				// 单指触摸 - 准备拖动
+				if (touches.length === 1) {
+					this.touchState.isDragging = true;
+					this.touchState.startX = touches[0].pageX;
+					this.touchState.startY = touches[0].pageY;
+					this.touchState.offsetX = offsetX;
+					this.touchState.offsetY = offsetY;
+				}
+				// 双指触摸 - 准备缩放
+				else if (touches.length === 2) {
+					this.touchState.isPinching = true;
+					this.touchState.startDistance = this.getDistance(touches[0], touches[1]);
+					this.touchState.startScale = scale;
+					// 禁用拖动
+					this.touchState.isDragging = false;
+				}
+
+				e.preventDefault();
+			},
+			// 计算两点之间的距离
+			getDistance(touch1, touch2) {
+				const dx = touch1.pageX - touch2.pageX;
+				const dy = touch1.pageY - touch2.pageY;
+				return Math.sqrt(dx * dx + dy * dy);
+			},
+			// 触摸移动事件处理
+			handleTouchMove(e) {
+				if (this.loading) return;
+
+				const touches = e.touches;
+
+				// 单指拖动
+				if (touches.length === 1 && this.touchState.isDragging) {
+					const currentX = touches[0].pageX;
+					const currentY = touches[0].pageY;
+					this.transform.offsetX =
+						this.touchState.offsetX + (currentX - this.touchState.startX);
+					this.transform.offsetY =
+						this.touchState.offsetY + (currentY - this.touchState.startY);
+				}
+				// 双指缩放
+				else if (touches.length === 2 && this.touchState.isPinching) {
+					const currentDistance = this.getDistance(touches[0], touches[1]);
+					const scaleRatio = currentDistance / this.touchState.startDistance;
+					let newScale = this.touchState.startScale * scaleRatio;
+
+					// 限制缩放范围
+					newScale = Math.max(0.2, Math.min(newScale, 10));
+
+					this.transform.scale = parseFloat(newScale.toFixed(3));
+					this.transform.enableTransition = false;
+				}
+
+				e.preventDefault();
+			},
+			// 触摸结束事件处理
+			handleTouchEnd(e) {
+				// 重置触摸状态
+				this.touchState.isDragging = false;
+				this.touchState.isPinching = false;
 				e.preventDefault();
 			},
 			handleMaskClick() {

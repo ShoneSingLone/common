@@ -857,10 +857,7 @@
 		: function (error, suppressed, message) {
 				var e = new Error(message);
 				return (
-					(e.name = "SuppressedError"),
-					(e.error = error),
-					(e.suppressed = suppressed),
-					e
+					(e.name = "SuppressedError"), (e.error = error), (e.suppressed = suppressed), e
 				);
 			};
 
@@ -2761,7 +2758,7 @@
 	function mergeDefaults(raw, defaults) {
 		var props = isArray(raw)
 			? raw.reduce(function (normalized, p) {
-					return ((normalized[p] = {}), normalized);
+					return (normalized[p] = {}), normalized;
 				}, {})
 			: raw;
 		for (var key in defaults) {
