@@ -45,13 +45,13 @@
 				}
 			}),
 			(_.$reloadWindow = function (e) {
-				console.log("🚀 ~ message:", e), window.location.reload();
+				(console.log("🚀 ~ message:", e), window.location.reload());
 			}),
 			new Proxy(
 				{},
 				{
 					set(e, t, r) {
-						if (!e[t]) return (e[t] = r), !0;
+						if (!e[t]) return ((e[t] = r), !0);
 						alert(`PRIVATE_GLOBAL ${t} 重复`);
 					}
 				}
@@ -64,7 +64,7 @@
 				var o = r.mask || "*";
 				switch (t) {
 					case "phone":
-						(n = 3), (a = 4);
+						((n = 3), (a = 4));
 						break;
 					case "email":
 						var i = e.indexOf("@");
@@ -74,16 +74,16 @@
 								o.repeat(Math.max(0, i - 3)) +
 								e.substring(i)
 							);
-						(n = 3), (a = 4);
+						((n = 3), (a = 4));
 						break;
 					case "idcard":
-						(n = 4), (a = 4);
+						((n = 4), (a = 4));
 						break;
 					case "name":
-						(n = 1), (a = 0);
+						((n = 1), (a = 0));
 						break;
 					case "custom":
-						(n = r.start || 0), (a = r.end || 0);
+						((n = r.start || 0), (a = r.end || 0));
 				}
 				var t = e.length,
 					l = Math.max(0, t - n - a);
@@ -119,15 +119,15 @@
 					f = [];
 				return (
 					_.each(e, e => {
-						(e.label = e[u]), (e.value = e[d]);
+						((e.label = e[u]), (e.value = e[d]));
 						var t = e[s];
-						($[t] = $[t] || []), (m[e[l]] = e), $[t].push(e);
+						(($[t] = $[t] || []), (m[e[l]] = e), $[t].push(e));
 					}),
 					_.each(e, e => {
 						e[s] == p && f.push(e);
 					}),
 					_.each(f, function e(t) {
-						null !== $[t[l]] && (t[c] = $[t[l]]), t[c] && _.each(t[c], e);
+						(null !== $[t[l]] && (t[c] = $[t[l]]), t[c] && _.each(t[c], e));
 					}),
 					{ TREE: f, CHILDREN_MAP: $, NODES_OBJ: m }
 				);
@@ -174,10 +174,10 @@
 					for (; -1 < e; ) {
 						var i = t[e];
 						if (!1 === r(i, t, a + "." + e)) break;
-						~_.findIndex(t, i) &&
+						(~_.findIndex(t, i) &&
 							!_.isEmpty(i[o]) &&
 							(i[o] = _.$traverse(i[o], r, n, `${a}.${e}.` + o)),
-							e--;
+							e--);
 					}
 				}
 				return t;
@@ -187,12 +187,12 @@
 				return new Promise(async (t, e) => {
 					let r = await _.$appendScript("/common/libs/spark-md5.js", "SparkMD5");
 					var n = new FileReader();
-					(n.onload = e => {
+					((n.onload = e => {
 						e = r.ArrayBuffer.hash(e.target.result);
 						t(e);
 					}),
 						(n.onerror = e),
-						n.readAsArrayBuffer(a);
+						n.readAsArrayBuffer(a));
 				});
 			}),
 			(_.$bytesToSize = function (e) {
@@ -211,7 +211,7 @@
 					n ||
 						((n = !0),
 						window.requestAnimationFrame(e => {
-							r.apply(this, t), (n = !1);
+							(r.apply(this, t), (n = !1));
 						}));
 				};
 			}),
@@ -230,7 +230,7 @@
 						r.focus(),
 						r.select(),
 						new Promise((e, t) => {
-							(document.execCommand("copy") ? e : t)(), r.remove();
+							((document.execCommand("copy") ? e : t)(), r.remove());
 						})
 					);
 				}
@@ -257,25 +257,25 @@
 								document.body.appendChild(e),
 								$(e));
 						t.one("change.openFileSelector", function () {
-							(i = !0), r(e.files), t.remove(), (t = null), (e = null);
+							((i = !0), r(e.files), t.remove(), (t = null), (e = null));
 						});
 						var n = _.debounce(() => {
 							!i && e && (r([]), t.remove(), (t = null), (e = null));
 						}, 1e3);
-						_.$single.win.one("focus.openFileSelector", n), e.click();
+						(_.$single.win.one("focus.openFileSelector", n), e.click());
 					} catch (e) {
-						r([]), console.error(e);
+						(r([]), console.error(e));
 					}
 				});
 			}),
 			(_.$readFileAsText = async function (n) {
 				return new Promise((e, t) => {
 					var r = new FileReader();
-					r.readAsText(n),
+					(r.readAsText(n),
 						(r.onload = function () {
 							e(r.result);
 						}),
-						(r.onerror = t);
+						(r.onerror = t));
 				});
 			}),
 			(_.$downloadTextAsBlob = function (n, a) {
@@ -285,11 +285,11 @@
 							((t.download = a),
 							(t.style.display = "none"),
 							new Blob([n], { type: "text/plain;charset=utf-8" }));
-					(t.href = URL.createObjectURL(r)),
+					((t.href = URL.createObjectURL(r)),
 						document.body.appendChild(t),
 						t.click(),
 						document.body.removeChild(t),
-						e();
+						e());
 				});
 			}),
 			(_.$translateStrByNull = e => ("" === e ? null : e)),
@@ -381,12 +381,12 @@
 								value: r,
 								onChange() {
 									var e = Array.from(t.data.set);
-									t.data.set.size < t.data.list.length
+									(t.data.set.size < t.data.list.length
 										? _.each(t.data.list, e => t.data.set.add(_.$val(e, i)))
 										: _.each(t.data.list, e => t.data.set.delete(_.$val(e, i))),
 										(t.data.set = new Set(Array.from(t.data.set))),
 										_.isFunction(t.onSelectedChange) &&
-											t.onSelectedChange(Array.from(t.data.set), e);
+											t.onSelectedChange(Array.from(t.data.set), e));
 								}
 							},
 							r = u("xCheckbox", r);
@@ -408,12 +408,12 @@
 									attrs: { title: a },
 									onChange(e) {
 										var t = Array.from(n.data.set);
-										e
+										(e
 											? n.data.set.add(_.$val(r, i))
 											: n.data.set.delete(_.$val(r, i)),
 											(n.data.set = _.clone(n.data.set)),
 											n.onSelectedChange &&
-												n.onSelectedChange(Array.from(n.data.set), t);
+												n.onSelectedChange(Array.from(n.data.set), t));
 									}
 								})
 							])
@@ -447,9 +447,9 @@
 									onChange(e) {
 										var t = Array.from(a.data.set),
 											r = _.$val(n, i);
-										(a.data.set = e ? new Set([r]) : new Set()),
+										((a.data.set = e ? new Set([r]) : new Set()),
 											a.onSelectedChange &&
-												a.onSelectedChange(Array.from(a.data.set), t);
+												a.onSelectedChange(Array.from(a.data.set), t));
 									}
 								})
 							])
@@ -467,7 +467,7 @@
 						return i18n("operation");
 					}
 				};
-				return e && (r.cellRenderer = e), r;
+				return (e && (r.cellRenderer = e), r);
 			}),
 			(window.defItems = e =>
 				_.reduce(
@@ -477,7 +477,7 @@
 				)),
 			(window.defItem = (...e) => {
 				e = _.merge.apply(_, e);
-				return Vue.hasOwn(e, "disabled") || (e.disabled = !1), Vue.reactive(e);
+				return (Vue.hasOwn(e, "disabled") || (e.disabled = !1), Vue.reactive(e));
 			}),
 			(window.defItem.X_ITEM_LABEL_IS_EMPTY = "X_ITEM_LABEL_IS_EMPTY"),
 			(_.$isHttp = e => -1 !== e.indexOf("http://") || -1 !== e.indexOf("https://")),
@@ -522,18 +522,18 @@
 					: { top: 0, left: 0 };
 			}),
 			(_.$aHashLink = (e, t = {}) => {
-				(e = ((e, t) => {
+				((e = ((e, t) => {
 					(e = new URL(String(e).replace("#", ""), location.origin)).search =
 						new URLSearchParams(t).toString();
 					var { pathname: t, search: r } = e;
 					return { href: "" + t + r, url: e };
 				})(e, t).url),
-					(t = new URL(location.href, location.origin));
-				return (t.hash = e.href.replace(e.origin, "")), t.href;
+					(t = new URL(location.href, location.origin)));
+				return ((t.hash = e.href.replace(e.origin, "")), t.href);
 			}),
 			(Vue.prototype.$aHashLink = _.$aHashLink),
 			(_.$setAppTheme = function (e) {
-				$("html").attr("data-theme", e || ""), $(window).trigger("x_ui_theme_change", e);
+				($("html").attr("data-theme", e || ""), $(window).trigger("x_ui_theme_change", e));
 			}),
 			(_.$valueEquals = (t, r) => {
 				if (t !== r) {
@@ -548,7 +548,7 @@
 				if (r) {
 					var n = [];
 					let e = r.offsetParent;
-					for (; e && t !== e && t.contains(e); ) n.push(e), (e = e.offsetParent);
+					for (; e && t !== e && t.contains(e); ) (n.push(e), (e = e.offsetParent));
 					r = r.offsetTop + n.reduce((e, t) => e + t.offsetTop, 0);
 					t.scrollTo({ top: r, behavior: "smooth" });
 				} else t.scrollTop = 0;
@@ -569,7 +569,7 @@
 				try {
 					return t();
 				} catch (e) {
-					console.error(t.toString()), console.error(e);
+					(console.error(t.toString()), console.error(e));
 				}
 			}),
 			(_.$lStorage = new Proxy(localStorage, {
@@ -604,12 +604,12 @@
 			(_.$genId.DATE_NOW = Date.now()),
 			(_.$dateFormat = (e = null, t = 0) => {
 				let r = "YYYY-MM-DD HH:mm:ss";
-				"number" == typeof (e = e || Date.now()) &&
+				("number" == typeof (e = e || Date.now()) &&
 					(10 === String(e).length && (e = dayjs.unix(e)), 13 === String(e).length) &&
 					(e = dayjs(e)),
 					1 === t && (r = "YYYY-MM-DD"),
 					2 === t && (r = "YYYYMMDDHHmmss"),
-					t || (r = "YYYY-MM-DD HH:mm:ss");
+					t || (r = "YYYY-MM-DD HH:mm:ss"));
 				t = dayjs(e).format(r);
 				return "Invalid Date" == t ? "--" : t;
 			}),
@@ -650,7 +650,7 @@
 						(i =
 							i ||
 							new Promise((e, t) => {
-								(l = e), (s = t), (o = r());
+								((l = e), (s = t), (o = r()));
 							}))
 					);
 				};
@@ -673,14 +673,14 @@
 								(((r = document.createElement("script")).id = t),
 								_.$$tags("body")[0].appendChild(r),
 								(r.onload = () => {
-									(o[n] = _.$val(window, n)), e(_.$val(window, n));
+									((o[n] = _.$val(window, n)), e(_.$val(window, n)));
 								}),
 								(r.src = a))
 							));
 			})
 		);
 	}
-	(console.table = e("table")),
+	((console.table = e("table")),
 		(console.log = e("log")),
 		(console.warn = e("warn")),
 		(console.info = e("info")),
@@ -688,7 +688,7 @@
 		(console.timeEnd = e("timeEnd")),
 		(_.$loading = function (e = !1, t = "body") {
 			var r, n;
-			(_.$loading.count = _.$loading.count || 0),
+			((_.$loading.count = _.$loading.count || 0),
 				e
 					? (_.$loading.count || $(t).addClass("x-loading"), _.$loading.count++)
 					: ((r = t),
@@ -699,7 +699,7 @@
 									? $(r).removeClass("x-loading")
 									: clearTimeout(n);
 							}, 400)),
-							(_.$loading.count = 0)));
+							(_.$loading.count = 0))));
 		}),
 		(_.$confirm = (i = {}) =>
 			new Promise(async (e, t) => {
@@ -785,21 +785,21 @@
 				e = r.toString();
 				location.hash = decodeURIComponent(e);
 			}
-		});
+		}));
 	{
 		let n = {};
-		(_.$GenComponentOptions = async function ({
+		((_.$GenComponentOptions = async function ({
 			resolvedURL: t,
 			scritpSourceCode: r,
 			templateSourceCode: n,
 			payload: a
 		}) {
 			try {
-				(a = a || {}),
+				((a = a || {}),
 					(r = (r = window.Babel ? window.Babel.babelTransformCode(r) : r).replace(
 						"export default",
 						""
-					));
+					)));
 				var o = [
 					`console.info("${t}");`,
 					n && s ? `(()=>\`${n}\`)();` : "",
@@ -822,9 +822,9 @@
 						}
 					}),
 					i = await e(l, c);
-				return n && (i.template = n), i;
+				return (n && (i.template = n), i);
 			} catch (e) {
-				console.error(r), console.error(e);
+				(console.error(r), console.error(e));
 			}
 		}),
 			(_.$GenComponentOptions.optionsSets = new Set()),
@@ -914,7 +914,7 @@
 					var n = Vue.compile(e).render;
 					return n.apply(t, r);
 				} catch (e) {
-					return console.error(e), null;
+					return (console.error(e), null);
 				}
 			}),
 			(_.$importVue = async function (e, t = {}) {
@@ -929,7 +929,7 @@
 			}),
 			(_.$importVue.urlSets = new Set()),
 			(_.$sfcVueObject = async function ({ resolvedURL: t, payload: e, sourceCode: r }) {
-				(e = e || {}), _.$callFn(_, "$importVue.Nprogress.start")();
+				((e = e || {}), _.$callFn(_, "$importVue.Nprogress.start")());
 				try {
 					var { scritpSourceCode: n, templateSourceCode: a } = await _.$sourceCodeSFC({
 							resolvedURL: t,
@@ -969,7 +969,7 @@
 			}),
 			(_.$newRoute = function (e, t, r = {}) {
 				return { name: e, path: e, component: () => _.$importVue(t), ...r };
-			});
+			}));
 	}
 	function u(e) {
 		e = _.isString(e) || e.outerHTML ? $(e) : e.$el ? $(e.$el) : void 0;
@@ -980,21 +980,21 @@
 		let t = u(e);
 		return t ? (0 === (e = t.find("[data-form-item-id^=x_form_id_]")).length ? t : e) : [];
 	}
-	(_.$setPagination = function (e, t) {
-		return t && (e.pagination = _.merge({}, e.pagination, t)), e.pagination;
+	((_.$setPagination = function (e, t) {
+		return (t && (e.pagination = _.merge({}, e.pagination, t)), e.pagination);
 	}),
 		(_.$setTableData = function (
 			e,
 			{ list: t, total: r = 0, selected: n = [], set: a = new Set() }
 		) {
 			if (!e.data) throw new Error("table cofigs 必须要有data属性且为对象");
-			Vue.set(e.data, "selected", n),
+			(Vue.set(e.data, "selected", n),
 				Vue.set(e.data, "set", a),
 				_.isArray(t) && Vue.set(e.data, "list", t),
-				e.pagination && (e.pagination.total = r);
+				e.pagination && (e.pagination.total = r));
 		}),
 		(_.$xItemVmById = function (e) {
-			(e = document.getElementById(e)), (e = (_.$val(e, "dataset") || {}).formItemId);
+			((e = document.getElementById(e)), (e = (_.$val(e, "dataset") || {}).formItemId));
 			return e ? Vue._X_ITEM_VM_S[e] : null;
 		}),
 		(_.$validateForm = async e => {
@@ -1005,10 +1005,10 @@
 				if (n) {
 					n = Vue._X_ITEM_VM_S[n];
 					let e;
-					_.$val(n, "validate")
+					(_.$val(n, "validate")
 						? (e = await n.validate())
 						: console.log("miss vm in _X_ITEM_VM_S"),
-						e && r.push([e, n]);
+						e && r.push([e, n]));
 				}
 			}
 			return 0 < r.length ? r : [];
@@ -1071,12 +1071,12 @@
 		}),
 		(_.$fillBackData = async function ({ form: e, data: t, order: r }) {
 			for (var n, a; (n = r.shift()); )
-				_.isString(n) && ((e[n].value = t[n]), await _.$sleep(32)),
+				(_.isString(n) && ((e[n].value = t[n]), await _.$sleep(32)),
 					_.isPlainObject(n) &&
-						(({ prop: n, until: a } = n), await a(), (e[n].value = t[n]));
+						(({ prop: n, until: a } = n), await a(), (e[n].value = t[n])));
 		}),
 		(_.$resetFormValues = function (e) {
-			(e = (e => {
+			((e = (e => {
 				var t,
 					r = [];
 				for (t of i(e)) {
@@ -1091,7 +1091,7 @@
 						: Vue.hasOwn(e, "value") &&
 							Vue.hasOwn(e, "resetValue") &&
 							(e.value = _.cloneDeep(e.resetValue));
-				});
+				}));
 		}),
 		(_.$setFormValues = function (r, e) {
 			_.each(e, (e, t) => {
@@ -1179,5 +1179,5 @@
 			var [e, t = 32] = e.split("/"),
 				t = ~(2 ** (32 - t) - 1);
 			return [_.$intToIp4(_.$ip4ToInt(e) & t), _.$intToIp4(_.$ip4ToInt(e) | ~t)];
-		});
+		}));
 })();

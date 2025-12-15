@@ -4008,7 +4008,7 @@ PERFORMANCE OF THIS SOFTWARE.
 								r =
 									(c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) ||
 									r;
-					return c > 3 && r && Object.defineProperty(target, key, r), r;
+					return (c > 3 && r && Object.defineProperty(target, key, r), r);
 				}
 
 				function __param(paramIndex, decorator) {
@@ -4347,7 +4347,7 @@ PERFORMANCE OF THIS SOFTWARE.
 							o[n] &&
 							function (v) {
 								return new Promise(function (resolve, reject) {
-									(v = o[n](v)), settle(resolve, reject, v.done, v.value);
+									((v = o[n](v)), settle(resolve, reject, v.done, v.value));
 								});
 							};
 					}
@@ -35695,9 +35695,9 @@ PERFORMANCE OF THIS SOFTWARE.
 							endCellPos = startCellPos;
 						}
 						if (startCellPos.pos > endCellPos.pos) {
-							(_a = [endCellPos, startCellPos]),
+							((_a = [endCellPos, startCellPos]),
 								(startCellPos = _a[0]),
-								(endCellPos = _a[1]);
+								(endCellPos = _a[1]));
 						}
 						var _d = this.getCellIndex(startCellPos),
 							startRowIdx = _d[0],
@@ -35705,12 +35705,12 @@ PERFORMANCE OF THIS SOFTWARE.
 						var _e = this.getCellIndex(endCellPos),
 							endRowIdx = _e[0],
 							endColIdx = _e[1];
-						(_b = getSortedNumPair(startRowIdx, endRowIdx)),
+						((_b = getSortedNumPair(startRowIdx, endRowIdx)),
 							(startRowIdx = _b[0]),
-							(endRowIdx = _b[1]);
-						(_c = getSortedNumPair(startColIdx, endColIdx)),
+							(endRowIdx = _b[1]));
+						((_c = getSortedNumPair(startColIdx, endColIdx)),
 							(startColIdx = _c[0]),
-							(endColIdx = _c[1]);
+							(endColIdx = _c[1]));
 						return this.getSpannedOffsets({
 							startRowIdx: startRowIdx,
 							startColIdx: startColIdx,
@@ -43654,13 +43654,13 @@ PERFORMANCE OF THIS SOFTWARE.
 							throw new Error("Types of arguments must be same");
 						}
 						if (mode === "markdown" && !isFromArray && !isToArray) {
-							(_a = getEditorToMdPos(doc, start, end)),
+							((_a = getEditorToMdPos(doc, start, end)),
 								(convertedFrom = _a[0]),
-								(convertedTo = _a[1]);
+								(convertedTo = _a[1]));
 						} else if (mode === "wysiwyg" && isFromArray && isToArray) {
-							(_b = getMdToEditorPos(doc, start, end)),
+							((_b = getMdToEditorPos(doc, start, end)),
 								(convertedFrom = _b[0]),
-								(convertedTo = _b[1]);
+								(convertedTo = _b[1]));
 						}
 						return [convertedFrom, convertedTo];
 					};
@@ -43683,7 +43683,7 @@ PERFORMANCE OF THIS SOFTWARE.
 							u = "",
 							a = [0],
 							c = function (n) {
-								t === 1 && (n || (r = r.replace(/^\s*\n\s*|\s*\n\s*$/g, "")))
+								(t === 1 && (n || (r = r.replace(/^\s*\n\s*|\s*\n\s*$/g, "")))
 									? a.push(n ? s[n] : r)
 									: t === 3 && (n || r)
 										? ((a[1] = n ? s[n] : r), (t = 2))
@@ -43701,7 +43701,7 @@ PERFORMANCE OF THIS SOFTWARE.
 															(t = 6))
 														: (n || r) &&
 															(a[2][e] += n ? r + s[n] : r)),
-									(r = "");
+									(r = ""));
 							},
 							h = 0;
 						h < n.length;
@@ -43709,7 +43709,7 @@ PERFORMANCE OF THIS SOFTWARE.
 					) {
 						h && (t === 1 && c(), c(h));
 						for (var i = 0; i < n[h].length; i++)
-							(l = n[h][i]),
+							((l = n[h][i]),
 								t === 1
 									? l === "<"
 										? (c(), (a = [a, "", null]), (t = 3))
@@ -43744,9 +43744,9 @@ PERFORMANCE OF THIS SOFTWARE.
 																	  l === "\r"
 																	? (c(), (t = 2))
 																	: (r += l)),
-								t === 3 && r === "!--" && ((t = 4), (a = a[0]));
+								t === 3 && r === "!--" && ((t = 4), (a = a[0])));
 					}
-					return c(), a.length > 2 ? a.slice(1) : a[1];
+					return (c(), a.length > 2 ? a.slice(1) : a[1]);
 				}
 
 				// EXTERNAL MODULE: ../../node_modules/tui-code-snippet/type/isBoolean.js
@@ -44551,7 +44551,7 @@ PERFORMANCE OF THIS SOFTWARE.
 					ResizeObserverController.prototype.updateObservers_ = function () {
 						// Collect observers that have active observations.
 						var activeObservers = this.observers_.filter(function (observer) {
-							return observer.gatherActive(), observer.hasActive();
+							return (observer.gatherActive(), observer.hasActive());
 						});
 						// Deliver notifications in a separate cycle in order to avoid any
 						// collisions between observers, e.g. when multiple instances of

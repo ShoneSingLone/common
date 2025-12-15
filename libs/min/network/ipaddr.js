@@ -55,7 +55,7 @@
 			o;
 		for (; 0 < n; ) {
 			if (((o = e - n) < 0 && (o = 0), r[i] >> o != t[i] >> o)) return !1;
-			(n -= e), (i += 1);
+			((n -= e), (i += 1));
 		}
 		return !0;
 	}
@@ -87,7 +87,7 @@
 				throw new Error("ipaddr: ipv6 part should fit in 16 bits");
 		t && (this.zoneId = t);
 	}
-	(d.IPv4 =
+	((d.IPv4 =
 		((f.prototype.SpecialRanges = {
 			unspecified: [[new f([0, 0, 0, 0]), 8]],
 			broadcast: [[new f([255, 255, 255, 255]), 32]],
@@ -127,7 +127,7 @@
 			for (n = 3; 0 <= n; --n) {
 				if (!((i = this.octets[n]) in e)) return null;
 				if (((o = e[i]), t && 0 !== o)) return null;
-				8 !== o && (t = !0), (r += o);
+				(8 !== o && (t = !0), (r += o));
 			}
 			return 32 - r;
 		}),
@@ -154,7 +154,7 @@
 					i = this.subnetMaskFromPrefixLength(e[1]).toByteArray(),
 					o = [];
 				let r = 0;
-				for (; r < 4; ) o.push(parseInt(n[r], 10) | (255 ^ parseInt(i[r], 10))), r++;
+				for (; r < 4; ) (o.push(parseInt(n[r], 10) | (255 ^ parseInt(i[r], 10))), r++);
 				return new this(o);
 			} catch (r) {
 				throw new Error("ipaddr: the address does not have IPv4 CIDR format");
@@ -165,7 +165,7 @@
 		}),
 		(d.IPv4.isValid = function (r) {
 			try {
-				return new this(this.parser(r)), !0;
+				return (new this(this.parser(r)), !0);
 			} catch (r) {
 				return !1;
 			}
@@ -185,7 +185,7 @@
 					e < 4;
 
 				)
-					i.push(parseInt(n[e], 10) & parseInt(o[e], 10)), e++;
+					(i.push(parseInt(n[e], 10) & parseInt(o[e], 10)), e++);
 				return new this(i);
 			} catch (r) {
 				throw new Error("ipaddr: the address does not have IPv4 CIDR format");
@@ -217,7 +217,7 @@
 			if ((t = r.match(p.fourOctet))) {
 				var i = t.slice(1, 6),
 					o = [];
-				for (let r = 0; r < i.length; r++) (e = i[r]), o.push(h(e));
+				for (let r = 0; r < i.length; r++) ((e = i[r]), o.push(h(e)));
 				return o;
 			}
 			if ((t = r.match(p.longValue))) {
@@ -244,10 +244,16 @@
 				);
 			}
 			if ((t = r.match(p.threeOctet))) {
-				(s = t.slice(1, 5)), (a = []);
+				((s = t.slice(1, 5)), (a = []));
 				if (65535 < (n = h(s[2])) || n < 0)
 					throw new Error("ipaddr: address outside defined range");
-				return a.push(h(s[0])), a.push(h(s[1])), a.push((n >> 8) & 255), a.push(255 & n), a;
+				return (
+					a.push(h(s[0])),
+					a.push(h(s[1])),
+					a.push((n >> 8) & 255),
+					a.push(255 & n),
+					a
+				);
 			}
 			return null;
 		}),
@@ -256,8 +262,8 @@
 				throw new Error("ipaddr: invalid IPv4 prefix length");
 			var t = [0, 0, 0, 0];
 			let e = 0;
-			for (var n = Math.floor(r / 8); e < n; ) (t[e] = 255), e++;
-			return n < 4 && (t[n] = (Math.pow(2, r % 8) - 1) << (8 - (r % 8))), new this(t);
+			for (var n = Math.floor(r / 8); e < n; ) ((t[e] = 255), e++);
+			return (n < 4 && (t[n] = (Math.pow(2, r % 8) - 1) << (8 - (r % 8))), new this(t));
 		}),
 		(d.IPv6 =
 			((c.prototype.SpecialRanges = {
@@ -316,7 +322,7 @@
 				for (let r = 7; 0 <= r; --r) {
 					if (!((n = this.parts[r]) in i)) return null;
 					if (((n = i[n]), e && 0 !== n)) return null;
-					16 !== n && (e = !0), (t += n);
+					(16 !== n && (e = !0), (t += n));
 				}
 				return 128 - t;
 			}),
@@ -327,7 +333,7 @@
 				var t,
 					e = [],
 					n = this.parts;
-				for (let r = 0; r < n.length; r++) (t = n[r]), e.push(t >> 8), e.push(255 & t);
+				for (let r = 0; r < n.length; r++) ((t = n[r]), e.push(t >> 8), e.push(255 & t));
 				return e;
 			}),
 			(c.prototype.toFixedLengthString = function () {
@@ -391,7 +397,7 @@
 					i = this.subnetMaskFromPrefixLength(e[1]).toByteArray(),
 					o = [];
 				let r = 0;
-				for (; r < 16; ) o.push(parseInt(n[r], 10) | (255 ^ parseInt(i[r], 10))), r++;
+				for (; r < 16; ) (o.push(parseInt(n[r], 10) | (255 ^ parseInt(i[r], 10))), r++);
 				return new this(o);
 			} catch (r) {
 				throw new Error(`ipaddr: the address does not have IPv6 CIDR format (${r})`);
@@ -404,7 +410,7 @@
 			if ("string" == typeof r && -1 === r.indexOf(":")) return !1;
 			try {
 				var t = this.parser(r);
-				return new this(t.parts, t.zoneId), !0;
+				return (new this(t.parts, t.zoneId), !0);
 			} catch (r) {
 				return !1;
 			}
@@ -421,7 +427,7 @@
 					e < 16;
 
 				)
-					i.push(parseInt(n[e], 10) & parseInt(o[e], 10)), e++;
+					(i.push(parseInt(n[e], 10) & parseInt(o[e], 10)), e++);
 				return new this(i);
 			} catch (r) {
 				throw new Error(`ipaddr: the address does not have IPv6 CIDR format (${r})`);
@@ -474,8 +480,8 @@
 				throw new Error("ipaddr: invalid IPv6 prefix length");
 			var t = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
 			let e = 0;
-			for (var n = Math.floor(r / 8); e < n; ) (t[e] = 255), e++;
-			return n < 16 && (t[n] = (Math.pow(2, r % 8) - 1) << (8 - (r % 8))), new this(t);
+			for (var n = Math.floor(r / 8); e < n; ) ((t[e] = 255), e++);
+			return (n < 16 && (t[n] = (Math.pow(2, r % 8) - 1) << (8 - (r % 8))), new this(t));
 		}),
 		(d.fromByteArray = function (r) {
 			var t = r.length;
@@ -518,5 +524,5 @@
 						if (((s = o[n]), r.kind() === s[0].kind() && r.match.apply(r, s))) return i;
 			return e;
 		}),
-		"undefined" != typeof module && module.exports ? (module.exports = d) : (r.ipaddr = d);
+		"undefined" != typeof module && module.exports ? (module.exports = d) : (r.ipaddr = d));
 })(window);

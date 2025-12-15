@@ -87,7 +87,7 @@
 				return u(t, { locale: n.$L, utc: n.$u, $offset: n.$offset });
 			}),
 			((n = e.prototype).parse = function (i) {
-				(this.$d = (() => {
+				((this.$d = (() => {
 					var t = i.date,
 						n = i.utc;
 					if (null === t) return new Date(NaN);
@@ -119,18 +119,18 @@
 					}
 					return new Date(t);
 				})()),
-					this.init();
+					this.init());
 			}),
 			(n.init = function () {
 				var t = this.$d;
-				(this.$y = t.getFullYear()),
+				((this.$y = t.getFullYear()),
 					(this.$M = t.getMonth()),
 					(this.$D = t.getDate()),
 					(this.$W = t.getDay()),
 					(this.$H = t.getHours()),
 					(this.$m = t.getMinutes()),
 					(this.$s = t.getSeconds()),
-					(this.$ms = t.getMilliseconds());
+					(this.$ms = t.getMilliseconds()));
 			}),
 			(n.$utils = function () {
 				return S;
@@ -395,12 +395,12 @@
 			}),
 			e);
 	function e(t) {
-		(this.$L = this.$L || s(t.locale, null, !0)), this.parse(t);
+		((this.$L = this.$L || s(t.locale, null, !0)), this.parse(t));
 	}
 	return (
 		(u.prototype = p.prototype),
 		(u.extend = function (t, n) {
-			return t(n, p, u), u;
+			return (t(n, p, u), u);
 		}),
 		(u.locale = s),
 		(u.isDayjs = r),

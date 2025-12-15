@@ -38,7 +38,7 @@
 
 	) {
 		var f = String.fromCharCode(e);
-		(t += f), (o[(u[e] = e)] = n.indexOf(f)), ++e;
+		((t += f), (o[(u[e] = e)] = n.indexOf(f)), ++e);
 	}
 	function d(r, e, n, t, o, u) {
 		for (var c = 0, a = 0, f = (r = String(r)).length, d = "", i = 0; a < f; ) {
@@ -46,16 +46,16 @@
 				c = (c << o) + (g < 256 ? n[g] : -1);
 			for (i += o; u <= i; ) {
 				var h = c >> (i -= u);
-				(d += t.charAt(h)), (c ^= h << i);
+				((d += t.charAt(h)), (c ^= h << i));
 			}
 			++a;
 		}
-		return !e && 0 < i && (d += t.charAt(c << (u - i))), d;
+		return (!e && 0 < i && (d += t.charAt(c << (u - i))), d);
 	}
 	var i = (r.base64 = function (r, e, n) {
 		return e ? i[r](e, n) : r ? null : this;
 	});
-	(i.btoa = i.encode =
+	((i.btoa = i.encode =
 		function (r, e) {
 			return (
 				(r = d((r = !1 === i.raw || i.utf8encode || e ? c(r) : r), !1, u, n, 8, 6)) +
@@ -66,7 +66,7 @@
 			function (r, e) {
 				r = String(r).split("=");
 				for (var n = r.length; (r[--n] = d(r[n], !0, o, t, 6, 8)), 0 < n; );
-				return (r = r.join("")), !1 === i.raw || i.utf8decode || e ? a(r) : r;
+				return ((r = r.join("")), !1 === i.raw || i.utf8decode || e ? a(r) : r);
 			}),
 		(i.urlSafeEncode = function (r, e, n, t) {
 			return (r = i.encode((r = (n = n || "%") + r + (t = t || "%")), e))
@@ -75,11 +75,11 @@
 				.replace(/=/g, "");
 		}),
 		(i.urlSafeDecode = function (r, e, n, t) {
-			(n = (n = n || "%").length),
+			((n = (n = n || "%").length),
 				(t = (t = t || "%").length),
 				(r = r.replace(/-/g, "+").replace(/_/g, "/")),
 				"====".slice(r.length % 4 || 4),
-				(r = i.decode(r, e));
+				(r = i.decode(r, e)));
 			return r.substring(n, r.length - t);
-		});
+		}));
 })(jQuery);

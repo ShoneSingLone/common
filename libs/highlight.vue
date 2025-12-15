@@ -33,7 +33,7 @@ export default async function () {
 			t.default = n;
 			class s {
 				constructor(e) {
-					void 0 === e.data && (e.data = {}), (this.data = e.data);
+					(void 0 === e.data && (e.data = {}), (this.data = e.data));
 				}
 				ignoreMatch() {
 					this.ignore = !0;
@@ -126,12 +126,12 @@ export default async function () {
 						if (((a += r(n.substring(s, t[0].offset))), (s = t[0].offset), t === e)) {
 							o.reverse().forEach(u);
 							do {
-								g(t.splice(0, 1)[0]), (t = l());
+								(g(t.splice(0, 1)[0]), (t = l()));
 							} while (t === e && t.length && t[0].offset === s);
 							o.reverse().forEach(c);
 						} else
-							"start" === t[0].event ? o.push(t[0].node) : o.pop(),
-								g(t.splice(0, 1)[0]);
+							("start" === t[0].event ? o.push(t[0].node) : o.pop(),
+								g(t.splice(0, 1)[0]));
 					}
 					return a + r(n.substr(s));
 				}
@@ -139,7 +139,7 @@ export default async function () {
 			const l = e => !!e.kind;
 			class c {
 				constructor(e, t) {
-					(this.buffer = ""), (this.classPrefix = t.classPrefix), e.walk(this);
+					((this.buffer = ""), (this.classPrefix = t.classPrefix), e.walk(this));
 				}
 				addText(e) {
 					this.buffer += r(e);
@@ -147,7 +147,7 @@ export default async function () {
 				openNode(e) {
 					if (!l(e)) return;
 					let t = e.kind;
-					e.sublanguage || (t = `${this.classPrefix}${t}`), this.span(t);
+					(e.sublanguage || (t = `${this.classPrefix}${t}`), this.span(t));
 				}
 				closeNode(e) {
 					l(e) && (this.buffer += "</span>");
@@ -161,10 +161,10 @@ export default async function () {
 			}
 			class u {
 				constructor() {
-					(this.rootNode = {
+					((this.rootNode = {
 						children: []
 					}),
-						(this.stack = [this.rootNode]);
+						(this.stack = [this.rootNode]));
 				}
 				get top() {
 					return this.stack[this.stack.length - 1];
@@ -177,7 +177,7 @@ export default async function () {
 				}
 				openNode(e) {
 					const t = { kind: e, children: [] };
-					this.add(t), this.stack.push(t);
+					(this.add(t), this.stack.push(t));
 				}
 				closeNode() {
 					if (this.stack.length > 1) return this.stack.pop();
@@ -214,7 +214,7 @@ export default async function () {
 			}
 			class g extends u {
 				constructor(e) {
-					super(), (this.options = e);
+					(super(), (this.options = e));
 				}
 				addKeyword(e, t) {
 					"" !== e && (this.openNode(t), this.addText(e), this.closeNode());
@@ -224,7 +224,7 @@ export default async function () {
 				}
 				addSublanguage(e, t) {
 					const n = e.root;
-					(n.kind = t), (n.sublanguage = !0), this.add(n);
+					((n.kind = t), (n.sublanguage = !0), this.add(n));
 				}
 				toHTML() {
 					return new c(this, this.options).value();
@@ -400,22 +400,22 @@ export default async function () {
 				}
 				class n {
 					constructor() {
-						(this.matchIndexes = {}),
+						((this.matchIndexes = {}),
 							(this.regexes = []),
 							(this.matchAt = 1),
-							(this.position = 0);
+							(this.position = 0));
 					}
 					addRule(e, t) {
-						(t.position = this.position++),
+						((t.position = this.position++),
 							(this.matchIndexes[this.matchAt] = t),
 							this.regexes.push([t, e]),
 							(this.matchAt +=
-								(e => RegExp(e.toString() + "|").exec("").length - 1)(e) + 1);
+								(e => RegExp(e.toString() + "|").exec("").length - 1)(e) + 1));
 					}
 					compile() {
 						0 === this.regexes.length && (this.exec = () => null);
 						const e = this.regexes.map(e => e[1]);
-						(this.matcherRe = t(
+						((this.matcherRe = t(
 							((e, t = "|") => {
 								const n = /\[(?:[^\\\]]|\\.)*\]|\(\??|\\([1-9][0-9]*)|\\./;
 								let s = 0,
@@ -430,11 +430,11 @@ export default async function () {
 											r += o;
 											break;
 										}
-										(r += o.substring(0, e.index)),
+										((r += o.substring(0, e.index)),
 											(o = o.substring(e.index + e[0].length)),
 											"\\" === e[0][0] && e[1]
 												? (r += "\\" + (Number(e[1]) + i))
-												: ((r += e[0]), "(" === e[0] && s++);
+												: ((r += e[0]), "(" === e[0] && s++));
 									}
 									r += ")";
 								}
@@ -442,7 +442,7 @@ export default async function () {
 							})(e),
 							!0
 						)),
-							(this.lastIndex = 0);
+							(this.lastIndex = 0));
 					}
 					exec(e) {
 						this.matcherRe.lastIndex = this.lastIndex;
@@ -450,16 +450,16 @@ export default async function () {
 						if (!t) return null;
 						const n = t.findIndex((e, t) => t > 0 && void 0 !== e),
 							s = this.matchIndexes[n];
-						return t.splice(0, n), Object.assign(t, s);
+						return (t.splice(0, n), Object.assign(t, s));
 					}
 				}
 				class s {
 					constructor() {
-						(this.rules = []),
+						((this.rules = []),
 							(this.multiRegexes = []),
 							(this.count = 0),
 							(this.lastIndex = 0),
-							(this.regexIndex = 0);
+							(this.regexIndex = 0));
 					}
 					getMatcher(e) {
 						if (this.multiRegexes[e]) return this.multiRegexes[e];
@@ -478,7 +478,7 @@ export default async function () {
 						this.regexIndex = 0;
 					}
 					addRule(e, t) {
-						this.rules.push([e, t]), "begin" === t.type && this.count++;
+						(this.rules.push([e, t]), "begin" === t.type && this.count++);
 					}
 					exec(e) {
 						const t = this.getMatcher(this.regexIndex);
@@ -488,7 +488,7 @@ export default async function () {
 							if (n && n.index === this.lastIndex);
 							else {
 								const t = this.getMatcher(0);
-								(t.lastIndex = this.lastIndex + 1), (n = t.exec(e));
+								((t.lastIndex = this.lastIndex + 1), (n = t.exec(e)));
 							}
 						return (
 							n &&
@@ -510,9 +510,9 @@ export default async function () {
 					(function n(i, o) {
 						const l = i;
 						if (i.compiled) return l;
-						(i.compiled = !0),
+						((i.compiled = !0),
 							(i.__beforeBegin = null),
-							(i.keywords = i.keywords || i.beginKeywords);
+							(i.keywords = i.keywords || i.beginKeywords));
 						let c = null;
 						if (
 							("object" == typeof i.keywords &&
@@ -530,11 +530,11 @@ export default async function () {
 									);
 
 									function s(e, s) {
-										t && (s = s.toLowerCase()),
+										(t && (s = s.toLowerCase()),
 											s.split(" ").forEach(t => {
 												const s = t.split("|");
 												n[s[0]] = [e, A(s[0], s[1])];
-											});
+											}));
 									}
 								})(i.keywords, e.case_insensitive)),
 							i.lexemes && c)
@@ -714,7 +714,7 @@ export default async function () {
 					const r = { code: t, language: e };
 					N("before:highlight", r);
 					const a = r.result ? r.result : p(r.language, r.code, n, s);
-					return (a.code = r.code), N("after:highlight", a), a;
+					return ((a.code = r.code), N("after:highlight", a), a);
 				}
 				function p(e, t, n, a) {
 					const i = t;
@@ -723,17 +723,17 @@ export default async function () {
 						return Object.prototype.hasOwnProperty.call(e.keywords, n) && e.keywords[n];
 					}
 					function u() {
-						null != y.subLanguage
+						(null != y.subLanguage
 							? (() => {
 									if ("" === M) return;
 									let e = null;
 									if ("string" == typeof y.subLanguage) {
 										if (!r[y.subLanguage]) return void k.addText(M);
-										(e = p(y.subLanguage, M, !0, R[y.subLanguage])),
-											(R[y.subLanguage] = e.top);
+										((e = p(y.subLanguage, M, !0, R[y.subLanguage])),
+											(R[y.subLanguage] = e.top));
 									} else e = m(M, y.subLanguage.length ? y.subLanguage : null);
-									y.relevance > 0 && (L += e.relevance),
-										k.addSublanguage(e.emitter, e.language);
+									(y.relevance > 0 && (L += e.relevance),
+										k.addSublanguage(e.emitter, e.language));
 								})()
 							: (() => {
 									if (!y.keywords) return void k.addText(M);
@@ -746,16 +746,16 @@ export default async function () {
 										const s = l(y, t);
 										if (s) {
 											const [e, r] = s;
-											k.addText(n), (n = ""), (L += r);
+											(k.addText(n), (n = ""), (L += r));
 											const a = _.classNameAliases[e] || e;
 											k.addKeyword(t[0], a);
 										} else n += t[0];
-										(e = y.keywordPatternRe.lastIndex),
-											(t = y.keywordPatternRe.exec(M));
+										((e = y.keywordPatternRe.lastIndex),
+											(t = y.keywordPatternRe.exec(M)));
 									}
-									(n += M.substr(e)), k.addText(n);
+									((n += M.substr(e)), k.addText(n));
 								})(),
-							(M = "");
+							(M = ""));
 					}
 					function g(e) {
 						return (
@@ -773,7 +773,7 @@ export default async function () {
 						if (r) {
 							if (e["on:end"]) {
 								const n = new s(e);
-								e["on:end"](t, n), n.ignore && (r = !1);
+								(e["on:end"](t, n), n.ignore && (r = !1));
 							}
 							if (r) {
 								for (; e.endsParent && e.parent; ) e = e.parent;
@@ -797,9 +797,9 @@ export default async function () {
 								u(),
 								r.excludeEnd && (M = t));
 						do {
-							y.className && k.closeNode(),
+							(y.className && k.closeNode(),
 								y.skip || y.subLanguage || (L += y.relevance),
-								(y = y.parent);
+								(y = y.parent));
 						} while (y !== s.parent);
 						return (
 							s.starts &&
@@ -810,7 +810,7 @@ export default async function () {
 					let x = {};
 					function E(t, r) {
 						const a = r && r[0];
-						if (((M += t), null == a)) return u(), 0;
+						if (((M += t), null == a)) return (u(), 0);
 						if (
 							"begin" === x.type &&
 							"end" === r.type &&
@@ -865,13 +865,13 @@ export default async function () {
 							throw Error(
 								"potential infinite loop, way more iterations than matches"
 							);
-						return (M += a), a.length;
+						return ((M += a), a.length);
 					}
 					const _ = v(e);
 					if (!_)
 						throw (
-							(console.error(c.replace("{}", e)),
-							Error('Unknown language: "' + e + '"'))
+							console.error(c.replace("{}", e)),
+							Error('Unknown language: "' + e + '"')
 						);
 
 					const w = O(_);
@@ -892,7 +892,9 @@ export default async function () {
 						S = !1;
 					try {
 						for (y.matcher.considerAll(); ; ) {
-							j++, S ? (S = !1) : y.matcher.considerAll(), (y.matcher.lastIndex = A);
+							(j++,
+								S ? (S = !1) : y.matcher.considerAll(),
+								(y.matcher.lastIndex = A));
 							const e = y.matcher.exec(i);
 							if (!e) break;
 							const t = E(i.substring(A, e.index), e);
@@ -949,7 +951,7 @@ export default async function () {
 								illegal: !1,
 								top: u
 							};
-							return t.emitter.addText(e), t;
+							return (t.emitter.addText(e), t);
 						})(e),
 						s = t
 							.filter(v)
@@ -966,7 +968,7 @@ export default async function () {
 						}),
 						[i, o] = a,
 						l = i;
-					return (l.second_best = o), l;
+					return ((l.second_best = o), l);
 				}
 				function b(e) {
 					return d.tabReplace || d.useBR
@@ -1002,21 +1004,21 @@ export default async function () {
 						return t.split(/\s+/).find(e => h(e) || v(e));
 					})(e);
 					if (h(n)) return;
-					N("before:highlightBlock", { block: e, language: n }),
+					(N("before:highlightBlock", { block: e, language: n }),
 						d.useBR
 							? ((t = document.createElement("div")),
 								(t.innerHTML = e.innerHTML
 									.replace(/\n/g, "")
 									.replace(/<br[ /]*>/g, "\n")))
-							: (t = e);
+							: (t = e));
 					const s = t.textContent,
 						r = n ? f(n, s, !0) : m(s),
 						i = T(t);
 					if (i.length) {
 						const e = document.createElement("div");
-						(e.innerHTML = r.value), (r.value = B(i, T(e), s));
+						((e.innerHTML = r.value), (r.value = B(i, T(e), s)));
 					}
-					(r.value = b(r.value)),
+					((r.value = b(r.value)),
 						N("after:highlightBlock", { block: e, result: r }),
 						(e.innerHTML = r.value),
 						(e.className = ((e, t, n) => {
@@ -1038,7 +1040,7 @@ export default async function () {
 								language: r.second_best.language,
 								re: r.second_best.relevance,
 								relavance: r.second_best.relevance
-							});
+							}));
 				}
 				const E = () => {
 					if (E.called) return;
@@ -1047,13 +1049,13 @@ export default async function () {
 					n.forEach.call(e, x);
 				};
 				function v(e) {
-					return (e = (e || "").toLowerCase()), r[e] || r[a[e]];
+					return ((e = (e || "").toLowerCase()), r[e] || r[a[e]]);
 				}
 				function _(e, { languageName: t }) {
-					"string" == typeof e && (e = [e]),
+					("string" == typeof e && (e = [e]),
 						e.forEach(e => {
 							a[e] = t;
-						});
+						}));
 				}
 				function w(e) {
 					const t = v(e);
@@ -1065,7 +1067,7 @@ export default async function () {
 						e[n] && e[n](t);
 					});
 				}
-				Object.assign(e, {
+				(Object.assign(e, {
 					highlight: f,
 					highlightAuto: m,
 					fixMarkup: e => (
@@ -1080,14 +1082,14 @@ export default async function () {
 
 					highlightBlock: x,
 					configure: e => {
-						e.useBR &&
+						(e.useBR &&
 							(console.warn(
 								"'useBR' option is deprecated and will be removed entirely in v11.0"
 							),
 							console.warn(
 								"Please see https://github.com/highlightjs/highlight.js/issues/2559"
 							)),
-							(d = S(d, e));
+							(d = S(d, e)));
 					},
 					initHighlighting: E,
 					initHighlightingOnLoad: () => {
@@ -1108,23 +1110,23 @@ export default async function () {
 								!o)
 							)
 								throw e;
-							console.error(e), (s = u);
+							(console.error(e), (s = u));
 						}
-						s.name || (s.name = t),
+						(s.name || (s.name = t),
 							(r[t] = s),
 							(s.rawDefinition = n.bind(null, e)),
-							s.aliases && _(s.aliases, { languageName: t });
+							s.aliases && _(s.aliases, { languageName: t }));
 					},
 					listLanguages: () => Object.keys(r),
 					getLanguage: v,
 					registerAliases: _,
 					requireLanguage: e => {
-						console.warn(
+						(console.warn(
 							"requireLanguage is deprecated and will be removed entirely in the future."
 						),
 							console.warn(
 								"Please see https://github.com/highlightjs/highlight.js/pull/2844"
-							);
+							));
 						const t = v(e);
 						if (t) return t;
 						throw Error(
@@ -1144,9 +1146,9 @@ export default async function () {
 					(e.safeMode = () => {
 						o = !0;
 					}),
-					(e.versionString = "10.4.0");
+					(e.versionString = "10.4.0"));
 				for (const e in k) "object" == typeof k[e] && t(k[e]);
-				return Object.assign(e, k), e;
+				return (Object.assign(e, k), e);
 			})({});
 		})();
 
@@ -2946,7 +2948,7 @@ export default async function () {
 								relevance: 0
 							}
 						].concat(b, t);
-					(c.contains = _), (o.contains = _);
+					((c.contains = _), (o.contains = _));
 					var E = [
 						{
 							begin: /^\s*=>/,
@@ -3223,7 +3225,7 @@ export default async function () {
 							}
 						};
 					})(e);
-					return (t.name = "C"), (t.aliases = ["c", "h"]), t;
+					return ((t.name = "C"), (t.aliases = ["c", "h"]), t);
 				};
 			})()
 		);
@@ -4423,7 +4425,7 @@ export default async function () {
 								}
 							]
 						};
-					s.contains.push(c), c.contains.push(s);
+					(s.contains.push(c), c.contains.push(s));
 					let t = [a, i];
 					return (
 						(s.contains = s.contains.concat(t)),
@@ -5710,7 +5712,7 @@ export default async function () {
 							illegal: /\n/,
 							contains: [{ begin: /\{\{/ }, { begin: /\}\}/ }, { begin: '""' }, l]
 						});
-					(r.contains = [
+					((r.contains = [
 						o,
 						c,
 						s,
@@ -5729,7 +5731,7 @@ export default async function () {
 							e.inherit(e.C_BLOCK_COMMENT_MODE, {
 								illegal: /\n/
 							})
-						]);
+						]));
 
 					var g = {
 							variants: [o, c, s, e.APOS_STRING_MODE, e.QUOTE_STRING_MODE]

@@ -117,11 +117,11 @@ var VueRouter = ((e, N) => {
 			l(e)
 		);
 	}
-	((t = F = F || {}).pop = "pop"),
+	(((t = F = F || {}).pop = "pop"),
 		(t.push = "push"),
 		((t = d = d || {}).back = "back"),
 		(t.forward = "forward"),
-		(t.unknown = "");
+		(t.unknown = ""));
 	let y = /^[^#]+#/;
 	function b(e, t) {
 		return e.replace(y, "#") + t;
@@ -225,13 +225,13 @@ var VueRouter = ((e, N) => {
 						var e = u.indexOf(t);
 						-1 < e && u.splice(e, 1);
 					};
-					return r.push(e), e;
+					return (r.push(e), e);
 				},
 				destroy: function () {
 					for (var e of r) e();
-					(r = []),
+					((r = []),
 						window.removeEventListener("popstate", t),
-						window.removeEventListener("beforeunload", n);
+						window.removeEventListener("beforeunload", n));
 				}
 			}
 		);
@@ -257,9 +257,9 @@ var VueRouter = ((e, N) => {
 						? (i.host && document.querySelector("base") ? a : a.slice(n)) + e
 						: w() + a + e;
 			try {
-				o[r ? "replaceState" : "pushState"](t, "", n), (l.value = t);
+				(o[r ? "replaceState" : "pushState"](t, "", n), (l.value = t));
 			} catch (e) {
-				W("Error with push/replace State", e), i[r ? "replace" : "assign"](n);
+				(W("Error with push/replace State", e), i[r ? "replace" : "assign"](n));
 			}
 		}
 		return (
@@ -288,17 +288,17 @@ var VueRouter = ((e, N) => {
 								),
 							s(r.current, r, !0),
 							U({}, $(n.value, e, null), { position: r.position + 1 }, t));
-					s(e, r, !1), (n.value = e);
+					(s(e, r, !1), (n.value = e));
 				},
 				replace: function (e, t) {
-					s(
+					(s(
 						e,
 						U({}, o.state, $(l.value.back, e, l.value.forward, !0), t, {
 							position: l.value.position
 						}),
 						!0
 					),
-						(n.value = e);
+						(n.value = e));
 				}
 			}
 		);
@@ -311,7 +311,7 @@ var VueRouter = ((e, N) => {
 				location: "",
 				base: e,
 				go: function (e, t = !0) {
-					t || r.pauseListeners(), history.go(e);
+					(t || r.pauseListeners(), history.go(e));
 				},
 				createHref: b.bind(null, e)
 			},
@@ -396,7 +396,7 @@ var VueRouter = ((e, N) => {
 			for (let n = 0; n < a.length; n++) {
 				var u = a[n];
 				let r = 40 + (t.sensitive ? 0.25 : 0);
-				if (0 === u.type) n || (o += "/"), (o += u.value.replace(A, "\\$&")), (r += 40);
+				if (0 === u.type) (n || (o += "/"), (o += u.value.replace(A, "\\$&")), (r += 40));
 				else if (1 === u.type) {
 					var { value: u, repeatable: c, optional: d, regexp: h } = u;
 					i.push({ name: u, repeatable: c, optional: d });
@@ -412,21 +412,21 @@ var VueRouter = ((e, N) => {
 						}
 					}
 					let e = c ? `((?:${t})(?:/(?:${t}))*)` : `(${t})`;
-					n || (e = d && a.length < 2 ? `(?:/${e})` : "/" + e),
+					(n || (e = d && a.length < 2 ? `(?:/${e})` : "/" + e),
 						d && (e += "?"),
 						(o += e),
 						(r += 20),
 						d && (r += -8),
 						c && (r += -20),
-						".*" === t && (r += -50);
+						".*" === t && (r += -50));
 				}
 				l.push(r);
 			}
 			r.push(l);
 		}
-		t.strict && t.end && (r[(e = r.length - 1)][r[e].length - 1] += 0.7000000000000001),
+		(t.strict && t.end && (r[(e = r.length - 1)][r[e].length - 1] += 0.7000000000000001),
 			t.strict || (o += "/?"),
-			t.end ? (o += "$") : t.strict && (o += "(?:/|$)");
+			t.end ? (o += "$") : t.strict && (o += "(?:/|$)"));
 		let p = new RegExp(o, t.sensitive ? "" : "i");
 		return {
 			re: p,
@@ -447,7 +447,7 @@ var VueRouter = ((e, N) => {
 				let t = "",
 					r = !1;
 				for (var n of s) {
-					(r && t.endsWith("/")) || (t += "/"), (r = !1);
+					((r && t.endsWith("/")) || (t += "/"), (r = !1));
 					for (var a of n)
 						if (0 === a.type) t += a.value;
 						else if (1 === a.type) {
@@ -522,7 +522,7 @@ var VueRouter = ((e, N) => {
 						a = [],
 						o;
 					function i() {
-						o && a.push(o), (o = []);
+						(o && a.push(o), (o = []));
 					}
 					let l = 0,
 						s,
@@ -552,14 +552,14 @@ var VueRouter = ((e, N) => {
 						u += s;
 					}
 					for (; l < e.length; )
-						if ("\\" === (s = e[l++]) && 2 !== r) (n = r), (r = 4);
+						if ("\\" === (s = e[l++]) && 2 !== r) ((n = r), (r = 4));
 						else
 							switch (r) {
 								case 0:
 									"/" === s ? (u && d(), i()) : ":" === s ? (d(), (r = 1)) : h();
 									break;
 								case 4:
-									h(), (r = n);
+									(h(), (r = n));
 									break;
 								case 1:
 									"(" === s
@@ -578,27 +578,27 @@ var VueRouter = ((e, N) => {
 										: (c += s);
 									break;
 								case 3:
-									d(),
+									(d(),
 										(r = 0),
 										"*" !== s && "?" !== s && "+" !== s && l--,
-										(c = "");
+										(c = ""));
 									break;
 								default:
 									t("Unknown state");
 							}
-					return 2 === r && t(`Unfinished custom RegExp for param "${u}"`), d(), i(), a;
+					return (2 === r && t(`Unfinished custom RegExp for param "${u}"`), d(), i(), a);
 				})(e.path),
 				r
 			),
 			a = new Set();
 		for (n of r.keys)
-			a.has(n.name) &&
+			(a.has(n.name) &&
 				W(
 					`Found duplicated params with name "${n.name}" for path "${e.path}". Only the last one will be available on "$route.params".`
 				),
-				a.add(n.name);
+				a.add(n.name));
 		r = U(r, { record: e, parent: t, children: [], alias: [] });
-		return t && !r.record.aliasOf == !t.record.aliasOf && t.children.push(r), r;
+		return (t && !r.record.aliasOf == !t.record.aliasOf && t.children.push(r), r);
 	}
 	function pe(e, g) {
 		let y = [],
@@ -721,7 +721,7 @@ var VueRouter = ((e, N) => {
 
 					)
 						e++;
-					y.splice(e, 0, m), m.record.name && !ve(m) && b.set(m.record.name, m);
+					(y.splice(e, 0, m), m.record.name && !ve(m) && b.set(m.record.name, m));
 				}
 			}
 			return h
@@ -759,7 +759,7 @@ var VueRouter = ((e, N) => {
 						var i = Object.keys(e.params || {}).filter(
 							t => !r.keys.find(e => e.name === t)
 						);
-						i.length &&
+						(i.length &&
 							W(
 								`Discarded invalid param(s) "${i.join('", "')}" when navigating. See https://github.com/vuejs/router/blob/main/packages/router/CHANGELOG.md#414-2022-08-22 for more details.`
 							),
@@ -775,22 +775,24 @@ var VueRouter = ((e, N) => {
 										r.keys.map(e => e.name)
 									)
 							)),
-							(a = r.stringify(n));
+							(a = r.stringify(n)));
 					} else if ("path" in e)
-						(a = e.path).startsWith("/") ||
+						((a = e.path).startsWith("/") ||
 							W(
 								`The Matcher cannot resolve relative paths but received "${a}". Unless you directly called \`matcher.resolve("${a}")\`, this is probably a bug in vue-router. Please open an issue at https://github.com/vuejs/router/issues/new/choose.`
 							),
 							(r = y.find(e => e.re.test(a))) &&
-								((n = r.parse(a)), (o = r.record.name));
+								((n = r.parse(a)), (o = r.record.name)));
 					else {
 						if (!(r = t.name ? b.get(t.name) : y.find(e => e.re.test(t.path))))
 							throw z(1, { location: e, currentLocation: t });
-						(o = r.record.name), (n = U({}, t.params, e.params)), (a = r.stringify(n));
+						((o = r.record.name),
+							(n = U({}, t.params, e.params)),
+							(a = r.stringify(n)));
 					}
 					var l = [];
 					let s = r;
-					for (; s; ) l.unshift(s.record), (s = s.parent);
+					for (; s; ) (l.unshift(s.record), (s = s.parent));
 					return {
 						name: o,
 						path: a,
@@ -893,14 +895,14 @@ var VueRouter = ((e, N) => {
 		let r = "";
 		for (let t in e) {
 			var n = e[t];
-			(t = a(t).replace(we, "%3D")),
+			((t = a(t).replace(we, "%3D")),
 				null == n
 					? void 0 !== n && (r += (r.length ? "&" : "") + t)
 					: (B(n) ? n.map(e => e && a(e)) : [n && a(n)]).forEach(e => {
 							void 0 !== e &&
 								((r += (r.length ? "&" : "") + t), null != e) &&
 								(r += "=" + e);
-						});
+						}));
 		}
 		return r;
 	}
@@ -931,12 +933,12 @@ var VueRouter = ((e, N) => {
 		var n = () => {
 			e[t].delete(r);
 		};
-		N.onUnmounted(n),
+		(N.onUnmounted(n),
 			N.onDeactivated(n),
 			N.onActivated(() => {
 				e[t].add(r);
 			}),
-			e[t].add(r);
+			e[t].add(r));
 	}
 	function ae(i, l, s, u, c) {
 		let d = u && (u.enterCallbacks[c] = u.enterCallbacks[c] || []);
@@ -963,12 +965,12 @@ var VueRouter = ((e, N) => {
 					((e, t, r) => {
 						let n = 0;
 						return function () {
-							1 == n++ &&
+							(1 == n++ &&
 								W(
 									`The "next" callback was called more than once in one navigation guard when going from "${r.fullPath}" to "${t.fullPath}". It should be called exactly one time in each navigation guard. This will fail in production.`
 								),
 								(e._called = !0),
-								1 === n && e.apply(null, arguments);
+								1 === n && e.apply(null, arguments));
 						};
 					})(a, l, s)
 				);
@@ -984,7 +986,7 @@ ${i.toString()}
 								: (W(t), Promise.reject(new Error("Invalid navigation guard")))
 						);
 					else if (void 0 !== e && !a._called)
-						return W(t), void n(new Error("Invalid navigation guard"));
+						return (W(t), void n(new Error("Invalid navigation guard")));
 				}
 				o.catch(e => n(e));
 			});
@@ -1002,11 +1004,11 @@ ${i.toString()}
 				let t = n.components[r];
 				if (!t || ("object" != typeof t && "function" != typeof t))
 					throw (
-						(W(
+						W(
 							`Component "${r}" in record with path "${n.path}" is not` +
 								` a valid component. Received "${String(t)}".`
 						),
-						new Error("Invalid route component"))
+						new Error("Invalid route component")
 					);
 				if ("then" in t) {
 					W(
@@ -1039,7 +1041,7 @@ ${i.toString()}
 						s && l.push(ae(s, o, i, n, r));
 					} else {
 						let e = t();
-						"catch" in e ||
+						("catch" in e ||
 							(W(
 								`Component "${r}" in record with path "${n.path}" is a function that does not return a Promise. If you were passing a functional component, make sure to add a "displayName" to the component. This will break in production if not fixed.`
 							),
@@ -1056,7 +1058,7 @@ ${i.toString()}
 												)
 											)
 								)
-							);
+							));
 					}
 			}
 		}
@@ -1109,16 +1111,16 @@ ${i.toString()}
 			var o = N.getCurrentInstance();
 			if (o) {
 				let e = { route: l.value, isActive: n.value, isExactActive: a.value };
-				(o.__vrl_devtools = o.__vrl_devtools || []),
+				((o.__vrl_devtools = o.__vrl_devtools || []),
 					o.__vrl_devtools.push(e),
 					N.watchEffect(
 						() => {
-							(e.route = l.value),
+							((e.route = l.value),
 								(e.isActive = n.value),
-								(e.isExactActive = a.value);
+								(e.isExactActive = a.value));
 						},
 						{ flush: "post" }
-					);
+					));
 			}
 		}
 		return {
@@ -1142,7 +1144,7 @@ ${i.toString()}
 							var t = e.currentTarget.getAttribute("target");
 							if (/\b_blank\b/i.test(t)) return;
 						}
-						return e.preventDefault && e.preventDefault(), 1;
+						return (e.preventDefault && e.preventDefault(), 1);
 					}
 				})(e)
 					? r[N.unref(t.replace) ? "replace" : "push"](N.unref(t.to)).catch(V)
@@ -1201,7 +1203,7 @@ ${i.toString()}
 		compatConfig: { MODE: 3 },
 		setup(o, { attrs: i, slots: l }) {
 			var e, t;
-			(e = N.getCurrentInstance()),
+			((e = N.getCurrentInstance()),
 				(t = e.parent && e.parent.type.name),
 				(e = e.parent && e.parent.subTree && e.parent.subTree.type),
 				t &&
@@ -1217,7 +1219,7 @@ ${i.toString()}
 							`  </${e}>
 ` +
 							"</router-view>"
-					);
+					));
 			let r = N.inject(re),
 				s = N.computed(() => o.route || r.value),
 				n = N.inject(p, 0),
@@ -1239,7 +1241,7 @@ ${i.toString()}
 				N.watch(
 					() => [d.value, c.value, o.name],
 					([t, e, r], [n, a]) => {
-						e &&
+						(e &&
 							((e.instances[r] = t), a) &&
 							a !== e &&
 							t &&
@@ -1249,7 +1251,7 @@ ${i.toString()}
 							!t ||
 								!e ||
 								(a && G(e, a) && n) ||
-								(e.enterCallbacks[r] || []).forEach(e => e(t));
+								(e.enterCallbacks[r] || []).forEach(e => e(t)));
 					},
 					{ flush: "post" }
 				),
@@ -1308,11 +1310,11 @@ ${i.toString()}
 	}
 	class qe {
 		constructor(e, t) {
-			(this.target = null),
+			((this.target = null),
 				(this.targetQueue = []),
 				(this.onQueue = []),
 				(this.plugin = e),
-				(this.hook = t);
+				(this.hook = t));
 			var r = {};
 			if (e.settings)
 				for (var n in e.settings) {
@@ -1326,7 +1328,7 @@ ${i.toString()}
 					s = JSON.parse(l);
 				Object.assign(i, s);
 			} catch (e) {}
-			(this.fallbacks = {
+			((this.fallbacks = {
 				getSettings() {
 					return i;
 				},
@@ -1381,7 +1383,7 @@ ${i.toString()}
 													});
 												})
 					}
-				));
+				)));
 		}
 		async setRealTarget(e) {
 			this.target = e;
@@ -1436,7 +1438,7 @@ ${i.toString()}
 					app: l
 				},
 				a => {
-					"function" != typeof a.now &&
+					("function" != typeof a.now &&
 						console.warn(
 							"[Vue Router]: You seem to be using an outdated version of Vue Devtools. Are you still using the Beta release instead of the stable one? You can find the links at https://devtools.vuejs.org/guide/installation.html."
 						),
@@ -1451,7 +1453,7 @@ ${i.toString()}
 						}),
 						a.on.visitComponentTree(({ treeNode: n, componentInstance: e }) => {
 							var t;
-							e.__vrv_devtools &&
+							(e.__vrv_devtools &&
 								((t = e.__vrv_devtools),
 								n.tags.push({
 									label: (t.name ? t.name.toString() + ": " : "") + t.path,
@@ -1464,7 +1466,7 @@ ${i.toString()}
 									e.__vrl_devtools.forEach(e => {
 										let t = Ye,
 											r = "";
-										e.isExactActive
+										(e.isExactActive
 											? ((t = ze), (r = "This is exactly active"))
 											: e.isActive && ((t = He), (r = "This link is active")),
 											n.tags.push({
@@ -1472,15 +1474,15 @@ ${i.toString()}
 												textColor: 0,
 												tooltip: r,
 												backgroundColor: t
-											});
-									}));
+											}));
+									})));
 						}),
 						N.watch(s.currentRoute, () => {
-							t(),
+							(t(),
 								a.notifyComponentUpdate(),
 								a.sendInspectorTree(n),
-								a.sendInspectorState(n);
-						});
+								a.sendInspectorState(n));
+						}));
 					let o = "router:navigations:" + e,
 						r =
 							(a.addTimelineLayer({
@@ -1509,7 +1511,7 @@ ${i.toString()}
 									from: c(t, "Current Location during this navigation"),
 									to: c(e, "Target location")
 								};
-								Object.defineProperty(e.meta, "__navigationId", { value: r++ }),
+								(Object.defineProperty(e.meta, "__navigationId", { value: r++ }),
 									a.addTimelineEvent({
 										layerId: o,
 										event: {
@@ -1519,11 +1521,11 @@ ${i.toString()}
 											data: t,
 											groupId: e.meta.__navigationId
 										}
-									});
+									}));
 							}),
 							s.afterEach((e, t, r) => {
 								var n = { guard: f("afterEach") };
-								r
+								(r
 									? ((n.failure = {
 											_custom: {
 												type: Error,
@@ -1547,7 +1549,7 @@ ${i.toString()}
 											logType: r ? "warning" : "default",
 											groupId: e.meta.__navigationId
 										}
-									});
+									}));
 							}),
 							"router-inspector:" + e);
 					function t() {
@@ -1556,7 +1558,7 @@ ${i.toString()}
 								e = u
 									.getRoutes()
 									.filter(e => !e.parent || !e.parent.record.components);
-							e.forEach(rt),
+							(e.forEach(rt),
 								(e = t.filter
 									? e.filter(e =>
 											(function t(e, r) {
@@ -1596,7 +1598,7 @@ ${i.toString()}
 										r.children.forEach(e => t(e, n));
 									})(e, s.currentRoute.value)
 								),
-								(t.rootNodes = e.map(Ze));
+								(t.rootNodes = e.map(Ze)));
 						}
 					}
 					a.addInspector({
@@ -1606,7 +1608,7 @@ ${i.toString()}
 						treeFilterPlaceholder: "Search routes"
 					});
 					let i;
-					a.on.getInspectorTree(e => {
+					(a.on.getInspectorTree(e => {
 						(i = e).app === l && e.inspectorId === n && t();
 					}),
 						a.on.getInspectorState(t => {
@@ -1692,7 +1694,7 @@ ${i.toString()}
 								});
 						}),
 						a.sendInspectorTree(n),
-						a.sendInspectorState(n);
+						a.sendInspectorState(n));
 				}
 			);
 		}
@@ -1706,7 +1708,7 @@ ${i.toString()}
 	function Ze(e) {
 		var t = [],
 			r = e.record;
-		null != r.name && t.push({ label: String(r.name), textColor: 0, backgroundColor: Je }),
+		(null != r.name && t.push({ label: String(r.name), textColor: 0, backgroundColor: Je }),
 			r.aliasOf && t.push({ label: "alias", textColor: 0, backgroundColor: Ye }),
 			e.__vd_match && t.push({ label: "matches", textColor: 0, backgroundColor: Qe }),
 			e.__vd_exactActive && t.push({ label: "exact", textColor: 0, backgroundColor: ze }),
@@ -1716,7 +1718,7 @@ ${i.toString()}
 					label: "string" == typeof r.redirect ? "redirect: " + r.redirect : "redirects",
 					textColor: 16777215,
 					backgroundColor: Xe
-				});
+				}));
 		let n = r.__vd_id;
 		return (
 			null == n && ((n = String(et++)), (r.__vd_id = n)),
@@ -1726,7 +1728,7 @@ ${i.toString()}
 	let et = 0,
 		tt = /^\/(.*)\/([a-z]*)$/;
 	function rt(e) {
-		(e.__vd_match = !1), e.children.forEach(rt);
+		((e.__vd_match = !1), e.children.forEach(rt));
 	}
 	return (
 		(e.RouterLink = Te),
@@ -1737,7 +1739,7 @@ ${i.toString()}
 				u = [""],
 				c = 0;
 			function r(e) {
-				++c !== u.length && u.splice(c), u.push(e);
+				(++c !== u.length && u.splice(c), u.push(e));
 			}
 			return (
 				(e = {
@@ -1746,7 +1748,7 @@ ${i.toString()}
 					base: (e = g(e)),
 					createHref: b.bind(null, e),
 					replace(e) {
-						u.splice(c--, 1), r(e);
+						(u.splice(c--, 1), r(e));
 					},
 					push(e, t) {
 						r(e);
@@ -1761,7 +1763,7 @@ ${i.toString()}
 						);
 					},
 					destroy() {
-						(s = []), (u = [""]), (c = 0);
+						((s = []), (u = [""]), (c = 0));
 					},
 					go(e, t = !0) {
 						var r = this.location,
@@ -1825,18 +1827,18 @@ ${i.toString()}
 				}
 				let e;
 				if ("path" in r)
-					"params" in r &&
+					("params" in r &&
 						!("name" in r) &&
 						Object.keys(r.params).length &&
 						W(
 							`Path "${r.path}" was passed with params but they will be ignored. Use a named route alongside params instead.`
 						),
-						(e = U({}, r, { path: q(c, r.path, n.path).path }));
+						(e = U({}, r, { path: q(c, r.path, n.path).path })));
 				else {
 					var t,
 						o = U({}, r.params);
 					for (t in o) null == o[t] && delete o[t];
-					(e = U({}, r, { params: y(o) })), (n.params = y(n.params));
+					((e = U({}, r, { params: y(o) })), (n.params = y(n.params)));
 				}
 				let i = u.resolve(e, n);
 				var l,
@@ -1919,10 +1921,10 @@ ${i.toString()}
 							e
 						);
 					throw (
-						(W(`Invalid redirect found:
+						W(`Invalid redirect found:
 ${JSON.stringify(e, null, 2)}
  when navigating to "${t.fullPath}". A redirect must contain a name or path. This will break in production.`),
-						new Error("Invalid redirect"))
+						new Error("Invalid redirect")
 					);
 				}
 			}
@@ -1971,7 +1973,7 @@ ${JSON.stringify(e, null, 2)}
 												t || l
 											);
 							} else e = R(l, n, !0, i, a);
-							return O(l, n, e), e;
+							return (O(l, n, e), e);
 						})
 				);
 			}
@@ -2009,7 +2011,7 @@ ${JSON.stringify(e, null, 2)}
 						.then(() => {
 							a = [];
 							for (var e of p.list()) a.push(ae(e, r, n));
-							return a.push(l), L(a);
+							return (a.push(l), L(a));
 						})
 						.then(() => {
 							a = oe(t, "beforeRouteUpdate", r, n);
@@ -2017,7 +2019,7 @@ ${JSON.stringify(e, null, 2)}
 								e.updateGuards.forEach(e => {
 									a.push(ae(e, r, n));
 								});
-							return a.push(l), L(a);
+							return (a.push(l), L(a));
 						})
 						.then(() => {
 							a = [];
@@ -2026,7 +2028,7 @@ ${JSON.stringify(e, null, 2)}
 									if (B(e.beforeEnter))
 										for (var t of e.beforeEnter) a.push(ae(t, r, n));
 									else a.push(ae(e.beforeEnter, r, n));
-							return a.push(l), L(a);
+							return (a.push(l), L(a));
 						})
 						.then(
 							() => (
@@ -2038,7 +2040,7 @@ ${JSON.stringify(e, null, 2)}
 						.then(() => {
 							a = [];
 							for (var e of f.list()) a.push(ae(e, r, n));
-							return a.push(l), L(a);
+							return (a.push(l), L(a));
 						})
 						.catch(e => (J(e, 8) ? e : Promise.reject(e)))
 				);
@@ -2051,12 +2053,12 @@ ${JSON.stringify(e, null, 2)}
 				if (o) return o;
 				var o = t === H,
 					i = M ? history.state : {};
-				r &&
+				(r &&
 					(n || o
 						? h.replace(e.fullPath, U({ scroll: o && i && i.scroll }, a))
 						: h.push(e.fullPath, a)),
 					j((v.value = e), t, r, o),
-					S();
+					S());
 			}
 			let o;
 			function t() {
@@ -2071,7 +2073,7 @@ ${JSON.stringify(e, null, 2)}
 							else {
 								m = r;
 								let t = v.value;
-								M && ((e = se(t.fullPath, n.delta)), (a = K()), Q.set(e, a)),
+								(M && ((e = se(t.fullPath, n.delta)), (a = K()), Q.set(e, a)),
 									C(r, t)
 										.catch(e =>
 											J(e, 12)
@@ -2089,13 +2091,13 @@ ${JSON.stringify(e, null, 2)}
 													: (n.delta && h.go(-n.delta, !1), P(e, r, t))
 										)
 										.then(e => {
-											(e = e || R(r, t, !1)) &&
+											((e = e || R(r, t, !1)) &&
 												(n.delta && !J(e, 8)
 													? h.go(-n.delta, !1)
 													: n.type === F.pop && J(e, 20) && h.go(-1, !1)),
-												O(r, t, e);
+												O(r, t, e));
 										})
-										.catch(V);
+										.catch(V));
 							}
 						}
 					});
@@ -2140,7 +2142,10 @@ ${JSON.stringify(e, null, 2)}
 					listening: !0,
 					addRoute: function (e, t) {
 						let r, n;
-						return (n = ue(e) ? ((r = u.getRecordMatcher(e)), t) : e), u.addRoute(n, r);
+						return (
+							(n = ue(e) ? ((r = u.getRecordMatcher(e)), t) : e),
+							u.addRoute(n, r)
+						);
 					},
 					removeRoute: function (e) {
 						var t = u.getRecordMatcher(e);
@@ -2173,7 +2178,7 @@ ${JSON.stringify(e, null, 2)}
 								});
 					},
 					install(e) {
-						e.component("RouterLink", Te),
+						(e.component("RouterLink", Te),
 							e.component("RouterView", Ue),
 							(e.config.globalProperties.$router = this),
 							Object.defineProperty(e.config.globalProperties, "$route", {
@@ -2186,15 +2191,17 @@ ${JSON.stringify(e, null, 2)}
 								((A = !0),
 								n(h.location).catch(e => {
 									W("Unexpected error when starting the router:", e);
-								}));
+								})));
 						var t = {};
 						for (let e in H)
 							Object.defineProperty(t, e, { get: () => v.value[e], enumerable: !0 });
-						e.provide(ee, this), e.provide(te, N.shallowReactive(t)), e.provide(re, v);
+						(e.provide(ee, this),
+							e.provide(te, N.shallowReactive(t)),
+							e.provide(re, v));
 						let r = e.unmount;
-						I.add(e),
+						(I.add(e),
 							(e.unmount = function () {
-								I.delete(e),
+								(I.delete(e),
 									I.size < 1 &&
 										((m = H),
 										o && o(),
@@ -2202,9 +2209,9 @@ ${JSON.stringify(e, null, 2)}
 										(v.value = H),
 										(A = !1),
 										(x = !1)),
-									r();
+									r());
 							}),
-							M && Ke(e, this, u);
+							M && Ke(e, this, u));
 					}
 				};
 			function L(e) {

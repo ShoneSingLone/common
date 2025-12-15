@@ -8,11 +8,11 @@ var AUI = AUI || {};
 		this.scroll(function () {
 			var e = $(this),
 				n = e.data(a);
-			n && clearTimeout(n),
+			(n && clearTimeout(n),
 				(n = setTimeout(function () {
-					e.removeData(a), i.call(e[0]);
+					(e.removeData(a), i.call(e[0]));
 				}, t)),
-				e.data(a, n);
+				e.data(a, n));
 		});
 	};
 
@@ -29,12 +29,12 @@ var AUI = AUI || {};
 			$(_configs.filter).each(function (t, i) {
 				var a = $(i),
 					n = a.attr("vm-level");
-				n && $(i).addClass("level" + n),
+				(n && $(i).addClass("level" + n),
 					a.is("[vm-animation]") &&
 						e(i) &&
 						(a.addClass("animated " + a.attr("vm-animation")),
 						a.css("visibility", "visible"),
-						a.attr("vm-type", "0"));
+						a.attr("vm-type", "0")));
 			});
 		}
 		var _configs = $.extend(

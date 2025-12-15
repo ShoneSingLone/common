@@ -5,14 +5,14 @@
 			i.creat();
 		}
 		var i = this;
-		(i.index = ++g.index),
+		((i.index = ++g.index),
 			(i.config.maxWidth = m(f).width() - 30),
 			(i.config = m.extend({}, i.config, c.config, e)),
 			document.body
 				? t()
 				: setTimeout(function () {
 						t();
-					}, 30);
+					}, 30));
 	}
 	function h(e) {
 		return i.skin ? " " + i.skin + " " + i.skin + "-" + e : "";
@@ -98,7 +98,7 @@
 			ready: function (e) {
 				var t = "layer",
 					i = (n ? "modules/layer/" : "theme/") + "default/layer.css?v=" + g.v;
-				return n ? layui.addcss(i, e, t) : c.link(i, e, t), this;
+				return (n ? layui.addcss(i, e, t) : c.link(i, e, t), this);
 			},
 			alert: function (e, t, i) {
 				var n = "function" == typeof t;
@@ -228,7 +228,7 @@
 				};
 				var l = Object.keys(r).reduce((e, t) => {
 					var i = r[t];
-					return i && (e += t + `:${i};`), e;
+					return (i && (e += t + `:${i};`), e);
 				}, "");
 				return (
 					t(
@@ -344,7 +344,7 @@
 						a.type)
 					) {
 						case 0:
-							(a.btn = "btn" in a ? a.btn : c.btn[0]), g.closeAll("dialog");
+							((a.btn = "btn" in a ? a.btn : c.btn[0]), g.closeAll("dialog"));
 							break;
 						case 2:
 							var l = (a.content = s ? a.content : [a.content || "", "auto"]);
@@ -362,22 +362,22 @@
 								'"></iframe>';
 							break;
 						case 3:
-							delete a.title,
+							(delete a.title,
 								delete a.closeBtn,
 								-1 === a.icon && a.icon,
-								g.closeAll("loading");
+								g.closeAll("loading"));
 							break;
 						case 4:
-							s || (a.content = [a.content, "body"]),
+							(s || (a.content = [a.content, "body"]),
 								(a.follow = a.content[1]),
 								(a.content = a.content[0] + '<i class="layui-layer-TipsG"></i>'),
 								delete a.title,
 								(a.tips = "object" == typeof a.tips ? a.tips : [a.tips, !0]),
-								a.tipsMore || g.closeAll("tips");
+								a.tipsMore || g.closeAll("tips"));
 					}
-					n
+					(n
 						.vessel(s, function (e, t, i) {
-							r.append(e[0]),
+							(r.append(e[0]),
 								a.afterAppendBody && a.afterAppendBody({ layerVM: n }),
 								s
 									? 2 == a.type || 4 == a.type
@@ -396,7 +396,7 @@
 								(n.layero = m("#" + d[0] + o)),
 								(n.shadeo = m("#" + d.SHADE + o)),
 								a.scrollbar ||
-									d.html.css("overflow", "hidden").attr("layer-full", o);
+									d.html.css("overflow", "hidden").attr("layer-full", o));
 						})
 						.auto(o),
 						n.shadeo.css({
@@ -410,14 +410,14 @@
 								parseInt(c.getStyle(document.getElementById(d.MOVE), "z-index")) ||
 									(n.layero.css("visibility", "hidden"),
 									g.ready(function () {
-										n.offset(), n.layero.css("visibility", "visible");
+										(n.offset(), n.layero.css("visibility", "visible"));
 									}))),
 						a.fixed &&
 							f.on("resize", function () {
-								n.offset(),
+								(n.offset(),
 									(/^\d+%$/.test(a.area[0]) || /^\d+%$/.test(a.area[1])) &&
 										n.auto(o),
-									4 == a.type && n.tips();
+									4 == a.type && n.tips());
 							}),
 						a.time <= 0 ||
 							setTimeout(function () {
@@ -434,7 +434,7 @@
 										m(this).removeClass(e);
 									}
 								)),
-						a.isOutAnim && n.layero.data("isOutAnim", !0);
+						a.isOutAnim && n.layero.data("isOutAnim", !0));
 				}
 			}),
 			(t.pt.auto = function (e) {
@@ -473,7 +473,7 @@
 					i = e.layero,
 					n = [i.outerWidth(), i.outerHeight()],
 					a = "object" == typeof t.offset;
-				t.type,
+				(t.type,
 					(e.offsetTop = (f.height() - n[1]) / 2),
 					(e.offsetLeft = (f.width() - n[0]) / 2),
 					a
@@ -512,7 +512,7 @@
 					i.attr("minLeft") &&
 						((e.offsetTop = f.height() - (i.find(d[1]).outerHeight() || 0)),
 						(e.offsetLeft = i.css("left"))),
-					i.css({ top: e.offsetTop, left: e.offsetLeft });
+					i.css({ top: e.offsetTop, left: e.offsetLeft }));
 			}),
 			(t.pt.tips = function () {
 				var e = this.config,
@@ -527,7 +527,7 @@
 					},
 					o = t.find(".layui-layer-TipsG"),
 					n = e.tips[0];
-				e.tips[1] || o.remove(),
+				(e.tips[1] || o.remove(),
 					(a.autoLeft = function () {
 						0 < a.left + i[0] - f.width()
 							? ((a.tipLeft = a.left + a.width - i[0]),
@@ -536,36 +536,36 @@
 					}),
 					(a.where = [
 						function () {
-							a.autoLeft(),
+							(a.autoLeft(),
 								(a.tipTop = a.top - i[1] - 10),
 								o
 									.removeClass("layui-layer-TipsB")
 									.addClass("layui-layer-TipsT")
-									.css("border-right-color", e.tips[1]);
+									.css("border-right-color", e.tips[1]));
 						},
 						function () {
-							(a.tipLeft = a.left + a.width + 10),
+							((a.tipLeft = a.left + a.width + 10),
 								(a.tipTop = a.top),
 								o
 									.removeClass("layui-layer-TipsL")
 									.addClass("layui-layer-TipsR")
-									.css("border-bottom-color", e.tips[1]);
+									.css("border-bottom-color", e.tips[1]));
 						},
 						function () {
-							a.autoLeft(),
+							(a.autoLeft(),
 								(a.tipTop = a.top + a.height + 10),
 								o
 									.removeClass("layui-layer-TipsT")
 									.addClass("layui-layer-TipsB")
-									.css("border-right-color", e.tips[1]);
+									.css("border-right-color", e.tips[1]));
 						},
 						function () {
-							(a.tipLeft = a.left - i[0] - 10),
+							((a.tipLeft = a.left - i[0] - 10),
 								(a.tipTop = a.top),
 								o
 									.removeClass("layui-layer-TipsR")
 									.addClass("layui-layer-TipsL")
-									.css("border-bottom-color", e.tips[1]);
+									.css("border-bottom-color", e.tips[1]));
 						}
 					]),
 					a.where[n - 1](),
@@ -584,7 +584,7 @@
 					t.css({
 						left: a.tipLeft - (e.fixed ? f.scrollLeft() : 0),
 						top: a.tipTop - (e.fixed ? f.scrollTop() : 0)
-					});
+					}));
 			}),
 			(t.pt.move = function () {
 				var o = this,
@@ -597,26 +597,26 @@
 				return (
 					s.move && t.css("cursor", "move"),
 					t.on("mousedown", function (e) {
-						e.preventDefault(),
+						(e.preventDefault(),
 							s.move &&
 								((l.moveStart = !0),
 								(l.offset = [
 									e.clientX - parseFloat(r.css("left")),
 									e.clientY - parseFloat(r.css("top"))
 								]),
-								c.moveElem.css("cursor", "move").show());
+								c.moveElem.css("cursor", "move").show()));
 					}),
 					i.on("mousedown", function (e) {
-						e.preventDefault(),
+						(e.preventDefault(),
 							(l.resizeStart = !0),
 							(l.offset = [e.clientX, e.clientY]),
 							(l.area = [r.outerWidth(), r.outerHeight()]),
-							c.moveElem.css("cursor", "se-resize").show();
+							c.moveElem.css("cursor", "se-resize").show());
 					}),
 					e
 						.on("mousemove", function (e) {
 							var t, i, n, a;
-							l.moveStart &&
+							(l.moveStart &&
 								((n = e.clientX - l.offset[0]),
 								(a = e.clientY - l.offset[1]),
 								(t = "fixed" === r.css("position")),
@@ -640,13 +640,13 @@
 									}),
 									(l.isResize = !0),
 									s.resizing) &&
-									s.resizing(r);
+									s.resizing(r));
 						})
 						.on("mouseup", function (e) {
-							l.moveStart &&
+							(l.moveStart &&
 								(delete l.moveStart, c.moveElem.hide(), s.moveEnd) &&
 								s.moveEnd(r),
-								l.resizeStart && (delete l.resizeStart, c.moveElem.hide());
+								l.resizeStart && (delete l.resizeStart, c.moveElem.hide()));
 						}),
 					o
 				);
@@ -655,7 +655,7 @@
 				var t = this,
 					i = t.layero,
 					n = t.config;
-				t.openLayer(),
+				(t.openLayer(),
 					n.success &&
 						(2 == n.type
 							? i.find("iframe").on("load", function () {
@@ -695,7 +695,7 @@
 									n.full && n.full(i, t.index);
 								}, 100));
 					}),
-					n.end && (c.end[t.index] = n.end);
+					n.end && (c.end[t.index] = n.end));
 			}),
 			(c.reselect = function () {
 				m.each(m("select"), function (e, t) {
@@ -714,16 +714,16 @@
 				});
 			}),
 			(t.pt.openLayer = function () {
-				(g.zIndex = this.config.zIndex),
+				((g.zIndex = this.config.zIndex),
 					(g.setTop = function (e) {
 						return (
 							(g.zIndex = parseInt(e[0].style.zIndex)),
 							e.on("mousedown", function () {
-								g.zIndex++, e.css("z-index", g.zIndex + 1);
+								(g.zIndex++, e.css("z-index", g.zIndex + 1));
 							}),
 							g.zIndex
 						);
-					});
+					}));
 			}),
 			(c.record = function (e) {
 				var t = [
@@ -732,7 +732,7 @@
 					e.position().top,
 					e.position().left + parseFloat(e.css("margin-left"))
 				];
-				e.find(".layui-layer-max").addClass("layui-layer-maxmin"), e.attr({ area: t });
+				(e.find(".layui-layer-max").addClass("layui-layer-maxmin"), e.attr({ area: t }));
 			}),
 			(c.rescollbar = function (e) {
 				d.html.attr("layer-full") == e &&
@@ -802,7 +802,7 @@
 					o = i.attr("minLeft") || 181 * c.minIndex + "px",
 					s = i.css("position"),
 					r = { width: 180, height: a, position: "fixed", overflow: "hidden" };
-				c.record(i),
+				(c.record(i),
 					c.minLeft[0] && ((o = c.minLeft[0]), c.minLeft.shift()),
 					t.minStack &&
 						((r.left = o),
@@ -814,14 +814,14 @@
 					i.find(".layui-layer-min").hide(),
 					"page" === i.attr("type") && i.find(d[4]).hide(),
 					c.rescollbar(e),
-					n.hide();
+					n.hide());
 			}),
 			(g.restore = function (e) {
 				var t = m("#" + d[0] + e),
 					i = m("#" + d.SHADE + e),
 					n = t.attr("area").split(",");
 				t.attr("type");
-				g.style(
+				(g.style(
 					e,
 					{
 						width: parseFloat(n[0]),
@@ -838,17 +838,17 @@
 					"page" === t.attr("type") && t.find(d[4]).show(),
 					c.rescollbar(e),
 					i.show(),
-					t.hasClass(a) && t.removeClass(a);
+					t.hasClass(a) && t.removeClass(a));
 			}),
 			(g.full = function (t) {
 				var i = m("#" + d[0] + t);
-				c.record(i),
+				(c.record(i),
 					d.html.attr("layer-full") ||
 						d.html.css("overflow", "hidden").attr("layer-full", t),
 					clearTimeout(void 0),
 					setTimeout(function () {
 						var e = "fixed" === i.css("position");
-						g.style(
+						(g.style(
 							t,
 							{
 								top: e ? 0 : f.scrollTop(),
@@ -859,8 +859,8 @@
 							!0
 						),
 							i.find(".layui-layer-min").hide(),
-							i.addClass(a);
-					}, 100);
+							i.addClass(a));
+					}, 100));
 			}),
 			(g.title = function (e, t) {
 				m("#" + d[0] + (t || g.index))
@@ -883,15 +883,15 @@
 							if (r === c.type[2])
 								try {
 									var i = m("#" + d[4] + n)[0];
-									i.contentWindow.document.write(""),
+									(i.contentWindow.document.write(""),
 										i.contentWindow.close(),
-										s.find("." + d[5])[0].removeChild(i);
+										s.find("." + d[5])[0].removeChild(i));
 								} catch (e) {}
-							(s[0].innerHTML = ""), s.remove();
+							((s[0].innerHTML = ""), s.remove());
 						}
-						"function" == typeof c.end[n] && c.end[n](n),
+						("function" == typeof c.end[n] && c.end[n](n),
 							delete c.end[n],
-							"function" == typeof a && a();
+							"function" == typeof a && a());
 					}),
 					s.data("isOutAnim") && s.addClass("layer-anim layer-anim-close"),
 					m("#x-layer-moves, #" + d.SHADE + n).remove(),
@@ -907,20 +907,20 @@
 			(g.closeAll = function (n, a) {
 				"function" == typeof n && ((a = n), (n = null));
 				var o = m("." + d[0]);
-				m.each(o, function (e) {
+				(m.each(o, function (e) {
 					var t = m(this),
 						i = n ? t.attr("type") === n : 1;
 					i && g.close(t.attr("times"), e === o.length - 1 ? a : null);
 				}),
-					0 === o.length && "function" == typeof a && a();
+					0 === o.length && "function" == typeof a && a());
 			}),
 			g.cache || {});
-	(g.prompt = function (i, n) {
+	((g.prompt = function (i, n) {
 		var e = "";
-		"function" == typeof (i = i || {}) && (n = i),
+		("function" == typeof (i = i || {}) && (n = i),
 			i.area &&
 				((e = 'style="width: ' + (t = i.area)[0] + "; height: " + t[1] + ';"'),
-				delete i.area);
+				delete i.area));
 		var a,
 			t =
 				2 == i.formType
@@ -940,8 +940,8 @@
 						skin: "layui-layer-prompt" + h("prompt"),
 						maxWidth: f.width(),
 						success: function (e) {
-							(a = e.find(".layui-layer-input")).val(i.value || "").focus(),
-								"function" == typeof o && o(e);
+							((a = e.find(".layui-layer-input")).val(i.value || "").focus(),
+								"function" == typeof o && o(e));
 						},
 						resize: !1,
 						yes: function (e) {
@@ -1016,15 +1016,15 @@
 							success: function (e) {
 								var t = e.find(".layui-layer-title").children(),
 									i = e.find(".layui-layer-tabmain").children();
-								t.on("mousedown", function (e) {
+								(t.on("mousedown", function (e) {
 									e.stopPropagation ? e.stopPropagation() : (e.cancelBubble = !0);
 									var e = m(this),
 										t = e.index();
-									e.addClass(o).siblings().removeClass(o),
+									(e.addClass(o).siblings().removeClass(o),
 										i.eq(t).show().siblings().hide(),
-										"function" == typeof n.change && n.change(t);
+										"function" == typeof n.change && n.change(t));
 								}),
-									"function" == typeof s && s(e);
+									"function" == typeof s && s(e));
 							}
 						},
 						n
@@ -1045,17 +1045,17 @@
 				} else {
 					var f = m(i.photos),
 						c = function () {
-							(s = []),
+							((s = []),
 								f.find(i.img).each(function (e) {
 									var t = m(this);
-									t.attr("layer-index", e),
+									(t.attr("layer-index", e),
 										s.push({
 											alt: t.attr("alt"),
 											pid: t.attr("layer-pid"),
 											src: t.attr("layer-src") || t.attr("src"),
 											thumb: t.attr("src")
-										});
-								});
+										}));
+								}));
 						};
 					if ((c(), 0 === s.length)) return;
 					if (
@@ -1075,12 +1075,12 @@
 					)
 						return;
 				}
-				(a.imgprev = function (e) {
-					a.imgIndex--, a.imgIndex < 1 && (a.imgIndex = s.length), a.tabimg(e);
+				((a.imgprev = function (e) {
+					(a.imgIndex--, a.imgIndex < 1 && (a.imgIndex = s.length), a.tabimg(e));
 				}),
 					(a.imgnext = function (e, t) {
-						a.imgIndex++,
-							(a.imgIndex > s.length && ((a.imgIndex = 1), t)) || a.tabimg(e);
+						(a.imgIndex++,
+							(a.imgIndex > s.length && ((a.imgIndex = 1), t)) || a.tabimg(e));
 					}),
 					(a.keyup = function (e) {
 						var t;
@@ -1095,22 +1095,26 @@
 					}),
 					(a.tabimg = function (e) {
 						if (!(s.length <= 1))
-							return (o.start = a.imgIndex - 1), g.close(a.index), g.photos(i, !0, e);
+							return (
+								(o.start = a.imgIndex - 1),
+								g.close(a.index),
+								g.photos(i, !0, e)
+							);
 					}),
 					(a.event = function () {
-						a.bigimg.find(".layui-layer-imgprev").on("click", function (e) {
-							e.preventDefault(), a.imgprev(!0);
+						(a.bigimg.find(".layui-layer-imgprev").on("click", function (e) {
+							(e.preventDefault(), a.imgprev(!0));
 						}),
 							a.bigimg.find(".layui-layer-imgnext").on("click", function (e) {
-								e.preventDefault(), a.imgnext(!0);
+								(e.preventDefault(), a.imgnext(!0));
 							}),
-							m(document).on("keyup", a.keyup);
+							m(document).on("keyup", a.keyup));
 					}),
-					(a.loadi = g.load(1, { shade: !("shade" in i) && 0.9, scrollbar: !1 }));
+					(a.loadi = g.load(1, { shade: !("shade" in i) && 0.9, scrollbar: !1 })));
 				var t = s[r].src,
 					d = function (e) {
 						var t;
-						g.close(a.loadi),
+						(g.close(a.loadi),
 							n && (i.anim = -1),
 							(a.index = g.open(
 								m.extend(
@@ -1160,22 +1164,22 @@
 												: "") +
 											"</div>",
 										success: function (e, t) {
-											(a.bigimg = e.find(".layui-layer-phimg")),
+											((a.bigimg = e.find(".layui-layer-phimg")),
 												(a.imgsee = e.find(".layui-layer-imgbar")),
 												a.event(e),
 												i.tab && i.tab(s[r], e),
-												"function" == typeof l && l(e);
+												"function" == typeof l && l(e));
 										},
 										end: function () {
-											(a.end = !0), m(document).off("keyup", a.keyup);
+											((a.end = !0), m(document).off("keyup", a.keyup));
 										}
 									},
 									i
 								)
-							));
+							)));
 					},
 					u = function () {
-						g.close(a.loadi),
+						(g.close(a.loadi),
 							g.msg(
 								"&#x5F53;&#x524D;&#x56FE;&#x7247;&#x5730;&#x5740;&#x5F02;&#x5E38;<br>&#x662F;&#x5426;&#x7EE7;&#x7EED;&#x67E5;&#x770B;&#x4E0B;&#x4E00;&#x5F20;&#xFF1F;",
 								{
@@ -1185,34 +1189,34 @@
 										1 < s.length && a.imgnext(!0, !0);
 									}
 								}
-							);
+							));
 					},
 					y = new Image();
 				((y.src = t), y.complete)
 					? d(y)
 					: ((y.onload = function () {
-							(y.onload = null), d(y);
+							((y.onload = null), d(y));
 						}),
 						(y.onerror = function (e) {
-							(y.onerror = null), u(e);
+							((y.onerror = null), u(e));
 						}));
 			}
 		}),
 		(c.run = function (e) {
-			(f = (m = e)(p)),
+			((f = (m = e)(p)),
 				(d.html = m("html")),
 				(g.open = function (e) {
 					return new t(e).index;
-				});
+				}));
 		}),
 		p.layui && layui.define
 			? (g.ready(),
 				layui.define("jquery", function (e) {
-					(g.path = layui.cache.dir), c.run(layui.$), e("layer", (p.layer = g));
+					((g.path = layui.cache.dir), c.run(layui.$), e("layer", (p.layer = g)));
 				}))
 			: "function" == typeof define && define.amd
 				? define(["jquery"], function () {
-						return c.run(p.jQuery), g;
+						return (c.run(p.jQuery), g);
 					})
-				: (g.ready(), c.run(p.jQuery));
+				: (g.ready(), c.run(p.jQuery)));
 })(window);
