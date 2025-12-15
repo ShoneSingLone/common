@@ -61,26 +61,27 @@ export default async function () {
 					if (renderOption) {
 						label = renderOption.call(vm.configs, item);
 					}
-
-					return hDiv({}, [
-						h(
-							"xRadio",
-							{
-								label: value,
-								key: value,
-								value: vm.x_item_value,
-								disabled: vm.cptDisabled,
-								staticClass: "flex middle",
-								nativeOn: {
-									click: () => {
-										if (!vm.cptDisabled) {
-											vm.x_item_value = value;
-										}
-									}
+					const radioProps = {
+						label: value,
+						key: value,
+						value: vm.x_item_value,
+						disabled: vm.cptDisabled,
+						staticClass: "flex middle x-radio-in-x-item",
+						nativeOn: {
+							click: () => {
+								if (!vm.cptDisabled) {
+									vm.x_item_value = value;
 								}
-							},
-							[label]
-						)
+							}
+						}
+					};
+
+					if (vm.configs.isUseBorder) {
+						radioProps.attrs = { border: true };
+					}
+
+					return hDiv({ class: "width100 height100 flex middle" }, [
+						h("xRadio", radioProps, [label])
 					]);
 				});
 			},
@@ -121,7 +122,7 @@ export default async function () {
 				);
 			}
 
-			return h("xAutoResizer", {}, [
+			return h("xAutoResizer", { class: "mt" }, [
 				{
 					default: ({ width, height }) => {
 						if (width) {
@@ -161,6 +162,11 @@ export default async function () {
 
 	.el-radio__input.is-checked + .el-radio__label {
 		color: var(--el-color-primary);
+	}
+
+	.x-radio-in-x-item {
+		display: flex;
+		width: 100%;
 	}
 }
 </style>

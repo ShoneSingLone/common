@@ -280,7 +280,7 @@ export default async function () {
 }
 
 .el-radio.is-bordered {
-	padding: 12px 20px 0 10px;
+	padding: 0 10px;
 	border-radius: var(--border-radius);
 	border: 1px solid #dcdfe6;
 	-webkit-box-sizing: border-box;
