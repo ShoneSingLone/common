@@ -349,12 +349,12 @@ export default async function () {
 				this.reset();
 			},
 			prev() {
-				if (this.isFirst && !this.infinite) return;
+				if (this.loading || (this.isFirst && !this.infinite)) return;
 				const len = this.urlList.length;
 				this.index = (this.index - 1 + len) % len;
 			},
 			next() {
-				if (this.isLast && !this.infinite) return;
+				if (this.loading || (this.isLast && !this.infinite)) return;
 				const len = this.urlList.length;
 				this.index = (this.index + 1) % len;
 			},
