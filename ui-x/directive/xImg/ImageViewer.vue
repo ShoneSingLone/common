@@ -49,12 +49,14 @@
 						class="el-icon-refresh-right"
 						icon="refresh-right"
 						@click="handleActions('clocelise')"></xIcon>
+					<!-- 自动播放按钮，仅当autoPlay为true时显示 -->
 					<xIcon
+						v-if="autoPlay"
 						:class="isAutoPlay ? 'el-icon-video-pause' : 'el-icon-video-play'"
 						:icon="isAutoPlay ? 'video-pause' : 'video-play'"
 						@click="toggleAutoPlay"></xIcon>
-					<!-- 速度控制 -->
-					<div class="el-image-viewer__speed-control">
+					<!-- 速度控制，仅当autoPlay为true时显示 -->
+					<div v-if="autoPlay" class="el-image-viewer__speed-control">
 						<xIcon
 							class="el-icon-minus"
 							icon="minus"
@@ -121,6 +123,8 @@ export default async function () {
 				infinite: true,
 				loading: false,
 				mode: Mode.CONTAIN,
+				// 是否显示自动播放按钮
+				autoPlay: false,
 				transform: {
 					scale: 1,
 					deg: 0,

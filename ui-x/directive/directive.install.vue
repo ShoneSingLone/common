@@ -2,7 +2,7 @@
 export default async function ({ PRIVATE_GLOBAL }) {
 	(function () /* 预览图片 */ {
 			let instance;
-			_.$previewImgs = async function (options) {
+			_.$previewImgs = async function (options, previewOptions = {}) {
 				const ImageViewer = await _.$importVue("/common/ui-x/directive/xImg/ImageViewer.vue");
 				const PopupManager = await _.$importVue("/common/libs/VuePopper/popupManager.vue");
 
@@ -25,7 +25,8 @@ export default async function ({ PRIVATE_GLOBAL }) {
 								instance.$el.parentNode.removeChild(instance.$el);
 							}
 						}
-					}
+					},
+					autoPlay: previewOptions.autoPlay || false
 				};
 				
 				const mergedOptions = _.merge({}, defaultOptions, options);
