@@ -191,12 +191,9 @@ export default async function () {
 		},
 		methods: {
 			hide() {
-				this.deviceSupportUninstall();
-				this.onClose();
-				setTimeout(() => {
-					this.$destroy();
-				}, 100);
-			},
+					this.deviceSupportUninstall();
+					this.onClose();
+				},
 			deviceSupportInstall() {
 				this._keyDownHandler = e => {
 					e.stopPropagation();
