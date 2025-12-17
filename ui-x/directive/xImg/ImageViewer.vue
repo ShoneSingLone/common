@@ -58,12 +58,12 @@
 						<xIcon
 							class="el-icon-minus"
 							icon="minus"
-							@click="decreaseSpeed"></xIcon>
+							@click="increaseSpeed"></xIcon>
 						<span class="speed-text">{{ autoPlayInterval / 1000 }}s</span>
 						<xIcon
 							class="el-icon-plus"
 							icon="plus"
-							@click="increaseSpeed"></xIcon>
+							@click="decreaseSpeed"></xIcon>
 					</div>
 				</div>
 			</div>
@@ -373,15 +373,19 @@ export default async function () {
 					this.mode = Mode[modeNames[nextIndex]];
 					this.reset();
 				},
-			prev() {
+			prev(manual = true) {
 					if (this.loading || (this.isFirst && !this.infinite)) return;
-					this.stopAutoPlay();
+					if (manual) {
+						this.stopAutoPlay();
+					}
 					const len = this.urlList.length;
 					this.index = (this.index - 1 + len) % len;
 				},
-				next() {
+				next(manual = true) {
 					if (this.loading || (this.isLast && !this.infinite)) return;
-					this.stopAutoPlay();
+					if (manual) {
+						this.stopAutoPlay();
+					}
 					const len = this.urlList.length;
 					this.index = (this.index + 1) % len;
 				},
@@ -424,9 +428,14 @@ export default async function () {
 				// 开始自动播放
 				startAutoPlay() {
 					if (this.urlList.length <= 1) return;
+					// 先清除之前的定时器，避免多个定时器同时运行
+					if (this.autoPlayTimer) {
+						clearInterval(this.autoPlayTimer);
+						this.autoPlayTimer = null;
+					}
 					this.isAutoPlay = true;
 					this.autoPlayTimer = setInterval(() => {
-						this.next();
+						this.next(false);
 					}, this.autoPlayInterval);
 				},
 				// 停止自动播放
