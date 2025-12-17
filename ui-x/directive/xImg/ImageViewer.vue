@@ -56,14 +56,14 @@
 						:icon="isAutoPlay ? 'video-pause' : 'video-play'"
 						@click="toggleAutoPlay"></xIcon>
 					<!-- 速度控制，仅当autoPlay为true时显示 -->
-					<div v-if="autoPlay" class="el-image-viewer__speed-control">
+					<div v-if="autoPlay" class="el-image-viewer__speed-control flex middle">
 						<xIcon
-							class="el-icon-minus"
+							class="el-icon-minus mr4"
 							icon="minus"
-							@click="increaseSpeed"></xIcon>
+							@click="increaseSpeed"/>
 						<span class="speed-text">{{ autoPlayInterval / 1000 }}s</span>
 						<xIcon
-							class="el-icon-plus"
+							class="el-icon-plus ml4"
 							icon="plus"
 							@click="decreaseSpeed"></xIcon>
 					</div>
@@ -489,3 +489,12 @@ export default async function () {
 	});
 }
 </script>
+<style lang="less">
+
+	.el-image-viewer__wrapper{
+		.speed-text{
+			font-size: var(--ui-font-size,16px);
+		}
+	}
+	
+</style>
