@@ -103,7 +103,7 @@ export default async function ({ PRIVATE_GLOBAL }) {
 						/*<xItem :label="'X_ITEM_LABEL_IS_EMPTY' :rule="rules"/>
 						 * 可以为自定义空间提供validator方法
 						 * X_ITEM_LABEL_IS_EMPTY为不显示label
-						 *
+						 * 不同于label 为“”，
 						 * */
 						vm.CONFIGS_ONLY_AS_WRAPPER = new Proxy(
 							{

@@ -46,7 +46,7 @@
 		</div>
 		<template #footer>
 			<div class="flex center width100">
-				<xBtn @click="closeModal" preset="blue">{{ i18n("close") }}</xBtn>
+				<xBtn @click="closeModal" preset="blue">{{ i18n("close_operation") }}</xBtn>
 			</div>
 		</template>
 	</xDialog>
