@@ -400,6 +400,7 @@ export default async function () {
 						...options
 					};
 					const { transform } = this;
+
 					switch (action) {
 						case "zoomOut":
 							if (transform.scale > 0.2) {
@@ -493,7 +494,7 @@ export default async function () {
 
 	.el-image-viewer__wrapper{
 		.speed-text{
-			font-size: var(--ui-font-size,16px);
+			-size: var(--ui--size,16px);
 		}
 	}
 	
