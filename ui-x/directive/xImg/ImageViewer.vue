@@ -1,6 +1,7 @@
 <template>
 	<transition name="viewer-fade">
 		<div
+			v-xloading="loading"
 			tabindex="-1"
 			ref="el-image-viewer__wrapper"
 			class="el-image-viewer__wrapper"
