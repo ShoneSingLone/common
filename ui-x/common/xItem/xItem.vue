@@ -347,7 +347,7 @@ export default async function ({ PRIVATE_GLOBAL }) {
 						if (this.cpt_configs.THIS_CONFIGS_ONLY_FOR_LABEL) {
 							return "";
 						}
-						debugger;
+
 						console.error(
 							"For xItem configuration items, the value property must be present in either v-model or configs",
 							this

@@ -1180,16 +1180,85 @@
 		}
 	};
 
+	// 存储事件监听器
+	const eventListeners = {};
+
+	// 事件方法实现
+	const eventMethods = {
+		// 添加事件监听
+		$$on(key, callback) {
+			if (!eventListeners[key]) {
+				eventListeners[key] = [];
+			}
+			eventListeners[key].push({ callback, once: false });
+		},
+		// 添加一次性事件监听
+		$$once(key, callback) {
+			if (!eventListeners[key]) {
+				eventListeners[key] = [];
+			}
+			eventListeners[key].push({ callback, once: true });
+		},
+		// 移除事件监听
+		$$off(key, callback) {
+			if (eventListeners[key]) {
+				eventListeners[key] = eventListeners[key].filter(
+					listener => listener.callback !== callback
+				);
+				// 如果没有监听器了，移除该key
+				if (eventListeners[key].length === 0) {
+					delete eventListeners[key];
+				}
+			}
+		}
+	};
+
 	_.$lStorage = new Proxy(localStorage, {
 		set(_localStorage, prop, value) {
+			// 跳过事件方法的设置
+			if (prop === "$$on" || prop === "$$once" || prop === "$$off") {
+				return false;
+			}
+			// 获取旧值
+			const oldValue = this.get(_localStorage, prop);
+			// 设置新值
 			if (_.isPlainObject(value) || _.isArray(value)) {
 				_localStorage[prop] = JSON.stringify(value);
 			} else {
 				_localStorage[prop] = value;
 			}
+			// 获取新值
+			const newValue = this.get(_localStorage, prop);
+			// 如果值发生变化，触发事件
+			if (oldValue !== newValue) {
+				// 触发指定key的事件
+				if (eventListeners[prop]) {
+					eventListeners[prop].forEach(listener => {
+						listener.callback(newValue, oldValue, prop);
+						// 如果是once事件，触发后移除
+						if (listener.once) {
+							eventMethods.$$off(prop, listener.callback);
+						}
+					});
+				}
+				// 触发全局事件
+				if (eventListeners["*"]) {
+					eventListeners["*"].forEach(listener => {
+						listener.callback(newValue, oldValue, prop);
+						if (listener.once) {
+							eventMethods.$$off("*", listener.callback);
+						}
+					});
+				}
+			}
 			return true;
 		},
 		get(_localStorage, prop) {
+			// 处理事件方法调用
+			if (prop === "$$on" || prop === "$$once" || prop === "$$off") {
+				return eventMethods[prop];
+			}
+			// 处理普通属性获取
 			const objString = _localStorage[prop];
 			const normal = () => {
 				if (_.$isInput(objString)) {
