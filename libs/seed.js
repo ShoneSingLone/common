@@ -574,8 +574,7 @@
 			const id = camelCase(url);
 			if ($appendScript.loaded[id]) {
 				if (globalName) {
-					await $ensure(() => window[globalName]);
-					return window[globalName];
+					return $ensure(() => $val(window, globalName));
 				}
 			} else {
 				$appendScript.loaded[id] = true;
@@ -788,7 +787,7 @@
 									const preloadArray = getPreload();
 									preloadArray.forEach(url => $loadText(url));
 								}
-							} catch (error) {}
+							} catch (error) { }
 						}
 					}
 				],

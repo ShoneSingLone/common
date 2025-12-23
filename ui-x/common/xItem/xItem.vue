@@ -61,7 +61,7 @@ export default async function ({ PRIVATE_GLOBAL }) {
 		setup(props) {
 			const vm = this;
 
-			const { onMounted: configsOnMounted } = vm.configs || {};
+			const { onMounted: configsOnMounted, onSetup } = vm.configs || {};
 
 			if (configsOnMounted) {
 				onMounted(() => {
@@ -69,6 +69,13 @@ export default async function ({ PRIVATE_GLOBAL }) {
 						xItem: vm,
 						props
 					});
+				});
+			}
+
+			if (_.isFunction(onSetup)) {
+				onSetup.call(vm.cpt_configs, {
+					xItem: vm,
+					props
 				});
 			}
 
