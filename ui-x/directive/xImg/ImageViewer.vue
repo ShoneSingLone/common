@@ -49,6 +49,24 @@
 						class="el-icon-refresh-right"
 						icon="refresh-right"
 						@click="handleActions('clocelise')"></xIcon>
+					<!-- 自动播放按钮，仅当autoPlay为true时显示 -->
+					<xIcon
+						v-if="autoPlay"
+						:class="isAutoPlay ? 'el-icon-video-pause' : 'el-icon-video-play'"
+						:icon="isAutoPlay ? 'video-pause' : 'video-play'"
+						@click="toggleAutoPlay"></xIcon>
+					<!-- 速度控制，仅当autoPlay为true时显示 -->
+					<div v-if="autoPlay" class="el-image-viewer__speed-control flex middle">
+						<xIcon
+							class="el-icon-minus mr4"
+							icon="minus"
+							@click="increaseSpeed"/>
+						<span class="speed-text">{{ autoPlayInterval / 1000 }}s</span>
+						<xIcon
+							class="el-icon-plus ml4"
+							icon="plus"
+							@click="decreaseSpeed"></xIcon>
+					</div>
 				</div>
 			</div>
 			<!-- CANVAS -->
@@ -97,7 +115,7 @@ export default async function () {
 				styleViewerMask: {},
 				zIndex: 0,
 				onSwitch: () => {},
-				onClose: () => {},
+			onClose: () => {},
 				appendToBody: true,
 				maskClosable: true,
 				viewerZIndex: 0,
@@ -105,6 +123,8 @@ export default async function () {
 				infinite: true,
 				loading: false,
 				mode: Mode.CONTAIN,
+				// 是否显示自动播放按钮
+				autoPlay: false,
 				transform: {
 					scale: 1,
 					deg: 0,
@@ -123,7 +143,11 @@ export default async function () {
 					isPinching: false,
 					startDistance: 0,
 					startScale: 1
-				}
+				},
+				// 幻灯片相关状态
+				isAutoPlay: false,
+				autoPlayInterval: 3000, // 默认3秒切换一次
+				autoPlayTimer: null
 			};
 		},
 		computed: {
@@ -171,12 +195,9 @@ export default async function () {
 		},
 		methods: {
 			hide() {
-				this.deviceSupportUninstall();
-				this.onClose();
-				setTimeout(() => {
-					this.$destroy();
-				}, 100);
-			},
+					this.deviceSupportUninstall();
+					this.onClose();
+				},
 			deviceSupportInstall() {
 				this._keyDownHandler = e => {
 					e.stopPropagation();
@@ -227,12 +248,13 @@ export default async function () {
 					.on(MOUSE_WHEEL, this._mouseWheelHandler);
 			},
 			deviceSupportUninstall() {
-				_.$single.doc
-					.off(KEY_DOWN, this._keyDownHandler)
-					.off(MOUSE_WHEEL, this._mouseWheelHandler);
-				this._keyDownHandler = null;
-				this._mouseWheelHandler = null;
-			},
+					this.stopAutoPlay();
+					_.$single.doc
+						.off(KEY_DOWN, this._keyDownHandler)
+						.off(MOUSE_WHEEL, this._mouseWheelHandler);
+					this._keyDownHandler = null;
+					this._mouseWheelHandler = null;
+				},
 			handleImgLoad(e) {
 				this.loading = false;
 			},
@@ -241,47 +263,49 @@ export default async function () {
 				e.target.alt = i18n("el.image.error");
 			},
 			handleMouseDown(e) {
-				if (this.loading || e.button !== 0) return;
+					if (this.loading || e.button !== 0) return;
+					this.stopAutoPlay();
 
-				const { offsetX, offsetY } = this.transform;
-				const startX = e.pageX;
-				const startY = e.pageY;
-				this._dragHandler = _.$rafThrottle(ev => {
-					this.transform.offsetX = offsetX + ev.pageX - startX;
-					this.transform.offsetY = offsetY + ev.pageY - startY;
-				});
-				_.$single.doc.on(MOUSE_MOVE, this._dragHandler).on(MOUSE_UP, ev => {
-					_.$single.doc.off(MOUSE_MOVE, this._dragHandler);
-				});
+					const { offsetX, offsetY } = this.transform;
+					const startX = e.pageX;
+					const startY = e.pageY;
+					this._dragHandler = _.$rafThrottle(ev => {
+						this.transform.offsetX = offsetX + ev.pageX - startX;
+						this.transform.offsetY = offsetY + ev.pageY - startY;
+					});
+					_.$single.doc.on(MOUSE_MOVE, this._dragHandler).on(MOUSE_UP, ev => {
+						_.$single.doc.off(MOUSE_MOVE, this._dragHandler);
+					});
 
-				e.preventDefault();
-			},
-			// 触摸开始事件处理
-			handleTouchStart(e) {
-				if (this.loading) return;
+					e.preventDefault();
+				},
+				// 触摸开始事件处理
+				handleTouchStart(e) {
+					if (this.loading) return;
+					this.stopAutoPlay();
 
-				const touches = e.touches;
-				const { offsetX, offsetY, scale } = this.transform;
+					const touches = e.touches;
+					const { offsetX, offsetY, scale } = this.transform;
 
-				// 单指触摸 - 准备拖动
-				if (touches.length === 1) {
-					this.touchState.isDragging = true;
-					this.touchState.startX = touches[0].pageX;
-					this.touchState.startY = touches[0].pageY;
-					this.touchState.offsetX = offsetX;
-					this.touchState.offsetY = offsetY;
-				}
-				// 双指触摸 - 准备缩放
-				else if (touches.length === 2) {
-					this.touchState.isPinching = true;
-					this.touchState.startDistance = this.getDistance(touches[0], touches[1]);
-					this.touchState.startScale = scale;
-					// 禁用拖动
-					this.touchState.isDragging = false;
-				}
+					// 单指触摸 - 准备拖动
+					if (touches.length === 1) {
+						this.touchState.isDragging = true;
+						this.touchState.startX = touches[0].pageX;
+						this.touchState.startY = touches[0].pageY;
+						this.touchState.offsetX = offsetX;
+						this.touchState.offsetY = offsetY;
+					}
+					// 双指触摸 - 准备缩放
+					else if (touches.length === 2) {
+						this.touchState.isPinching = true;
+						this.touchState.startDistance = this.getDistance(touches[0], touches[1]);
+						this.touchState.startScale = scale;
+						// 禁用拖动
+						this.touchState.isDragging = false;
+					}
 
-				e.preventDefault();
-			},
+					e.preventDefault();
+				},
 			// 计算两点之间的距离
 			getDistance(touch1, touch2) {
 				const dx = touch1.pageX - touch2.pageX;
@@ -340,52 +364,108 @@ export default async function () {
 				};
 			},
 			toggleMode() {
-				if (this.loading) return;
+					if (this.loading) return;
+					this.stopAutoPlay();
 
-				const modeNames = Object.keys(Mode);
-				const modeValues = Object.values(Mode);
-				const index = modeValues.indexOf(this.mode);
-				const nextIndex = (index + 1) % modeNames.length;
-				this.mode = Mode[modeNames[nextIndex]];
-				this.reset();
-			},
-			prev() {
-				if (this.loading || (this.isFirst && !this.infinite)) return;
-				const len = this.urlList.length;
-				this.index = (this.index - 1 + len) % len;
-			},
-			next() {
-				if (this.loading || (this.isLast && !this.infinite)) return;
-				const len = this.urlList.length;
-				this.index = (this.index + 1) % len;
-			},
+					const modeNames = Object.keys(Mode);
+					const modeValues = Object.values(Mode);
+					const index = modeValues.indexOf(this.mode);
+					const nextIndex = (index + 1) % modeNames.length;
+					this.mode = Mode[modeNames[nextIndex]];
+					this.reset();
+				},
+			prev(manual = true) {
+					if (this.loading || (this.isFirst && !this.infinite)) return;
+					if (manual) {
+						this.stopAutoPlay();
+					}
+					const len = this.urlList.length;
+					this.index = (this.index - 1 + len) % len;
+				},
+				next(manual = true) {
+					if (this.loading || (this.isLast && !this.infinite)) return;
+					if (manual) {
+						this.stopAutoPlay();
+					}
+					const len = this.urlList.length;
+					this.index = (this.index + 1) % len;
+				},
 			handleActions(action, options = {}) {
-				if (this.loading) return;
-				const { zoomRate, rotateDeg, enableTransition } = {
-					zoomRate: 0.2,
-					rotateDeg: 90,
-					enableTransition: true,
-					...options
-				};
-				const { transform } = this;
-				switch (action) {
-					case "zoomOut":
-						if (transform.scale > 0.2) {
-							transform.scale = parseFloat((transform.scale - zoomRate).toFixed(3));
+					if (this.loading) return;
+					this.stopAutoPlay();
+					const { zoomRate, rotateDeg, enableTransition } = {
+						zoomRate: 0.2,
+						rotateDeg: 90,
+						enableTransition: true,
+						...options
+					};
+					const { transform } = this;
+
+					switch (action) {
+						case "zoomOut":
+							if (transform.scale > 0.2) {
+								transform.scale = parseFloat((transform.scale - zoomRate).toFixed(3));
+							}
+							break;
+						case "zoomIn":
+							transform.scale = parseFloat((transform.scale + zoomRate).toFixed(3));
+							break;
+						case "clocelise":
+							transform.deg += rotateDeg;
+							break;
+						case "anticlocelise":
+							transform.deg -= rotateDeg;
+							break;
+					}
+					transform.enableTransition = enableTransition;
+				},
+				// 切换自动播放状态
+				toggleAutoPlay() {
+					if (this.isAutoPlay) {
+						this.stopAutoPlay();
+					} else {
+						this.startAutoPlay();
+					}
+				},
+				// 开始自动播放
+				startAutoPlay() {
+					if (this.urlList.length <= 1) return;
+					// 先清除之前的定时器，避免多个定时器同时运行
+					if (this.autoPlayTimer) {
+						clearInterval(this.autoPlayTimer);
+						this.autoPlayTimer = null;
+					}
+					this.isAutoPlay = true;
+					this.autoPlayTimer = setInterval(() => {
+						this.next(false);
+					}, this.autoPlayInterval);
+				},
+				// 停止自动播放
+				stopAutoPlay() {
+					this.isAutoPlay = false;
+					if (this.autoPlayTimer) {
+						clearInterval(this.autoPlayTimer);
+						this.autoPlayTimer = null;
+					}
+				},
+				// 增加播放速度（减少间隔时间）
+				increaseSpeed() {
+					if (this.autoPlayInterval > 1000) {
+						this.autoPlayInterval -= 1000;
+						if (this.isAutoPlay) {
+							this.startAutoPlay();
 						}
-						break;
-					case "zoomIn":
-						transform.scale = parseFloat((transform.scale + zoomRate).toFixed(3));
-						break;
-					case "clocelise":
-						transform.deg += rotateDeg;
-						break;
-					case "anticlocelise":
-						transform.deg -= rotateDeg;
-						break;
+					}
+				},
+				// 减少播放速度（增加间隔时间）
+				decreaseSpeed() {
+					if (this.autoPlayInterval < 10000) {
+						this.autoPlayInterval += 1000;
+						if (this.isAutoPlay) {
+							this.startAutoPlay();
+						}
+					}
 				}
-				transform.enableTransition = enableTransition;
-			}
 		},
 		mounted() {
 			this.deviceSupportInstall();
@@ -410,3 +490,12 @@ export default async function () {
 	});
 }
 </script>
+<style lang="less">
+
+	.el-image-viewer__wrapper{
+		.speed-text{
+			-size: var(--ui--size,16px);
+		}
+	}
+	
+</style>
