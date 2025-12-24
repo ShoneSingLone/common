@@ -1113,6 +1113,7 @@ export default async function ({ PRIVATE_GLOBAL }) {
 	-webkit-box-sizing: border-box;
 	box-sizing: border-box;
 	margin: 5px 0;
+	max-width: 50vw;
 }
 
 .el-select-dropdown.is-multiple .el-select-dropdown__item {
@@ -1171,12 +1172,12 @@ export default async function ({ PRIVATE_GLOBAL }) {
 	font-size: 14px;
 	padding: 0 20px;
 	position: relative;
-	white-space: nowrap;
-	overflow: hidden;
-	text-overflow: ellipsis;
+	white-space: normal;
+	overflow: visible;
 	color: var(--el-text-color-regular);
-	height: 34px;
-	line-height: 34px;
+	height: auto;
+	line-height: 20px;
+	padding: 8px 20px;
 	-webkit-box-sizing: border-box;
 	box-sizing: border-box;
 	cursor: pointer;
