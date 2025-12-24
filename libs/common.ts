@@ -905,12 +905,13 @@
 			};
 			return checkbox;
 		};
-		window.defTable.colActions = ({ cellRenderer, width, fixed = "right" }) => {
+		window.defTable.colActions = ({ cellRenderer, width, fixed = "right", isShow = true }) => {
 			const columnDefaultConfigs = {
 				prop: "COL_ACTIONS",
 				label: i18n("operation"),
 				fixed,
 				width,
+				isShow,
 				headerCellRenderer(_props) {
 					return i18n("operation");
 				}
