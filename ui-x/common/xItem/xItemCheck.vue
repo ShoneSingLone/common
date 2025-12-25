@@ -33,11 +33,14 @@ export default async function () {
 				};
 			},
 			cptDisabled() {
-				if (this.disabled) {
+				if (this.disabled || this.$attrs.readonly) {
 					return true;
 				}
 				if (hasOwn(this.$attrs, "disabled")) {
 					return this.$attrs.disabled;
+				}
+				if (hasOwn(this.$attrs, "readonly")) {
+					return this.$attrs.readonly;
 				}
 				return false;
 			},
@@ -267,6 +270,25 @@ export default async function () {
 				right: 0;
 				width: 8px;
 				height: 8px;
+			}
+		}
+
+		&.el-button--disabled {
+			color: var(--el-text-color-placeholder);
+			border-color: var(--el-border-color-light);
+			background-color: var(--el-fill-color-light);
+			cursor: not-allowed;
+
+			&.el-button--xItemCheck-selected {
+				.xItemCheck-selected-icon-wrapper {
+					background-color: var(--el-text-color-placeholder);
+				}
+			}
+
+			&:hover {
+				color: var(--el-text-color-placeholder);
+				border-color: var(--el-border-color-light);
+				background-color: var(--el-fill-color-light);
 			}
 		}
 	}

@@ -23,7 +23,7 @@ export default async function () {
 					value: vm.x_item_value || "",
 					language: _.$val(vm, "configs.language") || "json",
 					automaticLayout: true, //自动布局
-					readOnly: _.$val(vm, "configs.readOnly") || false,
+					readOnly: vm.readonly || _.$val(vm, "configs.readOnly") || false,
 					theme: _.$val(vm, "configs.theme") || theme[1]
 				});
 				vm.raw$editor.addCommand(monaco.KeyMod.CtrlCmd | monaco.KeyCode.KeyS, function () {

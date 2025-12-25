@@ -1,26 +1,31 @@
 <template>
 	<div class="flex middle">
-		<xItemIpAddress v-model="cptIp" :disabled="configs.disabled" />
-		<div class="cidr-point">/</div>
-		<xSelect
-			v-if="optionsPorts.length > 0"
-			v-model="cptPort"
-			:disabled="configs.disabled"
-			style="width: 94px"
-			placeholder="">
-			<xOption
-				v-for="item of optionsPorts"
-				:key="item.value"
-				:label="item.label"
-				:value="item.value" />
-		</xSelect>
-		<div v-else class="xIpAddress">
-			<xInput
+		<template v-if="readonly">
+			<div class="xItemCidr-readonly">{{ x_item_value }}</div>
+		</template>
+		<template v-else>
+			<xItemIpAddress v-model="cptIp" :disabled="cptIsDisabled" />
+			<div class="cidr-point">/</div>
+			<xSelect
+				v-if="optionsPorts.length > 0"
 				v-model="cptPort"
-				maxlength="3"
-				class="xIpAddress_content"
-				:disabled="configs.disabled" />
-		</div>
+				:disabled="cptIsDisabled"
+				style="width: 94px"
+				placeholder="">
+				<xOption
+					v-for="item of optionsPorts"
+					:key="item.value"
+					:label="item.label"
+					:value="item.value" />
+			</xSelect>
+			<div v-else class="xIpAddress">
+				<xInput
+					v-model="cptPort"
+					maxlength="3"
+					class="xIpAddress_content"
+					:disabled="cptIsDisabled" />
+			</div>
+		</template>
 	</div>
 </template>
 <script lang="ts">
@@ -34,6 +39,9 @@ export default async function () {
 			return {};
 		},
 		computed: {
+			cptIsDisabled() {
+				return this.readonly || this.configs.disabled;
+			},
 			cptParentCidr() {
 				const val = this.$xItemAttr("cidr");
 				return _.$isInput(val) ? val : "";
@@ -128,5 +136,15 @@ export default async function () {
 		left: -13px;
 		bottom: 0;
 	}
+}
+
+.xItemCidr-readonly {
+	padding: 8px 12px;
+	background-color: var(--el-fill-color-light);
+	border: 1px solid var(--el-border-color-light);
+	border-radius: var(--el-border-radius-base);
+	color: var(--el-text-color-regular);
+	min-width: 200px;
+	box-sizing: border-box;
 }
 </style>
