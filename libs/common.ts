@@ -1340,7 +1340,10 @@
 	 */
 	/* @typescriptDeclare (value:any, options:any, defaultValue?: any)=>string */
 	_.$val2L = (value, options, defaultValue = "") => {
-		const item = _.find(options, item => String(item.value) === String(value));
+		const item = _.find(
+			options,
+			item => String(item.value).toLowerCase() === String(value).toLowerCase()
+		);
 		if (item) {
 			return item.label;
 		} else {
