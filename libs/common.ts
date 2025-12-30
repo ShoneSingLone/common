@@ -1214,6 +1214,39 @@
 		}
 	};
 
+	_.$cookie = function getCookie(name) {
+		// 1. 校验参数：使用 _.isString 确保名称是字符串类型，提高健壮性
+		if (!_.isString(name) || _.isEmpty(name)) {
+			console.error("Cookie 名称必须是非空字符串");
+			return null;
+		}
+
+		// 2. 获取所有 Cookie 并处理：使用 _.trim 去除首尾空格，避免分割异常
+		var allCookies = _.trim(document.cookie);
+		if (_.isEmpty(allCookies)) {
+			return null; // 无 Cookie 时返回 null
+		}
+
+		// 3. 分割 Cookie 数组：按 "; " 分割（兼容标准格式）
+		var cookieArr = allCookies.split("; ");
+
+		// 4. 遍历查找目标 Cookie：使用 _.find 简化遍历逻辑，更简洁
+		var targetCookie = _.find(cookieArr, function (cookieItem) {
+			// 分割 Cookie 名称和值（按第一个 "=" 分割，避免值中包含 "=" 的异常）
+			var cookiePair = cookieItem.split("=");
+			var cookieKey = _.trim(decodeURIComponent(cookiePair[0]));
+			// 匹配 Cookie 名称（忽略首尾空格，兼容潜在的格式不规范）
+			return cookieKey === _.trim(name);
+		});
+
+		// 5. 解析并返回 Cookie 值：未找到返回 null，找到则解码后返回
+		if (_.isUndefined(targetCookie)) {
+			return null;
+		}
+		var cookieValue = targetCookie.split("=").slice(1).join("=");
+		return decodeURIComponent(_.trim(cookieValue));
+	};
+
 	_.$lStorage = new Proxy(localStorage, {
 		set(_localStorage, prop, value) {
 			// 跳过事件方法的设置
