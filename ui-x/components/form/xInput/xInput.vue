@@ -3,7 +3,7 @@
 		<template v-if="type !== 'textarea'">
 			<!-- 前置元素 -->
 			<div
-				class="x-iniput__prepend el-input-group__prepend el-input-group__prepend-sub"
+				class="x-input__prepend el-input-group__prepend el-input-group__prepend-sub"
 				v-if="$scopedSlots.prepend">
 				<slot name="prepend"></slot>
 			</div>
@@ -336,7 +336,7 @@ export default async function ({ PRIVATE_GLOBAL }) {
 							[vNode]
 						);
 					} else {
-						return hDiv({ staticClass: "x-iniput__prepend" }, [vNode]);
+						return hDiv({ staticClass: "x-input__prepend" }, [vNode]);
 					}
 				}
 				return null;
@@ -962,7 +962,7 @@ export default async function ({ PRIVATE_GLOBAL }) {
 	display: flex;
 
 	.x-iniput__append,
-	.x-iniput__prepend {
+	.x-input__prepend {
 		height: var(--ui-height);
 		line-height: var(--ui-height);
 		> * {

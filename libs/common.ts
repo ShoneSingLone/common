@@ -1214,23 +1214,79 @@
 		}
 	};
 
-	_.$cookie = function getCookie(name) {
+	_.$cookie = function (name, value, options) {
 		// 1. 校验参数：使用 _.isString 确保名称是字符串类型，提高健壮性
 		if (!_.isString(name) || _.isEmpty(name)) {
 			console.error("Cookie 名称必须是非空字符串");
 			return null;
 		}
 
-		// 2. 获取所有 Cookie 并处理：使用 _.trim 去除首尾空格，避免分割异常
+		// 2. 有第二个参数时，执行 upsert 操作（存在更新，不存在插入）
+		if (arguments.length > 1) {
+			// 处理配置项，默认值兜底，避免 undefined 异常
+			var defaultOptions = {
+				expires: null, // 过期时间（Date 对象/天数数字）
+				path: "/", // Cookie 生效路径，默认根路径（确保全局可访问）
+				domain: null, // 生效域名
+				secure: false, // 是否仅 HTTPS 传输
+				sameSite: "Lax" // 跨站请求策略（Lax/Strict/None）
+			};
+			// 合并用户传入配置与默认配置
+			var opts = _.extend({}, defaultOptions, options || {});
+
+			// 构建 Cookie 字符串：编码名称和值，确保特殊字符（如空格、&等）正确处理
+			var cookieStr = encodeURIComponent(name) + "=" + encodeURIComponent(value);
+
+			// 处理过期时间（支持 Date 对象 或 数字（天数））
+			if (opts.expires) {
+				var expiresDate;
+				if (_.isDate(opts.expires)) {
+					expiresDate = opts.expires;
+				} else if (_.isNumber(opts.expires)) {
+					expiresDate = new Date();
+					expiresDate.setTime(expiresDate.getTime() + opts.expires * 24 * 60 * 60 * 1000);
+				}
+				if (expiresDate) {
+					cookieStr += "; expires=" + expiresDate.toUTCString();
+				}
+			}
+
+			// 拼接路径（确保 Cookie 生效范围，默认根路径避免局部不可用）
+			if (opts.path) {
+				cookieStr += "; path=" + opts.path;
+			}
+
+			// 拼接域名
+			if (opts.domain) {
+				cookieStr += "; domain=" + opts.domain;
+			}
+
+			// 拼接安全传输（仅 HTTPS 环境有效）
+			if (opts.secure) {
+				cookieStr += "; secure";
+			}
+
+			// 拼接 SameSite 策略（防止 CSRF 攻击，兼容现代浏览器）
+			if (opts.sameSite) {
+				cookieStr += "; SameSite=" + opts.sameSite;
+			}
+
+			// 执行 upsert：document.cookie 赋值特性天然支持「存在更新，不存在插入」
+			document.cookie = cookieStr;
+			return value; // 返回设置的值
+		}
+
+		// 3. 只有第一个参数时，执行 get 操作
+		// 获取所有 Cookie 并处理：使用 _.trim 去除首尾空格，避免分割异常
 		var allCookies = _.trim(document.cookie);
 		if (_.isEmpty(allCookies)) {
 			return null; // 无 Cookie 时返回 null
 		}
 
-		// 3. 分割 Cookie 数组：按 "; " 分割（兼容标准格式）
+		// 分割 Cookie 数组：按 "; " 分割（兼容标准格式）
 		var cookieArr = allCookies.split("; ");
 
-		// 4. 遍历查找目标 Cookie：使用 _.find 简化遍历逻辑，更简洁
+		// 遍历查找目标 Cookie：使用 _.find 简化遍历逻辑，更简洁
 		var targetCookie = _.find(cookieArr, function (cookieItem) {
 			// 分割 Cookie 名称和值（按第一个 "=" 分割，避免值中包含 "=" 的异常）
 			var cookiePair = cookieItem.split("=");
@@ -1239,14 +1295,13 @@
 			return cookieKey === _.trim(name);
 		});
 
-		// 5. 解析并返回 Cookie 值：未找到返回 null，找到则解码后返回
+		// 解析并返回 Cookie 值：未找到返回 null，找到则解码后返回
 		if (_.isUndefined(targetCookie)) {
 			return null;
 		}
 		var cookieValue = targetCookie.split("=").slice(1).join("=");
 		return decodeURIComponent(_.trim(cookieValue));
 	};
-
 	_.$lStorage = new Proxy(localStorage, {
 		set(_localStorage, prop, value) {
 			// 跳过事件方法的设置

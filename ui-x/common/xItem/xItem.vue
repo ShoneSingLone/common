@@ -529,7 +529,7 @@ export default async function ({ PRIVATE_GLOBAL }) {
 			triggerOnEmitValue(val) {
 				try {
 					if (_.$val(this, "cpt_configs.onEmitValue")) {
-						this.cpt_configs.onEmitValue.call(this.cpt_configs, {
+						return this.cpt_configs.onEmitValue.call(this.cpt_configs, {
 							val,
 							...(_.$val(this, "cpt_configs.payload") || {}),
 							xItem: this
@@ -558,8 +558,12 @@ export default async function ({ PRIVATE_GLOBAL }) {
 					) {
 						this.cpt_configs.value = val;
 					}
-					this.$emit("change", val);
-					this.triggerOnEmitValue(val);
+
+					const { isBreak } = this.triggerOnEmitValue(val) || {};
+
+					if (!isBreak) {
+						this.$emit("change", val);
+					}
 					const rule = this.cpt_rules_by_trigger["change"];
 					if (rule) {
 						this.debounceValidate();
@@ -852,6 +856,10 @@ export default async function ({ PRIVATE_GLOBAL }) {
 
 .xItem-wrapper + .xItem-wrapper {
 	// margin-top: 24px;
+}
+
+.x-item-controller-children-wrapper {
+	width: var(--xItem-wrapper-width, 100%);
 }
 
 .horizontal {
