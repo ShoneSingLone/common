@@ -574,8 +574,7 @@
 			const id = camelCase(url);
 			if ($appendScript.loaded[id]) {
 				if (globalName) {
-					await $ensure(() => window[globalName]);
-					return window[globalName];
+					return $ensure(() => $val(window, globalName));
 				}
 			} else {
 				$appendScript.loaded[id] = true;

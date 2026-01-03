@@ -9,7 +9,7 @@
 					<th>
 						{{ i18n("URL") }}
 					</th>
-					<th style="width: 48px" class="flex middle center">
+					<th v-if="!readonly" style="width: 48px" class="flex middle center">
 						<xIcon class="pointer" icon="icon_plus" @click="addNewItem" />
 					</th>
 				</tr>
@@ -20,6 +20,7 @@
 						<xItem
 							:configs="c_name"
 							:value="row.name"
+							:readonly="readonly"
 							@change="
 								handleRowValuechange({ row, $index: index }, 'name', $event)
 							" />
@@ -28,9 +29,10 @@
 						<xItem
 							:configs="c_url"
 							:value="row.url"
+							:readonly="readonly"
 							@change="handleRowValuechange({ row, $index: index }, 'url', $event)" />
 					</td>
-					<td class="flex middle center">
+					<td v-if="!readonly" class="flex middle center">
 						<xIcon
 							class="pointer"
 							icon="icon_delete"

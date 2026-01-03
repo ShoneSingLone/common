@@ -2558,15 +2558,11 @@ export default async function ({ PRIVATE_GLOBAL, mergeProps4h }) {
 					this.$props.columns,
 					(columnsForShow, column) => {
 						const _column = (() => {
-							if (hasOwn(column, "isShow")) {
-								if (!column.isShow) {
-									/* 明确false,则不显示 */
-									return false;
-								} else {
-									return column;
-								}
+							if (_.isFunction(column.isShow)) {
+								return column.isShow() ? column : false;
+							} else if (_.isBoolean(column.isShow)) {
+								return column.isShow ? column : false;
 							} else {
-								/* 默认显示 */
 								return column;
 							}
 						})();

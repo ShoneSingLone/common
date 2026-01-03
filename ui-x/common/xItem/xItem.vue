@@ -61,7 +61,7 @@ export default async function ({ PRIVATE_GLOBAL }) {
 		setup(props) {
 			const vm = this;
 
-			const { onMounted: configsOnMounted } = vm.configs || {};
+			const { onMounted: configsOnMounted, onSetup } = vm.configs || {};
 
 			if (configsOnMounted) {
 				onMounted(() => {
@@ -69,6 +69,13 @@ export default async function ({ PRIVATE_GLOBAL }) {
 						xItem: vm,
 						props
 					});
+				});
+			}
+
+			if (_.isFunction(onSetup)) {
+				onSetup.call(vm.cpt_configs, {
+					xItem: vm,
+					props
 				});
 			}
 
@@ -347,7 +354,7 @@ export default async function ({ PRIVATE_GLOBAL }) {
 						if (this.cpt_configs.THIS_CONFIGS_ONLY_FOR_LABEL) {
 							return "";
 						}
-						debugger;
+
 						console.error(
 							"For xItem configuration items, the value property must be present in either v-model or configs",
 							this

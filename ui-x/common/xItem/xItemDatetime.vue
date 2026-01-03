@@ -1,5 +1,6 @@
 <template>
-	<xDatePicker type="datetime" v-model="x_item_value" v-bind="mixin_attrs" />
+	<xInput v-if="readonly" readonly :value="x_item_value" />
+	<xDatePicker v-else type="datetime" v-model="x_item_value" v-bind="mixin_attrs" />
 </template>
 <script lang="ts">
 export default async function () {

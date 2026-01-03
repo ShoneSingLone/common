@@ -398,6 +398,10 @@ body.x-app-body {
 	position: relative;
 	min-width: 800px;
 
+	&.width100 {
+		min-width: unset;
+	}
+
 	.xDataGrid.el-auto-resizer {
 		position: absolute;
 		top: 0;

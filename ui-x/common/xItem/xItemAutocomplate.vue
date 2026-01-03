@@ -8,30 +8,27 @@ export default async function () {
 		mounted() {},
 		render() {
 			const vm = this;
-
-			const cascaderProps = mergeProps4h([
+			const props = mergeProps4h([
+				{
+					attrs: vm.mixin_attrs,
+					props: vm.mixin_attrs
+				},
 				{
 					on: vm.mixin_listeners,
-					/* configs,value */
-					onChange(val) {
+					onInput(val) {
 						vm.x_item_value = val;
 					}
-				},
-				_.$val(vm, "$vnode.data")
+				}
 			]);
 
 			if (vm.readonly) {
-				let displayValue = vm.x_item_value;
-				if (Array.isArray(displayValue)) {
-					displayValue = displayValue.join(", ");
-				}
 				return h("xInput", {
 					readonly: true,
-					value: displayValue
+					value: vm.x_item_value
 				});
 			}
 
-			return h("xCascader", cascaderProps);
+			return h("xAutocomplete", props);
 		}
 	});
 }
