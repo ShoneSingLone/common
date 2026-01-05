@@ -180,6 +180,9 @@ export default async function () {
 						default: {}
 					}
 				},
+				created() {
+					this.xItem.childVm = this;
+				},
 				model: {
 					prop: "value",
 					event: "change"
