@@ -1190,9 +1190,13 @@
 			}
 			return val;
 		}
-		if (key in target && !(key in Object.prototype)) {
-			target[key] = val;
-			return val;
+		try {
+			if (key in target && !(key in Object.prototype)) {
+				target[key] = val;
+				return val;
+			}
+		} catch (error) {
+			debugger;
 		}
 		if (target._isVue || (ob && ob.vmCount)) {
 			/* Avoid adding reactive properties to a Vue instance or its root $data " + "at runtime - declare it upfront in the data option. */
