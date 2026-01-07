@@ -5757,9 +5757,11 @@
 			if (error) {
 				throw error;
 			} else {
-				console.log(`[Vue warn]:`, vm);
-				console.log(`[Vue trace]:`, trace);
-				console.error(`[Vue warn]: ${_.$val(vm, "$vnode.FILE_URL") || ""}\n${msg}`);
+				console.groupCollapsed(`[Vue warn]`);
+				console.warn(`[Vue warn]:`, vm);
+				console.warn(`[Vue trace]:`, trace);
+				console.warn(`[Vue warn]: ${_.$val(vm, "$vnode.FILE_URL") || ""}\n${msg}`);
+				console.groupEnd();
 			}
 		}
 	};

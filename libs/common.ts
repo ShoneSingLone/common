@@ -16,6 +16,18 @@
 	});
 
 	/**
+	 * 节流打印
+	 * @param {Number} count
+	 * @param {Object} callerInfo
+	 */
+	_.$ensure_inner_print = _.throttle(function (count, callerInfo) {
+		console.groupCollapsed(`_.$ensure_inner_print:${count}
+${callerInfo.message}:`);
+		console.log(callerInfo);
+		console.groupEnd();
+	}, 3000);
+
+	/**
 	 * 一个占位的函数，方便搜索，（暂时没有确定的需求）
 	 * 在项目的entry.vue文件中重写即可，
 	 * @param i

@@ -511,46 +511,41 @@
 	var $ensure = (() => {
 		// 添加节流控制变量
 		let lastLogTime = 0;
-		const LOG_INTERVAL = 1000; // 日志打印间隔，单位：毫秒
+		const LOG_INTERVAL = 1000 * 2; // 日志打印间隔，单位：毫秒
 
-		const logEnsure = (fnStr, count, callerInfo) => {
-			const now = Date.now();
-			// 只有在上次日志打印后的指定时间间隔后才打印
-			if (now - lastLogTime >= LOG_INTERVAL) {
-				// 打印调用者信息，方便在浏览器中点击跳转
-				console.groupCollapsed(`$ensure: 正在等待条件满足 (尝试次数: ${count})`);
-				console.log("条件函数:", fnStr);
-				console.log("调用者信息:");
-				console.trace(callerInfo);
-				console.groupEnd();
-				lastLogTime = now;
+		const _ensure_inner_print = (count, callerInfo) => {
+			if (window._?.$ensure_inner_print) {
+				_.$ensure_inner_print(count, callerInfo);
+			} else {
+				const now = Date.now();
+				// 只有在上次日志打印后的指定时间间隔后才打印
+				if (now - lastLogTime >= LOG_INTERVAL) {
+					console.groupCollapsed(`${callerInfo.message}: ${count}`);
+					console.warn(callerInfo);
+					console.groupEnd();
+					lastLogTime = now;
+				}
 			}
 		};
 
 		/**
 		 *
-		 * @param {*} fnGetValue 执行此函数，直到返回真值
+		 * @param {*} fn_get_value 执行此函数，直到返回真值
 		 * @param {*} duration 默认为0即不断尝试；若给定时间，未在给定时间内完成，则失败
 		 * @returns
 		 */
-		/* @typescriptDeclare (fnGetValue:(()=>Promise<any>)|(()=>any), duration?:number) =>Promise<any> */
-		$ensure = async (fnGetValue, duration = 0, gap = 64) => {
-			/* 获取调用者信息 */
-			let callerInfo = "$ensure";
-			try {
-				throw new Error("$ensure caller");
-			} catch (error) {
-				// 自定义错误对象，确保错误堆栈信息正确
-				callerInfo = new Error("$ensure caller");
-			}
+		/* @typescriptDeclare (fn_get_value:(()=>Promise<any>)|(()=>any), duration?:number) =>Promise<any> */
+		$ensure = async (fn_get_value, duration = 0, gap = 64) => {
+			/* 获取完整的调用者信息，包含初始调用栈 */
+			const callerInfo = new Error(fn_get_value.toString());
 
 			return new Promise((resolve, reject) => {
 				let timer;
 				let exeCount = 0;
 
 				const checkValue = async () => {
-					const value = await fnGetValue();
-					logEnsure(fnGetValue.toString(), ++exeCount, callerInfo);
+					const value = await fn_get_value();
+					_ensure_inner_print(++exeCount, callerInfo);
 					if (value) {
 						clearTimeout(timer);
 						resolve(value);
@@ -562,7 +557,7 @@
 				if (duration) {
 					setTimeout(() => {
 						clearTimeout(timer);
-						logEnsure(fnGetValue.toString(), exeCount, callerInfo);
+						_ensure_inner_print(exeCount, callerInfo);
 						reject(new Error("ensure timeout"));
 					}, duration);
 				}
@@ -800,7 +795,7 @@
 									const preloadArray = getPreload();
 									preloadArray.forEach(url => $loadText(url));
 								}
-							} catch (error) { }
+							} catch (error) {}
 						}
 					}
 				],
