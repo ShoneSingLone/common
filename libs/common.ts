@@ -5,9 +5,23 @@
 		console.log("common.js");
 	}
 
+	/*  */
 	_.mixin({
+		/**
+		 * 删除对象中的空值
+		 * @param {Object} obj
+		 * @returns
+		 */
 		$$clean: obj => _.omitBy(obj, v => _.isUndefined(v) || _.isNull(v))
 	});
+
+	/**
+	 * 一个占位的函数，方便搜索，（暂时没有确定的需求）
+	 * 在项目的entry.vue文件中重写即可，
+	 * @param i
+	 * @returns
+	 */
+	_.$stamp = i => i;
 
 	/**
 	 * 验证参数

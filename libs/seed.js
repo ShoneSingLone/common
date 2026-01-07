@@ -513,11 +513,16 @@
 		let lastLogTime = 0;
 		const LOG_INTERVAL = 1000; // 日志打印间隔，单位：毫秒
 
-		const logEnsure = (fnStr, count) => {
+		const logEnsure = (fnStr, count, callerInfo) => {
 			const now = Date.now();
 			// 只有在上次日志打印后的指定时间间隔后才打印
 			if (now - lastLogTime >= LOG_INTERVAL) {
-				console.log(`$ensure: 正在等待条件满足 (尝试次数: ${count})`, fnStr);
+				// 打印调用者信息，方便在浏览器中点击跳转
+				console.groupCollapsed(`$ensure: 正在等待条件满足 (尝试次数: ${count})`);
+				console.log("条件函数:", fnStr);
+				console.log("调用者信息:");
+				console.trace(callerInfo);
+				console.groupEnd();
 				lastLogTime = now;
 			}
 		};
@@ -530,14 +535,22 @@
 		 */
 		/* @typescriptDeclare (fnGetValue:(()=>Promise<any>)|(()=>any), duration?:number) =>Promise<any> */
 		$ensure = async (fnGetValue, duration = 0, gap = 64) => {
-			const fnString = fnGetValue.toString();
+			/* 获取调用者信息 */
+			let callerInfo = "$ensure";
+			try {
+				throw new Error("$ensure caller");
+			} catch (error) {
+				// 自定义错误对象，确保错误堆栈信息正确
+				callerInfo = new Error("$ensure caller");
+			}
+
 			return new Promise((resolve, reject) => {
 				let timer;
 				let exeCount = 0;
 
 				const checkValue = async () => {
 					const value = await fnGetValue();
-					logEnsure(fnString, ++exeCount);
+					logEnsure(fnGetValue.toString(), ++exeCount, callerInfo);
 					if (value) {
 						clearTimeout(timer);
 						resolve(value);
@@ -549,7 +562,7 @@
 				if (duration) {
 					setTimeout(() => {
 						clearTimeout(timer);
-						logEnsure(fnString, exeCount);
+						logEnsure(fnGetValue.toString(), exeCount, callerInfo);
 						reject(new Error("ensure timeout"));
 					}, duration);
 				}
@@ -787,7 +800,7 @@
 									const preloadArray = getPreload();
 									preloadArray.forEach(url => $loadText(url));
 								}
-							} catch (error) {}
+							} catch (error) { }
 						}
 					}
 				],
