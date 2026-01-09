@@ -191,7 +191,7 @@ export default async function ({ PRIVATE_GLOBAL }) {
 			cpt_el_input_suffix_inner_class() {
 				return [
 					{
-						"el-input__suffix-inner": true
+						"el-input__suffix-inner flex middle": true
 					},
 					this.suffixInnerClass || ""
 				];

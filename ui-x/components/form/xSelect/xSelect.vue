@@ -1131,10 +1131,11 @@ export default async function ({ PRIVATE_GLOBAL }) {
 
 .x-select-selected-icon {
 	position: absolute;
-	right: 20px;
+	right: 0;
 	width: 12px;
-	// font-weight: 700;
 	height: 100%;
+	top: 50%;
+	transform: translateY(-50%);
 }
 
 .el-select-dropdown {
