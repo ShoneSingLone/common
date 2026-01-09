@@ -64,6 +64,8 @@ each(@list, {
 .loopGapFn(20);
 .loopGapFn(25);
 .loopGapFn(32);
+.loopGapFn(64);
+.loopGapFn(128);
 
 .x-margin {
 	margin: var(--ui-one);
