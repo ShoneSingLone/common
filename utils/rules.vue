@@ -1,9 +1,32 @@
 <script lang="ts">
 export default async function ({ PRIVATE_GLOBAL }) {
 	const _reg = await _.$importVue("/common/utils/regexp.vue");
+	debugger;
 	if (!PRIVATE_GLOBAL._rules) {
-		PRIVATE_GLOBAL._rules = {
+		let _rules = {
 			_reg,
+			/* 操作符 */
+			_opr: {
+				or: validatorArray => {
+					return {
+						name: "custom_validator",
+						async validator(...args) {
+							const vm = this;
+							const _validata_array = _.cloneDeep(validatorArray);
+							/* 或关系的校验 */
+							let rule;
+							while ((rule = _validata_array.shift())) {
+								const result = await rule.validator.apply(vm, args);
+								if (result) {
+									return result;
+								}
+								return "";
+							}
+						},
+						trigger: ["change", "blur"]
+					};
+				}
+			},
 			/* @typescriptDeclare  (validatorFn: any, options?: {}) => { name: string; validator: any; trigger: string[]; }*/
 			validator(validatorFn, options = {}) {
 				validatorFn = validatorFn || (() => "");
@@ -226,7 +249,7 @@ export default async function ({ PRIVATE_GLOBAL }) {
 					trigger: ["change", "blur"]
 				};
 			},
-			Range: (min, max) => {
+			Range: (min, max, msg = `请输入{min}~{max}范围内的整数`) => {
 				return {
 					async validator({ val }) {
 						try {
@@ -234,10 +257,10 @@ export default async function ({ PRIVATE_GLOBAL }) {
 							let val1 = val;
 							val = _.toNumber(val);
 							if (!_.$isNumber(val)) {
-								return `请输入${min}~${max}范围内的整数`;
+								return i18n(msg, { max, min });
 							}
 							if (!/^\d+$/.test(val1) || val > max || val < min) {
-								return `请输入${min}~${max}范围内的整数`;
+								return i18n(msg, { max, min });
 							}
 							return "";
 						} catch (error) {
@@ -491,7 +514,9 @@ export default async function ({ PRIVATE_GLOBAL }) {
 				};
 			}
 		};
+
+		PRIVATE_GLOBAL._rules = _rules;
 	}
-	return _rules;
+	return PRIVATE_GLOBAL._rules;
 }
 </script>
