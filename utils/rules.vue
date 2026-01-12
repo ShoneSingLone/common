@@ -8,7 +8,7 @@ export default async function ({ PRIVATE_GLOBAL }) {
 			_opr: {
 				or: validatorArray => {
 					return {
-						name: "custom_validator",
+						name: "opration_or",
 						async validator(...args) {
 							const vm = this;
 							const _validata_array = _.cloneDeep(validatorArray);
@@ -252,32 +252,21 @@ export default async function ({ PRIVATE_GLOBAL }) {
 					trigger: ["change", "blur"]
 				};
 			},
-			Range: (default_min, default_max, msg = `请输入{min}~{max}范围内的整数`) => {
+			port_in_range: (default_min, default_max, msg = `请输入{min}~{max}范围内的整数`) => {
 				return {
 					async validator({ val }) {
 						try {
-							if (!_.$isInput(val)) return;
-							let [minVal, maxVal] = _.split(val, "-");
+							if (!_.$isInput(val)) {
+								return;
+							}
 
-							if (!_.$isInput(minVal) || !_.$isInput(maxVal)) {
+							if (!_reg.numberValue().test(val)) {
 								return i18n(msg, { max: default_max, min: default_min });
 							}
 
-							minVal = _.toNumber(minVal);
-							maxVal = _.toNumber(maxVal);
+							val = _.toNumber(val);
 
-							if (!_.$isNumber(minVal) || !_.$isNumber(maxVal)) {
-								return i18n(msg, { max: default_max, min: default_min });
-							}
-
-							if (maxVal < minVal) {
-								return i18n(msg, { max: default_max, min: default_min });
-							}
-							if (
-								!/^\d+$/.test(minVal) ||
-								maxVal > default_max ||
-								minVal < default_min
-							) {
+							if (val > default_max || val < default_min) {
 								return i18n(msg, { max: default_max, min: default_min });
 							}
 							return "";
@@ -288,12 +277,52 @@ export default async function ({ PRIVATE_GLOBAL }) {
 					trigger: ["change", "blur"]
 				};
 			},
+			/**
+			 * 范围这种形式的值 1-65535
+			 * @param default_min
+			 * @param default_max
+			 * @param msg
+			 * @returns
+			 */
+			port_use_range: (default_min, default_max, msg = `请输入{min}~{max}范围内的整数`) => {
+				return {
+					async validator({ val }) {
+						try {
+							if (!_.$isInput(val)) {
+								/* 必须输入 */
+								return;
+							}
+							let [minVal, maxVal] = _.split(val, "-");
+
+							if (
+								!_reg.numberValue().test(minVal) ||
+								!_reg.numberValue().test(maxVal)
+							) {
+								return i18n(msg, { max: default_max, min: default_min });
+							}
+
+							minVal = _.toNumber(minVal);
+							maxVal = _.toNumber(maxVal);
+
+							if (maxVal < minVal || maxVal > default_max || minVal < default_min) {
+								return i18n(msg, { max: default_max, min: default_min });
+							}
+							return "";
+						} catch (error) {
+							return i18n(msg, { max: default_max, min: default_min });
+						}
+					},
+					trigger: ["change", "blur"]
+				};
+			},
+
 			numberCharacter: () => {
 				return {
 					name: "numberCharacter",
 					async validator({ val }) {
 						if (!_.$isInput(val)) return;
-						if (/^\d+$/.test(val)) {
+
+						if (_reg.numberCharacter().test(val)) {
 							return "";
 						}
 						return i18n("enter_number_characters");
@@ -306,7 +335,7 @@ export default async function ({ PRIVATE_GLOBAL }) {
 					name: "numberValue",
 					async validator({ val }) {
 						if (!_.$isInput(val)) return;
-						if (/^[1-9]\d*$/.test(val)) {
+						if (_reg.numberValue().test(val)) {
 							return "";
 						}
 						return i18n("enter_number_value");
@@ -314,31 +343,8 @@ export default async function ({ PRIVATE_GLOBAL }) {
 					trigger: ["change", "blur"]
 				};
 			},
-			port_with_range: (min, max) => {
-				return {
-					async validator({ val }) {
-						try {
-							if (!_.$isInput(val)) {
-								return;
-							}
-							val = _.toNumber(val);
-
-							if (!_.$isNumber(val)) {
-								return `请输入${min}~${max}范围内的整数`;
-							}
-							if (!/^\d+$/.test(val) || val > max || val < min) {
-								return `请输入${min}~${max}范围内的整数`;
-							}
-							return "";
-						} catch (error) {
-							return `请输入${min}~${max}范围内的整数`;
-						}
-					},
-					trigger: ["change", "blur"]
-				};
-			},
-			port165535: () => {
-				return _rules.port_with_range(1, 65535);
+			port_1_65535: () => {
+				return _rules.port_in_range(1, 65535);
 			},
 			ipV4: size => {
 				return {

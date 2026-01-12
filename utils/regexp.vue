@@ -286,6 +286,11 @@ export default async function () {
 
 	const _reg = {
 		validator_cidr,
+		/* 数值 */
+		numberValue: () => /^[1-9]\d*$/,
+		/* 数字 */
+		numberCharacter: () => /^\d+$/,
+		/*  */
 		ipAddress: () =>
 			new RegExp(
 				// IPv4部分（禁止前导零）
