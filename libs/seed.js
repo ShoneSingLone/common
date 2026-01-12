@@ -763,23 +763,24 @@
 								let i18nString = $val(langOptions, key);
 
 								if (i18nString === undefined) {
+									/* i18n wenjian zhong wei ding yi guo ji hua wen jian  */
 									console.warn(`[i18n:unset] ${key}`);
-									return key;
-								} else {
-									if (typeof payload === "object") {
-										Object.keys(payload).forEach(key => {
-											const i18nVariable = $val(payload, key);
-											if (i18nVariable !== undefined) {
-												i18nString = String(i18nString).replace(
-													`{${key}}`,
-													i18nVariable
-												);
-											}
-										});
-									}
-
-									return i18nString;
+									i18nString = key;
 								}
+
+								if (typeof payload === "object") {
+									Object.keys(payload).forEach(key => {
+										const i18nVariable = $val(payload, key);
+										if (i18nVariable !== undefined) {
+											i18nString = String(i18nString).replace(
+												`{${key}}`,
+												i18nVariable
+											);
+										}
+									});
+								}
+
+								return i18nString;
 							};
 							return i18n;
 						};
