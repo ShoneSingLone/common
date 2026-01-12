@@ -1,3 +1,83 @@
+<style lang="css">
+/* 代码块头部样式 */
+.toastui-editor-ww-code-block-header {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: 8px 12px;
+	background-color: #f5f5f5;
+	border-bottom: 1px solid #e0e0e0;
+	font-size: 12px;
+	color: #666;
+}
+
+/* 代码块语言显示样式 */
+.toastui-editor-ww-code-block-lang {
+	font-weight: 600;
+}
+
+/* 代码块按钮容器样式 */
+.toastui-editor-ww-code-block-buttons {
+	justify-content: center;
+	display: flex;
+	gap: 8px;
+	align-items: center;
+}
+
+/* 代码块按钮基础样式 */
+.toastui-editor-ww-code-block-fold,
+.toastui-editor-ww-code-block-copy {
+	background-color: transparent;
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 2px 6px;
+	font-size: 12px;
+	cursor: pointer;
+	color: #666;
+	transition: all 0.2s ease;
+}
+
+/* 代码块按钮悬停样式 */
+.toastui-editor-ww-code-block-fold:hover,
+.toastui-editor-ww-code-block-copy:hover {
+	background-color: #e0e0e0;
+	border-color: #ccc;
+}
+
+/* 代码块按钮:active样式 */
+.toastui-editor-ww-code-block-fold:active,
+.toastui-editor-ww-code-block-copy:active {
+	background-color: #d0d0d0;
+	border-color: #bbb;
+}
+
+/* 代码块折叠按钮样式 */
+.toastui-editor-ww-code-block-fold {
+	width: 20px;
+	height: 20px;
+	padding: 0;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+/* 代码块内容容器样式 */
+.toastui-editor-ww-code-block-content {
+	transition:
+		max-height 0.3s ease,
+		padding 0.3s ease;
+	overflow: hidden;
+}
+
+/* 代码块容器样式 */
+.toastui-editor-ww-code-block {
+	border: 1px solid #e0e0e0;
+	border-radius: 4px;
+	overflow: hidden;
+	margin: 10px 0;
+}
+</style>
+
 <script lang="ts">
 export default async function () {
 	/*!
@@ -14,7 +94,8 @@ export default async function () {
 		let i18n = window.i18n;
 		return /******/ (function factory() {
 			// webpackBootstrap
-			/******/ var __webpack_modules__ = {
+			/******/
+			var __webpack_modules__ = {
 				/***/ 368: /***/ function (module) {
 					/*! @license DOMPurify 2.3.3 | (c) Cure53 and other contributors | Released under the Apache license 2.0 and Mozilla Public License 2.0 | github.com/cure53/DOMPurify/blob/2.3.3/LICENSE */
 
@@ -2502,6 +2583,7 @@ export default async function () {
 
 				/***/ 893: /***/ function (module) {
 					"use strict";
+
 					/**
 					 * @fileoverview Execute the provided callback once for each element present in the array(or Array-like object) in ascending order.
 					 * @author NHN FE Development Lab <dl_javascript@nhn.com>
@@ -2553,6 +2635,7 @@ export default async function () {
 
 				/***/ 956: /***/ function (module) {
 					"use strict";
+
 					/**
 					 * @fileoverview Execute the provided callback once for each property of object which actually exist.
 					 * @author NHN FE Development Lab <dl_javascript@nhn.com>
@@ -3530,6 +3613,7 @@ export default async function () {
 
 				/***/ 322: /***/ function (module) {
 					"use strict";
+
 					/**
 					 * @fileoverview Check whether the given variable is an instance of Array or not.
 					 * @author NHN FE Development Lab <dl_javascript@nhn.com>
@@ -3553,6 +3637,7 @@ export default async function () {
 
 				/***/ 326: /***/ function (module) {
 					"use strict";
+
 					/**
 					 * @fileoverview Check whether the given variable is a string or not.
 					 * @author NHN FE Development Lab <dl_javascript@nhn.com>
@@ -3640,6 +3725,7 @@ export default async function () {
 
 				/***/ 294: /***/ function (module) {
 					"use strict";
+
 					/**
 					 * @fileoverview Check whether the given variable is a function or not.
 					 * @author NHN FE Development Lab <dl_javascript@nhn.com>
@@ -3663,6 +3749,7 @@ export default async function () {
 
 				/***/ 934: /***/ function (module) {
 					"use strict";
+
 					/**
 					 * @fileoverview Check whether the given variable is null or not.
 					 * @author NHN FE Development Lab <dl_javascript@nhn.com>
@@ -3686,6 +3773,7 @@ export default async function () {
 
 				/***/ 321: /***/ function (module) {
 					"use strict";
+
 					/**
 					 * @fileoverview Check whether the given variable is a number or not.
 					 * @author NHN FE Development Lab <dl_javascript@nhn.com>
@@ -3709,6 +3797,7 @@ export default async function () {
 
 				/***/ 73: /***/ function (module) {
 					"use strict";
+
 					/**
 					 * @fileoverview Check whether the given variable is an object or not.
 					 * @author NHN FE Development Lab <dl_javascript@nhn.com>
@@ -3732,6 +3821,7 @@ export default async function () {
 
 				/***/ 758: /***/ function (module) {
 					"use strict";
+
 					/**
 					 * @fileoverview Check whether the given variable is a string or not.
 					 * @author NHN FE Development Lab <dl_javascript@nhn.com>
@@ -3781,6 +3871,7 @@ export default async function () {
 
 				/***/ 929: /***/ function (module) {
 					"use strict";
+
 					/**
 					 * @fileoverview Check whether the given variable is undefined or not.
 					 * @author NHN FE Development Lab <dl_javascript@nhn.com>
@@ -3806,18 +3897,24 @@ export default async function () {
 			};
 			/************************************************************************/
 			/******/ // The module cache
-			/******/ var __webpack_module_cache__ = {};
+			/******/
+			var __webpack_module_cache__ = {};
 			/******/
 			/******/ // The require function
-			/******/ function __webpack_require__(moduleId) {
+			/******/
+			function __webpack_require__(moduleId) {
 				/******/ // Check if module is in cache
-				/******/ var cachedModule = __webpack_module_cache__[moduleId];
-				/******/ if (cachedModule !== undefined) {
-					/******/ return cachedModule.exports;
+				/******/
+				var cachedModule = __webpack_module_cache__[moduleId];
+				/******/
+				if (cachedModule !== undefined) {
+					/******/
+					return cachedModule.exports;
 					/******/
 				}
 				/******/ // Create a new module (and put it into the cache)
-				/******/ var module = (__webpack_module_cache__[moduleId] = {
+				/******/
+				var module = (__webpack_module_cache__[moduleId] = {
 					/******/ // no module.id needed
 					/******/ // no module.loaded needed
 					/******/ exports: {}
@@ -3825,7 +3922,8 @@ export default async function () {
 				});
 				/******/
 				/******/ // Execute the module function
-				/******/ __webpack_modules__[moduleId].call(
+				/******/
+				__webpack_modules__[moduleId].call(
 					module.exports,
 					module,
 					module.exports,
@@ -3833,16 +3931,21 @@ export default async function () {
 				);
 				/******/
 				/******/ // Return the exports of the module
-				/******/ return module.exports;
+				/******/
+				return module.exports;
 				/******/
 			}
+
 			/******/
 			/************************************************************************/
 			/******/ /* webpack/runtime/compat get default export */
-			/******/ !(function () {
+			/******/
+			!(function () {
 				/******/ // getDefaultExport function for compatibility with non-harmony modules
-				/******/ __webpack_require__.n = function (module) {
-					/******/ var getter =
+				/******/
+				__webpack_require__.n = function (module) {
+					/******/
+					var getter =
 						module && module.__esModule
 							? /******/ function () {
 									return module["default"];
@@ -3850,23 +3953,30 @@ export default async function () {
 							: /******/ function () {
 									return module;
 								};
-					/******/ __webpack_require__.d(getter, { a: getter });
-					/******/ return getter;
+					/******/
+					__webpack_require__.d(getter, { a: getter });
+					/******/
+					return getter;
 					/******/
 				};
 				/******/
 			})();
 			/******/
 			/******/ /* webpack/runtime/define property getters */
-			/******/ !(function () {
+			/******/
+			!(function () {
 				/******/ // define getter functions for harmony exports
-				/******/ __webpack_require__.d = function (exports, definition) {
-					/******/ for (var key in definition) {
-						/******/ if (
+				/******/
+				__webpack_require__.d = function (exports, definition) {
+					/******/
+					for (var key in definition) {
+						/******/
+						if (
 							__webpack_require__.o(definition, key) &&
 							!__webpack_require__.o(exports, key)
 						) {
-							/******/ Object.defineProperty(exports, key, {
+							/******/
+							Object.defineProperty(exports, key, {
 								enumerable: true,
 								get: definition[key]
 							});
@@ -3880,14 +3990,20 @@ export default async function () {
 			})();
 			/******/
 			/******/ /* webpack/runtime/global */
-			/******/ !(function () {
-				/******/ __webpack_require__.g = (function () {
-					/******/ if (typeof globalThis === "object") return globalThis;
-					/******/ try {
-						/******/ return this || new Function("return this")();
+			/******/
+			!(function () {
+				/******/
+				__webpack_require__.g = (function () {
+					/******/
+					if (typeof globalThis === "object") return globalThis;
+					/******/
+					try {
+						/******/
+						return this || new Function("return this")();
 						/******/
 					} catch (e) {
-						/******/ if (typeof window === "object") return window;
+						/******/
+						if (typeof window === "object") return window;
 						/******/
 					}
 					/******/
@@ -3896,8 +4012,10 @@ export default async function () {
 			})();
 			/******/
 			/******/ /* webpack/runtime/hasOwnProperty shorthand */
-			/******/ !(function () {
-				/******/ __webpack_require__.o = function (obj, prop) {
+			/******/
+			!(function () {
+				/******/
+				__webpack_require__.o = function (obj, prop) {
 					return Object.prototype.hasOwnProperty.call(obj, prop);
 				};
 				/******/
@@ -3954,9 +4072,11 @@ PERFORMANCE OF THIS SOFTWARE.
 							"Class extends value " + String(b) + " is not a constructor or null"
 						);
 					extendStatics(d, b);
+
 					function __() {
 						this.constructor = d;
 					}
+
 					d.prototype =
 						b === null ? Object.create(b) : ((__.prototype = b.prototype), new __());
 				}
@@ -4030,6 +4150,7 @@ PERFORMANCE OF THIS SOFTWARE.
 									resolve(value);
 								});
 					}
+
 					return new (P || (P = Promise))(function (resolve, reject) {
 						function fulfilled(value) {
 							try {
@@ -4038,6 +4159,7 @@ PERFORMANCE OF THIS SOFTWARE.
 								reject(e);
 							}
 						}
+
 						function rejected(value) {
 							try {
 								step(generator["throw"](value));
@@ -4045,11 +4167,13 @@ PERFORMANCE OF THIS SOFTWARE.
 								reject(e);
 							}
 						}
+
 						function step(result) {
 							result.done
 								? resolve(result.value)
 								: adopt(result.value).then(fulfilled, rejected);
 						}
+
 						step((generator = generator.apply(thisArg, _arguments || [])).next());
 					});
 				}
@@ -4082,6 +4206,7 @@ PERFORMANCE OF THIS SOFTWARE.
 							return step([n, v]);
 						};
 					}
+
 					function step(op) {
 						if (f) throw new TypeError("Generator is already executing.");
 						while (_)
@@ -4272,6 +4397,7 @@ PERFORMANCE OF THIS SOFTWARE.
 								});
 							};
 					}
+
 					function resume(n, v) {
 						try {
 							step(g[n](v));
@@ -4279,17 +4405,21 @@ PERFORMANCE OF THIS SOFTWARE.
 							settle(q[0][3], e);
 						}
 					}
+
 					function step(r) {
 						r.value instanceof __await
 							? Promise.resolve(r.value.v).then(fulfill, reject)
 							: settle(q[0][2], r);
 					}
+
 					function fulfill(value) {
 						resume("next", value);
 					}
+
 					function reject(value) {
 						resume("throw", value);
 					}
+
 					function settle(f, v) {
 						if ((f(v), q.shift(), q.length)) resume(q[0][0], q[0][1]);
 					}
@@ -4342,6 +4472,7 @@ PERFORMANCE OF THIS SOFTWARE.
 								return this;
 							}),
 							i);
+
 					function verb(n) {
 						i[n] =
 							o[n] &&
@@ -4351,6 +4482,7 @@ PERFORMANCE OF THIS SOFTWARE.
 								});
 							};
 					}
+
 					function settle(resolve, reject, d, v) {
 						Promise.resolve(v).then(function (v) {
 							resolve({ value: v, done: d });
@@ -4562,7 +4694,8 @@ PERFORMANCE OF THIS SOFTWARE.
 					return new OrderedMap(content);
 				};
 
-				/* harmony default export */ var dist = OrderedMap; // CONCATENATED MODULE: ../../node_modules/prosemirror-model/dist/index.js
+				/* harmony default export */
+				var dist = OrderedMap; // CONCATENATED MODULE: ../../node_modules/prosemirror-model/dist/index.js
 
 				function findDiffStart(a, b, pos) {
 					for (let i = 0; ; i++) {
@@ -4586,6 +4719,7 @@ PERFORMANCE OF THIS SOFTWARE.
 						pos += childA.nodeSize;
 					}
 				}
+
 				function findDiffEnd(a, b, posA, posB) {
 					for (let iA = a.childCount, iB = b.childCount; ; ) {
 						if (iA == 0 || iB == 0) return iA == iB ? null : { a: posA, b: posB };
@@ -4632,15 +4766,15 @@ A fragment represents a node's collection of child nodes.
 Like nodes, fragments are persistent data structures, and you
 should not mutate them or their content. Rather, you create new
 instances whenever needed. The API tries to make this easy.
-*/
+				 */
 				class Fragment {
 					/**
 	@internal
-	*/
+					 */
 					constructor(
 						/**
 	@internal
-	*/
+						 */
 						content,
 						size
 					) {
@@ -4650,11 +4784,12 @@ instances whenever needed. The API tries to make this easy.
 							for (let i = 0; i < content.length; i++)
 								this.size += content[i].nodeSize;
 					}
+
 					/**
 	Invoke a callback for all descendant nodes between the given two
 	positions (relative to start of this fragment). Doesn't descend
 	into a node when the callback returns `false`.
-	*/
+					 */
 					nodesBetween(from, to, f, nodeStart = 0, parent) {
 						for (let i = 0, pos = 0; pos < to; i++) {
 							let child = this.content[i],
@@ -4675,18 +4810,20 @@ instances whenever needed. The API tries to make this easy.
 							pos = end;
 						}
 					}
+
 					/**
 	Call the given callback for every descendant node. `pos` will be
 	relative to the start of the fragment. The callback may return
 	`false` to prevent traversal of a given node's children.
-	*/
+					 */
 					descendants(f) {
 						this.nodesBetween(0, this.size, f);
 					}
+
 					/**
 	Extract the text between `from` and `to`. See the same method on
 	[`Node`](https://prosemirror.net/docs/ref/#model.Node.textBetween).
-	*/
+					 */
 					textBetween(from, to, blockSeparator, leafText) {
 						let text = "",
 							separated = true;
@@ -4716,10 +4853,11 @@ instances whenever needed. The API tries to make this easy.
 						);
 						return text;
 					}
+
 					/**
 	Create a new fragment containing the combined content of this
 	fragment and the other.
-	*/
+					 */
 					append(other) {
 						if (!other.size) return this;
 						if (!this.size) return other;
@@ -4734,9 +4872,10 @@ instances whenever needed. The API tries to make this easy.
 						for (; i < other.content.length; i++) content.push(other.content[i]);
 						return new Fragment(content, this.size + other.size);
 					}
+
 					/**
 	Cut out the sub-fragment between the two given positions.
-	*/
+					 */
 					cut(from, to = this.size) {
 						if (from == 0 && to == this.size) return this;
 						let result = [],
@@ -4765,18 +4904,20 @@ instances whenever needed. The API tries to make this easy.
 							}
 						return new Fragment(result, size);
 					}
+
 					/**
 	@internal
-	*/
+					 */
 					cutByIndex(from, to) {
 						if (from == to) return Fragment.empty;
 						if (from == 0 && to == this.content.length) return this;
 						return new Fragment(this.content.slice(from, to));
 					}
+
 					/**
 	Create a new fragment in which the node at the given index is
 	replaced by the given node.
-	*/
+					 */
 					replaceChild(index, node) {
 						let current = this.content[index];
 						if (current == node) return this;
@@ -4785,67 +4926,76 @@ instances whenever needed. The API tries to make this easy.
 						copy[index] = node;
 						return new Fragment(copy, size);
 					}
+
 					/**
 	Create a new fragment by prepending the given node to this
 	fragment.
-	*/
+					 */
 					addToStart(node) {
 						return new Fragment([node].concat(this.content), this.size + node.nodeSize);
 					}
+
 					/**
 	Create a new fragment by appending the given node to this
 	fragment.
-	*/
+					 */
 					addToEnd(node) {
 						return new Fragment(this.content.concat(node), this.size + node.nodeSize);
 					}
+
 					/**
 	Compare this fragment to another one.
-	*/
+					 */
 					eq(other) {
 						if (this.content.length != other.content.length) return false;
 						for (let i = 0; i < this.content.length; i++)
 							if (!this.content[i].eq(other.content[i])) return false;
 						return true;
 					}
+
 					/**
 	The first child of the fragment, or `null` if it is empty.
-	*/
+					 */
 					get firstChild() {
 						return this.content.length ? this.content[0] : null;
 					}
+
 					/**
 	The last child of the fragment, or `null` if it is empty.
-	*/
+					 */
 					get lastChild() {
 						return this.content.length ? this.content[this.content.length - 1] : null;
 					}
+
 					/**
 	The number of child nodes in this fragment.
-	*/
+					 */
 					get childCount() {
 						return this.content.length;
 					}
+
 					/**
 	Get the child node at the given index. Raise an error when the
 	index is out of range.
-	*/
+					 */
 					child(index) {
 						let found = this.content[index];
 						if (!found)
 							throw new RangeError("Index " + index + " out of range for " + this);
 						return found;
 					}
+
 					/**
 	Get the child node at the given index, if it exists.
-	*/
+					 */
 					maybeChild(index) {
 						return this.content[index] || null;
 					}
+
 					/**
 	Call `f` for every child node, passing the node, its offset
 	into this parent node, and its index.
-	*/
+					 */
 					forEach(f) {
 						for (let i = 0, p = 0; i < this.content.length; i++) {
 							let child = this.content[i];
@@ -4853,27 +5003,30 @@ instances whenever needed. The API tries to make this easy.
 							p += child.nodeSize;
 						}
 					}
+
 					/**
 	Find the first position at which this fragment and another
 	fragment differ, or `null` if they are the same.
-	*/
+					 */
 					findDiffStart(other, pos = 0) {
 						return findDiffStart(this, other, pos);
 					}
+
 					/**
 	Find the first position, searching from the end, at which this
 	fragment and the given fragment differ, or `null` if they are
 	the same. Since this position will not be the same in both
 	nodes, an object with two separate positions is returned.
-	*/
+					 */
 					findDiffEnd(other, pos = this.size, otherPos = other.size) {
 						return findDiffEnd(this, other, pos, otherPos);
 					}
+
 					/**
 	Find the index and inner offset corresponding to a given relative
 	position in this fragment. The result object will be reused
 	(overwritten) the next time the function is called. (Not public.)
-	*/
+					 */
 					findIndex(pos, round = -1) {
 						if (pos == 0) return retIndex(0, pos);
 						if (pos == this.size) return retIndex(this.content.length, pos);
@@ -4889,37 +5042,42 @@ instances whenever needed. The API tries to make this easy.
 							curPos = end;
 						}
 					}
+
 					/**
 	Return a debugging string that describes this fragment.
-	*/
+					 */
 					toString() {
 						return "<" + this.toStringInner() + ">";
 					}
+
 					/**
 	@internal
-	*/
+					 */
 					toStringInner() {
 						return this.content.join(", ");
 					}
+
 					/**
 	Create a JSON-serializeable representation of this fragment.
-	*/
+					 */
 					toJSON() {
 						return this.content.length ? this.content.map(n => n.toJSON()) : null;
 					}
+
 					/**
 	Deserialize a fragment from its JSON representation.
-	*/
+					 */
 					static fromJSON(schema, value) {
 						if (!value) return Fragment.empty;
 						if (!Array.isArray(value))
 							throw new RangeError("Invalid input for Fragment.fromJSON");
 						return new Fragment(value.map(schema.nodeFromJSON));
 					}
+
 					/**
 	Build a fragment from an array of nodes. Ensures that adjacent
 	text nodes with the same marks are joined together.
-	*/
+					 */
 					static fromArray(array) {
 						if (!array.length) return Fragment.empty;
 						let joined,
@@ -4938,12 +5096,13 @@ instances whenever needed. The API tries to make this easy.
 						}
 						return new Fragment(joined || array, size);
 					}
+
 					/**
 	Create a fragment from something that can be interpreted as a
 	set of nodes. For `null`, it returns the empty fragment. For a
 	fragment, the fragment itself. For a node or array of nodes, a
 	fragment containing those nodes.
-	*/
+					 */
 					static from(nodes) {
 						if (!nodes) return Fragment.empty;
 						if (nodes instanceof Fragment) return nodes;
@@ -4959,13 +5118,15 @@ instances whenever needed. The API tries to make this easy.
 						);
 					}
 				}
+
 				/**
 An empty fragment. Intended to be reused whenever a node doesn't
 contain anything (rather than allocating a new empty fragment for
 each leaf node).
-*/
+				 */
 				Fragment.empty = new Fragment([], 0);
 				const found = { index: 0, offset: 0 };
+
 				function retIndex(index, offset) {
 					found.index = index;
 					found.offset = offset;
@@ -4995,31 +5156,32 @@ type and optionally a set of attributes that provide further
 information (such as the target of the link). Marks are created
 through a `Schema`, which controls which types exist and which
 attributes they have.
-*/
+				 */
 				class Mark {
 					/**
 	@internal
-	*/
+					 */
 					constructor(
 						/**
 	The type of this mark.
-	*/
+						 */
 						type,
 						/**
 	The attributes associated with this mark.
-	*/
+						 */
 						attrs
 					) {
 						this.type = type;
 						this.attrs = attrs;
 					}
+
 					/**
 	Given a set of marks, create a new set which contains this one as
 	well, in the right position. If this mark is already in the set,
 	the set itself is returned. If any marks that are set to be
 	[exclusive](https://prosemirror.net/docs/ref/#model.MarkSpec.excludes) with this mark are present,
 	those are replaced by this one.
-	*/
+					 */
 					addToSet(set) {
 						let copy,
 							placed = false;
@@ -5043,35 +5205,39 @@ attributes they have.
 						if (!placed) copy.push(this);
 						return copy;
 					}
+
 					/**
 	Remove this mark from the given set, returning a new set. If this
 	mark is not in the set, the set itself is returned.
-	*/
+					 */
 					removeFromSet(set) {
 						for (let i = 0; i < set.length; i++)
 							if (this.eq(set[i])) return set.slice(0, i).concat(set.slice(i + 1));
 						return set;
 					}
+
 					/**
 	Test whether this mark is in the given set of marks.
-	*/
+					 */
 					isInSet(set) {
 						for (let i = 0; i < set.length; i++) if (this.eq(set[i])) return true;
 						return false;
 					}
+
 					/**
 	Test whether this mark has the same type and attributes as
 	another mark.
-	*/
+					 */
 					eq(other) {
 						return (
 							this == other ||
 							(this.type == other.type && compareDeep(this.attrs, other.attrs))
 						);
 					}
+
 					/**
 	Convert this mark to a JSON-serializeable representation.
-	*/
+					 */
 					toJSON() {
 						let obj = { type: this.type.name };
 						for (let _ in this.attrs) {
@@ -5080,9 +5246,10 @@ attributes they have.
 						}
 						return obj;
 					}
+
 					/**
 	Deserialize a mark from JSON.
-	*/
+					 */
 					static fromJSON(schema, json) {
 						if (!json) throw new RangeError("Invalid input for Mark.fromJSON");
 						let type = schema.marks[json.type];
@@ -5092,19 +5259,21 @@ attributes they have.
 							);
 						return type.create(json.attrs);
 					}
+
 					/**
 	Test whether two sets of marks are identical.
-	*/
+					 */
 					static sameSet(a, b) {
 						if (a == b) return true;
 						if (a.length != b.length) return false;
 						for (let i = 0; i < a.length; i++) if (!a[i].eq(b[i])) return false;
 						return true;
 					}
+
 					/**
 	Create a properly sorted mark set from null, a single mark, or an
 	unsorted array of marks.
-	*/
+					 */
 					static setFrom(marks) {
 						if (!marks || (Array.isArray(marks) && marks.length == 0)) return Mark.none;
 						if (marks instanceof Mark) return [marks];
@@ -5113,16 +5282,18 @@ attributes they have.
 						return copy;
 					}
 				}
+
 				/**
 The empty set of marks.
-*/
+				 */
 				Mark.none = [];
 
 				/**
 Error type raised by [`Node.replace`](https://prosemirror.net/docs/ref/#model.Node.replace) when
 given an invalid replacement.
-*/
+				 */
 				class ReplaceError extends Error {}
+
 				/*
 ReplaceError = function(this: any, message: string) {
   let err = Error.call(this, message)
@@ -5138,7 +5309,7 @@ ReplaceError.prototype.name = "ReplaceError"
 A slice represents a piece cut out of a larger document. It
 stores not only a fragment, but also the depth up to which nodes on
 both side are ‘open’ (cut through).
-*/
+				 */
 				class Slice {
 					/**
 	Create a slice. When specifying a non-zero open depth, you must
@@ -5151,41 +5322,44 @@ both side are ‘open’ (cut through).
 	the schema's content constraints, though it should be a valid
 	start/end/middle for such a node, depending on which sides are
 	open.
-	*/
+					 */
 					constructor(
 						/**
 	The slice's content.
-	*/
+						 */
 						content,
 						/**
 	The open depth at the start of the fragment.
-	*/
+						 */
 						openStart,
 						/**
 	The open depth at the end.
-	*/
+						 */
 						openEnd
 					) {
 						this.content = content;
 						this.openStart = openStart;
 						this.openEnd = openEnd;
 					}
+
 					/**
 	The size this slice would add when inserted into a document.
-	*/
+					 */
 					get size() {
 						return this.content.size - this.openStart - this.openEnd;
 					}
+
 					/**
 	@internal
-	*/
+					 */
 					insertAt(pos, fragment) {
 						let content = insertInto(this.content, pos + this.openStart, fragment);
 						return content && new Slice(content, this.openStart, this.openEnd);
 					}
+
 					/**
 	@internal
-	*/
+					 */
 					removeBetween(from, to) {
 						return new Slice(
 							removeRange(this.content, from + this.openStart, to + this.openStart),
@@ -5193,9 +5367,10 @@ both side are ‘open’ (cut through).
 							this.openEnd
 						);
 					}
+
 					/**
 	Tests whether this slice is equal to another slice.
-	*/
+					 */
 					eq(other) {
 						return (
 							this.content.eq(other.content) &&
@@ -5203,15 +5378,17 @@ both side are ‘open’ (cut through).
 							this.openEnd == other.openEnd
 						);
 					}
+
 					/**
 	@internal
-	*/
+					 */
 					toString() {
 						return this.content + "(" + this.openStart + "," + this.openEnd + ")";
 					}
+
 					/**
 	Convert a slice to a JSON-serializable representation.
-	*/
+					 */
 					toJSON() {
 						if (!this.content.size) return null;
 						let json = { content: this.content.toJSON() };
@@ -5219,9 +5396,10 @@ both side are ‘open’ (cut through).
 						if (this.openEnd > 0) json.openEnd = this.openEnd;
 						return json;
 					}
+
 					/**
 	Deserialize a slice from its JSON representation.
-	*/
+					 */
 					static fromJSON(schema, json) {
 						if (!json) return Slice.empty;
 						let openStart = json.openStart || 0,
@@ -5234,10 +5412,11 @@ both side are ‘open’ (cut through).
 							openEnd
 						);
 					}
+
 					/**
 	Create a slice from a fragment by taking the maximum possible
 	open value on both side of the fragment.
-	*/
+					 */
 					static maxOpen(fragment, openIsolating = true) {
 						let openStart = 0,
 							openEnd = 0;
@@ -5256,10 +5435,12 @@ both side are ‘open’ (cut through).
 						return new Slice(fragment, openStart, openEnd);
 					}
 				}
+
 				/**
 The empty slice.
-*/
+				 */
 				Slice.empty = new Slice(Fragment.empty, 0, 0);
+
 				function removeRange(content, from, to) {
 					let { index, offset } = content.findIndex(from),
 						child = content.maybeChild(index);
@@ -5275,6 +5456,7 @@ The empty slice.
 						child.copy(removeRange(child.content, from - offset - 1, to - offset - 1))
 					);
 				}
+
 				function insertInto(content, dist, insert, parent) {
 					let { index, offset } = content.findIndex(dist),
 						child = content.maybeChild(index);
@@ -5285,6 +5467,7 @@ The empty slice.
 					let inner = insertInto(child.content, dist - offset - 1, insert);
 					return inner && content.replaceChild(index, child.copy(inner));
 				}
+
 				function replace($from, $to, slice) {
 					if (slice.openStart > $from.depth)
 						throw new ReplaceError("Inserted content deeper than insertion position");
@@ -5292,6 +5475,7 @@ The empty slice.
 						throw new ReplaceError("Inconsistent open depths");
 					return replaceOuter($from, $to, slice, 0);
 				}
+
 				function replaceOuter($from, $to, slice, depth) {
 					let index = $from.index(depth),
 						node = $from.node(depth);
@@ -5321,23 +5505,27 @@ The empty slice.
 						return dist_close(node, replaceThreeWay($from, start, end, $to, depth));
 					}
 				}
+
 				function checkJoin(main, sub) {
 					if (!sub.type.compatibleContent(main.type))
 						throw new ReplaceError(
 							"Cannot join " + sub.type.name + " onto " + main.type.name
 						);
 				}
+
 				function joinable($before, $after, depth) {
 					let node = $before.node(depth);
 					checkJoin(node, $after.node(depth));
 					return node;
 				}
+
 				function addNode(child, target) {
 					let last = target.length - 1;
 					if (last >= 0 && child.isText && child.sameMarkup(target[last]))
 						target[last] = child.withText(target[last].text + child.text);
 					else target.push(child);
 				}
+
 				function addRange($start, $end, depth, target) {
 					let node = ($end || $start).node(depth);
 					let startIndex = 0,
@@ -5355,11 +5543,13 @@ The empty slice.
 					if ($end && $end.depth == depth && $end.textOffset)
 						addNode($end.nodeBefore, target);
 				}
+
 				function dist_close(node, content) {
 					if (!node.type.validContent(content))
 						throw new ReplaceError("Invalid content for node " + node.type.name);
 					return node.copy(content);
 				}
+
 				function replaceThreeWay($from, $start, $end, $to, depth) {
 					let openStart = $from.depth > depth && joinable($from, $start, depth + 1);
 					let openEnd = $to.depth > depth && joinable($end, $to, depth + 1);
@@ -5390,6 +5580,7 @@ The empty slice.
 					addRange($to, null, depth, content);
 					return new Fragment(content);
 				}
+
 				function replaceTwoWay($from, $to, depth) {
 					let content = [];
 					addRange(null, $from, depth, content);
@@ -5400,6 +5591,7 @@ The empty slice.
 					addRange($to, null, depth, content);
 					return new Fragment(content);
 				}
+
 				function prepareSliceForReplace(slice, $along) {
 					let extra = $along.depth - slice.openStart,
 						parent = $along.node(extra);
@@ -5421,23 +5613,23 @@ information, and some helper methods.
 Throughout this interface, methods that take an optional `depth`
 parameter will interpret undefined as `this.depth` and negative
 numbers as `this.depth + value`.
-*/
+				 */
 				class ResolvedPos {
 					/**
 	@internal
-	*/
+					 */
 					constructor(
 						/**
 	The position that was resolved.
-	*/
+						 */
 						pos,
 						/**
 	@internal
-	*/
+						 */
 						path,
 						/**
 	The offset this position has into its parent node.
-	*/
+						 */
 						parentOffset
 					) {
 						this.pos = pos;
@@ -5445,84 +5637,94 @@ numbers as `this.depth + value`.
 						this.parentOffset = parentOffset;
 						this.depth = path.length / 3 - 1;
 					}
+
 					/**
 	@internal
-	*/
+					 */
 					resolveDepth(val) {
 						if (val == null) return this.depth;
 						if (val < 0) return this.depth + val;
 						return val;
 					}
+
 					/**
 	The parent node that the position points into. Note that even if
 	a position points into a text node, that node is not considered
 	the parent—text nodes are ‘flat’ in this model, and have no content.
-	*/
+					 */
 					get parent() {
 						return this.node(this.depth);
 					}
+
 					/**
 	The root node in which the position was resolved.
-	*/
+					 */
 					get doc() {
 						return this.node(0);
 					}
+
 					/**
 	The ancestor node at the given level. `p.node(p.depth)` is the
 	same as `p.parent`.
-	*/
+					 */
 					node(depth) {
 						return this.path[this.resolveDepth(depth) * 3];
 					}
+
 					/**
 	The index into the ancestor at the given level. If this points
 	at the 3rd node in the 2nd paragraph on the top level, for
 	example, `p.index(0)` is 1 and `p.index(1)` is 2.
-	*/
+					 */
 					index(depth) {
 						return this.path[this.resolveDepth(depth) * 3 + 1];
 					}
+
 					/**
 	The index pointing after this position into the ancestor at the
 	given level.
-	*/
+					 */
 					indexAfter(depth) {
 						depth = this.resolveDepth(depth);
 						return (
 							this.index(depth) + (depth == this.depth && !this.textOffset ? 0 : 1)
 						);
 					}
+
 					/**
 	The (absolute) position at the start of the node at the given
 	level.
-	*/
+					 */
 					start(depth) {
 						depth = this.resolveDepth(depth);
 						return depth == 0 ? 0 : this.path[depth * 3 - 1] + 1;
 					}
+
 					/**
 	The (absolute) position at the end of the node at the given
 	level.
-	*/
+					 */
 					end(depth) {
 						depth = this.resolveDepth(depth);
 						return this.start(depth) + this.node(depth).content.size;
 					}
+
 					/**
 	The (absolute) position directly before the wrapping node at the
 	given level, or, when `depth` is `this.depth + 1`, the original
 	position.
-	*/
+					 */
 					before(depth) {
 						depth = this.resolveDepth(depth);
 						if (!depth)
 							throw new RangeError("There is no position before the top-level node");
 						return depth == this.depth + 1 ? this.pos : this.path[depth * 3 - 1];
 					}
+
 					/**
 	The (absolute) position directly after the wrapping node at the
 	given level, or the original position when `depth` is `this.depth + 1`.
-	*/
+					 */
 					after(depth) {
 						depth = this.resolveDepth(depth);
 						if (!depth)
@@ -5531,19 +5733,21 @@ numbers as `this.depth + value`.
 							? this.pos
 							: this.path[depth * 3 - 1] + this.path[depth * 3].nodeSize;
 					}
+
 					/**
 	When this position points into a text node, this returns the
 	distance between the position and the start of the text node.
 	Will be zero for positions that point between nodes.
-	*/
+					 */
 					get textOffset() {
 						return this.pos - this.path[this.path.length - 1];
 					}
+
 					/**
 	Get the node directly after the position, if any. If the position
 	points into a text node, only the part of that node after the
 	position is returned.
-	*/
+					 */
 					get nodeAfter() {
 						let parent = this.parent,
 							index = this.index(this.depth);
@@ -5552,21 +5756,23 @@ numbers as `this.depth + value`.
 							child = parent.child(index);
 						return dOff ? parent.child(index).cut(dOff) : child;
 					}
+
 					/**
 	Get the node directly before the position, if any. If the
 	position points into a text node, only the part of that node
 	before the position is returned.
-	*/
+					 */
 					get nodeBefore() {
 						let index = this.index(this.depth);
 						let dOff = this.pos - this.path[this.path.length - 1];
 						if (dOff) return this.parent.child(index).cut(0, dOff);
 						return index == 0 ? null : this.parent.child(index - 1);
 					}
+
 					/**
 	Get the position at the given index in the parent node at the
 	given depth (which defaults to `this.depth`).
-	*/
+					 */
 					posAtIndex(index, depth) {
 						depth = this.resolveDepth(depth);
 						let node = this.path[depth * 3],
@@ -5574,12 +5780,13 @@ numbers as `this.depth + value`.
 						for (let i = 0; i < index; i++) pos += node.child(i).nodeSize;
 						return pos;
 					}
+
 					/**
 	Get the marks at this position, factoring in the surrounding
 	marks' [`inclusive`](https://prosemirror.net/docs/ref/#model.MarkSpec.inclusive) property. If the
 	position is at the start of a non-empty node, the marks of the
 	node after it (if any) are returned.
-	*/
+					 */
 					marks() {
 						let parent = this.parent,
 							index = this.index();
@@ -5607,6 +5814,7 @@ numbers as `this.depth + value`.
 								marks = marks[i--].removeFromSet(marks);
 						return marks;
 					}
+
 					/**
 	Get the marks after the current position, if any, except those
 	that are non-inclusive and not present at position `$end`. This
@@ -5614,7 +5822,7 @@ numbers as `this.depth + value`.
 	deletion. Will return `null` if this position is at the end of
 	its parent node or its parent node isn't a textblock (in which
 	case no marks should be preserved).
-	*/
+					 */
 					marksAcross($end) {
 						let after = this.parent.maybeChild(this.index());
 						if (!after || !after.isInline) return null;
@@ -5628,15 +5836,17 @@ numbers as `this.depth + value`.
 								marks = marks[i--].removeFromSet(marks);
 						return marks;
 					}
+
 					/**
 	The depth up to which this position and the given (non-resolved)
 	position share the same parent nodes.
-	*/
+					 */
 					sharedDepth(pos) {
 						for (let depth = this.depth; depth > 0; depth--)
 							if (this.start(depth) <= pos && this.end(depth) >= pos) return depth;
 						return 0;
 					}
+
 					/**
 	Returns a range based on the place where this position and the
 	given position diverge around block content. If both point into
@@ -5645,7 +5855,7 @@ numbers as `this.depth + value`.
 	around those blocks in their shared ancestor is returned. You can
 	pass in an optional predicate that will be called with a parent
 	node to see if a range into that parent is acceptable.
-	*/
+					 */
 					blockRange(other = this, pred) {
 						if (other.pos < this.pos) return other.blockRange(this);
 						for (
@@ -5659,27 +5869,31 @@ numbers as `this.depth + value`.
 								return new NodeRange(this, other, d);
 						return null;
 					}
+
 					/**
 	Query whether the given position shares the same parent node.
-	*/
+					 */
 					sameParent(other) {
 						return this.pos - this.parentOffset == other.pos - other.parentOffset;
 					}
+
 					/**
 	Return the greater of this and the given position.
-	*/
+					 */
 					max(other) {
 						return other.pos > this.pos ? other : this;
 					}
+
 					/**
 	Return the smaller of this and the given position.
-	*/
+					 */
 					min(other) {
 						return other.pos < this.pos ? other : this;
 					}
+
 					/**
 	@internal
-	*/
+					 */
 					toString() {
 						let str = "";
 						for (let i = 1; i <= this.depth; i++)
@@ -5687,9 +5901,10 @@ numbers as `this.depth + value`.
 								(str ? "/" : "") + this.node(i).type.name + "_" + this.index(i - 1);
 						return str + ":" + this.parentOffset;
 					}
+
 					/**
 	@internal
-	*/
+					 */
 					static resolve(doc, pos) {
 						if (!(pos >= 0 && pos <= doc.content.size))
 							throw new RangeError("Position " + pos + " out of range");
@@ -5708,9 +5923,10 @@ numbers as `this.depth + value`.
 						}
 						return new ResolvedPos(pos, path, parentOffset);
 					}
+
 					/**
 	@internal
-	*/
+					 */
 					static resolveCached(doc, pos) {
 						for (let i = 0; i < resolveCache.length; i++) {
 							let cached = resolveCache[i];
@@ -5724,74 +5940,82 @@ numbers as `this.depth + value`.
 						return result;
 					}
 				}
+
 				let resolveCache = [],
 					resolveCachePos = 0,
 					resolveCacheSize = 12;
+
 				/**
 Represents a flat range of content, i.e. one that starts and
 ends in the same node.
-*/
+				 */
 				class NodeRange {
 					/**
 	Construct a node range. `$from` and `$to` should point into the
 	same node until at least the given `depth`, since a node range
 	denotes an adjacent set of nodes in a single parent node.
-	*/
+					 */
 					constructor(
 						/**
 	A resolved position along the start of the content. May have a
 	`depth` greater than this object's `depth` property, since
 	these are the positions that were used to compute the range,
 	not re-resolved positions directly at its boundaries.
-	*/
+						 */
 						$from,
 						/**
 	A position along the end of the content. See
 	caveat for [`$from`](https://prosemirror.net/docs/ref/#model.NodeRange.$from).
-	*/
+						 */
 						$to,
 						/**
 	The depth of the node that this range points into.
-	*/
+						 */
 						depth
 					) {
 						this.$from = $from;
 						this.$to = $to;
 						this.depth = depth;
 					}
+
 					/**
 	The position at the start of the range.
-	*/
+					 */
 					get start() {
 						return this.$from.before(this.depth + 1);
 					}
+
 					/**
 	The position at the end of the range.
-	*/
+					 */
 					get end() {
 						return this.$to.after(this.depth + 1);
 					}
+
 					/**
 	The parent node that the range points into.
-	*/
+					 */
 					get parent() {
 						return this.$from.node(this.depth);
 					}
+
 					/**
 	The start index of the range in the parent node.
-	*/
+					 */
 					get startIndex() {
 						return this.$from.index(this.depth);
 					}
+
 					/**
 	The end index of the range in the parent node.
-	*/
+					 */
 					get endIndex() {
 						return this.$to.indexAfter(this.depth);
 					}
 				}
 
 				const emptyAttrs = Object.create(null);
+
 				/**
 This class represents a node in the tree that makes up a
 ProseMirror document. So a document is an instance of `Node`, with
@@ -5805,28 +6029,28 @@ tree shape like this (without back pointers) makes easy.
 
 **Do not** directly mutate the properties of a `Node` object. See
 [the guide](/docs/guide/#doc) for more information.
-*/
+				 */
 				class dist_Node {
 					/**
 	@internal
-	*/
+					 */
 					constructor(
 						/**
 	The type of node that this is.
-	*/
+						 */
 						type,
 						/**
 	An object mapping attribute names to values. The kind of
 	attributes allowed and required are
 	[determined](https://prosemirror.net/docs/ref/#model.NodeSpec.attrs) by the node type.
-	*/
+						 */
 						attrs,
 						// A fragment holding the node's children.
 						content,
 						/**
 	The marks (things like whether it is emphasized or part of a
 	link) applied to this node.
-	*/
+						 */
 						marks = Mark.none
 					) {
 						this.type = type;
@@ -5834,42 +6058,48 @@ tree shape like this (without back pointers) makes easy.
 						this.marks = marks;
 						this.content = content || Fragment.empty;
 					}
+
 					/**
 	The size of this node, as defined by the integer-based [indexing
 	scheme](/docs/guide/#doc.indexing). For text nodes, this is the
 	amount of characters. For other leaf nodes, it is one. For
 	non-leaf nodes, it is the size of the content plus two (the
 	start and end token).
-	*/
+					 */
 					get nodeSize() {
 						return this.isLeaf ? 1 : 2 + this.content.size;
 					}
+
 					/**
 	The number of children that the node has.
-	*/
+					 */
 					get childCount() {
 						return this.content.childCount;
 					}
+
 					/**
 	Get the child node at the given index. Raises an error when the
 	index is out of range.
-	*/
+					 */
 					child(index) {
 						return this.content.child(index);
 					}
+
 					/**
 	Get the child node at the given index, if it exists.
-	*/
+					 */
 					maybeChild(index) {
 						return this.content.maybeChild(index);
 					}
+
 					/**
 	Call `f` for every child node, passing the node, its offset
 	into this parent node, and its index.
-	*/
+					 */
 					forEach(f) {
 						this.content.forEach(f);
 					}
+
 					/**
 	Invoke a callback for all descendant nodes recursively between
 	the given two positions that are relative to start of this
@@ -5878,70 +6108,78 @@ tree shape like this (without back pointers) makes easy.
 	When the callback returns false for a given node, that node's
 	children will not be recursed over. The last parameter can be
 	used to specify a starting position to count from.
-	*/
+					 */
 					nodesBetween(from, to, f, startPos = 0) {
 						this.content.nodesBetween(from, to, f, startPos, this);
 					}
+
 					/**
 	Call the given callback for every descendant node. Doesn't
 	descend into a node when the callback returns `false`.
-	*/
+					 */
 					descendants(f) {
 						this.nodesBetween(0, this.content.size, f);
 					}
+
 					/**
 	Concatenates all the text nodes found in this fragment and its
 	children.
-	*/
+					 */
 					get textContent() {
 						return this.isLeaf && this.type.spec.leafText
 							? this.type.spec.leafText(this)
 							: this.textBetween(0, this.content.size, "");
 					}
+
 					/**
 	Get all text between positions `from` and `to`. When
 	`blockSeparator` is given, it will be inserted to separate text
 	from different block nodes. If `leafText` is given, it'll be
 	inserted for every non-text leaf node encountered, otherwise
 	[`leafText`](https://prosemirror.net/docs/ref/#model.NodeSpec^leafText) will be used.
-	*/
+					 */
 					textBetween(from, to, blockSeparator, leafText) {
 						return this.content.textBetween(from, to, blockSeparator, leafText);
 					}
+
 					/**
 	Returns this node's first child, or `null` if there are no
 	children.
-	*/
+					 */
 					get firstChild() {
 						return this.content.firstChild;
 					}
+
 					/**
 	Returns this node's last child, or `null` if there are no
 	children.
-	*/
+					 */
 					get lastChild() {
 						return this.content.lastChild;
 					}
+
 					/**
 	Test whether two nodes represent the same piece of document.
-	*/
+					 */
 					eq(other) {
 						return (
 							this == other ||
 							(this.sameMarkup(other) && this.content.eq(other.content))
 						);
 					}
+
 					/**
 	Compare the markup (type, attributes, and marks) of this node to
 	those of another. Returns `true` if both have the same markup.
-	*/
+					 */
 					sameMarkup(other) {
 						return this.hasMarkup(other.type, other.attrs, other.marks);
 					}
+
 					/**
 	Check whether this node's markup correspond to the given type,
 	attributes, and marks.
-	*/
+					 */
 					hasMarkup(type, attrs, marks) {
 						return (
 							this.type == type &&
@@ -5949,36 +6187,40 @@ tree shape like this (without back pointers) makes easy.
 							Mark.sameSet(this.marks, marks || Mark.none)
 						);
 					}
+
 					/**
 	Create a new node with the same markup as this node, containing
 	the given content (or empty, if no content is given).
-	*/
+					 */
 					copy(content = null) {
 						if (content == this.content) return this;
 						return new dist_Node(this.type, this.attrs, content, this.marks);
 					}
+
 					/**
 	Create a copy of this node, with the given set of marks instead
 	of the node's own marks.
-	*/
+					 */
 					mark(marks) {
 						return marks == this.marks
 							? this
 							: new dist_Node(this.type, this.attrs, this.content, marks);
 					}
+
 					/**
 	Create a copy of this node with only the content between the
 	given positions. If `to` is not given, it defaults to the end of
 	the node.
-	*/
+					 */
 					cut(from, to = this.content.size) {
 						if (from == 0 && to == this.content.size) return this;
 						return this.copy(this.content.cut(from, to));
 					}
+
 					/**
 	Cut out the part of the document between the given positions, and
 	return it as a `Slice` object.
-	*/
+					 */
 					slice(from, to = this.content.size, includeParents = false) {
 						if (from == to) return Slice.empty;
 						let $from = this.resolve(from),
@@ -5989,6 +6231,7 @@ tree shape like this (without back pointers) makes easy.
 						let content = node.content.cut($from.pos - start, $to.pos - start);
 						return new Slice(content, $from.depth - depth, $to.depth - depth);
 					}
+
 					/**
 	Replace the part of the document between the given positions with
 	the given slice. The slice must 'fit', meaning its open sides
@@ -5996,13 +6239,14 @@ tree shape like this (without back pointers) makes easy.
 	content nodes must be valid children for the node they are placed
 	into. If any of this is violated, an error of type
 	[`ReplaceError`](https://prosemirror.net/docs/ref/#model.ReplaceError) is thrown.
-	*/
+					 */
 					replace(from, to, slice) {
 						return replace(this.resolve(from), this.resolve(to), slice);
 					}
+
 					/**
 	Find the node directly after the given position.
-	*/
+					 */
 					nodeAt(pos) {
 						for (let node = this; ; ) {
 							let { index, offset } = node.content.findIndex(pos);
@@ -6012,20 +6256,22 @@ tree shape like this (without back pointers) makes easy.
 							pos -= offset + 1;
 						}
 					}
+
 					/**
 	Find the (direct) child node after the given offset, if any,
 	and return it along with its index and offset relative to this
 	node.
-	*/
+					 */
 					childAfter(pos) {
 						let { index, offset } = this.content.findIndex(pos);
 						return { node: this.content.maybeChild(index), index, offset };
 					}
+
 					/**
 	Find the (direct) child node before the given offset, if any,
 	and return it along with its index and offset relative to this
 	node.
-	*/
+					 */
 					childBefore(pos) {
 						if (pos == 0) return { node: null, index: 0, offset: 0 };
 						let { index, offset } = this.content.findIndex(pos);
@@ -6033,23 +6279,26 @@ tree shape like this (without back pointers) makes easy.
 						let node = this.content.child(index - 1);
 						return { node, index: index - 1, offset: offset - node.nodeSize };
 					}
+
 					/**
 	Resolve the given position in the document, returning an
 	[object](https://prosemirror.net/docs/ref/#model.ResolvedPos) with information about its context.
-	*/
+					 */
 					resolve(pos) {
 						return ResolvedPos.resolveCached(this, pos);
 					}
+
 					/**
 	@internal
-	*/
+					 */
 					resolveNoCache(pos) {
 						return ResolvedPos.resolve(this, pos);
 					}
+
 					/**
 	Test whether a given mark or mark type occurs in this document
 	between the two given positions.
-	*/
+					 */
 					rangeHasMark(from, to, type) {
 						let found = false;
 						if (to > from)
@@ -6059,80 +6308,90 @@ tree shape like this (without back pointers) makes easy.
 							});
 						return found;
 					}
+
 					/**
 	True when this is a block (non-inline node)
-	*/
+					 */
 					get isBlock() {
 						return this.type.isBlock;
 					}
+
 					/**
 	True when this is a textblock node, a block node with inline
 	content.
-	*/
+					 */
 					get isTextblock() {
 						return this.type.isTextblock;
 					}
+
 					/**
 	True when this node allows inline content.
-	*/
+					 */
 					get inlineContent() {
 						return this.type.inlineContent;
 					}
+
 					/**
 	True when this is an inline node (a text node or a node that can
 	appear among text).
-	*/
+					 */
 					get isInline() {
 						return this.type.isInline;
 					}
+
 					/**
 	True when this is a text node.
-	*/
+					 */
 					get isText() {
 						return this.type.isText;
 					}
+
 					/**
 	True when this is a leaf node.
-	*/
+					 */
 					get isLeaf() {
 						return this.type.isLeaf;
 					}
+
 					/**
 	True when this is an atom, i.e. when it does not have directly
 	editable content. This is usually the same as `isLeaf`, but can
 	be configured with the [`atom` property](https://prosemirror.net/docs/ref/#model.NodeSpec.atom)
 	on a node's spec (typically used when the node is displayed as
 	an uneditable [node view](https://prosemirror.net/docs/ref/#view.NodeView)).
-	*/
+					 */
 					get isAtom() {
 						return this.type.isAtom;
 					}
+
 					/**
 	Return a string representation of this node for debugging
 	purposes.
-	*/
+					 */
 					toString() {
 						if (this.type.spec.toDebugString) return this.type.spec.toDebugString(this);
 						let name = this.type.name;
 						if (this.content.size) name += "(" + this.content.toStringInner() + ")";
 						return wrapMarks(this.marks, name);
 					}
+
 					/**
 	Get the content match in this node at the given index.
-	*/
+					 */
 					contentMatchAt(index) {
 						let match = this.type.contentMatch.matchFragment(this.content, 0, index);
 						if (!match)
 							throw new Error("Called contentMatchAt on a node with invalid content");
 						return match;
 					}
+
 					/**
 	Test whether replacing the range between `from` and `to` (by
 	child index) with the given replacement fragment (which defaults
 	to the empty fragment) would leave the node's content valid. You
 	can optionally pass `start` and `end` indices into the
 	replacement fragment.
-	*/
+					 */
 					canReplace(
 						from,
 						to,
@@ -6147,31 +6406,34 @@ tree shape like this (without back pointers) makes easy.
 							if (!this.type.allowsMarks(replacement.child(i).marks)) return false;
 						return true;
 					}
+
 					/**
 	Test whether replacing the range `from` to `to` (by index) with
 	a node of the given type would leave the node's content valid.
-	*/
+					 */
 					canReplaceWith(from, to, type, marks) {
 						if (marks && !this.type.allowsMarks(marks)) return false;
 						let start = this.contentMatchAt(from).matchType(type);
 						let end = start && start.matchFragment(this.content, to);
 						return end ? end.validEnd : false;
 					}
+
 					/**
 	Test whether the given node's content could be appended to this
 	node. If that node is empty, this will only return true if there
 	is at least one node type that can appear in both nodes (to avoid
 	merging completely incompatible nodes).
-	*/
+					 */
 					canAppend(other) {
 						if (other.content.size)
 							return this.canReplace(this.childCount, this.childCount, other.content);
 						else return this.type.compatibleContent(other.type);
 					}
+
 					/**
 	Check whether this node and its descendants conform to the
 	schema, and raise error when they do not.
-	*/
+					 */
 					check() {
 						if (!this.type.validContent(this.content))
 							throw new RangeError(
@@ -6186,9 +6448,10 @@ tree shape like this (without back pointers) makes easy.
 							);
 						this.content.forEach(node => node.check());
 					}
+
 					/**
 	Return a JSON-serializeable representation of this node.
-	*/
+					 */
 					toJSON() {
 						let obj = { type: this.type.name };
 						for (let _ in this.attrs) {
@@ -6199,9 +6462,10 @@ tree shape like this (without back pointers) makes easy.
 						if (this.marks.length) obj.marks = this.marks.map(n => n.toJSON());
 						return obj;
 					}
+
 					/**
 	Deserialize a node from its JSON representation.
-	*/
+					 */
 					static fromJSON(schema, json) {
 						if (!json) throw new RangeError("Invalid input for Node.fromJSON");
 						let marks = null;
@@ -6219,51 +6483,63 @@ tree shape like this (without back pointers) makes easy.
 						return schema.nodeType(json.type).create(json.attrs, content, marks);
 					}
 				}
+
 				dist_Node.prototype.text = undefined;
+
 				class TextNode extends dist_Node {
 					/**
 	@internal
-	*/
+					 */
 					constructor(type, attrs, content, marks) {
 						super(type, attrs, null, marks);
 						if (!content) throw new RangeError("Empty text nodes are not allowed");
 						this.text = content;
 					}
+
 					toString() {
 						if (this.type.spec.toDebugString) return this.type.spec.toDebugString(this);
 						return wrapMarks(this.marks, JSON.stringify(this.text));
 					}
+
 					get textContent() {
 						return this.text;
 					}
+
 					textBetween(from, to) {
 						return this.text.slice(from, to);
 					}
+
 					get nodeSize() {
 						return this.text.length;
 					}
+
 					mark(marks) {
 						return marks == this.marks
 							? this
 							: new TextNode(this.type, this.attrs, this.text, marks);
 					}
+
 					withText(text) {
 						if (text == this.text) return this;
 						return new TextNode(this.type, this.attrs, text, this.marks);
 					}
+
 					cut(from = 0, to = this.text.length) {
 						if (from == 0 && to == this.text.length) return this;
 						return this.withText(this.text.slice(from, to));
 					}
+
 					eq(other) {
 						return this.sameMarkup(other) && this.text == other.text;
 					}
+
 					toJSON() {
 						let base = super.toJSON();
 						base.text = this.text;
 						return base;
 					}
 				}
+
 				function wrapMarks(marks, str) {
 					for (let i = marks.length - 1; i >= 0; i--)
 						str = marks[i].type.name + "(" + str + ")";
@@ -6275,30 +6551,31 @@ Instances of this class represent a match state of a node type's
 [content expression](https://prosemirror.net/docs/ref/#model.NodeSpec.content), and can be used to
 find out whether further content matches here, and whether a given
 position is a valid end of the node.
-*/
+				 */
 				class ContentMatch {
 					/**
 	@internal
-	*/
+					 */
 					constructor(
 						/**
 	True when this match state represents a valid end of the node.
-	*/
+						 */
 						validEnd
 					) {
 						this.validEnd = validEnd;
 						/**
 		@internal
-		*/
+						 */
 						this.next = [];
 						/**
 		@internal
-		*/
+						 */
 						this.wrapCache = [];
 					}
+
 					/**
 	@internal
-	*/
+					 */
 					static parse(string, nodeTypes) {
 						let stream = new TokenStream(string, nodeTypes);
 						if (stream.next == null) return ContentMatch.empty;
@@ -6308,35 +6585,39 @@ position is a valid end of the node.
 						checkForDeadEnds(match, stream);
 						return match;
 					}
+
 					/**
 	Match a node type, returning a match after that node if
 	successful.
-	*/
+					 */
 					matchType(type) {
 						for (let i = 0; i < this.next.length; i++)
 							if (this.next[i].type == type) return this.next[i].next;
 						return null;
 					}
+
 					/**
 	Try to match a fragment. Returns the resulting match when
 	successful.
-	*/
+					 */
 					matchFragment(frag, start = 0, end = frag.childCount) {
 						let cur = this;
 						for (let i = start; cur && i < end; i++)
 							cur = cur.matchType(frag.child(i).type);
 						return cur;
 					}
+
 					/**
 	@internal
-	*/
+					 */
 					get inlineContent() {
 						return this.next.length && this.next[0].type.isInline;
 					}
+
 					/**
 	Get the first matching node type at this match position that can
 	be generated.
-	*/
+					 */
 					get defaultType() {
 						for (let i = 0; i < this.next.length; i++) {
 							let { type } = this.next[i];
@@ -6344,15 +6625,17 @@ position is a valid end of the node.
 						}
 						return null;
 					}
+
 					/**
 	@internal
-	*/
+					 */
 					compatible(other) {
 						for (let i = 0; i < this.next.length; i++)
 							for (let j = 0; j < other.next.length; j++)
 								if (this.next[i].type == other.next[j].type) return true;
 						return false;
 					}
+
 					/**
 	Try to match the given fragment, and if that fails, see if it can
 	be made to match by inserting nodes in front of it. When
@@ -6360,9 +6643,10 @@ position is a valid end of the node.
 	empty if nothing had to be inserted). When `toEnd` is true, only
 	return a fragment if the resulting match goes to the end of the
 	content expression.
-	*/
+					 */
 					fillBefore(after, toEnd = false, startIndex = 0) {
 						let seen = [this];
+
 						function search(match, types) {
 							let finished = match.matchFragment(after, startIndex);
 							if (finished && (!toEnd || finished.validEnd))
@@ -6380,14 +6664,16 @@ position is a valid end of the node.
 							}
 							return null;
 						}
+
 						return search(this, []);
 					}
+
 					/**
 	Find a set of wrapping node types that would allow a node of the
 	given type to appear at this position. The result may be empty
 	(when it fits directly) and will be null when no such wrapping
 	exists.
-	*/
+					 */
 					findWrapping(target) {
 						for (let i = 0; i < this.wrapCache.length; i += 2)
 							if (this.wrapCache[i] == target) return this.wrapCache[i + 1];
@@ -6395,9 +6681,10 @@ position is a valid end of the node.
 						this.wrapCache.push(target, computed);
 						return computed;
 					}
+
 					/**
 	@internal
-	*/
+					 */
 					computeWrapping(target) {
 						let seen = Object.create(null),
 							active = [{ match: this, type: null, via: null }];
@@ -6425,32 +6712,37 @@ position is a valid end of the node.
 						}
 						return null;
 					}
+
 					/**
 	The number of outgoing edges this node has in the finite
 	automaton that describes the content expression.
-	*/
+					 */
 					get edgeCount() {
 						return this.next.length;
 					}
+
 					/**
 	Get the _n_​th outgoing edge from this node in the finite
 	automaton that describes the content expression.
-	*/
+					 */
 					edge(n) {
 						if (n >= this.next.length)
 							throw new RangeError(`There's no ${n}th edge in this content match`);
 						return this.next[n];
 					}
+
 					/**
 	@internal
-	*/
+					 */
 					toString() {
 						let seen = [];
+
 						function scan(m) {
 							seen.push(m);
 							for (let i = 0; i < m.next.length; i++)
 								if (seen.indexOf(m.next[i].next) == -1) scan(m.next[i].next);
 						}
+
 						scan(this);
 						return seen
 							.map((m, i) => {
@@ -6466,10 +6758,12 @@ position is a valid end of the node.
 							.join("\n");
 					}
 				}
+
 				/**
 @internal
-*/
+				 */
 				ContentMatch.empty = new ContentMatch(true);
+
 				class TokenStream {
 					constructor(string, nodeTypes) {
 						this.string = string;
@@ -6480,18 +6774,22 @@ position is a valid end of the node.
 						if (this.tokens[this.tokens.length - 1] == "") this.tokens.pop();
 						if (this.tokens[0] == "") this.tokens.shift();
 					}
+
 					get next() {
 						return this.tokens[this.pos];
 					}
+
 					eat(tok) {
 						return this.next == tok && (this.pos++ || true);
 					}
+
 					err(str) {
 						throw new SyntaxError(
 							str + " (in content expression '" + this.string + "')"
 						);
 					}
 				}
+
 				function parseExpr(stream) {
 					let exprs = [];
 					do {
@@ -6499,6 +6797,7 @@ position is a valid end of the node.
 					} while (stream.eat("|"));
 					return exprs.length == 1 ? exprs[0] : { type: "choice", exprs };
 				}
+
 				function parseExprSeq(stream) {
 					let exprs = [];
 					do {
@@ -6506,6 +6805,7 @@ position is a valid end of the node.
 					} while (stream.next && stream.next != ")" && stream.next != "|");
 					return exprs.length == 1 ? exprs[0] : { type: "seq", exprs };
 				}
+
 				function parseExprSubscript(stream) {
 					let expr = parseExprAtom(stream);
 					for (;;) {
@@ -6517,6 +6817,7 @@ position is a valid end of the node.
 					}
 					return expr;
 				}
+
 				function parseNum(stream) {
 					if (/\D/.test(stream.next))
 						stream.err("Expected number, got '" + stream.next + "'");
@@ -6524,6 +6825,7 @@ position is a valid end of the node.
 					stream.pos++;
 					return result;
 				}
+
 				function parseExprRange(stream, expr) {
 					let min = parseNum(stream),
 						max = min;
@@ -6534,6 +6836,7 @@ position is a valid end of the node.
 					if (!stream.eat("}")) stream.err("Unclosed braced range");
 					return { type: "range", min, max, expr };
 				}
+
 				function resolveName(stream, name) {
 					let types = stream.nodeTypes,
 						type = types[name];
@@ -6547,6 +6850,7 @@ position is a valid end of the node.
 						stream.err("No node type or group '" + name + "' found");
 					return result;
 				}
+
 				function parseExprAtom(stream) {
 					if (stream.eat("(")) {
 						let expr = parseExpr(stream);
@@ -6565,6 +6869,7 @@ position is a valid end of the node.
 						stream.err("Unexpected token '" + stream.next + "'");
 					}
 				}
+
 				/**
 Construct an NFA from an expression as returned by the parser. The
 NFA is represented as an array of states, which are themselves
@@ -6574,22 +6879,26 @@ the entry state and the last node is the success state.
 Note that unlike typical NFAs, the edge ordering in this one is
 significant, in that it is used to contruct filler content when
 necessary.
-*/
+				 */
 				function nfa(expr) {
 					let nfa = [[]];
 					connect(compile(expr, 0), node());
 					return nfa;
+
 					function node() {
 						return nfa.push([]) - 1;
 					}
+
 					function edge(from, to, term) {
 						let edge = { term, to };
 						nfa[from].push(edge);
 						return edge;
 					}
+
 					function connect(edges, to) {
 						edges.forEach(edge => (edge.to = to));
 					}
+
 					function compile(expr, from) {
 						if (expr.type == "choice") {
 							return expr.exprs.reduce(
@@ -6639,9 +6948,11 @@ necessary.
 						}
 					}
 				}
+
 				function cmp(a, b) {
 					return b - a;
 				}
+
 				// Get the set of nodes reachable by null edges from `node`. Omit
 				// nodes with only a single null-out-edge, since they may lead to
 				// needless duplicated nodes.
@@ -6649,6 +6960,7 @@ necessary.
 					let result = [];
 					scan(node);
 					return result.sort(cmp);
+
 					function scan(node) {
 						let edges = nfa[node];
 						if (edges.length == 1 && !edges[0].term) return scan(edges[0].to);
@@ -6659,12 +6971,14 @@ necessary.
 						}
 					}
 				}
+
 				// Compiles an NFA as produced by `nfa` into a DFA, modeled as a set
 				// of state objects (`ContentMatch` instances) with transitions
 				// between them.
 				function dfa(nfa) {
 					let labeled = Object.create(null);
 					return explore(nullFrom(nfa, 0));
+
 					function explore(states) {
 						let out = [];
 						states.forEach(node => {
@@ -6692,6 +7006,7 @@ necessary.
 						return state;
 					}
 				}
+
 				function checkForDeadEnds(match, stream) {
 					for (let i = 0, work = [match]; i < work.length; i++) {
 						let state = work[i],
@@ -6725,6 +7040,7 @@ necessary.
 					}
 					return defaults;
 				}
+
 				function computeAttrs(attrs, value) {
 					let built = Object.create(null);
 					for (let name in attrs) {
@@ -6738,33 +7054,35 @@ necessary.
 					}
 					return built;
 				}
+
 				function initAttrs(attrs) {
 					let result = Object.create(null);
 					if (attrs) for (let name in attrs) result[name] = new Attribute(attrs[name]);
 					return result;
 				}
+
 				/**
 Node types are objects allocated once per `Schema` and used to
 [tag](https://prosemirror.net/docs/ref/#model.Node.type) `Node` instances. They contain information
 about the node type, such as its name and what kind of node it
 represents.
-*/
+				 */
 				class NodeType {
 					/**
 	@internal
-	*/
+					 */
 					constructor(
 						/**
 	The name the node type has in this schema.
-	*/
+						 */
 						name,
 						/**
 	A link back to the `Schema` the node type belongs to.
-	*/
+						 */
 						schema,
 						/**
 	The spec that this type is based on
-	*/
+						 */
 						spec
 					) {
 						this.name = name;
@@ -6773,7 +7091,7 @@ represents.
 						/**
 		The set of marks allowed in this node. `null` means all marks
 		are allowed.
-		*/
+						 */
 						this.markSet = null;
 						this.groups = spec.group ? spec.group.split(" ") : [];
 						this.attrs = initAttrs(spec.attrs);
@@ -6783,59 +7101,68 @@ represents.
 						this.isBlock = !(spec.inline || name == "text");
 						this.isText = name == "text";
 					}
+
 					/**
 	True if this is an inline type.
-	*/
+					 */
 					get isInline() {
 						return !this.isBlock;
 					}
+
 					/**
 	True if this is a textblock type, a block that contains inline
 	content.
-	*/
+					 */
 					get isTextblock() {
 						return this.isBlock && this.inlineContent;
 					}
+
 					/**
 	True for node types that allow no content.
-	*/
+					 */
 					get isLeaf() {
 						return this.contentMatch == ContentMatch.empty;
 					}
+
 					/**
 	True when this node is an atom, i.e. when it does not have
 	directly editable content.
-	*/
+					 */
 					get isAtom() {
 						return this.isLeaf || !!this.spec.atom;
 					}
+
 					/**
 	The node type's [whitespace](https://prosemirror.net/docs/ref/#model.NodeSpec.whitespace) option.
-	*/
+					 */
 					get whitespace() {
 						return this.spec.whitespace || (this.spec.code ? "pre" : "normal");
 					}
+
 					/**
 	Tells you whether this node type has any required attributes.
-	*/
+					 */
 					hasRequiredAttrs() {
 						for (let n in this.attrs) if (this.attrs[n].isRequired) return true;
 						return false;
 					}
+
 					/**
 	Indicates whether this node allows some of the same content as
 	the given node type.
-	*/
+					 */
 					compatibleContent(other) {
 						return this == other || this.contentMatch.compatible(other.contentMatch);
 					}
+
 					/**
 	@internal
-	*/
+					 */
 					computeAttrs(attrs) {
 						if (!attrs && this.defaultAttrs) return this.defaultAttrs;
 						else return computeAttrs(this.attrs, attrs);
 					}
+
 					/**
 	Create a `Node` of this type. The given attributes are
 	checked and defaulted (you can pass `null` to use the type's
@@ -6843,7 +7170,7 @@ represents.
 	may be a `Fragment`, a node, an array of nodes, or
 	`null`. Similarly `marks` may be `null` to default to the empty
 	set of marks.
-	*/
+					 */
 					create(attrs = null, content, marks) {
 						if (this.isText)
 							throw new Error("NodeType.create can't construct text nodes");
@@ -6854,11 +7181,12 @@ represents.
 							Mark.setFrom(marks)
 						);
 					}
+
 					/**
 	Like [`create`](https://prosemirror.net/docs/ref/#model.NodeType.create), but check the given content
 	against the node type's content restrictions, and throw an error
 	if it doesn't match.
-	*/
+					 */
 					createChecked(attrs = null, content, marks) {
 						content = Fragment.from(content);
 						if (!this.validContent(content))
@@ -6870,6 +7198,7 @@ represents.
 							Mark.setFrom(marks)
 						);
 					}
+
 					/**
 	Like [`create`](https://prosemirror.net/docs/ref/#model.NodeType.create), but see if it is
 	necessary to add nodes to the start or end of the given fragment
@@ -6877,7 +7206,7 @@ represents.
 	return null. Note that, due to the fact that required nodes can
 	always be created, this will always succeed if you pass null or
 	`Fragment.empty` as content.
-	*/
+					 */
 					createAndFill(attrs = null, content, marks) {
 						attrs = this.computeAttrs(attrs);
 						content = Fragment.from(content);
@@ -6896,10 +7225,11 @@ represents.
 							Mark.setFrom(marks)
 						);
 					}
+
 					/**
 	Returns true if the given fragment is valid content for this node
 	type with the given attributes.
-	*/
+					 */
 					validContent(content) {
 						let result = this.contentMatch.matchFragment(content);
 						if (!result || !result.validEnd) return false;
@@ -6907,24 +7237,27 @@ represents.
 							if (!this.allowsMarks(content.child(i).marks)) return false;
 						return true;
 					}
+
 					/**
 	Check whether the given mark type is allowed in this node.
-	*/
+					 */
 					allowsMarkType(markType) {
 						return this.markSet == null || this.markSet.indexOf(markType) > -1;
 					}
+
 					/**
 	Test whether the given set of marks are allowed in this node.
-	*/
+					 */
 					allowsMarks(marks) {
 						if (this.markSet == null) return true;
 						for (let i = 0; i < marks.length; i++)
 							if (!this.allowsMarkType(marks[i].type)) return false;
 						return true;
 					}
+
 					/**
 	Removes the marks that are not allowed in this node from the given set.
-	*/
+					 */
 					allowedMarks(marks) {
 						if (this.markSet == null) return marks;
 						let copy;
@@ -6937,9 +7270,10 @@ represents.
 						}
 						return !copy ? marks : copy.length ? copy : Mark.none;
 					}
+
 					/**
 	@internal
-	*/
+					 */
 					static compile(nodes, schema) {
 						let result = Object.create(null);
 						nodes.forEach(
@@ -6956,43 +7290,46 @@ represents.
 						return result;
 					}
 				}
+
 				// Attribute descriptors
 				class Attribute {
 					constructor(options) {
 						this.hasDefault = Object.prototype.hasOwnProperty.call(options, "default");
 						this.default = options.default;
 					}
+
 					get isRequired() {
 						return !this.hasDefault;
 					}
 				}
+
 				// Marks
 				/**
 Like nodes, marks (which are associated with nodes to signify
 things like emphasis or being part of a link) are
 [tagged](https://prosemirror.net/docs/ref/#model.Mark.type) with type objects, which are
 instantiated once per `Schema`.
-*/
+				 */
 				class MarkType {
 					/**
 	@internal
-	*/
+					 */
 					constructor(
 						/**
 	The name of the mark type.
-	*/
+						 */
 						name,
 						/**
 	@internal
-	*/
+						 */
 						rank,
 						/**
 	The schema that this mark type instance is part of.
-	*/
+						 */
 						schema,
 						/**
 	The spec on which the type is based.
-	*/
+						 */
 						spec
 					) {
 						this.name = name;
@@ -7004,18 +7341,20 @@ instantiated once per `Schema`.
 						let defaults = defaultAttrs(this.attrs);
 						this.instance = defaults ? new Mark(this, defaults) : null;
 					}
+
 					/**
 	Create a mark of this type. `attrs` may be `null` or an object
 	containing only some of the mark's attributes. The others, if
 	they have defaults, will be added.
-	*/
+					 */
 					create(attrs = null) {
 						if (!attrs && this.instance) return this.instance;
 						return new Mark(this, computeAttrs(this.attrs, attrs));
 					}
+
 					/**
 	@internal
-	*/
+					 */
 					static compile(marks, schema) {
 						let result = Object.create(null),
 							rank = 0;
@@ -7025,10 +7364,11 @@ instantiated once per `Schema`.
 						);
 						return result;
 					}
+
 					/**
 	When there is a mark of this type in the given set, a new set
 	without it is returned. Otherwise, the input set is returned.
-	*/
+					 */
 					removeFromSet(set) {
 						for (var i = 0; i < set.length; i++)
 							if (set[i].type == this) {
@@ -7037,20 +7377,23 @@ instantiated once per `Schema`.
 							}
 						return set;
 					}
+
 					/**
 	Tests whether there is a mark of this type in the given set.
-	*/
+					 */
 					isInSet(set) {
 						for (let i = 0; i < set.length; i++) if (set[i].type == this) return set[i];
 					}
+
 					/**
 	Queries whether a given mark type is
 	[excluded](https://prosemirror.net/docs/ref/#model.MarkSpec.excludes) by this one.
-	*/
+					 */
 					excludes(other) {
 						return this.excluded.indexOf(other) > -1;
 					}
 				}
+
 				/**
 A document schema. Holds [node](https://prosemirror.net/docs/ref/#model.NodeType) and [mark
 type](https://prosemirror.net/docs/ref/#model.MarkType) objects for the nodes and marks that may
@@ -7059,17 +7402,17 @@ creating and deserializing such documents.
 
 When given, the type parameters provide the names of the nodes and
 marks in this schema.
-*/
+				 */
 				class Schema {
 					/**
 	Construct a schema from a schema [specification](https://prosemirror.net/docs/ref/#model.SchemaSpec).
-	*/
+					 */
 					constructor(spec) {
 						/**
 		An object for storing whatever values modules may want to
 		compute and cache per schema. (If you want to store something
 		in it, try to use property names unlikely to clash.)
-		*/
+						 */
 						this.cached = Object.create(null);
 						this.spec = {
 							nodes: dist.from(spec.nodes),
@@ -7116,12 +7459,13 @@ marks in this schema.
 						this.topNodeType = this.nodes[this.spec.topNode || "doc"];
 						this.cached.wrappings = Object.create(null);
 					}
+
 					/**
 	Create a node in this schema. The `type` may be a string or a
 	`NodeType` instance. Attributes will be extended with defaults,
 	`content` may be a `Fragment`, `null`, a `Node`, or an array of
 	nodes.
-	*/
+					 */
 					node(type, attrs = null, content, marks) {
 						if (typeof type == "string") type = this.nodeType(type);
 						else if (!(type instanceof NodeType))
@@ -7132,44 +7476,50 @@ marks in this schema.
 							);
 						return type.createChecked(attrs, content, marks);
 					}
+
 					/**
 	Create a text node in the schema. Empty text nodes are not
 	allowed.
-	*/
+					 */
 					text(text, marks) {
 						let type = this.nodes.text;
 						return new TextNode(type, type.defaultAttrs, text, Mark.setFrom(marks));
 					}
+
 					/**
 	Create a mark with the given type and attributes.
-	*/
+					 */
 					mark(type, attrs) {
 						if (typeof type == "string") type = this.marks[type];
 						return type.create(attrs);
 					}
+
 					/**
 	Deserialize a node from its JSON representation. This method is
 	bound.
-	*/
+					 */
 					nodeFromJSON(json) {
 						return dist_Node.fromJSON(this, json);
 					}
+
 					/**
 	Deserialize a mark from its JSON representation. This method is
 	bound.
-	*/
+					 */
 					markFromJSON(json) {
 						return Mark.fromJSON(this, json);
 					}
+
 					/**
 	@internal
-	*/
+					 */
 					nodeType(name) {
 						let found = this.nodes[name];
 						if (!found) throw new RangeError("Unknown node type: " + name);
 						return found;
 					}
 				}
+
 				function gatherMarks(schema, marks) {
 					let found = [];
 					for (let i = 0; i < marks.length; i++) {
@@ -7198,32 +7548,32 @@ marks in this schema.
 A DOM parser represents a strategy for parsing DOM content into a
 ProseMirror document conforming to a given schema. Its behavior is
 defined by an array of [rules](https://prosemirror.net/docs/ref/#model.ParseRule).
-*/
+				 */
 				class DOMParser {
 					/**
 	Create a parser that targets the given schema, using the given
 	parsing rules.
-	*/
+					 */
 					constructor(
 						/**
 	The schema into which the parser parses.
-	*/
+						 */
 						schema,
 						/**
 	The set of [parse rules](https://prosemirror.net/docs/ref/#model.ParseRule) that the parser
 	uses, in order of precedence.
-	*/
+						 */
 						rules
 					) {
 						this.schema = schema;
 						this.rules = rules;
 						/**
 		@internal
-		*/
+						 */
 						this.tags = [];
 						/**
 		@internal
-		*/
+						 */
 						this.styles = [];
 						rules.forEach(rule => {
 							if (rule.tag) this.tags.push(rule);
@@ -7236,14 +7586,16 @@ defined by an array of [rules](https://prosemirror.net/docs/ref/#model.ParseRule
 							return node.contentMatch.matchType(node);
 						});
 					}
+
 					/**
 	Parse a document from the content of a DOM node.
-	*/
+					 */
 					parse(dom, options = {}) {
 						let context = new ParseContext(this, options, false);
 						context.addAll(dom, options.from, options.to);
 						return context.finish();
 					}
+
 					/**
 	Parses the content of the given DOM node, like
 	[`parse`](https://prosemirror.net/docs/ref/#model.DOMParser.parse), and takes the same set of
@@ -7251,15 +7603,16 @@ defined by an array of [rules](https://prosemirror.net/docs/ref/#model.ParseRule
 	this one returns a slice that is open at the sides, meaning that
 	the schema constraints aren't applied to the start of nodes to
 	the left of the input and the end of nodes at the end.
-	*/
+					 */
 					parseSlice(dom, options = {}) {
 						let context = new ParseContext(this, options, true);
 						context.addAll(dom, options.from, options.to);
 						return Slice.maxOpen(context.finish());
 					}
+
 					/**
 	@internal
-	*/
+					 */
 					matchTag(dom, context, after) {
 						for (
 							let i = after ? this.tags.indexOf(after) + 1 : 0;
@@ -7282,9 +7635,10 @@ defined by an array of [rules](https://prosemirror.net/docs/ref/#model.ParseRule
 							}
 						}
 					}
+
 					/**
 	@internal
-	*/
+					 */
 					matchStyle(prop, value, context, after) {
 						for (
 							let i = after ? this.styles.indexOf(after) + 1 : 0;
@@ -7312,11 +7666,13 @@ defined by an array of [rules](https://prosemirror.net/docs/ref/#model.ParseRule
 							return rule;
 						}
 					}
+
 					/**
 	@internal
-	*/
+					 */
 					static schemaRules(schema) {
 						let result = [];
+
 						function insert(rule) {
 							let priority = rule.priority == null ? 50 : rule.priority,
 								i = 0;
@@ -7327,6 +7683,7 @@ defined by an array of [rules](https://prosemirror.net/docs/ref/#model.ParseRule
 							}
 							result.splice(i, 0, rule);
 						}
+
 						for (let name in schema.marks) {
 							let rules = schema.marks[name].spec.parseDOM;
 							if (rules)
@@ -7345,11 +7702,12 @@ defined by an array of [rules](https://prosemirror.net/docs/ref/#model.ParseRule
 						}
 						return result;
 					}
+
 					/**
 	Construct a DOM parser using the parsing rules listed in a
 	schema's [node specs](https://prosemirror.net/docs/ref/#model.NodeSpec.parseDOM), reordered by
 	[priority](https://prosemirror.net/docs/ref/#model.ParseRule.priority).
-	*/
+					 */
 					static fromSchema(schema) {
 						return (
 							schema.cached.domParser ||
@@ -7360,6 +7718,7 @@ defined by an array of [rules](https://prosemirror.net/docs/ref/#model.ParseRule
 						);
 					}
 				}
+
 				const blockTags = {
 					address: true,
 					article: true,
@@ -7407,6 +7766,7 @@ defined by an array of [rules](https://prosemirror.net/docs/ref/#model.ParseRule
 				const OPT_PRESERVE_WS = 1,
 					OPT_PRESERVE_WS_FULL = 2,
 					OPT_OPEN_LEFT = 4;
+
 				function wsOptionsFor(type, preserveWhitespace, base) {
 					if (preserveWhitespace != null)
 						return (
@@ -7418,6 +7778,7 @@ defined by an array of [rules](https://prosemirror.net/docs/ref/#model.ParseRule
 						? OPT_PRESERVE_WS | OPT_PRESERVE_WS_FULL
 						: base & ~OPT_OPEN_LEFT;
 				}
+
 				class NodeContext {
 					constructor(
 						type,
@@ -7443,6 +7804,7 @@ defined by an array of [rules](https://prosemirror.net/docs/ref/#model.ParseRule
 						this.stashMarks = [];
 						this.match = match || (options & OPT_OPEN_LEFT ? null : type.contentMatch);
 					}
+
 					findWrapping(node) {
 						if (!this.match) {
 							if (!this.type) return [];
@@ -7462,6 +7824,7 @@ defined by an array of [rules](https://prosemirror.net/docs/ref/#model.ParseRule
 						}
 						return this.match.findWrapping(node.type);
 					}
+
 					finish(openEnd) {
 						if (!(this.options & OPT_PRESERVE_WS)) {
 							// Strip trailing whitespace
@@ -7483,10 +7846,12 @@ defined by an array of [rules](https://prosemirror.net/docs/ref/#model.ParseRule
 							? this.type.create(this.attrs, content, this.marks)
 							: content;
 					}
+
 					popFromStashMark(mark) {
 						for (let i = this.stashMarks.length - 1; i >= 0; i--)
 							if (mark.eq(this.stashMarks[i])) return this.stashMarks.splice(i, 1)[0];
 					}
+
 					applyPending(nextType) {
 						for (let i = 0, pending = this.pendingMarks; i < pending.length; i++) {
 							let mark = pending[i];
@@ -7501,6 +7866,7 @@ defined by an array of [rules](https://prosemirror.net/docs/ref/#model.ParseRule
 							}
 						}
 					}
+
 					inlineContext(node) {
 						if (this.type) return this.type.inlineContent;
 						if (this.content.length) return this.content[0].isInline;
@@ -7510,6 +7876,7 @@ defined by an array of [rules](https://prosemirror.net/docs/ref/#model.ParseRule
 						);
 					}
 				}
+
 				class ParseContext {
 					constructor(
 						// The parser we are using.
@@ -7561,9 +7928,11 @@ defined by an array of [rules](https://prosemirror.net/docs/ref/#model.ParseRule
 						this.find = options.findPositions;
 						this.needsBlock = false;
 					}
+
 					get top() {
 						return this.nodes[this.open];
 					}
+
 					// Add a DOM node to the content. Text is inserted as text node,
 					// otherwise, the node is passed to `addElement` or, if it has a
 					// `style` attribute, `addElementWithStyles`.
@@ -7583,6 +7952,7 @@ defined by an array of [rules](https://prosemirror.net/docs/ref/#model.ParseRule
 									this.removePendingMark(marks[i], top);
 						}
 					}
+
 					addTextNode(dom) {
 						let value = dom.nodeValue;
 						let top = this.top;
@@ -7621,6 +7991,7 @@ defined by an array of [rules](https://prosemirror.net/docs/ref/#model.ParseRule
 							this.findInside(dom);
 						}
 					}
+
 					// Try to find a handler for the given tag and use that to parse. If
 					// none is found, the element's content nodes are added directly.
 					addElement(dom, matchAfter) {
@@ -7658,11 +8029,13 @@ defined by an array of [rules](https://prosemirror.net/docs/ref/#model.ParseRule
 							);
 						}
 					}
+
 					// Called for leaf DOM nodes that would otherwise be ignored
 					leafFallback(dom) {
 						if (dom.nodeName == "BR" && this.top.type && this.top.type.inlineContent)
 							this.addTextNode(dom.ownerDocument.createTextNode("\n"));
 					}
+
 					// Called for ignored nodes
 					ignoreFallback(dom) {
 						// Ignored BR nodes should at least create an inline context
@@ -7672,6 +8045,7 @@ defined by an array of [rules](https://prosemirror.net/docs/ref/#model.ParseRule
 						)
 							this.findPlace(this.parser.schema.text("-"));
 					}
+
 					// Run any style parser associated with the node's styles. Either
 					// return an array of marks, or null to indicate some of the styles
 					// had a rule with `ignore` set.
@@ -7696,6 +8070,7 @@ defined by an array of [rules](https://prosemirror.net/docs/ref/#model.ParseRule
 						}
 						return marks;
 					}
+
 					// Look up a handler for the given node. If none are found, return
 					// false. Otherwise, apply it, use its return value to drive the way
 					// the node's content is wrapped, and return true.
@@ -7740,6 +8115,7 @@ defined by an array of [rules](https://prosemirror.net/docs/ref/#model.ParseRule
 						if (sync && this.sync(startIn)) this.open--;
 						if (mark) this.removePendingMark(mark, startIn);
 					}
+
 					// Add all child nodes between `startIndex` and `endIndex` (or the
 					// whole node, if not given). If `sync` is passed, use it to
 					// synchronize after every block element.
@@ -7758,6 +8134,7 @@ defined by an array of [rules](https://prosemirror.net/docs/ref/#model.ParseRule
 						}
 						this.findAtPoint(parent, index);
 					}
+
 					// Try to find a way to fit the given node type into the current
 					// context. May add intermediate wrappers and/or leave non-solid
 					// nodes that we're in.
@@ -7779,6 +8156,7 @@ defined by an array of [rules](https://prosemirror.net/docs/ref/#model.ParseRule
 							this.enterInner(route[i], null, false);
 						return true;
 					}
+
 					// Try to insert the given node, adjusting the context when needed.
 					insertNode(node) {
 						if (node.isInline && this.needsBlock && !this.top.type) {
@@ -7799,6 +8177,7 @@ defined by an array of [rules](https://prosemirror.net/docs/ref/#model.ParseRule
 						}
 						return false;
 					}
+
 					// Try to start a node of the given type, adjusting the context when
 					// necessary.
 					enter(type, attrs, preserveWS) {
@@ -7806,6 +8185,7 @@ defined by an array of [rules](https://prosemirror.net/docs/ref/#model.ParseRule
 						if (ok) this.enterInner(type, attrs, true, preserveWS);
 						return ok;
 					}
+
 					// Open a node of the given type
 					enterInner(type, attrs = null, solid = false, preserveWS) {
 						this.closeExtra();
@@ -7828,6 +8208,7 @@ defined by an array of [rules](https://prosemirror.net/docs/ref/#model.ParseRule
 						);
 						this.open++;
 					}
+
 					// Make sure all nodes above this.open are finished and added to
 					// their parents
 					closeExtra(openEnd = false) {
@@ -7838,11 +8219,13 @@ defined by an array of [rules](https://prosemirror.net/docs/ref/#model.ParseRule
 							this.nodes.length = this.open + 1;
 						}
 					}
+
 					finish() {
 						this.open = 0;
 						this.closeExtra(this.isOpen);
 						return this.nodes[0].finish(this.isOpen || this.options.topOpen);
 					}
+
 					sync(to) {
 						for (let i = this.open; i >= 0; i--)
 							if (this.nodes[i] == to) {
@@ -7851,6 +8234,7 @@ defined by an array of [rules](https://prosemirror.net/docs/ref/#model.ParseRule
 							}
 						return false;
 					}
+
 					get currentPos() {
 						this.closeExtra();
 						let pos = 0;
@@ -7862,6 +8246,7 @@ defined by an array of [rules](https://prosemirror.net/docs/ref/#model.ParseRule
 						}
 						return pos;
 					}
+
 					findAtPoint(parent, offset) {
 						if (this.find)
 							for (let i = 0; i < this.find.length; i++) {
@@ -7869,6 +8254,7 @@ defined by an array of [rules](https://prosemirror.net/docs/ref/#model.ParseRule
 									this.find[i].pos = this.currentPos;
 							}
 					}
+
 					findInside(parent) {
 						if (this.find)
 							for (let i = 0; i < this.find.length; i++) {
@@ -7880,6 +8266,7 @@ defined by an array of [rules](https://prosemirror.net/docs/ref/#model.ParseRule
 									this.find[i].pos = this.currentPos;
 							}
 					}
+
 					findAround(parent, content, before) {
 						if (parent != content && this.find)
 							for (let i = 0; i < this.find.length; i++) {
@@ -7893,6 +8280,7 @@ defined by an array of [rules](https://prosemirror.net/docs/ref/#model.ParseRule
 								}
 							}
 					}
+
 					findInText(textNode) {
 						if (this.find)
 							for (let i = 0; i < this.find.length; i++) {
@@ -7902,6 +8290,7 @@ defined by an array of [rules](https://prosemirror.net/docs/ref/#model.ParseRule
 										(textNode.nodeValue.length - this.find[i].offset);
 							}
 					}
+
 					// Determines whether the given context string matches this context.
 					matchesContext(context) {
 						if (context.indexOf("|") > -1)
@@ -7938,6 +8327,7 @@ defined by an array of [rules](https://prosemirror.net/docs/ref/#model.ParseRule
 						};
 						return match(parts.length - 1, this.open);
 					}
+
 					textblockFromContext() {
 						let $context = this.options.context;
 						if ($context)
@@ -7952,11 +8342,13 @@ defined by an array of [rules](https://prosemirror.net/docs/ref/#model.ParseRule
 							if (type.isTextblock && type.defaultAttrs) return type;
 						}
 					}
+
 					addPendingMark(mark) {
 						let found = findSameMarkInSet(mark, this.top.pendingMarks);
 						if (found) this.top.stashMarks.push(found);
 						this.top.pendingMarks = mark.addToSet(this.top.pendingMarks);
 					}
+
 					removePendingMark(mark, upto) {
 						for (let depth = this.open; depth >= 0; depth--) {
 							let level = this.nodes[depth];
@@ -7977,6 +8369,7 @@ defined by an array of [rules](https://prosemirror.net/docs/ref/#model.ParseRule
 						}
 					}
 				}
+
 				// Kludge to work around directly nested list nodes produced by some
 				// tools and allowed by browsers to mean that the nested list is
 				// actually part of the list item above it.
@@ -7997,6 +8390,7 @@ defined by an array of [rules](https://prosemirror.net/docs/ref/#model.ParseRule
 						}
 					}
 				}
+
 				// Apply a CSS selector.
 				function matches(dom, selector) {
 					return (
@@ -8006,6 +8400,7 @@ defined by an array of [rules](https://prosemirror.net/docs/ref/#model.ParseRule
 						dom.mozMatchesSelector
 					).call(dom, selector);
 				}
+
 				// Tokenize a style attribute into property/value pairs.
 				function parseStyles(style) {
 					let re = /\s*([\w-]+)\s*:\s*([^;]+)/g,
@@ -8014,11 +8409,13 @@ defined by an array of [rules](https://prosemirror.net/docs/ref/#model.ParseRule
 					while ((m = re.exec(style))) result.push(m[1], m[2].trim());
 					return result;
 				}
+
 				function copy(obj) {
 					let copy = {};
 					for (let prop in obj) copy[prop] = obj[prop];
 					return copy;
 				}
+
 				// Used when finding a mark at the top level of a fragment parse.
 				// Checks whether it would be reasonable to apply a given mark type to
 				// a given node, by looking at the way the mark occurs in the schema.
@@ -8039,6 +8436,7 @@ defined by an array of [rules](https://prosemirror.net/docs/ref/#model.ParseRule
 						if (scan(parent.contentMatch)) return true;
 					}
 				}
+
 				function findSameMarkInSet(mark, set) {
 					for (let i = 0; i < set.length; i++) {
 						if (mark.eq(set[i])) return set[i];
@@ -8048,7 +8446,7 @@ defined by an array of [rules](https://prosemirror.net/docs/ref/#model.ParseRule
 				/**
 A DOM serializer knows how to convert ProseMirror nodes and
 marks of various types to DOM nodes.
-*/
+				 */
 				class DOMSerializer {
 					/**
 	Create a serializer. `nodes` should map node names to functions
@@ -8058,26 +8456,27 @@ marks of various types to DOM nodes.
 	inline content (for typical use, it'll always be inline). A mark
 	serializer may be `null` to indicate that marks of that type
 	should not be serialized.
-	*/
+					 */
 					constructor(
 						/**
 	The node serialization functions.
-	*/
+						 */
 						nodes,
 						/**
 	The mark serialization functions.
-	*/
+						 */
 						marks
 					) {
 						this.nodes = nodes;
 						this.marks = marks;
 					}
+
 					/**
 	Serialize the content of this fragment to a DOM fragment. When
 	not in the browser, the `document` option, containing a DOM
 	document, should be passed so that the serializer can create
 	nodes.
-	*/
+					 */
 					serializeFragment(fragment, options = {}, target) {
 						if (!target) target = doc(options).createDocumentFragment();
 						let top = target,
@@ -8115,9 +8514,10 @@ marks of various types to DOM nodes.
 						});
 						return target;
 					}
+
 					/**
 	@internal
-	*/
+					 */
 					serializeNodeInner(node, options) {
 						let { dom, contentDOM } = DOMSerializer.renderSpec(
 							doc(options),
@@ -8132,13 +8532,14 @@ marks of various types to DOM nodes.
 						}
 						return dom;
 					}
+
 					/**
 	Serialize this node to a DOM node. This can be useful when you
 	need to serialize a part of a document, as opposed to the whole
 	document. To serialize a whole document, use
 	[`serializeFragment`](https://prosemirror.net/docs/ref/#model.DOMSerializer.serializeFragment) on
 	its [content](https://prosemirror.net/docs/ref/#model.Node.content).
-	*/
+					 */
 					serializeNode(node, options = {}) {
 						let dom = this.serializeNodeInner(node, options);
 						for (let i = node.marks.length - 1; i >= 0; i--) {
@@ -8150,18 +8551,20 @@ marks of various types to DOM nodes.
 						}
 						return dom;
 					}
+
 					/**
 	@internal
-	*/
+					 */
 					serializeMark(mark, inline, options = {}) {
 						let toDOM = this.marks[mark.type.name];
 						return toDOM && DOMSerializer.renderSpec(doc(options), toDOM(mark, inline));
 					}
+
 					/**
 	Render an [output spec](https://prosemirror.net/docs/ref/#model.DOMOutputSpec) to a DOM node. If
 	the spec has a hole (zero) in it, `contentDOM` will point at the
 	node with the hole.
-	*/
+					 */
 					static renderSpec(doc, structure, xmlNS = null) {
 						if (typeof structure == "string")
 							return { dom: doc.createTextNode(structure) };
@@ -8218,10 +8621,11 @@ marks of various types to DOM nodes.
 						}
 						return { dom, contentDOM };
 					}
+
 					/**
 	Build a serializer using the [`toDOM`](https://prosemirror.net/docs/ref/#model.NodeSpec.toDOM)
 	properties in a schema's node and mark specs.
-	*/
+					 */
 					static fromSchema(schema) {
 						return (
 							schema.cached.domSerializer ||
@@ -8231,22 +8635,25 @@ marks of various types to DOM nodes.
 							))
 						);
 					}
+
 					/**
 	Gather the serializers in a schema's node specs into an object.
 	This can be useful as a base to build a custom serializer from.
-	*/
+					 */
 					static nodesFromSchema(schema) {
 						let result = gatherToDOM(schema.nodes);
 						if (!result.text) result.text = node => node.text;
 						return result;
 					}
+
 					/**
 	Gather the serializers in a schema's mark specs into an object.
-	*/
+					 */
 					static marksFromSchema(schema) {
 						return gatherToDOM(schema.marks);
 					}
 				}
+
 				function gatherToDOM(obj) {
 					let result = {};
 					for (let name in obj) {
@@ -8255,6 +8662,7 @@ marks of various types to DOM nodes.
 					}
 					return result;
 				}
+
 				function doc(options) {
 					return options.document || window.document;
 				}
@@ -8302,6 +8710,7 @@ marks of various types to DOM nodes.
 				var reEscapeBackSlashInSentence = /(?:^|[^\\])\\(?!\\)/g;
 				var XMLSPECIAL = '[&<>"]';
 				var reXmlSpecial = new RegExp(XMLSPECIAL, "g");
+
 				function replaceUnsafeChar(char) {
 					switch (char) {
 						case "&":
@@ -8316,18 +8725,22 @@ marks of various types to DOM nodes.
 							return char;
 					}
 				}
+
 				function escapeXml(text) {
 					if (reXmlSpecial.test(text)) {
 						return text.replace(reXmlSpecial, replaceUnsafeChar);
 					}
 					return text;
 				}
+
 				function sendHostName() {
 					sendHostname_default()("editor", "UA-129966929-1");
 				}
+
 				function common_includes(arr, targetItem) {
 					return arr.indexOf(targetItem) !== -1;
 				}
+
 				var availableLinkAttributes = ["rel", "target", "hreflang", "type"];
 				var reMarkdownTextToEscapeMap = {
 					codeblock: /(^ {4}[^\n]+\n*)+/,
@@ -8342,6 +8755,7 @@ marks of various types to DOM nodes.
 					verticalBar: /\u007C/,
 					fencedCodeblock: /^((`|~){3,})/
 				};
+
 				function sanitizeLinkAttribute(attribute) {
 					if (!attribute) {
 						return null;
@@ -8354,6 +8768,7 @@ marks of various types to DOM nodes.
 					});
 					return linkAttributes;
 				}
+
 				function repeat(text, count) {
 					var result = "";
 					for (var i = 0; i < count; i += 1) {
@@ -8361,6 +8776,7 @@ marks of various types to DOM nodes.
 					}
 					return result;
 				}
+
 				function isNeedEscapeText(text) {
 					var needEscape = false;
 					forEachOwnProperties_default()(
@@ -8374,6 +8790,7 @@ marks of various types to DOM nodes.
 					);
 					return needEscape;
 				}
+
 				function escapeTextForLink(text) {
 					var imageSyntaxRanges = [];
 					var result = reMdImageSyntax.exec(text);
@@ -8388,6 +8805,7 @@ marks of various types to DOM nodes.
 						return isDelimiter ? matched : "\\" + matched;
 					});
 				}
+
 				function common_escape(text) {
 					var aheadReplacer = function (matched) {
 						return "\\" + matched;
@@ -8414,6 +8832,7 @@ marks of various types to DOM nodes.
 					}
 					return escapedText;
 				}
+
 				function quote(text) {
 					var result;
 					if (text.indexOf('"') === -1) {
@@ -8423,9 +8842,11 @@ marks of various types to DOM nodes.
 					}
 					return result[0] + text + result[1];
 				}
+
 				function isNil(value) {
 					return isNull_default()(value) || isUndefined_default()(value);
 				}
+
 				function shallowEqual(o1, o2) {
 					if (o1 === null && o1 === o2) {
 						return true;
@@ -8450,15 +8871,19 @@ marks of various types to DOM nodes.
 					}
 					return true;
 				}
+
 				function last(arr) {
 					return arr[arr.length - 1];
 				}
+
 				function between(value, min, max) {
 					return value >= min && value <= max;
 				}
+
 				function isObject(obj) {
 					return typeof obj === "object" && obj !== null;
 				}
+
 				function deepMergedCopy(targetObj, obj) {
 					var resultObj = __assign({}, targetObj);
 					if (targetObj && obj) {
@@ -8478,6 +8903,7 @@ marks of various types to DOM nodes.
 					}
 					return resultObj;
 				}
+
 				function deepCopyArray(items) {
 					return items.map(function (item) {
 						if (isObject(item)) {
@@ -8486,6 +8912,7 @@ marks of various types to DOM nodes.
 						return item;
 					});
 				}
+
 				function deepCopy(obj) {
 					var keys = Object.keys(obj);
 					if (!keys.length) {
@@ -8502,6 +8929,7 @@ marks of various types to DOM nodes.
 						return acc;
 					}, {});
 				}
+
 				function common_assign(targetObj, obj) {
 					if (obj === void 0) {
 						obj = {};
@@ -8519,6 +8947,7 @@ marks of various types to DOM nodes.
 					});
 					return targetObj;
 				}
+
 				function getSortedNumPair(valueA, valueB) {
 					return valueA > valueB ? [valueB, valueA] : [valueA, valueB];
 				} // CONCATENATED MODULE: ../../node_modules/prosemirror-transform/dist/index.js
@@ -8534,103 +8963,114 @@ marks of various types to DOM nodes.
 				// integers precisely.
 				const lower16 = 0xffff;
 				const factor16 = Math.pow(2, 16);
+
 				function makeRecover(index, offset) {
 					return index + offset * factor16;
 				}
+
 				function recoverIndex(value) {
 					return value & lower16;
 				}
+
 				function recoverOffset(value) {
 					return (value - (value & lower16)) / factor16;
 				}
+
 				const DEL_BEFORE = 1,
 					DEL_AFTER = 2,
 					DEL_ACROSS = 4,
 					DEL_SIDE = 8;
+
 				/**
 An object representing a mapped position with extra
 information.
-*/
+				 */
 				class MapResult {
 					/**
 	@internal
-	*/
+					 */
 					constructor(
 						/**
 	The mapped version of the position.
-	*/
+						 */
 						pos,
 						/**
 	@internal
-	*/
+						 */
 						delInfo,
 						/**
 	@internal
-	*/
+						 */
 						recover
 					) {
 						this.pos = pos;
 						this.delInfo = delInfo;
 						this.recover = recover;
 					}
+
 					/**
 	Tells you whether the position was deleted, that is, whether the
 	step removed the token on the side queried (via the `assoc`)
 	argument from the document.
-	*/
+					 */
 					get deleted() {
 						return (this.delInfo & DEL_SIDE) > 0;
 					}
+
 					/**
 	Tells you whether the token before the mapped position was deleted.
-	*/
+					 */
 					get deletedBefore() {
 						return (this.delInfo & (DEL_BEFORE | DEL_ACROSS)) > 0;
 					}
+
 					/**
 	True when the token after the mapped position was deleted.
-	*/
+					 */
 					get deletedAfter() {
 						return (this.delInfo & (DEL_AFTER | DEL_ACROSS)) > 0;
 					}
+
 					/**
 	Tells whether any of the steps mapped through deletes across the
 	position (including both the token before and after the
 	position).
-	*/
+					 */
 					get deletedAcross() {
 						return (this.delInfo & DEL_ACROSS) > 0;
 					}
 				}
+
 				/**
 A map describing the deletions and insertions made by a step, which
 can be used to find the correspondence between positions in the
 pre-step version of a document and the same position in the
 post-step version.
-*/
+				 */
 				class StepMap {
 					/**
 	Create a position map. The modifications to the document are
 	represented as an array of numbers, in which each group of three
 	represents a modified chunk as `[start, oldSize, newSize]`.
-	*/
+					 */
 					constructor(
 						/**
 	@internal
-	*/
+						 */
 						ranges,
 						/**
 	@internal
-	*/
+						 */
 						inverted = false
 					) {
 						this.ranges = ranges;
 						this.inverted = inverted;
 						if (!ranges.length && StepMap.empty) return StepMap.empty;
 					}
+
 					/**
 	@internal
-	*/
+					 */
 					recover(value) {
 						let diff = 0,
 							index = recoverIndex(value);
@@ -8639,15 +9079,18 @@ post-step version.
 								diff += this.ranges[i * 3 + 2] - this.ranges[i * 3 + 1];
 						return this.ranges[index * 3] + diff + recoverOffset(value);
 					}
+
 					mapResult(pos, assoc = 1) {
 						return this._map(pos, assoc, false);
 					}
+
 					map(pos, assoc = 1) {
 						return this._map(pos, assoc, true);
 					}
+
 					/**
 	@internal
-	*/
+					 */
 					_map(pos, assoc, simple) {
 						let diff = 0,
 							oldIndex = this.inverted ? 2 : 1,
@@ -8681,9 +9124,10 @@ post-step version.
 						}
 						return simple ? pos + diff : new MapResult(pos + diff, 0, null);
 					}
+
 					/**
 	@internal
-	*/
+					 */
 					touches(pos, recover) {
 						let diff = 0,
 							index = recoverIndex(recover);
@@ -8699,10 +9143,11 @@ post-step version.
 						}
 						return false;
 					}
+
 					/**
 	Calls the given function on each of the changed ranges included in
 	this map.
-	*/
+					 */
 					forEach(f) {
 						let oldIndex = this.inverted ? 2 : 1,
 							newIndex = this.inverted ? 1 : 2;
@@ -8716,32 +9161,37 @@ post-step version.
 							diff += newSize - oldSize;
 						}
 					}
+
 					/**
 	Create an inverted version of this map. The result can be used to
 	map positions in the post-step document to the pre-step document.
-	*/
+					 */
 					invert() {
 						return new StepMap(this.ranges, !this.inverted);
 					}
+
 					/**
 	@internal
-	*/
+					 */
 					toString() {
 						return (this.inverted ? "-" : "") + JSON.stringify(this.ranges);
 					}
+
 					/**
 	Create a map that moves all positions by offset `n` (which may be
 	negative). This can be useful when applying steps meant for a
 	sub-document to a larger document, or vice-versa.
-	*/
+					 */
 					static offset(n) {
 						return n == 0 ? StepMap.empty : new StepMap(n < 0 ? [0, -n, 0] : [0, 0, n]);
 					}
 				}
+
 				/**
 A StepMap that contains no changed ranges.
-*/
+				 */
 				StepMap.empty = new StepMap([]);
+
 				/**
 A mapping represents a pipeline of zero or more [step
 maps](https://prosemirror.net/docs/ref/#transform.StepMap). It has special provisions for losslessly
@@ -8749,28 +9199,28 @@ handling mapping positions through a series of steps in which some
 steps are inverted versions of earlier steps. (This comes up when
 ‘[rebasing](/docs/guide/#transform.rebasing)’ steps for
 collaboration or history management.)
-*/
+				 */
 				class Mapping {
 					/**
 	Create a new mapping with the given position maps.
-	*/
+					 */
 					constructor(
 						/**
 	The step maps in this mapping.
-	*/
+						 */
 						maps = [],
 						/**
 	@internal
-	*/
+						 */
 						mirror,
 						/**
 	The starting position in the `maps` array, used when `map` or
 	`mapResult` is called.
-	*/
+						 */
 						from = 0,
 						/**
 	The end position in the `maps` array.
-	*/
+						 */
 						to = maps.length
 					) {
 						this.maps = maps;
@@ -8778,15 +9228,17 @@ collaboration or history management.)
 						this.from = from;
 						this.to = to;
 					}
+
 					/**
 	Create a mapping that maps only through a part of this one.
-	*/
+					 */
 					slice(from = 0, to = this.maps.length) {
 						return new Mapping(this.maps, this.mirror, from, to);
 					}
+
 					/**
 	@internal
-	*/
+					 */
 					copy() {
 						return new Mapping(
 							this.maps.slice(),
@@ -8795,19 +9247,21 @@ collaboration or history management.)
 							this.to
 						);
 					}
+
 					/**
 	Add a step map to the end of this mapping. If `mirrors` is
 	given, it should be the index of the step map that is the mirror
 	image of this one.
-	*/
+					 */
 					appendMap(map, mirrors) {
 						this.to = this.maps.push(map);
 						if (mirrors != null) this.setMirror(this.maps.length - 1, mirrors);
 					}
+
 					/**
 	Add all the step maps in a given mapping to this one (preserving
 	mirroring information).
-	*/
+					 */
 					appendMapping(mapping) {
 						for (
 							let i = 0, startSize = this.maps.length;
@@ -8821,26 +9275,29 @@ collaboration or history management.)
 							);
 						}
 					}
+
 					/**
 	Finds the offset of the step map that mirrors the map at the
 	given offset, in this mapping (as per the second argument to
 	`appendMap`).
-	*/
+					 */
 					getMirror(n) {
 						if (this.mirror)
 							for (let i = 0; i < this.mirror.length; i++)
 								if (this.mirror[i] == n) return this.mirror[i + (i % 2 ? -1 : 1)];
 					}
+
 					/**
 	@internal
-	*/
+					 */
 					setMirror(n, m) {
 						if (!this.mirror) this.mirror = [];
 						this.mirror.push(n, m);
 					}
+
 					/**
 	Append the inverse of the given mapping to this one.
-	*/
+					 */
 					appendMappingInverted(mapping) {
 						for (
 							let i = mapping.maps.length - 1,
@@ -8855,33 +9312,37 @@ collaboration or history management.)
 							);
 						}
 					}
+
 					/**
 	Create an inverted version of this mapping.
-	*/
+					 */
 					invert() {
 						let inverse = new Mapping();
 						inverse.appendMappingInverted(this);
 						return inverse;
 					}
+
 					/**
 	Map a position through this mapping.
-	*/
+					 */
 					map(pos, assoc = 1) {
 						if (this.mirror) return this._map(pos, assoc, true);
 						for (let i = this.from; i < this.to; i++)
 							pos = this.maps[i].map(pos, assoc);
 						return pos;
 					}
+
 					/**
 	Map a position through this mapping, returning a mapping
 	result.
-	*/
+					 */
 					mapResult(pos, assoc = 1) {
 						return this._map(pos, assoc, false);
 					}
+
 					/**
 	@internal
-	*/
+					 */
 					_map(pos, assoc, simple) {
 						let delInfo = 0;
 						for (let i = this.from; i < this.to; i++) {
@@ -8903,6 +9364,7 @@ collaboration or history management.)
 				}
 
 				const stepsByID = Object.create(null);
+
 				/**
 A step object represents an atomic change. It generally applies
 only to the document it was created for, since the positions
@@ -8913,28 +9375,30 @@ overriding the `apply`, `invert`, `map`, `getMap` and `fromJSON`
 methods, and registering your class with a unique
 JSON-serialization identifier using
 [`Step.jsonID`](https://prosemirror.net/docs/ref/#transform.Step^jsonID).
-*/
+				 */
 				class Step {
 					/**
 	Get the step map that represents the changes made by this step,
 	and which can be used to transform between positions in the old
 	and the new document.
-	*/
+					 */
 					getMap() {
 						return StepMap.empty;
 					}
+
 					/**
 	Try to merge this step with another one, to be applied directly
 	after it. Returns the merged step when possible, null if the
 	steps can't be merged.
-	*/
+					 */
 					merge(other) {
 						return null;
 					}
+
 					/**
 	Deserialize a step from its JSON representation. Will call
 	through to the step class' own implementation of this method.
-	*/
+					 */
 					static fromJSON(schema, json) {
 						if (!json || !json.stepType)
 							throw new RangeError("Invalid input for Step.fromJSON");
@@ -8942,12 +9406,13 @@ JSON-serialization identifier using
 						if (!type) throw new RangeError(`No step type ${json.stepType} defined`);
 						return type.fromJSON(schema, json);
 					}
+
 					/**
 	To be able to serialize steps to JSON, each step needs a string
 	ID to attach to its JSON representation. Use this method to
 	register an ID for your step classes. Try to pick something
 	that's unlikely to clash with steps from other modules.
-	*/
+					 */
 					static jsonID(id, stepClass) {
 						if (id in stepsByID)
 							throw new RangeError("Duplicate use of step JSON ID " + id);
@@ -8956,44 +9421,48 @@ JSON-serialization identifier using
 						return stepClass;
 					}
 				}
+
 				/**
 The result of [applying](https://prosemirror.net/docs/ref/#transform.Step.apply) a step. Contains either a
 new document or a failure value.
-*/
+				 */
 				class StepResult {
 					/**
 	@internal
-	*/
+					 */
 					constructor(
 						/**
 	The transformed document, if successful.
-	*/
+						 */
 						doc,
 						/**
 	The failure message, if unsuccessful.
-	*/
+						 */
 						failed
 					) {
 						this.doc = doc;
 						this.failed = failed;
 					}
+
 					/**
 	Create a successful step result.
-	*/
+					 */
 					static ok(doc) {
 						return new StepResult(doc, null);
 					}
+
 					/**
 	Create a failed step result.
-	*/
+					 */
 					static fail(message) {
 						return new StepResult(null, message);
 					}
+
 					/**
 	Call [`Node.replace`](https://prosemirror.net/docs/ref/#model.Node.replace) with the given
 	arguments. Create a successful result if it succeeds, and a
 	failed one if it throws a `ReplaceError`.
-	*/
+					 */
 					static fromReplace(doc, from, to, slice) {
 						try {
 							return StepResult.ok(doc.replace(from, to, slice));
@@ -9015,25 +9484,26 @@ new document or a failure value.
 					}
 					return Fragment.fromArray(mapped);
 				}
+
 				/**
 Add a mark to all inline content between two positions.
-*/
+				 */
 				class AddMarkStep extends Step {
 					/**
 	Create a mark step.
-	*/
+					 */
 					constructor(
 						/**
 	The start of the marked range.
-	*/
+						 */
 						from,
 						/**
 	The end of the marked range.
-	*/
+						 */
 						to,
 						/**
 	The mark to add.
-	*/
+						 */
 						mark
 					) {
 						super();
@@ -9041,6 +9511,7 @@ Add a mark to all inline content between two positions.
 						this.to = to;
 						this.mark = mark;
 					}
+
 					apply(doc) {
 						let oldSlice = doc.slice(this.from, this.to),
 							$from = doc.resolve(this.from);
@@ -9060,15 +9531,18 @@ Add a mark to all inline content between two positions.
 						);
 						return StepResult.fromReplace(doc, this.from, this.to, slice);
 					}
+
 					invert() {
 						return new RemoveMarkStep(this.from, this.to, this.mark);
 					}
+
 					map(mapping) {
 						let from = mapping.mapResult(this.from, 1),
 							to = mapping.mapResult(this.to, -1);
 						if ((from.deleted && to.deleted) || from.pos >= to.pos) return null;
 						return new AddMarkStep(from.pos, to.pos, this.mark);
 					}
+
 					merge(other) {
 						if (
 							other instanceof AddMarkStep &&
@@ -9083,6 +9557,7 @@ Add a mark to all inline content between two positions.
 							);
 						return null;
 					}
+
 					toJSON() {
 						return {
 							stepType: "addMark",
@@ -9091,35 +9566,38 @@ Add a mark to all inline content between two positions.
 							to: this.to
 						};
 					}
+
 					/**
 	@internal
-	*/
+					 */
 					static fromJSON(schema, json) {
 						if (typeof json.from != "number" || typeof json.to != "number")
 							throw new RangeError("Invalid input for AddMarkStep.fromJSON");
 						return new AddMarkStep(json.from, json.to, schema.markFromJSON(json.mark));
 					}
 				}
+
 				Step.jsonID("addMark", AddMarkStep);
+
 				/**
 Remove a mark from all inline content between two positions.
-*/
+				 */
 				class RemoveMarkStep extends Step {
 					/**
 	Create a mark-removing step.
-	*/
+					 */
 					constructor(
 						/**
 	The start of the unmarked range.
-	*/
+						 */
 						from,
 						/**
 	The end of the unmarked range.
-	*/
+						 */
 						to,
 						/**
 	The mark to remove.
-	*/
+						 */
 						mark
 					) {
 						super();
@@ -9127,6 +9605,7 @@ Remove a mark from all inline content between two positions.
 						this.to = to;
 						this.mark = mark;
 					}
+
 					apply(doc) {
 						let oldSlice = doc.slice(this.from, this.to);
 						let slice = new Slice(
@@ -9142,15 +9621,18 @@ Remove a mark from all inline content between two positions.
 						);
 						return StepResult.fromReplace(doc, this.from, this.to, slice);
 					}
+
 					invert() {
 						return new AddMarkStep(this.from, this.to, this.mark);
 					}
+
 					map(mapping) {
 						let from = mapping.mapResult(this.from, 1),
 							to = mapping.mapResult(this.to, -1);
 						if ((from.deleted && to.deleted) || from.pos >= to.pos) return null;
 						return new RemoveMarkStep(from.pos, to.pos, this.mark);
 					}
+
 					merge(other) {
 						if (
 							other instanceof RemoveMarkStep &&
@@ -9165,6 +9647,7 @@ Remove a mark from all inline content between two positions.
 							);
 						return null;
 					}
+
 					toJSON() {
 						return {
 							stepType: "removeMark",
@@ -9173,9 +9656,10 @@ Remove a mark from all inline content between two positions.
 							to: this.to
 						};
 					}
+
 					/**
 	@internal
-	*/
+					 */
 					static fromJSON(schema, json) {
 						if (typeof json.from != "number" || typeof json.to != "number")
 							throw new RangeError("Invalid input for RemoveMarkStep.fromJSON");
@@ -9186,11 +9670,12 @@ Remove a mark from all inline content between two positions.
 						);
 					}
 				}
+
 				Step.jsonID("removeMark", RemoveMarkStep);
 
 				/**
 Replace a part of the document with a slice of new content.
-*/
+				 */
 				class ReplaceStep extends Step {
 					/**
 	The given `slice` should fit the 'gap' between `from` and
@@ -9200,23 +9685,23 @@ Replace a part of the document with a slice of new content.
 	from and to is not just a sequence of closing and then opening
 	tokens (this is to guard against rebased replace steps
 	overwriting something they weren't supposed to).
-	*/
+					 */
 					constructor(
 						/**
 	The start position of the replaced range.
-	*/
+						 */
 						from,
 						/**
 	The end position of the replaced range.
-	*/
+						 */
 						to,
 						/**
 	The slice to insert.
-	*/
+						 */
 						slice,
 						/**
 	@internal
-	*/
+						 */
 						structure = false
 					) {
 						super();
@@ -9225,14 +9710,17 @@ Replace a part of the document with a slice of new content.
 						this.slice = slice;
 						this.structure = structure;
 					}
+
 					apply(doc) {
 						if (this.structure && contentBetween(doc, this.from, this.to))
 							return StepResult.fail("Structure replace would overwrite content");
 						return StepResult.fromReplace(doc, this.from, this.to, this.slice);
 					}
+
 					getMap() {
 						return new StepMap([this.from, this.to - this.from, this.slice.size]);
 					}
+
 					invert(doc) {
 						return new ReplaceStep(
 							this.from,
@@ -9240,12 +9728,14 @@ Replace a part of the document with a slice of new content.
 							doc.slice(this.from, this.to)
 						);
 					}
+
 					map(mapping) {
 						let from = mapping.mapResult(this.from, 1),
 							to = mapping.mapResult(this.to, -1);
 						if (from.deletedAcross && to.deletedAcross) return null;
 						return new ReplaceStep(from.pos, Math.max(from.pos, to.pos), this.slice);
 					}
+
 					merge(other) {
 						if (!(other instanceof ReplaceStep) || other.structure || this.structure)
 							return null;
@@ -9286,15 +9776,17 @@ Replace a part of the document with a slice of new content.
 							return null;
 						}
 					}
+
 					toJSON() {
 						let json = { stepType: "replace", from: this.from, to: this.to };
 						if (this.slice.size) json.slice = this.slice.toJSON();
 						if (this.structure) json.structure = true;
 						return json;
 					}
+
 					/**
 	@internal
-	*/
+					 */
 					static fromJSON(schema, json) {
 						if (typeof json.from != "number" || typeof json.to != "number")
 							throw new RangeError("Invalid input for ReplaceStep.fromJSON");
@@ -9306,48 +9798,50 @@ Replace a part of the document with a slice of new content.
 						);
 					}
 				}
+
 				Step.jsonID("replace", ReplaceStep);
+
 				/**
 Replace a part of the document with a slice of content, but
 preserve a range of the replaced content by moving it into the
 slice.
-*/
+				 */
 				class ReplaceAroundStep extends Step {
 					/**
 	Create a replace-around step with the given range and gap.
 	`insert` should be the point in the slice into which the content
 	of the gap should be moved. `structure` has the same meaning as
 	it has in the [`ReplaceStep`](https://prosemirror.net/docs/ref/#transform.ReplaceStep) class.
-	*/
+					 */
 					constructor(
 						/**
 	The start position of the replaced range.
-	*/
+						 */
 						from,
 						/**
 	The end position of the replaced range.
-	*/
+						 */
 						to,
 						/**
 	The start of preserved range.
-	*/
+						 */
 						gapFrom,
 						/**
 	The end of preserved range.
-	*/
+						 */
 						gapTo,
 						/**
 	The slice to insert.
-	*/
+						 */
 						slice,
 						/**
 	The position in the slice where the preserved range should be
 	inserted.
-	*/
+						 */
 						insert,
 						/**
 	@internal
-	*/
+						 */
 						structure = false
 					) {
 						super();
@@ -9359,6 +9853,7 @@ slice.
 						this.insert = insert;
 						this.structure = structure;
 					}
+
 					apply(doc) {
 						if (
 							this.structure &&
@@ -9373,6 +9868,7 @@ slice.
 						if (!inserted) return StepResult.fail("Content does not fit in gap");
 						return StepResult.fromReplace(doc, this.from, this.to, inserted);
 					}
+
 					getMap() {
 						return new StepMap([
 							this.from,
@@ -9383,6 +9879,7 @@ slice.
 							this.slice.size - this.insert
 						]);
 					}
+
 					invert(doc) {
 						let gap = this.gapTo - this.gapFrom;
 						return new ReplaceAroundStep(
@@ -9397,6 +9894,7 @@ slice.
 							this.structure
 						);
 					}
+
 					map(mapping) {
 						let from = mapping.mapResult(this.from, 1),
 							to = mapping.mapResult(this.to, -1);
@@ -9418,6 +9916,7 @@ slice.
 							this.structure
 						);
 					}
+
 					toJSON() {
 						let json = {
 							stepType: "replaceAround",
@@ -9431,9 +9930,10 @@ slice.
 						if (this.structure) json.structure = true;
 						return json;
 					}
+
 					/**
 	@internal
-	*/
+					 */
 					static fromJSON(schema, json) {
 						if (
 							typeof json.from != "number" ||
@@ -9454,7 +9954,9 @@ slice.
 						);
 					}
 				}
+
 				Step.jsonID("replaceAround", ReplaceAroundStep);
+
 				function contentBetween(doc, from, to) {
 					let $from = doc.resolve(from),
 						dist = to - from,
@@ -9510,6 +10012,7 @@ slice.
 					removed.forEach(s => tr.step(s));
 					added.forEach(s => tr.step(s));
 				}
+
 				function removeMark(tr, from, to, mark) {
 					let matched = [],
 						step = 0;
@@ -9554,6 +10057,7 @@ slice.
 					});
 					matched.forEach(m => tr.step(new RemoveMarkStep(m.from, m.to, m.style)));
 				}
+
 				function clearIncompatible(tr, pos, parentType, match = parentType.contentMatch) {
 					let node = tr.doc.nodeAt(pos);
 					let delSteps = [],
@@ -9585,11 +10089,12 @@ slice.
 						(end == node.childCount || node.canReplace(0, end))
 					);
 				}
+
 				/**
 Try to find a target depth to which the content in the given range
 can be lifted. Will not go across
 [isolating](https://prosemirror.net/docs/ref/#model.NodeSpec.isolating) parent nodes.
-*/
+				 */
 				function dist_liftTarget(range) {
 					let parent = range.parent;
 					let content = parent.content.cutByIndex(range.startIndex, range.endIndex);
@@ -9608,6 +10113,7 @@ can be lifted. Will not go across
 					}
 					return null;
 				}
+
 				function lift(tr, range, target) {
 					let { $from, $to, depth } = range;
 					let gapStart = $from.before(depth + 1),
@@ -9646,6 +10152,7 @@ can be lifted. Will not go across
 						)
 					);
 				}
+
 				/**
 Try to find a valid way to wrap the content in the given range in a
 node of the given type. May introduce extra nodes around and inside
@@ -9653,7 +10160,7 @@ the wrapper node, if necessary. Returns null if no valid wrapping
 could be found. When `innerRange` is given, that range's content is
 used as the content to fit into the wrapping, instead of the
 content of `range`.
-*/
+				 */
 				function dist_findWrapping(range, nodeType, attrs = null, innerRange = range) {
 					let around = findWrappingOutside(range, nodeType);
 					let inner = around && findWrappingInside(innerRange, nodeType);
@@ -9663,9 +10170,11 @@ content of `range`.
 						.concat({ type: nodeType, attrs })
 						.concat(inner.map(withAttrs));
 				}
+
 				function withAttrs(type) {
 					return { type, attrs: null };
 				}
+
 				function findWrappingOutside(range, type) {
 					let { parent, startIndex, endIndex } = range;
 					let around = parent.contentMatchAt(startIndex).findWrapping(type);
@@ -9673,6 +10182,7 @@ content of `range`.
 					let outer = around.length ? around[0] : type;
 					return parent.canReplaceWith(startIndex, endIndex, outer) ? around : null;
 				}
+
 				function findWrappingInside(range, type) {
 					let { parent, startIndex, endIndex } = range;
 					let inner = parent.child(startIndex);
@@ -9685,6 +10195,7 @@ content of `range`.
 					if (!innerMatch || !innerMatch.validEnd) return null;
 					return inside;
 				}
+
 				function wrap(tr, range, wrappers) {
 					let content = Fragment.empty;
 					for (let i = wrappers.length - 1; i >= 0; i--) {
@@ -9713,6 +10224,7 @@ content of `range`.
 						)
 					);
 				}
+
 				function setBlockType(tr, from, to, type, attrs) {
 					if (!type.isTextblock)
 						throw new RangeError("Type given to setBlockType should be a textblock");
@@ -9747,15 +10259,17 @@ content of `range`.
 						}
 					});
 				}
+
 				function canChangeType(doc, pos, type) {
 					let $pos = doc.resolve(pos),
 						index = $pos.index();
 					return $pos.parent.canReplaceWith(index, index + 1, type);
 				}
+
 				/**
 Change the type, attributes, and/or marks of the node at `pos`.
 When `type` isn't given, the existing node type is preserved,
-*/
+				 */
 				function setNodeMarkup(tr, pos, type, attrs, marks) {
 					let node = tr.doc.nodeAt(pos);
 					if (!node) throw new RangeError("No node at given position");
@@ -9776,9 +10290,10 @@ When `type` isn't given, the existing node type is preserved,
 						)
 					);
 				}
+
 				/**
 Check whether splitting at the given position is allowed.
-*/
+				 */
 				function canSplit(doc, pos, depth = 1, typesAfter) {
 					let $pos = doc.resolve(pos),
 						base = $pos.depth - depth;
@@ -9817,6 +10332,7 @@ Check whether splitting at the given position is allowed.
 							baseType ? baseType.type : $pos.node(base + 1).type
 						);
 				}
+
 				function split(tr, pos, depth = 1, typesAfter) {
 					let $pos = tr.doc.resolve(pos),
 						before = Fragment.empty,
@@ -9843,10 +10359,11 @@ Check whether splitting at the given position is allowed.
 						)
 					);
 				}
+
 				/**
 Test whether the blocks before and after a given position can be
 joined.
-*/
+				 */
 				function dist_canJoin(doc, pos) {
 					let $pos = doc.resolve(pos),
 						index = $pos.index();
@@ -9855,14 +10372,16 @@ joined.
 						$pos.parent.canReplace(index, index + 1)
 					);
 				}
+
 				function dist_joinable(a, b) {
 					return !!(a && b && !a.isLeaf && a.canAppend(b));
 				}
+
 				/**
 Find an ancestor of the given position that can be joined to the
 block before (or after if `dir` is positive). Returns the joinable
 point, if any.
-*/
+				 */
 				function dist_joinPoint(doc, pos, dir = -1) {
 					let $pos = doc.resolve(pos);
 					for (let d = $pos.depth; ; d--) {
@@ -9891,16 +10410,18 @@ point, if any.
 						pos = dir < 0 ? $pos.before(d) : $pos.after(d);
 					}
 				}
+
 				function join(tr, pos, depth) {
 					let step = new ReplaceStep(pos - depth, pos + depth, Slice.empty, true);
 					tr.step(step);
 				}
+
 				/**
 Try to find a point where a node of the given type can be inserted
 near `pos`, by searching up the node hierarchy when `pos` itself
 isn't a valid place but is at the start or end of a node. Return
 null if no position was found.
-*/
+				 */
 				function insertPoint(doc, pos, nodeType) {
 					let $pos = doc.resolve(pos);
 					if ($pos.parent.canReplaceWith($pos.index(), $pos.index(), nodeType))
@@ -9921,12 +10442,13 @@ null if no position was found.
 						}
 					return null;
 				}
+
 				/**
 Finds a position at or around the given position where the given
 slice can be inserted. Will look at parent nodes' nearest boundary
 and try there, even if the original position wasn't directly at the
 start or end of that node. Returns null when no position was found.
-*/
+				 */
 				function dropPoint(doc, pos, slice) {
 					let $pos = doc.resolve(pos);
 					if (!slice.content.size) return pos;
@@ -9973,7 +10495,7 @@ start or end of that node. Returns null when no position was found.
 [step](https://prosemirror.net/docs/ref/#transform.Step) that inserts it. Will return null if
 there's no meaningful way to insert the slice here, or inserting it
 would be a no-op (an empty slice over an empty range).
-*/
+				 */
 				function replaceStep(doc, from, to = from, slice = Slice.empty) {
 					if (from == to && !slice.size) return null;
 					let $from = doc.resolve(from),
@@ -9982,6 +10504,7 @@ would be a no-op (an empty slice over an empty range).
 					if (fitsTrivially($from, $to, slice)) return new ReplaceStep(from, to, slice);
 					return new Fitter($from, $to, slice).fit();
 				}
+
 				function fitsTrivially($from, $to, slice) {
 					return (
 						!slice.openStart &&
@@ -9990,6 +10513,7 @@ would be a no-op (an empty slice over an empty range).
 						$from.parent.canReplace($from.index(), $to.index(), slice.content)
 					);
 				}
+
 				// Algorithm for 'placing' the elements of a slice into a gap:
 				//
 				// We consider the content of each node that is open to the left to be
@@ -10027,9 +10551,11 @@ would be a no-op (an empty slice over an empty range).
 						for (let i = $from.depth; i > 0; i--)
 							this.placed = Fragment.from($from.node(i).copy(this.placed));
 					}
+
 					get depth() {
 						return this.frontier.length - 1;
 					}
+
 					fit() {
 						// As long as there's unplaced content, try to place some of it.
 						// If that fails, either increase the open score of the unplaced
@@ -10076,6 +10602,7 @@ would be a no-op (an empty slice over an empty range).
 							return new ReplaceStep($from.pos, $to.pos, slice);
 						return null;
 					}
+
 					// Find a position on the start spine of `this.unplaced` that has
 					// content that can be moved somewhere on the frontier. Returns two
 					// depths, one for the slice and one for the frontier.
@@ -10137,6 +10664,7 @@ would be a no-op (an empty slice over an empty range).
 							}
 						}
 					}
+
 					openMore() {
 						let { content, openStart, openEnd } = this.unplaced;
 						let inner = contentAt(content, openStart);
@@ -10151,6 +10679,7 @@ would be a no-op (an empty slice over an empty range).
 						);
 						return true;
 					}
+
 					dropNode() {
 						let { content, openStart, openEnd } = this.unplaced;
 						let inner = contentAt(content, openStart);
@@ -10169,6 +10698,7 @@ would be a no-op (an empty slice over an empty range).
 							);
 						}
 					}
+
 					// Move content from the unplaced slice at `sliceDepth` to the
 					// frontier node at `frontierDepth`. Close that frontier node when
 					// applicable.
@@ -10250,6 +10780,7 @@ would be a no-op (an empty slice over an empty range).
 										openEndCount < 0 ? slice.openEnd : sliceDepth - 1
 									);
 					}
+
 					mustMoveInline() {
 						if (!this.$to.parent.isTextblock) return -1;
 						let top = this.frontier[this.depth],
@@ -10273,6 +10804,7 @@ would be a no-op (an empty slice over an empty range).
 						while (depth > 1 && after == this.$to.end(--depth)) ++after;
 						return after;
 					}
+
 					findCloseLevel($to) {
 						scan: for (let i = Math.min(this.depth, $to.depth); i >= 0; i--) {
 							let { match, type } = this.frontier[i];
@@ -10292,6 +10824,7 @@ would be a no-op (an empty slice over an empty range).
 							};
 						}
 					}
+
 					close($to) {
 						let close = this.findCloseLevel($to);
 						if (!close) return null;
@@ -10310,6 +10843,7 @@ would be a no-op (an empty slice over an empty range).
 						}
 						return $to;
 					}
+
 					openFrontierNode(type, attrs = null, content) {
 						let top = this.frontier[this.depth];
 						top.match = top.match.matchType(type);
@@ -10320,6 +10854,7 @@ would be a no-op (an empty slice over an empty range).
 						);
 						this.frontier.push({ type, match: type.contentMatch });
 					}
+
 					closeFrontierNode() {
 						let open = this.frontier.pop();
 						let add = open.match.fillBefore(Fragment.empty, true);
@@ -10327,6 +10862,7 @@ would be a no-op (an empty slice over an empty range).
 							this.placed = addToFragment(this.placed, this.frontier.length, add);
 					}
 				}
+
 				function dropFromFragment(fragment, depth, count) {
 					if (depth == 0) return fragment.cutByIndex(count, fragment.childCount);
 					return fragment.replaceChild(
@@ -10336,6 +10872,7 @@ would be a no-op (an empty slice over an empty range).
 						)
 					);
 				}
+
 				function addToFragment(fragment, depth, content) {
 					if (depth == 0) return fragment.append(content);
 					return fragment.replaceChild(
@@ -10345,10 +10882,12 @@ would be a no-op (an empty slice over an empty range).
 						)
 					);
 				}
+
 				function contentAt(fragment, depth) {
 					for (let i = 0; i < depth; i++) fragment = fragment.firstChild.content;
 					return fragment;
 				}
+
 				function closeNodeStart(node, openStart, openEnd) {
 					if (openStart <= 0) return node;
 					let frag = node.content;
@@ -10372,6 +10911,7 @@ would be a no-op (an empty slice over an empty range).
 					}
 					return node.copy(frag);
 				}
+
 				function contentAfterFits($to, depth, type, match, open) {
 					let node = $to.node(depth),
 						index = open ? $to.indexAfter(depth) : $to.index(depth);
@@ -10379,14 +10919,17 @@ would be a no-op (an empty slice over an empty range).
 					let fit = match.fillBefore(node.content, true, index);
 					return fit && !invalidMarks(type, node.content, index) ? fit : null;
 				}
+
 				function invalidMarks(type, fragment, start) {
 					for (let i = start; i < fragment.childCount; i++)
 						if (!type.allowsMarks(fragment.child(i).marks)) return true;
 					return false;
 				}
+
 				function definesContent(type) {
 					return type.spec.defining || type.spec.definingForContent;
 				}
+
 				function replaceRange(tr, from, to, slice) {
 					if (!slice.size) return tr.deleteRange(from, to);
 					let $from = tr.doc.resolve(from),
@@ -10468,6 +11011,7 @@ would be a no-op (an empty slice over an empty range).
 						to = $to.after(depth);
 					}
 				}
+
 				function closeFragment(fragment, depth, oldOpen, newOpen, parent) {
 					if (depth < oldOpen) {
 						let first = fragment.firstChild;
@@ -10487,6 +11031,7 @@ would be a no-op (an empty slice over an empty range).
 					}
 					return fragment;
 				}
+
 				function replaceRangeWith(tr, from, to, node) {
 					if (!node.isInline && from == to && tr.doc.resolve(from).parent.content.size) {
 						let point = insertPoint(tr.doc, from, node.type);
@@ -10494,6 +11039,7 @@ would be a no-op (an empty slice over an empty range).
 					}
 					tr.replaceRange(from, to, new Slice(Fragment.from(node), 0, 0));
 				}
+
 				function deleteRange(tr, from, to) {
 					let $from = tr.doc.resolve(from),
 						$to = tr.doc.resolve(to);
@@ -10522,6 +11068,7 @@ would be a no-op (an empty slice over an empty range).
 					}
 					tr.delete(from, to);
 				}
+
 				// Returns an array of all depths for which $from - $to spans the
 				// whole content of the nodes at that depth.
 				function coveredDepths($from, $to) {
@@ -10552,7 +11099,7 @@ would be a no-op (an empty slice over an empty range).
 
 				/**
 @internal
-*/
+				 */
 				let TransformError = class extends Error {};
 				TransformError = function TransformError(message) {
 					let err = Error.call(this, message);
@@ -10562,106 +11109,117 @@ would be a no-op (an empty slice over an empty range).
 				TransformError.prototype = Object.create(Error.prototype);
 				TransformError.prototype.constructor = TransformError;
 				TransformError.prototype.name = "TransformError";
+
 				/**
 Abstraction to build up and track an array of
 [steps](https://prosemirror.net/docs/ref/#transform.Step) representing a document transformation.
 
 Most transforming methods return the `Transform` object itself, so
 that they can be chained.
-*/
+				 */
 				class Transform {
 					/**
 	Create a transform that starts with the given document.
-	*/
+					 */
 					constructor(
 						/**
 	The current document (the result of applying the steps in the
 	transform).
-	*/
+						 */
 						doc
 					) {
 						this.doc = doc;
 						/**
 		The steps in this transform.
-		*/
+						 */
 						this.steps = [];
 						/**
 		The documents before each of the steps.
-		*/
+						 */
 						this.docs = [];
 						/**
 		A mapping with the maps for each of the steps in this transform.
-		*/
+						 */
 						this.mapping = new Mapping();
 					}
+
 					/**
 	The starting document.
-	*/
+					 */
 					get before() {
 						return this.docs.length ? this.docs[0] : this.doc;
 					}
+
 					/**
 	Apply a new step in this transform, saving the result. Throws an
 	error when the step fails.
-	*/
+					 */
 					step(step) {
 						let result = this.maybeStep(step);
 						if (result.failed) throw new TransformError(result.failed);
 						return this;
 					}
+
 					/**
 	Try to apply a step in this transformation, ignoring it if it
 	fails. Returns the step result.
-	*/
+					 */
 					maybeStep(step) {
 						let result = step.apply(this.doc);
 						if (!result.failed) this.addStep(step, result.doc);
 						return result;
 					}
+
 					/**
 	True when the document has been changed (when there are any
 	steps).
-	*/
+					 */
 					get docChanged() {
 						return this.steps.length > 0;
 					}
+
 					/**
 	@internal
-	*/
+					 */
 					addStep(step, doc) {
 						this.docs.push(this.doc);
 						this.steps.push(step);
 						this.mapping.appendMap(step.getMap());
 						this.doc = doc;
 					}
+
 					/**
 	Replace the part of the document between `from` and `to` with the
 	given `slice`.
-	*/
+					 */
 					replace(from, to = from, slice = Slice.empty) {
 						let step = replaceStep(this.doc, from, to, slice);
 						if (step) this.step(step);
 						return this;
 					}
+
 					/**
 	Replace the given range with the given content, which may be a
 	fragment, node, or array of nodes.
-	*/
+					 */
 					replaceWith(from, to, content) {
 						return this.replace(from, to, new Slice(Fragment.from(content), 0, 0));
 					}
+
 					/**
 	Delete the content between the given positions.
-	*/
+					 */
 					delete(from, to) {
 						return this.replace(from, to, Slice.empty);
 					}
+
 					/**
 	Insert the given content at the given position.
-	*/
+					 */
 					insert(pos, content) {
 						return this.replaceWith(pos, pos, content);
 					}
+
 					/**
 	Replace a range of the document with a given slice, using
 	`from`, `to`, and the slice's
@@ -10680,11 +11238,12 @@ that they can be chained.
 	primitive tool which will _not_ move the start and end of its given
 	range, and is useful in situations where you need more precise
 	control over what happens.
-	*/
+					 */
 					replaceRange(from, to, slice) {
 						replaceRange(this, from, to, slice);
 						return this;
 					}
+
 					/**
 	Replace the given range with a node, but use `from` and `to` as
 	hints, rather than precise positions. When from and to are the same
@@ -10693,97 +11252,107 @@ that they can be chained.
 	that does allow the given node to be placed. When the given range
 	completely covers a parent node, this method may completely replace
 	that parent node.
-	*/
+					 */
 					replaceRangeWith(from, to, node) {
 						replaceRangeWith(this, from, to, node);
 						return this;
 					}
+
 					/**
 	Delete the given range, expanding it to cover fully covered
 	parent nodes until a valid replace is found.
-	*/
+					 */
 					deleteRange(from, to) {
 						deleteRange(this, from, to);
 						return this;
 					}
+
 					/**
 	Split the content in the given range off from its parent, if there
 	is sibling content before or after it, and move it up the tree to
 	the depth specified by `target`. You'll probably want to use
 	[`liftTarget`](https://prosemirror.net/docs/ref/#transform.liftTarget) to compute `target`, to make
 	sure the lift is valid.
-	*/
+					 */
 					lift(range, target) {
 						lift(this, range, target);
 						return this;
 					}
+
 					/**
 	Join the blocks around the given position. If depth is 2, their
 	last and first siblings are also joined, and so on.
-	*/
+					 */
 					join(pos, depth = 1) {
 						join(this, pos, depth);
 						return this;
 					}
+
 					/**
 	Wrap the given [range](https://prosemirror.net/docs/ref/#model.NodeRange) in the given set of wrappers.
 	The wrappers are assumed to be valid in this position, and should
 	probably be computed with [`findWrapping`](https://prosemirror.net/docs/ref/#transform.findWrapping).
-	*/
+					 */
 					wrap(range, wrappers) {
 						wrap(this, range, wrappers);
 						return this;
 					}
+
 					/**
 	Set the type of all textblocks (partly) between `from` and `to` to
 	the given node type with the given attributes.
-	*/
+					 */
 					setBlockType(from, to = from, type, attrs = null) {
 						setBlockType(this, from, to, type, attrs);
 						return this;
 					}
+
 					/**
 	Change the type, attributes, and/or marks of the node at `pos`.
 	When `type` isn't given, the existing node type is preserved,
-	*/
+					 */
 					setNodeMarkup(pos, type, attrs = null, marks = []) {
 						setNodeMarkup(this, pos, type, attrs, marks);
 						return this;
 					}
+
 					/**
 	Split the node at the given position, and optionally, if `depth` is
 	greater than one, any number of nodes above that. By default, the
 	parts split off will inherit the node type of the original node.
 	This can be changed by passing an array of types and attributes to
 	use after the split.
-	*/
+					 */
 					split(pos, depth = 1, typesAfter) {
 						split(this, pos, depth, typesAfter);
 						return this;
 					}
+
 					/**
 	Add the given mark to the inline content between `from` and `to`.
-	*/
+					 */
 					addMark(from, to, mark) {
 						addMark(this, from, to, mark);
 						return this;
 					}
+
 					/**
 	Remove marks from inline nodes between `from` and `to`. When
 	`mark` is a single mark, remove precisely that mark. When it is
 	a mark type, remove all marks of that type. When it is null,
 	remove all marks of any type.
-	*/
+					 */
 					removeMark(from, to, mark) {
 						removeMark(this, from, to, mark);
 						return this;
 					}
+
 					/**
 	Removes all marks and nodes from the content of the node at
 	`pos` that don't match the given new parent node type. Accepts
 	an optional starting [content match](https://prosemirror.net/docs/ref/#model.ContentMatch) as
 	third argument.
-	*/
+					 */
 					clearIncompatible(pos, parentType, match) {
 						clearIncompatible(this, pos, parentType, match);
 						return this;
@@ -10791,26 +11360,27 @@ that they can be chained.
 				} // CONCATENATED MODULE: ../../node_modules/prosemirror-state/dist/index.js
 
 				const classesById = Object.create(null);
+
 				/**
 Superclass for editor selections. Every selection type should
 extend this. Should not be instantiated directly.
-*/
+				 */
 				class Selection {
 					/**
 	Initialize a selection with the head and anchor and ranges. If no
 	ranges are given, constructs a single range across `$anchor` and
 	`$head`.
-	*/
+					 */
 					constructor(
 						/**
 	The resolved anchor of the selection (the side that stays in
 	place when the selection is modified).
-	*/
+						 */
 						$anchor,
 						/**
 	The resolved head of the selection (the side that moves when
 	the selection is modified).
-	*/
+						 */
 						$head,
 						ranges
 					) {
@@ -10820,61 +11390,70 @@ extend this. Should not be instantiated directly.
 							new SelectionRange($anchor.min($head), $anchor.max($head))
 						];
 					}
+
 					/**
 	The selection's anchor, as an unresolved position.
-	*/
+					 */
 					get anchor() {
 						return this.$anchor.pos;
 					}
+
 					/**
 	The selection's head.
-	*/
+					 */
 					get head() {
 						return this.$head.pos;
 					}
+
 					/**
 	The lower bound of the selection's main range.
-	*/
+					 */
 					get from() {
 						return this.$from.pos;
 					}
+
 					/**
 	The upper bound of the selection's main range.
-	*/
+					 */
 					get to() {
 						return this.$to.pos;
 					}
+
 					/**
 	The resolved lower  bound of the selection's main range.
-	*/
+					 */
 					get $from() {
 						return this.ranges[0].$from;
 					}
+
 					/**
 	The resolved upper bound of the selection's main range.
-	*/
+					 */
 					get $to() {
 						return this.ranges[0].$to;
 					}
+
 					/**
 	Indicates whether the selection contains any content.
-	*/
+					 */
 					get empty() {
 						let ranges = this.ranges;
 						for (let i = 0; i < ranges.length; i++)
 							if (ranges[i].$from.pos != ranges[i].$to.pos) return false;
 						return true;
 					}
+
 					/**
 	Get the content of this selection as a slice.
-	*/
+					 */
 					content() {
 						return this.$from.doc.slice(this.from, this.to, true);
 					}
+
 					/**
 	Replace the selection with a slice or, if no slice is given,
 	delete the selection. Will append to the given transaction.
-	*/
+					 */
 					replace(tr, content = Slice.empty) {
 						// Put the new selection at the position after the inserted
 						// content. When that ended in an inline node, search backwards,
@@ -10909,10 +11488,11 @@ extend this. Should not be instantiated directly.
 								);
 						}
 					}
+
 					/**
 	Replace the selection with the given node, appending the changes
 	to the given transaction.
-	*/
+					 */
 					replaceWith(tr, node) {
 						let mapFrom = tr.steps.length,
 							ranges = this.ranges;
@@ -10929,13 +11509,14 @@ extend this. Should not be instantiated directly.
 							}
 						}
 					}
+
 					/**
 	Find a valid cursor or leaf node selection starting at the given
 	position and searching back if `dir` is negative, and forward if
 	positive. When `textOnly` is true, only consider cursor
 	selections. Will return null when no valid selection position is
 	found.
-	*/
+					 */
 					static findFrom($pos, dir, textOnly = false) {
 						let inner = $pos.parent.inlineContent
 							? new TextSelection($pos)
@@ -10971,11 +11552,12 @@ extend this. Should not be instantiated directly.
 						}
 						return null;
 					}
+
 					/**
 	Find a valid cursor or leaf node selection near the given
 	position. Searches forward first by default, but if `bias` is
 	negative, it will search backwards first.
-	*/
+					 */
 					static near($pos, bias = 1) {
 						return (
 							this.findFrom($pos, bias) ||
@@ -10983,29 +11565,32 @@ extend this. Should not be instantiated directly.
 							new AllSelection($pos.node(0))
 						);
 					}
+
 					/**
 	Find the cursor or leaf node selection closest to the start of
 	the given document. Will return an
 	[`AllSelection`](https://prosemirror.net/docs/ref/#state.AllSelection) if no valid position
 	exists.
-	*/
+					 */
 					static atStart(doc) {
 						return findSelectionIn(doc, doc, 0, 0, 1) || new AllSelection(doc);
 					}
+
 					/**
 	Find the cursor or leaf node selection closest to the end of the
 	given document.
-	*/
+					 */
 					static atEnd(doc) {
 						return (
 							findSelectionIn(doc, doc, doc.content.size, doc.childCount, -1) ||
 							new AllSelection(doc)
 						);
 					}
+
 					/**
 	Deserialize the JSON representation of a selection. Must be
 	implemented for custom classes (as a static class method).
-	*/
+					 */
 					static fromJSON(doc, json) {
 						if (!json || !json.type)
 							throw new RangeError("Invalid input for Selection.fromJSON");
@@ -11013,12 +11598,13 @@ extend this. Should not be instantiated directly.
 						if (!cls) throw new RangeError(`No selection type ${json.type} defined`);
 						return cls.fromJSON(doc, json);
 					}
+
 					/**
 	To be able to deserialize selections from JSON, custom selection
 	classes must register themselves with an ID string, so that they
 	can be disambiguated. Try to pick something that's unlikely to
 	clash with classes from other modules.
-	*/
+					 */
 					static jsonID(id, selectionClass) {
 						if (id in classesById)
 							throw new RangeError("Duplicate use of selection JSON ID " + id);
@@ -11026,6 +11612,7 @@ extend this. Should not be instantiated directly.
 						selectionClass.prototype.jsonID = id;
 						return selectionClass;
 					}
+
 					/**
 	Get a [bookmark](https://prosemirror.net/docs/ref/#state.SelectionBookmark) for this selection,
 	which is a value that can be mapped without having access to a
@@ -11034,34 +11621,38 @@ extend this. Should not be instantiated directly.
 	track and restore old selections.) The default implementation of
 	this method just converts the selection to a text selection and
 	returns the bookmark for that.
-	*/
+					 */
 					getBookmark() {
 						return TextSelection.between(this.$anchor, this.$head).getBookmark();
 					}
 				}
+
 				Selection.prototype.visible = true;
+
 				/**
 Represents a selected range in a document.
-*/
+				 */
 				class SelectionRange {
 					/**
 	Create a range.
-	*/
+					 */
 					constructor(
 						/**
 	The lower bound of the range.
-	*/
+						 */
 						$from,
 						/**
 	The upper bound of the range.
-	*/
+						 */
 						$to
 					) {
 						this.$from = $from;
 						this.$to = $to;
 					}
 				}
+
 				let warnedAboutTextSelection = false;
+
 				function checkTextSelection($pos) {
 					if (!warnedAboutTextSelection && !$pos.parent.inlineContent) {
 						warnedAboutTextSelection = true;
@@ -11072,28 +11663,31 @@ Represents a selected range in a document.
 						);
 					}
 				}
+
 				/**
 A text selection represents a classical editor selection, with a
 head (the moving side) and anchor (immobile side), both of which
 point into textblock nodes. It can be empty (a regular cursor
 position).
-*/
+				 */
 				class TextSelection extends Selection {
 					/**
 	Construct a text selection between the given points.
-	*/
+					 */
 					constructor($anchor, $head = $anchor) {
 						checkTextSelection($anchor);
 						checkTextSelection($head);
 						super($anchor, $head);
 					}
+
 					/**
 	Returns a resolved position if this is a cursor selection (an
 	empty text selection), and null otherwise.
-	*/
+					 */
 					get $cursor() {
 						return this.$anchor.pos == this.$head.pos ? this.$head : null;
 					}
+
 					map(doc, mapping) {
 						let $head = doc.resolve(mapping.map(this.head));
 						if (!$head.parent.inlineContent) return Selection.near($head);
@@ -11103,6 +11697,7 @@ position).
 							$head
 						);
 					}
+
 					replace(tr, content = Slice.empty) {
 						super.replace(tr, content);
 						if (content == Slice.empty) {
@@ -11110,6 +11705,7 @@ position).
 							if (marks) tr.ensureMarks(marks);
 						}
 					}
+
 					eq(other) {
 						return (
 							other instanceof TextSelection &&
@@ -11117,27 +11713,32 @@ position).
 							other.head == this.head
 						);
 					}
+
 					getBookmark() {
 						return new TextBookmark(this.anchor, this.head);
 					}
+
 					toJSON() {
 						return { type: "text", anchor: this.anchor, head: this.head };
 					}
+
 					/**
 	@internal
-	*/
+					 */
 					static fromJSON(doc, json) {
 						if (typeof json.anchor != "number" || typeof json.head != "number")
 							throw new RangeError("Invalid input for TextSelection.fromJSON");
 						return new TextSelection(doc.resolve(json.anchor), doc.resolve(json.head));
 					}
+
 					/**
 	Create a text selection from non-resolved positions.
-	*/
+					 */
 					static create(doc, anchor, head = anchor) {
 						let $anchor = doc.resolve(anchor);
 						return new this($anchor, head == anchor ? $anchor : doc.resolve(head));
 					}
+
 					/**
 	Return a text selection that spans the given positions or, if
 	they aren't text positions, find a text selection near them.
@@ -11145,7 +11746,7 @@ position).
 	or backwards (negative number) first. Will fall back to calling
 	[`Selection.near`](https://prosemirror.net/docs/ref/#state.Selection^near) when the document
 	doesn't contain a valid text position.
-	*/
+					 */
 					static between($anchor, $head, bias) {
 						let dPos = $anchor.pos - $head.pos;
 						if (!bias || dPos) bias = dPos >= 0 ? 1 : -1;
@@ -11170,15 +11771,19 @@ position).
 						return new TextSelection($anchor, $head);
 					}
 				}
+
 				Selection.jsonID("text", TextSelection);
+
 				class TextBookmark {
 					constructor(anchor, head) {
 						this.anchor = anchor;
 						this.head = head;
 					}
+
 					map(mapping) {
 						return new TextBookmark(mapping.map(this.anchor), mapping.map(this.head));
 					}
+
 					resolve(doc) {
 						return TextSelection.between(
 							doc.resolve(this.anchor),
@@ -11186,74 +11791,87 @@ position).
 						);
 					}
 				}
+
 				/**
 A node selection is a selection that points at a single node. All
 nodes marked [selectable](https://prosemirror.net/docs/ref/#model.NodeSpec.selectable) can be the
 target of a node selection. In such a selection, `from` and `to`
 point directly before and after the selected node, `anchor` equals
 `from`, and `head` equals `to`..
-*/
+				 */
 				class dist_NodeSelection extends Selection {
 					/**
 	Create a node selection. Does not verify the validity of its
 	argument.
-	*/
+					 */
 					constructor($pos) {
 						let node = $pos.nodeAfter;
 						let $end = $pos.node(0).resolve($pos.pos + node.nodeSize);
 						super($pos, $end);
 						this.node = node;
 					}
+
 					map(doc, mapping) {
 						let { deleted, pos } = mapping.mapResult(this.anchor);
 						let $pos = doc.resolve(pos);
 						if (deleted) return Selection.near($pos);
 						return new dist_NodeSelection($pos);
 					}
+
 					content() {
 						return new Slice(Fragment.from(this.node), 0, 0);
 					}
+
 					eq(other) {
 						return other instanceof dist_NodeSelection && other.anchor == this.anchor;
 					}
+
 					toJSON() {
 						return { type: "node", anchor: this.anchor };
 					}
+
 					getBookmark() {
 						return new NodeBookmark(this.anchor);
 					}
+
 					/**
 	@internal
-	*/
+					 */
 					static fromJSON(doc, json) {
 						if (typeof json.anchor != "number")
 							throw new RangeError("Invalid input for NodeSelection.fromJSON");
 						return new dist_NodeSelection(doc.resolve(json.anchor));
 					}
+
 					/**
 	Create a node selection from non-resolved positions.
-	*/
+					 */
 					static create(doc, from) {
 						return new dist_NodeSelection(doc.resolve(from));
 					}
+
 					/**
 	Determines whether the given node may be selected as a node
 	selection.
-	*/
+					 */
 					static isSelectable(node) {
 						return !node.isText && node.type.spec.selectable !== false;
 					}
 				}
+
 				dist_NodeSelection.prototype.visible = false;
 				Selection.jsonID("node", dist_NodeSelection);
+
 				class NodeBookmark {
 					constructor(anchor) {
 						this.anchor = anchor;
 					}
+
 					map(mapping) {
 						let { deleted, pos } = mapping.mapResult(this.anchor);
 						return deleted ? new TextBookmark(pos, pos) : new NodeBookmark(pos);
 					}
+
 					resolve(doc) {
 						let $pos = doc.resolve(this.anchor),
 							node = $pos.nodeAfter;
@@ -11262,19 +11880,21 @@ point directly before and after the selected node, `anchor` equals
 						return Selection.near($pos);
 					}
 				}
+
 				/**
 A selection type that represents selecting the whole document
 (which can not necessarily be expressed with a text selection, when
 there are for example leaf block nodes at the start or end of the
 document).
-*/
+				 */
 				class AllSelection extends Selection {
 					/**
 	Create an all-selection over the given document.
-	*/
+					 */
 					constructor(doc) {
 						super(doc.resolve(0), doc.resolve(doc.content.size));
 					}
+
 					replace(tr, content = Slice.empty) {
 						if (content == Slice.empty) {
 							tr.delete(0, tr.doc.content.size);
@@ -11284,25 +11904,31 @@ document).
 							super.replace(tr, content);
 						}
 					}
+
 					toJSON() {
 						return { type: "all" };
 					}
+
 					/**
 	@internal
-	*/
+					 */
 					static fromJSON(doc) {
 						return new AllSelection(doc);
 					}
+
 					map(doc) {
 						return new AllSelection(doc);
 					}
+
 					eq(other) {
 						return other instanceof AllSelection;
 					}
+
 					getBookmark() {
 						return AllBookmark;
 					}
 				}
+
 				Selection.jsonID("all", AllSelection);
 				const AllBookmark = {
 					map() {
@@ -11344,6 +11970,7 @@ document).
 					}
 					return null;
 				}
+
 				function selectionToInsertionEnd(tr, startLen, bias) {
 					let last = tr.steps.length - 1;
 					if (last < startLen) return;
@@ -11360,6 +11987,7 @@ document).
 				const UPDATED_SEL = 1,
 					UPDATED_MARKS = 2,
 					UPDATED_SCROLL = 4;
+
 				/**
 An editor state transaction, which can be applied to a state to
 create an updated state. Use
@@ -11378,11 +12006,11 @@ The [editor view](https://prosemirror.net/docs/ref/#view.EditorView) uses a few 
 it will attach a property `"pointer"` with the value `true` to
 selection transactions directly caused by mouse or touch input, and
 a `"uiEvent"` property of that may be `"paste"`, `"cut"`, or `"drop"`.
-*/
+				 */
 				class Transaction extends Transform {
 					/**
 	@internal
-	*/
+					 */
 					constructor(state) {
 						super(state.doc);
 						// The step count for which the current selection is valid.
@@ -11396,12 +12024,13 @@ a `"uiEvent"` property of that may be `"paste"`, `"cut"`, or `"drop"`.
 						this.curSelection = state.selection;
 						this.storedMarks = state.storedMarks;
 					}
+
 					/**
 	The transaction's current selection. This defaults to the editor
 	selection [mapped](https://prosemirror.net/docs/ref/#state.Selection.map) through the steps in the
 	transaction, but can be overwritten with
 	[`setSelection`](https://prosemirror.net/docs/ref/#state.Transaction.setSelection).
-	*/
+					 */
 					get selection() {
 						if (this.curSelectionFor < this.steps.length) {
 							this.curSelection = this.curSelection.map(
@@ -11412,10 +12041,11 @@ a `"uiEvent"` property of that may be `"paste"`, `"cut"`, or `"drop"`.
 						}
 						return this.curSelection;
 					}
+
 					/**
 	Update the transaction's current selection. Will determine the
 	selection that the editor gets when the transaction is applied.
-	*/
+					 */
 					setSelection(selection) {
 						if (selection.$from.doc != this.doc)
 							throw new RangeError(
@@ -11427,79 +12057,89 @@ a `"uiEvent"` property of that may be `"paste"`, `"cut"`, or `"drop"`.
 						this.storedMarks = null;
 						return this;
 					}
+
 					/**
 	Whether the selection was explicitly updated by this transaction.
-	*/
+					 */
 					get selectionSet() {
 						return (this.updated & UPDATED_SEL) > 0;
 					}
+
 					/**
 	Set the current stored marks.
-	*/
+					 */
 					setStoredMarks(marks) {
 						this.storedMarks = marks;
 						this.updated |= UPDATED_MARKS;
 						return this;
 					}
+
 					/**
 	Make sure the current stored marks or, if that is null, the marks
 	at the selection, match the given set of marks. Does nothing if
 	this is already the case.
-	*/
+					 */
 					ensureMarks(marks) {
 						if (!Mark.sameSet(this.storedMarks || this.selection.$from.marks(), marks))
 							this.setStoredMarks(marks);
 						return this;
 					}
+
 					/**
 	Add a mark to the set of stored marks.
-	*/
+					 */
 					addStoredMark(mark) {
 						return this.ensureMarks(
 							mark.addToSet(this.storedMarks || this.selection.$head.marks())
 						);
 					}
+
 					/**
 	Remove a mark or mark type from the set of stored marks.
-	*/
+					 */
 					removeStoredMark(mark) {
 						return this.ensureMarks(
 							mark.removeFromSet(this.storedMarks || this.selection.$head.marks())
 						);
 					}
+
 					/**
 	Whether the stored marks were explicitly set for this transaction.
-	*/
+					 */
 					get storedMarksSet() {
 						return (this.updated & UPDATED_MARKS) > 0;
 					}
+
 					/**
 	@internal
-	*/
+					 */
 					addStep(step, doc) {
 						super.addStep(step, doc);
 						this.updated = this.updated & ~UPDATED_MARKS;
 						this.storedMarks = null;
 					}
+
 					/**
 	Update the timestamp for the transaction.
-	*/
+					 */
 					setTime(time) {
 						this.time = time;
 						return this;
 					}
+
 					/**
 	Replace the current selection with the given slice.
-	*/
+					 */
 					replaceSelection(slice) {
 						this.selection.replace(this, slice);
 						return this;
 					}
+
 					/**
 	Replace the selection with the given node. When `inheritMarks` is
 	true and the content is inline, it inherits the marks from the
 	place where it is inserted.
-	*/
+					 */
 					replaceSelectionWith(node, inheritMarks = true) {
 						let selection = this.selection;
 						if (inheritMarks)
@@ -11512,17 +12152,19 @@ a `"uiEvent"` property of that may be `"paste"`, `"cut"`, or `"drop"`.
 						selection.replaceWith(this, node);
 						return this;
 					}
+
 					/**
 	Delete the selection.
-	*/
+					 */
 					deleteSelection() {
 						this.selection.replace(this);
 						return this;
 					}
+
 					/**
 	Replace the given range, or the selection if no range is given,
 	with a text node containing the given string.
-	*/
+					 */
 					insertText(text, from, to) {
 						let schema = this.doc.type.schema;
 						if (from == null) {
@@ -11546,39 +12188,44 @@ a `"uiEvent"` property of that may be `"paste"`, `"cut"`, or `"drop"`.
 							return this;
 						}
 					}
+
 					/**
 	Store a metadata property in this transaction, keyed either by
 	name or by plugin.
-	*/
+					 */
 					setMeta(key, value) {
 						this.meta[typeof key == "string" ? key : key.key] = value;
 						return this;
 					}
+
 					/**
 	Retrieve a metadata property for a given name or plugin.
-	*/
+					 */
 					getMeta(key) {
 						return this.meta[typeof key == "string" ? key : key.key];
 					}
+
 					/**
 	Returns true if this transaction doesn't contain any metadata,
 	and can thus safely be extended.
-	*/
+					 */
 					get isGeneric() {
 						for (let _ in this.meta) return false;
 						return true;
 					}
+
 					/**
 	Indicate that the editor should scroll the selection into view
 	when updated to the state produced by this transaction.
-	*/
+					 */
 					scrollIntoView() {
 						this.updated |= UPDATED_SCROLL;
 						return this;
 					}
+
 					/**
 	True when this transaction has had `scrollIntoView` called on it.
-	*/
+					 */
 					get scrolledIntoView() {
 						return (this.updated & UPDATED_SCROLL) > 0;
 					}
@@ -11587,6 +12234,7 @@ a `"uiEvent"` property of that may be `"paste"`, `"cut"`, or `"drop"`.
 				function bind(f, self) {
 					return !self || !f ? f : f.bind(self);
 				}
+
 				class FieldDesc {
 					constructor(name, desc, self) {
 						this.name = name;
@@ -11594,6 +12242,7 @@ a `"uiEvent"` property of that may be `"paste"`, `"cut"`, or `"drop"`.
 						this.apply = bind(desc.apply, self);
 					}
 				}
+
 				const baseFields = [
 					new FieldDesc("doc", {
 						init(config) {
@@ -11654,6 +12303,7 @@ a `"uiEvent"` property of that may be `"paste"`, `"cut"`, or `"drop"`.
 							});
 					}
 				}
+
 				/**
 The state of a ProseMirror editor is represented by an object of
 this type. A state is a persistent data structure—it isn't
@@ -11662,40 +12312,44 @@ using the [`apply`](https://prosemirror.net/docs/ref/#state.EditorState.apply) m
 
 A state holds a number of built-in fields, and plugins can
 [define](https://prosemirror.net/docs/ref/#state.PluginSpec.state) additional fields.
-*/
+				 */
 				class EditorState {
 					/**
 	@internal
-	*/
+					 */
 					constructor(
 						/**
 	@internal
-	*/
+						 */
 						config
 					) {
 						this.config = config;
 					}
+
 					/**
 	The schema of the state's document.
-	*/
+					 */
 					get schema() {
 						return this.config.schema;
 					}
+
 					/**
 	The plugins that are active in this state.
-	*/
+					 */
 					get plugins() {
 						return this.config.plugins;
 					}
+
 					/**
 	Apply the given transaction to produce a new state.
-	*/
+					 */
 					apply(tr) {
 						return this.applyTransaction(tr).state;
 					}
+
 					/**
 	@ignore
-	*/
+					 */
 					filterTransaction(tr, ignore = -1) {
 						for (let i = 0; i < this.config.plugins.length; i++)
 							if (i != ignore) {
@@ -11708,13 +12362,14 @@ A state holds a number of built-in fields, and plugins can
 							}
 						return true;
 					}
+
 					/**
 	Verbose variant of [`apply`](https://prosemirror.net/docs/ref/#state.EditorState.apply) that
 	returns the precise transactions that were applied (which might
 	be influenced by the [transaction
 	hooks](https://prosemirror.net/docs/ref/#state.PluginSpec.filterTransaction) of
 	plugins) along with the new state.
-	*/
+					 */
 					applyTransaction(rootTr) {
 						if (!this.filterTransaction(rootTr))
 							return { state: this, transactions: [] };
@@ -11760,9 +12415,10 @@ A state holds a number of built-in fields, and plugins can
 							if (!haveNew) return { state: newState, transactions: trs };
 						}
 					}
+
 					/**
 	@internal
-	*/
+					 */
 					applyInner(tr) {
 						if (!tr.before.eq(this.doc))
 							throw new RangeError("Applying a mismatched transaction");
@@ -11779,15 +12435,17 @@ A state holds a number of built-in fields, and plugins can
 						}
 						return newInstance;
 					}
+
 					/**
 	Start a [transaction](https://prosemirror.net/docs/ref/#state.Transaction) from this state.
-	*/
+					 */
 					get tr() {
 						return new Transaction(this);
 					}
+
 					/**
 	Create a new state.
-	*/
+					 */
 					static create(config) {
 						let $config = new Configuration(
 							config.doc ? config.doc.type.schema : config.schema,
@@ -11801,6 +12459,7 @@ A state holds a number of built-in fields, and plugins can
 							);
 						return instance;
 					}
+
 					/**
 	Create a new state based on this one, but with an adjusted set
 	of active plugins. State fields that exist in both sets of
@@ -11808,7 +12467,7 @@ A state holds a number of built-in fields, and plugins can
 	dropped, and those that are new are initialized using their
 	[`init`](https://prosemirror.net/docs/ref/#state.StateField.init) method, passing in the new
 	configuration object..
-	*/
+					 */
 					reconfigure(config) {
 						let $config = new Configuration(this.schema, config.plugins);
 						let fields = $config.fields,
@@ -11821,13 +12480,14 @@ A state holds a number of built-in fields, and plugins can
 						}
 						return instance;
 					}
+
 					/**
 	Serialize this state to JSON. If you want to serialize the state
 	of plugins, pass an object mapping property names to use in the
 	resulting JSON object to plugin objects. The argument may also be
 	a string or number, in which case it is ignored, to support the
 	way `JSON.stringify` calls `toString` methods.
-	*/
+					 */
 					toJSON(pluginFields) {
 						let result = { doc: this.doc.toJSON(), selection: this.selection.toJSON() };
 						if (this.storedMarks)
@@ -11845,13 +12505,14 @@ A state holds a number of built-in fields, and plugins can
 							}
 						return result;
 					}
+
 					/**
 	Deserialize a JSON representation of a state. `config` should
 	have at least a `schema` field, and should contain array of
 	plugins to initialize the state with. `pluginFields` can be used
 	to deserialize the state of plugins, by associating plugin
 	instances with the property names they use in the JSON object.
-	*/
+					 */
 					static fromJSON(config, json, pluginFields) {
 						if (!json) throw new RangeError("Invalid input for EditorState.fromJSON");
 						if (!config.schema)
@@ -11907,65 +12568,72 @@ A state holds a number of built-in fields, and plugins can
 					}
 					return target;
 				}
+
 				/**
 Plugins bundle functionality that can be added to an editor.
 They are part of the [editor state](https://prosemirror.net/docs/ref/#state.EditorState) and
 may influence that state and the view that contains it.
-*/
+				 */
 				class Plugin {
 					/**
 	Create a plugin.
-	*/
+					 */
 					constructor(
 						/**
 	The plugin's [spec object](https://prosemirror.net/docs/ref/#state.PluginSpec).
-	*/
+						 */
 						spec
 					) {
 						this.spec = spec;
 						/**
 		The [props](https://prosemirror.net/docs/ref/#view.EditorProps) exported by this plugin.
-		*/
+						 */
 						this.props = {};
 						if (spec.props) bindProps(spec.props, this, this.props);
 						this.key = spec.key ? spec.key.key : createKey("plugin");
 					}
+
 					/**
 	Extract the plugin's state field from an editor state.
-	*/
+					 */
 					getState(state) {
 						return state[this.key];
 					}
 				}
+
 				const keys = Object.create(null);
+
 				function createKey(name) {
 					if (name in keys) return name + "$" + ++keys[name];
 					keys[name] = 0;
 					return name + "$";
 				}
+
 				/**
 A key is used to [tag](https://prosemirror.net/docs/ref/#state.PluginSpec.key) plugins in a way
 that makes it possible to find them, given an editor state.
 Assigning a key does mean only one plugin of that type can be
 active in a state.
-*/
+				 */
 				class PluginKey {
 					/**
 	Create a plugin key.
-	*/
+					 */
 					constructor(name = "key") {
 						this.key = createKey(name);
 					}
+
 					/**
 	Get the active plugin with this key, if any, from an editor
 	state.
-	*/
+					 */
 					get(state) {
 						return state.config.pluginsByKey[this.key];
 					}
+
 					/**
 	Get the plugin's state from an editor state.
-	*/
+					 */
 					getState(state) {
 						return state[this.key];
 					}
@@ -12033,6 +12701,7 @@ active in a state.
 					);
 				};
 				const atomElements = /^(img|br|input|textarea|hr)$/i;
+
 				function scanFor(node, off, targetNode, targetOff, dir) {
 					for (;;) {
 						if (node == targetNode && off == targetOff) return true;
@@ -12057,9 +12726,11 @@ active in a state.
 						}
 					}
 				}
+
 				function nodeSize(node) {
 					return node.nodeType == 3 ? node.nodeValue.length : node.childNodes.length;
 				}
+
 				function isOnEdge(node, offset, parent) {
 					for (
 						let atStart = offset == 0, atEnd = offset == nodeSize(node);
@@ -12074,6 +12745,7 @@ active in a state.
 						atEnd = atEnd && index == nodeSize(node);
 					}
 				}
+
 				function hasBlockDesc(dom) {
 					let desc;
 					for (let cur = dom; cur; cur = cur.parentNode)
@@ -12085,6 +12757,7 @@ active in a state.
 						(desc.dom == dom || desc.contentDOM == dom)
 					);
 				}
+
 				// Work around Chrome issue https://bugs.chromium.org/p/chromium/issues/detail?id=447523
 				// (isCollapsed inappropriately returns true in shadow dom)
 				const selectionCollapsed = function (domSel) {
@@ -12093,6 +12766,7 @@ active in a state.
 						collapsed = false;
 					return collapsed;
 				};
+
 				function keyEvent(keyCode, key) {
 					let event = document.createEvent("Event");
 					event.initEvent("keydown", true, true);
@@ -12109,9 +12783,11 @@ active in a state.
 						bottom: doc.documentElement.clientHeight
 					};
 				}
+
 				function getSide(value, side) {
 					return typeof value == "number" ? value : value[side];
 				}
+
 				function clientRect(node) {
 					let rect = node.getBoundingClientRect();
 					// Adjust for elements with style "transform: scale()"
@@ -12125,6 +12801,7 @@ active in a state.
 						bottom: rect.top + node.clientHeight * scaleY
 					};
 				}
+
 				function scrollRectIntoView(view, rect, startDOM) {
 					let scrollThreshold = view.someProp("scrollThreshold") || 0,
 						scrollMargin = view.someProp("scrollMargin") || 5;
@@ -12166,6 +12843,7 @@ active in a state.
 						if (atTop) break;
 					}
 				}
+
 				// Store the scroll position of the editor's parent nodes, along with
 				// the top position of an element near the top of the editor, which
 				// will be used to make sure the visible viewport remains stable even
@@ -12190,6 +12868,7 @@ active in a state.
 					}
 					return { refDOM: refDOM, refTop: refTop, stack: scrollStack(view.dom) };
 				}
+
 				function scrollStack(dom) {
 					let stack = [],
 						doc = dom.ownerDocument;
@@ -12199,12 +12878,14 @@ active in a state.
 					}
 					return stack;
 				}
+
 				// Reset the scroll position of the editor's parent nodes to that what
 				// it was before, when storeScrollPos was called.
 				function resetScrollPos({ refDOM, refTop, stack }) {
 					let newRefTop = refDOM ? refDOM.getBoundingClientRect().top : 0;
 					restoreScrollStack(stack, newRefTop == 0 ? 0 : newRefTop - refTop);
 				}
+
 				function restoreScrollStack(stack, dTop) {
 					for (let i = 0; i < stack.length; i++) {
 						let { dom, top, left } = stack[i];
@@ -12212,6 +12893,7 @@ active in a state.
 						if (dom.scrollLeft != left) dom.scrollLeft = left;
 					}
 				}
+
 				let preventScrollSupported = null;
 				// Feature-detects support for .focus({preventScroll: true}), and uses
 				// a fallback kludge when not supported.
@@ -12234,6 +12916,7 @@ active in a state.
 						restoreScrollStack(stored, 0);
 					}
 				}
+
 				function findOffsetInNode(node, coords) {
 					let closest,
 						dxClosest = 2e8,
@@ -12294,6 +12977,7 @@ active in a state.
 					if (!closest || (dxClosest && closest.nodeType == 1)) return { node, offset };
 					return findOffsetInNode(closest, coordsClosest);
 				}
+
 				function findOffsetInText(node, coords) {
 					let len = node.nodeValue.length;
 					let range = document.createRange();
@@ -12310,6 +12994,7 @@ active in a state.
 					}
 					return { node, offset: 0 };
 				}
+
 				function inRect(coords, rect) {
 					return (
 						coords.left >= rect.left - 1 &&
@@ -12318,6 +13003,7 @@ active in a state.
 						coords.top <= rect.bottom + 1
 					);
 				}
+
 				function targetKludge(dom, coords) {
 					let parent = dom.parentNode;
 					if (
@@ -12328,6 +13014,7 @@ active in a state.
 						return parent;
 					return dom;
 				}
+
 				function posFromElement(view, elt, coords) {
 					let { node, offset } = findOffsetInNode(elt, coords),
 						bias = -1;
@@ -12340,6 +13027,7 @@ active in a state.
 					}
 					return view.docView.posFromDOM(node, offset, bias);
 				}
+
 				function posFromCaret(view, node, offset, coords) {
 					// Browser (in caretPosition/RangeFromPoint) will agressively
 					// normalize towards nearby inline nodes. Since we are interested in
@@ -12364,6 +13052,7 @@ active in a state.
 					}
 					return outside > -1 ? outside : view.docView.posFromDOM(node, offset, 1);
 				}
+
 				function elementFromPoint(element, coords, box) {
 					let len = element.childNodes.length;
 					if (len && box.top < box.bottom) {
@@ -12395,6 +13084,7 @@ active in a state.
 					}
 					return element;
 				}
+
 				// Given an x,y position on the editor, get the position in the document.
 				function posAtCoords(view, coords) {
 					let doc = view.dom.ownerDocument,
@@ -12469,12 +13159,14 @@ active in a state.
 					let desc = view.docView.nearestDesc(elt, true);
 					return { pos, inside: desc ? desc.posAtStart - desc.border : -1 };
 				}
+
 				function singleRect(target, bias) {
 					let rects = target.getClientRects();
 					return !rects.length
 						? target.getBoundingClientRect()
 						: rects[bias < 0 ? 0 : rects.length - 1];
 				}
+
 				const BIDI = /[\u0590-\u05f4\u0600-\u06ff\u0700-\u08ac]/;
 				// Given a position in the document model, get a bounding box of the
 				// character at that position, relative to the window.
@@ -12585,16 +13277,19 @@ active in a state.
 						side >= 0
 					);
 				}
+
 				function flattenV(rect, left) {
 					if (rect.width == 0) return rect;
 					let x = left ? rect.left : rect.right;
 					return { top: rect.top, bottom: rect.bottom, left: x, right: x };
 				}
+
 				function flattenH(rect, top) {
 					if (rect.height == 0) return rect;
 					let y = top ? rect.top : rect.bottom;
 					return { top: y, bottom: y, left: rect.left, right: rect.right };
 				}
+
 				function withFlushedState(view, state, f) {
 					let viewState = view.state,
 						active = view.root.activeElement;
@@ -12607,6 +13302,7 @@ active in a state.
 						if (active != view.dom && active) active.focus();
 					}
 				}
+
 				// Whether vertical position motion in a given direction
 				// from a position would leave a text block.
 				function endOfTextblockVertical(view, state, dir) {
@@ -12649,7 +13345,9 @@ active in a state.
 						return true;
 					});
 				}
+
 				const maybeRTL = /[\u0590-\u08ac]/;
+
 				function endOfTextblockHorizontal(view, state, dir) {
 					let { $head } = state.selection;
 					if (!$head.parent.isTextblock) return false;
@@ -12689,9 +13387,11 @@ active in a state.
 						return result;
 					});
 				}
+
 				let cachedState = null;
 				let cachedDir = null;
 				let cachedResult = false;
+
 				function endOfTextblock(view, state, dir) {
 					if (cachedState == state && cachedDir == dir) return cachedResult;
 					cachedState = state;
@@ -12738,31 +13438,38 @@ active in a state.
 						// description.
 						dom.pmViewDesc = this;
 					}
+
 					// Used to check whether a given description corresponds to a
 					// widget/mark/node.
 					matchesWidget(widget) {
 						return false;
 					}
+
 					matchesMark(mark) {
 						return false;
 					}
+
 					matchesNode(node, outerDeco, innerDeco) {
 						return false;
 					}
+
 					matchesHack(nodeName) {
 						return false;
 					}
+
 					// When parsing in-editor content (in domchange.js), we allow
 					// descriptions to determine the parse rules that should be used to
 					// parse them.
 					parseRule() {
 						return null;
 					}
+
 					// Used by the editor's event handler to ignore events that come
 					// from certain descs.
 					stopEvent(event) {
 						return false;
 					}
+
 					// The size of the content represented by this desc.
 					get size() {
 						let size = 0;
@@ -12770,16 +13477,19 @@ active in a state.
 							size += this.children[i].size;
 						return size;
 					}
+
 					// For block nodes, this represents the space taken up by their
 					// start/end tokens.
 					get border() {
 						return 0;
 					}
+
 					destroy() {
 						this.parent = undefined;
 						if (this.dom.pmViewDesc == this) this.dom.pmViewDesc = undefined;
 						for (let i = 0; i < this.children.length; i++) this.children[i].destroy();
 					}
+
 					posBeforeChild(child) {
 						for (let i = 0, pos = this.posAtStart; ; i++) {
 							let cur = this.children[i];
@@ -12787,18 +13497,23 @@ active in a state.
 							pos += cur.size;
 						}
 					}
+
 					get posBefore() {
 						return this.parent.posBeforeChild(this);
 					}
+
 					get posAtStart() {
 						return this.parent ? this.parent.posBeforeChild(this) + this.border : 0;
 					}
+
 					get posAfter() {
 						return this.posBefore + this.size;
 					}
+
 					get posAtEnd() {
 						return this.posAtStart + this.size - 2 * this.border;
 					}
+
 					localPosFromDOM(dom, offset, bias) {
 						// If the DOM position is in the content, use the child desc after
 						// it to figure out a position.
@@ -12870,6 +13585,7 @@ active in a state.
 						}
 						return (atEnd == null ? bias > 0 : atEnd) ? this.posAtEnd : this.posAtStart;
 					}
+
 					// Scan up the dom finding the first desc that is a descendant of
 					// this one.
 					nearestDesc(dom, onlyNodes = false) {
@@ -12890,10 +13606,12 @@ active in a state.
 							}
 						}
 					}
+
 					getDesc(dom) {
 						let desc = dom.pmViewDesc;
 						for (let cur = desc; cur; cur = cur.parent) if (cur == this) return desc;
 					}
+
 					posFromDOM(dom, offset, bias) {
 						for (let scan = dom; scan; scan = scan.parentNode) {
 							let desc = this.getDesc(scan);
@@ -12901,6 +13619,7 @@ active in a state.
 						}
 						return -1;
 					}
+
 					// Find the desc for the node after the given pos, if any. (When a
 					// parent node overrode rendering, there might not be one.)
 					descAt(pos) {
@@ -12916,6 +13635,7 @@ active in a state.
 							offset = end;
 						}
 					}
+
 					domFromPos(pos, side) {
 						if (!this.contentDOM) return { node: this.dom, offset: 0, atom: pos + 1 };
 						// First find the position in the child array
@@ -12976,6 +13696,7 @@ active in a state.
 							};
 						}
 					}
+
 					// Used to find a DOM range in a single parent for a given changed
 					// range.
 					parseRange(from, to, base = 0) {
@@ -13039,17 +13760,20 @@ active in a state.
 						}
 						return { node: this.contentDOM, from, to, fromOffset, toOffset };
 					}
+
 					emptyChildAt(side) {
 						if (this.border || !this.contentDOM || !this.children.length) return false;
 						let child = this.children[side < 0 ? 0 : this.children.length - 1];
 						return child.size == 0 || child.emptyChildAt(side);
 					}
+
 					domAfterPos(pos) {
 						let { node, offset } = this.domFromPos(pos, 0);
 						if (node.nodeType != 1 || offset == node.childNodes.length)
 							throw new RangeError("No node after pos " + pos);
 						return node.childNodes[offset];
 					}
+
 					// View descs are responsible for setting any selection that falls
 					// entirely inside of them, so that custom implementations can do
 					// custom things with the selection. Note that this falls apart when
@@ -13164,9 +13888,11 @@ active in a state.
 							domSel.addRange(range);
 						}
 					}
+
 					ignoreMutation(mutation) {
 						return !this.contentDOM && mutation.type != "selection";
 					}
+
 					get contentLost() {
 						return (
 							this.contentDOM &&
@@ -13174,6 +13900,7 @@ active in a state.
 							!this.dom.contains(this.contentDOM)
 						);
 					}
+
 					// Remove a subtree of the element tree that has been touched
 					// by a DOM change, so that the next update will redraw it.
 					markDirty(from, to) {
@@ -13212,6 +13939,7 @@ active in a state.
 						}
 						this.dirty = CONTENT_DIRTY;
 					}
+
 					markParentsDirty() {
 						let level = 1;
 						for (let node = this.parent; node; node = node.parent, level++) {
@@ -13219,13 +13947,16 @@ active in a state.
 							if (node.dirty < dirty) node.dirty = dirty;
 						}
 					}
+
 					get domAtom() {
 						return false;
 					}
+
 					get ignoreForCoords() {
 						return false;
 					}
 				}
+
 				// A widget desc represents a widget decoration, which is a DOM node
 				// drawn between the document nodes.
 				class WidgetViewDesc extends ViewDesc {
@@ -13251,50 +13982,63 @@ active in a state.
 						this.widget = widget;
 						self = this;
 					}
+
 					matchesWidget(widget) {
 						return this.dirty == NOT_DIRTY && widget.type.eq(this.widget.type);
 					}
+
 					parseRule() {
 						return { ignore: true };
 					}
+
 					stopEvent(event) {
 						let stop = this.widget.spec.stopEvent;
 						return stop ? stop(event) : false;
 					}
+
 					ignoreMutation(mutation) {
 						return mutation.type != "selection" || this.widget.spec.ignoreSelection;
 					}
+
 					destroy() {
 						this.widget.type.destroy(this.dom);
 						super.destroy();
 					}
+
 					get domAtom() {
 						return true;
 					}
+
 					get side() {
 						return this.widget.type.side;
 					}
 				}
+
 				class CompositionViewDesc extends ViewDesc {
 					constructor(parent, dom, textDOM, text) {
 						super(parent, [], dom, null);
 						this.textDOM = textDOM;
 						this.text = text;
 					}
+
 					get size() {
 						return this.text.length;
 					}
+
 					localPosFromDOM(dom, offset) {
 						if (dom != this.textDOM) return this.posAtStart + (offset ? this.size : 0);
 						return this.posAtStart + offset;
 					}
+
 					domFromPos(pos) {
 						return { node: this.textDOM, offset: pos };
 					}
+
 					ignoreMutation(mut) {
 						return mut.type === "characterData" && mut.target.nodeValue == mut.oldValue;
 					}
 				}
+
 				// A mark desc represents a mark. May have multiple children,
 				// depending on how the mark is split. Note that marks are drawn using
 				// a fixed nesting order, for simplicity and predictability, so in
@@ -13305,6 +14049,7 @@ active in a state.
 						super(parent, [], dom, contentDOM);
 						this.mark = mark;
 					}
+
 					static create(parent, mark, inline, view) {
 						let custom = view.nodeViews[mark.type.name];
 						let spec = custom && custom(mark, view, inline);
@@ -13320,6 +14065,7 @@ active in a state.
 							spec.contentDOM || spec.dom
 						);
 					}
+
 					parseRule() {
 						if (this.dirty & NODE_DIRTY || this.mark.type.spec.reparseInView)
 							return null;
@@ -13329,9 +14075,11 @@ active in a state.
 							contentElement: this.contentDOM || undefined
 						};
 					}
+
 					matchesMark(mark) {
 						return this.dirty != NODE_DIRTY && this.mark.eq(mark);
 					}
+
 					markDirty(from, to) {
 						super.markDirty(from, to);
 						// Move dirty info to nearest node view
@@ -13342,6 +14090,7 @@ active in a state.
 							this.dirty = NOT_DIRTY;
 						}
 					}
+
 					slice(from, to, view) {
 						let copy = MarkViewDesc.create(this.parent, this.mark, true, view);
 						let nodes = this.children,
@@ -13353,6 +14102,7 @@ active in a state.
 						return copy;
 					}
 				}
+
 				// Node view descs are the main, most common type of view desc, and
 				// correspond to an actual node in the document. Unlike mark descs,
 				// they populate their child array themselves.
@@ -13375,6 +14125,7 @@ active in a state.
 						this.nodeDOM = nodeDOM;
 						if (contentDOM) this.updateChildren(view, pos);
 					}
+
 					// By default, a node is rendered using the `toDOM` method from the
 					// node type spec. But client code can use the `nodeViews` spec to
 					// supply a custom node view, which can influence various aspects of
@@ -13457,6 +14208,7 @@ active in a state.
 								pos + 1
 							);
 					}
+
 					parseRule() {
 						// Experimental kludge to allow opt-in re-parsing of nodes
 						if (this.node.type.spec.reparseInView) return null;
@@ -13485,6 +14237,7 @@ active in a state.
 						}
 						return rule;
 					}
+
 					matchesNode(node, outerDeco, innerDeco) {
 						return (
 							this.dirty == NOT_DIRTY &&
@@ -13493,12 +14246,15 @@ active in a state.
 							innerDeco.eq(this.innerDeco)
 						);
 					}
+
 					get size() {
 						return this.node.nodeSize;
 					}
+
 					get border() {
 						return this.node.isLeaf ? 0 : 1;
 					}
+
 					// Syncs `this.children` to match `this.node.content` and the local
 					// decorations, possibly introducing nesting for marks. Then, in a
 					// separate step, syncs the DOM inside `this.contentDOM` to
@@ -13577,6 +14333,7 @@ active in a state.
 							if (ios) iosHacks(this.dom);
 						}
 					}
+
 					localCompositionInfo(view, pos) {
 						// Only do something if both the selection and a focused text node
 						// are inside of this node
@@ -13606,6 +14363,7 @@ active in a state.
 							return { node: textNode, pos: -1, text: "" };
 						}
 					}
+
 					protectLocalComposition(view, { node, pos, text }) {
 						// The node is already part of a local view desc, leave it there
 						if (this.getDesc(node)) return;
@@ -13630,6 +14388,7 @@ active in a state.
 							desc
 						);
 					}
+
 					// If this desc must be updated to match the given node decoration,
 					// do so and return true.
 					update(node, outerDeco, innerDeco, view) {
@@ -13637,6 +14396,7 @@ active in a state.
 						this.updateInner(node, outerDeco, innerDeco, view);
 						return true;
 					}
+
 					updateInner(node, outerDeco, innerDeco, view) {
 						this.updateOuterDeco(outerDeco);
 						this.node = node;
@@ -13644,6 +14404,7 @@ active in a state.
 						if (this.contentDOM) this.updateChildren(view, this.posAtStart);
 						this.dirty = NOT_DIRTY;
 					}
+
 					updateOuterDeco(outerDeco) {
 						if (sameOuterDeco(outerDeco, this.outerDeco)) return;
 						let needsWrap = this.nodeDOM.nodeType != 1;
@@ -13660,6 +14421,7 @@ active in a state.
 						}
 						this.outerDeco = outerDeco;
 					}
+
 					// Mark this node as being the selected node.
 					selectNode() {
 						if (this.nodeDOM.nodeType == 1)
@@ -13667,6 +14429,7 @@ active in a state.
 						if (this.contentDOM || !this.node.type.spec.draggable)
 							this.dom.draggable = true;
 					}
+
 					// Remove selected node marking from this node.
 					deselectNode() {
 						if (this.nodeDOM.nodeType == 1)
@@ -13674,10 +14437,12 @@ active in a state.
 						if (this.contentDOM || !this.node.type.spec.draggable)
 							this.dom.removeAttribute("draggable");
 					}
+
 					get domAtom() {
 						return this.node.isAtom;
 					}
 				}
+
 				// Create a view desc for the top-level document node, to be exported
 				// and used by the view class.
 				function docViewDesc(doc, outerDeco, innerDeco, dom, view) {
@@ -13694,15 +14459,18 @@ active in a state.
 						0
 					);
 				}
+
 				class TextViewDesc extends NodeViewDesc {
 					constructor(parent, node, outerDeco, innerDeco, dom, nodeDOM, view) {
 						super(parent, node, outerDeco, innerDeco, dom, null, nodeDOM, view, 0);
 					}
+
 					parseRule() {
 						let skip = this.nodeDOM.parentNode;
 						while (skip && skip != this.dom && !skip.pmIsDeco) skip = skip.parentNode;
 						return { skip: skip || true };
 					}
+
 					update(node, outerDeco, innerDeco, view) {
 						if (
 							this.dirty == NODE_DIRTY ||
@@ -13722,23 +14490,28 @@ active in a state.
 						this.dirty = NOT_DIRTY;
 						return true;
 					}
+
 					inParent() {
 						let parentDOM = this.parent.contentDOM;
 						for (let n = this.nodeDOM; n; n = n.parentNode)
 							if (n == parentDOM) return true;
 						return false;
 					}
+
 					domFromPos(pos) {
 						return { node: this.nodeDOM, offset: pos };
 					}
+
 					localPosFromDOM(dom, offset, bias) {
 						if (dom == this.nodeDOM)
 							return this.posAtStart + Math.min(offset, this.node.text.length);
 						return super.localPosFromDOM(dom, offset, bias);
 					}
+
 					ignoreMutation(mutation) {
 						return mutation.type != "characterData" && mutation.type != "selection";
 					}
+
 					slice(from, to, view) {
 						let node = this.node.cut(from, to),
 							dom = document.createTextNode(node.text);
@@ -13752,6 +14525,7 @@ active in a state.
 							view
 						);
 					}
+
 					markDirty(from, to) {
 						super.markDirty(from, to);
 						if (
@@ -13760,26 +14534,32 @@ active in a state.
 						)
 							this.dirty = NODE_DIRTY;
 					}
+
 					get domAtom() {
 						return false;
 					}
 				}
+
 				// A dummy desc used to tag trailing BR or IMG nodes created to work
 				// around contentEditable terribleness.
 				class TrailingHackViewDesc extends ViewDesc {
 					parseRule() {
 						return { ignore: true };
 					}
+
 					matchesHack(nodeName) {
 						return this.dirty == NOT_DIRTY && this.dom.nodeName == nodeName;
 					}
+
 					get domAtom() {
 						return true;
 					}
+
 					get ignoreForCoords() {
 						return this.dom.nodeName == "IMG";
 					}
 				}
+
 				// A separate subclass is used for customized node views, so that the
 				// extra checks only have to be made for nodes that are actually
 				// customized.
@@ -13809,6 +14589,7 @@ active in a state.
 						);
 						this.spec = spec;
 					}
+
 					// A custom `update` method gets to decide whether the update goes
 					// through. If it does, and there's a `contentDOM` node, our logic
 					// updates the children.
@@ -13824,30 +14605,37 @@ active in a state.
 							return super.update(node, outerDeco, innerDeco, view);
 						}
 					}
+
 					selectNode() {
 						this.spec.selectNode ? this.spec.selectNode() : super.selectNode();
 					}
+
 					deselectNode() {
 						this.spec.deselectNode ? this.spec.deselectNode() : super.deselectNode();
 					}
+
 					setSelection(anchor, head, root, force) {
 						this.spec.setSelection
 							? this.spec.setSelection(anchor, head, root)
 							: super.setSelection(anchor, head, root, force);
 					}
+
 					destroy() {
 						if (this.spec.destroy) this.spec.destroy();
 						super.destroy();
 					}
+
 					stopEvent(event) {
 						return this.spec.stopEvent ? this.spec.stopEvent(event) : false;
 					}
+
 					ignoreMutation(mutation) {
 						return this.spec.ignoreMutation
 							? this.spec.ignoreMutation(mutation)
 							: super.ignoreMutation(mutation);
 					}
 				}
+
 				// Sync the content of the given DOM node with the nodes associated
 				// with the given array of view descs, recursing into mark descs
 				// because this should sync the subtree for a whole node at a time.
@@ -13879,11 +14667,13 @@ active in a state.
 					}
 					if (written && view.trackWrites == parentDOM) view.trackWrites = null;
 				}
+
 				const OuterDecoLevel = function (nodeName) {
 					if (nodeName) this.nodeName = nodeName;
 				};
 				OuterDecoLevel.prototype = Object.create(null);
 				const noDeco = [new OuterDecoLevel()];
+
 				function computeOuterDeco(outerDeco, node, needsWrap) {
 					if (outerDeco.length == 0) return noDeco;
 					let top = needsWrap ? noDeco[0] : new OuterDecoLevel(),
@@ -13908,6 +14698,7 @@ active in a state.
 					}
 					return result;
 				}
+
 				function patchOuterDeco(outerDOM, nodeDOM, prevComputed, curComputed) {
 					// Shortcut for trivial case
 					if (prevComputed == noDeco && curComputed == noDeco) return nodeDOM;
@@ -13937,6 +14728,7 @@ active in a state.
 					}
 					return curDOM;
 				}
+
 				function patchAttributes(dom, prev, cur) {
 					for (let name in prev)
 						if (
@@ -13974,6 +14766,7 @@ active in a state.
 						if (cur.style) dom.style.cssText += cur.style;
 					}
 				}
+
 				function applyOuterDeco(dom, deco, node) {
 					return patchOuterDeco(
 						dom,
@@ -13982,17 +14775,20 @@ active in a state.
 						computeOuterDeco(deco, node, dom.nodeType != 1)
 					);
 				}
+
 				function sameOuterDeco(a, b) {
 					if (a.length != b.length) return false;
 					for (let i = 0; i < a.length; i++) if (!a[i].type.eq(b[i].type)) return false;
 					return true;
 				}
+
 				// Remove a DOM node and return its next sibling.
 				function rm(dom) {
 					let next = dom.nextSibling;
 					dom.parentNode.removeChild(dom);
 					return next;
 				}
+
 				// Helper class for incrementally updating a tree of mark descs and
 				// the widget and node descs inside of them.
 				class ViewTreeUpdater {
@@ -14009,6 +14805,7 @@ active in a state.
 						this.top = top;
 						this.preMatch = preMatch(top.node.content, top);
 					}
+
 					// Destroy and remove the children between the given indices in
 					// `this.top`.
 					destroyBetween(start, end) {
@@ -14017,10 +14814,12 @@ active in a state.
 						this.top.children.splice(start, end - start);
 						this.changed = true;
 					}
+
 					// Destroy all remaining children in `this.top`.
 					destroyRest() {
 						this.destroyBetween(this.index, this.top.children.length);
 					}
+
 					// Sync the current stack of mark descs with the given array of
 					// marks, reusing existing mark descs when possible.
 					syncToMarks(marks, inline, view) {
@@ -14077,6 +14876,7 @@ active in a state.
 							depth++;
 						}
 					}
+
 					// Try to find a node desc matching the given data. Skip over it and
 					// return true when successful.
 					findNodeMatch(node, outerDeco, innerDeco, index) {
@@ -14110,6 +14910,7 @@ active in a state.
 						this.index++;
 						return true;
 					}
+
 					updateNodeAt(node, outerDeco, innerDeco, index, view) {
 						let child = this.top.children[index];
 						if (child.dirty == NODE_DIRTY && child.dom == child.contentDOM)
@@ -14119,6 +14920,7 @@ active in a state.
 						this.index++;
 						return true;
 					}
+
 					findIndexWithChild(domNode) {
 						for (;;) {
 							let parent = domNode.parentNode;
@@ -14134,6 +14936,7 @@ active in a state.
 							domNode = parent;
 						}
 					}
+
 					// Try to update the next node, if any, to the given data. Checks
 					// pre-matches to avoid overwriting nodes that could still be used.
 					updateNextNode(node, outerDeco, innerDeco, view, index) {
@@ -14171,6 +14974,7 @@ active in a state.
 						}
 						return false;
 					}
+
 					// Insert the node as a newly created node desc.
 					addNode(node, outerDeco, innerDeco, view, pos) {
 						this.top.children.splice(
@@ -14180,6 +14984,7 @@ active in a state.
 						);
 						this.changed = true;
 					}
+
 					placeWidget(widget, view, pos) {
 						let next =
 							this.index < this.top.children.length
@@ -14197,6 +15002,7 @@ active in a state.
 							this.changed = true;
 						}
 					}
+
 					// Make sure a textblock looks and behaves correctly in
 					// contentEditable.
 					addTextblockHacks() {
@@ -14221,6 +15027,7 @@ active in a state.
 							this.addHackNode("BR", this.top);
 						}
 					}
+
 					addHackNode(nodeName, parent) {
 						if (
 							parent == this.top &&
@@ -14242,6 +15049,7 @@ active in a state.
 						}
 					}
 				}
+
 				// Iterate from the end of the fragment and array of descs to find
 				// directly matching ones, in order to avoid overeagerly reusing those
 				// for other nodes. Returns the fragment index of the first node that
@@ -14283,9 +15091,11 @@ active in a state.
 					}
 					return { index: fI, matched, matches: matches.reverse() };
 				}
+
 				function compareSide(a, b) {
 					return a.type.side - b.type.side;
 				}
+
 				// This function abstracts iterating over the nodes and decorations in
 				// a fragment. Calls `onNode` for each node, with its local and child
 				// decorations. Splits text nodes when there is a decoration starting
@@ -14360,6 +15170,7 @@ active in a state.
 						offset = end;
 					}
 				}
+
 				// List markers in Mobile Safari will mysteriously disappear
 				// sometimes. This works around that.
 				function iosHacks(dom) {
@@ -14370,6 +15181,7 @@ active in a state.
 						dom.style.cssText = oldCSS;
 					}
 				}
+
 				function nearbyTextNode(node, offset) {
 					for (;;) {
 						if (node.nodeType == 3) return node;
@@ -14389,6 +15201,7 @@ active in a state.
 						}
 					}
 				}
+
 				// Find a piece of text in an inline fragment, overlapping from-to
 				function findTextInFragment(frag, text, from, to) {
 					for (let i = 0, pos = 0; i < frag.childCount && pos <= to; ) {
@@ -14418,6 +15231,7 @@ active in a state.
 					}
 					return -1;
 				}
+
 				// Replace range from-to in an array of view descs with replacement
 				// (may be null to just delete). This goes very much against the grain
 				// of the rest of this code, which tends to create nodes with the
@@ -14492,6 +15306,7 @@ active in a state.
 					}
 					return selection;
 				}
+
 				function editorOwnsSelection(view) {
 					return view.editable
 						? view.hasFocus()
@@ -14499,6 +15314,7 @@ active in a state.
 								document.activeElement &&
 								document.activeElement.contains(view.dom);
 				}
+
 				function selectionToDOM(view, force = false) {
 					let sel = view.state.selection;
 					syncNodeSelection(view, sel);
@@ -14557,10 +15373,12 @@ active in a state.
 					view.domObserver.setCurSelection();
 					view.domObserver.connectSelection();
 				}
+
 				// Kludge to work around Webkit not allowing a selection to start/end
 				// between non-editable block nodes. We briefly make something
 				// editable, set the selection, then set it uneditable again.
 				const brokenSelectBetweenUneditable = safari || (chrome && chrome_version < 63);
+
 				function temporarilyEditableNear(view, pos) {
 					let { node, offset } = view.docView.domFromPos(pos, 0);
 					let after = offset < node.childNodes.length ? node.childNodes[offset] : null;
@@ -14575,6 +15393,7 @@ active in a state.
 						else if (before) return setEditable(before);
 					}
 				}
+
 				function setEditable(element) {
 					element.contentEditable = "true";
 					if (safari && element.draggable) {
@@ -14583,6 +15402,7 @@ active in a state.
 					}
 					return element;
 				}
+
 				function resetEditable(element) {
 					element.contentEditable = "false";
 					if (element.wasDraggable) {
@@ -14590,6 +15410,7 @@ active in a state.
 						element.wasDraggable = null;
 					}
 				}
+
 				function removeClassOnSelectionChange(view) {
 					let doc = view.dom.ownerDocument;
 					doc.removeEventListener("selectionchange", view.input.hideSelectionGuard);
@@ -14612,6 +15433,7 @@ active in a state.
 						})
 					);
 				}
+
 				function selectCursorWrapper(view) {
 					let domSel = view.domSelection(),
 						range = document.createRange();
@@ -14632,6 +15454,7 @@ active in a state.
 						node.disabled = false;
 					}
 				}
+
 				function syncNodeSelection(view, sel) {
 					if (sel instanceof dist_NodeSelection) {
 						let desc = view.docView.descAt(sel.from);
@@ -14644,6 +15467,7 @@ active in a state.
 						clearNodeSelection(view);
 					}
 				}
+
 				// Clear all DOM statefulness of the last node selection.
 				function clearNodeSelection(view) {
 					if (view.lastSelectedViewDesc) {
@@ -14652,16 +15476,19 @@ active in a state.
 						view.lastSelectedViewDesc = undefined;
 					}
 				}
+
 				function selectionBetween(view, $anchor, $head, bias) {
 					return (
 						view.someProp("createSelectionBetween", f => f(view, $anchor, $head)) ||
 						TextSelection.between($anchor, $head, bias)
 					);
 				}
+
 				function hasFocusAndSelection(view) {
 					if (view.editable && view.root.activeElement != view.dom) return false;
 					return hasSelection(view);
 				}
+
 				function hasSelection(view) {
 					let sel = view.domSelection();
 					if (!sel.anchorNode) return false;
@@ -14686,6 +15513,7 @@ active in a state.
 						return false;
 					}
 				}
+
 				function anchorInRightPlace(view) {
 					let anchorDOM = view.docView.domFromPos(view.state.selection.anchor, 0);
 					let domSel = view.domSelection();
@@ -14707,10 +15535,12 @@ active in a state.
 							: null;
 					return $start && Selection.findFrom($start, dir);
 				}
+
 				function apply(view, sel) {
 					view.dispatch(view.state.tr.setSelection(sel).scrollIntoView());
 					return true;
 				}
+
 				function selectHorizontally(view, dir, mods) {
 					let sel = view.state.selection;
 					if (sel instanceof TextSelection) {
@@ -14771,13 +15601,16 @@ active in a state.
 						return false;
 					}
 				}
+
 				function nodeLen(node) {
 					return node.nodeType == 3 ? node.nodeValue.length : node.childNodes.length;
 				}
+
 				function isIgnorable(dom) {
 					let desc = dom.pmViewDesc;
 					return desc && desc.size == 0 && (dom.nextSibling || dom.nodeName != "BR");
 				}
+
 				// Make sure the cursor isn't directly after one or more ignored
 				// nodes, which will confuse the browser's cursor motion logic.
 				function skipIgnoredNodesLeft(view) {
@@ -14834,6 +15667,7 @@ active in a state.
 					if (force) setSelFocus(view, sel, node, offset);
 					else if (moveNode) setSelFocus(view, sel, moveNode, moveOffset);
 				}
+
 				// Make sure the cursor isn't directly before one or more ignored
 				// nodes.
 				function skipIgnoredNodesRight(view) {
@@ -14873,10 +15707,12 @@ active in a state.
 					}
 					if (moveNode) setSelFocus(view, sel, moveNode, moveOffset);
 				}
+
 				function isBlockNode(dom) {
 					let desc = dom.pmViewDesc;
 					return desc && desc.node && desc.node.isBlock;
 				}
+
 				function setSelFocus(view, sel, node, offset) {
 					if (selectionCollapsed(sel)) {
 						let range = document.createRange();
@@ -14894,6 +15730,7 @@ active in a state.
 						if (view.state == state) selectionToDOM(view);
 					}, 50);
 				}
+
 				// Check whether vertical selection motion would involve node
 				// selections. If so, apply it (if not, the result is left to the
 				// browser)
@@ -14920,6 +15757,7 @@ active in a state.
 					}
 					return false;
 				}
+
 				function stopNativeHorizontalDelete(view, dir) {
 					if (!(view.state.selection instanceof TextSelection)) return true;
 					let { $head, $anchor, empty } = view.state.selection;
@@ -14937,11 +15775,13 @@ active in a state.
 					}
 					return false;
 				}
+
 				function switchEditable(view, node, state) {
 					view.domObserver.stop();
 					node.contentEditable = state;
 					view.domObserver.start();
 				}
+
 				// Issue #867 / #1090 / https://bugs.chromium.org/p/chromium/issues/detail?id=903821
 				// In which Safari (and at some point in the past, Chrome) does really
 				// wrong things when the down arrow is pressed when the cursor is
@@ -14963,6 +15803,7 @@ active in a state.
 					}
 					return false;
 				}
+
 				// A backdrop key mapping used to make sure we always suppress keys
 				// that have a dangerous default effect, even if the commands they are
 				// bound to return false, and to make sure that cursor-motion keys
@@ -14977,6 +15818,7 @@ active in a state.
 					if (event.shiftKey) result += "s";
 					return result;
 				}
+
 				function captureKeyDown(view, event) {
 					let code = event.keyCode,
 						mods = getMods(event);
@@ -15065,6 +15907,7 @@ active in a state.
 						slice.content.textBetween(0, slice.content.size, "\n\n");
 					return { dom: wrap, text };
 				}
+
 				// Read a slice of content from the clipboard (or drop data).
 				function parseFromClipboard(view, text, html, plainText, $context) {
 					let inCode = $context.parent.type.spec.code;
@@ -15168,6 +16011,7 @@ active in a state.
 					});
 					return slice;
 				}
+
 				const inlineParents =
 					/^(a|abbr|acronym|b|cite|code|del|em|i|ins|kbd|label|output|q|ruby|s|samp|span|strong|sub|sup|time|u|tt|var)$/i;
 				// Takes a slice parsed with parseSlice, which means there hasn't been
@@ -15219,11 +16063,13 @@ active in a state.
 					}
 					return fragment;
 				}
+
 				function withWrappers(node, wrap, from = 0) {
 					for (let i = wrap.length - 1; i >= from; i--)
 						node = wrap[i].create(null, Fragment.from(node));
 					return node;
 				}
+
 				// Used to group adjacent nodes wrapped in similar parents by
 				// normalizeSiblings into the same parent node
 				function addToSibling(wrap, lastWrap, node, sibling, depth) {
@@ -15252,6 +16098,7 @@ active in a state.
 							);
 					}
 				}
+
 				function closeRight(node, depth) {
 					if (depth == 0) return node;
 					let fragment = node.content.replaceChild(
@@ -15263,6 +16110,7 @@ active in a state.
 						.fillBefore(Fragment.empty, true);
 					return node.copy(fragment.append(fill));
 				}
+
 				function closeRange(fragment, side, from, to, depth, openEnd) {
 					let node = side < 0 ? fragment.firstChild : fragment.lastChild,
 						inner = node.content;
@@ -15288,6 +16136,7 @@ active in a state.
 						node.copy(inner)
 					);
 				}
+
 				function closeSlice(slice, openStart, openEnd) {
 					if (openStart < slice.openStart)
 						slice = new Slice(
@@ -15310,6 +16159,7 @@ active in a state.
 						);
 					return slice;
 				}
+
 				// Trick from jQuery -- some elements must be wrapped in other
 				// elements for innerHTML to work. I.e. if you do `div.innerHTML =
 				// "<td>..</td>"` the table cells are ignored.
@@ -15325,12 +16175,14 @@ active in a state.
 					th: ["table", "tbody", "tr"]
 				};
 				let _detachedDoc = null;
+
 				function detachedDoc() {
 					return (
 						_detachedDoc ||
 						(_detachedDoc = document.implementation.createHTMLDocument("title"))
 					);
 				}
+
 				function readHTML(html) {
 					let metas = /^(\s*<meta [^>]*>)*/.exec(html);
 					if (metas) html = html.slice(metas[0].length);
@@ -15351,6 +16203,7 @@ active in a state.
 							elt = elt.querySelector(wrap[i]) || elt;
 					return elt;
 				}
+
 				// Webkit browsers do some hard-to-predict replacement of regular
 				// spaces with non-breaking spaces when putting content on the
 				// clipboard. This tries to convert such non-breaking spaces (which
@@ -15373,6 +16226,7 @@ active in a state.
 							);
 					}
 				}
+
 				function addContext(slice, context) {
 					if (!slice.size) return slice;
 					let schema = slice.content.firstChild.type.schema,
@@ -15397,6 +16251,7 @@ active in a state.
 				// to invoke when the event fires.
 				const handlers = {};
 				let editHandlers = {};
+
 				class InputState {
 					constructor() {
 						this.shiftKey = false;
@@ -15418,6 +16273,7 @@ active in a state.
 						this.hideSelectionGuard = null;
 					}
 				}
+
 				function initInput(view) {
 					for (let event in handlers) {
 						let handler = handlers[event];
@@ -15439,10 +16295,12 @@ active in a state.
 					if (safari) view.dom.addEventListener("input", () => null);
 					ensureListeners(view);
 				}
+
 				function setSelectionOrigin(view, origin) {
 					view.input.lastSelectionOrigin = origin;
 					view.input.lastSelectionTime = Date.now();
 				}
+
 				function destroyInput(view) {
 					view.domObserver.stop();
 					for (let type in view.input.eventHandlers)
@@ -15450,6 +16308,7 @@ active in a state.
 					clearTimeout(view.input.composingTimeout);
 					clearTimeout(view.input.lastIOSEnterFallbackTimeout);
 				}
+
 				function ensureListeners(view) {
 					view.someProp("handleDOMEvents", currentHandlers => {
 						for (let type in currentHandlers)
@@ -15461,12 +16320,14 @@ active in a state.
 								);
 					});
 				}
+
 				function runCustomHandler(view, event) {
 					return view.someProp("handleDOMEvents", handlers => {
 						let handler = handlers[event.type];
 						return handler ? handler(view, event) || event.defaultPrevented : false;
 					});
 				}
+
 				function eventBelongsToView(view, event) {
 					if (!event.bubbles) return true;
 					if (event.defaultPrevented) return false;
@@ -15479,6 +16340,7 @@ active in a state.
 							return false;
 					return true;
 				}
+
 				function dispatchEvent(view, event) {
 					if (
 						!runCustomHandler(view, event) &&
@@ -15487,6 +16349,7 @@ active in a state.
 					)
 						handlers[event.type](view, event);
 				}
+
 				editHandlers.keydown = (view, _event) => {
 					let event = _event;
 					view.input.shiftKey = event.keyCode == 16 || event.shiftKey;
@@ -15554,14 +16417,17 @@ active in a state.
 						event.preventDefault();
 					}
 				};
+
 				function eventCoords(event) {
 					return { left: event.clientX, top: event.clientY };
 				}
+
 				function isNear(event, click) {
 					let dx = click.x - event.clientX,
 						dy = click.y - event.clientY;
 					return dx * dx + dy * dy < 100;
 				}
+
 				function runHandlerOnContext(view, propName, pos, inside, event) {
 					if (inside == -1) return false;
 					let $pos = view.state.doc.resolve(inside);
@@ -15577,12 +16443,14 @@ active in a state.
 					}
 					return false;
 				}
+
 				function updateSelection(view, selection, origin) {
 					if (!view.focused) view.focus();
 					let tr = view.state.tr.setSelection(selection);
 					if (origin == "pointer") tr.setMeta("pointer", true);
 					view.dispatch(tr);
 				}
+
 				function selectClickedLeaf(view, inside) {
 					if (inside == -1) return false;
 					let $pos = view.state.doc.resolve(inside),
@@ -15593,6 +16461,7 @@ active in a state.
 					}
 					return false;
 				}
+
 				function selectClickedNode(view, inside) {
 					if (inside == -1) return false;
 					let sel = view.state.selection,
@@ -15625,6 +16494,7 @@ active in a state.
 						return false;
 					}
 				}
+
 				function handleSingleClick(view, pos, inside, event, selectNode) {
 					return (
 						runHandlerOnContext(view, "handleClickOn", pos, inside, event) ||
@@ -15634,12 +16504,14 @@ active in a state.
 							: selectClickedLeaf(view, inside))
 					);
 				}
+
 				function handleDoubleClick(view, pos, inside, event) {
 					return (
 						runHandlerOnContext(view, "handleDoubleClickOn", pos, inside, event) ||
 						view.someProp("handleDoubleClick", f => f(view, pos, event))
 					);
 				}
+
 				function handleTripleClick(view, pos, inside, event) {
 					return (
 						runHandlerOnContext(view, "handleTripleClickOn", pos, inside, event) ||
@@ -15647,6 +16519,7 @@ active in a state.
 						defaultTripleClick(view, inside, event)
 					);
 				}
+
 				function defaultTripleClick(view, inside, event) {
 					if (event.button != 0) return false;
 					let doc = view.state.doc;
@@ -15685,9 +16558,11 @@ active in a state.
 						return true;
 					}
 				}
+
 				function forceDOMFlush(view) {
 					return endComposition(view);
 				}
+
 				const selectNodeModifier = mac ? "metaKey" : "ctrlKey";
 				handlers.mousedown = (view, _event) => {
 					let event = _event;
@@ -15722,6 +16597,7 @@ active in a state.
 						setSelectionOrigin(view, "pointer");
 					}
 				};
+
 				class MouseDown {
 					constructor(view, pos, event, flushed) {
 						this.view = view;
@@ -15782,6 +16658,7 @@ active in a state.
 						view.root.addEventListener("mousemove", (this.move = this.move.bind(this)));
 						setSelectionOrigin(view, "pointer");
 					}
+
 					done() {
 						this.view.root.removeEventListener("mouseup", this.up);
 						this.view.root.removeEventListener("mousemove", this.move);
@@ -15795,6 +16672,7 @@ active in a state.
 						if (this.delayedSelectionSync) setTimeout(() => selectionToDOM(this.view));
 						this.view.input.mouseDown = null;
 					}
+
 					up(event) {
 						this.done();
 						if (!this.view.dom.contains(event.target)) return;
@@ -15842,6 +16720,7 @@ active in a state.
 							setSelectionOrigin(this.view, "pointer");
 						}
 					}
+
 					move(event) {
 						if (
 							!this.allowDefault &&
@@ -15853,11 +16732,13 @@ active in a state.
 						if (event.buttons == 0) this.done();
 					}
 				}
+
 				handlers.touchdown = view => {
 					forceDOMFlush(view);
 					setSelectionOrigin(view, "pointer");
 				};
 				handlers.contextmenu = view => forceDOMFlush(view);
+
 				function inOrNearComposition(view, event) {
 					if (view.composing) return true;
 					// See https://www.stum.de/2016/06/24/handling-ime-events-in-javascript/.
@@ -15876,6 +16757,7 @@ active in a state.
 					}
 					return false;
 				}
+
 				// Drop active composition after 5 seconds of inactivity on Android
 				const timeoutComposition = android ? 5000 : -1;
 				editHandlers.compositionstart = editHandlers.compositionupdate = view => {
@@ -15938,11 +16820,13 @@ active in a state.
 						scheduleComposeEnd(view, 20);
 					}
 				};
+
 				function scheduleComposeEnd(view, delay) {
 					clearTimeout(view.input.composingTimeout);
 					if (delay > -1)
 						view.input.composingTimeout = setTimeout(() => endComposition(view), delay);
 				}
+
 				function clearComposition(view) {
 					if (view.composing) {
 						view.input.composing = false;
@@ -15951,14 +16835,16 @@ active in a state.
 					while (view.input.compositionNodes.length > 0)
 						view.input.compositionNodes.pop().markParentsDirty();
 				}
+
 				function timestampFromCustomEvent() {
 					let event = document.createEvent("Event");
 					event.initEvent("event", true, true);
 					return event.timeStamp;
 				}
+
 				/**
 @internal
-*/
+				 */
 				function endComposition(view, forceUpdate = false) {
 					if (android && view.domObserver.flushingSoon >= 0) return;
 					view.domObserver.forceFlush();
@@ -15972,6 +16858,7 @@ active in a state.
 					}
 					return false;
 				}
+
 				function captureCopy(view, dom) {
 					// The extra wrapper is somehow necessary on IE/Edge to prevent the
 					// content from being mangled when it is put onto the clipboard
@@ -15993,6 +16880,7 @@ active in a state.
 						view.focus();
 					}, 50);
 				}
+
 				// This is very crude, but unfortunately both these browsers _pretend_
 				// that they have a clipboard API—all the objects and methods are
 				// there, they just don't work, and they are hard to test.
@@ -16022,6 +16910,7 @@ active in a state.
 								.setMeta("uiEvent", "cut")
 						);
 				};
+
 				function sliceSingleNode(slice) {
 					return slice.openStart == 0 &&
 						slice.openEnd == 0 &&
@@ -16029,6 +16918,7 @@ active in a state.
 						? slice.content.firstChild
 						: null;
 				}
+
 				function capturePaste(view, event) {
 					if (!view.dom.parentNode) return;
 					let plainText =
@@ -16046,6 +16936,7 @@ active in a state.
 						else doPaste(view, target.textContent, target.innerHTML, event);
 					}, 50);
 				}
+
 				function doPaste(view, text, html, event) {
 					let slice = parseFromClipboard(
 						view,
@@ -16066,6 +16957,7 @@ active in a state.
 					);
 					return true;
 				}
+
 				editHandlers.paste = (view, _event) => {
 					let event = _event;
 					// Handling paste from JavaScript during composition is very poorly
@@ -16081,12 +16973,14 @@ active in a state.
 						event.preventDefault();
 					else capturePaste(view, event);
 				};
+
 				class Dragging {
 					constructor(slice, move) {
 						this.slice = slice;
 						this.move = move;
 					}
 				}
+
 				const dragCopyModifier = mac ? "altKey" : "ctrlKey";
 				handlers.dragstart = (view, _event) => {
 					let event = _event;
@@ -16264,12 +17158,14 @@ active in a state.
 					for (let p in b) if (!(p in a)) return false;
 					return true;
 				}
+
 				class WidgetType {
 					constructor(toDOM, spec) {
 						this.toDOM = toDOM;
 						this.spec = spec || noSpec;
 						this.side = this.spec.side || 0;
 					}
+
 					map(mapping, span, offset, oldOffset) {
 						let { pos, deleted } = mapping.mapResult(
 							span.from + oldOffset,
@@ -16277,9 +17173,11 @@ active in a state.
 						);
 						return deleted ? null : new Decoration(pos - offset, pos - offset, this);
 					}
+
 					valid() {
 						return true;
 					}
+
 					eq(other) {
 						return (
 							this == other ||
@@ -16289,15 +17187,18 @@ active in a state.
 										compareObjs(this.spec, other.spec))))
 						);
 					}
+
 					destroy(node) {
 						if (this.spec.destroy) this.spec.destroy(node);
 					}
 				}
+
 				class InlineType {
 					constructor(attrs, spec) {
 						this.attrs = attrs;
 						this.spec = spec || noSpec;
 					}
+
 					map(mapping, span, offset, oldOffset) {
 						let from =
 							mapping.map(span.from + oldOffset, this.spec.inclusiveStart ? -1 : 1) -
@@ -16307,9 +17208,11 @@ active in a state.
 							offset;
 						return from >= to ? null : new Decoration(from, to, this);
 					}
+
 					valid(_, span) {
 						return span.from < span.to;
 					}
+
 					eq(other) {
 						return (
 							this == other ||
@@ -16318,16 +17221,20 @@ active in a state.
 								compareObjs(this.spec, other.spec))
 						);
 					}
+
 					static is(span) {
 						return span.type instanceof InlineType;
 					}
+
 					destroy() {}
 				}
+
 				class dist_NodeType {
 					constructor(attrs, spec) {
 						this.attrs = attrs;
 						this.spec = spec || noSpec;
 					}
+
 					map(mapping, span, offset, oldOffset) {
 						let from = mapping.mapResult(span.from + oldOffset, 1);
 						if (from.deleted) return null;
@@ -16335,6 +17242,7 @@ active in a state.
 						if (to.deleted || to.pos <= from.pos) return null;
 						return new Decoration(from.pos - offset, to.pos - offset, this);
 					}
+
 					valid(node, span) {
 						let { index, offset } = node.content.findIndex(span.from),
 							child;
@@ -16344,6 +17252,7 @@ active in a state.
 							offset + child.nodeSize == span.to
 						);
 					}
+
 					eq(other) {
 						return (
 							this == other ||
@@ -16352,45 +17261,49 @@ active in a state.
 								compareObjs(this.spec, other.spec))
 						);
 					}
+
 					destroy() {}
 				}
+
 				/**
 Decoration objects can be provided to the view through the
 [`decorations` prop](https://prosemirror.net/docs/ref/#view.EditorProps.decorations). They come in
 several variants—see the static members of this class for details.
-*/
+				 */
 				class Decoration {
 					/**
 	@internal
-	*/
+					 */
 					constructor(
 						/**
 	The start position of the decoration.
-	*/
+						 */
 						from,
 						/**
 	The end position. Will be the same as `from` for [widget
 	decorations](https://prosemirror.net/docs/ref/#view.Decoration^widget).
-	*/
+						 */
 						to,
 						/**
 	@internal
-	*/
+						 */
 						type
 					) {
 						this.from = from;
 						this.to = to;
 						this.type = type;
 					}
+
 					/**
 	@internal
-	*/
+					 */
 					copy(from, to) {
 						return new Decoration(from, to, this.type);
 					}
+
 					/**
 	@internal
-	*/
+					 */
 					eq(other, offset = 0) {
 						return (
 							this.type.eq(other.type) &&
@@ -16398,12 +17311,14 @@ several variants—see the static members of this class for details.
 							this.to + offset == other.to
 						);
 					}
+
 					/**
 	@internal
-	*/
+					 */
 					map(mapping, offset, oldOffset) {
 						return this.type.map(mapping, this, offset, oldOffset);
 					}
+
 					/**
 	Creates a widget decoration, which is a DOM node that's shown in
 	the document at the given position. It is recommended that you
@@ -16411,62 +17326,70 @@ several variants—see the static members of this class for details.
 	called when the widget is actually drawn in a view, but you can
 	also directly pass a DOM node. `getPos` can be used to find the
 	widget's current document position.
-	*/
+					 */
 					static widget(pos, toDOM, spec) {
 						return new Decoration(pos, pos, new WidgetType(toDOM, spec));
 					}
+
 					/**
 	Creates an inline decoration, which adds the given attributes to
 	each inline node between `from` and `to`.
-	*/
+					 */
 					static inline(from, to, attrs, spec) {
 						return new Decoration(from, to, new InlineType(attrs, spec));
 					}
+
 					/**
 	Creates a node decoration. `from` and `to` should point precisely
 	before and after a node in the document. That node, and only that
 	node, will receive the given attributes.
-	*/
+					 */
 					static node(from, to, attrs, spec) {
 						return new Decoration(from, to, new dist_NodeType(attrs, spec));
 					}
+
 					/**
 	The spec provided when creating this decoration. Can be useful
 	if you've stored extra information in that object.
-	*/
+					 */
 					get spec() {
 						return this.type.spec;
 					}
+
 					/**
 	@internal
-	*/
+					 */
 					get inline() {
 						return this.type instanceof InlineType;
 					}
 				}
+
 				const none = [],
 					noSpec = {};
+
 				/**
 A collection of [decorations](https://prosemirror.net/docs/ref/#view.Decoration), organized in such
 a way that the drawing algorithm can efficiently use and compare
 them. This is a persistent data structure—it is not modified,
 updates create a new value.
-*/
+				 */
 				class DecorationSet {
 					/**
 	@internal
-	*/
+					 */
 					constructor(local, children) {
 						this.local = local.length ? local : none;
 						this.children = children.length ? children : none;
 					}
+
 					/**
 	Create a set of decorations, using the structure of the given
 	document.
-	*/
+					 */
 					static create(doc, decorations) {
 						return decorations.length ? buildTree(decorations, doc, 0, noSpec) : empty;
 					}
+
 					/**
 	Find all decorations in this set which touch the given range
 	(including decorations that start or end directly at the
@@ -16474,7 +17397,7 @@ updates create a new value.
 	`start` and `end` are omitted, all decorations in the set are
 	considered. When `predicate` isn't given, all decorations are
 	assumed to match.
-	*/
+					 */
 					find(start, end, predicate) {
 						let result = [];
 						this.findInner(
@@ -16486,6 +17409,7 @@ updates create a new value.
 						);
 						return result;
 					}
+
 					findInner(start, end, result, offset, predicate) {
 						for (let i = 0; i < this.local.length; i++) {
 							let span = this.local[i];
@@ -16509,17 +17433,19 @@ updates create a new value.
 							}
 						}
 					}
+
 					/**
 	Map the set of decorations in response to a change in the
 	document.
-	*/
+					 */
 					map(mapping, doc, options) {
 						if (this == empty || mapping.maps.length == 0) return this;
 						return this.mapInner(mapping, doc, 0, 0, options || noSpec);
 					}
+
 					/**
 	@internal
-	*/
+					 */
 					mapInner(mapping, node, offset, oldOffset, options) {
 						let newLocal;
 						for (let i = 0; i < this.local.length; i++) {
@@ -16541,16 +17467,18 @@ updates create a new value.
 						else
 							return newLocal ? new DecorationSet(newLocal.sort(byPos), none) : empty;
 					}
+
 					/**
 	Add the given array of decorations to the ones in the set,
 	producing a new set. Needs access to the current document to
 	create the appropriate tree structure.
-	*/
+					 */
 					add(doc, decorations) {
 						if (!decorations.length) return this;
 						if (this == empty) return DecorationSet.create(doc, decorations);
 						return this.addInner(doc, decorations, 0);
 					}
+
 					addInner(doc, decorations, offset) {
 						let children,
 							childIndex = 0;
@@ -16592,14 +17520,16 @@ updates create a new value.
 							children || this.children
 						);
 					}
+
 					/**
 	Create a new set that contains the decorations in this set, minus
 	the ones in the given array.
-	*/
+					 */
 					remove(decorations) {
 						if (decorations.length == 0 || this == empty) return this;
 						return this.removeInner(decorations, 0);
 					}
+
 					removeInner(decorations, offset) {
 						let children = this.children,
 							local = this.local;
@@ -16638,9 +17568,10 @@ updates create a new value.
 							? new DecorationSet(local, children)
 							: empty;
 					}
+
 					/**
 	@internal
-	*/
+					 */
 					forChild(offset, node) {
 						if (this == empty) return this;
 						if (node.isLeaf) return DecorationSet.empty;
@@ -16670,9 +17601,10 @@ updates create a new value.
 						}
 						return child || empty;
 					}
+
 					/**
 	@internal
-	*/
+					 */
 					eq(other) {
 						if (this == other) return true;
 						if (
@@ -16692,15 +17624,17 @@ updates create a new value.
 								return false;
 						return true;
 					}
+
 					/**
 	@internal
-	*/
+					 */
 					locals(node) {
 						return removeOverlap(this.localsInner(node));
 					}
+
 					/**
 	@internal
-	*/
+					 */
 					localsInner(node) {
 						if (this == empty) return none;
 						if (node.inlineContent || !this.local.some(InlineType.is))
@@ -16713,13 +17647,14 @@ updates create a new value.
 						return result;
 					}
 				}
+
 				/**
 The empty set of decorations.
-*/
+				 */
 				DecorationSet.empty = new DecorationSet([], []);
 				/**
 @internal
-*/
+				 */
 				DecorationSet.removeOverlap = removeOverlap;
 				const empty = DecorationSet.empty;
 				// An abstraction that allows the code dealing with decorations to
@@ -16729,12 +17664,14 @@ The empty set of decorations.
 					constructor(members) {
 						this.members = members;
 					}
+
 					map(mapping, doc) {
 						const mappedDecos = this.members.map(member =>
 							member.map(mapping, doc, noSpec)
 						);
 						return DecorationGroup.from(mappedDecos);
 					}
+
 					forChild(offset, child) {
 						if (child.isLeaf) return DecorationSet.empty;
 						let found = [];
@@ -16747,6 +17684,7 @@ The empty set of decorations.
 						}
 						return DecorationGroup.from(found);
 					}
+
 					eq(other) {
 						if (
 							!(other instanceof DecorationGroup) ||
@@ -16757,6 +17695,7 @@ The empty set of decorations.
 							if (!this.members[i].eq(other.members[i])) return false;
 						return true;
 					}
+
 					locals(node) {
 						let result,
 							sorted = true;
@@ -16775,6 +17714,7 @@ The empty set of decorations.
 						}
 						return result ? removeOverlap(sorted ? result : result.sort(byPos)) : none;
 					}
+
 					// Create a group for the given array of decoration sets, or return
 					// a single set when possible.
 					static from(members) {
@@ -16788,6 +17728,7 @@ The empty set of decorations.
 						}
 					}
 				}
+
 				function mapChildren(
 					oldChildren,
 					newLocal,
@@ -16896,6 +17837,7 @@ The empty set of decorations.
 					}
 					return new DecorationSet(newLocal.sort(byPos), children);
 				}
+
 				function moveSpans(spans, offset) {
 					if (!offset || !spans.length) return spans;
 					let result = [];
@@ -16907,6 +17849,7 @@ The empty set of decorations.
 					}
 					return result;
 				}
+
 				function mapAndGatherRemainingDecorations(
 					children,
 					oldChildren,
@@ -16926,11 +17869,13 @@ The empty set of decorations.
 						for (let i = 0; i < set.children.length; i += 3)
 							gather(set.children[i + 2], set.children[i] + oldOffset + 1);
 					}
+
 					for (let i = 0; i < children.length; i += 3)
 						if (children[i + 1] == -1)
 							gather(children[i + 2], oldChildren[i] + oldOffset + 1);
 					return decorations;
 				}
+
 				function takeSpansForNode(spans, node, offset) {
 					if (node.isLeaf) return null;
 					let end = offset + node.nodeSize,
@@ -16943,12 +17888,14 @@ The empty set of decorations.
 					}
 					return found;
 				}
+
 				function withoutNulls(array) {
 					let result = [];
 					for (let i = 0; i < array.length; i++)
 						if (array[i] != null) result.push(array[i]);
 					return result;
 				}
+
 				// Build up a tree that corresponds to a set of decorations. `offset`
 				// is a base offset that should be subtracted from the `from` and `to`
 				// positions in the spans (so that we don't have to allocate new spans
@@ -16982,12 +17929,14 @@ The empty set of decorations.
 						? new DecorationSet(locals, children)
 						: empty;
 				}
+
 				// Used to sort decorations so that ones with a low start position
 				// come first, and within a set with the same start position, those
 				// with an smaller end position come first.
 				function byPos(a, b) {
 					return a.from - b.from || a.to - b.to;
 				}
+
 				// Scan a sorted array of decorations for partially overlapping spans,
 				// and split those so that only fully overlapping spans are left (to
 				// make subsequent rendering easier). Will return the input array if
@@ -17022,10 +17971,12 @@ The empty set of decorations.
 					}
 					return working;
 				}
+
 				function insertAhead(array, i, deco) {
 					while (i < array.length && byPos(deco, array[i]) > 0) i++;
 					array.splice(i, 0, deco);
 				}
+
 				// Get the decorations associated with the current props of a view.
 				function viewDecorations(view) {
 					let found = [];
@@ -17048,6 +17999,7 @@ The empty set of decorations.
 				};
 				// IE11 has very broken mutation observers, so we also listen to DOMCharacterDataModified
 				const useCharData = ie && ie_version <= 11;
+
 				class SelectionState {
 					constructor() {
 						this.anchorNode = null;
@@ -17055,15 +18007,18 @@ The empty set of decorations.
 						this.focusNode = null;
 						this.focusOffset = 0;
 					}
+
 					set(sel) {
 						this.anchorNode = sel.anchorNode;
 						this.anchorOffset = sel.anchorOffset;
 						this.focusNode = sel.focusNode;
 						this.focusOffset = sel.focusOffset;
 					}
+
 					clear() {
 						this.anchorNode = this.focusNode = null;
 					}
+
 					eq(sel) {
 						return (
 							sel.anchorNode == this.anchorNode &&
@@ -17073,6 +18028,7 @@ The empty set of decorations.
 						);
 					}
 				}
+
 				class DOMObserver {
 					constructor(view, handleDOMChange) {
 						this.view = view;
@@ -17117,6 +18073,7 @@ The empty set of decorations.
 						}
 						this.onSelectionChange = this.onSelectionChange.bind(this);
 					}
+
 					flushSoon() {
 						if (this.flushingSoon < 0)
 							this.flushingSoon = window.setTimeout(() => {
@@ -17124,6 +18081,7 @@ The empty set of decorations.
 								this.flush();
 							}, 20);
 					}
+
 					forceFlush() {
 						if (this.flushingSoon > -1) {
 							window.clearTimeout(this.flushingSoon);
@@ -17131,6 +18089,7 @@ The empty set of decorations.
 							this.flush();
 						}
 					}
+
 					start() {
 						if (this.observer) {
 							this.observer.takeRecords();
@@ -17143,6 +18102,7 @@ The empty set of decorations.
 							);
 						this.connectSelection();
 					}
+
 					stop() {
 						if (this.observer) {
 							let take = this.observer.takeRecords();
@@ -17159,22 +18119,26 @@ The empty set of decorations.
 							);
 						this.disconnectSelection();
 					}
+
 					connectSelection() {
 						this.view.dom.ownerDocument.addEventListener(
 							"selectionchange",
 							this.onSelectionChange
 						);
 					}
+
 					disconnectSelection() {
 						this.view.dom.ownerDocument.removeEventListener(
 							"selectionchange",
 							this.onSelectionChange
 						);
 					}
+
 					suppressSelectionUpdates() {
 						this.suppressingSelectionUpdates = true;
 						setTimeout(() => (this.suppressingSelectionUpdates = false), 50);
 					}
+
 					onSelectionChange() {
 						if (!hasFocusAndSelection(this.view)) return;
 						if (this.suppressingSelectionUpdates) return selectionToDOM(this.view);
@@ -17197,9 +18161,11 @@ The empty set of decorations.
 						}
 						this.flush();
 					}
+
 					setCurSelection() {
 						this.currentSelection.set(this.view.domSelection());
 					}
+
 					ignoreSelectionChange(sel) {
 						if (sel.rangeCount == 0) return true;
 						let container = sel.getRangeAt(0).commonAncestorContainer;
@@ -17215,6 +18181,7 @@ The empty set of decorations.
 							return true;
 						}
 					}
+
 					flush() {
 						if (!this.view.docView || this.flushingSoon > -1) return;
 						let mutations = this.observer ? this.observer.takeRecords() : [];
@@ -17264,6 +18231,7 @@ The empty set of decorations.
 							this.currentSelection.set(sel);
 						}
 					}
+
 					registerMutation(mut, added) {
 						// Ignore mutations inside nodes that were already noted as inserted
 						if (added.indexOf(mut.target) > -1) return null;
@@ -17339,7 +18307,9 @@ The empty set of decorations.
 						}
 					}
 				}
+
 				let cssChecked = false;
+
 				function checkCSS(view) {
 					if (cssChecked) return;
 					cssChecked = true;
@@ -17411,6 +18381,7 @@ The empty set of decorations.
 					}
 					return { doc, sel, from, to };
 				}
+
 				function ruleFromNode(dom) {
 					let desc = dom.pmViewDesc;
 					if (desc) {
@@ -17434,6 +18405,7 @@ The empty set of decorations.
 					}
 					return null;
 				}
+
 				function readDOMChange(view, from, to, typeOver, addedNodes) {
 					if (from < 0) {
 						let origin =
@@ -17706,6 +18678,7 @@ The empty set of decorations.
 					if (storedMarks) tr.ensureMarks(storedMarks);
 					view.dispatch(tr.scrollIntoView());
 				}
+
 				function resolveSelection(view, doc, parsedSel) {
 					if (Math.max(parsedSel.anchor, parsedSel.head) > doc.content.size) return null;
 					return selectionBetween(
@@ -17714,6 +18687,7 @@ The empty set of decorations.
 						doc.resolve(parsedSel.head)
 					);
 				}
+
 				// Given two same-length, non-empty fragments of inline content,
 				// determine whether the first could be created from the second by
 				// removing or adding a single mark type.
@@ -17744,6 +18718,7 @@ The empty set of decorations.
 					for (let i = 0; i < prev.childCount; i++) updated.push(update(prev.child(i)));
 					if (Fragment.from(updated).eq(cur)) return { mark, type };
 				}
+
 				function looksLikeJoin(old, start, end, $newStart, $newEnd) {
 					if (
 						!$newStart.parent.isTextblock ||
@@ -17773,6 +18748,7 @@ The empty set of decorations.
 						.cut($newStart.parentOffset)
 						.eq($next.parent.content);
 				}
+
 				function skipClosingAndOpening($pos, fromEnd, mayOpen) {
 					let depth = $pos.depth,
 						end = fromEnd ? $pos.end() : $pos.pos;
@@ -17793,6 +18769,7 @@ The empty set of decorations.
 					}
 					return end;
 				}
+
 				function findDiff(a, b, pos, preferredPos, preferredSide) {
 					let start = a.findDiffStart(b, pos);
 					if (start == null) return null;
@@ -17823,24 +18800,25 @@ The empty set of decorations.
 
 				/**
 @internal
-*/
+				 */
 				const __serializeForClipboard =
 					/* unused pure expression or super */ null && serializeForClipboard;
 				/**
 @internal
-*/
+				 */
 				const __parseFromClipboard =
 					/* unused pure expression or super */ null && parseFromClipboard;
 				/**
 @internal
-*/
+				 */
 				const __endComposition =
 					/* unused pure expression or super */ null && endComposition;
+
 				/**
 An editor view manages the DOM structure that represents an
 editable document. Its state and behavior are determined by its
 [props](https://prosemirror.net/docs/ref/#view.DirectEditorProps).
-*/
+				 */
 				class EditorView {
 					/**
 	Create a view. `place` may be a DOM node that the editor should
@@ -17848,33 +18826,33 @@ editable document. Its state and behavior are determined by its
 	or an object whose `mount` property holds the node to use as the
 	document container. If it is `null`, the editor will not be
 	added to the document.
-	*/
+					 */
 					constructor(place, props) {
 						this._root = null;
 						/**
 		@internal
-		*/
+						 */
 						this.focused = false;
 						/**
 		Kludge used to work around a Chrome bug @internal
-		*/
+						 */
 						this.trackWrites = null;
 						this.mounted = false;
 						/**
 		@internal
-		*/
+						 */
 						this.markCursor = null;
 						/**
 		@internal
-		*/
+						 */
 						this.cursorWrapper = null;
 						/**
 		@internal
-		*/
+						 */
 						this.lastSelectedViewDesc = undefined;
 						/**
 		@internal
-		*/
+						 */
 						this.input = new InputState();
 						this.prevDirectPlugins = [];
 						this.pluginViews = [];
@@ -17882,7 +18860,7 @@ editable document. Its state and behavior are determined by its
 		When editor content is being dragged, this object contains
 		information about the dragged slice and whether it is being
 		copied or moved. At any other time, it is null.
-		*/
+						 */
 						this.dragging = null;
 						this._props = props;
 						this.state = props.state;
@@ -17912,17 +18890,19 @@ editable document. Its state and behavior are determined by its
 						initInput(this);
 						this.updatePluginViews();
 					}
+
 					/**
 	Holds `true` when a
 	[composition](https://w3c.github.io/uievents/#events-compositionevents)
 	is active.
-	*/
+					 */
 					get composing() {
 						return this.input.composing;
 					}
+
 					/**
 	The view's current [props](https://prosemirror.net/docs/ref/#view.EditorProps).
-	*/
+					 */
 					get props() {
 						if (this._props.state != this.state) {
 							let prev = this._props;
@@ -17932,10 +18912,11 @@ editable document. Its state and behavior are determined by its
 						}
 						return this._props;
 					}
+
 					/**
 	Update the view's props. Will immediately cause an update to
 	the DOM.
-	*/
+					 */
 					update(props) {
 						if (props.handleDOMEvents != this._props.handleDOMEvents)
 							ensureListeners(this);
@@ -17946,11 +18927,12 @@ editable document. Its state and behavior are determined by its
 						}
 						this.updateStateInner(props.state, true);
 					}
+
 					/**
 	Update the view by updating existing props object with the object
 	given as argument. Equivalent to `view.update(Object.assign({},
 	view.props, props))`.
-	*/
+					 */
 					setProps(props) {
 						let updated = {};
 						for (let name in this._props) updated[name] = this._props[name];
@@ -17958,13 +18940,15 @@ editable document. Its state and behavior are determined by its
 						for (let name in props) updated[name] = props[name];
 						this.update(updated);
 					}
+
 					/**
 	Update the editor's `state` prop, without touching any of the
 	other props.
-	*/
+					 */
 					updateState(state) {
 						this.updateStateInner(state, this.state.plugins != state.plugins);
 					}
+
 					updateStateInner(state, reconfigured) {
 						let prev = this.state,
 							redraw = false,
@@ -18083,10 +19067,12 @@ editable document. Its state and behavior are determined by its
 							resetScrollPos(oldScrollPos);
 						}
 					}
+
 					destroyPluginViews() {
 						let view;
 						while ((view = this.pluginViews.pop())) if (view.destroy) view.destroy();
 					}
+
 					updatePluginViews(prevState) {
 						if (
 							!prevState ||
@@ -18110,6 +19096,7 @@ editable document. Its state and behavior are determined by its
 							}
 						}
 					}
+
 					someProp(propName, f) {
 						let prop = this._props && this._props[propName],
 							value;
@@ -18125,27 +19112,30 @@ editable document. Its state and behavior are determined by its
 								if (prop != null && (value = f ? f(prop) : prop)) return value;
 							}
 					}
+
 					/**
 	Query whether the view has focus.
-	*/
+					 */
 					hasFocus() {
 						return this.root.activeElement == this.dom;
 					}
+
 					/**
 	Focus the editor.
-	*/
+					 */
 					focus() {
 						this.domObserver.stop();
 						if (this.editable) focusPreventScroll(this.dom);
 						selectionToDOM(this);
 						this.domObserver.start();
 					}
+
 					/**
 	Get the document root in which the editor exists. This will
 	usually be the top-level `document`, but might be a [shadow
 	DOM](https://developer.mozilla.org/en-US/docs/Web/Web_Components/Shadow_DOM)
 	root if the editor is inside one.
-	*/
+					 */
 					get root() {
 						let cached = this._root;
 						if (cached == null)
@@ -18166,6 +19156,7 @@ editable document. Its state and behavior are determined by its
 							}
 						return cached || document;
 					}
+
 					/**
 	Given a pair of viewport coordinates, return the document
 	position that corresponds to them. May return null if the given
@@ -18174,10 +19165,11 @@ editable document. Its state and behavior are determined by its
 	coordinates, and its `inside` property holds the position of the
 	inner node that the position falls inside of, or -1 if it is at
 	the top level, not in any node.
-	*/
+					 */
 					posAtCoords(coords) {
 						return posAtCoords(this, coords);
 					}
+
 					/**
 	Returns the viewport rectangle at a given document position.
 	`left` and `right` will be the same number, as this returns a
@@ -18185,10 +19177,11 @@ editable document. Its state and behavior are determined by its
 	that aren't directly adjacent, `side` determines which element
 	is used. When < 0, the element before the position is used,
 	otherwise the element after.
-	*/
+					 */
 					coordsAtPos(pos, side = 1) {
 						return coordsAtPos(this, pos, side);
 					}
+
 					/**
 	Find the DOM position that corresponds to the given document
 	position. When `side` is negative, find the position as close as
@@ -18198,10 +19191,11 @@ editable document. Its state and behavior are determined by its
 
 	Note that you should **not** mutate the editor's internal DOM,
 	only inspect it (and even that is usually not necessary).
-	*/
+					 */
 					domAtPos(pos, side = 0) {
 						return this.docView.domFromPos(pos, side);
 					}
+
 					/**
 	Find the DOM node that represents the document node after the
 	given position. May return `null` when the position doesn't point
@@ -18211,11 +19205,12 @@ editable document. Its state and behavior are determined by its
 	`getBoundingClientRect` on that DOM node. Do **not** mutate the
 	editor DOM directly, or add styling this way, since that will be
 	immediately overriden by the editor as it redraws the node.
-	*/
+					 */
 					nodeDOM(pos) {
 						let desc = this.docView.descAt(pos);
 						return desc ? desc.nodeDOM : null;
 					}
+
 					/**
 	Find the document position that corresponds to a given DOM
 	position. (Whenever possible, it is preferable to inspect the
@@ -18225,12 +19220,13 @@ editable document. Its state and behavior are determined by its
 
 	The `bias` parameter can be used to influence which side of a DOM
 	node to use when the position is inside a leaf node.
-	*/
+					 */
 					posAtDOM(node, offset, bias = -1) {
 						let pos = this.docView.posFromDOM(node, offset, bias);
 						if (pos == null) throw new RangeError("DOM position not inside the editor");
 						return pos;
 					}
+
 					/**
 	Find out whether the selection is at the end of a textblock when
 	moving in a given direction. When, for example, given `"left"`,
@@ -18238,14 +19234,15 @@ editable document. Its state and behavior are determined by its
 	position would leave that position's parent textblock. Will apply
 	to the view's current state by default, but it is possible to
 	pass a different state.
-	*/
+					 */
 					endOfTextblock(dir, state) {
 						return endOfTextblock(this, state || this.state, dir);
 					}
+
 					/**
 	Removes the editor from the DOM and destroys all [node
 	views](https://prosemirror.net/docs/ref/#view.NodeView).
-	*/
+					 */
 					destroy() {
 						if (!this.docView) return;
 						destroyInput(this);
@@ -18259,20 +19256,23 @@ editable document. Its state and behavior are determined by its
 						this.docView.destroy();
 						this.docView = null;
 					}
+
 					/**
 	This is true when the view has been
 	[destroyed](https://prosemirror.net/docs/ref/#view.EditorView.destroy) (and thus should not be
 	used anymore).
-	*/
+					 */
 					get isDestroyed() {
 						return this.docView == null;
 					}
+
 					/**
 	Used for testing.
-	*/
+					 */
 					dispatchEvent(event) {
 						return dispatchEvent(this, event);
 					}
+
 					/**
 	Dispatch a transaction. Will call
 	[`dispatchTransaction`](https://prosemirror.net/docs/ref/#view.DirectEditorProps.dispatchTransaction)
@@ -18281,19 +19281,21 @@ editable document. Its state and behavior are determined by its
 	[`updateState`](https://prosemirror.net/docs/ref/#view.EditorView.updateState) with the result.
 	This method is bound to the view instance, so that it can be
 	easily passed around.
-	*/
+					 */
 					dispatch(tr) {
 						let dispatchTransaction = this._props.dispatchTransaction;
 						if (dispatchTransaction) dispatchTransaction.call(this, tr);
 						else this.updateState(this.state.apply(tr));
 					}
+
 					/**
 	@internal
-	*/
+					 */
 					domSelection() {
 						return this.root.getSelection();
 					}
 				}
+
 				function computeDocDeco(view) {
 					let attrs = Object.create(null);
 					attrs.class = "ProseMirror";
@@ -18317,6 +19319,7 @@ editable document. Its state and behavior are determined by its
 					});
 					return [Decoration.node(0, view.state.doc.content.size, attrs)];
 				}
+
 				function updateCursorWrapper(view) {
 					if (view.markCursor) {
 						let dom = document.createElement("img");
@@ -18334,9 +19337,11 @@ editable document. Its state and behavior are determined by its
 						view.cursorWrapper = null;
 					}
 				}
+
 				function getEditable(view) {
 					return !view.someProp("editable", value => value(view.state) === false);
 				}
+
 				function selectionContextChanged(sel1, sel2) {
 					let depth = Math.min(
 						sel1.$anchor.sharedDepth(sel1.head),
@@ -18344,17 +19349,21 @@ editable document. Its state and behavior are determined by its
 					);
 					return sel1.$anchor.start(depth) != sel2.$anchor.start(depth);
 				}
+
 				function buildNodeViews(view) {
 					let result = Object.create(null);
+
 					function add(obj) {
 						for (let prop in obj)
 							if (!Object.prototype.hasOwnProperty.call(result, prop))
 								result[prop] = obj[prop];
 					}
+
 					view.someProp("nodeViews", add);
 					view.someProp("markViews", add);
 					return result;
 				}
+
 				function changedNodeViews(a, b) {
 					let nA = 0,
 						nB = 0;
@@ -18365,6 +19374,7 @@ editable document. Its state and behavior are determined by its
 					for (let _ in b) nB++;
 					return nA != nB;
 				}
+
 				function checkStateComponent(plugin) {
 					if (
 						plugin.spec.state ||
@@ -18522,6 +19532,7 @@ editable document. Its state and behavior are determined by its
 					typeof navigator != "undefined"
 						? /Mac|iP(hone|[oa]d)/.test(navigator.platform)
 						: false;
+
 				function normalizeKeyName(name) {
 					let parts = name.split(/-(?!$)/),
 						result = parts[parts.length - 1];
@@ -18544,11 +19555,13 @@ editable document. Its state and behavior are determined by its
 					if (shift) result = "Shift-" + result;
 					return result;
 				}
+
 				function normalize(map) {
 					let copy = Object.create(null);
 					for (let prop in map) copy[normalizeKeyName(prop)] = map[prop];
 					return copy;
 				}
+
 				function modifiers(name, event, shift) {
 					if (event.altKey) name = "Alt-" + name;
 					if (event.ctrlKey) name = "Ctrl-" + name;
@@ -18556,6 +19569,7 @@ editable document. Its state and behavior are determined by its
 					if (shift !== false && event.shiftKey) name = "Shift-" + name;
 					return name;
 				}
+
 				/**
 Create a keymap plugin for the given set of bindings.
 
@@ -18586,15 +19600,16 @@ other platforms.
 You can add multiple keymap plugins to an editor. The order in
 which they appear determines their precedence (the ones early in
 the array get to dispatch first).
-*/
+				 */
 				function keymap(bindings) {
 					return new Plugin({ props: { handleKeyDown: keydownHandler(bindings) } });
 				}
+
 				/**
 Given a set of bindings (using the same format as
 [`keymap`](https://prosemirror.net/docs/ref/#keymap.keymap)), return a [keydown
 handler](https://prosemirror.net/docs/ref/#view.EditorProps.handleKeyDown) that handles them.
-*/
+				 */
 				function keydownHandler(bindings) {
 					let map = normalize(bindings);
 					return function (view, event) {
@@ -18631,7 +19646,7 @@ handler](https://prosemirror.net/docs/ref/#view.EditorProps.handleKeyDown) that 
 
 				/**
 Delete the selection, if there is one.
-*/
+				 */
 				const deleteSelection = (state, dispatch) => {
 					if (state.selection.empty) return false;
 					if (dispatch) dispatch(state.tr.deleteSelection().scrollIntoView());
@@ -18645,7 +19660,7 @@ If not, try to move the selected block closer to the next one in
 the document structure by lifting it out of its parent or moving it
 into a parent of the previous block. Will use the view for accurate
 (bidi-aware) start-of-textblock detection if given.
-*/
+				 */
 				const joinBackward = (state, dispatch, view) => {
 					let { $cursor } = state.selection;
 					if (
@@ -18709,6 +19724,7 @@ into a parent of the previous block. Will use the view for accurate
 					}
 					return false;
 				};
+
 				function textblockAt(node, side, only = false) {
 					for (
 						let scan = node;
@@ -18720,6 +19736,7 @@ into a parent of the previous block. Will use the view for accurate
 					}
 					return false;
 				}
+
 				/**
 When the selection is empty and at the start of a textblock, select
 the node before that textblock, if possible. This is intended to be
@@ -18727,7 +19744,7 @@ bound to keys like backspace, after
 [`joinBackward`](https://prosemirror.net/docs/ref/#commands.joinBackward) or other deleting
 commands, as a fall-back behavior when the schema doesn't allow
 deletion at the selected point.
-*/
+				 */
 				const selectNodeBackward = (state, dispatch, view) => {
 					let { $head, empty } = state.selection,
 						$cut = $head;
@@ -18749,6 +19766,7 @@ deletion at the selected point.
 						);
 					return true;
 				};
+
 				function findCutBefore($pos) {
 					if (!$pos.parent.type.spec.isolating)
 						for (let i = $pos.depth - 1; i >= 0; i--) {
@@ -18757,13 +19775,14 @@ deletion at the selected point.
 						}
 					return null;
 				}
+
 				/**
 If the selection is empty and the cursor is at the end of a
 textblock, try to reduce or remove the boundary between that block
 and the one after it, either by joining them or by moving the other
 block closer to this one in the tree structure. Will use the view
 for accurate start-of-textblock detection if given.
-*/
+				 */
 				const joinForward = (state, dispatch, view) => {
 					let { $cursor } = state.selection;
 					if (
@@ -18829,7 +19848,7 @@ to be bound to keys like delete, after
 [`joinForward`](https://prosemirror.net/docs/ref/#commands.joinForward) and similar deleting
 commands, to provide a fall-back behavior when the schema doesn't
 allow deletion at the selected point.
-*/
+				 */
 				const selectNodeForward = (state, dispatch, view) => {
 					let { $head, empty } = state.selection,
 						$cut = $head;
@@ -18853,6 +19872,7 @@ allow deletion at the selected point.
 						);
 					return true;
 				};
+
 				function findCutAfter($pos) {
 					if (!$pos.parent.type.spec.isolating)
 						for (let i = $pos.depth - 1; i >= 0; i--) {
@@ -18863,11 +19883,12 @@ allow deletion at the selected point.
 						}
 					return null;
 				}
+
 				/**
 Join the selected block or, if there is a text selection, the
 closest ancestor block of the selection that can be joined, with
 the sibling above it.
-*/
+				 */
 				const joinUp = (state, dispatch) => {
 					let sel = state.selection,
 						nodeSel = sel instanceof NodeSelection,
@@ -18895,7 +19916,7 @@ the sibling above it.
 				/**
 Join the selected block, or the closest ancestor of the selection
 that can be joined, with the sibling after it.
-*/
+				 */
 				const joinDown = (state, dispatch) => {
 					let sel = state.selection,
 						point;
@@ -18912,7 +19933,7 @@ that can be joined, with the sibling after it.
 				/**
 Lift the selected block, or the closest ancestor block of the
 selection that can be lifted, out of its parent node.
-*/
+				 */
 				const dist_lift = (state, dispatch) => {
 					let { $from, $to } = state.selection;
 					let range = $from.blockRange($to),
@@ -18925,13 +19946,14 @@ selection that can be lifted, out of its parent node.
 If the selection is in a node whose type has a truthy
 [`code`](https://prosemirror.net/docs/ref/#model.NodeSpec.code) property in its spec, replace the
 selection with a newline character.
-*/
+				 */
 				const newlineInCode = (state, dispatch) => {
 					let { $head, $anchor } = state.selection;
 					if (!$head.parent.type.spec.code || !$head.sameParent($anchor)) return false;
 					if (dispatch) dispatch(state.tr.insertText("\n").scrollIntoView());
 					return true;
 				};
+
 				function defaultBlockAt(match) {
 					for (let i = 0; i < match.edgeCount; i++) {
 						let { type } = match.edge(i);
@@ -18939,11 +19961,12 @@ selection with a newline character.
 					}
 					return null;
 				}
+
 				/**
 When the selection is in a node with a truthy
 [`code`](https://prosemirror.net/docs/ref/#model.NodeSpec.code) property in its spec, create a
 default block after the code block, and move the cursor there.
-*/
+				 */
 				const exitCode = (state, dispatch) => {
 					let { $head, $anchor } = state.selection;
 					if (!$head.parent.type.spec.code || !$head.sameParent($anchor)) return false;
@@ -18962,7 +19985,7 @@ default block after the code block, and move the cursor there.
 				/**
 If a block node is selected, create an empty paragraph before (if
 it is its parent's first child) or after it.
-*/
+				 */
 				const createParagraphNear = (state, dispatch) => {
 					let sel = state.selection,
 						{ $from, $to } = sel;
@@ -18987,7 +20010,7 @@ it is its parent's first child) or after it.
 				/**
 If the cursor is in an empty textblock that can be lifted, lift the
 block.
-*/
+				 */
 				const liftEmptyBlock = (state, dispatch) => {
 					let { $cursor } = state.selection;
 					if (!$cursor || $cursor.parent.content.size) return false;
@@ -19007,7 +20030,7 @@ block.
 				/**
 Split the parent block of the selection. If the selection is a text
 selection, also delete its content.
-*/
+				 */
 				const splitBlock = (state, dispatch) => {
 					let { $from, $to } = state.selection;
 					if (
@@ -19069,7 +20092,7 @@ selection, also delete its content.
 				/**
 Acts like [`splitBlock`](https://prosemirror.net/docs/ref/#commands.splitBlock), but without
 resetting the set of active marks at the cursor.
-*/
+				 */
 				const splitBlockKeepMarks = (state, dispatch) => {
 					return splitBlock(
 						state,
@@ -19087,7 +20110,7 @@ resetting the set of active marks at the cursor.
 				/**
 Move the selection to the node wrapping the current selection, if
 any. (Will not select the document node.)
-*/
+				 */
 				const selectParentNode = (state, dispatch) => {
 					let { $from, to } = state.selection,
 						pos;
@@ -19100,11 +20123,12 @@ any. (Will not select the document node.)
 				};
 				/**
 Select the whole document.
-*/
+				 */
 				const selectAll = (state, dispatch) => {
 					if (dispatch) dispatch(state.tr.setSelection(new AllSelection(state.doc)));
 					return true;
 				};
+
 				function joinMaybeClear(state, $pos, dispatch) {
 					let before = $pos.nodeBefore,
 						after = $pos.nodeAfter,
@@ -19138,6 +20162,7 @@ Select the whole document.
 						);
 					return true;
 				}
+
 				function deleteBarrier(state, $cut, dispatch) {
 					let before = $cut.nodeBefore,
 						after = $cut.nodeAfter,
@@ -19222,6 +20247,7 @@ Select the whole document.
 					}
 					return false;
 				}
+
 				function selectTextblockSide(side) {
 					return function (state, dispatch) {
 						let sel = state.selection,
@@ -19244,19 +20270,21 @@ Select the whole document.
 						return true;
 					};
 				}
+
 				/**
 Moves the cursor to the start of current text block.
-*/
+				 */
 				const selectTextblockStart = selectTextblockSide(-1);
 				/**
 Moves the cursor to the end of current text block.
-*/
+				 */
 				const selectTextblockEnd = selectTextblockSide(1);
+
 				// Parameterized commands
 				/**
 Wrap the selection in a node of the given type with the given
 attributes.
-*/
+				 */
 				function wrapIn(nodeType, attrs = null) {
 					return function (state, dispatch) {
 						let { $from, $to } = state.selection;
@@ -19267,10 +20295,11 @@ attributes.
 						return true;
 					};
 				}
+
 				/**
 Returns a command that tries to set the selected textblocks to the
 given node type with the given attributes.
-*/
+				 */
 				function dist_setBlockType(nodeType, attrs = null) {
 					return function (state, dispatch) {
 						let { from, to } = state.selection;
@@ -19294,6 +20323,7 @@ given node type with the given attributes.
 						return true;
 					};
 				}
+
 				function markApplies(doc, ranges, type) {
 					for (let i = 0; i < ranges.length; i++) {
 						let { $from, $to } = ranges[i];
@@ -19306,6 +20336,7 @@ given node type with the given attributes.
 					}
 					return false;
 				}
+
 				/**
 Create a command function that toggles the given mark with the
 given attributes. Will return `false` when the current selection
@@ -19314,7 +20345,7 @@ of that type exist in the selection, or add it otherwise. If the
 selection is empty, this applies to the [stored
 marks](https://prosemirror.net/docs/ref/#state.EditorState.storedMarks) instead of a range of the
 document.
-*/
+				 */
 				function toggleMark(markType, attrs = null) {
 					return function (state, dispatch) {
 						let { empty, $cursor, ranges } = state.selection;
@@ -19360,6 +20391,7 @@ document.
 						return true;
 					};
 				}
+
 				function wrapDispatchForJoin(dispatch, isJoinable) {
 					return tr => {
 						if (!tr.isGeneric) return dispatch(tr);
@@ -19401,6 +20433,7 @@ document.
 						dispatch(tr);
 					};
 				}
+
 				/**
 Wrap a command so that, when it produces a transform that causes
 two joinable nodes to end up next to each other, those are joined.
@@ -19408,7 +20441,7 @@ Nodes are considered joinable when they are of the same type and
 when the `isJoinable` predicate returns true for them or, if an
 array of strings was passed, if their node type name is in that
 array.
-*/
+				 */
 				function autoJoin(command, isJoinable) {
 					let canJoin = Array.isArray(isJoinable)
 						? node => isJoinable.indexOf(node.type.name) > -1
@@ -19416,10 +20449,11 @@ array.
 					return (state, dispatch, view) =>
 						command(state, dispatch && wrapDispatchForJoin(dispatch, canJoin), view);
 				}
+
 				/**
 Combine a number of command functions into a single function (which
 calls them one by one until one returns true).
-*/
+				 */
 				function chainCommands(...commands) {
 					return function (state, dispatch, view) {
 						for (let i = 0; i < commands.length; i++)
@@ -19427,6 +20461,7 @@ calls them one by one until one returns true).
 						return false;
 					};
 				}
+
 				let backspace = chainCommands(deleteSelection, joinBackward, selectNodeBackward);
 				let del = chainCommands(deleteSelection, joinForward, selectNodeForward);
 				/**
@@ -19440,7 +20475,7 @@ are chained with [`chainCommands`](https://prosemirror.net/docs/ref/#commands.ch
 * **Delete** and **Mod-Delete** to `deleteSelection`, `joinForward`, `selectNodeForward`
 * **Mod-Delete** to `deleteSelection`, `joinForward`, `selectNodeForward`
 * **Mod-a** to `selectAll`
-*/
+				 */
 				const pcBaseKeymap = {
 					Enter: chainCommands(
 						newlineInCode,
@@ -19461,7 +20496,7 @@ A copy of `pcBaseKeymap` that also binds **Ctrl-h** like Backspace,
 **Ctrl-d** like Delete, **Alt-Backspace** like Ctrl-Backspace, and
 **Ctrl-Alt-Backspace**, **Alt-Delete**, and **Alt-d** like
 Ctrl-Delete.
-*/
+				 */
 				const macBaseKeymap = {
 					"Ctrl-h": pcBaseKeymap["Backspace"],
 					"Alt-Backspace": pcBaseKeymap["Mod-Backspace"],
@@ -19484,7 +20519,7 @@ Ctrl-Delete.
 Depending on the detected platform, this will hold
 [`pcBasekeymap`](https://prosemirror.net/docs/ref/#commands.pcBaseKeymap) or
 [`macBaseKeymap`](https://prosemirror.net/docs/ref/#commands.macBaseKeymap).
-*/
+				 */
 				const baseKeymap = prosemirror_commands_dist_mac ? macBaseKeymap : pcBaseKeymap; // CONCATENATED MODULE: ../../node_modules/prosemirror-inputrules/dist/index.js
 
 				/**
@@ -19492,7 +20527,7 @@ Input rules are regular expressions describing a piece of text
 that, when typed, causes something to happen. This might be
 changing two dashes into an emdash, wrapping a paragraph starting
 with `"> "` into a blockquote, or something entirely different.
-*/
+				 */
 				class InputRule {
 					// :: (RegExp, union<string, (state: EditorState, match: [string], start: number, end: number) → ?Transaction>)
 					/**
@@ -19510,11 +20545,11 @@ with `"> "` into a blockquote, or something entirely different.
 	as well as the start and end of the matched range, and which can
 	return a [transaction](https://prosemirror.net/docs/ref/#state.Transaction) that describes the
 	rule's effect, or null to indicate the input was not handled.
-	*/
+					 */
 					constructor(
 						/**
 	@internal
-	*/
+						 */
 						match,
 						handler
 					) {
@@ -19524,6 +20559,7 @@ with `"> "` into a blockquote, or something entirely different.
 							typeof handler == "string" ? stringHandler(handler) : handler;
 					}
 				}
+
 				function stringHandler(string) {
 					return function (state, match, start, end) {
 						let insert = string;
@@ -19540,12 +20576,14 @@ with `"> "` into a blockquote, or something entirely different.
 						return state.tr.insertText(insert, start, end);
 					};
 				}
+
 				const MAX_MATCH = 500;
+
 				/**
 Create an input rules plugin. When enabled, it will cause text
 input that matches any of the given rules to trigger the rule's
 action.
-*/
+				 */
 				function inputRules({ rules }) {
 					let plugin = new Plugin({
 						state: {
@@ -19576,6 +20614,7 @@ action.
 					});
 					return plugin;
 				}
+
 				function run(view, from, to, text, rules, plugin) {
 					if (view.composing) return false;
 					let state = view.state,
@@ -19604,10 +20643,11 @@ action.
 					}
 					return false;
 				}
+
 				/**
 This is a command that will undo an input rule, if applying such a
 rule was the last thing that the user did.
-*/
+				 */
 				const undoInputRule = (state, dispatch) => {
 					let plugins = state.plugins;
 					for (let i = 0; i < plugins.length; i++) {
@@ -19639,31 +20679,31 @@ rule was the last thing that the user did.
 
 				/**
 Converts double dashes to an emdash.
-*/
+				 */
 				const emDash = new InputRule(/--$/, "—");
 				/**
 Converts three dots to an ellipsis character.
-*/
+				 */
 				const ellipsis = new InputRule(/\.\.\.$/, "…");
 				/**
 “Smart” opening double quotes.
-*/
+				 */
 				const openDoubleQuote = new InputRule(/(?:^|[\s\{\[\(\<'"\u2018\u201C])(")$/, "“");
 				/**
 “Smart” closing double quotes.
-*/
+				 */
 				const closeDoubleQuote = new InputRule(/"$/, "”");
 				/**
 “Smart” opening single quotes.
-*/
+				 */
 				const openSingleQuote = new InputRule(/(?:^|[\s\{\[\(\<'"\u2018\u201C])(')$/, "‘");
 				/**
 “Smart” closing single quotes.
-*/
+				 */
 				const closeSingleQuote = new InputRule(/'$/, "’");
 				/**
 Smart-quote related input rules.
-*/
+				 */
 				const smartQuotes = [
 					openDoubleQuote,
 					closeDoubleQuote,
@@ -19687,7 +20727,7 @@ wrapped node, the rule will try to [join](https://prosemirror.net/docs/ref/#tran
 two nodes. You can pass a join predicate, which takes a regular
 expression match and the node before the wrapped node, and can
 return a boolean to indicate whether a join should happen.
-*/
+				 */
 				function wrappingInputRule(regexp, nodeType, getAttrs = null, joinPredicate) {
 					return new InputRule(regexp, (state, match, start, end) => {
 						let attrs = getAttrs instanceof Function ? getAttrs(match) : getAttrs;
@@ -19708,6 +20748,7 @@ return a boolean to indicate whether a join should happen.
 						return tr;
 					});
 				}
+
 				/**
 Build an input rule that changes the type of a textblock when the
 matched text is typed into it. You'll usually want to start your
@@ -19715,7 +20756,7 @@ regexp with `^` to that it is only matched at the start of a
 textblock. The optional `getAttrs` parameter can be used to compute
 the new node's attributes, and works the same as in the
 `wrappingInputRule` function.
-*/
+				 */
 				function textblockTypeInputRule(regexp, nodeType, getAttrs = null) {
 					return new InputRule(regexp, (state, match, start, end) => {
 						let $start = state.doc.resolve(start);
@@ -20028,7 +21069,8 @@ the new node's attributes, and works the same as in the
 
 				var ropeSequence = RopeSequence;
 
-				/* harmony default export */ var index_es = ropeSequence; // CONCATENATED MODULE: ../../node_modules/prosemirror-history/dist/index.js
+				/* harmony default export */
+				var index_es = ropeSequence; // CONCATENATED MODULE: ../../node_modules/prosemirror-history/dist/index.js
 
 				// ProseMirror's history isn't simply a way to roll back to a previous
 				// state, because ProseMirror supports applying changes without adding
@@ -20047,11 +21089,13 @@ the new node's attributes, and works the same as in the
 				// is useful when compressing.)
 				// Used to schedule history compression
 				const max_empty_items = 500;
+
 				class Branch {
 					constructor(items, eventCount) {
 						this.items = items;
 						this.eventCount = eventCount;
 					}
+
 					// Pop the latest event off the branch's history and apply it
 					// to a document transform.
 					popEvent(state, preserveItems) {
@@ -20125,6 +21169,7 @@ the new node's attributes, and works the same as in the
 						);
 						return { remaining: remaining, transform, selection: selection };
 					}
+
 					// Create a new branch with the given transform added.
 					addTransform(transform, selection, histOptions, preserveItems) {
 						let newItems = [],
@@ -20157,6 +21202,7 @@ the new node's attributes, and works the same as in the
 						}
 						return new Branch(oldItems.append(newItems), eventCount);
 					}
+
 					remapping(from, to) {
 						let maps = new Mapping();
 						this.items.forEach(
@@ -20172,6 +21218,7 @@ the new node's attributes, and works the same as in the
 						);
 						return maps;
 					}
+
 					addMaps(array) {
 						if (this.eventCount == 0) return this;
 						return new Branch(
@@ -20179,6 +21226,7 @@ the new node's attributes, and works the same as in the
 							this.eventCount
 						);
 					}
+
 					// When the collab module receives remote changes, the history has
 					// to know about those, so that it can adjust the steps that were
 					// rebased on top of the remote changes, and include the position
@@ -20221,6 +21269,7 @@ the new node's attributes, and works the same as in the
 							branch = branch.compress(this.items.length - rebasedItems.length);
 						return branch;
 					}
+
 					emptyItemCount() {
 						let count = 0;
 						this.items.forEach(item => {
@@ -20228,6 +21277,7 @@ the new node's attributes, and works the same as in the
 						});
 						return count;
 					}
+
 					// Compressing a branch means rewriting it to push the air (map-only
 					// items) out. During collaboration, these naturally accumulate
 					// because each remote change adds one. The `upto` argument is used
@@ -20271,7 +21321,9 @@ the new node's attributes, and works the same as in the
 						return new Branch(index_es.from(items.reverse()), events);
 					}
 				}
+
 				Branch.empty = new Branch(index_es.empty, 0);
+
 				function cutOffEvents(items, n) {
 					let cutPoint;
 					items.forEach((item, i) => {
@@ -20282,6 +21334,7 @@ the new node's attributes, and works the same as in the
 					});
 					return items.slice(cutPoint);
 				}
+
 				class Item {
 					constructor(
 						// The (forward) step map for this item.
@@ -20301,6 +21354,7 @@ the new node's attributes, and works the same as in the
 						this.selection = selection;
 						this.mirrorOffset = mirrorOffset;
 					}
+
 					merge(other) {
 						if (this.step && other.step && !other.selection) {
 							let step = other.step.merge(this.step);
@@ -20308,6 +21362,7 @@ the new node's attributes, and works the same as in the
 						}
 					}
 				}
+
 				// The value of the state field that tracks undo/redo history for that
 				// state. Will be stored in the plugin state when the history plugin
 				// is active.
@@ -20319,7 +21374,9 @@ the new node's attributes, and works the same as in the
 						this.prevTime = prevTime;
 					}
 				}
+
 				const DEPTH_OVERFLOW = 20;
+
 				// Record a transformation in undo history.
 				function applyTransaction(history, state, tr, options) {
 					let historyTr = tr.getMeta(historyKey),
@@ -20397,6 +21454,7 @@ the new node's attributes, and works the same as in the
 						);
 					}
 				}
+
 				function isAdjacentTo(transform, prevRanges) {
 					if (!prevRanges) return false;
 					if (!transform.docChanged) return true;
@@ -20407,11 +21465,13 @@ the new node's attributes, and works the same as in the
 					});
 					return adjacent;
 				}
+
 				function rangesFor(map) {
 					let result = [];
 					map.forEach((_from, _to, from, to) => result.push(from, to));
 					return result;
 				}
+
 				function mapRanges(ranges, mapping) {
 					if (!ranges) return null;
 					let result = [];
@@ -20422,6 +21482,7 @@ the new node's attributes, and works the same as in the
 					}
 					return result;
 				}
+
 				// Apply the latest event from one branch to the document and shift the event
 				// onto the other branch.
 				function histTransaction(history, state, dispatch, redo) {
@@ -20449,6 +21510,7 @@ the new node's attributes, and works the same as in the
 							.scrollIntoView()
 					);
 				}
+
 				let cachedPreserveItems = false,
 					cachedPreserveItemsPlugins = null;
 				// Check whether any plugin in the given state has a
@@ -20468,16 +21530,19 @@ the new node's attributes, and works the same as in the
 					}
 					return cachedPreserveItems;
 				}
+
 				/**
 Set a flag on the given transaction that will prevent further steps
 from being appended to an existing history event (so that they
 require a separate undo command to undo).
-*/
+				 */
 				function closeHistory(tr) {
 					return tr.setMeta(closeHistoryKey, true);
 				}
+
 				const historyKey = new PluginKey("history");
 				const closeHistoryKey = new PluginKey("closeHistory");
+
 				/**
 Returns a plugin that enables the undo history for an editor. The
 plugin will track undo and redo stacks, which can be used with the
@@ -20486,7 +21551,7 @@ plugin will track undo and redo stacks, which can be used with the
 You can set an `"addToHistory"` [metadata
 property](https://prosemirror.net/docs/ref/#state.Transaction.setMeta) of `false` on a transaction
 to prevent it from being rolled back by undo.
-*/
+				 */
 				function dist_history(config = {}) {
 					config = {
 						depth: config.depth || 100,
@@ -20521,9 +21586,10 @@ to prevent it from being rolled back by undo.
 						}
 					});
 				}
+
 				/**
 A command function that undoes the last change, if any.
-*/
+				 */
 				const undo = (state, dispatch) => {
 					let hist = historyKey.getState(state);
 					if (!hist || hist.done.eventCount == 0) return false;
@@ -20532,23 +21598,25 @@ A command function that undoes the last change, if any.
 				};
 				/**
 A command function that redoes the last undone change, if any.
-*/
+				 */
 				const redo = (state, dispatch) => {
 					let hist = historyKey.getState(state);
 					if (!hist || hist.undone.eventCount == 0) return false;
 					if (dispatch) histTransaction(hist, state, dispatch, true);
 					return true;
 				};
+
 				/**
 The amount of undoable events available in a given state.
-*/
+				 */
 				function undoDepth(state) {
 					let hist = historyKey.getState(state);
 					return hist ? hist.done.eventCount : 0;
 				}
+
 				/**
 The amount of redoable events available in a given editor state.
-*/
+				 */
 				function redoDepth(state) {
 					let hist = historyKey.getState(state);
 					return hist ? hist.undone.eventCount : 0;
@@ -20564,9 +21632,11 @@ The amount of redoable events available in a given editor state.
 						isString_default()(content) ? schema.text(content) : content
 					);
 				}
+
 				function createTextNode(schema, text, marks) {
 					return schema.text(text, marks);
 				}
+
 				function createTextSelection(tr, from, to) {
 					if (to === void 0) {
 						to = from;
@@ -20575,11 +21645,13 @@ The amount of redoable events available in a given editor state.
 					var size = contentSize > 0 ? contentSize - 1 : 1;
 					return TextSelection.create(tr.doc, Math.min(from, size), Math.min(to, size));
 				}
+
 				function addParagraph(tr, _a, schema) {
 					var pos = _a.pos;
 					tr.replaceWith(pos, pos, createParagraph(schema));
 					return tr.setSelection(createTextSelection(tr, pos + 1));
 				}
+
 				function replaceTextNode(_a) {
 					var state = _a.state,
 						from = _a.from,
@@ -20603,6 +21675,7 @@ The amount of redoable events available in a given editor state.
 					}
 					return tr;
 				}
+
 				function splitAndExtendBlock(tr, pos, text, node) {
 					var textLen = text.length;
 					tr.split(pos)
@@ -20624,26 +21697,33 @@ The amount of redoable events available in a given editor state.
 					}
 					return false;
 				}
+
 				function getMdStartLine(mdNode) {
 					return mdNode.sourcepos[0][0];
 				}
+
 				function getMdEndLine(mdNode) {
 					return mdNode.sourcepos[1][0];
 				}
+
 				function getMdStartCh(mdNode) {
 					return mdNode.sourcepos[0][1];
 				}
+
 				function getMdEndCh(mdNode) {
 					return mdNode.sourcepos[1][1];
 				}
+
 				function isMultiLineNode(mdNode) {
 					var type = mdNode.type;
 					return type === "codeBlock" || type === "paragraph";
 				}
+
 				function isHTMLNode(mdNode) {
 					var type = mdNode.type;
 					return type === "htmlBlock" || type === "htmlInline";
 				}
+
 				function isStyledInlineNode(mdNode) {
 					var type = mdNode.type;
 					return (
@@ -20655,26 +21735,33 @@ The amount of redoable events available in a given editor state.
 						type === "image"
 					);
 				}
+
 				function isCodeBlockNode(mdNode) {
 					return mdNode && mdNode.type === "codeBlock";
 				}
+
 				function isCustomBlockNode(mdNode) {
 					return mdNode && mdNode.type === "customBlock";
 				}
+
 				function isListNode(mdNode) {
 					return mdNode && (mdNode.type === "item" || mdNode.type === "list");
 				}
+
 				function isOrderedListNode(mdNode) {
 					return isListNode(mdNode) && mdNode.listData.type === "ordered";
 				}
+
 				function isBulletListNode(mdNode) {
 					return isListNode(mdNode) && mdNode.listData.type !== "ordered";
 				}
+
 				function isTableCellNode(mdNode) {
 					return (
 						mdNode && (mdNode.type === "tableCell" || mdNode.type === "tableDelimCell")
 					);
 				}
+
 				function isInlineNode(mdNode) {
 					switch (mdNode.type) {
 						case "code":
@@ -20693,6 +21780,7 @@ The amount of redoable events available in a given editor state.
 							return false;
 					}
 				}
+
 				function findClosestNode(mdNode, condition, includeSelf) {
 					if (includeSelf === void 0) {
 						includeSelf = true;
@@ -20706,6 +21794,7 @@ The amount of redoable events available in a given editor state.
 					}
 					return null;
 				}
+
 				function traverseParentNodes(mdNode, iteratee, includeSelf) {
 					if (includeSelf === void 0) {
 						includeSelf = true;
@@ -20716,12 +21805,15 @@ The amount of redoable events available in a given editor state.
 						mdNode = mdNode.parent;
 					}
 				}
+
 				function addOffsetPos(originPos, offset) {
 					return [originPos[0], originPos[1] + offset];
 				}
+
 				function setOffsetPos(originPos, newOffset) {
 					return [originPos[0], newOffset];
 				}
+
 				function getInlineMarkdownText(mdNode) {
 					var text = mdNode.firstChild.literal;
 					switch (mdNode.type) {
@@ -20754,6 +21846,7 @@ The amount of redoable events available in a given editor state.
 							return null;
 					}
 				}
+
 				function isContainer(node) {
 					switch (node.type) {
 						case "document":
@@ -20779,6 +21872,7 @@ The amount of redoable events available in a given editor state.
 							return false;
 					}
 				}
+
 				function getChildrenText(node) {
 					var buffer = [];
 					var walker = node.walker();
@@ -20795,6 +21889,7 @@ The amount of redoable events available in a given editor state.
 				var widgetRules = [];
 				var widgetRuleMap = {};
 				var reWidgetPrefix = /\$\$widget\d+\s/;
+
 				function unwrapWidgetSyntax(text) {
 					var index = text.search(reWidgetPrefix);
 					if (index !== -1) {
@@ -20805,9 +21900,11 @@ The amount of redoable events available in a given editor state.
 					}
 					return text;
 				}
+
 				function createWidgetContent(info, text) {
 					return "$$" + info + " " + text + "$$";
 				}
+
 				function widgetToDOM(info, text) {
 					var _a = widgetRuleMap[info],
 						rule = _a.rule,
@@ -20818,18 +21915,22 @@ The amount of redoable events available in a given editor state.
 					}
 					return toDOM(text);
 				}
+
 				function getWidgetRules() {
 					return widgetRules;
 				}
+
 				function setWidgetRules(rules) {
 					widgetRules = rules;
 					widgetRules.forEach(function (rule, index) {
 						widgetRuleMap["widget" + index] = rule;
 					});
 				}
+
 				function mergeNodes(nodes, text, schema, ruleIndex) {
 					return nodes.concat(createNodesWithWidget(text, schema, ruleIndex));
 				}
+
 				/**
 				 * create nodes with plain text and replace text matched to the widget rules with the widget node
 				 * For example, in case the text and widget rules as below
@@ -20888,6 +21989,7 @@ The amount of redoable events available in a given editor state.
 					}
 					return nodes;
 				}
+
 				function getWidgetContent(widgetNode) {
 					var event;
 					var text = "";
@@ -21003,7 +22105,9 @@ The amount of redoable events available in a given editor state.
 						offsetY <= top + height
 					);
 				}
+
 				var CLS_PREFIX = "toastui-editor-";
+
 				function cls() {
 					var names = [];
 					for (var _i = 0; _i < arguments.length; _i++) {
@@ -21024,6 +22128,7 @@ The amount of redoable events available in a given editor state.
 					}
 					return result.join(" ");
 				}
+
 				function clsWithMdPrefix() {
 					var names = [];
 					for (var _i = 0; _i < arguments.length; _i++) {
@@ -21035,15 +22140,18 @@ The amount of redoable events available in a given editor state.
 						})
 						.join(" ");
 				}
+
 				function isTextNode(node) {
 					return (
 						(node === null || node === void 0 ? void 0 : node.nodeType) ===
 						Node.TEXT_NODE
 					);
 				}
+
 				function isElemNode(node) {
 					return node && node.nodeType === Node.ELEMENT_NODE;
 				}
+
 				function findNodes(element, selector) {
 					var nodeList = toArray_default()(element.querySelectorAll(selector));
 					if (nodeList.length) {
@@ -21051,6 +22159,7 @@ The amount of redoable events available in a given editor state.
 					}
 					return [];
 				}
+
 				function appendNodes(node, nodesToAppend) {
 					nodesToAppend = isArray_default()(nodesToAppend)
 						? toArray_default()(nodesToAppend)
@@ -21059,16 +22168,19 @@ The amount of redoable events available in a given editor state.
 						node.appendChild(nodeToAppend);
 					});
 				}
+
 				function insertBeforeNode(insertedNode, node) {
 					if (node.parentNode) {
 						node.parentNode.insertBefore(insertedNode, node);
 					}
 				}
+
 				function removeNode(node) {
 					if (node.parentNode) {
 						node.parentNode.removeChild(node);
 					}
 				}
+
 				function unwrapNode(node) {
 					var result = [];
 					while (node.firstChild) {
@@ -21080,6 +22192,7 @@ The amount of redoable events available in a given editor state.
 					removeNode(node);
 					return result;
 				}
+
 				function toggleClass(element, className, state) {
 					if (isUndefined_default()(state)) {
 						state = !hasClass_default()(element, className);
@@ -21087,6 +22200,7 @@ The amount of redoable events available in a given editor state.
 					var toggleFn = state ? addClass_default() : removeClass_default();
 					toggleFn(element, className);
 				}
+
 				function createElementWith(contents, target) {
 					var container = document.createElement("div");
 					if (isString_default()(contents)) {
@@ -21100,6 +22214,7 @@ The amount of redoable events available in a given editor state.
 					}
 					return firstChild;
 				}
+
 				function getOuterWidth(el) {
 					var computed = window.getComputedStyle(el);
 					return (
@@ -21108,6 +22223,7 @@ The amount of redoable events available in a given editor state.
 						}, 0) + el.offsetWidth
 					);
 				}
+
 				function closest(node, found) {
 					var condition;
 					if (isString_default()(found)) {
@@ -21127,6 +22243,7 @@ The amount of redoable events available in a given editor state.
 					}
 					return null;
 				}
+
 				function getTotalOffset(el, root) {
 					var offsetTop = 0;
 					var offsetLeft = 0;
@@ -21143,6 +22260,7 @@ The amount of redoable events available in a given editor state.
 					}
 					return { offsetTop: offsetTop, offsetLeft: offsetLeft };
 				}
+
 				function finalizeHtml(html, needHtmlText) {
 					var result;
 					if (needHtmlText) {
@@ -21158,11 +22276,13 @@ The amount of redoable events available in a given editor state.
 					}
 					return result;
 				}
+
 				function dom_empty(node) {
 					while (node.firstChild) {
 						node.removeChild(node.firstChild);
 					}
 				}
+
 				function appendNode(node, appended) {
 					if (isString(appended)) {
 						node.insertAdjacentHTML("beforeend", appended);
@@ -21173,6 +22293,7 @@ The amount of redoable events available in a given editor state.
 						}
 					}
 				}
+
 				function prependNode(node, appended) {
 					if (isString(appended)) {
 						node.insertAdjacentHTML("afterbegin", appended);
@@ -21183,6 +22304,7 @@ The amount of redoable events available in a given editor state.
 						}
 					}
 				}
+
 				function setAttributes(attributes, element) {
 					Object.keys(attributes).forEach(function (attrName) {
 						if (isNil(attributes[attrName])) {
@@ -21192,6 +22314,7 @@ The amount of redoable events available in a given editor state.
 						}
 					});
 				}
+
 				function replaceBRWithEmptyBlock(html) {
 					// remove br in paragraph to compatible with markdown
 					var replacedHTML = html.replace(/<p><br\s*\/*><\/p>/gi, "<p></p>");
@@ -21215,6 +22338,7 @@ The amount of redoable events available in a given editor state.
 							});
 					return replacedHTML;
 				}
+
 				function removeProseMirrorHackNodes(html) {
 					var reProseMirrorImage = /<img class="ProseMirror-separator" alt="">/g;
 					var reProseMirrorTrailingBreak = / class="ProseMirror-trailingBreak"/g;
@@ -21244,6 +22368,7 @@ The amount of redoable events available in a given editor state.
 						});
 						this.eventEmitter.listen("removePopupWidget", this.removeWidget);
 					}
+
 					PopupWidget.prototype.update = function (view) {
 						var widget = pluginKey.getState(view.state);
 						this.removeWidget();
@@ -21277,6 +22402,7 @@ The amount of redoable events available in a given editor state.
 					};
 					return PopupWidget;
 				})();
+
 				function addWidget(eventEmitter) {
 					return new Plugin({
 						key: pluginKey,
@@ -21357,6 +22483,7 @@ The amount of redoable events available in a given editor state.
 
 				var node_Node = /** @class */ (function () {
 					function Node() {}
+
 					Object.defineProperty(Node.prototype, "type", {
 						get: function () {
 							return "node";
@@ -21369,7 +22496,8 @@ The amount of redoable events available in a given editor state.
 					};
 					return Node;
 				})();
-				/* harmony default export */ var node = node_Node; // CONCATENATED MODULE: ./src/widget/widgetNode.ts
+				/* harmony default export */
+				var node = node_Node; // CONCATENATED MODULE: ./src/widget/widgetNode.ts
 
 				function widgetNodeView(pmNode) {
 					var dom = document.createElement("span");
@@ -21378,14 +22506,18 @@ The amount of redoable events available in a given editor state.
 					dom.appendChild(node);
 					return { dom: dom };
 				}
+
 				function isWidgetNode(pmNode) {
 					return pmNode.type.name === "widget";
 				}
+
 				var Widget = /** @class */ (function (_super) {
 					__extends(Widget, _super);
+
 					function Widget() {
 						return (_super !== null && _super.apply(this, arguments)) || this;
 					}
+
 					Object.defineProperty(Widget.prototype, "name", {
 						get: function () {
 							return "widget";
@@ -21434,6 +22566,7 @@ The amount of redoable events available in a given editor state.
 						this.eventEmitter = eventEmitter;
 						this.placeholder = { text: "" };
 					}
+
 					EditorBase.prototype.createState = function () {
 						return EditorState.create({
 							schema: this.schema,
@@ -21598,7 +22731,8 @@ The amount of redoable events available in a given editor state.
 					};
 					return EditorBase;
 				})();
-				/* harmony default export */ var src_base = EditorBase;
+				/* harmony default export */
+				var src_base = EditorBase;
 
 				// EXTERNAL MODULE: ../../node_modules/tui-code-snippet/type/isFunction.js
 				var isFunction = __webpack_require__(294);
@@ -21627,10 +22761,12 @@ The amount of redoable events available in a given editor state.
 					view.focus();
 					return command(payload)(view.state, view.dispatch, view);
 				}
+
 				var SpecManager = /** @class */ (function () {
 					function SpecManager(specs) {
 						this.specs = specs;
 					}
+
 					Object.defineProperty(SpecManager.prototype, "nodes", {
 						get: function () {
 							return this.specs
@@ -21732,7 +22868,8 @@ The amount of redoable events available in a given editor state.
 					};
 					return SpecManager;
 				})();
-				/* harmony default export */ var specManager = SpecManager; // CONCATENATED MODULE: ./src/markdown/helper/pos.ts
+				/* harmony default export */
+				var specManager = SpecManager; // CONCATENATED MODULE: ./src/markdown/helper/pos.ts
 
 				function resolveSelectionPos(selection) {
 					var from = selection.from,
@@ -21742,9 +22879,11 @@ The amount of redoable events available in a given editor state.
 					}
 					return [from, to];
 				}
+
 				function getMdLine(resolvedPos) {
 					return resolvedPos.index(0) + 1;
 				}
+
 				function getWidgetNodePos(node, chPos, direction) {
 					if (direction === void 0) {
 						direction = 1;
@@ -21758,6 +22897,7 @@ The amount of redoable events available in a given editor state.
 					});
 					return additionalPos;
 				}
+
 				function getEditorToMdPos(doc, from, to) {
 					if (to === void 0) {
 						to = from;
@@ -21788,6 +22928,7 @@ The amount of redoable events available in a given editor state.
 						[endLine, endCh + getWidgetNodePos(doc.child(endLine - 1), endCh, -1)]
 					];
 				}
+
 				function getStartPosListPerLine(doc, endIndex) {
 					var startPosListPerLine = [];
 					for (var i = 0, pos = 0; i < endIndex; i += 1) {
@@ -21797,6 +22938,7 @@ The amount of redoable events available in a given editor state.
 					}
 					return startPosListPerLine;
 				}
+
 				function getMdToEditorPos(doc, startPos, endPos) {
 					var startPosListPerLine = getStartPosListPerLine(doc, endPos[0]);
 					var startIndex = startPos[0] - 1;
@@ -21811,6 +22953,7 @@ The amount of redoable events available in a given editor state.
 					to += endPos[1] + getWidgetNodePos(endNode, endPos[1] - 1);
 					return [from, Math.min(to, doc.content.size)];
 				}
+
 				function getRangeInfo(selection) {
 					var $from = selection.$from,
 						$to = selection.$to;
@@ -21836,6 +22979,7 @@ The amount of redoable events available in a given editor state.
 						to: $to.pos
 					};
 				}
+
 				function getNodeContentOffsetRange(doc, targetIndex) {
 					var startOffset = 1;
 					var endOffset = 1;
@@ -21872,9 +23016,11 @@ The amount of redoable events available in a given editor state.
 					emph: 1,
 					strike: 2
 				};
+
 				function markInfo(start, end, type, attrs) {
 					return { start: start, end: end, spec: { type: type, attrs: attrs } };
 				}
+
 				function heading(_a, start, end) {
 					var level = _a.level,
 						headingType = _a.headingType;
@@ -21886,6 +23032,7 @@ The amount of redoable events available in a given editor state.
 					}
 					return marks;
 				}
+
 				function emphasisAndStrikethrough(_a, start, end) {
 					var type = _a.type;
 					var startDelimPos = addOffsetPos(start, delimSize[type]);
@@ -21896,6 +23043,7 @@ The amount of redoable events available in a given editor state.
 						markInfo(endDelimPos, end, DELIM)
 					];
 				}
+
 				function markLink(start, end, linkTextStart, lastChildCh) {
 					return [
 						markInfo(start, end, LINK),
@@ -21912,6 +23060,7 @@ The amount of redoable events available in a given editor state.
 						})
 					];
 				}
+
 				function markInfo_image(_a, start, end) {
 					var lastChild = _a.lastChild;
 					var lastChildCh = lastChild ? getMdEndCh(lastChild) + 1 : 3; // 3: length of '![]'
@@ -21921,6 +23070,7 @@ The amount of redoable events available in a given editor state.
 						markLink(start, end, linkTextEnd, lastChildCh)
 					);
 				}
+
 				function markInfo_link(_a, start, end) {
 					var lastChild = _a.lastChild,
 						extendedAutolink = _a.extendedAutolink;
@@ -21929,6 +23079,7 @@ The amount of redoable events available in a given editor state.
 						? [markInfo(start, end, LINK, { desc: true })]
 						: markLink(start, end, start, lastChildCh);
 				}
+
 				function markInfo_code(_a, start, end) {
 					var tickCount = _a.tickCount;
 					var openDelimEnd = addOffsetPos(start, tickCount);
@@ -21940,6 +23091,7 @@ The amount of redoable events available in a given editor state.
 						markInfo(closeDelimStart, end, CODE, { end: true })
 					];
 				}
+
 				function lineBackground(parent, start, end, prefix) {
 					var defaultBackground = {
 						start: start,
@@ -21967,6 +23119,7 @@ The amount of redoable events available in a given editor state.
 							]
 						: null;
 				}
+
 				function codeBlock(node, start, end, endLine) {
 					var fenceOffset = node.fenceOffset,
 						fenceLength = node.fenceLength,
@@ -21996,6 +23149,7 @@ The amount of redoable events available in a given editor state.
 					var lineBackgroundMarkInfo = lineBackground(parent, start, end, "code-block");
 					return lineBackgroundMarkInfo ? marks.concat(lineBackgroundMarkInfo) : marks;
 				}
+
 				function customBlock(node, start, end) {
 					var _a = node,
 						offset = _a.offset,
@@ -22018,6 +23172,7 @@ The amount of redoable events available in a given editor state.
 					var lineBackgroundMarkInfo = lineBackground(parent, start, end, "custom-block");
 					return lineBackgroundMarkInfo ? marks.concat(lineBackgroundMarkInfo) : marks;
 				}
+
 				function markListItemChildren(node, markType) {
 					var marks = [];
 					while (node) {
@@ -22035,6 +23190,7 @@ The amount of redoable events available in a given editor state.
 					}
 					return marks;
 				}
+
 				function markParagraphInBlockQuote(node) {
 					var marks = [];
 					while (node) {
@@ -22049,6 +23205,7 @@ The amount of redoable events available in a given editor state.
 					}
 					return marks;
 				}
+
 				function blockQuote(node, start, end) {
 					var marks =
 						node.parent && node.parent.type !== "blockQuote"
@@ -22065,6 +23222,7 @@ The amount of redoable events available in a given editor state.
 					}
 					return marks;
 				}
+
 				function getSpecOfListItemStyle(node) {
 					var depth = 0;
 					while (node.parent.parent && node.parent.parent.type === "item") {
@@ -22074,6 +23232,7 @@ The amount of redoable events available in a given editor state.
 					var attrs = [{ odd: true }, { even: true }][depth % 2];
 					return [LIST_ITEM, __assign(__assign({}, attrs), { listStyle: true })];
 				}
+
 				function item(node, start) {
 					var _a = node.listData,
 						padding = _a.padding,
@@ -22104,6 +23263,7 @@ The amount of redoable events available in a given editor state.
 					}
 					return marks.concat(markListItemChildren(node.firstChild, TEXT));
 				}
+
 				var markNodeFuncMap = {
 					heading: heading,
 					strong: emphasisAndStrikethrough,
@@ -22123,6 +23283,7 @@ The amount of redoable events available in a given editor state.
 					tableCell: TABLE_CELL,
 					htmlInline: HTML
 				};
+
 				function getMarkInfo(node, start, end, endLine) {
 					var type = node.type;
 					if (isFunction_default()(markNodeFuncMap[type])) {
@@ -22136,6 +23297,7 @@ The amount of redoable events available in a given editor state.
 				} // CONCATENATED MODULE: ./src/markdown/plugins/syntaxHighlight.ts
 
 				var removingBackgroundIndexMap = {};
+
 				function syntaxHighlight(_a) {
 					var schema = _a.schema,
 						toastMark = _a.toastMark;
@@ -22191,11 +23353,13 @@ The amount of redoable events available in a given editor state.
 						}
 					});
 				}
+
 				function isDifferentBlock(doc, index, attrs) {
 					return Object.keys(attrs).some(function (name) {
 						return attrs[name] !== doc.child(index).attrs[name];
 					});
 				}
+
 				function addLineBackground(tr, doc, paragraph, blockPosInfo, attrs) {
 					if (attrs === void 0) {
 						attrs = {};
@@ -22214,6 +23378,7 @@ The amount of redoable events available in a given editor state.
 						tr.setBlockType(from, to, paragraph, attrs);
 					}
 				}
+
 				function appendMarkTr(tr, schema, marks) {
 					var doc = tr.doc;
 					var paragraph = schema.nodes.paragraph;
@@ -22252,6 +23417,7 @@ The amount of redoable events available in a given editor state.
 					});
 					removeBlockBackground(tr, startPosListPerLine, paragraph);
 				}
+
 				function removeBlockBackground(tr, startPosListPerLine, paragraph) {
 					Object.keys(removingBackgroundIndexMap).forEach(function (index) {
 						var startIndex = Number(index);
@@ -22266,6 +23432,7 @@ The amount of redoable events available in a given editor state.
 						tr.setBlockType(from, to, paragraph);
 					});
 				}
+
 				function cacheIndexToRemoveBackground(doc, start, end) {
 					var skipLines = [];
 					removingBackgroundIndexMap = {};
@@ -22286,6 +23453,7 @@ The amount of redoable events available in a given editor state.
 						}
 					}
 				}
+
 				function getMarkForRemoving(_a, nodes) {
 					var doc = _a.doc;
 					var start = nodes[0].sourcepos[0];
@@ -22298,6 +23466,7 @@ The amount of redoable events available in a given editor state.
 					marks.push({ start: startPos, end: endPos });
 					return marks;
 				}
+
 				function getMarkForAdding(node, toastMark) {
 					var lineTexts = toastMark.getLineTexts();
 					var startPos = [getMdStartLine(node), getMdStartCh(node)];
@@ -22339,6 +23508,7 @@ The amount of redoable events available in a given editor state.
 					}
 					return type;
 				}
+
 				function getToolbarState(targetNode) {
 					var toolbarState = {
 						indent: { active: false, disabled: true },
@@ -22364,6 +23534,7 @@ The amount of redoable events available in a given editor state.
 					});
 					return toolbarState;
 				}
+
 				function previewHighlight(_a) {
 					var toastMark = _a.toastMark,
 						eventEmitter = _a.eventEmitter;
@@ -22405,9 +23576,11 @@ The amount of redoable events available in a given editor state.
 
 				var Doc = /** @class */ (function (_super) {
 					__extends(Doc, _super);
+
 					function Doc() {
 						return (_super !== null && _super.apply(this, arguments)) || this;
 					}
+
 					Object.defineProperty(Doc.prototype, "name", {
 						get: function () {
 							return "doc";
@@ -22429,6 +23602,7 @@ The amount of redoable events available in a given editor state.
 
 				var mark_Mark = /** @class */ (function () {
 					function Mark() {}
+
 					Object.defineProperty(Mark.prototype, "type", {
 						get: function () {
 							return "mark";
@@ -22441,11 +23615,13 @@ The amount of redoable events available in a given editor state.
 					};
 					return Mark;
 				})();
-				/* harmony default export */ var mark = mark_Mark; // CONCATENATED MODULE: ./src/markdown/helper/query.ts
+				/* harmony default export */
+				var mark = mark_Mark; // CONCATENATED MODULE: ./src/markdown/helper/query.ts
 
 				function getTextByMdLine(doc, mdLine) {
 					return getTextContent(doc, mdLine - 1);
 				}
+
 				function getTextContent(doc, index) {
 					return doc.child(index).textContent;
 				} // CONCATENATED MODULE: ./src/markdown/marks/blockQuote.ts
@@ -22453,9 +23629,11 @@ The amount of redoable events available in a given editor state.
 				var reBlockQuote = /^\s*> ?/;
 				var BlockQuote = /** @class */ (function (_super) {
 					__extends(BlockQuote, _super);
+
 					function BlockQuote() {
 						return (_super !== null && _super.apply(this, arguments)) || this;
 					}
+
 					Object.defineProperty(BlockQuote.prototype, "name", {
 						get: function () {
 							return "blockQuote";
@@ -22566,9 +23744,11 @@ The amount of redoable events available in a given editor state.
 				var reBulletListGroup = /^(\s*)([-*+]+(\s(?:\[(?:x|\s)\]\s)?))(.*)/;
 				var reTaskList = /(^\s*)([-*+] |[\d]+\. )(\[[ xX]] )/;
 				var reBulletTaskList = /(^\s*)([-*+])( \[[ xX]]) /;
+
 				function getListType(text) {
 					return reOrderedList.test(text) ? "ordered" : "bullet";
 				}
+
 				function getListDepth(mdNode) {
 					var depth = 0;
 					while (mdNode && mdNode.type !== "document") {
@@ -22579,6 +23759,7 @@ The amount of redoable events available in a given editor state.
 					}
 					return depth;
 				}
+
 				function findSameDepthList(toastMark, currentLine, depth, backward) {
 					var lineTexts = toastMark.getLineTexts();
 					var lineLen = lineTexts.length;
@@ -22596,6 +23777,7 @@ The amount of redoable events available in a given editor state.
 					}
 					return result;
 				}
+
 				function getSameDepthItems(_a) {
 					var toastMark = _a.toastMark,
 						mdNode = _a.mdNode,
@@ -22607,6 +23789,7 @@ The amount of redoable events available in a given editor state.
 						.concat([{ line: line, depth: depth, mdNode: mdNode }])
 						.concat(backwardList);
 				}
+
 				function textToBullet(text) {
 					if (!reList.test(text)) {
 						return "* " + text;
@@ -22619,6 +23802,7 @@ The amount of redoable events available in a given editor state.
 					}
 					return text;
 				}
+
 				function textToOrdered(text, ordinalNum) {
 					if (!reList.test(text)) {
 						return ordinalNum + ". " + text;
@@ -22635,6 +23819,7 @@ The amount of redoable events available in a given editor state.
 					}
 					return text;
 				}
+
 				function getChangedInfo(doc, sameDepthItems, type, start) {
 					if (start === void 0) {
 						start = 0;
@@ -22658,10 +23843,12 @@ The amount of redoable events available in a given editor state.
 						lastIndex: lastIndex
 					};
 				}
+
 				function getBulletOrOrdered(type, context) {
 					var sameDepthListInfo = getSameDepthItems(context);
 					return getChangedInfo(context.doc, sameDepthListInfo, type);
 				}
+
 				var otherListToList = {
 					bullet: function (context) {
 						return getBulletOrOrdered("bullet", context);
@@ -22780,6 +23967,7 @@ The amount of redoable events available in a given editor state.
 						);
 					}
 				};
+
 				function getReorderedListInfo(doc, schema, line, ordinalNum, prevIndentLength) {
 					var nodes = [];
 					var lineText = getTextByMdLine(doc, line);
@@ -22816,9 +24004,11 @@ The amount of redoable events available in a given editor state.
 				} // CONCATENATED MODULE: ./src/markdown/nodes/paragraph.ts
 
 				var reStartSpace = /(^\s{1,4})(.*)/;
+
 				function isBlockUnit(from, to, text) {
 					return from < to || reList.test(text) || reBlockQuote.test(text);
 				}
+
 				function isInTableCellNode(doc, schema, selection) {
 					var $pos = selection.$from;
 					if ($pos.depth === 0) {
@@ -22833,6 +24023,7 @@ The amount of redoable events available in a given editor state.
 						$pos.pos !== startOffset
 					);
 				}
+
 				function createSelection(tr, posInfo) {
 					var from = posInfo.from,
 						to = posInfo.to;
@@ -22849,11 +24040,14 @@ The amount of redoable events available in a given editor state.
 					}
 					return createTextSelection(tr, from, to);
 				}
+
 				var Paragraph = /** @class */ (function (_super) {
 					__extends(Paragraph, _super);
+
 					function Paragraph() {
 						return (_super !== null && _super.apply(this, arguments)) || this;
 					}
+
 					Object.defineProperty(Paragraph.prototype, "name", {
 						get: function () {
 							return "paragraph";
@@ -23133,9 +24327,11 @@ The amount of redoable events available in a given editor state.
 
 				var Text = /** @class */ (function (_super) {
 					__extends(Text, _super);
+
 					function Text() {
 						return (_super !== null && _super.apply(this, arguments)) || this;
 					}
+
 					Object.defineProperty(Text.prototype, "name", {
 						get: function () {
 							return "text";
@@ -23158,9 +24354,11 @@ The amount of redoable events available in a given editor state.
 				var reHeading = /^#{1,6}\s/;
 				var Heading = /** @class */ (function (_super) {
 					__extends(Heading, _super);
+
 					function Heading() {
 						return (_super !== null && _super.apply(this, arguments)) || this;
 					}
+
 					Object.defineProperty(Heading.prototype, "name", {
 						get: function () {
 							return "heading";
@@ -23250,9 +24448,11 @@ The amount of redoable events available in a given editor state.
 				var fencedCodeBlockSyntax = "```";
 				var CodeBlock = /** @class */ (function (_super) {
 					__extends(CodeBlock, _super);
+
 					function CodeBlock() {
 						return (_super !== null && _super.apply(this, arguments)) || this;
 					}
+
 					Object.defineProperty(CodeBlock.prototype, "name", {
 						get: function () {
 							return "codeBlock";
@@ -23346,9 +24546,11 @@ The amount of redoable events available in a given editor state.
 				})(mark); // CONCATENATED MODULE: ./src/markdown/marks/table.ts
 
 				var reEmptyTable = /\||\s/g;
+
 				function createTableHeader(columnCount) {
 					return [createTableRow(columnCount), createTableRow(columnCount, true)];
 				}
+
 				function createTableBody(columnCount, rowCount) {
 					var bodyRows = [];
 					for (var i = 0; i < rowCount; i += 1) {
@@ -23356,6 +24558,7 @@ The amount of redoable events available in a given editor state.
 					}
 					return bodyRows;
 				}
+
 				function createTableRow(columnCount, delim) {
 					var row = "|";
 					for (var i = 0; i < columnCount; i += 1) {
@@ -23363,16 +24566,20 @@ The amount of redoable events available in a given editor state.
 					}
 					return row;
 				}
+
 				function createTargetTypes(moveNext) {
 					return moveNext
 						? { type: "next", parentType: "tableHead", childType: "firstChild" }
 						: { type: "prev", parentType: "tableBody", childType: "lastChild" };
 				}
+
 				var Table = /** @class */ (function (_super) {
 					__extends(Table, _super);
+
 					function Table() {
 						return (_super !== null && _super.apply(this, arguments)) || this;
 					}
+
 					Object.defineProperty(Table.prototype, "name", {
 						get: function () {
 							return "table";
@@ -23535,9 +24742,11 @@ The amount of redoable events available in a given editor state.
 				var thematicBreakSyntax = "***";
 				var ThematicBreak = /** @class */ (function (_super) {
 					__extends(ThematicBreak, _super);
+
 					function ThematicBreak() {
 						return (_super !== null && _super.apply(this, arguments)) || this;
 					}
+
 					Object.defineProperty(ThematicBreak.prototype, "name", {
 						get: function () {
 							return "thematicBreak";
@@ -23602,11 +24811,14 @@ The amount of redoable events available in a given editor state.
 						(type === "codeBlock" || type === "heading" || type.match("table"))
 					);
 				}
+
 				var ListItem = /** @class */ (function (_super) {
 					__extends(ListItem, _super);
+
 					function ListItem() {
 						return (_super !== null && _super.apply(this, arguments)) || this;
 					}
+
 					Object.defineProperty(ListItem.prototype, "name", {
 						get: function () {
 							return "listItem";
@@ -23931,9 +25143,11 @@ The amount of redoable events available in a given editor state.
 				var strongSyntax = "**";
 				var Strong = /** @class */ (function (_super) {
 					__extends(Strong, _super);
+
 					function Strong() {
 						return (_super !== null && _super.apply(this, arguments)) || this;
 					}
+
 					Object.defineProperty(Strong.prototype, "name", {
 						get: function () {
 							return "strong";
@@ -23969,9 +25183,11 @@ The amount of redoable events available in a given editor state.
 				var strikeSyntax = "~~";
 				var Strike = /** @class */ (function (_super) {
 					__extends(Strike, _super);
+
 					function Strike() {
 						return (_super !== null && _super.apply(this, arguments)) || this;
 					}
+
 					Object.defineProperty(Strike.prototype, "name", {
 						get: function () {
 							return "strike";
@@ -24004,9 +25220,11 @@ The amount of redoable events available in a given editor state.
 				var emphSyntax = "*";
 				var Emph = /** @class */ (function (_super) {
 					__extends(Emph, _super);
+
 					function Emph() {
 						return (_super !== null && _super.apply(this, arguments)) || this;
 					}
+
 					Object.defineProperty(Emph.prototype, "name", {
 						get: function () {
 							return "emph";
@@ -24042,9 +25260,11 @@ The amount of redoable events available in a given editor state.
 				var codeSyntax = "`";
 				var Code = /** @class */ (function (_super) {
 					__extends(Code, _super);
+
 					function Code() {
 						return (_super !== null && _super.apply(this, arguments)) || this;
 					}
+
 					Object.defineProperty(Code.prototype, "name", {
 						get: function () {
 							return "code";
@@ -24103,9 +25323,11 @@ The amount of redoable events available in a given editor state.
 
 				var Link = /** @class */ (function (_super) {
 					__extends(Link, _super);
+
 					function Link() {
 						return (_super !== null && _super.apply(this, arguments)) || this;
 					}
+
 					Object.defineProperty(Link.prototype, "name", {
 						get: function () {
 							return "link";
@@ -24187,9 +25409,11 @@ The amount of redoable events available in a given editor state.
 
 				var TaskDelimiter = /** @class */ (function (_super) {
 					__extends(TaskDelimiter, _super);
+
 					function TaskDelimiter() {
 						return (_super !== null && _super.apply(this, arguments)) || this;
 					}
+
 					Object.defineProperty(TaskDelimiter.prototype, "name", {
 						get: function () {
 							return "taskDelimiter";
@@ -24217,9 +25441,11 @@ The amount of redoable events available in a given editor state.
 
 				var Delimiter = /** @class */ (function (_super) {
 					__extends(Delimiter, _super);
+
 					function Delimiter() {
 						return (_super !== null && _super.apply(this, arguments)) || this;
 					}
+
 					Object.defineProperty(Delimiter.prototype, "name", {
 						get: function () {
 							return "delimiter";
@@ -24243,9 +25469,11 @@ The amount of redoable events available in a given editor state.
 
 				var Meta = /** @class */ (function (_super) {
 					__extends(Meta, _super);
+
 					function Meta() {
 						return (_super !== null && _super.apply(this, arguments)) || this;
 					}
+
 					Object.defineProperty(Meta.prototype, "name", {
 						get: function () {
 							return "meta";
@@ -24269,9 +25497,11 @@ The amount of redoable events available in a given editor state.
 
 				var MarkedText = /** @class */ (function (_super) {
 					__extends(MarkedText, _super);
+
 					function MarkedText() {
 						return (_super !== null && _super.apply(this, arguments)) || this;
 					}
+
 					Object.defineProperty(MarkedText.prototype, "name", {
 						get: function () {
 							return "markedText";
@@ -24295,9 +25525,11 @@ The amount of redoable events available in a given editor state.
 
 				var TableCell = /** @class */ (function (_super) {
 					__extends(TableCell, _super);
+
 					function TableCell() {
 						return (_super !== null && _super.apply(this, arguments)) || this;
 					}
+
 					Object.defineProperty(TableCell.prototype, "name", {
 						get: function () {
 							return "tableCell";
@@ -24321,9 +25553,11 @@ The amount of redoable events available in a given editor state.
 
 				var Html = /** @class */ (function (_super) {
 					__extends(Html, _super);
+
 					function Html() {
 						return (_super !== null && _super.apply(this, arguments)) || this;
 					}
+
 					Object.defineProperty(Html.prototype, "name", {
 						get: function () {
 							return "html";
@@ -24348,9 +25582,11 @@ The amount of redoable events available in a given editor state.
 				var customBlockSyntax = "$$";
 				var CustomBlock = /** @class */ (function (_super) {
 					__extends(CustomBlock, _super);
+
 					function CustomBlock() {
 						return (_super !== null && _super.apply(this, arguments)) || this;
 					}
+
 					Object.defineProperty(CustomBlock.prototype, "name", {
 						get: function () {
 							return "customBlock";
@@ -24413,6 +25649,7 @@ The amount of redoable events available in a given editor state.
 
 				var reTaskMarkerKey = /x|backspace/i;
 				var reTaskMarker = /^\[(\s*)(x?)(\s*)\](?:\s+)/i;
+
 				function smartTask(_a) {
 					var schema = _a.schema,
 						toastMark = _a.toastMark;
@@ -24490,6 +25727,7 @@ The amount of redoable events available in a given editor state.
 				var reLineEnding = /\r\n|\n|\r/;
 				var MdEditor = /** @class */ (function (_super) {
 					__extends(MdEditor, _super);
+
 					function MdEditor(eventEmitter, options) {
 						var _this = _super.call(this, eventEmitter) || this;
 						var toastMark = options.toastMark,
@@ -24524,6 +25762,7 @@ The amount of redoable events available in a given editor state.
 						_this.initEvent();
 						return _this;
 					}
+
 					MdEditor.prototype.toggleActive = function (active, isMarkdownTabMounted) {
 						toggleClass(this.el, "active", active);
 						if (active) {
@@ -24848,7 +26087,8 @@ The amount of redoable events available in a given editor state.
 					};
 					return MdEditor;
 				})(src_base);
-				/* harmony default export */ var mdEditor = MdEditor;
+				/* harmony default export */
+				var mdEditor = MdEditor;
 
 				// EXTERNAL MODULE: ../../node_modules/tui-code-snippet/domEvent/off.js
 				var off = __webpack_require__(349);
@@ -24884,18 +26124,22 @@ PERFORMANCE OF THIS SOFTWARE.
 						};
 					return esm_extendStatics(d, b);
 				};
+
 				function esm_extends(d, b) {
 					if (typeof b !== "function" && b !== null)
 						throw new TypeError(
 							"Class extends value " + String(b) + " is not a constructor or null"
 						);
 					esm_extendStatics(d, b);
+
 					function __() {
 						this.constructor = d;
 					}
+
 					d.prototype =
 						b === null ? Object.create(b) : ((__.prototype = b.prototype), new __());
 				}
+
 				var esm_assign = function () {
 					esm_assign =
 						Object.assign ||
@@ -24909,6 +26153,7 @@ PERFORMANCE OF THIS SOFTWARE.
 						};
 					return esm_assign.apply(this, arguments);
 				};
+
 				function esm_spreadArray(to, from, pack) {
 					if (pack || arguments.length === 2)
 						for (var i = 0, l = from.length, ar; i < l; i++) {
@@ -24919,6 +26164,7 @@ PERFORMANCE OF THIS SOFTWARE.
 						}
 					return to.concat(ar || Array.prototype.slice.call(from));
 				}
+
 				var commonjsGlobal =
 					typeof globalThis !== "undefined"
 						? globalThis
@@ -24955,6 +26201,7 @@ PERFORMANCE OF THIS SOFTWARE.
 					}
 					return cache;
 				}
+
 				// Encode unsafe characters with percent-encoding, skipping already
 				// encoded sequences.
 				//
@@ -25007,6 +26254,7 @@ PERFORMANCE OF THIS SOFTWARE.
 					}
 					return result;
 				}
+
 				encode$1.defaultChars = ";/?:@&=+$,-_.!~*'()#";
 				encode$1.componentChars = "-_.!~*'()";
 				var encode_1 = encode$1;
@@ -29540,6 +30788,7 @@ PERFORMANCE OF THIS SOFTWARE.
 						output += String.fromCharCode(codePoint);
 						return output;
 					};
+
 				function decodeCodePoint(codePoint) {
 					if ((codePoint >= 0xd800 && codePoint <= 0xdfff) || codePoint > 0x10ffff) {
 						return "\uFFFD";
@@ -29549,6 +30798,7 @@ PERFORMANCE OF THIS SOFTWARE.
 					}
 					return fromCodePoint$2(codePoint);
 				}
+
 				decode_codepoint.default = decodeCodePoint;
 				var __importDefault$1 =
 					(commonjsGlobal && commonjsGlobal.__importDefault) ||
@@ -29564,12 +30814,14 @@ PERFORMANCE OF THIS SOFTWARE.
 				var strictEntityRe = /&(?:[a-zA-Z0-9]+|#[xX][\da-fA-F]+|#\d+);/g;
 				decode.decodeXML = getStrictDecoder(xml_json_1$1.default);
 				decode.decodeHTMLStrict = getStrictDecoder(entities_json_1$1.default);
+
 				function getStrictDecoder(map) {
 					var replace = getReplacer(map);
 					return function (str) {
 						return String(str).replace(strictEntityRe, replace);
 					};
 				}
+
 				var sorter = function (a, b) {
 					return a < b ? 1 : -1;
 				};
@@ -29589,15 +30841,18 @@ PERFORMANCE OF THIS SOFTWARE.
 						"g"
 					);
 					var replace = getReplacer(entities_json_1$1.default);
+
 					function replacer(str) {
 						if (str.substr(-1) !== ";") str += ";";
 						return replace(str);
 					}
+
 					// TODO consider creating a merged map
 					return function (str) {
 						return String(str).replace(re, replacer);
 					};
 				})();
+
 				function getReplacer(map) {
 					return function replace(str) {
 						if (str.charAt(1) === "#") {
@@ -29611,6 +30866,7 @@ PERFORMANCE OF THIS SOFTWARE.
 						return map[str.slice(1, -1)] || str;
 					};
 				}
+
 				var encode = {};
 				var esm_importDefault =
 					(commonjsGlobal && commonjsGlobal.__importDefault) ||
@@ -29657,6 +30913,7 @@ PERFORMANCE OF THIS SOFTWARE.
 				 * numeric hexadecimal reference (eg. `&#xfc;`) will be used.
 				 */
 				encode.encodeNonAsciiHTML = getASCIIEncoder(inverseHTML);
+
 				function getInverseObj(obj) {
 					return Object.keys(obj)
 						.sort()
@@ -29665,6 +30922,7 @@ PERFORMANCE OF THIS SOFTWARE.
 							return inverse;
 						}, {});
 				}
+
 				function getInverseReplacer(inverse) {
 					var single = [];
 					var multiple = [];
@@ -29697,6 +30955,7 @@ PERFORMANCE OF THIS SOFTWARE.
 					multiple.unshift("[" + single.join("") + "]");
 					return new RegExp(multiple.join("|"), "g");
 				}
+
 				// /[^\0-\x7F]/gu
 				var reNonASCII =
 					/(?:[\x80-\uD7FF\uE000-\uFFFF]|[\uD800-\uDBFF][\uDC00-\uDFFF]|[\uD800-\uDBFF](?![\uDC00-\uDFFF])|(?:[^\uD800-\uDBFF]|^)[\uDC00-\uDFFF])/g;
@@ -29716,6 +30975,7 @@ PERFORMANCE OF THIS SOFTWARE.
 									0x10000
 								);
 							};
+
 				function singleCharReplacer(c) {
 					return (
 						"&#x" +
@@ -29725,6 +30985,7 @@ PERFORMANCE OF THIS SOFTWARE.
 						";"
 					);
 				}
+
 				function getInverse(inverse, re) {
 					return function (data) {
 						return data
@@ -29734,10 +30995,12 @@ PERFORMANCE OF THIS SOFTWARE.
 							.replace(reNonASCII, singleCharReplacer);
 					};
 				}
+
 				var esm_reEscapeChars = new RegExp(
 					xmlReplacer.source + "|" + reNonASCII.source,
 					"g"
 				);
+
 				/**
 				 * Encodes all non-ASCII characters, as well as characters not valid in XML
 				 * documents using numeric hexadecimal reference (eg. `&#xfc;`).
@@ -29750,7 +31013,9 @@ PERFORMANCE OF THIS SOFTWARE.
 				function esm_escape(data) {
 					return data.replace(esm_reEscapeChars, singleCharReplacer);
 				}
+
 				encode.escape = esm_escape;
+
 				/**
 				 * Encodes all characters not valid in XML documents using numeric hexadecimal
 				 * reference (eg. `&#xfc;`).
@@ -29762,7 +31027,9 @@ PERFORMANCE OF THIS SOFTWARE.
 				function escapeUTF8(data) {
 					return data.replace(xmlReplacer, singleCharReplacer);
 				}
+
 				encode.escapeUTF8 = escapeUTF8;
+
 				function getASCIIEncoder(obj) {
 					return function (data) {
 						return data.replace(esm_reEscapeChars, function (c) {
@@ -29770,6 +31037,7 @@ PERFORMANCE OF THIS SOFTWARE.
 						});
 					};
 				}
+
 				(function (exports) {
 					Object.defineProperty(exports, "__esModule", { value: true });
 					exports.decodeXMLStrict =
@@ -29793,6 +31061,7 @@ PERFORMANCE OF THIS SOFTWARE.
 							void 0;
 					var decode_1 = decode;
 					var encode_1 = encode;
+
 					/**
 					 * Decodes a string with entities.
 					 *
@@ -29805,7 +31074,9 @@ PERFORMANCE OF THIS SOFTWARE.
 							data
 						);
 					}
+
 					exports.decode = decode$1;
+
 					/**
 					 * Decodes a string with entities. Does not allow missing trailing semicolons for entities.
 					 *
@@ -29818,7 +31089,9 @@ PERFORMANCE OF THIS SOFTWARE.
 							!level || level <= 0 ? decode_1.decodeXML : decode_1.decodeHTMLStrict
 						)(data);
 					}
+
 					exports.decodeStrict = decodeStrict;
+
 					/**
 					 * Encodes a string with entities.
 					 *
@@ -29831,6 +31104,7 @@ PERFORMANCE OF THIS SOFTWARE.
 							data
 						);
 					}
+
 					exports.encode = encode$1;
 					var encode_2 = encode;
 					Object.defineProperty(exports, "encodeXML", {
@@ -29940,6 +31214,7 @@ PERFORMANCE OF THIS SOFTWARE.
 					}
 					return lib.decodeHTML(s);
 				};
+
 				// Replace entities and backslash escapes with literal characters.
 				function unescapeString(s) {
 					if (reBackslashOrAmp.test(s)) {
@@ -29947,6 +31222,7 @@ PERFORMANCE OF THIS SOFTWARE.
 					}
 					return s;
 				}
+
 				function normalizeURI(uri) {
 					try {
 						return encode_1(uri);
@@ -29954,6 +31230,7 @@ PERFORMANCE OF THIS SOFTWARE.
 						return uri;
 					}
 				}
+
 				function esm_replaceUnsafeChar(s) {
 					switch (s) {
 						case "&":
@@ -29968,12 +31245,14 @@ PERFORMANCE OF THIS SOFTWARE.
 							return s;
 					}
 				}
+
 				function esm_escapeXml(s) {
 					if (esm_reXmlSpecial.test(s)) {
 						return s.replace(esm_reXmlSpecial, esm_replaceUnsafeChar);
 					}
 					return s;
 				}
+
 				function esm_repeat(str, count) {
 					var arr = [];
 					for (var i = 0; i < count; i++) {
@@ -29981,18 +31260,21 @@ PERFORMANCE OF THIS SOFTWARE.
 					}
 					return arr.join("");
 				}
+
 				function isEmpty(str) {
 					if (!str) {
 						return true;
 					}
 					return !/[^ \t]+/.test(str);
 				}
+
 				var NodeWalker = /** @class */ (function () {
 					function NodeWalker(root) {
 						this.current = root;
 						this.root = root;
 						this.entering = true;
 					}
+
 					NodeWalker.prototype.next = function () {
 						var cur = this.current;
 						var entering = this.entering;
@@ -30025,6 +31307,7 @@ PERFORMANCE OF THIS SOFTWARE.
 					};
 					return NodeWalker;
 				})();
+
 				function esm_isContainer(node) {
 					switch (node.type) {
 						case "document":
@@ -30050,17 +31333,22 @@ PERFORMANCE OF THIS SOFTWARE.
 							return false;
 					}
 				}
+
 				var lastNodeId = 1;
 				var nodeMap = {};
+
 				function getNodeById(id) {
 					return nodeMap[id];
 				}
+
 				function removeNodeById(id) {
 					delete nodeMap[id];
 				}
+
 				function removeAllNode() {
 					nodeMap = {};
 				}
+
 				var esm_Node = /** @class */ (function () {
 					function Node(nodeType, sourcepos) {
 						this.parent = null;
@@ -30080,6 +31368,7 @@ PERFORMANCE OF THIS SOFTWARE.
 						this.sourcepos = sourcepos;
 						nodeMap[this.id] = this;
 					}
+
 					Node.prototype.isContainer = function () {
 						return esm_isContainer(this);
 					};
@@ -30161,6 +31450,7 @@ PERFORMANCE OF THIS SOFTWARE.
 				})();
 				var BlockNode = /** @class */ (function (_super) {
 					esm_extends(BlockNode, _super);
+
 					function BlockNode(nodeType, sourcepos) {
 						var _this = _super.call(this, nodeType, sourcepos) || this;
 						// temporal data (for parsing)
@@ -30172,29 +31462,35 @@ PERFORMANCE OF THIS SOFTWARE.
 						_this.type = nodeType;
 						return _this;
 					}
+
 					return BlockNode;
 				})(esm_Node);
 				var ListNode = /** @class */ (function (_super) {
 					esm_extends(ListNode, _super);
+
 					function ListNode() {
 						var _this = (_super !== null && _super.apply(this, arguments)) || this;
 						_this.listData = null;
 						return _this;
 					}
+
 					return ListNode;
 				})(BlockNode);
 				var HeadingNode = /** @class */ (function (_super) {
 					esm_extends(HeadingNode, _super);
+
 					function HeadingNode() {
 						var _this = (_super !== null && _super.apply(this, arguments)) || this;
 						_this.level = 0;
 						_this.headingType = "atx";
 						return _this;
 					}
+
 					return HeadingNode;
 				})(BlockNode);
 				var CodeBlockNode = /** @class */ (function (_super) {
 					esm_extends(CodeBlockNode, _super);
+
 					function CodeBlockNode() {
 						var _this = (_super !== null && _super.apply(this, arguments)) || this;
 						_this.isFenced = false;
@@ -30205,19 +31501,23 @@ PERFORMANCE OF THIS SOFTWARE.
 						_this.infoPadding = 0;
 						return _this;
 					}
+
 					return CodeBlockNode;
 				})(BlockNode);
 				var TableNode = /** @class */ (function (_super) {
 					esm_extends(TableNode, _super);
+
 					function TableNode() {
 						var _this = (_super !== null && _super.apply(this, arguments)) || this;
 						_this.columns = [];
 						return _this;
 					}
+
 					return TableNode;
 				})(BlockNode);
 				var TableCellNode = /** @class */ (function (_super) {
 					esm_extends(TableCellNode, _super);
+
 					function TableCellNode() {
 						var _this = (_super !== null && _super.apply(this, arguments)) || this;
 						_this.startIdx = 0;
@@ -30227,10 +31527,12 @@ PERFORMANCE OF THIS SOFTWARE.
 						_this.ignored = false;
 						return _this;
 					}
+
 					return TableCellNode;
 				})(BlockNode);
 				var RefDefNode = /** @class */ (function (_super) {
 					esm_extends(RefDefNode, _super);
+
 					function RefDefNode() {
 						var _this = (_super !== null && _super.apply(this, arguments)) || this;
 						_this.title = "";
@@ -30238,10 +31540,12 @@ PERFORMANCE OF THIS SOFTWARE.
 						_this.label = "";
 						return _this;
 					}
+
 					return RefDefNode;
 				})(BlockNode);
 				var CustomBlockNode = /** @class */ (function (_super) {
 					esm_extends(CustomBlockNode, _super);
+
 					function CustomBlockNode() {
 						var _this = (_super !== null && _super.apply(this, arguments)) || this;
 						_this.syntaxLength = 0;
@@ -30249,19 +31553,23 @@ PERFORMANCE OF THIS SOFTWARE.
 						_this.info = "";
 						return _this;
 					}
+
 					return CustomBlockNode;
 				})(BlockNode);
 				var HtmlBlockNode = /** @class */ (function (_super) {
 					esm_extends(HtmlBlockNode, _super);
+
 					function HtmlBlockNode() {
 						var _this = (_super !== null && _super.apply(this, arguments)) || this;
 						_this.htmlBlockType = -1;
 						return _this;
 					}
+
 					return HtmlBlockNode;
 				})(BlockNode);
 				var LinkNode = /** @class */ (function (_super) {
 					esm_extends(LinkNode, _super);
+
 					function LinkNode() {
 						var _this = (_super !== null && _super.apply(this, arguments)) || this;
 						_this.destination = null;
@@ -30269,26 +31577,32 @@ PERFORMANCE OF THIS SOFTWARE.
 						_this.extendedAutolink = false;
 						return _this;
 					}
+
 					return LinkNode;
 				})(esm_Node);
 				var CodeNode = /** @class */ (function (_super) {
 					esm_extends(CodeNode, _super);
+
 					function CodeNode() {
 						var _this = (_super !== null && _super.apply(this, arguments)) || this;
 						_this.tickCount = 0;
 						return _this;
 					}
+
 					return CodeNode;
 				})(esm_Node);
 				var CustomInlineNode = /** @class */ (function (_super) {
 					esm_extends(CustomInlineNode, _super);
+
 					function CustomInlineNode() {
 						var _this = (_super !== null && _super.apply(this, arguments)) || this;
 						_this.info = "";
 						return _this;
 					}
+
 					return CustomInlineNode;
 				})(esm_Node);
+
 				function createNode(type, sourcepos) {
 					switch (type) {
 						case "heading":
@@ -30328,35 +31642,45 @@ PERFORMANCE OF THIS SOFTWARE.
 							return new esm_Node(type, sourcepos);
 					}
 				}
+
 				function isCodeBlock(node) {
 					return node.type === "codeBlock";
 				}
+
 				function isHtmlBlock(node) {
 					return node.type === "htmlBlock";
 				}
+
 				function isHeading(node) {
 					return node.type === "heading";
 				}
+
 				function isList(node) {
 					return node.type === "list";
 				}
+
 				function isTable(node) {
 					return node.type === "table";
 				}
+
 				function isRefDef(node) {
 					return node.type === "refDef";
 				}
+
 				function isCustomBlock(node) {
 					return node.type === "customBlock";
 				}
+
 				function isCustomInline(node) {
 					return node.type === "customInline";
 				}
+
 				function esm_text(s, sourcepos) {
 					var node = createNode("text", sourcepos);
 					node.literal = s;
 					return node;
 				}
+
 				var TAGNAME = "[A-Za-z][A-Za-z0-9-]*";
 				var ATTRIBUTENAME = "[a-zA-Z_:][a-zA-Z0-9:._-]*";
 				var UNQUOTEDVALUE = "[^\"'=<>`\\x00-\\x20]+";
@@ -30452,6 +31776,7 @@ PERFORMANCE OF THIS SOFTWARE.
 				var DOMAIN = "(?:[w-]+.)*[A-Za-z0-9-]+.[A-Za-z0-9-]+";
 				var PATH = "[^<\\s]*[^<?!.,:*_?~\\s]";
 				var EMAIL = "[\\w.+-]+@(?:[\\w-]+\\.)+[\\w-]+";
+
 				function trimUnmatchedTrailingParens(source) {
 					var trailingParen = /\)+$/.exec(source);
 					if (trailingParen) {
@@ -30475,9 +31800,11 @@ PERFORMANCE OF THIS SOFTWARE.
 					}
 					return source;
 				}
+
 				function trimTrailingEntity(source) {
 					return source.replace(/&[A-Za-z0-9]+;$/, "");
 				}
+
 				function parseEmailLink(source) {
 					var reEmailLink = new RegExp(EMAIL, "g");
 					var result = [];
@@ -30494,6 +31821,7 @@ PERFORMANCE OF THIS SOFTWARE.
 					}
 					return result;
 				}
+
 				function parseUrlLink(source) {
 					var reWwwAutolink = new RegExp("(www|https?://)." + DOMAIN + PATH, "g");
 					var result = [];
@@ -30509,6 +31837,7 @@ PERFORMANCE OF THIS SOFTWARE.
 					}
 					return result;
 				}
+
 				function baseAutolinkParser(source) {
 					return esm_spreadArray(
 						esm_spreadArray([], parseUrlLink(source)),
@@ -30517,6 +31846,7 @@ PERFORMANCE OF THIS SOFTWARE.
 						return a.range[0] - b.range[0];
 					});
 				}
+
 				function convertExtAutoLinks(walker, autolinkParser) {
 					if (typeof autolinkParser === "boolean") {
 						autolinkParser = baseAutolinkParser;
@@ -30587,9 +31917,11 @@ PERFORMANCE OF THIS SOFTWARE.
 						_loop_1();
 					}
 				}
+
 				function esm_last(arr) {
 					return arr[arr.length - 1];
 				}
+
 				// normalize a reference in reference link (remove []s, trim,
 				// collapse internal space, unicode case fold.
 				// See commonmark/commonmark.js#168.
@@ -30601,11 +31933,13 @@ PERFORMANCE OF THIS SOFTWARE.
 						.toLowerCase()
 						.toUpperCase();
 				}
+
 				function iterateObject(obj, iteratee) {
 					Object.keys(obj).forEach(function (key) {
 						iteratee(key, obj[key]);
 					});
 				}
+
 				function omit(obj) {
 					var propNames = [];
 					for (var _i = 1; _i < arguments.length; _i++) {
@@ -30617,14 +31951,17 @@ PERFORMANCE OF THIS SOFTWARE.
 					});
 					return resultMap;
 				}
+
 				function isEmptyObj(obj) {
 					return !Object.keys(obj).length;
 				}
+
 				function clearObj(obj) {
 					Object.keys(obj).forEach(function (key) {
 						delete obj[key];
 					});
 				}
+
 				var C_NEWLINE = 10;
 				var C_ASTERISK = 42;
 				var C_UNDERSCORE = 95;
@@ -30692,6 +32029,7 @@ PERFORMANCE OF THIS SOFTWARE.
 						this.refDefCandidateMap = {};
 						this.options = options;
 					}
+
 					InlineParser.prototype.sourcepos = function (start, end) {
 						var linePosOffset = this.linePosOffset + this.lineOffsets[this.lineIdx];
 						var lineNum = this.lineStartNum + this.lineIdx;
@@ -31693,6 +33031,7 @@ PERFORMANCE OF THIS SOFTWARE.
 					return InlineParser;
 				})();
 				var reTaskListItemMarker = /^\[([ \txX])\][ \t]+/;
+
 				// finalize for block handler
 				function taskListItemFinalize(_, block) {
 					if (block.firstChild && block.firstChild.type === "paragraph") {
@@ -31708,6 +33047,7 @@ PERFORMANCE OF THIS SOFTWARE.
 						}
 					}
 				}
+
 				var table = {
 					continue: function () {
 						return 0 /* Go */;
@@ -31805,19 +33145,23 @@ PERFORMANCE OF THIS SOFTWARE.
 					}
 					return false;
 				}
+
 				function peek(ln, pos) {
 					if (pos < ln.length) {
 						return ln.charCodeAt(pos);
 					}
 					return -1;
 				}
+
 				// Returns true if string contains only space characters.
 				function isBlank(s) {
 					return !reNonSpace.test(s);
 				}
+
 				function isSpaceOrTab(c) {
 					return c === C_SPACE || c === C_TAB;
 				}
+
 				var reClosingCustomBlock = /^\$\$$/;
 				var customBlock$1 = {
 					continue: function (parser, container) {
@@ -32109,6 +33453,7 @@ PERFORMANCE OF THIS SOFTWARE.
 					customBlock: customBlock$1,
 					frontMatter: frontMatter$2
 				};
+
 				function parseRowContent(content) {
 					var startIdx = 0;
 					var offset = 0;
@@ -32132,6 +33477,7 @@ PERFORMANCE OF THIS SOFTWARE.
 					}
 					return [offset, cells];
 				}
+
 				function generateTableCells(cellType, contents, lineNum, chPos) {
 					var cells = [];
 					for (var _i = 0, contents_1 = contents; _i < contents_1.length; _i++) {
@@ -32165,6 +33511,7 @@ PERFORMANCE OF THIS SOFTWARE.
 					}
 					return cells;
 				}
+
 				function getColumnFromDelimCell(cellNode) {
 					var align = null;
 					var content = cellNode.stringContent;
@@ -32177,6 +33524,7 @@ PERFORMANCE OF THIS SOFTWARE.
 					}
 					return { align: align };
 				}
+
 				var tableHead = function (parser, container) {
 					var stringContent = container.stringContent;
 					if (container.type === "paragraph" && !parser.indented && !parser.blank) {
@@ -32421,6 +33769,7 @@ PERFORMANCE OF THIS SOFTWARE.
 					}
 					return data;
 				}
+
 				// Returns true if the two list items are of the same type,
 				// with the same delimiter and bullet character.  This is used
 				// in agglomerating list items into lists.
@@ -32431,12 +33780,14 @@ PERFORMANCE OF THIS SOFTWARE.
 						listData.bulletChar === itemData.bulletChar
 					);
 				}
+
 				function isDisallowedDeepHeading(parser, node) {
 					return (
 						parser.options.disallowDeepHeading &&
 						(node.type === "blockQuote" || node.type === "item")
 					);
 				}
+
 				var esm_blockQuote = function (parser) {
 					if (
 						!parser.indented &&
@@ -32683,12 +34034,14 @@ PERFORMANCE OF THIS SOFTWARE.
 				];
 				var reMaybeSpecial = /^[#`~*+_=<>0-9-;$]/;
 				var reLineEnding$1 = /\r\n|\n|\r/;
+
 				function esm_document() {
 					return createNode("document", [
 						[1, 1],
 						[0, 0]
 					]);
 				}
+
 				var defaultOptions$1 = {
 					smart: false,
 					tagFilter: false,
@@ -32728,6 +34081,7 @@ PERFORMANCE OF THIS SOFTWARE.
 						}
 						this.inlineParser = new InlineParser(this.options);
 					}
+
 					Parser.prototype.advanceOffset = function (count, columns) {
 						if (columns === void 0) {
 							columns = false;
@@ -33086,6 +34440,7 @@ PERFORMANCE OF THIS SOFTWARE.
 					};
 					return Parser;
 				})();
+
 				function comparePos(p1, p2) {
 					if (p1[0] < p2[0]) {
 						return 1 /* LT */;
@@ -33101,6 +34456,7 @@ PERFORMANCE OF THIS SOFTWARE.
 					}
 					return 0 /* EQ */;
 				}
+
 				function compareRangeAndPos(_a, pos) {
 					var startPos = _a[0],
 						endPos = _a[1];
@@ -33112,6 +34468,7 @@ PERFORMANCE OF THIS SOFTWARE.
 					}
 					return 0 /* EQ */;
 				}
+
 				function removeNextUntil(node, last) {
 					if (node.parent !== last.parent || node === last) {
 						return;
@@ -33135,6 +34492,7 @@ PERFORMANCE OF THIS SOFTWARE.
 						node.parent.lastChild = node;
 					}
 				}
+
 				function getChildNodes(parent) {
 					var nodes = [];
 					var curr = parent.firstChild;
@@ -33144,17 +34502,20 @@ PERFORMANCE OF THIS SOFTWARE.
 					}
 					return nodes;
 				}
+
 				function insertNodesBefore(target, nodes) {
 					for (var _i = 0, nodes_1 = nodes; _i < nodes_1.length; _i++) {
 						var node = nodes_1[_i];
 						target.insertBefore(node);
 					}
 				}
+
 				function prependChildNodes(parent, nodes) {
 					for (var i = nodes.length - 1; i >= 0; i -= 1) {
 						parent.prependChild(nodes[i]);
 					}
 				}
+
 				function updateNextLineNumbers(base, diff) {
 					if (!base || !base.parent || diff === 0) {
 						return;
@@ -33171,6 +34532,7 @@ PERFORMANCE OF THIS SOFTWARE.
 						}
 					}
 				}
+
 				function compareRangeAndLine(_a, line) {
 					var startPos = _a[0],
 						endPos = _a[1];
@@ -33182,6 +34544,7 @@ PERFORMANCE OF THIS SOFTWARE.
 					}
 					return 0 /* EQ */;
 				}
+
 				function findChildNodeAtLine(parent, line) {
 					var node = parent.firstChild;
 					while (node) {
@@ -33197,12 +34560,14 @@ PERFORMANCE OF THIS SOFTWARE.
 					}
 					return parent.lastChild;
 				}
+
 				function lastLeafNode(node) {
 					while (node.lastChild) {
 						node = node.lastChild;
 					}
 					return node;
 				}
+
 				function sameLineTopAncestor(node) {
 					while (
 						node.parent &&
@@ -33213,6 +34578,7 @@ PERFORMANCE OF THIS SOFTWARE.
 					}
 					return node;
 				}
+
 				function findFirstNodeAtLine(parent, line) {
 					var node = parent.firstChild;
 					var prev = null;
@@ -33236,6 +34602,7 @@ PERFORMANCE OF THIS SOFTWARE.
 					}
 					return null;
 				}
+
 				function findNodeAtPosition(parent, pos) {
 					var node = parent;
 					var prev = null;
@@ -33258,9 +34625,11 @@ PERFORMANCE OF THIS SOFTWARE.
 					}
 					return node;
 				}
+
 				function findNodeById(id) {
 					return getNodeById(id) || null;
 				}
+
 				function invokeNextUntil(callback, start, end) {
 					if (end === void 0) {
 						end = null;
@@ -33278,6 +34647,7 @@ PERFORMANCE OF THIS SOFTWARE.
 						}
 					}
 				}
+
 				function isUnlinked(id) {
 					var node = findNodeById(id);
 					if (!node) {
@@ -33292,7 +34662,9 @@ PERFORMANCE OF THIS SOFTWARE.
 					}
 					return false;
 				}
+
 				var esm_reLineEnding = /\r\n|\n|\r/;
+
 				function canBeContinuedListItem(lineText) {
 					var spaceMatch = lineText.match(/^[ \t]+/);
 					if (spaceMatch && (spaceMatch[0].length >= 2 || /\t/.test(spaceMatch[0]))) {
@@ -33304,9 +34676,11 @@ PERFORMANCE OF THIS SOFTWARE.
 						reOrderedListMarker.test(leftTrimmed)
 					);
 				}
+
 				function canBeContinuedTableBody(lineText) {
 					return !isBlank(lineText) && lineText.indexOf("|") !== -1;
 				}
+
 				function createRefDefState(node) {
 					var id = node.id,
 						title = node.title,
@@ -33320,6 +34694,7 @@ PERFORMANCE OF THIS SOFTWARE.
 						destination: dest
 					};
 				}
+
 				var ToastMark = /** @class */ (function () {
 					function ToastMark(contents, options) {
 						this.refMap = {};
@@ -33339,6 +34714,7 @@ PERFORMANCE OF THIS SOFTWARE.
 						this.lineTexts = contents.split(esm_reLineEnding);
 						this.root = this.parser.parse(contents, this.lineTexts);
 					}
+
 					ToastMark.prototype.updateLineTexts = function (startPos, endPos, newText) {
 						var _a;
 						var startLine = startPos[0],
@@ -33714,6 +35090,7 @@ PERFORMANCE OF THIS SOFTWARE.
 					"<(/?(?:" + disallowedTags.join("|") + ")[^>]*>)",
 					"ig"
 				);
+
 				function filterDisallowedTags(str) {
 					if (reDisallowedTag.test(str)) {
 						return str.replace(reDisallowedTag, function (_, group) {
@@ -33722,6 +35099,7 @@ PERFORMANCE OF THIS SOFTWARE.
 					}
 					return str;
 				}
+
 				var baseConvertors = {
 					heading: function (node, _a) {
 						var entering = _a.entering;
@@ -34103,6 +35481,7 @@ PERFORMANCE OF THIS SOFTWARE.
 					tagFilter: false,
 					nodeId: false
 				};
+
 				function esm_getChildrenText(node) {
 					var buffer = [];
 					var walker = node.walker();
@@ -34115,6 +35494,7 @@ PERFORMANCE OF THIS SOFTWARE.
 					}
 					return buffer.join("");
 				}
+
 				var Renderer = /** @class */ (function () {
 					function Renderer(customOptions) {
 						this.buffer = [];
@@ -34122,6 +35502,7 @@ PERFORMANCE OF THIS SOFTWARE.
 						this.convertors = this.createConvertors();
 						delete this.options.convertors;
 					}
+
 					Renderer.prototype.createConvertors = function () {
 						var convertors = esm_assign({}, baseConvertors);
 						if (this.options.gfm) {
@@ -34304,11 +35685,13 @@ PERFORMANCE OF THIS SOFTWARE.
 				var purify_default = /*#__PURE__*/ __webpack_require__.n(purify); // CONCATENATED MODULE: ./src/sanitizer/htmlSanitizer.ts
 				var CAN_BE_WHITE_TAG_LIST = ["iframe", "embed"];
 				var whiteTagList = [];
+
 				function registerTagWhitelistIfPossible(tagName) {
 					if (common_includes(CAN_BE_WHITE_TAG_LIST, tagName)) {
 						whiteTagList.push(tagName.toLowerCase());
 					}
 				}
+
 				function sanitizeHTML(html, options) {
 					return purify_default().sanitize(
 						html,
@@ -34347,6 +35730,7 @@ PERFORMANCE OF THIS SOFTWARE.
 						)
 						.trim();
 				}
+
 				function getHTMLAttrsByHTMLString(html) {
 					html = html.match(reHTMLTag)[0];
 					var attrs = html.match(new RegExp(ATTRIBUTE, "g"));
@@ -34362,12 +35746,14 @@ PERFORMANCE OF THIS SOFTWARE.
 							}, {})
 						: {};
 				}
+
 				function getHTMLAttrs(dom) {
 					return toArray_default()(dom.attributes).reduce(function (acc, attr) {
 						acc[attr.nodeName] = attr.nodeValue;
 						return acc;
 					}, {});
 				}
+
 				function sanitizeDOM(node, typeName, sanitizer, wwToDOMAdaptor) {
 					var dom = wwToDOMAdaptor.getToDOMNode(typeName)(node);
 					var html = sanitizer(dom.outerHTML);
@@ -34377,6 +35763,7 @@ PERFORMANCE OF THIS SOFTWARE.
 					var htmlAttrs = getHTMLAttrs(dom);
 					return { dom: dom, htmlAttrs: htmlAttrs };
 				}
+
 				var schemaFactory = {
 					htmlBlock: function (typeName, sanitizeHTML, wwToDOMAdaptor) {
 						return {
@@ -34443,6 +35830,7 @@ PERFORMANCE OF THIS SOFTWARE.
 						};
 					}
 				};
+
 				function createHTMLSchemaMap(convertorMap, sanitizeHTML, wwToDOMAdaptor) {
 					var htmlSchemaMap = { nodes: {}, marks: {} };
 					["htmlBlock", "htmlInline"].forEach(function (htmlType) {
@@ -34559,6 +35947,7 @@ PERFORMANCE OF THIS SOFTWARE.
 						return origin();
 					}
 				};
+
 				function getHTMLRenderConvertors(linkAttributes, customConvertors) {
 					var convertors = __assign({}, htmlRenderConvertors_baseConvertors);
 					if (linkAttributes) {
@@ -34622,6 +36011,7 @@ PERFORMANCE OF THIS SOFTWARE.
 
 				var nestableTypes = ["list", "item", "blockQuote"];
 				var nestableTagNames = ["UL", "OL", "BLOCKQUOTE"];
+
 				function isBlankLine(doc, index) {
 					var _a;
 					var pmNode = doc.child(index);
@@ -34633,6 +36023,7 @@ PERFORMANCE OF THIS SOFTWARE.
 								: _a.trim()))
 					);
 				}
+
 				function getEditorRangeHeightInfo(doc, mdNode, children) {
 					var start = getMdStartLine(mdNode) - 1;
 					var end = getMdEndLine(mdNode) - 1;
@@ -34654,6 +36045,7 @@ PERFORMANCE OF THIS SOFTWARE.
 						rect: rect
 					};
 				}
+
 				function getBlankLinesHeight(doc, children, start) {
 					var end = doc.childCount - 1;
 					var height = 0;
@@ -34663,12 +36055,14 @@ PERFORMANCE OF THIS SOFTWARE.
 					}
 					return height;
 				}
+
 				function findAncestorHavingId(el, root) {
 					while (!el.getAttribute("data-nodeid") && el.parentElement !== root) {
 						el = el.parentElement;
 					}
 					return el;
 				}
+
 				function getTotalOffsetTop(el, root) {
 					var offsetTop = 0;
 					while (el && el !== root) {
@@ -34682,6 +36076,7 @@ PERFORMANCE OF THIS SOFTWARE.
 					}
 					return offsetTop;
 				}
+
 				function findAdjacentElementToScrollTop(scrollTop, root) {
 					var el = root;
 					var prev = null;
@@ -34701,6 +36096,7 @@ PERFORMANCE OF THIS SOFTWARE.
 					var adjacentEl = el || prev;
 					return adjacentEl === root ? null : adjacentEl;
 				}
+
 				function findLastSiblingElementToScrollTop(el, scrollTop, offsetTop) {
 					if (el && scrollTop > offsetTop + el.offsetTop) {
 						return (
@@ -34713,10 +36109,12 @@ PERFORMANCE OF THIS SOFTWARE.
 					}
 					return null;
 				}
+
 				function getAdditionalPos(scrollTop, offsetTop, height, targetNodeHeight) {
 					var ratio = Math.min((scrollTop - offsetTop) / height, 1);
 					return ratio * targetNodeHeight;
 				}
+
 				function getParentNodeObj(previewContent, mdNode) {
 					var el = previewContent.querySelector('[data-nodeid="' + mdNode.id + '"]');
 					while (!el || isStyledInlineNode(mdNode)) {
@@ -34725,6 +36123,7 @@ PERFORMANCE OF THIS SOFTWARE.
 					}
 					return getNonNestableNodeObj({ mdNode: mdNode, el: el });
 				}
+
 				function getNonNestableNodeObj(_a) {
 					var mdNode = _a.mdNode,
 						el = _a.el;
@@ -34739,20 +36138,25 @@ PERFORMANCE OF THIS SOFTWARE.
 				} // CONCATENATED MODULE: ./src/markdown/scroll/offset.ts
 
 				var offsetInfoMap = {};
+
 				function setHeight(id, height) {
 					offsetInfoMap[id] = offsetInfoMap[id] || {};
 					offsetInfoMap[id].height = height;
 				}
+
 				function setOffsetTop(id, offsetTop) {
 					offsetInfoMap[id] = offsetInfoMap[id] || {};
 					offsetInfoMap[id].offsetTop = offsetTop;
 				}
+
 				function getHeight(id) {
 					return offsetInfoMap[id] && offsetInfoMap[id].height;
 				}
+
 				function getOffsetTop(id) {
 					return offsetInfoMap[id] && offsetInfoMap[id].offsetTop;
 				}
+
 				function removeOffsetInfoByNode(node) {
 					if (node) {
 						delete offsetInfoMap[Number(node.getAttribute("data-nodeid"))];
@@ -34761,6 +36165,7 @@ PERFORMANCE OF THIS SOFTWARE.
 						});
 					}
 				}
+
 				function getAndSaveOffsetInfo(node, root, mdNodeId) {
 					var cachedHeight = getHeight(mdNodeId);
 					var cachedTop = getOffsetTop(mdNodeId);
@@ -34776,6 +36181,7 @@ PERFORMANCE OF THIS SOFTWARE.
 				} // CONCATENATED MODULE: ./src/markdown/mdPreview.ts
 
 				var CLASS_HIGHLIGHT = cls("md-preview-highlight");
+
 				function findTableCell(tableRow, chOffset) {
 					var cell = tableRow.firstChild;
 					while (cell && cell.next) {
@@ -34786,6 +36192,7 @@ PERFORMANCE OF THIS SOFTWARE.
 					}
 					return cell;
 				}
+
 				/**
 				 * Class Markdown Preview
 				 * @param {HTMLElement} el - base element
@@ -34824,6 +36231,7 @@ PERFORMANCE OF THIS SOFTWARE.
 							this.previewContent.style.overflowWrap = "break-word";
 						}
 					}
+
 					MarkdownPreview.prototype.initContentSection = function () {
 						this.previewContent = createElementWith(
 							'<div class="' + cls("contents") + '"></div>'
@@ -34977,7 +36385,8 @@ PERFORMANCE OF THIS SOFTWARE.
 					};
 					return MarkdownPreview;
 				})();
-				/* harmony default export */ var mdPreview = MarkdownPreview; // CONCATENATED MODULE: ./src/wysiwyg/helper/node.ts
+				/* harmony default export */
+				var mdPreview = MarkdownPreview; // CONCATENATED MODULE: ./src/wysiwyg/helper/node.ts
 
 				function findNodeBy(pos, condition) {
 					var depth = pos.depth;
@@ -34994,10 +36403,12 @@ PERFORMANCE OF THIS SOFTWARE.
 					}
 					return null;
 				}
+
 				function node_isListNode(_a) {
 					var type = _a.type;
 					return type.name === "bulletList" || type.name === "orderedList";
 				}
+
 				function isInListNode(pos) {
 					return !!findNodeBy(pos, function (_a) {
 						var type = _a.type;
@@ -35008,18 +36419,21 @@ PERFORMANCE OF THIS SOFTWARE.
 						);
 					});
 				}
+
 				function isInTableNode(pos) {
 					return !!findNodeBy(pos, function (_a) {
 						var type = _a.type;
 						return type.name === "tableHeadCell" || type.name === "tableBodyCell";
 					});
 				}
+
 				function findListItem(pos) {
 					return findNodeBy(pos, function (_a) {
 						var type = _a.type;
 						return type.name === "listItem";
 					});
 				}
+
 				function createDOMInfoParsedRawHTML(tag) {
 					return {
 						tag: tag,
@@ -35029,6 +36443,7 @@ PERFORMANCE OF THIS SOFTWARE.
 						}
 					};
 				}
+
 				function createCellAttrs(attrs) {
 					return Object.keys(attrs).reduce(function (acc, attrName) {
 						if (attrName !== "rawHTML" && attrs[attrName]) {
@@ -35038,6 +36453,7 @@ PERFORMANCE OF THIS SOFTWARE.
 						return acc;
 					}, {});
 				}
+
 				function createParsedCellDOM(tag) {
 					return {
 						tag: tag,
@@ -35062,12 +36478,14 @@ PERFORMANCE OF THIS SOFTWARE.
 						}
 					};
 				}
+
 				function getDefaultCustomAttrs() {
 					return {
 						htmlAttrs: { default: null },
 						classNames: { default: null }
 					};
 				}
+
 				function getCustomAttrs(attrs) {
 					var htmlAttrs = attrs.htmlAttrs,
 						classNames = attrs.classNames;
@@ -35087,6 +36505,7 @@ PERFORMANCE OF THIS SOFTWARE.
 					}
 					return null;
 				}
+
 				function list_findWrappingInside(range, type) {
 					var parent = range.parent,
 						startIndex = range.startIndex,
@@ -35105,6 +36524,7 @@ PERFORMANCE OF THIS SOFTWARE.
 					}
 					return null;
 				}
+
 				function findWrappers(range, innerRange, nodeType, attrs) {
 					var around = list_findWrappingOutside(range, nodeType);
 					var inner = list_findWrappingInside(innerRange, nodeType);
@@ -35119,6 +36539,7 @@ PERFORMANCE OF THIS SOFTWARE.
 					}
 					return null;
 				}
+
 				function wrapInList(tr, _a, wrappers, joinBefore, list) {
 					var start = _a.start,
 						end = _a.end,
@@ -35161,6 +36582,7 @@ PERFORMANCE OF THIS SOFTWARE.
 					}
 					return tr;
 				}
+
 				function changeToList(tr, range, list, attrs) {
 					var $from = range.$from,
 						$to = range.$to,
@@ -35186,6 +36608,7 @@ PERFORMANCE OF THIS SOFTWARE.
 					}
 					return tr;
 				}
+
 				function getBeforeLineListItem(doc, offset) {
 					var endListItemPos = doc.resolve(offset);
 					while (endListItemPos.node().type.name !== "paragraph") {
@@ -35194,6 +36617,7 @@ PERFORMANCE OF THIS SOFTWARE.
 					}
 					return findListItem(endListItemPos);
 				}
+
 				function toggleTaskListItems(tr, _a) {
 					var $from = _a.$from,
 						$to = _a.$to;
@@ -35213,6 +36637,7 @@ PERFORMANCE OF THIS SOFTWARE.
 					}
 					return tr;
 				}
+
 				function changeListType(tr, _a, list) {
 					var $from = _a.$from,
 						$to = _a.$to;
@@ -35239,6 +36664,7 @@ PERFORMANCE OF THIS SOFTWARE.
 					}
 					return tr;
 				}
+
 				function changeList(list) {
 					return function (_a, dispatch) {
 						var selection = _a.selection,
@@ -35256,6 +36682,7 @@ PERFORMANCE OF THIS SOFTWARE.
 						return false;
 					};
 				}
+
 				function toggleTask() {
 					return function (_a, dispatch) {
 						var selection = _a.selection,
@@ -35274,6 +36701,7 @@ PERFORMANCE OF THIS SOFTWARE.
 						return false;
 					};
 				}
+
 				function sinkListItem(listItem) {
 					return function (_a, dispatch) {
 						var tr = _a.tr,
@@ -35323,6 +36751,7 @@ PERFORMANCE OF THIS SOFTWARE.
 						return false;
 					};
 				}
+
 				function liftToOuterList(tr, range, listItem) {
 					var $from = range.$from,
 						$to = range.$to,
@@ -35357,6 +36786,7 @@ PERFORMANCE OF THIS SOFTWARE.
 					tr.lift(range, dist_liftTarget(range));
 					return tr;
 				}
+
 				function liftOutOfList(tr, range) {
 					var list = range.parent;
 					var pos = range.end;
@@ -35408,6 +36838,7 @@ PERFORMANCE OF THIS SOFTWARE.
 					}
 					return tr;
 				}
+
 				function liftListItem(listItem) {
 					return function (_a, dispatch) {
 						var tr = _a.tr,
@@ -35430,6 +36861,7 @@ PERFORMANCE OF THIS SOFTWARE.
 						return false;
 					};
 				}
+
 				function splitListItem(listItem) {
 					return function (_a, dispatch) {
 						var tr = _a.tr,
@@ -35511,6 +36943,7 @@ PERFORMANCE OF THIS SOFTWARE.
 						};
 					};
 				}
+
 				function outdent() {
 					return function () {
 						return function (state, dispatch) {
@@ -35526,6 +36959,7 @@ PERFORMANCE OF THIS SOFTWARE.
 						};
 					};
 				}
+
 				function getWwCommands() {
 					return {
 						indent: indent(),
@@ -35542,6 +36976,7 @@ PERFORMANCE OF THIS SOFTWARE.
 						this.tableStartPos = tableStartPos;
 						this.rowInfo = rowInfo;
 					}
+
 					TableOffsetMap.create = function (cellPos) {
 						var table = findNodeBy(cellPos, function (_a) {
 							var type = _a.type;
@@ -35747,6 +37182,7 @@ PERFORMANCE OF THIS SOFTWARE.
 					});
 					return cellInfoMatrix;
 				};
+
 				function mixinTableOffsetMapPrototype(offsetMapMixin, createOffsetMapMixin) {
 					common_assign(TableOffsetMap.prototype, offsetMapMixin);
 					createOffsetMap = createOffsetMapMixin;
@@ -35774,6 +37210,7 @@ PERFORMANCE OF THIS SOFTWARE.
 					}
 					return ranges;
 				}
+
 				function createTableFragment(tableHead, tableBody) {
 					var fragment = [];
 					if (tableHead.childCount) {
@@ -35784,8 +37221,10 @@ PERFORMANCE OF THIS SOFTWARE.
 					}
 					return Fragment.from(fragment);
 				}
+
 				var CellSelection = /** @class */ (function (_super) {
 					__extends(CellSelection, _super);
+
 					function CellSelection(startCellPos, endCellPos) {
 						if (endCellPos === void 0) {
 							endCellPos = startCellPos;
@@ -35805,6 +37244,7 @@ PERFORMANCE OF THIS SOFTWARE.
 						_this.visible = false;
 						return _this;
 					}
+
 					CellSelection.prototype.map = function (doc, mapping) {
 						var startPos = this.startCell.pos;
 						var endPos = this.endCell.pos;
@@ -35882,7 +37322,8 @@ PERFORMANCE OF THIS SOFTWARE.
 					};
 					return CellSelection;
 				})(Selection);
-				/* harmony default export */ var selection_cellSelection = CellSelection; // CONCATENATED MODULE: ./src/wysiwyg/helper/table.ts
+				/* harmony default export */
+				var selection_cellSelection = CellSelection; // CONCATENATED MODULE: ./src/wysiwyg/helper/table.ts
 
 				function createTableHeadRow(columnCount, schema, data) {
 					var _a = schema.nodes,
@@ -35897,6 +37338,7 @@ PERFORMANCE OF THIS SOFTWARE.
 					}
 					return [tableRow.create(null, cells)];
 				}
+
 				function createTableBodyRows(rowCount, columnCount, schema, data) {
 					var _a = schema.nodes,
 						tableRow = _a.tableRow,
@@ -35914,6 +37356,7 @@ PERFORMANCE OF THIS SOFTWARE.
 					}
 					return tableRows;
 				}
+
 				function createDummyCells(columnCount, rowIdx, schema, attrs) {
 					if (attrs === void 0) {
 						attrs = null;
@@ -35929,6 +37372,7 @@ PERFORMANCE OF THIS SOFTWARE.
 					}
 					return cells;
 				}
+
 				function findCellElement(node, root) {
 					while (node && node !== root) {
 						if (node.nodeName === "TD" || node.nodeName === "TH") {
@@ -35938,12 +37382,14 @@ PERFORMANCE OF THIS SOFTWARE.
 					}
 					return null;
 				}
+
 				function findCell(pos) {
 					return findNodeBy(pos, function (_a) {
 						var type = _a.type;
 						return type.name === "tableHeadCell" || type.name === "tableBodyCell";
 					});
 				}
+
 				function getResolvedSelection(selection) {
 					if (selection instanceof TextSelection) {
 						var $anchor = selection.$anchor;
@@ -35958,6 +37404,7 @@ PERFORMANCE OF THIS SOFTWARE.
 						endCell = _a.endCell;
 					return { anchor: startCell, head: endCell };
 				}
+
 				function getTableContentFromSlice(slice) {
 					var _a;
 					if (slice.size) {
@@ -35987,6 +37434,7 @@ PERFORMANCE OF THIS SOFTWARE.
 					}
 					return null;
 				}
+
 				function getRowAndColumnCount(_a) {
 					var startRowIdx = _a.startRowIdx,
 						startColIdx = _a.startColIdx,
@@ -35996,6 +37444,7 @@ PERFORMANCE OF THIS SOFTWARE.
 					var columnCount = endColIdx - startColIdx + 1;
 					return { rowCount: rowCount, columnCount: columnCount };
 				}
+
 				function setAttrs(cell, attrs) {
 					return __assign(__assign({}, cell.attrs), attrs);
 				} // CONCATENATED MODULE: ./src/wysiwyg/plugins/selection/tableSelectionView.ts
@@ -36013,6 +37462,7 @@ PERFORMANCE OF THIS SOFTWARE.
 						this.startCellPos = null;
 						this.init();
 					}
+
 					TableSelection.prototype.init = function () {
 						this.view.dom.addEventListener("mousedown", this.handlers.mousedown);
 					};
@@ -36103,9 +37553,11 @@ PERFORMANCE OF THIS SOFTWARE.
 					};
 					return TableSelection;
 				})();
-				/* harmony default export */ var tableSelectionView = TableSelection; // CONCATENATED MODULE: ./src/wysiwyg/plugins/selection/tableSelection.ts
+				/* harmony default export */
+				var tableSelectionView = TableSelection; // CONCATENATED MODULE: ./src/wysiwyg/plugins/selection/tableSelection.ts
 
 				var SELECTED_CELL_CLASS_NAME = cls("cell-selected");
+
 				function drawCellSelection(_a) {
 					var selection = _a.selection,
 						doc = _a.doc;
@@ -36125,6 +37577,7 @@ PERFORMANCE OF THIS SOFTWARE.
 					}
 					return null;
 				}
+
 				function tableSelection() {
 					return new Plugin({
 						key: tableSelectionView_pluginKey,
@@ -36177,6 +37630,7 @@ PERFORMANCE OF THIS SOFTWARE.
 						this.keys = [];
 						this.values = [];
 					}
+
 					Map.prototype.getKeyIndex = function (key) {
 						return inArray_default()(key, this.keys);
 					};
@@ -36222,7 +37676,8 @@ PERFORMANCE OF THIS SOFTWARE.
 					};
 					return Map;
 				})();
-				/* harmony default export */ var utils_map = map_Map; // CONCATENATED MODULE: ./src/i18n/i18n.ts
+				/* harmony default export */
+				var utils_map = map_Map; // CONCATENATED MODULE: ./src/i18n/i18n.ts
 
 				/**
 				 * @fileoverview Implements i18n
@@ -36314,6 +37769,7 @@ PERFORMANCE OF THIS SOFTWARE.
 						})
 						.concat();
 				}
+
 				function tableContextMenu(eventEmitter) {
 					return new Plugin({
 						props: {
@@ -36401,6 +37857,7 @@ PERFORMANCE OF THIS SOFTWARE.
 				var EXCEPT_TYPES = ["image", "link", "customBlock", "frontMatter"];
 				var MARK_TYPES = ["strong", "strike", "emph", "code"];
 				var LIST_TYPES = ["bulletList", "orderedList", "taskList"];
+
 				function toolbarState_getToolbarStateType(node, parentNode) {
 					var type = node.type.name;
 					if (type === "listItem") {
@@ -36411,6 +37868,7 @@ PERFORMANCE OF THIS SOFTWARE.
 					}
 					return type;
 				}
+
 				function setListNodeToolbarState(type, nodeTypeState) {
 					nodeTypeState[type] = { active: true };
 					LIST_TYPES.filter(function (listName) {
@@ -36421,6 +37879,7 @@ PERFORMANCE OF THIS SOFTWARE.
 						}
 					});
 				}
+
 				function setMarkTypeStates(from, to, schema, toolbarState) {
 					MARK_TYPES.forEach(function (type) {
 						var mark = schema.marks[type];
@@ -36431,6 +37890,7 @@ PERFORMANCE OF THIS SOFTWARE.
 						}
 					});
 				}
+
 				function toolbarState_getToolbarState(selection, doc, schema) {
 					var $from = selection.$from,
 						$to = selection.$to,
@@ -36457,6 +37917,7 @@ PERFORMANCE OF THIS SOFTWARE.
 					});
 					return toolbarState;
 				}
+
 				function toolbarStateHighlight(eventEmitter) {
 					return new Plugin({
 						view: function () {
@@ -36556,6 +38017,7 @@ PERFORMANCE OF THIS SOFTWARE.
 						this.dom.appendChild(this.innerViewContainer);
 						this.dom.appendChild(this.wrapper);
 					}
+
 					CustomBlockView.prototype.renderToolArea = function () {
 						var _this = this;
 						var tool = document.createElement("div");
@@ -36716,6 +38178,7 @@ PERFORMANCE OF THIS SOFTWARE.
 						this.dom = this.createElement();
 						this.bindEvent();
 					}
+
 					ImageView.prototype.createElement = function () {
 						var image = this.createImageElement(this.node);
 						if (this.imageLink) {
@@ -36805,16 +38268,60 @@ PERFORMANCE OF THIS SOFTWARE.
 						this.bindDOMEvent();
 						this.bindEvent();
 					}
+
 					CodeBlockView.prototype.createElement = function () {
+						const id = _.$genId();
 						var language = this.node.attrs.language;
 						var wrapper = document.createElement("div");
 						wrapper.setAttribute("data-language", language || "text");
 						wrapper.className = WRAPPER_CLASS_NAME;
+						wrapper.id = id;
+						// 添加头部容器，包含语言、折叠按钮和复制按钮
+						var header = document.createElement("div");
+						header.className = "toastui-editor-ww-code-block-header";
+
+						// 语言显示
+						var langDisplay = document.createElement("span");
+						langDisplay.className = "toastui-editor-ww-code-block-lang";
+						langDisplay.textContent = language || "text";
+						header.appendChild(langDisplay);
+
+						// 按钮容器
+						var buttonContainer = document.createElement("div");
+						buttonContainer.className = "toastui-editor-ww-code-block-buttons";
+
+						// 折叠按钮
+						this.foldButton = document.createElement("button");
+						this.foldButton.className = "toastui-editor-ww-code-block-fold";
+						this.foldButton.innerHTML = "▼";
+						this.foldButton.title = "折叠/展开";
+						buttonContainer.appendChild(this.foldButton);
+
+						// 复制按钮
+						this.copyButton = document.createElement("button");
+						this.copyButton.className = "toastui-editor-ww-code-block-copy";
+						this.copyButton.textContent = "复制";
+						this.copyButton.title = "复制代码";
+						buttonContainer.appendChild(this.copyButton);
+
+						header.appendChild(buttonContainer);
+						wrapper.appendChild(header);
+
+						// 代码内容容器，设置默认高度
+						var contentWrapper = document.createElement("div");
+						contentWrapper.className = "toastui-editor-ww-code-block-content";
+						contentWrapper.style.maxHeight = "300px";
+						contentWrapper.style.overflow = "auto";
+
 						var pre = this.createCodeBlockElement();
 						var code = pre.firstChild;
-						wrapper.appendChild(pre);
+						contentWrapper.appendChild(pre);
+						wrapper.appendChild(contentWrapper);
+
 						this.dom = wrapper;
 						this.contentDOM = code;
+						this.contentWrapper = contentWrapper;
+						this.isFolded = false;
 					};
 					CodeBlockView.prototype.createCodeBlockElement = function () {
 						var pre = document.createElement("pre");
@@ -36856,7 +38363,38 @@ PERFORMANCE OF THIS SOFTWARE.
 						});
 					};
 					CodeBlockView.prototype.bindDOMEvent = function () {
+						const _this = this;
 						if (this.dom) {
+							$("body").on("click.private", `#${this.dom.id}`, function (event) {
+								if (
+									event.target.className === "toastui-editor-ww-code-block-copy"
+								) {
+									var codeText = _this.contentDOM.textContent;
+									_.$copyToClipboard(codeText).then(() => {
+										_.$msgSuccess("已复制到剪贴板");
+									});
+								}
+								if (
+									event.target.className === "toastui-editor-ww-code-block-fold"
+								) {
+									debugger;
+
+									_this.isFolded = !_this.isFolded;
+									if (_this.isFolded) {
+										$(this).find(".toastui-editor-ww-code-block-content").css({
+											"max-height": "0",
+											padding: "0"
+										});
+										$(event.target).html("▶");
+									} else {
+										$(this).find(".toastui-editor-ww-code-block-content").css({
+											"max-height": "300px",
+											padding: ""
+										});
+										$(event.target).html("▼");
+									}
+								}
+							});
 							this.dom.addEventListener("click", this.handleMousedown);
 						}
 					};
@@ -36908,8 +38446,10 @@ PERFORMANCE OF THIS SOFTWARE.
 						this.reset();
 						this.clearTimer();
 						if (this.dom) {
+							$("body").off("click.private", `#${this.dom.id}`);
 							this.dom.removeEventListener("click", this.handleMousedown);
 						}
+						$(this.dom).off("click");
 					};
 					return CodeBlockView;
 				})(); // CONCATENATED MODULE: ./src/wysiwyg/clipboard/pasteMsoList.ts
@@ -36920,9 +38460,11 @@ PERFORMANCE OF THIS SOFTWARE.
 				var reMSOTagName = /O:P/;
 				var reMSOListBullet = /^(n|u|l)/;
 				var MSO_CLASS_NAME_LIST_PARA = "p.MsoListParagraph";
+
 				function isFromMso(html) {
 					return reMSOStylePrefix.test(html);
 				}
+
 				function getListItemContents(para) {
 					var removedNodes = [];
 					var walker = document.createTreeWalker(para, 1, null, false);
@@ -36956,6 +38498,7 @@ PERFORMANCE OF THIS SOFTWARE.
 					});
 					return para.innerHTML.trim();
 				}
+
 				function createListItemDataFromParagraph(para, index) {
 					var styleAttr = para.getAttribute("style");
 					if (styleAttr) {
@@ -36977,6 +38520,7 @@ PERFORMANCE OF THIS SOFTWARE.
 					}
 					return null;
 				}
+
 				function addListItemDetailData(data, prevData) {
 					if (prevData.level < data.level) {
 						prevData.children.push(data);
@@ -36997,6 +38541,7 @@ PERFORMANCE OF THIS SOFTWARE.
 						}
 					}
 				}
+
 				function createListData(paras) {
 					var listData = [];
 					paras.forEach(function (para, index) {
@@ -37011,6 +38556,7 @@ PERFORMANCE OF THIS SOFTWARE.
 					});
 					return listData;
 				}
+
 				function makeList(listData) {
 					var listTagName = listData[0].unordered ? "ul" : "ol";
 					var list = document.createElement(listTagName);
@@ -37026,6 +38572,7 @@ PERFORMANCE OF THIS SOFTWARE.
 					});
 					return list;
 				}
+
 				function makeListFromParagraphs(paras) {
 					var listData = createListData(paras);
 					var rootChildren = listData.filter(function (_a) {
@@ -37034,6 +38581,7 @@ PERFORMANCE OF THIS SOFTWARE.
 					});
 					return makeList(rootChildren);
 				}
+
 				function isMsoListParagraphEnd(node) {
 					while (node) {
 						if (isElemNode(node)) {
@@ -37043,6 +38591,7 @@ PERFORMANCE OF THIS SOFTWARE.
 					}
 					return node ? !reMSOListClassName.test(node.className) : true;
 				}
+
 				function convertMsoParagraphsToList(html) {
 					var container = document.createElement("div");
 					container.innerHTML = html;
@@ -37070,6 +38619,7 @@ PERFORMANCE OF THIS SOFTWARE.
 
 				var START_FRAGMENT_COMMENT = "<!--StartFragment-->";
 				var END_FRAGMENT_COMMENT = "<!--EndFragment-->";
+
 				function getContentBetweenFragmentComments(html) {
 					var startFragmentIndex = html.indexOf(START_FRAGMENT_COMMENT);
 					var endFragmentIndex = html.lastIndexOf(END_FRAGMENT_COMMENT);
@@ -37081,6 +38631,7 @@ PERFORMANCE OF THIS SOFTWARE.
 					}
 					return html.replace(/<br[^>]*>/g, ALTERNATIVE_TAG_FOR_BR);
 				}
+
 				function convertMsoTableToCompletedTable(html) {
 					// wrap with <tr> if html contains dangling <td> tags
 					// dangling <td> tag is that tag does not have <tr> as parent node
@@ -37094,6 +38645,7 @@ PERFORMANCE OF THIS SOFTWARE.
 					}
 					return html;
 				}
+
 				function changePastedHTML(html) {
 					html = getContentBetweenFragmentComments(html);
 					html = convertMsoTableToCompletedTable(html);
@@ -37102,12 +38654,14 @@ PERFORMANCE OF THIS SOFTWARE.
 					}
 					return html;
 				}
+
 				function getMaxColumnCount(rows) {
 					var row = rows.reduce(function (prevRow, currentRow) {
 						return prevRow.childCount > currentRow.childCount ? prevRow : currentRow;
 					});
 					return row.childCount;
 				}
+
 				function createCells(orgRow, maxColumnCount, cell) {
 					var cells = [];
 					var cellCount = orgRow.childCount;
@@ -37125,6 +38679,7 @@ PERFORMANCE OF THIS SOFTWARE.
 					}
 					return cells;
 				}
+
 				function copyTableHeadRow(orgRow, maxColumnCount, schema) {
 					var _a = schema.nodes,
 						tableRow = _a.tableRow,
@@ -37132,6 +38687,7 @@ PERFORMANCE OF THIS SOFTWARE.
 					var cells = createCells(orgRow, maxColumnCount, tableHeadCell);
 					return tableRow.create(null, cells);
 				}
+
 				function copyTableBodyRow(orgRow, maxColumnCount, schema) {
 					var _a = schema.nodes,
 						tableRow = _a.tableRow,
@@ -37139,6 +38695,7 @@ PERFORMANCE OF THIS SOFTWARE.
 					var cells = createCells(orgRow, maxColumnCount, tableBodyCell);
 					return tableRow.create(null, cells);
 				}
+
 				function creatTableBodyDummyRow(columnCount, schema) {
 					var _a = schema.nodes,
 						tableRow = _a.tableRow,
@@ -37150,6 +38707,7 @@ PERFORMANCE OF THIS SOFTWARE.
 					}
 					return tableRow.create({ dummyRowForPasting: true }, cells);
 				}
+
 				function createRowsFromPastingTable(tableContent) {
 					var tableHeadRows = [];
 					var tableBodyRows = [];
@@ -37167,10 +38725,12 @@ PERFORMANCE OF THIS SOFTWARE.
 					}
 					return __spreadArray(__spreadArray([], tableHeadRows), tableBodyRows);
 				}
+
 				function createTableHead(tableHeadRow, maxColumnCount, schema) {
 					var copiedRow = copyTableHeadRow(tableHeadRow, maxColumnCount, schema);
 					return schema.nodes.tableHead.create(null, copiedRow);
 				}
+
 				function paste_createTableBody(tableBodyRows, maxColumnCount, schema) {
 					var copiedRows = tableBodyRows.map(function (tableBodyRow) {
 						return copyTableBodyRow(tableBodyRow, maxColumnCount, schema);
@@ -37181,6 +38741,7 @@ PERFORMANCE OF THIS SOFTWARE.
 					}
 					return schema.nodes.tableBody.create(null, copiedRows);
 				}
+
 				function createTableFromPastingTable(rows, schema, startFromBody, isInTable) {
 					var columnCount = getMaxColumnCount(rows);
 					if (startFromBody && isInTable) {
@@ -37196,6 +38757,7 @@ PERFORMANCE OF THIS SOFTWARE.
 					}
 					return schema.nodes.table.create(null, nodes);
 				}
+
 				function changePastedSlice(slice, schema, isInTable) {
 					var nodes = [];
 					var content = slice.content,
@@ -37227,9 +38789,11 @@ PERFORMANCE OF THIS SOFTWARE.
 
 				var DUMMY_CELL_SIZE = 4;
 				var TR_NODES_SIZE = 2;
+
 				function getDummyCellSize(dummyCellCount) {
 					return dummyCellCount * DUMMY_CELL_SIZE;
 				}
+
 				function createPastingCells(tableContent, curSelectionInfo, schema) {
 					var pastingRows = [];
 					var pastingTableRows = createRowsFromPastingTable(tableContent);
@@ -37260,6 +38824,7 @@ PERFORMANCE OF THIS SOFTWARE.
 					});
 					return pastingRows;
 				}
+
 				function getPastingRangeInfo(map, _a, pastingCells) {
 					var startRowIdx = _a.startRowIdx,
 						startColIdx = _a.startColIdx;
@@ -37292,6 +38857,7 @@ PERFORMANCE OF THIS SOFTWARE.
 						addedColumnCount: addedColumnCount
 					};
 				}
+
 				function addReplacedOffsets(_a, cellsOffsets) {
 					var startRowIdx = _a.startRowIdx,
 						startColIdx = _a.startColIdx,
@@ -37311,6 +38877,7 @@ PERFORMANCE OF THIS SOFTWARE.
 						});
 					}
 				}
+
 				function expandColumns(tr, schema, map, _a, cellsOffsets) {
 					var startRowIdx = _a.startRowIdx,
 						startColIdx = _a.startColIdx,
@@ -37341,6 +38908,7 @@ PERFORMANCE OF THIS SOFTWARE.
 						}
 					}
 				}
+
 				function expandRows(tr, schema, map, _a, cellsOffsets) {
 					var addedRowCount = _a.addedRowCount,
 						addedColumnCount = _a.addedColumnCount,
@@ -37371,6 +38939,7 @@ PERFORMANCE OF THIS SOFTWARE.
 						startOffset = nextCellOffset;
 					}
 				}
+
 				function replaceCells(tr, pastingRows, cellsOffsets, map) {
 					var mapStart = tr.mapping.maps.length;
 					cellsOffsets.forEach(function (offsets, index) {
@@ -37389,6 +38958,7 @@ PERFORMANCE OF THIS SOFTWARE.
 						tr.replace(mapping.map(from), mapping.map(to), cells);
 					});
 				}
+
 				function pasteToTable(view, slice) {
 					var _a = view.state,
 						selection = _a.selection,
@@ -37428,6 +38998,7 @@ PERFORMANCE OF THIS SOFTWARE.
 					}
 					return false;
 				}
+
 				function setSelection(view, cellsOffsets, pos) {
 					var _a = view.state,
 						tr = _a.tr,
@@ -37452,6 +39023,7 @@ PERFORMANCE OF THIS SOFTWARE.
 						)
 					);
 				}
+
 				function canMerge(map, pastingInfo) {
 					var ranges = map.getSpannedOffsets(pastingInfo);
 					var _a = getRowAndColumnCount(ranges),
@@ -37465,9 +39037,11 @@ PERFORMANCE OF THIS SOFTWARE.
 
 				var doc_Doc = /** @class */ (function (_super) {
 					__extends(Doc, _super);
+
 					function Doc() {
 						return (_super !== null && _super.apply(this, arguments)) || this;
 					}
+
 					Object.defineProperty(Doc.prototype, "name", {
 						get: function () {
 							return "doc";
@@ -37489,9 +39063,11 @@ PERFORMANCE OF THIS SOFTWARE.
 
 				var paragraph_Paragraph = /** @class */ (function (_super) {
 					__extends(Paragraph, _super);
+
 					function Paragraph() {
 						return (_super !== null && _super.apply(this, arguments)) || this;
 					}
+
 					Object.defineProperty(Paragraph.prototype, "name", {
 						get: function () {
 							return "paragraph";
@@ -37521,9 +39097,11 @@ PERFORMANCE OF THIS SOFTWARE.
 				var reSoftTabLen = /\s{1,4}$/;
 				var text_Text = /** @class */ (function (_super) {
 					__extends(Text, _super);
+
 					function Text() {
 						return (_super !== null && _super.apply(this, arguments)) || this;
 					}
+
 					Object.defineProperty(Text.prototype, "name", {
 						get: function () {
 							return "text";
@@ -37586,9 +39164,11 @@ PERFORMANCE OF THIS SOFTWARE.
 
 				var heading_Heading = /** @class */ (function (_super) {
 					__extends(Heading, _super);
+
 					function Heading() {
 						return (_super !== null && _super.apply(this, arguments)) || this;
 					}
+
 					Object.defineProperty(Heading.prototype, "name", {
 						get: function () {
 							return "heading";
@@ -37653,9 +39233,11 @@ PERFORMANCE OF THIS SOFTWARE.
 
 				var codeBlock_CodeBlock = /** @class */ (function (_super) {
 					__extends(CodeBlock, _super);
+
 					function CodeBlock() {
 						return (_super !== null && _super.apply(this, arguments)) || this;
 					}
+
 					Object.defineProperty(CodeBlock.prototype, "name", {
 						get: function () {
 							return "codeBlock";
@@ -37773,9 +39355,11 @@ PERFORMANCE OF THIS SOFTWARE.
 
 				var BulletList = /** @class */ (function (_super) {
 					__extends(BulletList, _super);
+
 					function BulletList() {
 						return (_super !== null && _super.apply(this, arguments)) || this;
 					}
+
 					Object.defineProperty(BulletList.prototype, "name", {
 						get: function () {
 							return "bulletList";
@@ -37830,9 +39414,11 @@ PERFORMANCE OF THIS SOFTWARE.
 
 				var OrderedList = /** @class */ (function (_super) {
 					__extends(OrderedList, _super);
+
 					function OrderedList() {
 						return (_super !== null && _super.apply(this, arguments)) || this;
 					}
+
 					Object.defineProperty(OrderedList.prototype, "name", {
 						get: function () {
 							return "orderedList";
@@ -37907,9 +39493,11 @@ PERFORMANCE OF THIS SOFTWARE.
 
 				var listItem_ListItem = /** @class */ (function (_super) {
 					__extends(ListItem, _super);
+
 					function ListItem() {
 						return (_super !== null && _super.apply(this, arguments)) || this;
 					}
+
 					Object.defineProperty(ListItem.prototype, "name", {
 						get: function () {
 							return "listItem";
@@ -38013,9 +39601,11 @@ PERFORMANCE OF THIS SOFTWARE.
 
 				var blockQuote_BlockQuote = /** @class */ (function (_super) {
 					__extends(BlockQuote, _super);
+
 					function BlockQuote() {
 						return (_super !== null && _super.apply(this, arguments)) || this;
 					}
+
 					Object.defineProperty(BlockQuote.prototype, "name", {
 						get: function () {
 							return "blockQuote";
@@ -38065,12 +39655,14 @@ PERFORMANCE OF THIS SOFTWARE.
 					up: getUpCellOffset,
 					down: getDownCellOffset
 				};
+
 				function isInFirstListItem(pos, doc, _a) {
 					var paraDepth = _a[0],
 						listDepth = _a[1];
 					var listItemNode = doc.resolve(pos.before(paraDepth - 1));
 					return listDepth === paraDepth && !listItemNode.nodeBefore;
 				}
+
 				function isInLastListItem(pos) {
 					var _a;
 					var depth = pos.depth;
@@ -38096,6 +39688,7 @@ PERFORMANCE OF THIS SOFTWARE.
 					}
 					return false;
 				}
+
 				function canMoveToBeforeCell(direction, _a, from, doc, inList) {
 					var paraDepth = _a[0],
 						listDepth = _a[1],
@@ -38112,6 +39705,7 @@ PERFORMANCE OF THIS SOFTWARE.
 					}
 					return true;
 				}
+
 				function canMoveToAfterCell(direction, curDepth, from, doc, inList) {
 					if (direction === Direction.RIGHT || direction === Direction.DOWN) {
 						if (inList && !isInLastListItem(from)) {
@@ -38125,6 +39719,7 @@ PERFORMANCE OF THIS SOFTWARE.
 					}
 					return true;
 				}
+
 				function canMoveBetweenCells(direction, _a, from, doc) {
 					var cellDepth = _a[0],
 						paraDepth = _a[1];
@@ -38141,6 +39736,7 @@ PERFORMANCE OF THIS SOFTWARE.
 					var moveAfterCell = canMoveToAfterCell(direction, curDepth, from, doc, inList);
 					return moveBeforeCell && moveAfterCell;
 				}
+
 				function canBeOutOfTable(direction, map, _a) {
 					var rowIdx = _a[0],
 						colIdx = _a[1];
@@ -38156,6 +39752,7 @@ PERFORMANCE OF THIS SOFTWARE.
 							map.totalRowCount - 1;
 					return inFirstRow || inLastRow;
 				}
+
 				function addParagraphBeforeTable(tr, map, schema) {
 					var tableStartPos = tr.doc.resolve(map.tableStartOffset - 1);
 					if (!tableStartPos.nodeBefore) {
@@ -38163,6 +39760,7 @@ PERFORMANCE OF THIS SOFTWARE.
 					}
 					return tr.setSelection(Selection.near(tableStartPos, -1));
 				}
+
 				function addParagraphAfterTable(tr, map, schema, forcedAddtion) {
 					if (forcedAddtion === void 0) {
 						forcedAddtion = false;
@@ -38173,6 +39771,7 @@ PERFORMANCE OF THIS SOFTWARE.
 					}
 					return tr.setSelection(Selection.near(tableEndPos, 1));
 				}
+
 				function getRightCellOffset(_a, map) {
 					var rowIdx = _a[0],
 						colIdx = _a[1];
@@ -38199,6 +39798,7 @@ PERFORMANCE OF THIS SOFTWARE.
 					}
 					return null;
 				}
+
 				function getLeftCellOffset(_a, map) {
 					var rowIdx = _a[0],
 						colIdx = _a[1];
@@ -38218,6 +39818,7 @@ PERFORMANCE OF THIS SOFTWARE.
 					}
 					return null;
 				}
+
 				function getUpCellOffset(_a, map) {
 					var rowIdx = _a[0],
 						colIdx = _a[1];
@@ -38229,6 +39830,7 @@ PERFORMANCE OF THIS SOFTWARE.
 					}
 					return null;
 				}
+
 				function getDownCellOffset(_a, map) {
 					var rowIdx = _a[0],
 						colIdx = _a[1];
@@ -38248,6 +39850,7 @@ PERFORMANCE OF THIS SOFTWARE.
 					}
 					return null;
 				}
+
 				function moveToCell(direction, tr, cellIndex, map) {
 					var cellOffsetFn = cellOffsetFnMap[direction];
 					var offset = cellOffsetFn(cellIndex, map);
@@ -38258,6 +39861,7 @@ PERFORMANCE OF THIS SOFTWARE.
 					}
 					return null;
 				}
+
 				function canSelectTableNode(direction, map, _a) {
 					var rowIdx = _a[0],
 						colIdx = _a[1];
@@ -38273,6 +39877,7 @@ PERFORMANCE OF THIS SOFTWARE.
 					var curPos = direction === Direction.LEFT ? offset - 2 : offset + nodeSize + 3;
 					return pos === curPos;
 				}
+
 				function selectNode(tr, pos, depth) {
 					var tablePos = tr.doc.resolve(pos.before(depth - 3));
 					return tr.setSelection(new dist_NodeSelection(tablePos));
@@ -38286,6 +39891,7 @@ PERFORMANCE OF THIS SOFTWARE.
 					Direction["UP"] = "up";
 					Direction["DOWN"] = "down";
 				})(Direction || (Direction = {}));
+
 				function getTargetRowInfo(direction, map, selectionInfo) {
 					var targetRowIdx;
 					var insertColIdx;
@@ -38305,6 +39911,7 @@ PERFORMANCE OF THIS SOFTWARE.
 						nodeSize: nodeSize
 					};
 				}
+
 				function getRowRanges(map, rowIdx, totalColumnCount) {
 					var startOffset = map.getCellInfo(rowIdx, 0).offset;
 					var _a = map.getCellInfo(rowIdx, totalColumnCount - 1),
@@ -38312,11 +39919,14 @@ PERFORMANCE OF THIS SOFTWARE.
 						nodeSize = _a.nodeSize;
 					return { from: startOffset, to: offset + nodeSize };
 				}
+
 				var table_Table = /** @class */ (function (_super) {
 					__extends(Table, _super);
+
 					function Table() {
 						return (_super !== null && _super.apply(this, arguments)) || this;
 					}
+
 					Object.defineProperty(Table.prototype, "name", {
 						get: function () {
 							return "table";
@@ -38815,9 +40425,11 @@ PERFORMANCE OF THIS SOFTWARE.
 
 				var TableHead = /** @class */ (function (_super) {
 					__extends(TableHead, _super);
+
 					function TableHead() {
 						return (_super !== null && _super.apply(this, arguments)) || this;
 					}
+
 					Object.defineProperty(TableHead.prototype, "name", {
 						get: function () {
 							return "tableHead";
@@ -38848,9 +40460,11 @@ PERFORMANCE OF THIS SOFTWARE.
 
 				var TableBody = /** @class */ (function (_super) {
 					__extends(TableBody, _super);
+
 					function TableBody() {
 						return (_super !== null && _super.apply(this, arguments)) || this;
 					}
+
 					Object.defineProperty(TableBody.prototype, "name", {
 						get: function () {
 							return "tableBody";
@@ -38895,9 +40509,11 @@ PERFORMANCE OF THIS SOFTWARE.
 
 				var TableRow = /** @class */ (function (_super) {
 					__extends(TableRow, _super);
+
 					function TableRow() {
 						return (_super !== null && _super.apply(this, arguments)) || this;
 					}
+
 					Object.defineProperty(TableRow.prototype, "name", {
 						get: function () {
 							return "tableRow";
@@ -38941,9 +40557,11 @@ PERFORMANCE OF THIS SOFTWARE.
 
 				var TableHeadCell = /** @class */ (function (_super) {
 					__extends(TableHeadCell, _super);
+
 					function TableHeadCell() {
 						return (_super !== null && _super.apply(this, arguments)) || this;
 					}
+
 					Object.defineProperty(TableHeadCell.prototype, "name", {
 						get: function () {
 							return "tableHeadCell";
@@ -38986,9 +40604,11 @@ PERFORMANCE OF THIS SOFTWARE.
 
 				var TableBodyCell = /** @class */ (function (_super) {
 					__extends(TableBodyCell, _super);
+
 					function TableBodyCell() {
 						return (_super !== null && _super.apply(this, arguments)) || this;
 					}
+
 					Object.defineProperty(TableBodyCell.prototype, "name", {
 						get: function () {
 							return "tableBodyCell";
@@ -39025,9 +40645,11 @@ PERFORMANCE OF THIS SOFTWARE.
 
 				var Image = /** @class */ (function (_super) {
 					__extends(Image, _super);
+
 					function Image() {
 						return (_super !== null && _super.apply(this, arguments)) || this;
 					}
+
 					Object.defineProperty(Image.prototype, "name", {
 						get: function () {
 							return "image";
@@ -39119,9 +40741,11 @@ PERFORMANCE OF THIS SOFTWARE.
 				var ROOT_BLOCK_DEPTH = 1;
 				var thematicBreak_ThematicBreak = /** @class */ (function (_super) {
 					__extends(ThematicBreak, _super);
+
 					function ThematicBreak() {
 						return (_super !== null && _super.apply(this, arguments)) || this;
 					}
+
 					Object.defineProperty(ThematicBreak.prototype, "name", {
 						get: function () {
 							return "thematicBreak";
@@ -39194,9 +40818,11 @@ PERFORMANCE OF THIS SOFTWARE.
 
 				var strong_Strong = /** @class */ (function (_super) {
 					__extends(Strong, _super);
+
 					function Strong() {
 						return (_super !== null && _super.apply(this, arguments)) || this;
 					}
+
 					Object.defineProperty(Strong.prototype, "name", {
 						get: function () {
 							return "strong";
@@ -39252,9 +40878,11 @@ PERFORMANCE OF THIS SOFTWARE.
 
 				var emph_Emph = /** @class */ (function (_super) {
 					__extends(Emph, _super);
+
 					function Emph() {
 						return (_super !== null && _super.apply(this, arguments)) || this;
 					}
+
 					Object.defineProperty(Emph.prototype, "name", {
 						get: function () {
 							return "emph";
@@ -39310,9 +40938,11 @@ PERFORMANCE OF THIS SOFTWARE.
 
 				var strike_Strike = /** @class */ (function (_super) {
 					__extends(Strike, _super);
+
 					function Strike() {
 						return (_super !== null && _super.apply(this, arguments)) || this;
 					}
+
 					Object.defineProperty(Strike.prototype, "name", {
 						get: function () {
 							return "strike";
@@ -39365,11 +40995,13 @@ PERFORMANCE OF THIS SOFTWARE.
 
 				var link_Link = /** @class */ (function (_super) {
 					__extends(Link, _super);
+
 					function Link(linkAttributes) {
 						var _this = _super.call(this) || this;
 						_this.linkAttributes = linkAttributes;
 						return _this;
 					}
+
 					Object.defineProperty(Link.prototype, "name", {
 						get: function () {
 							return "link";
@@ -39477,9 +41109,11 @@ PERFORMANCE OF THIS SOFTWARE.
 
 				var code_Code = /** @class */ (function (_super) {
 					__extends(Code, _super);
+
 					function Code() {
 						return (_super !== null && _super.apply(this, arguments)) || this;
 					}
+
 					Object.defineProperty(Code.prototype, "name", {
 						get: function () {
 							return "code";
@@ -39532,9 +41166,11 @@ PERFORMANCE OF THIS SOFTWARE.
 
 				var customBlock_CustomBlock = /** @class */ (function (_super) {
 					__extends(CustomBlock, _super);
+
 					function CustomBlock() {
 						return (_super !== null && _super.apply(this, arguments)) || this;
 					}
+
 					Object.defineProperty(CustomBlock.prototype, "name", {
 						get: function () {
 							return "customBlock";
@@ -39591,9 +41227,11 @@ PERFORMANCE OF THIS SOFTWARE.
 
 				var FrontMatter = /** @class */ (function (_super) {
 					__extends(FrontMatter, _super);
+
 					function FrontMatter() {
 						return (_super !== null && _super.apply(this, arguments)) || this;
 					}
+
 					Object.defineProperty(FrontMatter.prototype, "name", {
 						get: function () {
 							return "frontMatter";
@@ -39647,9 +41285,11 @@ PERFORMANCE OF THIS SOFTWARE.
 
 				var HTMLComment = /** @class */ (function (_super) {
 					__extends(HTMLComment, _super);
+
 					function HTMLComment() {
 						return (_super !== null && _super.apply(this, arguments)) || this;
 					}
+
 					Object.defineProperty(HTMLComment.prototype, "name", {
 						get: function () {
 							return "htmlComment";
@@ -39732,6 +41372,7 @@ PERFORMANCE OF THIS SOFTWARE.
 				var CONTENTS_CLASS_NAME = cls("contents");
 				var WysiwygEditor = /** @class */ (function (_super) {
 					__extends(WysiwygEditor, _super);
+
 					function WysiwygEditor(eventEmitter, options) {
 						var _this = _super.call(this, eventEmitter) || this;
 						var toDOMAdaptor = options.toDOMAdaptor,
@@ -39763,6 +41404,7 @@ PERFORMANCE OF THIS SOFTWARE.
 						_this.initEvent();
 						return _this;
 					}
+
 					WysiwygEditor.prototype.createSpecs = function () {
 						return createSpecs(this.linkAttributes);
 					};
@@ -40029,7 +41671,8 @@ PERFORMANCE OF THIS SOFTWARE.
 					};
 					return WysiwygEditor;
 				})(src_base);
-				/* harmony default export */ var wwEditor = WysiwygEditor;
+				/* harmony default export */
+				var wwEditor = WysiwygEditor;
 
 				// EXTERNAL MODULE: ../../node_modules/tui-code-snippet/type/isFalsy.js
 				var isFalsy = __webpack_require__(404);
@@ -40087,6 +41730,7 @@ PERFORMANCE OF THIS SOFTWARE.
 							_this.addEventType(eventType);
 						});
 					}
+
 					/**
 					 * Listen event and bind event handler
 					 * @param {string} type Event type string
@@ -40254,7 +41898,8 @@ PERFORMANCE OF THIS SOFTWARE.
 					};
 					return EventEmitter;
 				})();
-				/* harmony default export */ var eventEmitter = EventEmitter; // CONCATENATED MODULE: ./src/commands/commandManager.ts
+				/* harmony default export */
+				var eventEmitter = EventEmitter; // CONCATENATED MODULE: ./src/commands/commandManager.ts
 
 				var CommandManager = /** @class */ (function () {
 					function CommandManager(eventEmitter, mdCommands, wwCommands, getEditorType) {
@@ -40264,6 +41909,7 @@ PERFORMANCE OF THIS SOFTWARE.
 						this.getEditorType = getEditorType;
 						this.initEvent();
 					}
+
 					CommandManager.prototype.initEvent = function () {
 						var _this = this;
 						this.eventEmitter.listen("command", function (command, payload) {
@@ -40294,11 +41940,13 @@ PERFORMANCE OF THIS SOFTWARE.
 					};
 					return CommandManager;
 				})();
-				/* harmony default export */ var commandManager = CommandManager; // CONCATENATED MODULE: ./src/convertors/toWysiwyg/htmlToWwConvertors.ts
+				/* harmony default export */
+				var commandManager = CommandManager; // CONCATENATED MODULE: ./src/convertors/toWysiwyg/htmlToWwConvertors.ts
 
 				function getTextWithoutTrailingNewline(text) {
 					return text[text.length - 1] === "\n" ? text.slice(0, text.length - 1) : text;
 				}
+
 				function isCustomHTMLInlineNode(_a, node) {
 					var schema = _a.schema;
 					var html = node.literal;
@@ -40314,6 +41962,7 @@ PERFORMANCE OF THIS SOFTWARE.
 					}
 					return false;
 				}
+
 				function htmlToWwConvertors_isInlineNode(_a) {
 					var type = _a.type;
 					return common_includes(
@@ -40321,12 +41970,14 @@ PERFORMANCE OF THIS SOFTWARE.
 						type
 					);
 				}
+
 				function isSoftbreak(mdNode) {
 					return (
 						(mdNode === null || mdNode === void 0 ? void 0 : mdNode.type) ===
 						"softbreak"
 					);
 				}
+
 				function htmlToWwConvertors_isListNode(_a) {
 					var type = _a.type,
 						literal = _a.literal;
@@ -40341,12 +41992,14 @@ PERFORMANCE OF THIS SOFTWARE.
 					}
 					return false;
 				}
+
 				function getListItemAttrs(_a) {
 					var literal = _a.literal;
 					var task = /data-task/.test(literal);
 					var checked = /data-task-checked/.test(literal);
 					return { task: task, checked: checked };
 				}
+
 				function getMatchedAttributeValue(rawHTML) {
 					var attrNames = [];
 					for (var _i = 1; _i < arguments.length; _i++) {
@@ -40359,6 +42012,7 @@ PERFORMANCE OF THIS SOFTWARE.
 						return el.getAttribute(attrName) || "";
 					});
 				}
+
 				function createConvertors(convertors) {
 					var convertorMap = {};
 					Object.keys(convertors).forEach(function (key) {
@@ -40370,6 +42024,7 @@ PERFORMANCE OF THIS SOFTWARE.
 					});
 					return convertorMap;
 				}
+
 				var convertors = {
 					"b, strong": function (state, _, openTagName) {
 						var strong = state.schema.marks.strong;
@@ -40551,6 +42206,7 @@ PERFORMANCE OF THIS SOFTWARE.
 				function isBRTag(node) {
 					return node.type === "htmlInline" && reBR.test(node.literal);
 				}
+
 				function addRawHTMLAttributeToDOM(parent) {
 					toArray_default()(parent.childNodes).forEach(function (child) {
 						if (isElemNode(child)) {
@@ -40562,6 +42218,7 @@ PERFORMANCE OF THIS SOFTWARE.
 						}
 					});
 				}
+
 				var toWwConvertors = {
 					text: function (state, node) {
 						state.addText(node.literal || "");
@@ -40914,6 +42571,7 @@ PERFORMANCE OF THIS SOFTWARE.
 						}
 					}
 				};
+
 				function createWwConvertors(customConvertors) {
 					var customConvertorTypes = Object.keys(customConvertors);
 					var convertors = __assign({}, toWwConvertors);
@@ -40953,6 +42611,7 @@ PERFORMANCE OF THIS SOFTWARE.
 					}
 					return false;
 				}
+
 				var ToWwConvertorState = /** @class */ (function () {
 					function ToWwConvertorState(schema, convertors) {
 						this.schema = schema;
@@ -40960,6 +42619,7 @@ PERFORMANCE OF THIS SOFTWARE.
 						this.stack = [{ type: this.schema.topNodeType, attrs: null, content: [] }];
 						this.marks = Mark.none;
 					}
+
 					ToWwConvertorState.prototype.top = function () {
 						return last(this.stack);
 					};
@@ -41106,7 +42766,8 @@ PERFORMANCE OF THIS SOFTWARE.
 					};
 					return ToWwConvertorState;
 				})();
-				/* harmony default export */ var toWwConvertorState = ToWwConvertorState; // CONCATENATED MODULE: ./src/convertors/toMarkdown/toMdNodeTypeWriters.ts
+				/* harmony default export */
+				var toWwConvertorState = ToWwConvertorState; // CONCATENATED MODULE: ./src/convertors/toMarkdown/toMdNodeTypeWriters.ts
 
 				function convertToRawHTMLHavingInlines(state, node, _a) {
 					var openTag = _a[0],
@@ -41115,6 +42776,7 @@ PERFORMANCE OF THIS SOFTWARE.
 					state.convertInline(node);
 					state.write(closeTag);
 				}
+
 				function convertToRawHTMLHavingBlocks(state, _a, _b) {
 					var node = _a.node,
 						parent = _a.parent;
@@ -41131,6 +42793,7 @@ PERFORMANCE OF THIS SOFTWARE.
 						state.stopNewline = false;
 					}
 				}
+
 				function createTableHeadDelim(textContent, columnAlign) {
 					var textLen = textContent.length;
 					var leftDelim = "";
@@ -41148,6 +42811,7 @@ PERFORMANCE OF THIS SOFTWARE.
 					}
 					return "" + leftDelim + repeat("-", Math.max(textLen, 3)) + rightDelim;
 				}
+
 				var nodeTypeWriters = {
 					text: function (state, _a) {
 						var _b;
@@ -41374,6 +43038,7 @@ PERFORMANCE OF THIS SOFTWARE.
 						state.closeBlock(node);
 					}
 				};
+
 				function write(type, _a) {
 					var state = _a.state,
 						nodeInfo = _a.nodeInfo,
@@ -41412,15 +43077,19 @@ PERFORMANCE OF THIS SOFTWARE.
 					}
 					return result;
 				}
+
 				function getPairRawHTML(rawHTML) {
 					return rawHTML ? ["<" + rawHTML + ">", "</" + rawHTML + ">"] : null;
 				}
+
 				function getOpenRawHTML(rawHTML) {
 					return rawHTML ? "<" + rawHTML + ">" : null;
 				}
+
 				function getCloseRawHTML(rawHTML) {
 					return rawHTML ? "</" + rawHTML + ">" : null;
 				}
+
 				var toMdConvertors = {
 					heading: function (_a) {
 						var node = _a.node;
@@ -41710,6 +43379,7 @@ PERFORMANCE OF THIS SOFTWARE.
 					link: null,
 					html: null
 				};
+
 				function createNodeTypeConvertors(convertors) {
 					var nodeTypeConvertors = {};
 					var nodeTypes = Object.keys(nodeTypeWriters);
@@ -41729,6 +43399,7 @@ PERFORMANCE OF THIS SOFTWARE.
 					});
 					return nodeTypeConvertors;
 				}
+
 				function createMarkTypeConvertors(convertors) {
 					var markTypeConvertors = {};
 					var markTypes = Object.keys(markTypeOptions);
@@ -41750,6 +43421,7 @@ PERFORMANCE OF THIS SOFTWARE.
 					});
 					return markTypeConvertors;
 				}
+
 				// Step 1: Create the converter by overriding the custom converter
 				//         to the original converter defined in the `toMdConvertors` module.
 				//         If the node type is defined in the original converter,
@@ -41800,6 +43472,7 @@ PERFORMANCE OF THIS SOFTWARE.
 						this.stopNewline = false;
 						this.inTable = false;
 					}
+
 					ToMdConvertorState.prototype.getMarkConvertor = function (mark) {
 						var type = mark.attrs.htmlInline ? "html" : mark.type.name;
 						return this.markTypeConvertors[type];
@@ -42096,7 +43769,8 @@ PERFORMANCE OF THIS SOFTWARE.
 					};
 					return ToMdConvertorState;
 				})();
-				/* harmony default export */ var toMdConvertorState = ToMdConvertorState; // CONCATENATED MODULE: ./src/convertors/convertor.ts
+				/* harmony default export */
+				var toMdConvertorState = ToMdConvertorState; // CONCATENATED MODULE: ./src/convertors/convertor.ts
 
 				var Convertor = /** @class */ (function () {
 					function Convertor(schema, toMdConvertors, toHTMLConvertors, eventEmitter) {
@@ -42114,6 +43788,7 @@ PERFORMANCE OF THIS SOFTWARE.
 							return (_this.focusedNode = node);
 						});
 					}
+
 					Convertor.prototype.getMappedPos = function () {
 						return this.mappedPosWhenConverting;
 					};
@@ -42135,7 +43810,8 @@ PERFORMANCE OF THIS SOFTWARE.
 					};
 					return Convertor;
 				})();
-				/* harmony default export */ var convertor = Convertor; // CONCATENATED MODULE: ./src/helper/plugin.ts
+				/* harmony default export */
+				var convertor = Convertor; // CONCATENATED MODULE: ./src/helper/plugin.ts
 
 				function execPlugin(pluginInfo) {
 					var plugin = pluginInfo.plugin,
@@ -42175,6 +43851,7 @@ PERFORMANCE OF THIS SOFTWARE.
 					}
 					return plugin(context);
 				}
+
 				function getPluginInfo(pluginsInfo) {
 					var plugins = pluginsInfo.plugins,
 						eventEmitter = pluginsInfo.eventEmitter,
@@ -42270,6 +43947,7 @@ PERFORMANCE OF THIS SOFTWARE.
 				var TASK_ATTR_NAME = "data-task";
 				var DISABLED_TASK_ATTR_NAME = "data-task-disabled";
 				var TASK_CHECKED_CLASS_NAME = "checked";
+
 				function registerHTMLTagToWhitelist(convertorMap) {
 					["htmlBlock", "htmlInline"].forEach(function (htmlType) {
 						if (convertorMap[htmlType]) {
@@ -42280,6 +43958,7 @@ PERFORMANCE OF THIS SOFTWARE.
 						}
 					});
 				}
+
 				/**
 				 * Class ToastUIEditorViewer
 				 * @param {object} options Option object
@@ -42384,6 +44063,7 @@ PERFORMANCE OF THIS SOFTWARE.
 						el.appendChild(this.preview.previewContent);
 						this.eventEmitter.emit("load", this);
 					}
+
 					/**
 					 * Toggle task by detecting mousedown event.
 					 * @param {MouseEvent} ev - event
@@ -42475,11 +44155,13 @@ PERFORMANCE OF THIS SOFTWARE.
 					};
 					return ToastUIEditorViewer;
 				})();
-				/* harmony default export */ var viewer = ToastUIEditorViewer; // CONCATENATED MODULE: ./src/wysiwyg/adaptor/mdLikeNode.ts
+				/* harmony default export */
+				var viewer = ToastUIEditorViewer; // CONCATENATED MODULE: ./src/wysiwyg/adaptor/mdLikeNode.ts
 
 				function isPmNode(node) {
 					return node instanceof dist_Node;
 				}
+
 				function mdLikeNode_isContainer(type) {
 					var containerTypes = [
 						"document",
@@ -42504,6 +44186,7 @@ PERFORMANCE OF THIS SOFTWARE.
 
 					return common_includes(containerTypes, type);
 				}
+
 				function createMdLikeNode(node) {
 					var attrs = node.attrs,
 						type = node.type;
@@ -42597,6 +44280,7 @@ PERFORMANCE OF THIS SOFTWARE.
 						});
 						this.convertors = this.renderer.getConvertors();
 					}
+
 					WwToDOMAdaptor.prototype.generateTokens = function (node) {
 						var mdLikeNode = createMdLikeNode(node);
 						var context = {
@@ -42644,6 +44328,7 @@ PERFORMANCE OF THIS SOFTWARE.
 				var SCROLL_BLOCKING_RESET_DELAY = 15;
 				var currentTimeoutId = null;
 				var releaseTimer = null;
+
 				function animation_run(deltaScrollTop, _a) {
 					var syncScrollTop = _a.syncScrollTop,
 						releaseEventBlock = _a.releaseEventBlock;
@@ -42655,6 +44340,7 @@ PERFORMANCE OF THIS SOFTWARE.
 						releaseEventBlock();
 					}, SCROLL_BLOCKING_RESET_DELAY);
 				}
+
 				function animate(curScrollTop, targetScrollTop, syncCallbacks) {
 					var diff = targetScrollTop - curScrollTop;
 					var startTime = Date.now();
@@ -42696,6 +44382,7 @@ PERFORMANCE OF THIS SOFTWARE.
 						this.eventEmitter = eventEmitter;
 						this.addScrollSyncEvent();
 					}
+
 					ScrollSync.prototype.addScrollSyncEvent = function () {
 						var _this = this;
 						this.eventEmitter.listen("afterPreviewRender", function () {
@@ -42915,6 +44602,7 @@ PERFORMANCE OF THIS SOFTWARE.
 						return popupName === "link" ? { linkText: editor.getSelectedText() } : {};
 					}
 				};
+
 				function buildQuery(editor) {
 					editor.eventEmitter.listen("query", function (query, payload) {
 						return queryMap[query](editor, payload);
@@ -43126,6 +44814,7 @@ PERFORMANCE OF THIS SOFTWARE.
 						this.eventEmitter.emit("load", this);
 						this.moveCursorToStart(this.options.autofocus);
 					}
+
 					ToastUIEditorCore.prototype.addInitEvent = function () {
 						var _this = this;
 						this.on("needChangeMode", this.changeMode.bind(this));
@@ -43669,11 +45358,14 @@ PERFORMANCE OF THIS SOFTWARE.
 				// // (Not an official API)
 				// // Create a function converting markdown to HTML using the internal parser and renderer.
 				// ToastUIEditor._createMarkdownToHTML = createMarkdownToHTML;
-				/* harmony default export */ var editorCore = ToastUIEditorCore; // CONCATENATED MODULE: ./src/ui/vdom/htm.js
+				/* harmony default export */
+				var editorCore = ToastUIEditorCore; // CONCATENATED MODULE: ./src/ui/vdom/htm.js
 
 				// @TODO: change syntax with our convention
 				/* eslint-disable */
-				/* harmony default export */ function htm(n) {
+
+				/* harmony default export */
+				function htm(n) {
 					for (
 						var l,
 							e,
@@ -43758,6 +45450,7 @@ PERFORMANCE OF THIS SOFTWARE.
 						this.root = current;
 						this.entering = true;
 					}
+
 					VNodeWalker.prototype.walk = function () {
 						var _a = this,
 							entering = _a.entering,
@@ -43805,6 +45498,7 @@ PERFORMANCE OF THIS SOFTWARE.
 							delete props.key;
 						}
 					}
+
 					VNode.prototype.walker = function () {
 						return new VNodeWalker(this);
 					};
@@ -43815,6 +45509,7 @@ PERFORMANCE OF THIS SOFTWARE.
 				function template_createTextNode(text) {
 					return new VNode("TEXT_NODE", { nodeValue: text }, []);
 				}
+
 				function excludeUnnecessaryChild(child, flatted) {
 					var vnode = child;
 					// eslint-disable-next-line no-eq-null,eqeqeq
@@ -43827,6 +45522,7 @@ PERFORMANCE OF THIS SOFTWARE.
 						flatted.push(vnode);
 					}
 				}
+
 				function h(type, props) {
 					var children = [];
 					for (var _i = 2; _i < arguments.length; _i++) {
@@ -43844,8 +45540,10 @@ PERFORMANCE OF THIS SOFTWARE.
 					});
 					return new VNode(type, props || {}, flatted);
 				}
+
 				// @ts-ignore
-				/* harmony default export */ var template = htm.bind(h);
+				/* harmony default export */
+				var template = htm.bind(h);
 
 				// EXTERNAL MODULE: ../../node_modules/tui-code-snippet/type/isObject.js
 				var type_isObject = __webpack_require__(73);
@@ -43861,6 +45559,7 @@ PERFORMANCE OF THIS SOFTWARE.
 					}
 					return node;
 				}
+
 				function dom_removeNode(vnode, parentNode) {
 					if (vnode.node) {
 						parentNode.removeChild(vnode.node);
@@ -43868,6 +45567,7 @@ PERFORMANCE OF THIS SOFTWARE.
 						dom_removeNode(vnode.firstChild, parentNode);
 					}
 				}
+
 				function innerDiff(node, prevProps, nextProps) {
 					Object.keys(prevProps).forEach(function (propName) {
 						if (/^on/.test(propName)) {
@@ -43890,7 +45590,9 @@ PERFORMANCE OF THIS SOFTWARE.
 						return !shallowEqual(prevProps[propName], nextProps[propName]);
 					});
 				}
+
 				var reNonDimension = /acit|ex(?:s|g|n|p|$)|rph|ows|mnc|ntw|ine[ch]|zoo|^ord/i;
+
 				function setProps(node, prevProps, props, condition) {
 					Object.keys(props).forEach(function (propName) {
 						if (!condition || condition(propName)) {
@@ -43914,6 +45616,7 @@ PERFORMANCE OF THIS SOFTWARE.
 						}
 					});
 				}
+
 				function setStyleProps(node, prevStyleProps, styleProps) {
 					if (prevStyleProps) {
 						Object.keys(prevStyleProps).forEach(function (styleProp) {
@@ -43956,6 +45659,7 @@ PERFORMANCE OF THIS SOFTWARE.
 						}
 					}
 				}
+
 				function getParentNode(vnode) {
 					var parent = vnode.parent;
 					while (!parent.node) {
@@ -43963,6 +45667,7 @@ PERFORMANCE OF THIS SOFTWARE.
 					}
 					return parent.node;
 				}
+
 				function diff(vnode) {
 					if (!vnode || !vnode.parent) {
 						return;
@@ -44014,6 +45719,7 @@ PERFORMANCE OF THIS SOFTWARE.
 					}
 					return new Comp(props);
 				}
+
 				function buildVNode(vnode) {
 					var root = vnode;
 					while (vnode && !vnode.skip) {
@@ -44042,6 +45748,7 @@ PERFORMANCE OF THIS SOFTWARE.
 						}
 					}
 				}
+
 				function isSameType(old, vnode) {
 					return (
 						old &&
@@ -44050,6 +45757,7 @@ PERFORMANCE OF THIS SOFTWARE.
 						(!vnode.key || vnode.key === old.key)
 					);
 				}
+
 				// @TODO: add key diff algorithm
 				function buildChildrenVNode(parent) {
 					var children = parent.children;
@@ -44107,6 +45815,7 @@ PERFORMANCE OF THIS SOFTWARE.
 					commit();
 					VNode.removalNodes = [];
 				}
+
 				function rerender(comp) {
 					var root = comp.vnode;
 					root.effect = "U";
@@ -44122,6 +45831,7 @@ PERFORMANCE OF THIS SOFTWARE.
 						root.next.skip = false;
 					}
 				}
+
 				function render(container, vnode) {
 					var root = new VNode(container.tagName.toLowerCase(), {}, [vnode]);
 					root.node = container;
@@ -44139,6 +45849,7 @@ PERFORMANCE OF THIS SOFTWARE.
 						this.state = {};
 						this.refs = {};
 					}
+
 					Component.prototype.setState = function (state) {
 						var newState = __assign(__assign({}, this.state), state);
 						if (!shallowEqual(this.state, newState)) {
@@ -44151,6 +45862,7 @@ PERFORMANCE OF THIS SOFTWARE.
 
 				var Switch = /** @class */ (function (_super) {
 					__extends(Switch, _super);
+
 					function Switch(props) {
 						var _this = _super.call(this, props) || this;
 						_this.state = {
@@ -44158,6 +45870,7 @@ PERFORMANCE OF THIS SOFTWARE.
 						};
 						return _this;
 					}
+
 					Switch.prototype.show = function () {
 						this.setState({ hide: false });
 					};
@@ -44228,6 +45941,7 @@ PERFORMANCE OF THIS SOFTWARE.
 					if (typeof Map !== "undefined") {
 						return Map;
 					}
+
 					/**
 					 * Returns index in provided array that matches the specified key.
 					 *
@@ -44246,10 +45960,12 @@ PERFORMANCE OF THIS SOFTWARE.
 						});
 						return result;
 					}
+
 					return /** @class */ (function () {
 						function class_1() {
 							this.__entries__ = [];
 						}
+
 						Object.defineProperty(class_1.prototype, "size", {
 							/**
 							 * @returns {boolean}
@@ -44372,6 +46088,7 @@ PERFORMANCE OF THIS SOFTWARE.
 
 				// Defines minimum timeout before adding a trailing call.
 				var trailingTimeout = 2;
+
 				/**
 				 * Creates a wrapper function which ensures that provided callback will be
 				 * invoked only once during the specified delay period.
@@ -44384,6 +46101,7 @@ PERFORMANCE OF THIS SOFTWARE.
 					var leadingCall = false,
 						trailingCall = false,
 						lastCallTime = 0;
+
 					/**
 					 * Invokes the original callback function and schedules new invocation if
 					 * the "proxy" was called during current request.
@@ -44399,6 +46117,7 @@ PERFORMANCE OF THIS SOFTWARE.
 							proxy();
 						}
 					}
+
 					/**
 					 * Callback invoked after the specified delay. It will further postpone
 					 * invocation of the original function delegating it to the
@@ -44409,6 +46128,7 @@ PERFORMANCE OF THIS SOFTWARE.
 					function timeoutCallback() {
 						requestAnimationFrame$1(resolvePending);
 					}
+
 					/**
 					 * Schedules invocation of the original function.
 					 *
@@ -44433,6 +46153,7 @@ PERFORMANCE OF THIS SOFTWARE.
 						}
 						lastCallTime = timeStamp;
 					}
+
 					return proxy;
 				}
 
@@ -44493,6 +46214,7 @@ PERFORMANCE OF THIS SOFTWARE.
 							REFRESH_DELAY
 						);
 					}
+
 					/**
 					 * Adds observer to observers list.
 					 *
@@ -44695,6 +46417,7 @@ PERFORMANCE OF THIS SOFTWARE.
 
 				// Placeholder of an empty content rectangle.
 				var emptyRect = createRectInit(0, 0, 0, 0);
+
 				/**
 				 * Converts provided string to a number.
 				 *
@@ -44704,6 +46427,7 @@ PERFORMANCE OF THIS SOFTWARE.
 				function toFloat(value) {
 					return parseFloat(value) || 0;
 				}
+
 				/**
 				 * Extracts borders size from provided styles.
 				 *
@@ -44721,6 +46445,7 @@ PERFORMANCE OF THIS SOFTWARE.
 						return size + toFloat(value);
 					}, 0);
 				}
+
 				/**
 				 * Extracts paddings sizes from provided styles.
 				 *
@@ -44737,6 +46462,7 @@ PERFORMANCE OF THIS SOFTWARE.
 					}
 					return paddings;
 				}
+
 				/**
 				 * Calculates content rectangle of provided SVG element.
 				 *
@@ -44748,6 +46474,7 @@ PERFORMANCE OF THIS SOFTWARE.
 					var bbox = target.getBBox();
 					return createRectInit(0, 0, bbox.width, bbox.height);
 				}
+
 				/**
 				 * Calculates content rectangle of provided HTMLElement.
 				 *
@@ -44821,6 +46548,7 @@ PERFORMANCE OF THIS SOFTWARE.
 					}
 					return createRectInit(paddings.left, paddings.top, width, height);
 				}
+
 				/**
 				 * Checks whether provided element is an instance of the SVGGraphicsElement.
 				 *
@@ -44845,6 +46573,7 @@ PERFORMANCE OF THIS SOFTWARE.
 						);
 					};
 				})();
+
 				/**
 				 * Checks whether provided element is a document element (<html>).
 				 *
@@ -44854,6 +46583,7 @@ PERFORMANCE OF THIS SOFTWARE.
 				function isDocumentElement(target) {
 					return target === getWindowOf(target).document.documentElement;
 				}
+
 				/**
 				 * Calculates an appropriate content rectangle for provided html or svg element.
 				 *
@@ -44869,6 +46599,7 @@ PERFORMANCE OF THIS SOFTWARE.
 					}
 					return getHTMLElementContentRect(target);
 				}
+
 				/**
 				 * Creates rectangle with an interface of the DOMRectReadOnly.
 				 * Spec: https://drafts.fxtf.org/geometry/#domrectreadonly
@@ -44897,6 +46628,7 @@ PERFORMANCE OF THIS SOFTWARE.
 					});
 					return rect;
 				}
+
 				/**
 				 * Creates DOMRectInit object based on the provided dimensions and the x/y coordinates.
 				 * Spec: https://drafts.fxtf.org/geometry/#dictdef-domrectinit
@@ -44942,6 +46674,7 @@ PERFORMANCE OF THIS SOFTWARE.
 						this.contentRect_ = createRectInit(0, 0, 0, 0);
 						this.target = target;
 					}
+
 					/**
 					 * Updates content rectangle and tells whether it's width or height properties
 					 * have changed since the last broadcast.
@@ -44988,6 +46721,7 @@ PERFORMANCE OF THIS SOFTWARE.
 						// don't support this type of collections.
 						defineConfigurable(this, { target: target, contentRect: contentRect });
 					}
+
 					return ResizeObserverEntry;
 				})();
 
@@ -45025,6 +46759,7 @@ PERFORMANCE OF THIS SOFTWARE.
 						this.controller_ = controller;
 						this.callbackCtx_ = callbackCtx;
 					}
+
 					/**
 					 * Starts observing provided element.
 					 *
@@ -45171,6 +46906,7 @@ PERFORMANCE OF THIS SOFTWARE.
 						var observer = new ResizeObserverSPI(callback, controller, this);
 						observers.set(this, observer);
 					}
+
 					return ResizeObserver;
 				})();
 				// Expose public methods of ResizeObserver.
@@ -45189,13 +46925,16 @@ PERFORMANCE OF THIS SOFTWARE.
 					return ResizeObserver;
 				})();
 
-				/* harmony default export */ var ResizeObserver_es = index; // CONCATENATED MODULE: ./src/ui/components/toolbar/headingPopupBody.ts
+				/* harmony default export */
+				var ResizeObserver_es = index; // CONCATENATED MODULE: ./src/ui/components/toolbar/headingPopupBody.ts
 
 				var HeadingPopupBody = /** @class */ (function (_super) {
 					__extends(HeadingPopupBody, _super);
+
 					function HeadingPopupBody() {
 						return (_super !== null && _super.apply(this, arguments)) || this;
 					}
+
 					HeadingPopupBody.prototype.execCommand = function (ev) {
 						var el = closest(ev.target, "li");
 						this.props.execCommand("heading", {
@@ -45263,9 +47002,11 @@ PERFORMANCE OF THIS SOFTWARE.
 
 				var Tabs = /** @class */ (function (_super) {
 					__extends(Tabs, _super);
+
 					function Tabs() {
 						return (_super !== null && _super.apply(this, arguments)) || this;
 					}
+
 					Tabs.prototype.toggleTab = function (ev, activeTab) {
 						this.props.onClick(ev, activeTab);
 					};
@@ -45334,6 +47075,7 @@ PERFORMANCE OF THIS SOFTWARE.
 				var TYPE_UI = "ui";
 				var ImagePopupBody = /** @class */ (function (_super) {
 					__extends(ImagePopupBody, _super);
+
 					function ImagePopupBody(props) {
 						var _this = _super.call(this, props) || this;
 						_this.initialize = function (activeTab) {
@@ -45380,6 +47122,7 @@ PERFORMANCE OF THIS SOFTWARE.
 
 						return _this;
 					}
+
 					ImagePopupBody.prototype.emitAddImageBlob = function () {
 						var _this = this;
 						var files = this.refs.file.files;
@@ -45547,6 +47290,7 @@ PERFORMANCE OF THIS SOFTWARE.
 
 				var LinkPopupBody = /** @class */ (function (_super) {
 					__extends(LinkPopupBody, _super);
+
 					function LinkPopupBody() {
 						var _this = (_super !== null && _super.apply(this, arguments)) || this;
 						_this.execCommand = function () {
@@ -45572,6 +47316,7 @@ PERFORMANCE OF THIS SOFTWARE.
 						};
 						return _this;
 					}
+
 					LinkPopupBody.prototype.initialize = function () {
 						var _a = this.props.initialValues,
 							linkUrl = _a.linkUrl,
@@ -45667,6 +47412,7 @@ PERFORMANCE OF THIS SOFTWARE.
 				var BORDER_WIDTH = 1;
 				var TablePopupBody = /** @class */ (function (_super) {
 					__extends(TablePopupBody, _super);
+
 					function TablePopupBody(props) {
 						var _this = _super.call(this, props) || this;
 						_this.extendSelectionRange = function (_a) {
@@ -45689,6 +47435,7 @@ PERFORMANCE OF THIS SOFTWARE.
 						};
 						return _this;
 					}
+
 					TablePopupBody.prototype.getDescription = function () {
 						return this.state.colIdx === -1
 							? ""
@@ -45859,9 +47606,11 @@ PERFORMANCE OF THIS SOFTWARE.
 
 				var CustomPopupBody = /** @class */ (function (_super) {
 					__extends(CustomPopupBody, _super);
+
 					function CustomPopupBody() {
 						return (_super !== null && _super.apply(this, arguments)) || this;
 					}
+
 					CustomPopupBody.prototype.mounted = function () {
 						// append the custom popup body element
 						this.refs.el.appendChild(this.props.body);
@@ -45891,6 +47640,7 @@ PERFORMANCE OF THIS SOFTWARE.
 				function createToolbarItemInfo(type) {
 					return isString_default()(type) ? createDefaultToolbarItemInfo(type) : type;
 				}
+
 				function createScrollSyncToolbarItem() {
 					var label = document.createElement("label");
 					var checkbox = document.createElement("input");
@@ -45918,6 +47668,7 @@ PERFORMANCE OF THIS SOFTWARE.
 						onMounted: onMounted
 					};
 				}
+
 				function createDefaultToolbarItemInfo(type) {
 					var info;
 					switch (type) {
@@ -46077,6 +47828,7 @@ PERFORMANCE OF THIS SOFTWARE.
 					}
 					return info;
 				}
+
 				function createPopupInfo(type, payload) {
 					var el = payload.el,
 						pos = payload.pos,
@@ -46183,6 +47935,7 @@ PERFORMANCE OF THIS SOFTWARE.
 							return null;
 					}
 				}
+
 				function setGroupState(group) {
 					group.hidden =
 						group.length ===
@@ -46190,6 +47943,7 @@ PERFORMANCE OF THIS SOFTWARE.
 							return info.hidden;
 						}).length;
 				}
+
 				function groupToolbarItems(toolbarItems, hiddenScrollSync) {
 					var toggleScrollSyncState = function (item) {
 						item.hidden = item.name === "scrollSync" && hiddenScrollSync;
@@ -46208,6 +47962,7 @@ PERFORMANCE OF THIS SOFTWARE.
 						return acc;
 					}, []);
 				}
+
 				function toggleScrollSync(toolbarItems, hiddenScrollSync) {
 					toolbarItems.forEach(function (group) {
 						group.forEach(function (item) {
@@ -46216,6 +47971,7 @@ PERFORMANCE OF THIS SOFTWARE.
 						setGroupState(group);
 					});
 				}
+
 				var toolbarItemFactory_templateObject_1,
 					toolbarItemFactory_templateObject_2,
 					toolbarItemFactory_templateObject_3,
@@ -46225,6 +47981,7 @@ PERFORMANCE OF THIS SOFTWARE.
 				var MARGIN_FROM_RIGHT_SIDE = 20;
 				var Popup = /** @class */ (function (_super) {
 					__extends(Popup, _super);
+
 					function Popup() {
 						var _this = (_super !== null && _super.apply(this, arguments)) || this;
 						_this.handleMousedown = function (ev) {
@@ -46237,6 +47994,7 @@ PERFORMANCE OF THIS SOFTWARE.
 						};
 						return _this;
 					}
+
 					Popup.prototype.mounted = function () {
 						document.addEventListener("mousedown", this.handleMousedown);
 						this.props.eventEmitter.listen("closePopup", this.props.hidePopup);
@@ -46327,9 +48085,11 @@ PERFORMANCE OF THIS SOFTWARE.
 				var popup_templateObject_1; // CONCATENATED MODULE: ./src/ui/components/toolbar/buttonHoc.ts
 
 				var TOOLTIP_INDENT = 6;
+
 				function connectHOC(WrappedComponent) {
 					return /** @class */ (function (_super) {
 						__extends(ButtonHOC, _super);
+
 						function ButtonHOC(props) {
 							var _this = _super.call(this, props) || this;
 							_this.showTooltip = function (el) {
@@ -46355,6 +48115,7 @@ PERFORMANCE OF THIS SOFTWARE.
 							_this.addEvent();
 							return _this;
 						}
+
 						ButtonHOC.prototype.addEvent = function () {
 							var _this = this;
 							var _a = this.props,
@@ -46425,11 +48186,13 @@ PERFORMANCE OF THIS SOFTWARE.
 						return ButtonHOC;
 					})(Component);
 				}
+
 				var buttonHoc_templateObject_1; // CONCATENATED MODULE: ./src/ui/components/toolbar/toolbarButton.ts
 
 				var DEFAULT_WIDTH = 80;
 				var ToolbarButtonComp = /** @class */ (function (_super) {
 					__extends(ToolbarButtonComp, _super);
+
 					function ToolbarButtonComp() {
 						var _this = (_super !== null && _super.apply(this, arguments)) || this;
 						_this.showTooltip = function () {
@@ -46467,6 +48230,7 @@ PERFORMANCE OF THIS SOFTWARE.
 						};
 						return _this;
 					}
+
 					ToolbarButtonComp.prototype.mounted = function () {
 						this.setItemWidth();
 					};
@@ -46546,6 +48310,7 @@ PERFORMANCE OF THIS SOFTWARE.
 
 				var CustomToolbarItemComp = /** @class */ (function (_super) {
 					__extends(CustomToolbarItemComp, _super);
+
 					function CustomToolbarItemComp() {
 						var _this = (_super !== null && _super.apply(this, arguments)) || this;
 						_this.showTooltip = function () {
@@ -46563,6 +48328,7 @@ PERFORMANCE OF THIS SOFTWARE.
 						};
 						return _this;
 					}
+
 					CustomToolbarItemComp.prototype.mounted = function () {
 						var _a = this.props,
 							setItemWidth = _a.setItemWidth,
@@ -46638,9 +48404,11 @@ PERFORMANCE OF THIS SOFTWARE.
 
 				var ToolbarGroup = /** @class */ (function (_super) {
 					__extends(ToolbarGroup, _super);
+
 					function ToolbarGroup() {
 						return (_super !== null && _super.apply(this, arguments)) || this;
 					}
+
 					ToolbarGroup.prototype.render = function () {
 						var _this = this;
 						var _a = this.props,
@@ -46697,6 +48465,7 @@ PERFORMANCE OF THIS SOFTWARE.
 				var POPUP_INDENT = 4;
 				var DropdownToolbarButtonComp = /** @class */ (function (_super) {
 					__extends(DropdownToolbarButtonComp, _super);
+
 					function DropdownToolbarButtonComp(props) {
 						var _this = _super.call(this, props) || this;
 						_this.handleClickDocument = function (_a) {
@@ -46714,6 +48483,7 @@ PERFORMANCE OF THIS SOFTWARE.
 						_this.state = { showDropdown: false, dropdownPos: null };
 						return _this;
 					}
+
 					DropdownToolbarButtonComp.prototype.getBound = function () {
 						var rect = this.props.getBound(this.refs.el);
 						rect.top += POPUP_INDENT;
@@ -46841,6 +48611,7 @@ PERFORMANCE OF THIS SOFTWARE.
 				var INLINE_PADDING = 50;
 				var Toolbar = /** @class */ (function (_super) {
 					__extends(Toolbar, _super);
+
 					function Toolbar(props) {
 						var _this = _super.call(this, props) || this;
 						_this.toggleTab = function (_, activeTab) {
@@ -46915,6 +48686,7 @@ PERFORMANCE OF THIS SOFTWARE.
 						_this.addEvent();
 						return _this;
 					}
+
 					Toolbar.prototype.insertToolbarItem = function (indexList, item) {
 						var groupIndex = indexList.groupIndex,
 							itemIndex = indexList.itemIndex;
@@ -47211,6 +48983,7 @@ PERFORMANCE OF THIS SOFTWARE.
 
 				var ContextMenu = /** @class */ (function (_super) {
 					__extends(ContextMenu, _super);
+
 					function ContextMenu(props) {
 						var _this = _super.call(this, props) || this;
 						_this.handleClickDocument = function (ev) {
@@ -47225,6 +48998,7 @@ PERFORMANCE OF THIS SOFTWARE.
 						_this.addEvent();
 						return _this;
 					}
+
 					ContextMenu.prototype.addEvent = function () {
 						var _this = this;
 						this.props.eventEmitter.listen("contextmenu", function (_a) {
@@ -47345,6 +49119,7 @@ PERFORMANCE OF THIS SOFTWARE.
 
 				var Layout = /** @class */ (function (_super) {
 					__extends(Layout, _super);
+
 					function Layout(props) {
 						var _this = _super.call(this, props) || this;
 						_this.changeMode = function (editorType) {
@@ -47373,6 +49148,7 @@ PERFORMANCE OF THIS SOFTWARE.
 						_this.addEvent();
 						return _this;
 					}
+
 					Layout.prototype.mounted = function () {
 						var _a = this.props.slots,
 							wwEditor = _a.wwEditor,
@@ -47525,6 +49301,7 @@ PERFORMANCE OF THIS SOFTWARE.
 				 */
 				var ToastUIEditor = /** @class */ (function (_super) {
 					__extends(ToastUIEditor, _super);
+
 					function ToastUIEditor(options) {
 						var _a;
 						var _this = _super.call(this, options) || this;
@@ -47594,6 +49371,7 @@ PERFORMANCE OF THIS SOFTWARE.
 						_this.eventEmitter.emit("loadUI", _this);
 						return _this;
 					}
+
 					/**
 					 * Factory method for Editor
 					 * @param {object} options Option for initialize TUIEditor
@@ -47626,7 +49404,8 @@ PERFORMANCE OF THIS SOFTWARE.
 					};
 					return ToastUIEditor;
 				})(editorCore);
-				/* harmony default export */ var editor = ToastUIEditor;
+				/* harmony default export */
+				var editor = ToastUIEditor;
 				var editor_templateObject_1; // CONCATENATED MODULE: ../../node_modules/prosemirror-view/style/prosemirror.css
 				// CONCATENATED MODULE: ./src/i18n/en-us.ts
 
@@ -47637,10 +49416,12 @@ PERFORMANCE OF THIS SOFTWARE.
 				 * @author NHN Cloud FE Development Lab <dl_javascript@nhn.com>
 				 */
 
-				/* harmony default export */ var src = editor;
+				/* harmony default export */
+				var src = editor;
 			})();
 			__webpack_exports__ = __webpack_exports__["default"];
-			/******/ return __webpack_exports__;
+			/******/
+			return __webpack_exports__;
 			/******/
 		})();
 	});

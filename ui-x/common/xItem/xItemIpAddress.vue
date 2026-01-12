@@ -8,6 +8,13 @@ export default async function () {
 		render(h) {
 			const vm = this;
 
+			if (vm.readonly) {
+				return h("xInput", {
+					readonly: true,
+					value: vm.x_item_value
+				});
+			}
+
 			return h(
 				"xIpAddress",
 				mergeProps4h([

@@ -2,16 +2,37 @@
 export default async function ({ PRIVATE_GLOBAL }) {
 	(function () /* 预览图片 */ {
 		let instance;
-		_.$previewImgs = async function (options) {
+		_.$previewImgs = async function (options, previewOptions = {}) {
 			const ImageViewer = await _.$importVue("/common/ui-x/directive/xImg/ImageViewer.vue");
 			const PopupManager = await _.$importVue("/common/libs/VuePopper/popupManager.vue");
+
+			// 销毁之前的实例，确保每次只有一个ImageViewer实例
+			if (instance && instance.$el) {
+				instance.hide();
+			}
 
 			if (options.currentUrl) {
 				options.index = _.findIndex(options.urlList, i => i === options.currentUrl) || 0;
 			}
+
+			// 确保options包含必要的回调
+			const defaultOptions = {
+				onClose: () => {
+					// 默认的onClose回调，确保实例能正确清理
+					if (instance && instance.$el) {
+						instance.$destroy();
+						if (instance.$el.parentNode) {
+							instance.$el.parentNode.removeChild(instance.$el);
+						}
+					}
+				},
+				autoPlay: previewOptions.autoPlay || false
+			};
+
+			const mergedOptions = _.merge({}, defaultOptions, options);
 			const ViewerConstructor = Vue.extend(ImageViewer);
 			instance = new ViewerConstructor({
-				data: options
+				data: mergedOptions
 			});
 			instance.$mount();
 			document.body.appendChild(instance.$el);

@@ -1,16 +1,20 @@
 <template>
-	<xSlider
-		class="xItemSlider"
-		v-model="x_item_value"
-		v-bind="$attrs"
-		:show-input-controls="showInputControls"
-		:format-tooltip="formatTooltip"
-		v-on="mixin_listeners"
-		:marks="marks"
-		:min="min"
-		:max="max"
-		:show-input="showInput">
-	</xSlider>
+	<div class="xItemSliderWrapper">
+		<xInput v-if="readonly" readonly :value="x_item_value" class="xItemSlider-readonly" />
+		<xSlider
+			v-else
+			class="xItemSlider"
+			v-model="x_item_value"
+			v-bind="$attrs"
+			:show-input-controls="showInputControls"
+			:format-tooltip="formatTooltip"
+			v-on="mixin_listeners"
+			:marks="marks"
+			:min="min"
+			:max="max"
+			:show-input="showInput">
+		</xSlider>
+	</div>
 </template>
 <script lang="ts">
 export default async function () {

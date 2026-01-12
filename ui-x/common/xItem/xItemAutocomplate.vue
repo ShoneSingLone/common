@@ -21,6 +21,13 @@ export default async function () {
 				}
 			]);
 
+			if (vm.readonly) {
+				return h("xInput", {
+					readonly: true,
+					value: vm.x_item_value
+				});
+			}
+
 			return h("xAutocomplete", props);
 		}
 	});

@@ -20,6 +20,17 @@ export default async function () {
 				_.$val(vm, "$vnode.data")
 			]);
 
+			if (vm.readonly) {
+				let displayValue = vm.x_item_value;
+				if (Array.isArray(displayValue)) {
+					displayValue = displayValue.join(", ");
+				}
+				return h("xInput", {
+					readonly: true,
+					value: displayValue
+				});
+			}
+
 			return h("xCascader", cascaderProps);
 		}
 	});

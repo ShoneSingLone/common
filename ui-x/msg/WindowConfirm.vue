@@ -39,6 +39,8 @@ export default async function ({ resolve, reject, content, renderFooter, style, 
 				let label = i18n("ok");
 				return {
 					label,
+					preset: isHideCancel ? "blue" : "",
+
 					async onClick() {
 						vm.closeModal();
 						resolve();

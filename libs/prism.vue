@@ -2288,7 +2288,6 @@ export default async function () {
 			env.plugins.lineNumbers = true;
 		});
 	})();
-	debugger;
 
 	return window.Prism;
 }

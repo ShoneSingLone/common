@@ -49,6 +49,18 @@
 						class="el-icon-refresh-right"
 						icon="refresh-right"
 						@click="handleActions('clocelise')"></xIcon>
+					<!-- 自动播放按钮，仅当autoPlay为true时显示 -->
+					<xIcon
+						v-if="autoPlay"
+						:class="isAutoPlay ? 'el-icon-video-pause' : 'el-icon-video-play'"
+						:icon="isAutoPlay ? 'video-pause' : 'video-play'"
+						@click="toggleAutoPlay"></xIcon>
+					<!-- 速度控制，仅当autoPlay为true时显示 -->
+					<div v-if="autoPlay" class="el-image-viewer__speed-control flex middle">
+						<xIcon class="el-icon-minus mr4" icon="minus" @click="increaseSpeed" />
+						<span class="speed-text">{{ autoPlayInterval / 1000 }}s</span>
+						<xIcon class="el-icon-plus ml4" icon="plus" @click="decreaseSpeed"></xIcon>
+					</div>
 				</div>
 			</div>
 			<!-- CANVAS -->
@@ -105,6 +117,8 @@ export default async function () {
 				infinite: true,
 				loading: false,
 				mode: Mode.CONTAIN,
+				// 是否显示自动播放按钮
+				autoPlay: false,
 				transform: {
 					scale: 1,
 					deg: 0,
@@ -123,7 +137,11 @@ export default async function () {
 					isPinching: false,
 					startDistance: 0,
 					startScale: 1
-				}
+				},
+				// 幻灯片相关状态
+				isAutoPlay: false,
+				autoPlayInterval: 3000, // 默认3秒切换一次
+				autoPlayTimer: null
 			};
 		},
 		computed: {
@@ -173,9 +191,6 @@ export default async function () {
 			hide() {
 				this.deviceSupportUninstall();
 				this.onClose();
-				setTimeout(() => {
-					this.$destroy();
-				}, 100);
 			},
 			deviceSupportInstall() {
 				this._keyDownHandler = e => {
@@ -227,6 +242,7 @@ export default async function () {
 					.on(MOUSE_WHEEL, this._mouseWheelHandler);
 			},
 			deviceSupportUninstall() {
+				this.stopAutoPlay();
 				_.$single.doc
 					.off(KEY_DOWN, this._keyDownHandler)
 					.off(MOUSE_WHEEL, this._mouseWheelHandler);
@@ -242,6 +258,7 @@ export default async function () {
 			},
 			handleMouseDown(e) {
 				if (this.loading || e.button !== 0) return;
+				this.stopAutoPlay();
 
 				const { offsetX, offsetY } = this.transform;
 				const startX = e.pageX;
@@ -259,6 +276,7 @@ export default async function () {
 			// 触摸开始事件处理
 			handleTouchStart(e) {
 				if (this.loading) return;
+				this.stopAutoPlay();
 
 				const touches = e.touches;
 				const { offsetX, offsetY, scale } = this.transform;
@@ -341,6 +359,7 @@ export default async function () {
 			},
 			toggleMode() {
 				if (this.loading) return;
+				this.stopAutoPlay();
 
 				const modeNames = Object.keys(Mode);
 				const modeValues = Object.values(Mode);
@@ -349,18 +368,25 @@ export default async function () {
 				this.mode = Mode[modeNames[nextIndex]];
 				this.reset();
 			},
-			prev() {
+			prev(manual = true) {
 				if (this.loading || (this.isFirst && !this.infinite)) return;
+				if (manual) {
+					this.stopAutoPlay();
+				}
 				const len = this.urlList.length;
 				this.index = (this.index - 1 + len) % len;
 			},
-			next() {
+			next(manual = true) {
 				if (this.loading || (this.isLast && !this.infinite)) return;
+				if (manual) {
+					this.stopAutoPlay();
+				}
 				const len = this.urlList.length;
 				this.index = (this.index + 1) % len;
 			},
 			handleActions(action, options = {}) {
 				if (this.loading) return;
+				this.stopAutoPlay();
 				const { zoomRate, rotateDeg, enableTransition } = {
 					zoomRate: 0.2,
 					rotateDeg: 90,
@@ -368,6 +394,7 @@ export default async function () {
 					...options
 				};
 				const { transform } = this;
+
 				switch (action) {
 					case "zoomOut":
 						if (transform.scale > 0.2) {
@@ -385,6 +412,53 @@ export default async function () {
 						break;
 				}
 				transform.enableTransition = enableTransition;
+			},
+			// 切换自动播放状态
+			toggleAutoPlay() {
+				if (this.isAutoPlay) {
+					this.stopAutoPlay();
+				} else {
+					this.startAutoPlay();
+				}
+			},
+			// 开始自动播放
+			startAutoPlay() {
+				if (this.urlList.length <= 1) return;
+				// 先清除之前的定时器，避免多个定时器同时运行
+				if (this.autoPlayTimer) {
+					clearInterval(this.autoPlayTimer);
+					this.autoPlayTimer = null;
+				}
+				this.isAutoPlay = true;
+				this.autoPlayTimer = setInterval(() => {
+					this.next(false);
+				}, this.autoPlayInterval);
+			},
+			// 停止自动播放
+			stopAutoPlay() {
+				this.isAutoPlay = false;
+				if (this.autoPlayTimer) {
+					clearInterval(this.autoPlayTimer);
+					this.autoPlayTimer = null;
+				}
+			},
+			// 增加播放速度（减少间隔时间）
+			increaseSpeed() {
+				if (this.autoPlayInterval > 1000) {
+					this.autoPlayInterval -= 1000;
+					if (this.isAutoPlay) {
+						this.startAutoPlay();
+					}
+				}
+			},
+			// 减少播放速度（增加间隔时间）
+			decreaseSpeed() {
+				if (this.autoPlayInterval < 10000) {
+					this.autoPlayInterval += 1000;
+					if (this.isAutoPlay) {
+						this.startAutoPlay();
+					}
+				}
 			}
 		},
 		mounted() {
@@ -410,3 +484,10 @@ export default async function () {
 	});
 }
 </script>
+<style lang="less">
+.el-image-viewer__wrapper {
+	.speed-text {
+		-size: var(--ui--size, 16px);
+	}
+}
+</style>

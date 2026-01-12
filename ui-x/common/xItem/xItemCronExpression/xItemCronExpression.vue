@@ -1,7 +1,7 @@
 <template>
 	<div class="flex middle">
-		<xInput v-model="x_item_value" />
-		<xBtn @click="openCronExpressionDialog">{{ cptLabel }}</xBtn>
+		<xInput v-model="x_item_value" :readonly="readonly" />
+		<xBtn v-if="!readonly" @click="openCronExpressionDialog">{{ cptLabel }}</xBtn>
 	</div>
 </template>
 <script lang="ts">

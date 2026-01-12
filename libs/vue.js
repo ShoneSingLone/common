@@ -1190,9 +1190,13 @@
 			}
 			return val;
 		}
-		if (key in target && !(key in Object.prototype)) {
-			target[key] = val;
-			return val;
+		try {
+			if (key in target && !(key in Object.prototype)) {
+				target[key] = val;
+				return val;
+			}
+		} catch (error) {
+			debugger;
 		}
 		if (target._isVue || (ob && ob.vmCount)) {
 			/* Avoid adding reactive properties to a Vue instance or its root $data " + "at runtime - declare it upfront in the data option. */
@@ -5753,9 +5757,11 @@
 			if (error) {
 				throw error;
 			} else {
-				console.log(`[Vue warn]:`, vm);
-				console.log(`[Vue trace]:`, trace);
-				console.error(`[Vue warn]: ${_.$val(vm, "$vnode.FILE_URL") || ""}\n${msg}`);
+				console.groupCollapsed(`[Vue warn]`);
+				console.warn(`[Vue warn]:`, vm);
+				console.warn(`[Vue trace]:`, trace);
+				console.warn(`[Vue warn]: ${_.$val(vm, "$vnode.FILE_URL") || ""}\n${msg}`);
+				console.groupEnd();
 			}
 		}
 	};

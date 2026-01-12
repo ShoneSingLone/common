@@ -5,9 +5,35 @@
 		console.log("common.js");
 	}
 
+	/*  */
 	_.mixin({
+		/**
+		 * 删除对象中的空值
+		 * @param {Object} obj
+		 * @returns
+		 */
 		$$clean: obj => _.omitBy(obj, v => _.isUndefined(v) || _.isNull(v))
 	});
+
+	/**
+	 * 节流打印
+	 * @param {Number} count
+	 * @param {Object} callerInfo
+	 */
+	_.$ensure_inner_print = _.throttle(function (count, callerInfo) {
+		console.groupCollapsed(`_.$ensure_inner_print:${count}
+${callerInfo.message}:`);
+		console.log(callerInfo);
+		console.groupEnd();
+	}, 3000);
+
+	/**
+	 * 一个占位的函数，方便搜索，（暂时没有确定的需求）
+	 * 在项目的entry.vue文件中重写即可，
+	 * @param i
+	 * @returns
+	 */
+	_.$stamp = i => i;
 
 	/**
 	 * 验证参数
@@ -905,12 +931,13 @@
 			};
 			return checkbox;
 		};
-		window.defTable.colActions = ({ cellRenderer, width, fixed = "right" }) => {
+		window.defTable.colActions = ({ cellRenderer, width, fixed = "right", isShow = true }) => {
 			const columnDefaultConfigs = {
 				prop: "COL_ACTIONS",
 				label: i18n("operation"),
 				fixed,
 				width,
+				isShow,
 				headerCellRenderer(_props) {
 					return i18n("operation");
 				}
@@ -1213,6 +1240,94 @@
 		}
 	};
 
+	_.$cookie = function (name, value, options) {
+		// 1. 校验参数：使用 _.isString 确保名称是字符串类型，提高健壮性
+		if (!_.isString(name) || _.isEmpty(name)) {
+			console.error("Cookie 名称必须是非空字符串");
+			return null;
+		}
+
+		// 2. 有第二个参数时，执行 upsert 操作（存在更新，不存在插入）
+		if (arguments.length > 1) {
+			// 处理配置项，默认值兜底，避免 undefined 异常
+			var defaultOptions = {
+				expires: null, // 过期时间（Date 对象/天数数字）
+				path: "/", // Cookie 生效路径，默认根路径（确保全局可访问）
+				domain: null, // 生效域名
+				secure: false, // 是否仅 HTTPS 传输
+				sameSite: "Lax" // 跨站请求策略（Lax/Strict/None）
+			};
+			// 合并用户传入配置与默认配置
+			var opts = _.extend({}, defaultOptions, options || {});
+
+			// 构建 Cookie 字符串：编码名称和值，确保特殊字符（如空格、&等）正确处理
+			var cookieStr = encodeURIComponent(name) + "=" + encodeURIComponent(value);
+
+			// 处理过期时间（支持 Date 对象 或 数字（天数））
+			if (opts.expires) {
+				var expiresDate;
+				if (_.isDate(opts.expires)) {
+					expiresDate = opts.expires;
+				} else if (_.isNumber(opts.expires)) {
+					expiresDate = new Date();
+					expiresDate.setTime(expiresDate.getTime() + opts.expires * 24 * 60 * 60 * 1000);
+				}
+				if (expiresDate) {
+					cookieStr += "; expires=" + expiresDate.toUTCString();
+				}
+			}
+
+			// 拼接路径（确保 Cookie 生效范围，默认根路径避免局部不可用）
+			if (opts.path) {
+				cookieStr += "; path=" + opts.path;
+			}
+
+			// 拼接域名
+			if (opts.domain) {
+				cookieStr += "; domain=" + opts.domain;
+			}
+
+			// 拼接安全传输（仅 HTTPS 环境有效）
+			if (opts.secure) {
+				cookieStr += "; secure";
+			}
+
+			// 拼接 SameSite 策略（防止 CSRF 攻击，兼容现代浏览器）
+			if (opts.sameSite) {
+				cookieStr += "; SameSite=" + opts.sameSite;
+			}
+
+			// 执行 upsert：document.cookie 赋值特性天然支持「存在更新，不存在插入」
+			document.cookie = cookieStr;
+			return value; // 返回设置的值
+		}
+
+		// 3. 只有第一个参数时，执行 get 操作
+		// 获取所有 Cookie 并处理：使用 _.trim 去除首尾空格，避免分割异常
+		var allCookies = _.trim(document.cookie);
+		if (_.isEmpty(allCookies)) {
+			return null; // 无 Cookie 时返回 null
+		}
+
+		// 分割 Cookie 数组：按 "; " 分割（兼容标准格式）
+		var cookieArr = allCookies.split("; ");
+
+		// 遍历查找目标 Cookie：使用 _.find 简化遍历逻辑，更简洁
+		var targetCookie = _.find(cookieArr, function (cookieItem) {
+			// 分割 Cookie 名称和值（按第一个 "=" 分割，避免值中包含 "=" 的异常）
+			var cookiePair = cookieItem.split("=");
+			var cookieKey = _.trim(decodeURIComponent(cookiePair[0]));
+			// 匹配 Cookie 名称（忽略首尾空格，兼容潜在的格式不规范）
+			return cookieKey === _.trim(name);
+		});
+
+		// 解析并返回 Cookie 值：未找到返回 null，找到则解码后返回
+		if (_.isUndefined(targetCookie)) {
+			return null;
+		}
+		var cookieValue = targetCookie.split("=").slice(1).join("=");
+		return decodeURIComponent(_.trim(cookieValue));
+	};
 	_.$lStorage = new Proxy(localStorage, {
 		set(_localStorage, prop, value) {
 			// 跳过事件方法的设置
@@ -1339,7 +1454,10 @@
 	 */
 	/* @typescriptDeclare (value:any, options:any, defaultValue?: any)=>string */
 	_.$val2L = (value, options, defaultValue = "") => {
-		const item = _.find(options, item => String(item.value) === String(value));
+		const item = _.find(
+			options,
+			item => String(item.value).toLowerCase() === String(value).toLowerCase()
+		);
 		if (item) {
 			return item.label;
 		} else {
