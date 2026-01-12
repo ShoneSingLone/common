@@ -1,6 +1,7 @@
 <script lang="ts">
 export default async function ({ PRIVATE_GLOBAL }) {
 	const _reg = await _.$importVue("/common/utils/regexp.vue");
+	debugger;
 	if (!PRIVATE_GLOBAL._rules) {
 		let _rules = {
 			_reg,
