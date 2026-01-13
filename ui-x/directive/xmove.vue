@@ -1,9 +1,9 @@
 <script lang="ts">
 export default async function () {
-	const xMoveClassName = "data-xmove";
+	const X_MOVE_CLASS_NAME = "data-xmove";
 	const { xLayerTools } = await _.$importVue("/common/libs/layer/xLayer.vue");
 
-	_.$single.body.on(`mousedown.${xMoveClassName}`, `.${xMoveClassName}`, function (event) {
+	_.$single.body.on(`mousedown.${X_MOVE_CLASS_NAME}`, `.${X_MOVE_CLASS_NAME}`, function (event) {
 		const $ele = $(this);
 		_.$single.mask.show();
 		const clickInfo = _.$getLeftTopFromAbsolute($ele);
@@ -15,19 +15,19 @@ export default async function () {
 		clickInfo.translateX = left;
 		clickInfo.translateY = top;
 
-		const id = $ele.attr(xMoveClassName);
-		const value = MOVE_ITEM_BINDING[id];
+		const id = $ele.attr(X_MOVE_CLASS_NAME);
+		const xMoveConfigs = MOVE_ITEM_BINDING[id];
 
-		if (_.$val(value, "onStart")) {
-			value.onStart({
+		if (_.$val(xMoveConfigs, "onStart")) {
+			xMoveConfigs.onStart({
 				$ele,
 				clickInfo,
 				clickEvent: event
 			});
 		}
-		if (_.$val(value, "onMoving")) {
+		if (_.$val(xMoveConfigs, "onMoving")) {
 			xLayerTools.onMoving = movingEvent => {
-				value.onMoving({
+				xMoveConfigs.onMoving({
 					$ele,
 					clickInfo,
 					clickEvent: event,
@@ -46,14 +46,14 @@ export default async function () {
 					const $ele = $(el);
 					const id = _.$genId("xmove");
 					MOVE_ITEM_BINDING[id] = binding.value;
-					$ele.addClass(xMoveClassName);
-					$ele.attr(xMoveClassName, id);
+					$ele.addClass(X_MOVE_CLASS_NAME);
+					$ele.attr(X_MOVE_CLASS_NAME, id);
 				}
 			}
 		},
 		unbind(el) {
 			const $ele = $(el);
-			const id = $ele.attr(xMoveClassName);
+			const id = $ele.attr(X_MOVE_CLASS_NAME);
 			delete MOVE_ITEM_BINDING[id];
 		}
 	});

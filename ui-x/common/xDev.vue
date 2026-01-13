@@ -20,7 +20,6 @@ export default async function () {
 
 			// 折叠/展开切换
 			const toggleCollapse = () => {
-				debugger;
 				isCollapsed.value = !isCollapsed.value;
 			};
 
@@ -102,9 +101,7 @@ export default async function () {
 						h(
 							"div",
 							{
-								staticClass: "x-dev-header",
-								// 使用v-xmove指令实现拖动，只应用在标题栏上
-								directives: [{ name: "xmove", value: moveOptions }]
+								staticClass: "x-dev-header"
 							},
 							[
 								// 折叠/展开按钮
