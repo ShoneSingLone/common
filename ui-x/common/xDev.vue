@@ -79,13 +79,13 @@ export default async function () {
 			// 组件销毁时清理资源
 			onUnmounted(() => {
 				// 清理DOM元素
-				if (rootRef.value) {
+				if (this.$el) {
 					// 移除组件元素
-					if (rootRef.value.parentNode) {
-						rootRef.value.parentNode.removeChild(rootRef.value);
+					if (this.$el.parentNode) {
+						this.$el.parentNode.removeChild(this.$el);
 					}
 					// 清空引用
-					rootRef.value = null;
+					this.$el = null;
 				}
 			});
 
