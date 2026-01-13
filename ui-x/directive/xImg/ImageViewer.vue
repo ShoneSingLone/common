@@ -86,7 +86,7 @@
 </template>
 <script lang="ts">
 export default async function () {
-	const isMobile = /Mobile/gi.test(window.navigator.userAgent)
+	const isMobile = /Mobile/gi.test(window.navigator.userAgent);
 
 	let prevOverflow = "";
 
@@ -174,7 +174,7 @@ export default async function () {
 					"margin-top": `${offsetY}px`
 				};
 				if (this.mode === Mode.CONTAIN) {
-					style.maxWidth = style.maxHeight = isMobile?"100%":"80%";
+					style.maxWidth = style.maxHeight = isMobile ? "100%" : "80%";
 				}
 				return style;
 			}
@@ -346,44 +346,44 @@ export default async function () {
 			},
 			// 触摸结束事件处理
 			handleTouchEnd(e) {
-					// 检测双击
-					const now = Date.now();
-					const lastTap = this.touchState.lastTap;
-					this.touchState.lastTap = now;
-					
-					if (now - lastTap < 300 && now - lastTap > 0) {
-						// 双击事件
-						this.handleDoubleClick();
-					}
-					
-					// 重置触摸状态
-					this.touchState.isDragging = false;
-					this.touchState.isPinching = false;
-					e.preventDefault();
-				},
+				// 检测双击
+				const now = Date.now();
+				const lastTap = this.touchState.lastTap;
+				this.touchState.lastTap = now;
+
+				if (now - lastTap < 300 && now - lastTap > 0) {
+					// 双击事件
+					this.handleDoubleClick();
+				}
+
+				// 重置触摸状态
+				this.touchState.isDragging = false;
+				this.touchState.isPinching = false;
+				e.preventDefault();
+			},
 			handleMaskClick() {
-					// 在移动端，只能通过关闭按钮关闭弹窗，点击背景不关闭
-					const isMobile = window.innerWidth <= 768;
-					if (this.maskClosable && !isMobile) {
-						this.hide();
-					}
-				},
-				// 处理双击事件
-				handleDoubleClick() {
-					if (this.loading) return;
-					this.stopAutoPlay();
-					
-					// 在移动端，允许双击切换模式
-					const isMobile = window.innerWidth <= 768;
-					if (isMobile) {
-						const modeNames = Object.keys(Mode);
-						const modeValues = Object.values(Mode);
-						const index = modeValues.indexOf(this.mode);
-						const nextIndex = (index + 1) % modeNames.length;
-						this.mode = Mode[modeNames[nextIndex]];
-						this.reset();
-					}
-				},
+				// 在移动端，只能通过关闭按钮关闭弹窗，点击背景不关闭
+				const isMobile = window.innerWidth <= 768;
+				if (this.maskClosable && !isMobile) {
+					this.hide();
+				}
+			},
+			// 处理双击事件
+			handleDoubleClick() {
+				if (this.loading) return;
+				this.stopAutoPlay();
+
+				// 在移动端，允许双击切换模式
+				const isMobile = window.innerWidth <= 768;
+				if (isMobile) {
+					const modeNames = Object.keys(Mode);
+					const modeValues = Object.values(Mode);
+					const index = modeValues.indexOf(this.mode);
+					const nextIndex = (index + 1) % modeNames.length;
+					this.mode = Mode[modeNames[nextIndex]];
+					this.reset();
+				}
+			},
 			reset() {
 				this.transform = {
 					scale: 1,
