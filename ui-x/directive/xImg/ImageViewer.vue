@@ -66,6 +66,7 @@
 			<!-- CANVAS -->
 			<div class="el-image-viewer__canvas">
 				<img
+					v-xloading="loading"
 					ref="img"
 					class="el-image-viewer__img"
 					:src="currentImg"
@@ -76,6 +77,8 @@
 					@touchstart="handleTouchStart"
 					@touchmove="handleTouchMove"
 					@touchend="handleTouchEnd" />
+				<!-- 图片加载时的毛玻璃效果 -->
+				<!-- <div class="el-image-viewer__img-blur" v-if="loading"></div> -->
 			</div>
 		</div>
 	</transition>
@@ -492,5 +495,26 @@ export default async function () {
 	.speed-text {
 		-size: var(--ui--size, 16px);
 	}
+}
+
+/* 图片加载时的毛玻璃效果 */
+.el-image-viewer__canvas {
+	position: relative;
+}
+
+.el-image-viewer__img-blur {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	width: 100%;
+	height: 100%;
+	background: rgba(255, 255, 255, 0.3);
+	backdrop-filter: blur(20px);
+	border-radius: 12px;
+	z-index: 10;
+	box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+	border: 1px solid rgba(255, 255, 255, 0.2);
+	transition: all 0.3s ease;
 }
 </style>
