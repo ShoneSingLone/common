@@ -82,6 +82,8 @@
 </template>
 <script lang="ts">
 export default async function () {
+	const isMobile = /Mobile/gi.test(window.navigator.userAgent)
+
 	let prevOverflow = "";
 
 	const KEY_DOWN = "keydown.xImgVue";
@@ -166,7 +168,7 @@ export default async function () {
 					"margin-top": `${offsetY}px`
 				};
 				if (this.mode === Mode.CONTAIN) {
-					style.maxWidth = style.maxHeight = "80%";
+					style.maxWidth = style.maxHeight = isMobile?"100%":"80%";
 				}
 				return style;
 			}
@@ -344,10 +346,11 @@ export default async function () {
 				e.preventDefault();
 			},
 			handleMaskClick() {
-				if (this.maskClosable) {
-					this.hide();
-				}
-			},
+					// 在移动端，只能通过关闭按钮关闭弹窗，点击背景不关闭
+					if (this.maskClosable && !isMobile) {
+						this.hide();
+					}
+				},
 			reset() {
 				this.transform = {
 					scale: 1,
