@@ -2624,29 +2624,29 @@ ${callerInfo.message}:`);
 									})();
 
 									if (!ignore) {
-										await _.$ensure(
-											() => xItemFormConfigs[prop]?.options?.length
-										);
-
-										if (_.isUndefined(value)) {
-											if (options.FIRST_OPTION_AS_VALUE) {
-												try {
-													value = _.first(
-														xItemFormConfigs[prop].options
-													).value;
-												} catch (ensureError) {
-													console.error(
-														`$xItemsValue: Await处理超时或失败 for prop '${prop}'`,
-														ensureError
-													);
-													console.error(
-														`属性配置:`,
-														xItemFormConfigs[prop]
-													);
-													console.error(`选项:`, options);
-													throw ensureError;
-												}
+										if (options.FIRST_OPTION_AS_VALUE && _.isUndefined(value)) {
+											await _.$ensure(
+												() => xItemFormConfigs[prop]?.options?.length
+											);
+											try {
+												value = _.first(
+													xItemFormConfigs[prop].options
+												).value;
+											} catch (ensureError) {
+												console.error(
+													`$xItemsValue: Await处理超时或失败 for prop '${prop}'`,
+													ensureError
+												);
+												console.error(`属性配置:`, xItemFormConfigs[prop]);
+												console.error(`选项:`, options);
+												throw ensureError;
 											}
+										}
+
+										if (_.$isInput(value)) {
+											await _.$ensure(
+												() => xItemFormConfigs[prop]?.options?.length
+											);
 										}
 									}
 								}

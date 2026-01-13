@@ -34,53 +34,84 @@ export default async function () {
 			const startDrag = e => {
 				// 确保只在左键拖动时生效
 				if (e.button !== 0) return;
-				isDragging.value = true;
-				startX = e.clientX - position.value.x;
-				startY = e.clientY - position.value.y;
+
+				// 阻止默认行为，避免文本选择等干扰
 				e.preventDefault();
-				// 添加全局事件监听
-				document.addEventListener("mousemove", onDrag);
-				document.addEventListener("mouseup", endDrag);
-			};
+				e.stopPropagation();
 
-			const onDrag = e => {
-				if (isDragging.value) {
+				// 设置拖动状态和初始位置
+				isDragging.value = true;
+				startX = e.clientX;
+				startY = e.clientY;
+				// 记录初始位置
+				const initialX = position.value.x;
+				const initialY = position.value.y;
+
+				// 创建拖动过程中的鼠标移动事件处理函数
+				const handleMouseMove = moveEvent => {
+					moveEvent.preventDefault();
+					moveEvent.stopPropagation();
+
 					// 计算新位置
-					const newX = e.clientX - startX;
-					const newY = e.clientY - startY;
+					const deltaX = moveEvent.clientX - startX;
+					const deltaY = moveEvent.clientY - startY;
+
 					// 更新位置
-					position.value.x = newX;
-					position.value.y = newY;
-				}
+					position.value.x = initialX + deltaX;
+					position.value.y = initialY + deltaY;
+				};
+
+				// 创建拖动结束的鼠标释放事件处理函数
+				const handleMouseUp = upEvent => {
+					upEvent.preventDefault();
+					upEvent.stopPropagation();
+
+					// 移除事件监听
+					document.removeEventListener("mousemove", handleMouseMove);
+					document.removeEventListener("mouseup", handleMouseUp);
+
+					// 重置拖动状态
+					isDragging.value = false;
+				};
+
+				// 添加临时事件监听
+				document.addEventListener("mousemove", handleMouseMove);
+				document.addEventListener("mouseup", handleMouseUp);
 			};
 
-			const endDrag = () => {
-				isDragging.value = false;
-				// 移除全局事件监听
-				document.removeEventListener("mousemove", onDrag);
-				document.removeEventListener("mouseup", endDrag);
-			};
+			// 组件根元素引用
+			const rootRef = ref(null);
 
-			// 拖动事件监听已在startDrag/endDrag中处理，onUnmounted中无需额外处理
-			onUnmounted(() => {});
+			// 组件挂载时处理DOM
+			onMounted(() => {
+				// 确保组件在body中
+				nextTick(() => {
+					if (rootRef.value && rootRef.value.parentNode !== document.body) {
+						// 将组件移到body中
+						document.body.appendChild(rootRef.value);
+					}
+				});
+			});
 
 			return function () {
 				return h(
 					"div",
 					{
 						staticClass: "x-dev-component",
+						ref: rootRef,
 						style: {
-							position: "absolute",
+							position: "fixed",
 							left: `${position.value.x}px`,
 							top: `${position.value.y}px`,
-							zIndex: 1000,
+							zIndex: 9999,
 							background: "#ffffff",
 							borderRadius: "4px",
 							boxShadow: "0 2px 12px rgba(0, 0, 0, 0.15)",
 							width: "300px",
 							fontFamily: "Monaco, Menlo, Consolas, Courier New, monospace",
 							fontSize: "12px",
-							transition: "all 0.3s ease"
+							transition: "all 0.3s ease",
+							pointerEvents: "auto"
 						}
 					},
 					[
