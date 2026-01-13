@@ -74,6 +74,7 @@
 					@load="handleImgLoad"
 					@error="handleImgError"
 					@mousedown="handleMouseDown"
+					@dblclick="handleDoubleClick"
 					@touchstart="handleTouchStart"
 					@touchmove="handleTouchMove"
 					@touchend="handleTouchEnd" />
@@ -141,7 +142,9 @@ export default async function () {
 					// 双指缩放相关
 					isPinching: false,
 					startDistance: 0,
-					startScale: 1
+					startScale: 1,
+					// 双击检测相关
+					lastTap: 0
 				},
 				// 幻灯片相关状态
 				isAutoPlay: false,
@@ -343,15 +346,42 @@ export default async function () {
 			},
 			// 触摸结束事件处理
 			handleTouchEnd(e) {
-				// 重置触摸状态
-				this.touchState.isDragging = false;
-				this.touchState.isPinching = false;
-				e.preventDefault();
-			},
+					// 检测双击
+					const now = Date.now();
+					const lastTap = this.touchState.lastTap;
+					this.touchState.lastTap = now;
+					
+					if (now - lastTap < 300 && now - lastTap > 0) {
+						// 双击事件
+						this.handleDoubleClick();
+					}
+					
+					// 重置触摸状态
+					this.touchState.isDragging = false;
+					this.touchState.isPinching = false;
+					e.preventDefault();
+				},
 			handleMaskClick() {
 					// 在移动端，只能通过关闭按钮关闭弹窗，点击背景不关闭
+					const isMobile = window.innerWidth <= 768;
 					if (this.maskClosable && !isMobile) {
 						this.hide();
+					}
+				},
+				// 处理双击事件
+				handleDoubleClick() {
+					if (this.loading) return;
+					this.stopAutoPlay();
+					
+					// 在移动端，允许双击切换模式
+					const isMobile = window.innerWidth <= 768;
+					if (isMobile) {
+						const modeNames = Object.keys(Mode);
+						const modeValues = Object.values(Mode);
+						const index = modeValues.indexOf(this.mode);
+						const nextIndex = (index + 1) % modeNames.length;
+						this.mode = Mode[modeNames[nextIndex]];
+						this.reset();
 					}
 				},
 			reset() {
