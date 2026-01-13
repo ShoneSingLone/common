@@ -34,20 +34,27 @@ export default async function () {
 				x: 0,
 				y: 0,
 				onStart({ $ele, clickInfo, clickEvent }) {
+					// 检查点击目标，如果是按钮则不执行拖动
+					if (
+						clickEvent.target.tagName === "BUTTON" ||
+						clickEvent.target.closest("button")
+					) {
+						// 是按钮点击，不执行拖动逻辑
+						return false;
+					}
 					// 记录初始位置
-					this.x = clickInfo.left;
-					this.y = clickInfo.top;
+					this.x = position.x;
+					this.y = position.y;
 					// 阻止默认行为
-					// clickEvent.preventDefault();
-					// clickEvent.stopPropagation();
+					clickEvent.preventDefault();
 				},
-				onMoving: _.throttle(function ({ $ele, clickInfo, clickEvent, movingEvent }) {
+				onMoving: _.throttle(function ({ clickEvent, movingEvent }) {
 					// 计算新位置
 					const deltaX = movingEvent.clientX - clickEvent.clientX;
 					const deltaY = movingEvent.clientY - clickEvent.clientY;
-					// 更新位置
-
-					$ele.css({ left: `${this.x + deltaX}px`, top: `${this.y + deltaY}px` });
+					// 更新响应式状态
+					position.x = this.x + deltaX;
+					position.y = this.y + deltaY;
 				}, 70)
 			};
 
@@ -75,27 +82,20 @@ export default async function () {
 				}
 			});
 
+			// 位置状态用于拖动
+			const position = reactive({ x: 20, y: 20 });
+
 			return function () {
 				return h(
 					"div",
 					{
 						staticClass: "x-dev-component",
 						ref: rootRef,
+						// 只保留动态变化的位置样式
 						style: {
-							position: "fixed",
-							left: `20px`,
-							top: `20px`,
-							zIndex: 9999,
-							background: "#ffffff",
-							borderRadius: "4px",
-							boxShadow: "0 2px 12px rgba(0, 0, 0, 0.15)",
-							width: "300px",
-							fontFamily: "Monaco, Menlo, Consolas, Courier New, monospace",
-							fontSize: "12px",
-							transition: "all 0.3s ease",
-							pointerEvents: "auto"
-						}, // 使用v-xmove指令实现拖动
-						directives: [{ name: "xmove", value: moveOptions }]
+							left: `${position.x}px`,
+							top: `${position.y}px`
+						}
 					},
 					[
 						// 标题栏 - 可拖动和折叠控制
@@ -103,17 +103,8 @@ export default async function () {
 							"div",
 							{
 								staticClass: "x-dev-header",
-								style: {
-									padding: "8px 12px",
-									background: "#f5f7fa",
-									borderBottom: "1px solid #e4e7ed",
-									display: "flex",
-									justifyContent: "space-between",
-									alignItems: "center",
-									cursor: "move",
-									borderRadius: "4px 4px 0 0",
-									userSelect: "none"
-								}
+								// 使用v-xmove指令实现拖动，只应用在标题栏上
+								directives: [{ name: "xmove", value: moveOptions }]
 							},
 							[
 								// 折叠/展开按钮
@@ -121,15 +112,6 @@ export default async function () {
 									"button",
 									{
 										staticClass: "x-dev-toggle-btn",
-										style: {
-											background: "none",
-											border: "none",
-											cursor: "pointer",
-											fontSize: "14px",
-											padding: "0 4px",
-											color: "#606266",
-											transition: "color 0.2s"
-										},
 										onClick: toggleCollapse
 									},
 									isCollapsed.value ? "▶" : "▼"
@@ -144,7 +126,9 @@ export default async function () {
 											color: "#303133",
 											flex: 1,
 											marginLeft: "8px"
-										}
+										},
+										// 使用v-xmove指令实现拖动，只应用在标题栏上
+										directives: [{ name: "xmove", value: moveOptions }]
 									},
 									"Debug Info"
 								),
@@ -153,16 +137,6 @@ export default async function () {
 									"button",
 									{
 										staticClass: "x-dev-close-btn",
-										style: {
-											background: "none",
-											border: "none",
-											cursor: "pointer",
-											fontSize: "16px",
-											padding: "0 4px",
-											color: "#909399",
-											lineHeight: "1",
-											transition: "color 0.2s"
-										},
 										onClick: closeComponent
 									},
 									"×"
@@ -174,40 +148,12 @@ export default async function () {
 							"div",
 							{
 								staticClass: "x-dev-content",
+								// 只保留动态变化的样式
 								style: {
-									display: isCollapsed.value ? "none" : "block",
-									maxHeight: "400px",
-									overflow: "auto",
-									transition: "all 0.3s ease"
+									display: isCollapsed.value ? "none" : "block"
 								}
 							},
-							[
-								h(
-									"pre",
-									{
-										style: {
-											margin: 0,
-											padding: "12px",
-											background: "#fafafa",
-											color: "#303133",
-											lineHeight: "1.5",
-											overflowX: "auto"
-										}
-									},
-									[
-										h(
-											"code",
-											{
-												style: {
-													color: "#303133",
-													wordBreak: "break-all"
-												}
-											},
-											[contents.value]
-										)
-									]
-								)
-							]
+							[h("pre", {}, [h("code", {}, [contents.value])])]
 						)
 					]
 				);
@@ -216,3 +162,84 @@ export default async function () {
 	});
 }
 </script>
+
+<style scoped>
+.x-dev-component {
+	position: fixed;
+	z-index: 9999;
+	background: #ffffff;
+	border-radius: 4px;
+	box-shadow: 0 2px 12px rgba(0, 0, 0, 0.15);
+	width: 300px;
+	font-family:
+		Monaco,
+		Menlo,
+		Consolas,
+		Courier New,
+		monospace;
+	font-size: 12px;
+	transition: all 0.3s ease;
+	pointer-events: auto;
+}
+
+.x-dev-header {
+	padding: 8px 12px;
+	background: #f5f7fa;
+	border-bottom: 1px solid #e4e7ed;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	cursor: move;
+	border-radius: 4px 4px 0 0;
+	user-select: none;
+}
+
+.x-dev-toggle-btn {
+	background: none;
+	border: none;
+	cursor: pointer;
+	font-size: 14px;
+	padding: 0 4px;
+	color: #606266;
+	transition: color 0.2s;
+}
+
+.x-dev-toggle-btn:hover {
+	color: #409eff;
+}
+
+.x-dev-close-btn {
+	background: none;
+	border: none;
+	cursor: pointer;
+	font-size: 16px;
+	padding: 0 4px;
+	color: #909399;
+	line-height: 1;
+	transition: color 0.2s;
+}
+
+.x-dev-close-btn:hover {
+	color: #f56c6c;
+}
+
+.x-dev-content {
+	overflow: auto;
+	transition: all 0.3s ease;
+	max-height: 400px;
+}
+
+.x-dev-content pre {
+	margin: 0;
+	padding: 12px;
+	background: #fafafa;
+	color: #303133;
+	line-height: 1.5;
+	overflow-x: auto;
+}
+
+.x-dev-content code {
+	color: #303133;
+	word-break: break-all;
+}
+</style>
