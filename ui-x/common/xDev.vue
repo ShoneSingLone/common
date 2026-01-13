@@ -1,5 +1,6 @@
 <script>
 export default async function () {
+	const [PopupManager] = await _.$importVue(["/common/libs/VuePopper/popupManager.vue"]);
 	return defineComponent({
 		props: ["contents"],
 		setup(props, { emit }) {
@@ -20,6 +21,8 @@ export default async function () {
 
 			// 折叠/展开切换
 			const toggleCollapse = () => {
+				// 点击时更新zIndex，保持置顶
+				rootRef.value.style.zIndex = PopupManager.nextZIndex();
 				isCollapsed.value = !isCollapsed.value;
 			};
 
@@ -41,6 +44,9 @@ export default async function () {
 						// 是按钮点击，不执行拖动逻辑
 						return false;
 					}
+					// 拖动时更新zIndex，保持置顶
+
+					rootRef.value.style.zIndex = PopupManager.nextZIndex();
 					// 记录初始位置
 					this.x = position.x;
 					this.y = position.y;
@@ -65,6 +71,8 @@ export default async function () {
 						// 将组件移到body中
 						document.body.appendChild(rootRef.value);
 					}
+					// 初始化zIndex
+					rootRef.value.style.zIndex = PopupManager.nextZIndex();
 				});
 			});
 
@@ -94,6 +102,10 @@ export default async function () {
 						style: {
 							left: `${position.x}px`,
 							top: `${position.y}px`
+						},
+						// 点击组件时更新zIndex，保持置顶
+						onClick() {
+							rootRef.value.style.zIndex = PopupManager.nextZIndex();
 						}
 					},
 					[
