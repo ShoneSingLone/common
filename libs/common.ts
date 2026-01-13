@@ -16,6 +16,24 @@
 	});
 
 	/**
+	 * 获取数组中所有相同字符串的对应索引（全部分组）
+	 * @param {Array} arr 原数组(字符串数组)
+	 * @returns {Object} 键=字符串，值=该字符串所有索引组成的数组
+	 */
+	_.$findSameStrIndex = function findSameStrIndex(arr = []) {
+		const indexMap = {};
+		arr.forEach((item, index) => {
+			// 如果当前字符串已存在，则追加索引；否则初始化数组存入第一个索引
+			if (indexMap[item]) {
+				indexMap[item].push(index);
+			} else {
+				indexMap[item] = [index];
+			}
+		});
+		return indexMap;
+	};
+
+	/**
 	 * 节流打印
 	 * @param {Number} count
 	 * @param {Object} callerInfo

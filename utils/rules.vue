@@ -385,8 +385,8 @@ export default async function ({ PRIVATE_GLOBAL }) {
 				return {
 					name: "inetUrl",
 					async validator({ val }) {
-						let ipAddress = new RegExp("[a-zA-z]+://[^\\s]*");
-						if (ipAddress.test(val)) {
+						let UrlFormat = new RegExp("[a-zA-z]+://[^\\s]*");
+						if (UrlFormat.test(val)) {
 							return "";
 						}
 						return msg;
@@ -450,7 +450,7 @@ export default async function ({ PRIVATE_GLOBAL }) {
 					trigger: ["change", "input", "blur"]
 				};
 			},
-			ipAddress(msg = i18n("ruleEnterValidIPAddress")) {
+			ipAddress(msg = i18n("enter_ip_address")) {
 				return {
 					name: "ipAddress",
 					async validator({ val: value }) {
