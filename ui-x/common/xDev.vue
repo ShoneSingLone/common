@@ -3,13 +3,11 @@ export default async function () {
 	return defineComponent({
 		props: ["contents"],
 		setup(props, { emit }) {
+			// 组件根元素引用
+			const rootRef = ref(null);
+
 			// 可折叠状态 - 默认折叠
 			const isCollapsed = ref(true);
-			// 位置状态用于拖动
-			const position = ref({ x: 20, y: 20 });
-			const isDragging = ref(false);
-			let startX = 0;
-			let startY = 0;
 
 			const contents = computed(() => {
 				try {
@@ -22,6 +20,7 @@ export default async function () {
 
 			// 折叠/展开切换
 			const toggleCollapse = () => {
+				debugger;
 				isCollapsed.value = !isCollapsed.value;
 			};
 
@@ -30,57 +29,27 @@ export default async function () {
 				emit("close");
 			};
 
-			// 拖动相关事件
-			const startDrag = e => {
-				// 确保只在左键拖动时生效
-				if (e.button !== 0) return;
-
-				// 阻止默认行为，避免文本选择等干扰
-				e.preventDefault();
-				e.stopPropagation();
-
-				// 设置拖动状态和初始位置
-				isDragging.value = true;
-				startX = e.clientX;
-				startY = e.clientY;
-				// 记录初始位置
-				const initialX = position.value.x;
-				const initialY = position.value.y;
-
-				// 创建拖动过程中的鼠标移动事件处理函数
-				const handleMouseMove = moveEvent => {
-					moveEvent.preventDefault();
-					moveEvent.stopPropagation();
-
+			// v-xmove 配置选项
+			const moveOptions = {
+				x: 0,
+				y: 0,
+				onStart({ $ele, clickInfo, clickEvent }) {
+					// 记录初始位置
+					this.x = clickInfo.left;
+					this.y = clickInfo.top;
+					// 阻止默认行为
+					// clickEvent.preventDefault();
+					// clickEvent.stopPropagation();
+				},
+				onMoving: _.throttle(function ({ $ele, clickInfo, clickEvent, movingEvent }) {
 					// 计算新位置
-					const deltaX = moveEvent.clientX - startX;
-					const deltaY = moveEvent.clientY - startY;
-
+					const deltaX = movingEvent.clientX - clickEvent.clientX;
+					const deltaY = movingEvent.clientY - clickEvent.clientY;
 					// 更新位置
-					position.value.x = initialX + deltaX;
-					position.value.y = initialY + deltaY;
-				};
 
-				// 创建拖动结束的鼠标释放事件处理函数
-				const handleMouseUp = upEvent => {
-					upEvent.preventDefault();
-					upEvent.stopPropagation();
-
-					// 移除事件监听
-					document.removeEventListener("mousemove", handleMouseMove);
-					document.removeEventListener("mouseup", handleMouseUp);
-
-					// 重置拖动状态
-					isDragging.value = false;
-				};
-
-				// 添加临时事件监听
-				document.addEventListener("mousemove", handleMouseMove);
-				document.addEventListener("mouseup", handleMouseUp);
+					$ele.css({ left: `${this.x + deltaX}px`, top: `${this.y + deltaY}px` });
+				}, 70)
 			};
-
-			// 组件根元素引用
-			const rootRef = ref(null);
 
 			// 组件挂载时处理DOM
 			onMounted(() => {
@@ -93,6 +62,19 @@ export default async function () {
 				});
 			});
 
+			// 组件销毁时清理资源
+			onUnmounted(() => {
+				// 清理DOM元素
+				if (rootRef.value) {
+					// 移除组件元素
+					if (rootRef.value.parentNode) {
+						rootRef.value.parentNode.removeChild(rootRef.value);
+					}
+					// 清空引用
+					rootRef.value = null;
+				}
+			});
+
 			return function () {
 				return h(
 					"div",
@@ -101,8 +83,8 @@ export default async function () {
 						ref: rootRef,
 						style: {
 							position: "fixed",
-							left: `${position.value.x}px`,
-							top: `${position.value.y}px`,
+							left: `20px`,
+							top: `20px`,
 							zIndex: 9999,
 							background: "#ffffff",
 							borderRadius: "4px",
@@ -112,7 +94,8 @@ export default async function () {
 							fontSize: "12px",
 							transition: "all 0.3s ease",
 							pointerEvents: "auto"
-						}
+						}, // 使用v-xmove指令实现拖动
+						directives: [{ name: "xmove", value: moveOptions }]
 					},
 					[
 						// 标题栏 - 可拖动和折叠控制
@@ -130,10 +113,6 @@ export default async function () {
 									cursor: "move",
 									borderRadius: "4px 4px 0 0",
 									userSelect: "none"
-								},
-								// 修复拖动事件，确保在标题栏按下时触发
-								onMouseDown: e => {
-									startDrag(e);
 								}
 							},
 							[
@@ -151,13 +130,7 @@ export default async function () {
 											color: "#606266",
 											transition: "color 0.2s"
 										},
-										onClick: toggleCollapse,
-										onMouseEnter: e => {
-											e.target.style.color = "#409eff";
-										},
-										onMouseLeave: e => {
-											e.target.style.color = "#606266";
-										}
+										onClick: toggleCollapse
 									},
 									isCollapsed.value ? "▶" : "▼"
 								),
@@ -190,13 +163,7 @@ export default async function () {
 											lineHeight: "1",
 											transition: "color 0.2s"
 										},
-										onClick: closeComponent,
-										onMouseEnter: e => {
-											e.target.style.color = "#f56c6c";
-										},
-										onMouseLeave: e => {
-											e.target.style.color = "#909399";
-										}
+										onClick: closeComponent
 									},
 									"×"
 								)
