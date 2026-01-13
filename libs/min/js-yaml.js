@@ -903,6 +903,7 @@
 			for (
 				e.kind = "scalar", e.result = "", e.position++, n = i = e.position;
 				0 !== (c = e.input.charCodeAt(e.position));
+
 			) {
 				if (34 === c) return (x(e, n, e.position, !0), e.position++, 1);
 				if (92 === c) {
@@ -957,6 +958,7 @@
 				C(e, "tab characters must not be used in indentation")),
 			45 === i) &&
 			k(e.input.charCodeAt(e.position + 1));
+
 		)
 			if (((l = !0), e.position++, S(e, !0, -1) && e.lineIndent <= t))
 				(a.push(null), (i = e.input.charCodeAt(e.position)));
@@ -1072,6 +1074,7 @@
 								n = e.input.charCodeAt(++e.position),
 								t = e.position;
 							0 !== n && !k(n) && !w(n);
+
 						)
 							n = e.input.charCodeAt(++e.position);
 						return (
@@ -1082,6 +1085,7 @@
 						);
 					}
 				})(e);
+
 			)
 				S(e, !0, -1)
 					? ((d = !0),
@@ -1122,6 +1126,7 @@
 											null !== e.anchor && (e.anchorMap[e.anchor] = f),
 												c = e.input.charCodeAt(e.position);
 											0 !== c;
+
 										) {
 											if (
 												(y ||
@@ -1243,6 +1248,7 @@
 								null !== e.anchor && (e.anchorMap[e.anchor] = o),
 									y = e.input.charCodeAt(++e.position);
 								0 !== y;
+
 							) {
 								if ((S(e, !0, t), (y = e.input.charCodeAt(e.position)) === a))
 									return (
@@ -1338,6 +1344,7 @@
 												;
 												!y((p = e.input.charCodeAt(++e.position))) &&
 												0 !== p;
+
 											);
 									}
 									for (; 0 !== p; ) {
@@ -1346,6 +1353,7 @@
 												e.lineIndent = 0,
 												p = e.input.charCodeAt(e.position);
 											(!l || e.lineIndent < s) && 32 === p;
+
 										)
 											(e.lineIndent++,
 												(p = e.input.charCodeAt(++e.position)));
@@ -1377,6 +1385,7 @@
 													c = 0,
 													n = e.position;
 												!y(p) && 0 !== p;
+
 											)
 												p = e.input.charCodeAt(++e.position);
 											x(e, n, e.position, !1);
@@ -1395,6 +1404,7 @@
 											e.position++,
 											n = i = e.position;
 										0 !== (r = e.input.charCodeAt(e.position));
+
 									)
 										if (39 === r) {
 											if (
@@ -1430,6 +1440,7 @@
 													n = e.input.charCodeAt(++e.position),
 														t = e.position;
 													0 !== n && !k(n) && !w(n);
+
 												)
 													n = e.input.charCodeAt(++e.position);
 												return (
@@ -1489,6 +1500,7 @@
 														r = o = e.position,
 														a = !1;
 													0 !== f;
+
 												) {
 													if (58 === f) {
 														if (
@@ -1624,6 +1636,7 @@
 			-1 !== t && ((n.position = t), C(n, "null byte is not allowed in input")),
 				n.input += "\0";
 			32 === n.input.charCodeAt(n.position);
+
 		)
 			((n.lineIndent += 1), (n.position += 1));
 		for (; n.position < n.length - 1; ) {
@@ -1644,10 +1657,12 @@
 				(S(l, !0, -1),
 				(a = l.input.charCodeAt(l.position)),
 				!(0 < l.lineIndent || 37 !== a));
+
 			) {
 				for (
 					c = !0, a = l.input.charCodeAt(++l.position), i = l.position;
 					0 !== a && !k(a);
+
 				)
 					a = l.input.charCodeAt(++l.position);
 				for (
@@ -1655,6 +1670,7 @@
 						(r = l.input.slice(i, l.position)).length < 1 &&
 							C(l, "directive name must not be less than one character in length");
 					0 !== a;
+
 				) {
 					for (; v(a); ) a = l.input.charCodeAt(++l.position);
 					if (35 === a) {
@@ -1970,6 +1986,7 @@
 											})(),
 											o = "\n" === t[0] || " " === t[0];
 										(l = i.exec(t));
+
 									) {
 										var a = l[1],
 											l = l[2];

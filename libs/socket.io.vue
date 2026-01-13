@@ -8169,6 +8169,7 @@ export default async function ({
 																for (
 																	value = "@", Index++;
 																	Index < length;
+
 																) {
 																	charCode =
 																		source.charCodeAt(Index);
@@ -8566,6 +8567,7 @@ export default async function ({
 															for (
 																length = value.length;
 																length--;
+
 															) {
 																update(value, length, callback);
 															}

@@ -29,6 +29,7 @@
 		for (
 			i && ((i = i.substring(1)), (r = r.replace(/%.+$/, "")));
 			0 <= (n = r.indexOf(":", n + 1));
+
 		)
 			e++;
 		if (("::" === r.substr(0, 2) && e--, "::" === r.substr(-2, 2) && e--, e > t)) return null;
@@ -182,6 +183,7 @@
 						i = [],
 						e = 0;
 					e < 4;
+
 				)
 					(i.push(parseInt(n[e], 10) & parseInt(o[e], 10)), e++);
 				return new this(i);
@@ -423,6 +425,7 @@
 						i = [],
 						e = 0;
 					e < 16;
+
 				)
 					(i.push(parseInt(n[e], 10) & parseInt(o[e], 10)), e++);
 				return new this(i);

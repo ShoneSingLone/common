@@ -5075,8 +5075,8 @@
 								l(")"),
 								new k.URL(
 									null != e.value ||
-										e instanceof k.Variable ||
-										e instanceof k.Property
+									e instanceof k.Variable ||
+									e instanceof k.Property
 										? e
 										: new k.Anonymous(e, t),
 									t,
@@ -5203,6 +5203,7 @@
 							for (
 								t = n = null;
 								!(n = v.$re(/^(all)(?=\s*(\)|,))/)) && (i = this.element());
+
 							)
 								t ? t.push(i) : (t = [i]);
 						} while (
@@ -5253,6 +5254,7 @@
 								n,
 								r = /^[#.](?:[\w-]|\\(?:[A-Fa-f0-9]{1,6} ?|[^A-Fa-f0-9]))+/;
 							(n = v.i), (i = v.$re(r));
+
 						)
 							((i = new k.Element(t, i, !1, n, d)),
 								e ? e.push(i) : (e = [i]),
@@ -5459,6 +5461,7 @@
 					for (
 						v.i++, "^" === e && "^" === v.currentChar() && ((e = "^^"), v.i++);
 						v.isWhitespace();
+
 					)
 						v.i++;
 					return new k.Combinator(e);
@@ -5492,6 +5495,7 @@
 						";" !== n &&
 						"," !== n &&
 						")" !== n;
+
 					);
 					if (t) return new k.Selector(t, s, a, l, d);
 					s &&
@@ -5507,6 +5511,7 @@
 							1 < t.length &&
 							g("Guards are only currently allowed on a single selector."),
 						v.$char(","));
+
 					)
 						(e.condition &&
 							g("Guards are only currently allowed on a single selector."),
@@ -5716,6 +5721,7 @@
 											: g("badly formed media feature definition")
 									: g("Missing closing ')'", "Parse")),
 							e;
+
 					);
 					if ((v.forget(), 0 < n.length)) return new k.Expression(n);
 				},
@@ -6024,6 +6030,7 @@
 								v.peek(/^\/[\/*]/) ||
 									((t = v.$char("/")) && i.push(new k.Anonymous(t, n)))),
 							e;
+
 					);
 					if (0 < i.length) return new k.Expression(i);
 				},

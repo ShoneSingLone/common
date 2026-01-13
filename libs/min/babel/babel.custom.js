@@ -14520,6 +14520,7 @@ Expected ${n.length + 1} quasis but got ` + e.quasis.length
 												";"
 											) &&
 											n.start < t;
+
 										)
 											(r.token(";", void 0, s++), o++);
 									}
