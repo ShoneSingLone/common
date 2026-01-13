@@ -149,7 +149,9 @@ export default async function () {
 				// 幻灯片相关状态
 				isAutoPlay: false,
 				autoPlayInterval: 3000, // 默认3秒切换一次
-				autoPlayTimer: null
+				autoPlayTimer: null,
+				// 屏幕常亮相关
+				wakeLock: null
 			};
 		},
 		computed: {
@@ -458,26 +460,57 @@ export default async function () {
 				}
 			},
 			// 开始自动播放
-			startAutoPlay() {
-				if (this.urlList.length <= 1) return;
-				// 先清除之前的定时器，避免多个定时器同时运行
-				if (this.autoPlayTimer) {
-					clearInterval(this.autoPlayTimer);
-					this.autoPlayTimer = null;
-				}
-				this.isAutoPlay = true;
-				this.autoPlayTimer = setInterval(() => {
-					this.next(false);
-				}, this.autoPlayInterval);
-			},
-			// 停止自动播放
-			stopAutoPlay() {
-				this.isAutoPlay = false;
-				if (this.autoPlayTimer) {
-					clearInterval(this.autoPlayTimer);
-					this.autoPlayTimer = null;
-				}
-			},
+				startAutoPlay() {
+					if (this.urlList.length <= 1) return;
+					// 先清除之前的定时器，避免多个定时器同时运行
+					if (this.autoPlayTimer) {
+						clearInterval(this.autoPlayTimer);
+						this.autoPlayTimer = null;
+					}
+					this.isAutoPlay = true;
+					// 请求屏幕常亮
+					this.requestWakeLock();
+					this.autoPlayTimer = setInterval(() => {
+						this.next(false);
+					}, this.autoPlayInterval);
+				},
+				// 停止自动播放
+				stopAutoPlay() {
+					this.isAutoPlay = false;
+					if (this.autoPlayTimer) {
+						clearInterval(this.autoPlayTimer);
+						this.autoPlayTimer = null;
+					}
+					// 释放屏幕常亮
+					this.releaseWakeLock();
+				},
+				// 请求屏幕常亮
+				requestWakeLock() {
+					// 检查浏览器是否支持Wake Lock API
+					if ('wakeLock' in navigator) {
+						navigator.wakeLock.request('screen')
+							.then(lock => {
+								this.wakeLock = lock;
+								// 监听释放事件
+								lock.addEventListener('release', () => {
+									this.wakeLock = null;
+								});
+							})
+							.catch(err => {
+								// 请求失败，可能是用户拒绝或浏览器不支持
+								console.log('Wake Lock request failed:', err);
+							});
+					}
+				},
+				// 释放屏幕常亮
+				releaseWakeLock() {
+					if (this.wakeLock) {
+						this.wakeLock.release()
+							.then(() => {
+								this.wakeLock = null;
+							});
+					}
+				},
 			// 增加播放速度（减少间隔时间）
 			increaseSpeed() {
 				if (this.autoPlayInterval > 1000) {
