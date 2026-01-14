@@ -2598,11 +2598,13 @@ ${callerInfo.message}:`);
 		/**
 		 * 如果有下拉项，要等到下拉有数据再回填
 		 * 适用于xItem不使用v-mode，form的configs带有value form.xxx.value, {xxx:"value"}
-		 *
-		 * @param {any} xItemFormConfigs xItem 配置信息，config带有value属性
 		 * @param {any} values
 		 * @param {any} options
 		 * 1.FIRST_OPTION_AS_VALUE 如果values的值为undefined，默认取options第一个值
+		 * 批量设置 xItem 表单控件的值，支持异步等待下拉数据加载完成
+		 * @param xItemFormConfigs 表单配置对象,使用此函数，需要带有value属性
+		 * @param values 要设置的值对象
+		 * @param options.FIRST_OPTION_AS_VALUE 若值为 undefined 是否默认取第一项
 		 */
 		/* @typescriptDeclare (
 			xItemFormConfigs: object,
@@ -2610,84 +2612,49 @@ ${callerInfo.message}:`);
 			options?: { FIRST_OPTION_AS_VALUE: boolean; [key: string]: any }
 		) => Promise<void[]> */
 		_.$xItemsValue = async function (xItemFormConfigs, values, options = {}) {
-			let logValues = _.reduce(
-				values,
-				(_logValues, value, prop) => {
-					_logValues[prop] = value;
-					return _logValues;
-				},
-				{}
-			);
-			try {
-				return await Promise.all(
-					_.map(values, async (value, prop) => {
-						try {
-							/* 允许null，代表使用configs.value */
-							if (_.isPlainObject(xItemFormConfigs[prop])) {
-								if (
-									["xItemSelect", "xItemRadioGroup"].includes(
-										xItemFormConfigs[prop].itemType
-									)
-								) {
-									const ignore = (() => {
-										if (_.isBoolean(xItemFormConfigs[prop].isHide)) {
-											return xItemFormConfigs[prop].isHide;
-										}
+			/* 提前收集需要等待下拉数据的 prop，减少后续重复判断 */
+			const needWaitProps = [];
+			_.each(values, (value, prop) => {
+				const cfg = xItemFormConfigs[prop];
+				if (!_.isPlainObject(cfg)) return;
 
-										if (_.isFunction(xItemFormConfigs[prop].isHide)) {
-											return xItemFormConfigs[prop].isHide();
-										}
+				const itemType = cfg.itemType;
+				if (!["xItemSelect", "xItemRadioGroup"].includes(itemType)) return;
 
-										return false;
-									})();
+				/* 被隐藏项无需处理 */
+				const isHide = _.isFunction(cfg.isHide) ? cfg.isHide() : cfg.isHide;
+				if (isHide) return;
 
-									if (!ignore) {
-										if (options.FIRST_OPTION_AS_VALUE && _.isUndefined(value)) {
-											await _.$ensure(
-												() => xItemFormConfigs[prop]?.options?.length
-											);
-											try {
-												value = _.first(
-													xItemFormConfigs[prop].options
-												).value;
-											} catch (ensureError) {
-												console.error(
-													`$xItemsValue: Await处理超时或失败 for prop '${prop}'`,
-													ensureError
-												);
-												console.error(`属性配置:`, xItemFormConfigs[prop]);
-												console.error(`选项:`, options);
-												throw ensureError;
-											}
-										}
+				/* 需要等待下拉数据 */
+				if (options.FIRST_OPTION_AS_VALUE ? _.isUndefined(value) : _.$isInput(value)) {
+					needWaitProps.push(prop);
+				}
+			});
 
-										if (_.$isInput(value)) {
-											await _.$ensure(
-												() => xItemFormConfigs[prop]?.options?.length
-											);
-										}
-									}
-								}
-								/*TODO:other type*/
-								xItemFormConfigs[prop].value = value;
-								logValues[prop] = value;
-							}
-						} catch (propError) {
-							console.error(`$xItemsValue: 处理属性 '${prop}' 时出错`, propError);
-							throw propError;
-						} finally {
-							console.log("xItemsValue", logValues);
-						}
+			/* 并发等待所有需要下拉数据的 props */
+			await Promise.all(
+				needWaitProps.map(prop =>
+					_.$ensure(() => xItemFormConfigs[prop]?.options?.length).catch(e => {
+						console.error(`[$xItemsValue] 等待下拉数据超时或失败，prop=${prop}`, e);
+						throw e;
 					})
-				);
-			} catch (error) {
-				console.error(`$xItemsValue: 批量设置表单值失败`, error);
-				console.error(`表单配置:`, xItemFormConfigs);
-				console.error(`表单值:`, values);
-				console.error(`选项:`, options);
-				throw error;
-			}
+				)
+			);
+
+			/* 统一赋值 */
+			_.each(values, (value, prop) => {
+				const cfg = xItemFormConfigs[prop];
+				if (!_.isPlainObject(cfg)) return;
+
+				/* 处理 FIRST_OPTION_AS_VALUE */
+				if (options.FIRST_OPTION_AS_VALUE && _.isUndefined(value) && cfg.options?.length) {
+					value = cfg.options[0].value;
+				}
+
+				cfg.value = value;
+			});
 		};
+
 		_.$setFormValuesDelay = function (xItemFormConfigs, values, delay = 100) {
 			setTimeout(() => {
 				_.$setFormValues(xItemFormConfigs, values);
