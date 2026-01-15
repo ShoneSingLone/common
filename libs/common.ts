@@ -2614,45 +2614,31 @@ ${callerInfo.message}:`);
 		_.$xItemsValue = async function (xItemFormConfigs, values, options = {}) {
 			/* 提前收集需要等待下拉数据的 prop，减少后续重复判断 */
 			const needWaitProps = [];
-			_.each(values, (value, prop) => {
-				const cfg = xItemFormConfigs[prop];
-				if (!_.isPlainObject(cfg)) return;
 
-				const itemType = cfg.itemType;
-				if (!["xItemSelect", "xItemRadioGroup"].includes(itemType)) return;
+			return Promise.all(
+				_.map(values, async (value, prop) => {
+					const cfg = xItemFormConfigs[prop];
+					if (!_.isPlainObject(cfg)) return;
 
-				/* 被隐藏项无需处理 */
-				const isHide = _.isFunction(cfg.isHide) ? cfg.isHide() : cfg.isHide;
-				if (isHide) return;
+					const itemType = cfg.itemType;
+					if (!["xItemSelect", "xItemRadioGroup"].includes(itemType)) return;
 
-				/* 需要等待下拉数据 */
-				if (options.FIRST_OPTION_AS_VALUE ? _.isUndefined(value) : _.$isInput(value)) {
-					needWaitProps.push(prop);
-				}
-			});
+					/* 被隐藏项无需处理 */
+					const isHide = _.isFunction(cfg.isHide) ? cfg.isHide() : cfg.isHide;
+					if (isHide) return;
 
-			/* 并发等待所有需要下拉数据的 props */
-			await Promise.all(
-				needWaitProps.map(prop =>
-					_.$ensure(() => xItemFormConfigs[prop]?.options?.length).catch(e => {
-						console.error(`[$xItemsValue] 等待下拉数据超时或失败，prop=${prop}`, e);
-						throw e;
-					})
-				)
+					/* 需要等待下拉数据 */
+					if ((options.FIRST_OPTION_AS_VALUE &&_.isUndefined(value)) ||_.$isInput(value)) {					await _.$ensure(() => xItemFormConfigs[prop]?.options?.length);
+
+					/* 处理 FIRST_OPTION_AS_VALUE */
+					if (options.FIRST_OPTION_AS_VALUE && _.isUndefined(value)) {
+						value = cfg.options[0].value;
+					}
+					if (!_.isUndefined(value)) {
+						cfg.value = value;
+					}
+				})
 			);
-
-			/* 统一赋值 */
-			_.each(values, (value, prop) => {
-				const cfg = xItemFormConfigs[prop];
-				if (!_.isPlainObject(cfg)) return;
-
-				/* 处理 FIRST_OPTION_AS_VALUE */
-				if (options.FIRST_OPTION_AS_VALUE && _.isUndefined(value) && cfg.options?.length) {
-					value = cfg.options[0].value;
-				}
-
-				cfg.value = value;
-			});
 		};
 
 		_.$setFormValuesDelay = function (xItemFormConfigs, values, delay = 100) {
