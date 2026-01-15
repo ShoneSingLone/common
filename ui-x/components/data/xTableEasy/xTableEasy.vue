@@ -1,5 +1,6 @@
 <template>
 	<div class="x-table-easy" ref="tableRootRef">
+		asdfasfd
 		<div
 			:class="tableContainerClass"
 			:style="tableContainerWrapperStyle"
@@ -22,18 +23,20 @@
 						<!-- 表头 -->
 						<thead v-if="showHeader">
 							<tr
-								v-for="(headerRow, rowIndex) in headerRows"
+								v-for="(rowColumns, rowIndex) in groupColumns"
 								:key="rowIndex"
-								:style="{ height: headerRow.rowHeight + 'px' }">
+								:style="{ height: (headerRows[rowIndex]?.rowHeight || 40) + 'px' }">
 								<th
-									v-for="(column, colIndex) in colgroups[rowIndex]"
+									v-for="(column, colIndex) in rowColumns"
 									:key="colIndex"
 									:width="column.width"
 									:class="column.class"
 									:col-key="column.colKey"
 									:col-index="colIndex"
 									:row-index="rowIndex"
-									:row-key="''">
+									:row-key="''"
+									:colspan="column.colspan || 1"
+									:rowspan="column.rowspan || 1">
 									{{ column.title }}
 								</th>
 							</tr>
@@ -46,41 +49,70 @@
 								v-if="isVirtualScroll && showVirtualScrollingPlaceholder"
 								:class="['virtual-placeholder']"
 								:style="{ height: virtualScrollPlaceholderHeight + 'px' }">
-								<td :colspan="colgroups[0].length"></td>
+								<td
+									:colspan="
+										colgroups[0].length + (expandOption?.enable ? 1 : 0)
+									"></td>
 							</tr>
 
 							<!-- 数据行 -->
-							<tr
+							<template
 								v-for="(row, rowIndex) in actualRenderTableData"
-								:key="rowIndex"
-								:row-key="row[rowKeyFieldName]"
-								:class="getRowClass(row, rowIndex)"
-								@click="handleRowClick(row, rowIndex)"
-								@dblclick="handleRowDblClick(row, rowIndex)"
-								@contextmenu="handleRowContextmenu(row, rowIndex, $event)">
-								<td
-									v-for="(column, colIndex) in colgroups[0]"
-									:key="colIndex"
-									:width="column.width"
-									:col-key="column.colKey"
-									:col-index="colIndex"
-									:row-index="rowIndex"
+								:key="rowIndex">
+								<tr
 									:row-key="row[rowKeyFieldName]"
-									:class="getColumnClass(column, row, rowIndex, colIndex)"
-									@click="handleCellClick(row, rowIndex, column, colIndex)"
-									@dblclick="handleCellDblClick(row, rowIndex, column, colIndex)"
-									@contextmenu="
-										handleCellContextmenu(
-											row,
-											rowIndex,
-											column,
-											colIndex,
-											$event
-										)
-									">
-									{{ row[column.field] }}
-								</td>
-							</tr>
+									:class="getRowClass(row, rowIndex)"
+									@click="handleRowClick(row, rowIndex)"
+									@dblclick="handleRowDblClick(row, rowIndex)"
+									@contextmenu="handleRowContextmenu(row, rowIndex, $event)">
+									<!-- 展开图标列 -->
+									<td
+										v-if="expandOption?.enable"
+										class="expand-column"
+										@click.stop="toggleRowExpand(row, rowIndex)">
+										<i
+											:class="[
+												'expand-icon',
+												{ expanded: isRowExpanded(row) }
+											]"></i>
+									</td>
+									<!-- 数据列 -->
+									<td
+										v-for="(column, colIndex) in colgroups[0]"
+										:key="colIndex"
+										:width="column.width"
+										:col-key="column.colKey"
+										:col-index="colIndex"
+										:row-index="rowIndex"
+										:row-key="row[rowKeyFieldName]"
+										:class="getColumnClass(column, row, rowIndex, colIndex)"
+										@click="handleCellClick(row, rowIndex, column, colIndex)"
+										@dblclick="
+											handleCellDblClick(row, rowIndex, column, colIndex)
+										"
+										@contextmenu="
+											handleCellContextmenu(
+												row,
+												rowIndex,
+												column,
+												colIndex,
+												$event
+											)
+										">
+										{{ row[column.field] }}
+									</td>
+								</tr>
+								<!-- 展开内容行 -->
+								<tr
+									v-if="expandOption?.enable && isRowExpanded(row)"
+									class="expand-content-row">
+									<td
+										:colspan="colgroups[0].length + 1"
+										class="expand-content-cell">
+										<slot name="expand" :row="row" :rowIndex="rowIndex"></slot>
+									</td>
+								</tr>
+							</template>
 						</tbody>
 
 						<!-- 表尾 -->
@@ -299,7 +331,9 @@ export default async function () {
 				columnResizerPosition: 0,
 				contextmenuHeaderOption: null,
 				contextmenuBodyOption: null,
-				columnWidthResizeOption: null
+				columnWidthResizeOption: null,
+				// 展开行相关
+				expandedRowKeys: new Set()
 			};
 		},
 		computed: {
@@ -642,8 +676,80 @@ export default async function () {
 			},
 			initGroupColumns: function () {
 				// 初始化分组列
+				const processColumns = (columns, level = 0) => {
+					let maxLevel = level;
+					columns.forEach(column => {
+						if (column.children && column.children.length > 0) {
+							const childMaxLevel = processColumns(column.children, level + 1);
+							maxLevel = Math.max(maxLevel, childMaxLevel);
+							column._level = level;
+							column._isParent = true;
+						} else {
+							column._level = level;
+							column._isParent = false;
+						}
+					});
+					return maxLevel;
+				};
+
+				const maxLevel = processColumns(this.cloneColumns);
 				this.groupColumns = [];
-				// 实现分组列逻辑
+
+				// 创建表头行
+				for (let i = 0; i <= maxLevel; i++) {
+					this.groupColumns.push([]);
+				}
+
+				const buildGroupColumns = (columns, parentPath = []) => {
+					columns.forEach(column => {
+						const currentPath = [...parentPath, column];
+
+						if (column._isParent) {
+							// 处理父列
+							const colspan = this.getChildColumnCount(column);
+							const rowspan = maxLevel - column._level + 1;
+
+							this.groupColumns[column._level].push({
+								...column,
+								colspan,
+								rowspan,
+								children: null // 避免递归处理
+							});
+
+							// 递归处理子列
+							buildGroupColumns(column.children, currentPath);
+						} else {
+							// 处理叶子列
+							for (let i = 0; i <= maxLevel; i++) {
+								if (i === column._level) {
+									this.groupColumns[i].push({
+										...column,
+										colspan: 1,
+										rowspan: 1
+									});
+								}
+							}
+
+							// 添加到colgroups用于表格渲染
+							this.colgroups.push(column);
+						}
+					});
+				};
+
+				this.colgroups = [];
+				buildGroupColumns(this.cloneColumns);
+			},
+			getChildColumnCount: function (column) {
+				// 获取子列数量
+				if (!column.children || column.children.length === 0) {
+					return 1;
+				}
+
+				let count = 0;
+				for (const child of column.children) {
+					count += this.getChildColumnCount(child);
+				}
+				return count;
 			},
 			initHeaderRows: function () {
 				var e2 = this.groupColumns;
@@ -661,25 +767,88 @@ export default async function () {
 			},
 			initVirtualScroll: function () {
 				// 初始化虚拟滚动
+				if (!this.isVirtualScroll) return;
+
+				this.initVirtualScrollPositions();
+				this.bindScrollEvent();
 			},
 			initVirtualScrollPositions: function () {
 				// 初始化虚拟滚动位置
 				if (!this.isVirtualScroll) return;
 
-				this.virtualScrollVisibleData = this.tableData.slice(
-					0,
-					this.virtualScrollVisibleCount + this.virtualScrollBufferCount
+				const visibleCount = this.virtualScrollVisibleCount;
+				const bufferCount = this.virtualScrollBufferCount;
+				const totalCount = this.tableData.length;
+
+				// 计算可见数据范围
+				const startIndex = Math.max(0, this.virtualScrollStartIndex);
+				const endIndex = Math.min(
+					totalCount - 1,
+					startIndex + visibleCount + bufferCount * 2
 				);
+
+				this.virtualScrollVisibleData = this.tableData.slice(startIndex, endIndex + 1);
 				this.virtualScrollVisibleIndexs = {
-					start: 0,
-					end:
-						Math.min(
-							this.virtualScrollVisibleCount + this.virtualScrollBufferCount,
-							this.tableData.length
-						) - 1
+					start: startIndex,
+					end: endIndex
 				};
-				this.virtualScrollStartIndex = 0;
-				this.virtualScrollEndIndex = this.virtualScrollVisibleIndexs.end;
+				this.virtualScrollEndIndex = endIndex;
+			},
+			bindScrollEvent: function () {
+				// 绑定滚动事件
+				const container = this.$refs.tableContainerRef;
+				if (!container) return;
+
+				// 移除之前的事件监听器，避免重复绑定
+				container.removeEventListener("scroll", this.handleScroll);
+				container.addEventListener("scroll", this.handleScroll);
+			},
+			handleScroll: function (event) {
+				// 处理滚动事件
+				const container = event.target;
+				const scrollTop = container.scrollTop;
+
+				if (this.isVirtualScroll) {
+					this.updateVirtualScrollData(scrollTop);
+				}
+
+				// 触发滚动事件
+				this.$emit("scroll", { scrollTop, scrollLeft: container.scrollLeft });
+			},
+			updateVirtualScrollData: function (scrollTop) {
+				// 更新虚拟滚动数据
+				if (!this.isVirtualScroll) return;
+
+				const minRowHeight =
+					this.virtualScrollOption?.minRowHeight || this.defaultVirtualScrollMinRowHeight;
+				const visibleCount = this.virtualScrollVisibleCount;
+				const bufferCount = this.virtualScrollBufferCount;
+				const totalCount = this.tableData.length;
+
+				// 计算当前可见区域的起始行索引
+				let startIndex = Math.floor(scrollTop / minRowHeight) - bufferCount;
+				startIndex = Math.max(0, startIndex);
+
+				// 计算结束行索引
+				let endIndex = startIndex + visibleCount + bufferCount * 2;
+				endIndex = Math.min(totalCount - 1, endIndex);
+
+				// 只有当可见范围变化时才更新数据
+				if (
+					startIndex !== this.virtualScrollStartIndex ||
+					endIndex !== this.virtualScrollEndIndex
+				) {
+					this.virtualScrollStartIndex = startIndex;
+					this.virtualScrollEndIndex = endIndex;
+					this.initVirtualScrollPositions();
+
+					// 触发虚拟滚动事件
+					this.$emit("virtual-scroll", {
+						startIndex,
+						endIndex,
+						visibleCount: endIndex - startIndex + 1
+					});
+				}
 			},
 			initScrolling: function () {
 				// 初始化滚动
@@ -704,6 +873,48 @@ export default async function () {
 				}
 
 				return rowClass;
+			},
+			// 展开行相关方法
+			isRowExpanded: function (row) {
+				// 检查行是否展开
+				var rowKey = this.rowKeyFieldName ? row[this.rowKeyFieldName] : row;
+				return this.expandedRowKeys.has(rowKey);
+			},
+			toggleRowExpand: function (row, rowIndex) {
+				// 切换行展开状态
+				var rowKey = this.rowKeyFieldName ? row[this.rowKeyFieldName] : rowIndex;
+				if (this.expandedRowKeys.has(rowKey)) {
+					this.expandedRowKeys.delete(rowKey);
+					this.$emit("row-collapse", { row, rowIndex });
+				} else {
+					this.expandedRowKeys.add(rowKey);
+					this.$emit("row-expand", { row, rowIndex });
+				}
+				this.$emit("expand-change", {
+					rowKey,
+					expanded: this.expandedRowKeys.has(rowKey),
+					row,
+					rowIndex
+				});
+			},
+			expandRow: function (rowKey) {
+				// 展开指定行
+				this.expandedRowKeys.add(rowKey);
+			},
+			collapseRow: function (rowKey) {
+				// 折叠指定行
+				this.expandedRowKeys.delete(rowKey);
+			},
+			expandAllRows: function () {
+				// 展开所有行
+				this.tableData.forEach((row, index) => {
+					var rowKey = this.rowKeyFieldName ? row[this.rowKeyFieldName] : index;
+					this.expandedRowKeys.add(rowKey);
+				});
+			},
+			collapseAllRows: function () {
+				// 折叠所有行
+				this.expandedRowKeys.clear();
 			},
 			// 列相关方法
 			getColumnClass: function (column, row, rowIndex, colIndex) {
@@ -802,9 +1013,27 @@ export default async function () {
 		},
 		mounted() {
 			// 表格组件挂载逻辑
+			this.$nextTick(() => {
+				if (this.isVirtualScroll) {
+					this.initVirtualScroll();
+				}
+				// 初始化列宽调整
+				this.initColumnWidthByColumnResize();
+				// 触发表格就绪事件
+				this.$emit("ready", this);
+			});
 		},
 		beforeDestroy() {
 			// 表格组件销毁逻辑
+			// 移除滚动事件监听器
+			const container = this.$refs.tableContainerRef;
+			if (container) {
+				container.removeEventListener("scroll", this.handleScroll);
+			}
+			// 清理定时器
+			if (this.disablePointerEventsTimeoutId) {
+				clearTimeout(this.disablePointerEventsTimeoutId);
+			}
 		}
 	};
 }
@@ -1002,6 +1231,51 @@ export default async function () {
 /* 禁用指针事件样式 */
 .x-table-easy .disable-pointer-events {
 	pointer-events: none;
+}
+
+/* 展开行样式 */
+.x-table-easy .expand-column {
+	width: 30px;
+	text-align: center;
+	cursor: pointer;
+	user-select: none;
+	padding: 0;
+}
+
+.x-table-easy .expand-icon {
+	display: inline-block;
+	width: 16px;
+	height: 16px;
+	line-height: 16px;
+	text-align: center;
+	font-size: 12px;
+	color: #999;
+	transition:
+		transform 0.3s,
+		color 0.3s;
+}
+
+.x-table-easy .expand-icon::before {
+	content: "+";
+}
+
+.x-table-easy .expand-icon.expanded::before {
+	content: "-";
+}
+
+.x-table-easy .expand-icon:hover {
+	color: #1890ff;
+}
+
+.x-table-easy .expand-content-row {
+	background-color: #fafafa;
+}
+
+.x-table-easy .expand-content-cell {
+	padding: 16px;
+	border-top: 1px solid #e8e8e8;
+	border-bottom: 1px solid #e8e8e8;
+	background-color: #fafafa;
 }
 
 /* 滚动条样式 */

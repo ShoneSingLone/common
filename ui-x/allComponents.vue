@@ -34,6 +34,7 @@ export default async function () {
 		"components/data/xTag/xTag",
 		"components/data/xDesc/xDesc",
 		"components/data/xDesc/xItemDesc",
+		"components/data/xTableEasy/xTableEasy",
 		"components/data/xTableVir/xTableVir",
 		"components/data/xVirtualList/xFixedSizeList",
 		"components/data/xPagination/xPagination",
