@@ -2618,22 +2618,33 @@ ${callerInfo.message}:`);
 			return Promise.all(
 				_.map(values, async (value, prop) => {
 					const cfg = xItemFormConfigs[prop];
-					if (!_.isPlainObject(cfg)) return;
-
-					const itemType = cfg.itemType;
-					if (!["xItemSelect", "xItemRadioGroup"].includes(itemType)) return;
+					if (!_.isPlainObject(cfg)) {
+						return;
+					}
 
 					/* 被隐藏项无需处理 */
 					const isHide = _.isFunction(cfg.isHide) ? cfg.isHide() : cfg.isHide;
-					if (isHide) return;
-
-					/* 需要等待下拉数据 */
-					if ((options.FIRST_OPTION_AS_VALUE &&_.isUndefined(value)) ||_.$isInput(value)) {					await _.$ensure(() => xItemFormConfigs[prop]?.options?.length);
-
-					/* 处理 FIRST_OPTION_AS_VALUE */
-					if (options.FIRST_OPTION_AS_VALUE && _.isUndefined(value)) {
-						value = cfg.options[0].value;
+					if (isHide) {
+						return;
 					}
+					/* 以上是不需要赋值的  */
+
+					if (["xItemSelect", "xItemRadioGroup"].includes(cfg.itemType)) {
+						/* 需要下拉项的 */
+						const is_value_default_first =
+							options.FIRST_OPTION_AS_VALUE && _.isUndefined(value);
+
+						if (is_value_default_first || _.$isInput(value)) {
+							/* 需要等待下拉数据 */
+							await _.$ensure(() => cfg?.options?.length);
+						}
+
+						/* 处理 FIRST_OPTION_AS_VALUE */
+						if (is_value_default_first) {
+							value = cfg.options[0].value;
+						}
+					}
+
 					if (!_.isUndefined(value)) {
 						cfg.value = value;
 					}
