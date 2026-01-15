@@ -345,6 +345,9 @@ export default async function ({
 		$(document).on("mouseenter.setDataTipsShowWhenHover", ".ellipsis", function (event) {
 			try {
 				var $ele = $(this);
+				if ($ele.children().hasClass("ellipsis-no-title")) {
+					return;
+				}
 				var width = $ele.width();
 				var $child = $(`<span style="opacity:0;position:absolute;z-index:-1;"></span>`)
 					.appendTo($("body"))
