@@ -1,6 +1,5 @@
 <template>
 	<div class="x-table-easy" ref="tableRootRef">
-		asdfasfd
 		<div
 			:class="tableContainerClass"
 			:style="tableContainerWrapperStyle"
@@ -12,123 +11,40 @@
 				<div ref="tableContentWrapperRef">
 					<table :class="tableClass" :style="tableStyle" ref="tableRef">
 						<!-- 表列定义 -->
-						<colgroup v-for="(colgroup, index) in colgroups" :key="index">
-							<col
-								v-for="(col, colIndex) in colgroup"
-								:key="colIndex"
-								:width="col.width"
-								:name="col.colKey" />
-						</colgroup>
+						<xTableEasyColgroup :colgroups="colgroups" />
 
 						<!-- 表头 -->
-						<thead v-if="showHeader">
-							<tr
-								v-for="(rowColumns, rowIndex) in groupColumns"
-								:key="rowIndex"
-								:style="{ height: (headerRows[rowIndex]?.rowHeight || 40) + 'px' }">
-								<th
-									v-for="(column, colIndex) in rowColumns"
-									:key="colIndex"
-									:width="column.width"
-									:class="column.class"
-									:col-key="column.colKey"
-									:col-index="colIndex"
-									:row-index="rowIndex"
-									:row-key="''"
-									:colspan="column.colspan || 1"
-									:rowspan="column.rowspan || 1">
-									{{ column.title }}
-								</th>
-							</tr>
-						</thead>
+						<xTableEasyHeader
+							:show-header="showHeader"
+							:group-columns="groupColumns"
+							:header-rows="headerRows" />
 
 						<!-- 表体 -->
-						<tbody :class="tableBodyClass" ref="tableBodyRef">
-							<!-- 虚拟滚动占位符 -->
-							<tr
-								v-if="isVirtualScroll && showVirtualScrollingPlaceholder"
-								:class="['virtual-placeholder']"
-								:style="{ height: virtualScrollPlaceholderHeight + 'px' }">
-								<td
-									:colspan="
-										colgroups[0].length + (expandOption?.enable ? 1 : 0)
-									"></td>
-							</tr>
-
-							<!-- 数据行 -->
-							<template
-								v-for="(row, rowIndex) in actualRenderTableData"
-								:key="rowIndex">
-								<tr
-									:row-key="row[rowKeyFieldName]"
-									:class="getRowClass(row, rowIndex)"
-									@click="handleRowClick(row, rowIndex)"
-									@dblclick="handleRowDblClick(row, rowIndex)"
-									@contextmenu="handleRowContextmenu(row, rowIndex, $event)">
-									<!-- 展开图标列 -->
-									<td
-										v-if="expandOption?.enable"
-										class="expand-column"
-										@click.stop="toggleRowExpand(row, rowIndex)">
-										<i
-											:class="[
-												'expand-icon',
-												{ expanded: isRowExpanded(row) }
-											]"></i>
-									</td>
-									<!-- 数据列 -->
-									<td
-										v-for="(column, colIndex) in colgroups[0]"
-										:key="colIndex"
-										:width="column.width"
-										:col-key="column.colKey"
-										:col-index="colIndex"
-										:row-index="rowIndex"
-										:row-key="row[rowKeyFieldName]"
-										:class="getColumnClass(column, row, rowIndex, colIndex)"
-										@click="handleCellClick(row, rowIndex, column, colIndex)"
-										@dblclick="
-											handleCellDblClick(row, rowIndex, column, colIndex)
-										"
-										@contextmenu="
-											handleCellContextmenu(
-												row,
-												rowIndex,
-												column,
-												colIndex,
-												$event
-											)
-										">
-										{{ row[column.field] }}
-									</td>
-								</tr>
-								<!-- 展开内容行 -->
-								<tr
-									v-if="expandOption?.enable && isRowExpanded(row)"
-									class="expand-content-row">
-									<td
-										:colspan="colgroups[0].length + 1"
-										class="expand-content-cell">
-										<slot name="expand" :row="row" :rowIndex="rowIndex"></slot>
-									</td>
-								</tr>
-							</template>
-						</tbody>
+						<xTableEasyBody
+							:actual-render-table-data="actualRenderTableData"
+							:colgroups="colgroups"
+							:row-key-field-name="rowKeyFieldName"
+							:expand-option="expandOption"
+							:is-virtual-scroll="isVirtualScroll"
+							:show-virtual-scrolling-placeholder="showVirtualScrollingPlaceholder"
+							:virtual-scroll-placeholder-height="virtualScrollPlaceholderHeight"
+							:table-body-class="tableBodyClass"
+							:expanded-row-keys="expandedRowKeys"
+							@row-click="handleRowClick"
+							@row-dblclick="handleRowDblClick"
+							@row-contextmenu="handleRowContextmenu"
+							@row-expand="handleRowExpand"
+							@row-collapse="handleRowCollapse"
+							@expand-change="handleExpandChange"
+							@cell-click="handleCellClick"
+							@cell-dblclick="handleCellDblClick"
+							@cell-contextmenu="handleCellContextmenu" />
 
 						<!-- 表尾 -->
-						<tfoot v-if="footerData.length > 0">
-							<tr
-								v-for="(footerRow, rowIndex) in footerRows"
-								:key="rowIndex"
-								:style="{ height: footerRow.rowHeight + 'px' }">
-								<td
-									v-for="(column, colIndex) in colgroups[rowIndex]"
-									:key="colIndex"
-									:width="column.width">
-									{{ footerData[rowIndex][column.field] }}
-								</td>
-							</tr>
-						</tfoot>
+						<xTableEasyFooter
+							:footer-data="footerData"
+							:footer-rows="footerRows"
+							:colgroups="colgroups" />
 					</table>
 				</div>
 
@@ -159,9 +75,42 @@
 
 <script lang="ts">
 export default async function () {
+	// 导入子组件和指令
+	const [
+		xTableEasyColgroup,
+		xTableEasyHeader,
+		xTableEasyBody,
+		xTableEasyFooter,
+		// 导入指令
+		Clickoutside,
+		// 导入常量和工具
+		constant,
+		clipboard,
+		store,
+		util
+	] = await Promise.all([
+		_.$importVue("./colgroup/index.vue"),
+		_.$importVue("./header/index.vue"),
+		_.$importVue("./body/index.vue"),
+		_.$importVue("./footer/index.vue"),
+		// 导入指令
+		_.$importVue("/common/ui-x/directive/clickoutside.vue"),
+		// 导入常量和工具
+		_.$importVue("./util/constant.vue"),
+		_.$importVue("./util/clipboard.vue"),
+		_.$importVue("./util/store.vue"),
+		_.$importVue("./util/index.vue")
+	]);
+
 	return {
 		name: "xTableEasy",
-		directives: { "click-outside": null },
+		components: {
+			xTableEasyColgroup,
+			xTableEasyHeader,
+			xTableEasyBody,
+			xTableEasyFooter
+		},
+		directives: { "click-outside": Clickoutside },
 		mixins: [],
 		props: {
 			tableData: { required: true, type: Array },
@@ -243,6 +192,41 @@ export default async function () {
 				}
 			},
 			editOption: {
+				type: Object,
+				default: function () {
+					return null;
+				}
+			},
+			// 列隐藏配置
+			columnHiddenOption: {
+				type: Object,
+				default: function () {
+					return null;
+				}
+			},
+			// 表头上下文菜单配置
+			contextmenuHeaderOption: {
+				type: Object,
+				default: function () {
+					return null;
+				}
+			},
+			// 表体上下文菜单配置
+			contextmenuBodyOption: {
+				type: Object,
+				default: function () {
+					return null;
+				}
+			},
+			// 剪贴板配置
+			clipboardOption: {
+				type: Object,
+				default: function () {
+					return null;
+				}
+			},
+			// 列宽调整配置
+			columnWidthResizeOption: {
 				type: Object,
 				default: function () {
 					return null;
@@ -329,9 +313,6 @@ export default async function () {
 				isColumnResizerHover: false,
 				isColumnResizing: false,
 				columnResizerPosition: 0,
-				contextmenuHeaderOption: null,
-				contextmenuBodyOption: null,
-				columnWidthResizeOption: null,
 				// 展开行相关
 				expandedRowKeys: new Set()
 			};
@@ -651,14 +632,39 @@ export default async function () {
 		methods: {
 			// 核心初始化方法
 			initColumns: function () {
-				// 初始化列配置
-				this.cloneColumns = JSON.parse(JSON.stringify(this.columns));
-				this.initColgroups();
+				// 初始化列隐藏配置
+				var e2 = this.columnHiddenOption;
+				if (e2) {
+					var t2 = e2.defaultHiddenColumnKeys;
+					Array.isArray(t2) && t2.length && (this.hiddenColumns = t2);
+				}
+				this.showOrHideColumns();
 			},
+			// 显示或隐藏列
+			showOrHideColumns: function () {
+				var e2 = JSON.parse(JSON.stringify(this.columns));
+				e2 = e2.map(function (e3) {
+					return (e3.operationColumn && (e3.fixed = "left"), e3);
+				});
+				var t2 = this.hiddenColumns;
+				if (Array.isArray(t2) && t2.length) {
+					t2.forEach(function (t3) {
+						e2 = this.recursiveRemoveColumnByKey(e2, t3);
+					});
+				}
+				((this.cloneColumns = e2), this.initColgroups());
+			},
+			// 递归根据key移除列
+			recursiveRemoveColumnByKey: function (columns, key) {
+				// 使用工具函数递归移除列
+				return util.recursiveRemoveColumnByKey(columns, key);
+			},
+			// 初始化列组
 			initColgroups: function () {
 				// 初始化列组
 				if (!this.cloneColumns || this.cloneColumns.length === 0) {
 					this.colgroups = [];
+					this.groupColumns = [];
 					return;
 				}
 
@@ -666,91 +672,18 @@ export default async function () {
 					column => column.children && column.children.length > 0
 				);
 
-				if (this.isGroupHeader) {
-					// 处理分组表头
-					this.initGroupColumns();
-				} else {
-					// 处理普通表头
-					this.colgroups = [this.cloneColumns];
-				}
+				// 处理分组列
+				this.initGroupColumns();
 			},
+			// 初始化分组列
 			initGroupColumns: function () {
-				// 初始化分组列
-				const processColumns = (columns, level = 0) => {
-					let maxLevel = level;
-					columns.forEach(column => {
-						if (column.children && column.children.length > 0) {
-							const childMaxLevel = processColumns(column.children, level + 1);
-							maxLevel = Math.max(maxLevel, childMaxLevel);
-							column._level = level;
-							column._isParent = true;
-						} else {
-							column._level = level;
-							column._isParent = false;
-						}
-					});
-					return maxLevel;
-				};
-
-				const maxLevel = processColumns(this.cloneColumns);
-				this.groupColumns = [];
-
-				// 创建表头行
-				for (let i = 0; i <= maxLevel; i++) {
-					this.groupColumns.push([]);
-				}
-
-				const buildGroupColumns = (columns, parentPath = []) => {
-					columns.forEach(column => {
-						const currentPath = [...parentPath, column];
-
-						if (column._isParent) {
-							// 处理父列
-							const colspan = this.getChildColumnCount(column);
-							const rowspan = maxLevel - column._level + 1;
-
-							this.groupColumns[column._level].push({
-								...column,
-								colspan,
-								rowspan,
-								children: null // 避免递归处理
-							});
-
-							// 递归处理子列
-							buildGroupColumns(column.children, currentPath);
-						} else {
-							// 处理叶子列
-							for (let i = 0; i <= maxLevel; i++) {
-								if (i === column._level) {
-									this.groupColumns[i].push({
-										...column,
-										colspan: 1,
-										rowspan: 1
-									});
-								}
-							}
-
-							// 添加到colgroups用于表格渲染
-							this.colgroups.push(column);
-						}
-					});
-				};
-
-				this.colgroups = [];
-				buildGroupColumns(this.cloneColumns);
+				// 使用工具函数初始化分组列
+				const result = util.initGroupColumns(this.cloneColumns);
+				this.isGroupHeader = result.isGroupHeader;
+				this.colgroups = result.colgroups;
+				this.groupColumns = result.groupColumns;
 			},
-			getChildColumnCount: function (column) {
-				// 获取子列数量
-				if (!column.children || column.children.length === 0) {
-					return 1;
-				}
-
-				let count = 0;
-				for (const child of column.children) {
-					count += this.getChildColumnCount(child);
-				}
-				return count;
-			},
+			// 初始化表头行
 			initHeaderRows: function () {
 				var e2 = this.groupColumns;
 				Array.isArray(e2) &&
@@ -758,6 +691,7 @@ export default async function () {
 						return { rowHeight: 0 };
 					}));
 			},
+			// 初始化表尾行
 			initFooterRows: function () {
 				var e2 = this.footerData;
 				Array.isArray(e2) &&
@@ -765,6 +699,145 @@ export default async function () {
 						return { rowHeight: 0 };
 					}));
 			},
+			// 表头行高调整
+			headerRowHeightChange: function (e2) {
+				var t2 = e2.rowIndex,
+					n2 = e2.height;
+				this.headerRows.splice(t2, 1, { rowHeight: n2 });
+			},
+			// 表尾行高调整
+			footRowHeightChange: function (e2) {
+				var t2 = e2.rowIndex,
+					n2 = e2.height;
+				this.footerRows.splice(t2, 1, { rowHeight: n2 });
+			},
+			// 单元格宽度变化
+			bodyCellWidthChange: function (e2) {
+				this.colgroups = this.colgroups.map(function (t2) {
+					return ((t2._realTimeWidth = e2.get(t2.key)), t2);
+				});
+			},
+			// 设置列宽
+			setColumnWidth: function (e2) {
+				var t2 = e2.colKey,
+					n2 = e2.width;
+				this.colgroups = this.colgroups.map(function (e3) {
+					return (e3.key === t2 && (e3._columnResizeWidth = n2), e3);
+				});
+				this.$nextTick(this.setScrollBarStatus);
+			},
+			// 更新滚动条状态
+			setScrollBarStatus: function () {
+				// 实现滚动条状态更新
+			},
+			// 更新分组列排序
+			updateColgroupsBySortChange: function (e2) {
+				this.colgroups = this.colgroups.map(function (t2) {
+					return (
+						Object.keys(e2).indexOf(t2.field) > -1 && (t2.sortBy = e2[t2.field]),
+						t2
+					);
+				});
+			},
+			// 单元格选择相关方法
+			cellSelectionCurrentCellChange: function (e2) {
+				var t2 = e2.rowKey,
+					n2 = e2.colKey;
+				this.cellSelectionData.currentCell.colKey = n2;
+				this.cellSelectionData.currentCell.rowKey = t2;
+				this.cellSelectionData.currentCell.rowIndex = this.allRowKeys.indexOf(t2);
+			},
+			// 单元格选择结束单元格变化
+			cellSelectionNormalEndCellChange: function (e2) {
+				var t2 = e2.rowKey,
+					n2 = e2.colKey;
+				this.cellSelectionData.normalEndCell.colKey = n2;
+				this.cellSelectionData.normalEndCell.rowKey = t2;
+				this.cellSelectionData.normalEndCell.rowIndex = this.allRowKeys.indexOf(t2);
+			},
+			// 清除单元格选择结束单元格
+			clearCellSelectionNormalEndCell: function () {
+				this.cellSelectionData.normalEndCell = { rowKey: "", colKey: "", rowIndex: -1 };
+			},
+			// 清除当前单元格选择
+			clearCellSelectionCurrentCell: function () {
+				this.cellSelectionData.currentCell = { rowKey: "", colKey: "", rowIndex: -1 };
+			},
+			// 清除自动填充结束单元格
+			clearCellSelectionAutofillEndCell: function () {
+				this.cellSelectionData.autoFillEndCell = { rowKey: "", colKey: "" };
+			},
+			// 设置自动填充后的单元格选择
+			setCellSelectionByAutofill: function () {
+				// 通过自动填充设置单元格选择
+			},
+			// 设置当前单元格选择类型
+			setCurrentCellSelectionType: function () {
+				// 设置当前单元格选择类型
+			},
+			// 表头指示器列键变化
+			headerIndicatorColKeysChange: function (e2) {
+				var t2 = e2.startColKey,
+					n2 = e2.endColKey;
+				var o2 = this.colgroups;
+				this.headerIndicatorColKeys.startColKey = t2;
+				this.headerIndicatorColKeys.startColKeyIndex = o2.findIndex(function (e3) {
+					return e3.key === t2;
+				});
+				this.headerIndicatorColKeys.endColKey = n2;
+				this.headerIndicatorColKeys.endColKeyIndex = o2.findIndex(function (e3) {
+					return e3.key === n2;
+				});
+			},
+			// 清除表头指示器列键
+			clearHeaderIndicatorColKeys: function () {
+				this.headerIndicatorColKeys.startColKey = "";
+				this.headerIndicatorColKeys.startColKeyIndex = -1;
+				this.headerIndicatorColKeys.endColKey = "";
+				this.headerIndicatorColKeys.endColKeyIndex = -1;
+			},
+			// 设置通过表头指示器的范围单元格选择
+			setRangeCellSelectionByHeaderIndicator: function () {
+				// 通过表头指示器设置范围单元格选择
+			},
+			// 表体指示器行键变化
+			bodyIndicatorRowKeysChange: function (e2) {
+				var t2 = e2.startRowKey,
+					n2 = e2.endRowKey;
+				var o2 = this.allRowKeys;
+				this.bodyIndicatorRowKeys.startRowKey = t2;
+				this.bodyIndicatorRowKeys.startRowKeyIndex = o2.indexOf(t2);
+				this.bodyIndicatorRowKeys.endRowKey = n2;
+				this.bodyIndicatorRowKeys.endRowKeyIndex = o2.indexOf(n2);
+			},
+			// 清除表体指示器行键
+			clearBodyIndicatorRowKeys: function () {
+				this.bodyIndicatorRowKeys.startRowKey = "";
+				this.bodyIndicatorRowKeys.startRowKeyIndex = -1;
+				this.bodyIndicatorRowKeys.endRowKey = "";
+				this.bodyIndicatorRowKeys.endRowKeyIndex = -1;
+			},
+			// 设置通过表体指示器的范围单元格选择
+			setRangeCellSelectionByBodyIndicator: function () {
+				// 通过表体指示器设置范围单元格选择
+			},
+			// 初始化列宽调整
+			initColumnWidthByColumnResize: function () {
+				var e2 = this.enableColumnResize;
+				var t2 = 50;
+				if (e2) {
+					this.colgroups = this.colgroups.map(function (e3) {
+						var n2 = t2;
+						typeof e3.width === "number" && (n2 = e3.width);
+						return Object.assign({}, e3, { _columnResizeWidth: n2 });
+					});
+				}
+			},
+			// 初始化滚动
+			initScrolling: function () {
+				// 初始化滚动
+			},
+			// 初始化虚拟滚动
 			initVirtualScroll: function () {
 				// 初始化虚拟滚动
 				if (!this.isVirtualScroll) return;
@@ -772,6 +845,7 @@ export default async function () {
 				this.initVirtualScrollPositions();
 				this.bindScrollEvent();
 			},
+			// 初始化虚拟滚动位置
 			initVirtualScrollPositions: function () {
 				// 初始化虚拟滚动位置
 				if (!this.isVirtualScroll) return;
@@ -794,6 +868,7 @@ export default async function () {
 				};
 				this.virtualScrollEndIndex = endIndex;
 			},
+			// 绑定滚动事件
 			bindScrollEvent: function () {
 				// 绑定滚动事件
 				const container = this.$refs.tableContainerRef;
@@ -803,6 +878,7 @@ export default async function () {
 				container.removeEventListener("scroll", this.handleScroll);
 				container.addEventListener("scroll", this.handleScroll);
 			},
+			// 处理滚动事件
 			handleScroll: function (event) {
 				// 处理滚动事件
 				const container = event.target;
@@ -815,6 +891,7 @@ export default async function () {
 				// 触发滚动事件
 				this.$emit("scroll", { scrollTop, scrollLeft: container.scrollLeft });
 			},
+			// 更新虚拟滚动数据
 			updateVirtualScrollData: function (scrollTop) {
 				// 更新虚拟滚动数据
 				if (!this.isVirtualScroll) return;
@@ -850,160 +927,45 @@ export default async function () {
 					});
 				}
 			},
-			initScrolling: function () {
-				// 初始化滚动
-			},
-			initColumnWidthByColumnResize: function () {
-				// 初始化列宽调整
-			},
-			// 行相关方法
-			getRowClass: function (row, rowIndex) {
-				// 获取行样式类
-				var rowClass = {};
-				var rowKey = this.rowKeyFieldName ? row[this.rowKeyFieldName] : rowIndex;
-
-				// 高亮行
-				if (rowKey === this.highlightRowKey) {
-					rowClass["row-highlighted"] = true;
-				}
-
-				// 斑马纹
-				if (this.rowStyleOption && this.rowStyleOption.stripe) {
-					rowClass["row-stripe"] = rowIndex % 2 === 1;
-				}
-
-				return rowClass;
-			},
-			// 展开行相关方法
-			isRowExpanded: function (row) {
-				// 检查行是否展开
-				var rowKey = this.rowKeyFieldName ? row[this.rowKeyFieldName] : row;
-				return this.expandedRowKeys.has(rowKey);
-			},
-			toggleRowExpand: function (row, rowIndex) {
-				// 切换行展开状态
-				var rowKey = this.rowKeyFieldName ? row[this.rowKeyFieldName] : rowIndex;
-				if (this.expandedRowKeys.has(rowKey)) {
-					this.expandedRowKeys.delete(rowKey);
-					this.$emit("row-collapse", { row, rowIndex });
-				} else {
-					this.expandedRowKeys.add(rowKey);
-					this.$emit("row-expand", { row, rowIndex });
-				}
-				this.$emit("expand-change", {
-					rowKey,
-					expanded: this.expandedRowKeys.has(rowKey),
-					row,
-					rowIndex
-				});
-			},
-			expandRow: function (rowKey) {
-				// 展开指定行
-				this.expandedRowKeys.add(rowKey);
-			},
-			collapseRow: function (rowKey) {
-				// 折叠指定行
-				this.expandedRowKeys.delete(rowKey);
-			},
-			expandAllRows: function () {
-				// 展开所有行
-				this.tableData.forEach((row, index) => {
-					var rowKey = this.rowKeyFieldName ? row[this.rowKeyFieldName] : index;
-					this.expandedRowKeys.add(rowKey);
-				});
-			},
-			collapseAllRows: function () {
-				// 折叠所有行
-				this.expandedRowKeys.clear();
-			},
-			// 列相关方法
-			getColumnClass: function (column, row, rowIndex, colIndex) {
-				// 获取列样式类
-				var colClass = {};
-				var rowKey = this.rowKeyFieldName ? row[this.rowKeyFieldName] : rowIndex;
-
-				// 当前编辑单元格
-				if (
-					this.editingCell.rowKey === rowKey &&
-					this.editingCell.colKey === column.colKey
-				) {
-					colClass["cell-editing"] = true;
-				}
-
-				// 选择的单元格
-				if (this.isCellInSelectionRange(rowKey, column.colKey)) {
-					colClass["cell-selected"] = true;
-				}
-
-				return colClass;
-			},
-			// 事件处理方法
-			handleRowClick: function (row, rowIndex, event) {
-				// 处理行点击事件
-				this.$emit("row-click", { row, rowIndex, event });
-			},
-			handleRowDblClick: function (row, rowIndex, event) {
-				// 处理行双击事件
-				this.$emit("row-dblclick", { row, rowIndex, event });
-			},
-			handleRowContextmenu: function (row, rowIndex, event) {
-				// 处理行右键菜单事件
-				event.preventDefault();
-				this.$emit("row-contextmenu", { row, rowIndex, event });
-			},
-			handleCellClick: function (row, rowIndex, column, colIndex, event) {
-				// 处理单元格点击事件
-				this.$emit("cell-click", { row, rowIndex, column, colIndex, event });
-			},
-			handleCellDblClick: function (row, rowIndex, column, colIndex, event) {
-				// 处理单元格双击事件
-				this.$emit("cell-dblclick", { row, rowIndex, column, colIndex, event });
-			},
-			handleCellContextmenu: function (row, rowIndex, column, colIndex, event) {
-				// 处理单元格右键菜单事件
-				event.preventDefault();
-				this.$emit("cell-contextmenu", { row, rowIndex, column, colIndex, event });
-			},
-			// 单元格选择相关方法
-			isCellInSelectionRange: function (rowKey, colKey) {
-				// 检查单元格是否在选择范围内
-				var range = this.cellSelectionRangeData;
-				if (
-					!range ||
-					!range.leftColKey ||
-					!range.rightColKey ||
-					!range.topRowKey ||
-					!range.bottomRowKey
-				) {
-					return false;
-				}
-
-				// 实现单元格选择范围检查逻辑
-				return false;
-			},
-			clearCellSelectionCurrentCell: function () {
-				// 清除当前单元格选择
-				this.cellSelectionData.currentCell = { rowKey: "", colKey: "", rowIndex: -1 };
-			},
-			setCellSelectionByAutofill: function () {
-				// 通过自动填充设置单元格选择
-			},
-			clearCellSelectionAutofillEndCell: function () {
-				// 清除自动填充结束单元格选择
-				this.cellSelectionData.autoFillEndCell = { rowKey: "", colKey: "" };
-			},
-			setCurrentCellSelectionType: function () {
-				// 设置当前单元格选择类型
-			},
-			setRangeCellSelectionByHeaderIndicator: function () {
-				// 通过表头指示器设置范围单元格选择
-			},
-			setRangeCellSelectionByBodyIndicator: function () {
-				// 通过表体指示器设置范围单元格选择
-			},
-			// 虚拟滚动相关方法
+			// 设置表格内容顶部值
 			setTableContentTopValue: function (e2) {
 				// 设置表格内容顶部值
+			},
+			// 行相关事件处理
+			handleRowClick(row, rowIndex, event) {
+				this.$emit("row-click", { row, rowIndex, event });
+			},
+
+			handleRowDblClick(row, rowIndex, event) {
+				this.$emit("row-dblclick", { row, rowIndex, event });
+			},
+
+			handleRowContextmenu(row, rowIndex, event) {
+				this.$emit("row-contextmenu", { row, rowIndex, event });
+			},
+
+			handleRowExpand(row, rowIndex) {
+				this.$emit("row-expand", { row, rowIndex });
+			},
+
+			handleRowCollapse(row, rowIndex) {
+				this.$emit("row-collapse", { row, rowIndex });
+			},
+
+			handleExpandChange(params) {
+				this.$emit("expand-change", params);
+			},
+
+			handleCellClick(row, rowIndex, column, colIndex, event) {
+				this.$emit("cell-click", { row, rowIndex, column, colIndex, event });
+			},
+
+			handleCellDblClick(row, rowIndex, column, colIndex, event) {
+				this.$emit("cell-dblclick", { row, rowIndex, column, colIndex, event });
+			},
+
+			handleCellContextmenu(row, rowIndex, column, colIndex, event) {
+				this.$emit("cell-contextmenu", { row, rowIndex, column, colIndex, event });
 			},
 			// 滚动条相关方法
 			getScrollBarWidth: function () {
@@ -1083,26 +1045,6 @@ export default async function () {
 	border-bottom: 1px solid #e8e8e8;
 }
 
-/* 表头样式 */
-.x-table-easy th {
-	background-color: #fafafa;
-	font-weight: 500;
-	text-align: left;
-	padding: 12px 16px;
-	white-space: nowrap;
-	overflow: hidden;
-	text-overflow: ellipsis;
-	user-select: none;
-	box-sizing: border-box;
-	transition: background-color 0.3s;
-	cursor: default;
-	position: relative;
-}
-
-.x-table-easy th:hover {
-	background-color: #f0f2f5;
-}
-
 /* 表体样式 */
 .x-table-easy td {
 	padding: 12px 16px;
@@ -1112,43 +1054,6 @@ export default async function () {
 	box-sizing: border-box;
 	transition: background-color 0.3s;
 	position: relative;
-}
-
-/* 行样式 */
-.x-table-easy .row-hover tr:hover {
-	background-color: #f5f7fa;
-}
-
-.x-table-easy .row-highlight tr[row-key="highlightRowKey"],
-.x-table-easy tr.row-highlighted {
-	background-color: #e6f7ff;
-}
-
-.x-table-easy .stripe tr:nth-child(even),
-.x-table-easy tr.row-stripe {
-	background-color: #fafafa;
-}
-
-/* 虚拟滚动样式 */
-.x-table-easy .virtual-scroll {
-	overflow: auto;
-}
-
-/* 虚拟滚动占位符样式 */
-.x-table-easy .virtual-placeholder {
-	overflow: hidden;
-	background: linear-gradient(90deg, rgba(240, 242, 245, 0.8), rgba(248, 249, 250, 0.8));
-	background-size: 200% 100%;
-	animation: placeholderShimmer 1.5s infinite;
-}
-
-@keyframes placeholderShimmer {
-	0% {
-		background-position: -200px 0;
-	}
-	100% {
-		background-position: 200px 0;
-	}
 }
 
 /* 容器滚动样式 */
@@ -1256,11 +1161,11 @@ export default async function () {
 }
 
 .x-table-easy .expand-icon::before {
-	content: "+";
+	content: "";
 }
 
 .x-table-easy .expand-icon.expanded::before {
-	content: "-";
+	content: "";
 }
 
 .x-table-easy .expand-icon:hover {
