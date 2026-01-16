@@ -776,7 +776,7 @@ ${callerInfo.message}:`);
 			};
 		};
 		window.defTable.colMultiple = ({ by, getConfigs, disabled, isHide }) => {
-			const { h } = Vue;p
+			const { h } = Vue;
 			const checkbox = {
 				prop: "COL_MULTIPLE",
 				label: i18n("checkbox"),
@@ -2612,9 +2612,7 @@ ${callerInfo.message}:`);
 			options?: { FIRST_OPTION_AS_VALUE: boolean; [key: string]: any }
 		) => Promise<void[]> */
 		_.$xItemsValue = async function (xItemFormConfigs, values, options = {}) {
-			/* 提前收集需要等待下拉数据的 prop，减少后续重复判断 */
-			const needWaitProps = [];
-
+			/* 只要values 有可用值（null亦可支持响应，undefined不行），configs有匹配项，则进行赋值 */
 			return Promise.all(
 				_.map(values, async (value, prop) => {
 					const cfg = xItemFormConfigs[prop];
@@ -2622,19 +2620,16 @@ ${callerInfo.message}:`);
 						return;
 					}
 
-					/* 被隐藏项无需处理 */
-					const isHide = _.isFunction(cfg.isHide) ? cfg.isHide() : cfg.isHide;
-					if (isHide) {
-						return;
-					}
-					/* 以上是不需要赋值的  */
-
+					/* 如果有异步支持的选型，判断是否需要等待下拉有值 */
 					if (["xItemSelect", "xItemRadioGroup"].includes(cfg.itemType)) {
 						/* 需要下拉项的 */
 						const is_value_default_first =
 							options.FIRST_OPTION_AS_VALUE && _.isUndefined(value);
 
-						if (is_value_default_first || _.$isInput(value)) {
+						/* 被隐藏项无需处理 */
+						const isHide = _.isFunction(cfg.isHide) ? cfg.isHide() : !!cfg.isHide;
+
+						if (is_value_default_first || _.$isInput(value) || !isHide) {
 							/* 需要等待下拉数据 */
 							await _.$ensure(() => cfg?.options?.length);
 						}

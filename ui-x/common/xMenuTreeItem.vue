@@ -137,7 +137,8 @@ export default async function () {
 							h(
 								"div",
 								{
-									staticClass: "xMenuTreeItem-submenu-wrapper el-submenu__title",
+									staticClass:
+										"xMenuTreeItem-submenu-wrapper el-submenu__title pl pr",
 									onClick() {
 										if (item.href) {
 											if (item.DO_NOT_TO) {
