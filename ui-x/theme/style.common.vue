@@ -277,7 +277,16 @@ export default async function () {
 	--xAlert-warning-light-color: var(--el-color-warning);
 }
 
+*::placeholder {
+	color: var(--el-text-color-placeholder); /* 字体颜色（最常用） */
+	font-size: 13px; /* 字体大小 */
+	font-family: YouNeverKnow; /* 字体类型 */
+}
+* {
+	font-family: YouNeverKnow; /* 字体类型 */
+}
 body {
+	font-family: YouNeverKnow; /* 字体类型 */
 	color: var(--el-text-color-primary);
 	font-size: 13px;
 	padding: 0;

@@ -45,6 +45,12 @@
 				v-if="getSuffixVisible()"
 				@click="$event => handleClickIcon('suffix', $event)">
 				<span :class="cpt_el_input_suffix_inner_class">
+					<xIcon
+						v-if="showClear"
+						icon="circle-close"
+						class="el-input__icon el-input__suffix-inner_x-icon el-icon-circle-close el-input__clear"
+						@mousedown.prevent
+						@click="clear" />
 					<template v-if="!showClear || !showPwdVisible || !isWordLimitVisible">
 						<slot name="suffix"></slot>
 						<xIcon
@@ -53,12 +59,6 @@
 							:class="suffixIcon"
 							:icon="suffixIcon" />
 					</template>
-					<xIcon
-						v-if="showClear"
-						icon="circle-close"
-						class="el-input__icon el-input__suffix-inner_x-icon el-icon-circle-close el-input__clear"
-						@mousedown.prevent
-						@click="clear" />
 					<xIcon
 						v-if="showPwdVisible"
 						icon="view"
@@ -857,7 +857,6 @@ export default async function ({ PRIVATE_GLOBAL }) {
 	-webkit-box-sizing: border-box;
 	box-sizing: border-box;
 	width: 100%;
-	font-size: inherit;
 	color: var(--el-text-color-regular);
 	background-color: #fff;
 	background-image: none;
