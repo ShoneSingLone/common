@@ -46,7 +46,7 @@
 		</div>
 		<template #footer>
 			<div class="flex center width100">
-				<xBtn @click="closeModal" preset="blue">{{ i18n("close_operation") }}</xBtn>
+				<xBtn @click="onClose" preset="blue">{{ i18n("close_operation") }}</xBtn>
 			</div>
 		</template>
 	</xDialog>
@@ -63,6 +63,11 @@ export default async function ({ onSelect, onCancel, service_type, icon }) {
 		props: useDialogProps(),
 		mounted() {
 			this.queryTableData();
+		},
+		beforeDestroy() {
+			if (this.$parent.isClickCloseIcon) {
+				this.onClose();
+			}
 		},
 		data() {
 			const vm = this;
@@ -189,6 +194,11 @@ export default async function ({ onSelect, onCancel, service_type, icon }) {
 			},
 			async onClickOk(serverId) {
 				onSelect && onSelect(serverId);
+				this.closeModal();
+			},
+			async onClose() {
+				reject("cancel");
+				onCancel && onCancel();
 				this.closeModal();
 			}
 		}

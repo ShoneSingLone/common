@@ -16,7 +16,7 @@ export default async function () {
 	return defineComponent({
 		computed: {
 			cptTips() {
-				return i18n("longTipsLicenseExpired", { date: this.$route.query.result });
+				return i18n("long_tips_license_expired", { date: this.$route.query.result });
 			},
 			cptTitle() {
 				return i18n("licenseExpired");

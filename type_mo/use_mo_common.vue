@@ -286,22 +286,18 @@ export default async function ({ _URL_PREFIX_MO }) {
 		let serviceId = "";
 		try {
 			serviceId = await new Promise(async (resolve, reject) => {
-				const DialogTypeVueSFC = await _.$importVue(
-					"/common/type_mo/components/DialogProductServiceList.vue",
-					{
-						parent: Vue.forceUpdate.getVM(),
-						service_type,
-						icon,
-						onSelect(serviceId) {
-							resolve(serviceId);
-						}
-					}
-				);
-				_.$openWindow_deprecated(i18n("select_service_item"), DialogTypeVueSFC, {
-					cancel() {
-						setTimeout(() => {
-							reject("");
-						}, 100);
+				_.$openModal({
+					parent: Vue.forceUpdate.getVM(),
+					title: i18n("select_service_item"),
+					url: "/common/type_mo/components/DialogProductServiceList.vue",
+
+					service_type,
+					icon,
+					onSelect(serviceId) {
+						resolve(serviceId);
+					},
+					onCancel() {
+						reject("");
 					}
 				});
 			});

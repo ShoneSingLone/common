@@ -243,7 +243,7 @@ export default async function ({ PRIVATE_GLOBAL }) {
 						let msg = "";
 
 						if (String(val).length > size) {
-							msg = i18n("form.rules.msg.wordLessThan", { size });
+							msg = i18n("form_rules_msg_word_less_than", { size });
 						}
 						/* 返回提示信息即error */
 						/* 返回""为success */

@@ -1,0 +1,318 @@
+{
+    "input_department_name": [
+        "请输入部门名称",
+        "Please enter the department name"
+    ],
+    "input_menu_name": [
+        "请输入菜单名称",
+        "Please enter the menu name"
+    ],
+    "input_char": [
+        "请输入字符",
+        "Please enter characters"
+    ],
+    "status_info": [
+        "状态",
+        "state"
+    ],
+    "time_period": [
+        "时间范围",
+        "Time range"
+    ],
+    "apply_immediately": [
+        "立即申请",
+        "Apply Now"
+    ],
+    "close_operation": [
+        "关闭",
+        "close"
+    ],
+    "input_service_name": [
+        "请输入服务名称",
+        "Please enter the service name"
+    ],
+    "ok": [
+        "确定",
+        "OK"
+    ],
+    "cancel": [
+        "取消",
+        "Cancel"
+    ],
+    "configuration_fee": [
+        "配置费用",
+        "Configuration cost"
+    ],
+    "current_allocation": [
+        "当前配置",
+        "currently allocated"
+    ],
+    "hour_unit": [
+        "小时",
+        "hour"
+    ],
+    "select_service_item": [
+        "选择服务",
+        "Select Service"
+    ],
+    "jump_action": [
+        "跳转",
+        "Jump to"
+    ],
+    "submit_success": [
+        "提交成功",
+        "Submitted successfully"
+    ],
+    "view_order": [
+        "查看订单",
+        "View orders"
+    ],
+    "return_to_list_action": [
+        "返回列表",
+        "Return to List"
+    ],
+    "long_tips_license_expired": [
+        "您使用的license已于 {date} 过期，如需继续使用，请联系管理员处理！",
+        "The license you are using has expired on {date}. If you wish to continue using it, please contact the administrator for assistance!"
+    ],
+    "licenseExpired": [
+        "licenseExpired",
+        "licenseExpired"
+    ],
+    "search": [
+        "查询",
+        "Search"
+    ],
+    "name": [
+        "name",
+        "name"
+    ],
+    "generate_expression": [
+        "生成表达式",
+        "Generate expression"
+    ],
+    "URL": [
+        "URL",
+        "URL"
+    ],
+    "是": [
+        "是",
+        "yes"
+    ],
+    "否": [
+        "否",
+        "no"
+    ],
+    "more_content": [
+        "更多",
+        "more"
+    ],
+    "operation": [
+        "操作",
+        "Operation"
+    ],
+    "reset": [
+        "reset",
+        "unset_unset_unset_unset_unset_unset"
+    ],
+    "yes_answer": [
+        "是",
+        "yes"
+    ],
+    "no_answer": [
+        "否",
+        "no"
+    ],
+    "no_data_available": [
+        "暂无数据",
+        "No data available at the moment"
+    ],
+    "advanced_search": [
+        "高级搜索",
+        "Advanced Search"
+    ],
+    "Markdown": [
+        "Markdown",
+        "unset_unset_unset_unset_unset_unset"
+    ],
+    "WYSIWYG": [
+        "WYSIWYG",
+        "unset_unset_unset_unset_unset_unset"
+    ],
+    "Headings": [
+        "Headings",
+        "unset_unset_unset_unset_unset_unset"
+    ],
+    "Heading": [
+        "Heading",
+        "unset_unset_unset_unset_unset_unset"
+    ],
+    "Paragraph": [
+        "Paragraph",
+        "unset_unset_unset_unset_unset_unset"
+    ],
+    "Insert image": [
+        "Insert image",
+        "unset_unset_unset_unset_unset_unset"
+    ],
+    "Image URL": [
+        "Image URL",
+        "unset_unset_unset_unset_unset_unset"
+    ],
+    "Select image file": [
+        "Select image file",
+        "unset_unset_unset_unset_unset_unset"
+    ],
+    "No file": [
+        "No file",
+        "unset_unset_unset_unset_unset_unset"
+    ],
+    "Choose a file": [
+        "Choose a file",
+        "unset_unset_unset_unset_unset_unset"
+    ],
+    "Description": [
+        "Description",
+        "unset_unset_unset_unset_unset_unset"
+    ],
+    "Cancel": [
+        "Cancel",
+        "unset_unset_unset_unset_unset_unset"
+    ],
+    "OK": [
+        "OK",
+        "unset_unset_unset_unset_unset_unset"
+    ],
+    "Insert link": [
+        "Insert link",
+        "unset_unset_unset_unset_unset_unset"
+    ],
+    "Link text": [
+        "Link text",
+        "unset_unset_unset_unset_unset_unset"
+    ],
+    "Insert table": [
+        "Insert table",
+        "unset_unset_unset_unset_unset_unset"
+    ],
+    "Bold": [
+        "Bold",
+        "unset_unset_unset_unset_unset_unset"
+    ],
+    "Italic": [
+        "Italic",
+        "unset_unset_unset_unset_unset_unset"
+    ],
+    "Strike": [
+        "Strike",
+        "unset_unset_unset_unset_unset_unset"
+    ],
+    "Line": [
+        "Line",
+        "unset_unset_unset_unset_unset_unset"
+    ],
+    "Blockquote": [
+        "Blockquote",
+        "unset_unset_unset_unset_unset_unset"
+    ],
+    "Unordered list": [
+        "Unordered list",
+        "unset_unset_unset_unset_unset_unset"
+    ],
+    "Ordered list": [
+        "Ordered list",
+        "unset_unset_unset_unset_unset_unset"
+    ],
+    "Task": [
+        "Task",
+        "unset_unset_unset_unset_unset_unset"
+    ],
+    "Code": [
+        "Code",
+        "unset_unset_unset_unset_unset_unset"
+    ],
+    "Insert CodeBlock": [
+        "Insert CodeBlock",
+        "unset_unset_unset_unset_unset_unset"
+    ],
+    "Indent": [
+        "Indent",
+        "unset_unset_unset_unset_unset_unset"
+    ],
+    "Outdent": [
+        "Outdent",
+        "unset_unset_unset_unset_unset_unset"
+    ],
+    "More": [
+        "More",
+        "unset_unset_unset_unset_unset_unset"
+    ],
+    "name_info": [
+        "名称",
+        "name"
+    ],
+    "resource_pool": [
+        "resource_pool",
+        "resource_pool"
+    ],
+    "availablePartitionName": [
+        "availablePartitionName",
+        "AvailablePartitioname"
+    ],
+    "input_correct_phone": [
+        "请输入正确的手机号码",
+        "Please enter the correct phone number"
+    ],
+    "required": [
+        "required",
+        "unset_unset_unset_unset_unset_unset"
+    ],
+    "input_email_addr": [
+        "请输入Email",
+        "Please enter your email address"
+    ],
+    "form_rules_msg_word_less_than": [
+        "字数应少于{size}",
+        "Word count should be less than {size}"
+    ],
+    "enter_number_characters": [
+        "enter_number_characters",
+        "unset_unset_unset_unset_unset_unset"
+    ],
+    "enter_number_value": [
+        "enter_number_value",
+        "unset_unset_unset_unset_unset_unset"
+    ],
+    "msgEnterTheCorrectIPv4Address": [
+        "请输入正确的IPv4地址",
+        "Please enter the correct IPv4 address"
+    ],
+    "msgEnterTheCorrectIPv6Address": [
+        "请输入正确的IPv6地址",
+        "Please enter the correct IPv6 address"
+    ],
+    "ruleEnterCorrectAddress": [
+        "ruleEnterCorrectAddress",
+        "ruleEnterCorrectAddress"
+    ],
+    "msgEnterPositiveInteger": [
+        "请输入正整数",
+        "Please enter a positive integer"
+    ],
+    "msgEnter220DigitsLettersNumbers": [
+        "请输入2-20 位，字母、数字",
+        "Please enter 2-20 bits of letters and digits"
+    ],
+    "input_start_format": [
+        "以小写英文字母或数字开头，并且只包含字母、数字或者-",
+        "Starting with a lowercase English letter or number and containing only letters, numbers, or-"
+    ],
+    "请输入正确的端口号": [
+        "请输入正确的端口号",
+        "unset_unset_unset_unset_unset_unset"
+    ],
+    "enter_ip_address": [
+        "enter_ip_address",
+        "unset_unset_unset_unset_unset_unset"
+    ],
+}

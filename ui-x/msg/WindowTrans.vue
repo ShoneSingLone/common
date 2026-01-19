@@ -21,7 +21,7 @@ export default async function ({ onOk, onCancel, content }) {
 				content,
 				form: {
 					cloudInfraId: {
-						label: i18n("resourcePool"),
+						label: i18n("resource_pool"),
 						itemType: "xItemSelect",
 						options: [],
 						rules: [RULES.required()]
