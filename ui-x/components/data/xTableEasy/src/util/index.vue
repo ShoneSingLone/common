@@ -74,7 +74,7 @@ export default async function () {
 		buildGroupColumns(columns, []);
 
 		// 确保colgroups是二维数组，与模板的预期一致
-		result.colgroups = result.isGroupHeader ? colgroups : [colgroups];
+		result.colgroups = [colgroups];
 		result.groupColumns = groupColumns;
 		return result;
 	}
@@ -97,7 +97,7 @@ export default async function () {
 		let result = [];
 		for (let i = 0; i < columns.length; i++) {
 			let column = columns[i];
-			if (column.key === key) {
+			if (column.key === key || column.colKey === key) {
 				continue;
 			}
 			if (column.children && column.children.length > 0) {

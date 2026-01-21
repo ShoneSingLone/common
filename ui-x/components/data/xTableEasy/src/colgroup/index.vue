@@ -1,10 +1,12 @@
 <template>
-	<colgroup v-for="(colgroup, index) in colgroups" :key="index">
-		<col
-			v-for="(col, colIndex) in colgroup"
-			:key="colIndex"
-			:width="col.width"
-			:name="col.colKey" />
+	<colgroup>
+		<template v-for="(colgroup, index) in colgroups">
+			<col
+				v-for="(col, colIndex) in colgroup"
+				:key="colIndex"
+				:width="col.width"
+				:name="col.colKey" />
+		</template>
 	</colgroup>
 </template>
 

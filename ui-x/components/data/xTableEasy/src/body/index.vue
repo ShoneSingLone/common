@@ -9,8 +9,9 @@
 		</tr>
 
 		<!-- 数据行 -->
-		<template v-for="(row, rowIndex) in actualRenderTableData" :key="rowIndex">
+		<template v-for="(row, rowIndex) in actualRenderTableData">
 			<tr
+				:key="rowIndex"
 				:row-key="row[rowKeyFieldName]"
 				:class="getRowClass(row, rowIndex)"
 				@click="handleRowClick(row, rowIndex)"
@@ -89,6 +90,27 @@ export default async function () {
 			expandedRowKeys: {
 				type: Set,
 				default: () => new Set()
+			},
+			highlightRowKey: {
+				type: [String, Number],
+				default: ""
+			},
+			rowStyleOption: {
+				type: Object,
+				default: null
+			},
+			editingCell: {
+				type: Object,
+				default: () => ({ rowKey: "", colKey: "", row: null, column: null })
+			},
+			cellSelectionRangeData: {
+				type: Object,
+				default: () => ({
+					leftColKey: "",
+					rightColKey: "",
+					topRowKey: "",
+					bottomRowKey: ""
+				})
 			}
 		},
 		methods: {

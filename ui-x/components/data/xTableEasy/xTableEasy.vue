@@ -30,6 +30,10 @@
 							:virtual-scroll-placeholder-height="virtualScrollPlaceholderHeight"
 							:table-body-class="tableBodyClass"
 							:expanded-row-keys="expandedRowKeys"
+							:highlight-row-key="highlightRowKey"
+							:row-style-option="rowStyleOption"
+							:editing-cell="editingCell"
+							:cell-selection-range-data="cellSelectionRangeData"
 							@row-click="handleRowClick"
 							@row-dblclick="handleRowDblClick"
 							@row-contextmenu="handleRowContextmenu"
@@ -89,17 +93,17 @@ export default async function () {
 		store,
 		util
 	] = await Promise.all([
-		_.$importVue("./colgroup/index.vue"),
-		_.$importVue("./header/index.vue"),
-		_.$importVue("./body/index.vue"),
-		_.$importVue("./footer/index.vue"),
+		_.$importVue("/common/ui-x/components/data/xTableEasy/src/colgroup/index.vue"),
+		_.$importVue("/common/ui-x/components/data/xTableEasy/src/header/index.vue"),
+		_.$importVue("/common/ui-x/components/data/xTableEasy/src/body/index.vue"),
+		_.$importVue("/common/ui-x/components/data/xTableEasy/src/footer/index.vue"),
 		// 导入指令
 		_.$importVue("/common/ui-x/directive/clickoutside.vue"),
 		// 导入常量和工具
-		_.$importVue("./util/constant.vue"),
-		_.$importVue("./util/clipboard.vue"),
-		_.$importVue("./util/store.vue"),
-		_.$importVue("./util/index.vue")
+		_.$importVue("/common/ui-x/components/data/xTableEasy/src/util/constant.vue"),
+		_.$importVue("/common/ui-x/components/data/xTableEasy/src/util/clipboard.vue"),
+		_.$importVue("/common/ui-x/components/data/xTableEasy/src/util/store.vue"),
+		_.$importVue("/common/ui-x/components/data/xTableEasy/src/util/index.vue")
 	]);
 
 	return {
@@ -109,6 +113,10 @@ export default async function () {
 			xTableEasyHeader,
 			xTableEasyBody,
 			xTableEasyFooter
+		},
+		created() {
+			// 表格组件创建逻辑
+			this.initColumns();
 		},
 		directives: { "click-outside": Clickoutside },
 		mixins: [],
@@ -374,19 +382,19 @@ export default async function () {
 				return { width: "100%" };
 			},
 			tableContainerStyle: function () {
-				var e2 = this.maxHeight,
-					t2 = null;
-				this.isVirtualScroll
-					? e2
-						? (t2 = typeof e2 === "number" ? e2 + "px" : e2)
-						: console.error(
-								"maxHeight prop is required when 'virtualScrollOption.enable = true'"
+					var e2 = this.maxHeight,
+						t2 = null;
+					this.isVirtualScroll
+						? e2
+							? (t2 = typeof e2 === "number" ? e2 + "px" : e2)
+							: console.error(
+									"maxHeight prop is required when 'virtualScrollOption.enable = true'"
 							)
-					: ((t2 = this.tableHeight),
-						this.hasXScrollBar && (t2 += this.getScrollBarWidth()),
-						(t2 = typeof t2 === "number" ? t2 + "px" : t2));
-				return { "max-height": typeof e2 === "number" ? e2 + "px" : e2, height: t2 };
-			},
+						: ((t2 = e2 || "auto"),
+							this.hasXScrollBar && typeof t2 === "number" && (t2 += this.getScrollBarWidth()),
+							(t2 = typeof t2 === "number" ? t2 + "px" : t2));
+					return { "max-height": typeof e2 === "number" ? e2 + "px" : e2, height: t2 };
+				},
 			tableStyle: function () {
 				return {
 					width:
@@ -650,7 +658,7 @@ export default async function () {
 				if (Array.isArray(t2) && t2.length) {
 					t2.forEach(function (t3) {
 						e2 = this.recursiveRemoveColumnByKey(e2, t3);
-					});
+					}, this);
 				}
 				((this.cloneColumns = e2), this.initColgroups());
 			},
@@ -668,12 +676,11 @@ export default async function () {
 					return;
 				}
 
-				this.isGroupHeader = this.cloneColumns.some(
-					column => column.children && column.children.length > 0
-				);
-
 				// 处理分组列
-				this.initGroupColumns();
+				const result = util.initGroupColumns(this.cloneColumns);
+				this.isGroupHeader = result.isGroupHeader;
+				this.colgroups = result.colgroups;
+				this.groupColumns = result.groupColumns;
 			},
 			// 初始化分组列
 			initGroupColumns: function () {

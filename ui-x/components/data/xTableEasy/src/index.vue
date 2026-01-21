@@ -641,19 +641,19 @@ export default async function () {
 				this.showOrHideColumns();
 			},
 			// 显示或隐藏列
-			showOrHideColumns: function () {
-				var e2 = JSON.parse(JSON.stringify(this.columns));
-				e2 = e2.map(function (e3) {
-					return (e3.operationColumn && (e3.fixed = "left"), e3);
-				});
-				var t2 = this.hiddenColumns;
-				if (Array.isArray(t2) && t2.length) {
-					t2.forEach(function (t3) {
-						e2 = this.recursiveRemoveColumnByKey(e2, t3);
-					});
-				}
-				((this.cloneColumns = e2), this.initColgroups());
-			},
+showOrHideColumns: function () {
+	var e2 = JSON.parse(JSON.stringify(this.columns));
+	e2 = e2.map(function (e3) {
+		return (e3.operationColumn && (e3.fixed = "left"), e3);
+	});
+	var t2 = this.hiddenColumns;
+	if (Array.isArray(t2) && t2.length) {
+		t2.forEach(function (t3) {
+			e2 = this.recursiveRemoveColumnByKey(e2, t3);
+		}, this);
+	}
+	((this.cloneColumns = e2), this.initColgroups());
+},
 			// 递归根据key移除列
 			recursiveRemoveColumnByKey: function (columns, key) {
 				// 使用工具函数递归移除列
