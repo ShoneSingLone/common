@@ -629,8 +629,8 @@ window.SparkMD5 = (h => {
 			s < r;
 			s += 1
 		)
-			e[s >> 2] |= t.charCodeAt(s) << ((s % 4) << 3);
-		if (((e[s >> 2] |= 128 << ((s % 4) << 3)), 55 < s))
+			e[s >> 2] |= t.charCodeAt(s) << (s % 4 << 3);
+		if (((e[s >> 2] |= 128 << (s % 4 << 3)), 55 < s))
 			for (o(i, e), s = 0; s < 16; s += 1) e[s] = 0;
 		return (
 			(h = (h = 8 * f).toString(16).match(/(.*?)(.{0,8})$/)),
@@ -703,7 +703,7 @@ window.SparkMD5 = (h => {
 				f < n;
 				f += 1
 			)
-				h[f >> 2] |= e.charCodeAt(f) << ((f % 4) << 3);
+				h[f >> 2] |= e.charCodeAt(f) << (f % 4 << 3);
 			return (this._finish(h, n), (r = i(this._hash)), t && (r = p(r)), this.reset(), r);
 		}),
 		(y.prototype.reset = function () {
@@ -726,7 +726,7 @@ window.SparkMD5 = (h => {
 		(y.prototype._finish = function (t, r) {
 			var e,
 				n = r;
-			if (((t[n >> 2] |= 128 << ((n % 4) << 3)), 55 < n))
+			if (((t[n >> 2] |= 128 << (n % 4 << 3)), 55 < n))
 				for (o(this._hash, t), n = 0; n < 16; n += 1) t[n] = 0;
 			((r = (r = 8 * this._length).toString(16).match(/(.*?)(.{0,8})$/)),
 				(e = parseInt(r[2], 16)),
@@ -775,7 +775,7 @@ window.SparkMD5 = (h => {
 				f < n;
 				f += 1
 			)
-				h[f >> 2] |= e[f] << ((f % 4) << 3);
+				h[f >> 2] |= e[f] << (f % 4 << 3);
 			return (this._finish(h, n), (r = i(this._hash)), t && (r = p(r)), this.reset(), r);
 		}),
 		(y.ArrayBuffer.prototype.reset = function () {
@@ -832,8 +832,8 @@ window.SparkMD5 = (h => {
 						s < r;
 						s += 1
 					)
-						e[s >> 2] |= t[s] << ((s % 4) << 3);
-					if (((e[s >> 2] |= 128 << ((s % 4) << 3)), 55 < s))
+						e[s >> 2] |= t[s] << (s % 4 << 3);
+					if (((e[s >> 2] |= 128 << (s % 4 << 3)), 55 < s))
 						for (o(i, e), s = 0; s < 16; s += 1) e[s] = 0;
 					return (
 						(h = (h = 8 * f).toString(16).match(/(.*?)(.{0,8})$/)),

@@ -4995,6 +4995,7 @@
 		// #7573 disable dep collection when invoking data getters
 		pushTarget();
 		try {
+			setCurrentInstance(vm);
 			return data.call(vm, vm);
 		} catch (e) {
 			handleError(e, vm, "data()");

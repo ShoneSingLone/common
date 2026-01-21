@@ -382,19 +382,21 @@ export default async function () {
 				return { width: "100%" };
 			},
 			tableContainerStyle: function () {
-					var e2 = this.maxHeight,
-						t2 = null;
-					this.isVirtualScroll
-						? e2
-							? (t2 = typeof e2 === "number" ? e2 + "px" : e2)
-							: console.error(
-									"maxHeight prop is required when 'virtualScrollOption.enable = true'"
+				var e2 = this.maxHeight,
+					t2 = null;
+				this.isVirtualScroll
+					? e2
+						? (t2 = typeof e2 === "number" ? e2 + "px" : e2)
+						: console.error(
+								"maxHeight prop is required when 'virtualScrollOption.enable = true'"
 							)
-						: ((t2 = e2 || "auto"),
-							this.hasXScrollBar && typeof t2 === "number" && (t2 += this.getScrollBarWidth()),
-							(t2 = typeof t2 === "number" ? t2 + "px" : t2));
-					return { "max-height": typeof e2 === "number" ? e2 + "px" : e2, height: t2 };
-				},
+					: ((t2 = e2 || "auto"),
+						this.hasXScrollBar &&
+							typeof t2 === "number" &&
+							(t2 += this.getScrollBarWidth()),
+						(t2 = typeof t2 === "number" ? t2 + "px" : t2));
+				return { "max-height": typeof e2 === "number" ? e2 + "px" : e2, height: t2 };
+			},
 			tableStyle: function () {
 				return {
 					width:

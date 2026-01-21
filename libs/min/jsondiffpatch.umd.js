@@ -126,6 +126,7 @@
 								r = t,
 								o = ((r.options = this.options()), e || t.pipe || "default");
 							o;
+
 						)
 							(void 0 !== r.nextAfterChildren &&
 								((r.next = r.nextAfterChildren), (r.nextAfterChildren = null)),
@@ -505,6 +506,7 @@
 							a = n.length,
 							s = { sequence: [], indices1: [], indices2: [] };
 						0 !== o && 0 !== a;
+
 					)
 						t.match(e, n, o - 1, a - 1, i)
 							? (s.sequence.unshift(e[o - 1]),
@@ -615,6 +617,7 @@
 						}
 				})(s, f, l, h));
 				n < l && n < h && A(s, f, n, n, e);
+
 			)
 				((r = n), (u = new k(t.left[r], t.right[r])), t.push(u, r), n++);
 			for (; i + n < l && i + n < h && A(s, f, l - 1 - i, h - 1 - i, e); )
@@ -984,6 +987,7 @@
 						f = "",
 						l = "";
 					o < r.length;
+
 				) {
 					switch (r[o][0]) {
 						case 1:
@@ -1040,6 +1044,7 @@
 											? f[_ + 1]
 											: f[_ - 1] + 1) - m;
 							A < i && b < r && t.charAt(A) == e.charAt(b);
+
 						)
 							(A++, b++);
 						if (i < (f[_] = A)) p += 2;
@@ -1061,6 +1066,7 @@
 											? l[x + 1]
 											: l[x - 1] + 1) - w;
 							k < i && j < r && t.charAt(i - k - 1) == e.charAt(r - j - 1);
+
 						)
 							(k++, j++);
 						if (i < (l[x] = k)) v += 2;
@@ -1168,6 +1174,7 @@
 							f = -1,
 							l = "";
 						-1 != (f = e.indexOf(s, f + 1));
+
 					) {
 						var h = c.diff_commonPrefix(t.substring(n), e.substring(f)),
 							u = c.diff_commonSuffix(t.substring(0, n), e.substring(0, f));
@@ -1197,6 +1204,7 @@
 						c = 0,
 						d = 0;
 					l < t.length;
+
 				)
 					(0 == t[l][0]
 						? ((h = c), (u = d), (d = c = 0), (f = t[(a[s++] = l)][1]))
@@ -1214,6 +1222,7 @@
 				for (
 					o && this.diff_cleanupMerge(t), this.diff_cleanupSemanticLossless(t), l = 1;
 					l < t.length;
+
 				)
 					(-1 == t[l - 1][0] &&
 						1 == t[l][0] &&
@@ -1282,6 +1291,7 @@
 								h = a,
 								u = e(r, o) + e(o, a);
 							o.charAt(0) === a.charAt(0);
+
 						) {
 							((r += o.charAt(0)),
 								(o = o.substring(1) + a.charAt(0)),
@@ -1306,6 +1316,7 @@
 				for (
 					var e = !1, n = [], i = 0, r = null, o = 0, a = !1, s = !1, f = !1, l = !1;
 					o < t.length;
+
 				)
 					(0 == t[o][0]
 						? ((r =
@@ -1576,6 +1587,7 @@
 						var n = e.substring(t.start2, t.start2 + t.length1), i = 0;
 						e.indexOf(n) != e.lastIndexOf(n) &&
 						n.length < this.Match_MaxBits - this.Patch_Margin - this.Patch_Margin;
+
 					)
 						((i += this.Patch_Margin),
 							(n = e.substring(t.start2 - i, t.start2 + t.length1 + i)));
@@ -1768,6 +1780,7 @@
 						for (
 							var i = t[n], r = (t.splice(n--, 1), i.start1), o = i.start2, a = "";
 							0 !== i.diffs.length;
+
 						) {
 							var s = new g.patch_obj(),
 								f = !0;
@@ -1777,6 +1790,7 @@
 									"" !== a &&
 										((s.length1 = s.length2 = a.length), s.diffs.push([0, a]));
 								0 !== i.diffs.length && s.length1 < e - this.Patch_Margin;
+
 							) {
 								var l = i.diffs[0][0],
 									h = i.diffs[0][1];
@@ -1830,6 +1844,7 @@
 					for (
 						var n = t.split("\n"), i = 0, r = /^@@ -(\d+),?(\d*) \+(\d+),?(\d*) @@$/;
 						i < n.length;
+
 					) {
 						var o = n[i].match(r);
 						if (!o) throw new Error("Invalid patch string: " + n[i]);
@@ -1850,6 +1865,7 @@
 										: (a.start2--, (a.length2 = parseInt(o[4], 10))),
 								i++;
 							i < n.length;
+
 						) {
 							var s = n[i].charAt(0);
 							try {

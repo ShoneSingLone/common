@@ -19230,7 +19230,7 @@ Expected ${val.length + 1} quasis but got ${node2.quasis.length}`);
 	function needsParenBeforeExpressionBrace(tokenContext) {
 		return Boolean(
 			tokenContext &
-			(_index$4.TokenContext.expressionStatement | _index$4.TokenContext.arrowBody)
+				(_index$4.TokenContext.expressionStatement | _index$4.TokenContext.arrowBody)
 		);
 	}
 
@@ -19455,7 +19455,7 @@ Expected ${val.length + 1} quasis but got ${node2.quasis.length}`);
 	function ClassExpression(node2, parent, tokenContext) {
 		return Boolean(
 			tokenContext &
-			(_index$4.TokenContext.expressionStatement | _index$4.TokenContext.exportDefault)
+				(_index$4.TokenContext.expressionStatement | _index$4.TokenContext.exportDefault)
 		);
 	}
 
@@ -19470,7 +19470,7 @@ Expected ${val.length + 1} quasis but got ${node2.quasis.length}`);
 	function FunctionExpression$1(node2, parent, tokenContext) {
 		return Boolean(
 			tokenContext &
-			(_index$4.TokenContext.expressionStatement | _index$4.TokenContext.exportDefault)
+				(_index$4.TokenContext.expressionStatement | _index$4.TokenContext.exportDefault)
 		);
 	}
 
