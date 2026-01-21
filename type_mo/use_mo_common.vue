@@ -1,5 +1,5 @@
 <script lang="ts">
-export default async function ({ _URL_PREFIX_MO }) {
+export default async function ({ _URL_PREFIX_MO, PRIVATE_GLOBAL }) {
 	let [region, locale, agencyId] = _.$urlSearch(["region", "locale", "agencyId"]);
 
 	_.each(
@@ -214,7 +214,7 @@ export default async function ({ _URL_PREFIX_MO }) {
 		if (response && response.code === 500 && response.message) {
 			return _.$msgError(response.message);
 		}
-		/* 
+		/*
     {
     "exceptionId": "mosub-00013",
     "exceptionType": "ROA_EXFRAME_EXCEPTION",
@@ -412,12 +412,14 @@ export default async function ({ _URL_PREFIX_MO }) {
 			const vm = await _.$openModal({
 				title: i18n("jump_action"),
 				url: "/common/ui-x/msg/WindowConfirm.vue",
-				content: () => {
+				content() {
+					const { hDiv, hxBtn } = PRIVATE_GLOBAL;
 					return hDiv({ style: `height:220px;`, staticClass: "flex middle center" }, [
 						hDiv({ staticClass: "flex middle center vertical" }, [
-							h("i", {
+							h("xIcon", {
+								icon: "success-filled",
 								staticClass: "el-message__icon el-icon-success",
-								style: "font-size:64px;color:var(--ui-success);"
+								style: "height:64px;width:64px;color:var(--ui-success);"
 							}),
 							h(
 								"div",
@@ -430,35 +432,38 @@ export default async function ({ _URL_PREFIX_MO }) {
 					]);
 				},
 				renderFooter(vm) {
-					return () => {
-						return h(
-							"div",
-							{
-								style: `border-top: 1px solid var(--el-border-color);padding-top:var(--ui-one);width:100%;text-align:center;`
-							},
-							[
-								hxBtn({
-									staticClass: "mr",
-									configs: {
-										label: i18n("view_order"),
-										preset: "blue",
-										onClick() {
-											location.href = `/motenantconsolehomewebsite#/userCenter/manager/applyDetail?orderId=${response && response.purchases && response.purchases[0] && response.purchases[0].subscription_id}`;
-										}
+					const { hDiv, hxBtn } = PRIVATE_GLOBAL;
+
+					return h(
+						"div",
+						{
+							style: `border-top: 1px solid var(--el-border-color);padding-top:var(--ui-one);width:100%;text-align:center;`
+						},
+						[
+							hxBtn({
+								staticClass: "mr",
+								configs: {
+									label: i18n("view_order"),
+									preset: "blue",
+									onClick() {
+										location.href = `/motenantconsolehomewebsite#/userCenter/manager/applyDetail?orderId=${response && response.purchases && response.purchases[0] && response.purchases[0].subscription_id}`;
 									}
-								}),
-								hxBtn({
-									configs: {
-										label: i18n("return_to_list_action"),
-										onClick() {
-											goBack();
-											vm.closeModal();
-										}
+								}
+							}),
+							hxBtn({
+								configs: {
+									label: i18n("return_to_list_action"),
+									isHide() {
+										return !goBack;
+									},
+									onClick() {
+										goBack();
+										vm.closeModal();
 									}
-								})
-							]
-						);
-					};
+								}
+							})
+						]
+					);
 				}
 			});
 

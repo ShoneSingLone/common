@@ -16,7 +16,7 @@
 				<slot name="footer" />
 			</footer>
 		</div>
-		<div class="xPageContentAffix x-padding" v-if="$slots.affix"><slot name="affix" /></div>
+		<div class="xPageContentAffix" v-if="$slots.affix"><slot name="affix" /></div>
 	</div>
 </template>
 <script lang="ts">

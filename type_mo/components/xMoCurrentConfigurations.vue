@@ -1,12 +1,10 @@
 <template>
-	<xBlock :header="i18n('current_allocation')" class="xMoCurrentConfigurations">
-		<xForm
-			col="1"
-			style="width: var(--xMoCurrentConfigurations-width); --xItem-label-width: 80px">
+	<xCard :header="i18n('current_allocation')" class="xMoCurrentConfigurations ml">
+		<xForm col="1" style="width: var(--xMoCurrentConfigurations-width)">
 			<xItemDesc :item="itemConfigs" v-for="(itemConfigs, prop) in items" :key="prop" />
 			<!-- {{ items }} -->
 		</xForm>
-	</xBlock>
+	</xCard>
 </template>
 <script lang="ts">
 export default async function () {
@@ -19,6 +17,7 @@ export default async function () {
 .xMoCurrentConfigurations {
 	max-height: 100%;
 	overflow: hidden;
+	--xItem-label-width: var(--xMoCurrentConfigurations-label-width, 80px);
 	&.xBlock {
 		display: flex;
 		flex-flow: column nowrap;
