@@ -381,24 +381,27 @@ export default async function () {
 						? (t2 = typeof e2 === "number" ? e2 + "px" : e2)
 						: console.error(
 								"maxHeight prop is required when 'virtualScrollOption.enable = true'"
-						)
+							)
 					: ((t2 = this.tableHeight || "auto"),
 						this.hasXScrollBar && (t2 += this.getScrollBarWidth()),
 						(t2 = typeof t2 === "number" ? t2 + "px" : t2));
-				return { "max-height": typeof e2 === "number" ? e2 + "px" : e2, height: t2 };
+				return {
+					"max-height": e2 ? (typeof e2 === "number" ? e2 + "px" : e2) : "none",
+					height: t2
+				};
 			},
 			tableStyle: function () {
 				return {
 					width:
 						typeof this.scrollWidth === "number"
 							? this.scrollWidth + "px"
-							: this.scrollWidth
+							: this.scrollWidth || "100%"
 				};
 			},
-			tableClass: function () {
-				var e2 = {};
-				return ((e2["border-x"] = this.borderX), (e2["border-y"] = this.borderY), e2);
-			},
+401→			tableClass: function () {
+402→				var e2 = {};
+403→				return ((e2["border-x"] = this.borderX), (e2["border-y"] = this.borderY), (e2["border-around"] = this.borderAround), e2);
+404→			},
 			tableContainerClass: function () {
 				var e2 = {},
 					t2 = this.isVirtualScroll,
@@ -641,19 +644,19 @@ export default async function () {
 				this.showOrHideColumns();
 			},
 			// 显示或隐藏列
-showOrHideColumns: function () {
-	var e2 = JSON.parse(JSON.stringify(this.columns));
-	e2 = e2.map(function (e3) {
-		return (e3.operationColumn && (e3.fixed = "left"), e3);
-	});
-	var t2 = this.hiddenColumns;
-	if (Array.isArray(t2) && t2.length) {
-		t2.forEach(function (t3) {
-			e2 = this.recursiveRemoveColumnByKey(e2, t3);
-		}, this);
-	}
-	((this.cloneColumns = e2), this.initColgroups());
-},
+			showOrHideColumns: function () {
+				var e2 = JSON.parse(JSON.stringify(this.columns));
+				e2 = e2.map(function (e3) {
+					return (e3.operationColumn && (e3.fixed = "left"), e3);
+				});
+				var t2 = this.hiddenColumns;
+				if (Array.isArray(t2) && t2.length) {
+					t2.forEach(function (t3) {
+						e2 = this.recursiveRemoveColumnByKey(e2, t3);
+					}, this);
+				}
+				((this.cloneColumns = e2), this.initColgroups());
+			},
 			// 递归根据key移除列
 			recursiveRemoveColumnByKey: function (columns, key) {
 				// 使用工具函数递归移除列
