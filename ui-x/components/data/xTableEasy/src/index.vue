@@ -381,8 +381,8 @@ export default async function () {
 						? (t2 = typeof e2 === "number" ? e2 + "px" : e2)
 						: console.error(
 								"maxHeight prop is required when 'virtualScrollOption.enable = true'"
-							)
-					: ((t2 = this.tableHeight),
+						)
+					: ((t2 = this.tableHeight || "auto"),
 						this.hasXScrollBar && (t2 += this.getScrollBarWidth()),
 						(t2 = typeof t2 === "number" ? t2 + "px" : t2));
 				return { "max-height": typeof e2 === "number" ? e2 + "px" : e2, height: t2 };
