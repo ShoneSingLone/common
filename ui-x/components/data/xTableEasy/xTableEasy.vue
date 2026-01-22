@@ -4,11 +4,45 @@
 			:class="tableContainerClass"
 			:style="tableContainerWrapperStyle"
 			ref="tableContainerWrapperRef">
+			<!-- 左固定列容器 -->
 			<div
-				:class="['table-container', tableContainerClass]"
+				v-if="hasLeftFixedColumn"
+				:class="['fixed-left-container', tableContainerClass]"
+				:style="fixedLeftContainerStyle">
+				<div ref="fixedLeftTableRef" class="fixed-table">
+					<table :class="tableClass" :style="tableStyle">
+						<!-- 左固定列表头 -->
+						<xTableEasyHeader
+							:show-header="showHeader"
+							:group-columns="leftFixedGroupColumns"
+							:header-rows="headerRows"
+							:enable-column-resize="enableColumnResize" />
+
+						<!-- 左固定列表体 -->
+						<xTableEasyBody
+							:actual-render-table-data="actualRenderTableData"
+							:colgroups="[leftFixedColgroups]"
+							:row-key-field-name="rowKeyFieldName"
+							:expand-option="expandOption"
+							:is-virtual-scroll="isVirtualScroll"
+							:show-virtual-scrolling-placeholder="false"
+							:virtual-scroll-placeholder-height="virtualScrollPlaceholderHeight"
+							:table-body-class="tableBodyClass" />
+					</table>
+				</div>
+			</div>
+
+			<!-- 主表格容器 -->
+			<div
+				:class="[
+					'table-container',
+					tableContainerClass,
+					{ 'has-fixed-left': hasLeftFixedColumn, 'has-fixed-right': hasRightFixedColumn }
+				]"
 				:style="tableContainerStyle"
-				ref="tableContainerRef">
-				<div ref="tableContentWrapperRef">
+				ref="tableContainerRef"
+				@scroll="handleTableContainerScroll">
+				<div ref="tableContentWrapperRef" class="table-content-wrapper-ref">
 					<table :class="tableClass" :style="tableStyle" ref="tableRef">
 						<!-- 表列定义 -->
 						<xTableEasyColgroup :colgroups="colgroups" />
@@ -17,7 +51,10 @@
 						<xTableEasyHeader
 							:show-header="showHeader"
 							:group-columns="groupColumns"
-							:header-rows="headerRows" />
+							:header-rows="headerRows"
+							:enable-column-resize="enableColumnResize"
+							@column-width-change="handleColumnWidthChange"
+							@column-width-resize-end="handleColumnWidthResizeEnd" />
 
 						<!-- 表体 -->
 						<xTableEasyBody
@@ -72,6 +109,34 @@
 					v-if="isColumnResizing"
 					:class="['column-resizer-indicator']"
 					:style="columnResizerIndicatorStyle"></div>
+			</div>
+
+			<!-- 右固定列容器 -->
+			<div
+				v-if="hasRightFixedColumn"
+				:class="['fixed-right-container', tableContainerClass]"
+				:style="fixedRightContainerStyle">
+				<div ref="fixedRightTableRef" class="fixed-table">
+					<table :class="tableClass" :style="tableStyle">
+						<!-- 右固定列表头 -->
+						<xTableEasyHeader
+							:show-header="showHeader"
+							:group-columns="rightFixedGroupColumns"
+							:header-rows="headerRows"
+							:enable-column-resize="enableColumnResize" />
+
+						<!-- 右固定列表体 -->
+						<xTableEasyBody
+							:actual-render-table-data="actualRenderTableData"
+							:colgroups="[rightFixedColgroups]"
+							:row-key-field-name="rowKeyFieldName"
+							:expand-option="expandOption"
+							:is-virtual-scroll="isVirtualScroll"
+							:show-virtual-scrolling-placeholder="false"
+							:virtual-scroll-placeholder-height="virtualScrollPlaceholderHeight"
+							:table-body-class="tableBodyClass" />
+					</table>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -135,8 +200,8 @@ export default async function () {
 			maxHeight: { type: [Number, String], default: null },
 			fixedHeader: { type: Boolean, default: true },
 			fixedFooter: { type: Boolean, default: true },
-			borderAround: { type: Boolean, default: true },
-			borderX: { type: Boolean, default: true },
+			borderAround: { type: Boolean, default: false },
+			borderX: { type: Boolean, default: false },
 			borderY: { type: Boolean, default: false },
 			eventCustomOption: {
 				type: Object,
@@ -257,6 +322,8 @@ export default async function () {
 				editInputRef: "editInputRef",
 				cellSelectionRef: "cellSelectionRef",
 				contextmenuRef: "contextmenuRef",
+				fixedLeftTableRef: "fixedLeftTableRef",
+				fixedRightTableRef: "fixedRightTableRef",
 				cloneColumns: [],
 				isGroupHeader: false,
 				headerRows: [],
@@ -407,7 +474,12 @@ export default async function () {
 			},
 			tableClass: function () {
 				var e2 = {};
-				return ((e2["border-x"] = this.borderX), (e2["border-y"] = this.borderY), e2);
+				return (
+					(e2["border-x"] = this.borderX),
+					(e2["border-y"] = this.borderY),
+					(e2["border-around"] = this.borderAround),
+					e2
+				);
 			},
 			tableContainerClass: function () {
 				var e2 = {},
@@ -980,6 +1052,15 @@ export default async function () {
 			getScrollBarWidth: function () {
 				// 获取滚动条宽度
 				return this.scrollBarWidth || 0;
+			},
+			// 处理列宽变化
+			handleColumnWidthChange: function (params) {
+				const { column, width } = params;
+				this.setColumnWidth({ colKey: column.key, width });
+			},
+			// 处理列宽调整结束
+			handleColumnWidthResizeEnd: function () {
+				this.$nextTick(this.setScrollBarStatus);
 			}
 		},
 		mounted() {
@@ -1046,12 +1127,50 @@ export default async function () {
 /* 表格边框样式 */
 .x-table-easy .border-x th,
 .x-table-easy .border-x td {
-	border-right: 1px solid #e8e8e8;
+	border-bottom: 1px solid #e8e8e8;
+}
+
+.x-table-easy .border-x tr:first-child > th,
+.x-table-easy .border-x tr.ve-table-footer-tr:first-child > td {
+	border-top: 1px solid #e8e8e8;
 }
 
 .x-table-easy .border-y th,
 .x-table-easy .border-y td {
-	border-bottom: 1px solid #e8e8e8;
+	border-right: 1px solid #e8e8e8;
+}
+
+.x-table-easy .border-y th:first-child,
+.x-table-easy .border-y td:first-child {
+	border-left: 1px solid #e8e8e8;
+}
+
+.x-table-easy .border-around {
+	border: 1px solid #e8e8e8;
+	border-radius: 4px;
+}
+
+.x-table-easy .border-around table {
+	&.border-x {
+		tr:last-child > td {
+			border-bottom: 0px;
+		}
+		tr:first-child > th {
+			border-top: 0px;
+		}
+	}
+
+	&.border-y {
+		th:last-child,
+		table.border-y td:last-child {
+			border-right: 0px;
+		}
+
+		th:first-child,
+		table.border-y td:first-child {
+			border-left: 0px;
+		}
+	}
 }
 
 /* 表体样式 */
