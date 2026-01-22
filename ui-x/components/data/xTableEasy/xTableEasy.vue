@@ -619,6 +619,58 @@ export default async function () {
 				return {
 					left: this.columnResizerPosition + "px"
 				};
+			},
+			// 左固定列
+			leftFixedColgroups: function () {
+				return this.colgroups[0].filter(function (column) {
+					return column.fixed === "left";
+				});
+			},
+			// 右固定列
+			rightFixedColgroups: function () {
+				return this.colgroups[0].filter(function (column) {
+					return column.fixed === "right";
+				});
+			},
+			// 左固定列的分组列
+			leftFixedGroupColumns: function () {
+				return this.groupColumns.map(function (rowColumns) {
+					return rowColumns.filter(function (column) {
+						return column.fixed === "left";
+					});
+				});
+			},
+			// 右固定列的分组列
+			rightFixedGroupColumns: function () {
+				return this.groupColumns.map(function (rowColumns) {
+					return rowColumns.filter(function (column) {
+						return column.fixed === "right";
+					});
+				});
+			},
+			// 左固定列容器样式
+			fixedLeftContainerStyle: function () {
+				var width = 0;
+				this.leftFixedColgroups.forEach(function (column) {
+					width += parseInt(column.width) || 100;
+				});
+				return {
+					width: width + "px",
+					maxHeight:
+						typeof this.maxHeight === "number" ? this.maxHeight + "px" : this.maxHeight
+				};
+			},
+			// 右固定列容器样式
+			fixedRightContainerStyle: function () {
+				var width = 0;
+				this.rightFixedColgroups.forEach(function (column) {
+					width += parseInt(column.width) || 100;
+				});
+				return {
+					width: width + "px",
+					maxHeight:
+						typeof this.maxHeight === "number" ? this.maxHeight + "px" : this.maxHeight
+				};
 			}
 		},
 		watch: {
