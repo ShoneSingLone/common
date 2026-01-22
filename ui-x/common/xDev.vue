@@ -11,6 +11,9 @@ export default async function () {
 			const isCollapsed = ref(true);
 
 			const contents = computed(() => {
+				if (_.isArray(this.$slots.default)) {
+					return this.$slots.default;
+				}
 				try {
 					return JSON.stringify(props.contents, null, 2);
 				} catch (error) {

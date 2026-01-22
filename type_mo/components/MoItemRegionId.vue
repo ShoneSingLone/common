@@ -64,7 +64,7 @@ export default async function () {
 						];
 					};
 					this.configs.options = options;
-					this.$emit("configschange", this.configs);
+					this.$emit("x-item-configs-change", this.configs);
 					this.$emit("change", regionId);
 				} catch (error) {
 					console.error(error);

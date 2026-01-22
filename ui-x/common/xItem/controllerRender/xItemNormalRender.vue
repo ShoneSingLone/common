@@ -62,7 +62,7 @@ export default async function ({ PRIVATE_GLOBAL }) {
 						value: vm.cpt_value,
 						on: vm.p_listeners,
 						/* 监听配置项变化,需要主动调用 */
-						onConfigschange: configs => {
+						onXItemConfigsChange: configs => {
 							_.each(configs, (value, prop) => {
 								vm.$set(vm.configs, prop, value);
 							});

@@ -304,6 +304,14 @@ export default async function () {
 				default: function () {
 					return null;
 				}
+			},
+			// 文本换行模式
+			wordBreakMode: {
+				type: String,
+				default: "normal",
+				validator: function (value) {
+					return ["normal", "keep-all", "break-all", "break-word"].indexOf(value) !== -1;
+				}
 			}
 		},
 		data() {
@@ -478,6 +486,7 @@ export default async function () {
 					(e2["border-x"] = this.borderX),
 					(e2["border-y"] = this.borderY),
 					(e2["border-around"] = this.borderAround),
+					(e2["word-break-" + this.wordBreakMode] = true),
 					e2
 				);
 			},
@@ -1249,12 +1258,29 @@ export default async function () {
 /* 表体样式 */
 .x-table-easy td {
 	padding: 12px 16px;
-	white-space: nowrap;
+	/* white-space: pre-wrap; */
 	overflow: hidden;
-	text-overflow: ellipsis;
+	word-break: inherit;
 	box-sizing: border-box;
 	transition: background-color 0.3s;
 	position: relative;
+}
+
+/* word-break模式样式 */
+.x-table-easy.word-break-normal td {
+	word-break: normal;
+}
+
+.x-table-easy.word-break-keep-all td {
+	word-break: keep-all;
+}
+
+.x-table-easy.word-break-break-all td {
+	word-break: break-all;
+}
+
+.x-table-easy.word-break-break-word td {
+	word-break: break-word;
 }
 
 /* 容器滚动样式 */

@@ -53,7 +53,7 @@ export default async function () {
 										value: vm.configs.selectValue ?? "",
 										onEmitValue({ val }) {
 											vm.configs.selectValue = val;
-											vm.$emit("configschange", vm.configs);
+											vm.$emit("x-item-configs-change", vm.configs);
 											if (_.isFunction(vm.configs.onSelectChange)) {
 												vm.configs.onSelectChange({ val });
 											} else {

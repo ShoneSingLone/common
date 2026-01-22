@@ -53,7 +53,7 @@ export default async function () {
 						return item.label;
 					};
 					this.configs.options = options;
-					this.$emit("configschange", this.configs);
+					this.$emit("x-item-configs-change", this.configs);
 					this.mixin_value = _.$getFirstOrDefaultValue(this.configs.options, "");
 				} catch (error) {
 					console.error(error);
