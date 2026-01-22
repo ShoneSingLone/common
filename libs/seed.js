@@ -764,7 +764,7 @@
 
 								if (i18nString === undefined) {
 									/* i18n wenjian zhong wei ding yi guo ji hua wen jian  */
-									console.warn(`[i18n:unset] ${key}`);
+									window.i18n_unset[key] = true;
 									i18nString = key;
 								}
 
@@ -796,7 +796,7 @@
 									const preloadArray = getPreload();
 									preloadArray.forEach(url => $loadText(url));
 								}
-							} catch (error) {}
+							} catch (error) { }
 						}
 					}
 				],
@@ -814,6 +814,7 @@
 						const i18n = await _.$newI18n({ lang: I18N_LANGUAGE });
 						/* vue加载之后才能使用国际化属性 */
 						window.i18n = i18n;
+						window.i18n_unset = {};
 						Vue.prototype.i18n = i18n;
 					}
 				],
