@@ -1021,8 +1021,29 @@ export default async function () {
 					this.updateVirtualScrollData(scrollTop);
 				}
 
+				// 同步固定列的滚动位置
+				this.syncFixedColumnsScroll(scrollTop);
+
 				// 触发滚动事件
 				this.$emit("scroll", { scrollTop, scrollLeft: container.scrollLeft });
+			},
+			// 处理表格容器滚动
+			handleTableContainerScroll: function (event) {
+				this.handleScroll(event);
+			},
+			// 同步固定列的滚动位置
+			syncFixedColumnsScroll: function (scrollTop) {
+				// 同步左固定列的滚动位置
+				if (this.hasLeftFixedColumn && this.$refs.fixedLeftTableRef) {
+					const fixedLeftTable = this.$refs.fixedLeftTableRef;
+					fixedLeftTable.scrollTop = scrollTop;
+				}
+
+				// 同步右固定列的滚动位置
+				if (this.hasRightFixedColumn && this.$refs.fixedRightTableRef) {
+					const fixedRightTable = this.$refs.fixedRightTableRef;
+					fixedRightTable.scrollTop = scrollTop;
+				}
 			},
 			// 更新虚拟滚动数据
 			updateVirtualScrollData: function (scrollTop) {
@@ -1382,6 +1403,64 @@ export default async function () {
 
 .x-table-easy ::-webkit-scrollbar-thumb:hover {
 	background-color: #a8a8a8;
+}
+
+/* 固定列样式 */
+.x-table-easy .fixed-left-container,
+.x-table-easy .fixed-right-container {
+	position: absolute;
+	top: 0;
+	height: 100%;
+	overflow: hidden;
+	z-index: 10;
+	background-color: #fff;
+	box-shadow: 2px 0 6px rgba(0, 0, 0, 0.1);
+}
+
+.x-table-easy .fixed-left-container {
+	left: 0;
+}
+
+.x-table-easy .fixed-right-container {
+	right: 0;
+	box-shadow: -2px 0 6px rgba(0, 0, 0, 0.1);
+}
+
+.x-table-easy .fixed-table {
+	height: 100%;
+	overflow: hidden;
+}
+
+.x-table-easy .fixed-table table {
+	border-collapse: collapse;
+	border-spacing: 0;
+	table-layout: fixed;
+}
+
+/* 主表格容器与固定列的间距 */
+.x-table-easy .table-container.has-fixed-left {
+	margin-left: 0;
+}
+
+.x-table-easy .table-container.has-fixed-right {
+	margin-right: 0;
+}
+
+/* 固定列与主表格的边框处理 */
+.x-table-easy .fixed-left-container table.border-x tr:last-child > td {
+	border-bottom: 0;
+}
+
+.x-table-easy .fixed-right-container table.border-x tr:last-child > td {
+	border-bottom: 0;
+}
+
+.x-table-easy .fixed-left-container table.border-y td:last-child {
+	border-right: 1px solid #e8e8e8;
+}
+
+.x-table-easy .fixed-right-container table.border-y td:first-child {
+	border-left: 1px solid #e8e8e8;
 }
 
 /* 表头排序指示器样式 */
