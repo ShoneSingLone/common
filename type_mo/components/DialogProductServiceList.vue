@@ -125,7 +125,9 @@ export default async function ({ onSelect, onCancel, service_type, icon }) {
 					//共享带宽
 					sbw: "mo_icon-sbw",
 					/* 快照 */
-					snapshot: "mo_icon-snapshot"
+					snapshot: "mo_icon-snapshot",
+					/* cluster */
+					cluster: "mo_icon-cluster"
 				};
 				return ICON_MAP[icon] || "xloading";
 			},

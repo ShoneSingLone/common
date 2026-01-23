@@ -784,6 +784,17 @@ ${callerInfo.message}:`);
 				fixed: "left",
 				headerCellRenderer(_props) {
 					const tableConfigs = getConfigs();
+					let isDisabled = (() => {
+						const check = rowData => {
+							if (_.isFunction(disabled)) {
+								return disabled({ rowData });
+							}
+							return false;
+						};
+
+						return _.some(tableConfigs.data.list, check);
+					})();
+
 					const isChecked =
 						tableConfigs.data.list.length > 0 &&
 						tableConfigs.data.set.size === tableConfigs.data.list.length;
@@ -791,6 +802,7 @@ ${callerInfo.message}:`);
 						tableConfigs.data.set.size > 0 &&
 						tableConfigs.data.set.size < tableConfigs.data.list.length;
 					const checkBoxProps = {
+						disabled: isDisabled,
 						indeterminate: isIndeterminate,
 						value: isChecked,
 						onChange() {
@@ -846,6 +858,9 @@ ${callerInfo.message}:`);
 						}
 						return false;
 					})();
+					if (isDisabled) {
+						debugger;
+					}
 
 					if (_.isString(isDisabled)) {
 						disabledTips = isDisabled;
