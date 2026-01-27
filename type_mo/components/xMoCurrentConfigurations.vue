@@ -1,7 +1,7 @@
 <template>
 	<xCard :header="i18n('current_allocation')" class="xMoCurrentConfigurations ml">
 		<xForm col="1" style="width: var(--xMoCurrentConfigurations-width)">
-			<xItemDesc :item="itemConfigs" v-for="(itemConfigs, prop) in items" :key="prop" />
+			<xDesc :item="itemConfigs" v-for="(itemConfigs, prop) in items" :key="prop" />
 			<!-- {{ items }} -->
 		</xForm>
 	</xCard>
