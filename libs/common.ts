@@ -2708,10 +2708,11 @@ ${callerInfo.message}:`);
 		 * @param {*} xItemConfigs
 		 * @returns
 		 */
-		_.$xItemSelected = function (xItemConfigs) {
+		_.$xItemSelected = function (xItemConfigs, vModelValue = "") {
 			let defaultValue = { value: "", label: "", labelKey: "" };
 			try {
-				const { options, value } = xItemConfigs;
+				let { options, value } = xItemConfigs;
+				value = _.$isInput(value) ? value : vModelValue;
 				if (_.$isArrayFill(options) && _.$isInput(value)) {
 					if (_.isArray(value)) {
 						const item = _.filter(options, option => {
