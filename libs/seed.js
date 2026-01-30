@@ -544,7 +544,7 @@
 				let exeCount = 0;
 
 				const checkValue = async () => {
-					const value = await fn_get_value();
+					const value = await fn_get_value({ exeCount });
 					_ensure_inner_print(++exeCount, callerInfo);
 					if (value) {
 						clearTimeout(timer);
@@ -796,7 +796,7 @@
 									const preloadArray = getPreload();
 									preloadArray.forEach(url => $loadText(url));
 								}
-							} catch (error) { }
+							} catch (error) {}
 						}
 					}
 				],
