@@ -1,5 +1,5 @@
 <script lang="ts">
-export default async function () {
+export default async function ({ PRIVATE_GLOBAL }) {
 	const { mixins } = await _.$importVue("/common/ui-x/common/ItemMixins.vue");
 	return defineComponent({
 		mixins: [mixins],
@@ -30,6 +30,11 @@ export default async function () {
 			}
 			if (this.isNumber) {
 				tag = "xInputNumber";
+				attrs = _.merge(
+					{},
+					PRIVATE_GLOBAL.x_item_input_is_number_default_attrs || {},
+					attrs
+				);
 			}
 
 			if (_.isFunction(_.$val(_xUtils, "globalConfigs.xItemInput.defaultProps"))) {

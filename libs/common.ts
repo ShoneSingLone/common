@@ -889,9 +889,6 @@ ${callerInfo.message}:`);
 						}
 						return false;
 					})();
-					if (isDisabled) {
-						debugger;
-					}
 
 					if (_.isString(isDisabled)) {
 						disabledTips = isDisabled;

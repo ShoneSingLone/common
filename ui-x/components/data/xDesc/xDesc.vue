@@ -13,11 +13,17 @@
 export default async function () {
 	const { THIS_FILE_URL } = this;
 	return defineComponent({
-		props: ["item"],
+		props: ["item", "value"],
 		data() {
 			return { THIS_FILE_URL };
 		},
 		computed: {
+			cpt_desc_item_value() {
+				if (this.value !== undefined) {
+					return this.value;
+				}
+				return this.item.value;
+			},
 			cptIsShow() {
 				if (_.isFunction(this.item.isHide)) {
 					return !this.item.isHide();
@@ -46,7 +52,8 @@ export default async function () {
 		},
 		methods: {
 			calContent() {
-				let content = this.item.value;
+				let content = this.cpt_desc_item_value;
+
 				let itemType = (() => {
 					/*  如果有其他自定义的类型，但是readonly的显示效果是一样的 */
 					if (_.isString(_.$val(this, "item.xItemRender"))) {
@@ -56,13 +63,16 @@ export default async function () {
 				})();
 				/* TODO:这种API...有待商榷 */
 				if (_.isFunction(_.$val(this, "item.xItemRender"))) {
-					content = this.item.xItemRender.call(this.item, { xDesc: this });
+					content = this.item.xItemRender.call(this.item, {
+						xDesc: this,
+						val: this.cpt_desc_item_value
+					});
 				} else if (itemType === "xItemSelect") {
 					let options = this.item.options;
 					if (_.isFunction(options)) {
 						options = options();
 					}
-					content = _.find(options, { value: this.item.value }).label;
+					content = _.find(options, { value: this.cpt_desc_item_value })?.label;
 				} else if (_.isBoolean(content)) {
 					content = content ? i18n("yes_answer") : i18n("no_answer");
 				} else if (_.isPlainObject(content)) {
