@@ -67,7 +67,7 @@ export default async function () {
 						xDesc: this,
 						val: this.cpt_desc_item_value
 					});
-				} else if (itemType === "xItemSelect") {
+				} else if (["xItemSelect", "xItemRadioGroup"].includes(itemType)) {
 					let options = this.item.options;
 					if (_.isFunction(options)) {
 						options = options();

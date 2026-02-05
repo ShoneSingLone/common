@@ -87,7 +87,7 @@
 				:disabled="selectDisabled"
 				:readonly="readonly"
 				:validate-event="false"
-				:class="{ 'is-focus': visible }"
+				:class="cpt_input_class"
 				:tabindex="multiple && filterable ? '-1' : null"
 				@focus="handleFocus"
 				@blur="handleBlur"
@@ -218,7 +218,11 @@ export default async function ({ PRIVATE_GLOBAL }) {
 			};
 		},
 		computed: {
+			cpt_input_class({ visible, inputClass }) {
+				return { "is-focus": visible, [inputClass]: !!inputClass };
+			},
 			cptClassInput() {
+				debugger;
 				return [this.selectSize ? `is-${this.selectSize}` : ""];
 			},
 			_elFormItemSize() {
@@ -303,6 +307,7 @@ export default async function ({ PRIVATE_GLOBAL }) {
 
 		directives: { Clickoutside },
 		props: {
+			inputClass: { type: String, default: "" },
 			name: String,
 			id: String,
 			value: {

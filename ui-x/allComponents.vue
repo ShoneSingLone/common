@@ -43,6 +43,7 @@ export default async function () {
 		"components/data/xTree/xNodeContent",
 		"components/form/xAdvancedSearch/xAdvancedSearch",
 		"components/form/xInput/xInput",
+		"components/form/xInput/xNumberWithUnit",
 		"components/form/xInputNumber/xInputNumber",
 		"components/form/xIpAddress/xIpAddress",
 		"components/form/xAutocomplete/xAutocomplete",
