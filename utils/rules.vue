@@ -36,17 +36,20 @@ export default async function ({ PRIVATE_GLOBAL }) {
 						name: "opration_or",
 						async validator(...args) {
 							const vm = this;
-							const _validata_array = _.cloneDeep(validatorArray);
+							const _validate_array = _.cloneDeep(validatorArray);
+							const all_validaters = _validate_array.length;
 							let rule;
-							while ((rule = _validata_array.shift())) {
-								const _result = await rule.validator.apply(vm, args);
-								if (!_result) {
+							let error_array = [];
+							while ((rule = _validate_array.shift())) {
+								const error_message = await rule.validator.apply(vm, args);
+								if (!error_message) {
 									/* 任意一个没有问题就可以 */
 									return "";
 								} else {
-									return _result;
+									error_array.push(error_message);
 								}
 							}
+							return error_array.length < all_validaters ? "" : _.first(error_array);
 						},
 						trigger: ["change", "blur"]
 					};
@@ -57,10 +60,10 @@ export default async function ({ PRIVATE_GLOBAL }) {
 						name: "opration_and",
 						async validator(...args) {
 							const vm = this;
-							const _validata_array = _.cloneDeep(validatorArray);
+							const _validate_array = _.cloneDeep(validatorArray);
 							/* 与关系的校验 */
 							let rule;
-							while ((rule = _validata_array.shift())) {
+							while ((rule = _validate_array.shift())) {
 								const _result = await rule.validator.apply(vm, args);
 								if (_result) {
 									/* 只要有一个不通过就返回错误 */

@@ -222,7 +222,6 @@ export default async function ({ PRIVATE_GLOBAL }) {
 				return { "is-focus": visible, [inputClass]: !!inputClass };
 			},
 			cptClassInput() {
-				debugger;
 				return [this.selectSize ? `is-${this.selectSize}` : ""];
 			},
 			_elFormItemSize() {
