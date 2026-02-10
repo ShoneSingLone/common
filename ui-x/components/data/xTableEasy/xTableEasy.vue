@@ -16,7 +16,8 @@
 							:show-header="showHeader"
 							:group-columns="leftFixedGroupColumns"
 							:header-rows="headerRows"
-							:enable-column-resize="enableColumnResize" />
+							:enable-column-resize="enableColumnResize"
+							:min-width="columnResizeMinWidth" />
 
 						<!-- 左固定列表体 -->
 						<xTableEasyBody
@@ -53,6 +54,17 @@
 							:group-columns="groupColumns"
 							:header-rows="headerRows"
 							:enable-column-resize="enableColumnResize"
+							:min-width="columnResizeMinWidth"
+							:parent-rendered="parentRendered"
+							:table-container-el="$refs.tableContainerRef"
+							:hooks="hooks"
+							:colgroups="colgroups"
+							:is-column-resizer-hover="isColumnResizerHover"
+							:is-column-resizing="isColumnResizing"
+							:set-is-column-resizer-hover="setIsColumnResizerHover"
+							:set-is-column-resizing="setIsColumnResizing"
+							:set-column-width="setColumnWidth"
+							:column-width-resize-option="columnWidthResizeOption"
 							@column-width-change="handleColumnWidthChange"
 							@column-width-resize-end="handleColumnWidthResizeEnd" />
 
@@ -123,7 +135,8 @@
 							:show-header="showHeader"
 							:group-columns="rightFixedGroupColumns"
 							:header-rows="headerRows"
-							:enable-column-resize="enableColumnResize" />
+							:enable-column-resize="enableColumnResize"
+							:min-width="columnResizeMinWidth" />
 
 						<!-- 右固定列表体 -->
 						<xTableEasyBody
@@ -316,7 +329,26 @@ export default async function () {
 		},
 		data() {
 			return {
-				hooks: {},
+				// Hooks系统
+				hooks: {
+					_hooks: {},
+					addHook: function (name, callback) {
+						if (!this._hooks[name]) {
+							this._hooks[name] = [];
+						}
+						this._hooks[name].push(callback);
+						return {
+							remove: () => {
+								this._hooks[name] = this._hooks[name].filter(cb => cb !== callback);
+							}
+						};
+					},
+					emitHook: function (name, ...args) {
+						if (this._hooks[name]) {
+							this._hooks[name].forEach(callback => callback(...args));
+						}
+					}
+				},
 				parentRendered: false,
 				tableViewportWidth: 0,
 				columnsOptionResetTime: 0,
@@ -393,6 +425,7 @@ export default async function () {
 				enableStopEditing: true,
 				contextmenuEventTarget: "",
 				contextmenuOptions: [],
+				// 列宽调整相关
 				isColumnResizerHover: false,
 				isColumnResizing: false,
 				columnResizerPosition: 0,
@@ -590,11 +623,25 @@ export default async function () {
 				return this.rowKeyFieldName;
 			},
 			enableColumnResize: function () {
-				var e2 = false,
+				// 暂时强制返回 true，以便测试列宽拖动功能
+				return true;
+				/*
+				var e2 = true,
 					t2 = this.columnWidthResizeOption;
 				if (t2) {
 					var n2 = t2.enable;
 					typeof n2 === "boolean" && (e2 = n2);
+				}
+				console.log('enableColumnResize computed:', e2, 'columnWidthResizeOption:', this.columnWidthResizeOption);
+				return e2;
+				*/
+			},
+			columnResizeMinWidth: function () {
+				var e2 = 30,
+					t2 = this.columnWidthResizeOption;
+				if (t2) {
+					var n2 = t2.minWidth;
+					typeof n2 === "number" && (e2 = n2);
 				}
 				return e2;
 			},
@@ -863,9 +910,28 @@ export default async function () {
 			setColumnWidth: function (e2) {
 				var t2 = e2.colKey,
 					n2 = e2.width;
-				this.colgroups = this.colgroups.map(function (e3) {
-					return (e3.key === t2 && (e3._columnResizeWidth = n2), e3);
+				// 遍历二维数组 colgroups
+				this.colgroups = this.colgroups.map(function (colgroup) {
+					// 遍历每个colgroup中的列
+					return colgroup.map(function (e3) {
+						// 检查列的 key 或 field 是否等于 t2
+						if (e3.key === t2 || e3.field === t2 || e3.colKey === t2) {
+							e3._columnResizeWidth = n2;
+						}
+						return e3;
+					});
 				});
+
+				// 同时更新 groupColumns 中的列宽
+				this.groupColumns = this.groupColumns.map(function (rowColumns) {
+					return rowColumns.map(function (column) {
+						if (column.key === t2 || column.field === t2 || column.colKey === t2) {
+							column._columnResizeWidth = n2;
+						}
+						return column;
+					});
+				});
+
 				this.$nextTick(this.setScrollBarStatus);
 			},
 			// 更新滚动条状态
@@ -1138,11 +1204,42 @@ export default async function () {
 			// 处理列宽变化
 			handleColumnWidthChange: function (params) {
 				const { column, width } = params;
-				this.setColumnWidth({ colKey: column.key, width });
+				console.log("Column object:", column);
+				console.log("Column key:", column.key);
+				console.log("Column colKey:", column.colKey);
+				const oldWidth = column.width || column._columnResizeWidth || 100;
+				const differWidth = width - oldWidth;
+
+				// 使用 column.colKey 或 column.key 作为 colKey
+				const colKey = column.colKey || column.key;
+				console.log("Using colKey:", colKey);
+				this.setColumnWidth({ colKey: colKey, width });
+
+				// 触发sizeChange回调
+				if (this.columnWidthResizeOption && this.columnWidthResizeOption.sizeChange) {
+					this.columnWidthResizeOption.sizeChange({
+						column: column,
+						differWidth: differWidth,
+						columnWidth: width
+					});
+				}
 			},
 			// 处理列宽调整结束
 			handleColumnWidthResizeEnd: function () {
 				this.$nextTick(this.setScrollBarStatus);
+			},
+			// 列宽调整相关方法
+			setIsColumnResizerHover: function (value) {
+				this.isColumnResizerHover = value;
+			},
+			setIsColumnResizing: function (value) {
+				this.isColumnResizing = value;
+				if (value) {
+					// 开始调整时的逻辑
+				} else {
+					// 结束调整时的逻辑
+					this.$nextTick(this.setScrollBarStatus);
+				}
 			}
 		},
 		mounted() {
@@ -1153,8 +1250,13 @@ export default async function () {
 				}
 				// 初始化列宽调整
 				this.initColumnWidthByColumnResize();
+				// 设置parentRendered为true，触发column-resizer初始化
+				this.parentRendered = true;
 				// 触发表格就绪事件
 				this.$emit("ready", this);
+
+				// 打印enableColumnResize的值
+				console.log("xTableEasy mounted, enableColumnResize:", this.enableColumnResize);
 			});
 		},
 		beforeDestroy() {

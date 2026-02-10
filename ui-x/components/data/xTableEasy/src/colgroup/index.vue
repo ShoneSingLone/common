@@ -4,7 +4,7 @@
 			<col
 				v-for="(col, colIndex) in colgroup"
 				:key="colIndex"
-				:width="col.width"
+				:width="col._columnResizeWidth || col.width"
 				:name="col.colKey" />
 		</template>
 	</colgroup>
