@@ -7570,7 +7570,6 @@
 		for (
 			var r = st((t = void 0 === t ? {} : t).preserveComments ? xu : Ru);
 			!(a = r()).done;
-
 		) {
 			var a = a.value;
 			null != e[a] && (e[a] = void 0);
@@ -12479,7 +12478,6 @@
 				for (
 					this.state.pos = a + e.length, og.lastIndex = r + 2;
 					og.test(this.input) && og.lastIndex <= a;
-
 				)
 					(++this.state.curLine, (this.state.lineStart = og.lastIndex));
 				if (!this.isLookahead)
@@ -12918,7 +12916,6 @@
 							return tp(r, n + 2 - a);
 						};
 					n < this.length;
-
 				) {
 					var c = this.codePointAtPos(n),
 						l = String.fromCharCode(c);
@@ -13101,7 +13098,6 @@
 				for (
 					void 0 !== e && (this.state.pos += e <= 65535 ? 1 : 2);
 					this.state.pos < this.length;
-
 				) {
 					var n = this.codePointAtPos(this.state.pos);
 					if (ia(n)) this.state.pos += n <= 65535 ? 1 : 2;
@@ -13339,7 +13335,6 @@
 			for (
 				var r = t.loc.start, a = this.stack, n = a.length - 1, s = a[n];
 				!s.isCertainlyParameterDeclaration();
-
 			) {
 				if (!s.canBeArrowParameterDeclaration()) return;
 				(s.recordDeclarationError(e, r), (s = a[--n]));
@@ -13358,7 +13353,6 @@
 			for (
 				var t = this.stack, r = t.length - 1, a = t[r];
 				a.canBeArrowParameterDeclaration();
-
 			)
 				(2 === a.type && a.recordDeclarationError(m.AwaitBindingIdentifier, e),
 					(a = t[--r]));
@@ -13372,7 +13366,6 @@
 					for (
 						var t = e[0], r = e[1], a = (s.parser.raise(t, r), o.length - 2), n = o[a];
 						n.canBeArrowParameterDeclaration();
-
 					)
 						(n.clearDeclarationError(r.index), (n = o[--a]));
 				});
@@ -14493,7 +14486,6 @@
 										this.state.startLoc
 									);
 									this.match(26);
-
 								)
 									i.push(this.parseDecorator());
 							n.push(this.parseBindingElement(r, i));
@@ -15236,7 +15228,6 @@
 								r++ < 10 &&
 								this.state.pos < this.length &&
 								!(a = 59 === this.codePointAtPos(this.state.pos));
-
 							)
 								++this.state.pos;
 							if (a) {
@@ -15250,7 +15241,6 @@
 						for (
 							var e, t = this.state.pos;
 							ia((e = this.input.charCodeAt(++this.state.pos))) || 45 === e;
-
 						);
 						this.finishToken(141, this.input.slice(t, this.state.pos));
 					}),
@@ -15767,21 +15757,18 @@
 								;
 								e.extends.push(this.flowParseInterfaceExtends()),
 									!t && this.eat(12);
-
 							);
 						if (t) {
 							if (((e.implements = []), (e.mixins = []), this.eatContextual(117)))
 								for (
 									;
 									e.mixins.push(this.flowParseInterfaceExtends()), this.eat(12);
-
 								);
 							if (this.eatContextual(113))
 								for (
 									;
 									e.implements.push(this.flowParseInterfaceExtends()),
 										this.eat(12);
-
 								);
 						}
 						e.body = this.flowParseObjectType({
@@ -15933,7 +15920,6 @@
 							for (
 								e.params = [], this.state.inType = !0, this.expect(47);
 								!this.match(48);
-
 							)
 								(e.params.push(this.flowParseTypeOrImplicitInstantiation()),
 									this.match(48) || this.expect(12));
@@ -15950,7 +15936,6 @@
 							for (
 								;
 								e.extends.push(this.flowParseInterfaceExtends()), this.eat(12);
-
 							);
 						return (
 							(e.body = this.flowParseObjectType({
@@ -16013,7 +15998,6 @@
 									(e.this.name = null),
 									this.match(11) || this.expect(12));
 							!this.match(11) && !this.match(21);
-
 						)
 							(e.params.push(this.flowParseFunctionTypeParam(!1)),
 								this.match(11) || this.expect(12));
@@ -16223,7 +16207,6 @@
 							this.state.pos < this.length &&
 							!this.match(3) &&
 							(e.types.push(this.flowParseType()), !this.match(3));
-
 						)
 							this.expect(12);
 						return (this.expect(3), this.finishNode(e, "TupleTypeAnnotation"));
@@ -16269,7 +16252,6 @@
 							(((r = this.flowParseFunctionTypeParam(!0)).name = null),
 							this.match(11) || this.expect(12));
 							!this.match(11) && !this.match(21);
-
 						)
 							(e.push(this.flowParseFunctionTypeParam(!1)),
 								this.match(11) || this.expect(12));
@@ -16462,7 +16444,6 @@
 						for (
 							var e = this.state.startLoc, t = this.flowParsePrimaryType(), r = !1;
 							(this.match(0) || this.match(18)) && !this.canInsertSemicolon();
-
 						) {
 							var a = this.startNodeAt(e),
 								n = this.eat(18),
@@ -17398,7 +17379,6 @@
 						for (
 							var e = this.state.pos, t = 2;
 							[32, 9].includes(this.input.charCodeAt(e + t));
-
 						)
 							t++;
 						var r = this.input.charCodeAt(t + e),
@@ -17490,7 +17470,6 @@
 								},
 								s = !1;
 							!this.match(8);
-
 						) {
 							if (this.eat(21)) {
 								s = !0;
@@ -17836,7 +17815,6 @@
 										s.raise(p.IncompatibleModifiers, e, { modifiers: [r, a] });
 								};
 							;
-
 						) {
 							var l = this.state.startLoc,
 								u = this.tsParseModifier(r.concat(null != a ? a : []), o);
@@ -17937,7 +17915,6 @@
 											this.finishNode(t, "ThisExpression"))
 									: this.parseIdentifier(!!(e & xf));
 							this.eat(16);
-
 						) {
 							var a = this.startNodeAtNode(r);
 							((a.left = r),
@@ -18445,7 +18422,6 @@
 						for (
 							var e = this.state.startLoc, t = this.tsParseNonArrayType();
 							!this.hasPrecedingLineBreak() && this.eat(0);
-
 						)
 							var r,
 								t = this.match(3)
@@ -18516,7 +18492,6 @@
 						for (
 							var a = this.startNode(), n = this.eat(r), s = [];
 							s.push(t()), this.eat(r);
-
 						);
 						return 1 !== s.length || n ? ((a.types = s), this.finishNode(a, e)) : s[0];
 					}),
@@ -20828,7 +20803,6 @@
 						stop: !1
 					};
 					(e = this.parseSubscript(e, t, r, a)), (a.maybeAsyncArrow = !1), !a.stop;
-
 				);
 				return e;
 			}),
@@ -21330,7 +21304,6 @@
 						d = new qg(),
 						c = !0;
 					!this.match(11);
-
 				) {
 					if (c) c = !1;
 					else if (
@@ -21464,7 +21437,6 @@
 				for (
 					var t = this.startNode(), r = this.parseTemplateElement(e), a = [r], n = [];
 					!r.tail;
-
 				)
 					(n.push(this.parseTemplateSubstitution()),
 						this.readTemplateContinuation(),
@@ -21523,7 +21495,6 @@
 						this.hasPlugin("decorators") &&
 						this.raise(m.UnsupportedPropertyDecorator, this.state.startLoc);
 						this.match(26);
-
 					)
 						t.push(this.parseDecorator());
 				var r,
@@ -26608,7 +26579,6 @@
 								E = ("function" == typeof d && d(j)) || $0(j),
 								S = st(w);
 							!(v = S()).done;
-
 						)
 							Q0(s, v.value, Y0(E));
 					return (
@@ -29292,7 +29262,6 @@
 							this.hasBinding(t) ||
 							this.hasGlobal(t) ||
 							this.hasReference(t);
-
 				);
 				var a = this.getProgramParent();
 				return ((a.references[t] = !0), (a.uids[t] = !0), t);
@@ -29477,7 +29446,6 @@
 					for (
 						var t, r = e.get("declarations"), a = e.node.kind, n = st(r);
 						!(t = n()).done;
-
 					)
 						this.registerBinding(
 							"using" === a || "await using" === a ? "const" : a,
@@ -29489,7 +29457,6 @@
 						var s = "type" === e.node.importKind || "typeof" === e.node.importKind,
 							o = st(e.get("specifiers"));
 						!(i = o()).done;
-
 					) {
 						var i = i.value,
 							d =
@@ -29887,7 +29854,6 @@
 								for (
 									var d, c = void 0, l = [], u = st(o.declarations);
 									!(d = u()).done;
-
 								) {
 									var p = d.value;
 									(null != c || (c = p.id),
@@ -32882,7 +32848,6 @@
 							[]),
 						o = st(t);
 					!(i = o()).done;
-
 				) {
 					var i = i.value;
 					if (null != i && null != i.start && null != i.end) {
@@ -33172,7 +33137,6 @@
 						v = x.length,
 						j = -1;
 					++j < v;
-
 				)
 					R(x[j]);
 				return f
@@ -33557,7 +33521,6 @@
 													";"
 												) &&
 												t.start < r;
-
 											)
 												(a.token(";", void 0, i++), o++);
 										})
@@ -33958,7 +33921,6 @@
 						e.specifiers.slice(0)),
 					a = !!r.length;
 				a;
-
 			) {
 				var n = r[0];
 				if (!N4(n) && !B4(n)) break;
@@ -35562,7 +35524,6 @@
 													for (
 														var s = n.length - 1;
 														0 <= s && null === n[s];
-
 													)
 														s--;
 													return 0 <= s && n[s] === t;
@@ -36455,7 +36416,6 @@
 					this.isCompatibleScope(e) &&
 					(this.scopes.push(e), !this.breakOnScopePaths.includes(e.path)) &&
 					(e = e.parent);
-
 				);
 			}),
 			(ru.getAttachmentPath = function () {
@@ -36475,7 +36435,6 @@
 										for (
 											var n = a.path, s = st(a.constantViolations);
 											!(o = s()).done;
-
 										) {
 											var o = o.value;
 											this.getAttachmentParentForPath(o).key > n.key &&
@@ -37089,7 +37048,6 @@
 				o = e.isTemplateLiteral() ? e.get("expressions") : e.get("quasi.expressions"),
 				i = st(t);
 			!(d = i()).done;
-
 		) {
 			var d = d.value;
 			if (!r.confident) break;
@@ -38212,7 +38170,6 @@
 				var e = this;
 				!(!e.parentPath || (Array.isArray(e.container) && e.isStatement())) &&
 				(e = e.parentPath);
-
 			);
 			if (e && (e.isProgram() || e.isFile()))
 				throw new Error(
@@ -38875,7 +38832,6 @@
 					("discriminant" === this.key && a.isSwitchStatement())) &&
 				(a = a.parentPath);
 				a && !t;
-
 			) {
 				if (null != (r = a.opts) && r.noScope) return;
 				((t = a.scope), (a = a.parentPath));
@@ -40189,7 +40145,6 @@
 							;
 							(r = o[i.COERCERTL].exec(e)) &&
 							(!a || a.index + a[0].length !== e.length);
-
 						)
 							((a && r.index + r[0].length === a.index + a[0].length) || (a = r),
 								(o[i.COERCERTL].lastIndex = r.index + r[1].length + r[2].length));
@@ -41331,7 +41286,6 @@
 						n = "var" === e.node.kind,
 						s = st(e.get("declarations"));
 					!(o = s()).done;
-
 				) {
 					var o = o.value,
 						i = o.node.id,
@@ -42128,7 +42082,6 @@
 				},
 				x = st(y.source);
 			!(R = x()).done;
-
 		) {
 			for (var R = ot(R.value, 2), v = R[0], R = R[1], j = st(R.imports); !(w = j()).done; ) {
 				var w = ot(w.value, 2),
@@ -42537,7 +42490,6 @@
 						a = {},
 						n = st(e2(e).getDependencies());
 					!(s = n()).done;
-
 				) {
 					var s = s.value;
 					a[s] = this.addHelper(s);
@@ -43146,7 +43098,6 @@
 								return { v: void 0 };
 						};
 					(e = i.next()), (o = e.value), !e.done;
-
 				)
 					if ((t = r())) return t.v;
 				a(o);
@@ -50919,7 +50870,6 @@
 								if (r(t.substr(-i, i), i, o)) return t.slice(0, -i);
 							return "";
 						})(r, e, t));
-
 					);
 					return t;
 				})
@@ -51547,7 +51497,6 @@
 						for (
 							var o = vE(r, e), i = o.released.length - 1;
 							0 <= i && !(o.released[i] in n[r]);
-
 						)
 							i--;
 						var d =
@@ -56439,7 +56388,6 @@
 					p = 0,
 					g = st(u);
 				!(l = g()).done;
-
 			)
 				for (var f = st(o[l.value]); !(y = f()).done; ) {
 					var y = y.value;
@@ -56501,7 +56449,6 @@
 				}),
 				p = st(e.passes);
 			!(t = p()).done;
-
 		)
 			for (var g = st(t.value); !(f = g()).done; ) {
 				var f = f.value;
@@ -57490,7 +57437,6 @@
 												[]),
 											c = st(e);
 										!(r = c()).done;
-
 									)
 										for (var l = st(r.value); !(u = l()).done; ) {
 											var u = u.value.generatorOverride;
@@ -57598,7 +57544,6 @@
 									])
 								);
 							!(c = d()).done;
-
 						)
 							((l = new hA(t, (c = c.value).key, c.options, a)),
 								s.push([c, l]),
@@ -58241,7 +58186,6 @@
 						[]),
 					u = st(s);
 				!(p = u()).done;
-
 			) {
 				var p = p.value;
 				if (oC(p) || dC(p)) break;
@@ -58565,7 +58509,6 @@
 									r.node),
 								b = r;
 							b !== o;
-
 						) {
 							var x = b.parentPath;
 							if (x === o && y() && a.optional) {
@@ -59026,7 +58969,6 @@
 							n = [],
 							s = st(r);
 						!(o = s()).done;
-
 					) {
 						var o = o.value;
 						o.isPrivate() && ((o = o.node.key.id.name), a.delete(o), n.push(o));
@@ -59974,7 +59916,6 @@
 					}),
 				r = st(a);
 			!(A = r()).done;
-
 		)
 			t();
 		return (
@@ -60107,7 +60048,6 @@
 					})(t),
 						(e = String.fromCharCode.apply(String, t)),
 						r.has(e);
-
 				);
 				return qo(gt(e));
 			}
@@ -60286,7 +60226,6 @@
 					s = new Map(),
 					o = st(t);
 				!(a = o()).done;
-
 			)
 				s.set(a.value, null);
 			e.traverse(n, { privateNamesMap: s });
@@ -60339,7 +60278,6 @@
 				$ = [],
 				Q = st(r);
 			!(Z = Q()).done;
-
 		) {
 			var o = Z.value;
 			if (gD(o)) {
@@ -60996,7 +60934,6 @@
 						rt = new Map(),
 						at = st(O);
 					!(tt = at()).done;
-
 				)
 					rt.set(tt.value, null);
 				Xe.traverse(Ye, { privateNamesMap: rt });
@@ -61485,7 +61422,6 @@
 									_ = new Set(),
 									F = st(e.get("body").get("body"));
 								!(I = F()).done;
-
 							) {
 								var I = I.value;
 								if (
@@ -61776,7 +61712,6 @@
 														},
 														o = st(t);
 													!(i = o()).done;
-
 												) {
 													var i = i.value,
 														d = i.get("key"),
@@ -61886,7 +61821,6 @@
 							for (
 								var t = new Set(), e = e.get("body"), r = st(e);
 								!(a = r()).done;
-
 							) {
 								var a = a.value;
 								a.isPrivate() && t.add(a.get("key.id").node.name);
@@ -61901,7 +61835,6 @@
 										for (
 											var t, r = 1;
 											(t = "_"), 1 < r && (t += r), r++, e.has(t);
-
 										);
 										return t;
 									})(t)),
@@ -63472,7 +63405,6 @@
 											)
 										);
 									!(d = i()).done;
-
 								) {
 									var d = d.value,
 										c = d.left;
@@ -63505,7 +63437,6 @@
 										)
 									);
 								!(d = i()).done;
-
 							) {
 								var d = d.value,
 									c = d.left;
@@ -63911,7 +63842,6 @@
 					for (
 						a = t[0], s = r[0], o = r[1], d = n = t[1];
 						s && a[0] == s[0] && a[1] == s[1];
-
 					)
 						((d = _N(o) ? kN(d, o[0]) : CN(d, o[0], o[1] - 1)),
 							(a = (t = e[++l])[0]),
@@ -63996,7 +63926,6 @@
 						for (
 							var o, i = s, d = -1, c = i.length, l = c - 1, u = [], p = !0, g = 0;
 							++d < c;
-
 						)
 							((o = i[d]),
 								p
@@ -95752,7 +95681,6 @@
 				i = ("/" === (e = yoe(e))[0] && (t = ""), goe()),
 				d = ["", ".js", ".json"];
 			!(s = yoe(o ? t + "/node_modules/" + e : t + "/" + e)).endsWith("/..");
-
 		) {
 			for (var c = 0; c < d.length; c++) {
 				var l = s + d[c];
@@ -96287,7 +96215,6 @@
 																				for (
 																					var t = 0;
 																					t < e.length;
-
 																				) {
 																					if (
 																						-1 !=
@@ -96351,7 +96278,6 @@
 										: r
 								);
 							})());
-
 						)
 							r.push(e);
 						return 1 === r.length
@@ -96711,7 +96637,6 @@
 													? "subtraction"
 													: "union";
 								!x("]");
-
 							)
 								("intersection" === t
 									? (m("&"),
@@ -96791,7 +96716,6 @@
 										})()
 									),
 										c("|");
-
 								);
 								m("}");
 								var s = B;
@@ -103430,7 +103354,6 @@
 					o = Object.assign({}, v.modifiersData),
 					i = st(n);
 				!(a = i()).done;
-
 			)
 				v.modifiersData[a.value] = !0;
 			for (var d, c = st(s); !(d = c()).done; ) v.modifiersData[d.value] = !1;
@@ -104574,7 +104497,6 @@
 				for (
 					var t = e, r = e.scope;
 					t.isOptionalMemberExpression() || t.isOptionalCallExpression();
-
 				) {
 					var a = t.node,
 						n = aI(t.isOptionalMemberExpression() ? t.get("object") : t.get("callee"));
@@ -104588,7 +104510,6 @@
 			for (
 				var i = [], d = e;
 				d.isOptionalMemberExpression() || d.isOptionalCallExpression();
-
 			) {
 				var c = d.node;
 				(c.optional && i.push(c),
@@ -105014,7 +104935,6 @@
 										for (
 											var o = s.node.id.name, i = s.scope, d = e.scope;
 											d !== i;
-
 										)
 											(d.hasOwnBinding(o) && d.rename(o), (d = d.parent));
 									else s.set("id", e.scope.generateUidIdentifier("class"));
@@ -105314,7 +105234,6 @@
 								a = (e.constantViolations.forEach(r.add, r), !1),
 								n = st(e.constantViolations);
 							!(o = n()).done;
-
 						) {
 							var s = o.value,
 								o = s.node;
@@ -105571,7 +105490,6 @@
 											i = [],
 											B = st(r);
 										!(d = B()).done;
-
 									) {
 										var d = ot(d.value, 2),
 											c = d[0],
@@ -105606,12 +105524,10 @@
 											b = [],
 											L = st(n.vars);
 										!(x = L()).done;
-
 									) {
 										for (
 											var x, R = x.value, v = [], U = st(R.node.declarations);
 											!(j = U()).done;
-
 										) {
 											var j = j.value;
 											(b.push.apply(b, dt(Object.keys(ku(j.id)))),
@@ -105674,7 +105590,6 @@
 													[]),
 												W = st(n.breaksContinues);
 											!(C = W()).done;
-
 										) {
 											var C = C.value,
 												_ = C.node,
@@ -105992,7 +105907,6 @@
 					},
 					n = st(r);
 				!(i = n()).done;
-
 			)
 				a();
 			if (S.isDerived) {
@@ -106191,7 +106105,6 @@
 					t = { instance: null, static: null },
 					r = st(["static", "instance"]);
 				!(a = r()).done;
-
 			) {
 				var a = a.value;
 				S.methods[a].list.length &&
@@ -106199,7 +106112,6 @@
 						for (
 							var t = qs([Gs(gt("key"), e.key)]), r = st(["get", "set", "value"]);
 							!(a = r()).done;
-
 						) {
 							var a = a.value;
 							null != e[a] && t.properties.push(Gs(gt(a), e[a]));
@@ -106257,7 +106169,6 @@
 		for (
 			var s = S.dynamicKeys, o = S.node, d = S.scope, c = st(o.body.body);
 			!(u = c()).done;
-
 		) {
 			var l,
 				u = u.value;
@@ -106399,7 +106310,6 @@
 										s = e.body,
 										o = st(t);
 									!(i = o()).done;
-
 								) {
 									var i = i.value;
 									if (!Ce(i) || ("get" !== i.kind && "set" !== i.kind))
@@ -106429,7 +106339,6 @@
 										s = [],
 										o = st(e.computedProps);
 									!(i = o()).done;
-
 								) {
 									var i = i.value;
 									((n && 10 !== n.length) || s.push((n = [])), n.push(i));
@@ -106441,7 +106350,6 @@
 											p = u ? e.initPropExpression : mt(t),
 											g = st(l);
 										!(f = g()).done;
-
 									) {
 										var f = f.value;
 										p =
@@ -106494,13 +106402,11 @@
 										o = !1,
 										i = st(a.properties);
 									!(r = i()).done && !(o = !0 === r.value.computed);
-
 								);
 								if (o) {
 									for (
 										var d = [], c = [], l = !1, u = st(a.properties);
 										!(p = u()).done;
-
 									) {
 										var p = p.value;
 										rt(p) || ((l = p.computed ? !0 : l) ? c : d).push(p);
@@ -106893,7 +106799,6 @@
 									n = Object.create(null),
 									s = st(e);
 								!(o = s()).done;
-
 							) {
 								var o = o.value,
 									i = ct((t = o.key)) ? t.name : t.value.toString(),
@@ -107667,7 +107572,6 @@
 									a = [],
 									n = st(e.get("body"));
 								!(s = n()).done;
-
 							) {
 								var s = s.value;
 								if (s.isImportDeclaration()) {
@@ -107693,7 +107597,6 @@
 										for (
 											var i = void 0, d = !1, c = st(s.get("specifiers"));
 											!(l = c()).done;
-
 										) {
 											var l = l.value;
 											if (l.isImportSpecifier())
@@ -108176,7 +108079,6 @@
 										o = n.headers,
 										i = st(s.source);
 									!(d = i()).done;
-
 								) {
 									var d = ot(d.value, 2),
 										c = d[0],
@@ -108312,7 +108214,6 @@
 										for (
 											var o = e.scope, i = s.id.name;
 											o !== n.parentPath.scope;
-
 										)
 											(o.hasOwnBinding(i) &&
 												!o.bindingIdentifierEquals(i, s.id) &&
@@ -108556,7 +108457,6 @@
 								for (
 									var t = [], r = g.generateUid(e.key), a = st(e.imports);
 									!(s = a()).done;
-
 								) {
 									var n,
 										s = s.value;
@@ -108583,7 +108483,6 @@
 									for (
 										var o = [], i = [], d = !1, c = st(e.exports);
 										!(u = c()).done;
-
 									) {
 										var l,
 											u = u.value;
@@ -109707,7 +109606,6 @@
 																d = Object.create(null),
 																c = st(r);
 															!(l = c()).done;
-
 														) {
 															var l = l.value,
 																u = l.node,
@@ -109742,7 +109640,6 @@
 														s = Object.create(null),
 														o = st(u.get("attributes"));
 													!(r = o()).done;
-
 												) {
 													var i = r.value;
 													if (i.isJSXAttribute() && er(i.node.name)) {
@@ -111353,7 +111250,6 @@
 							for (
 								var u = e.scope;
 								u.hasOwnBinding("Promise") && u.rename("Promise"), (u = u.parent);
-
 							);
 							c.push(g.identifier("Promise"));
 						}
@@ -114790,7 +114686,6 @@
 							;
 							(r = o[i.COERCERTL].exec(e)) &&
 							(!a || a.index + a[0].length !== e.length);
-
 						)
 							((a && r.index + r[0].length === a.index + a[0].length) || (a = r),
 								(o[i.COERCERTL].lastIndex = r.index + r[1].length + r[2].length));
@@ -142512,7 +142407,6 @@
 									s = !0,
 									o = st(r.quasis);
 								!(i = o()).done;
-
 							) {
 								var i = i.value.value,
 									d = i.raw,
@@ -142556,7 +142450,6 @@
 										a = 0,
 										n = st(e.node.quasis);
 									!(s = n()).done;
-
 								) {
 									var s = s.value;
 									(s.value.cooked && t.push(ft(s.value.cooked)),
@@ -143224,7 +143117,6 @@
 													for (
 														var t, r = st(e.node.specifiers);
 														!(t = r()).done;
-
 													)
 														vge(h, t.value.local.name);
 													e.remove();
@@ -143234,7 +143126,6 @@
 															n = e.node.specifiers.length,
 															s = st(e.node.specifiers);
 														!(o = s()).done;
-
 													) {
 														var o = o.value;
 														"ImportSpecifier" === o.type &&
@@ -143252,7 +143143,6 @@
 														for (
 															var i = st(e.node.specifiers);
 															!(d = i()).done;
-
 														) {
 															var d = e.scope.getBinding(
 																d.value.local.name
@@ -143318,7 +143208,6 @@
 										}),
 									o = st(y.get("body"));
 								!(b = o()).done;
-
 							)
 								s();
 						},
@@ -143556,7 +143445,6 @@
 								d.isTSAsExpression(t) ||
 									(null != d.isTSSatisfiesExpression &&
 										d.isTSSatisfiesExpression(t));
-
 						);
 						e.replaceWith(t);
 					}),
@@ -143599,7 +143487,6 @@
 					e = e.pragmaFragImportName,
 					o = st(a.referencePaths);
 				!(t = o()).done;
-
 			)
 				if (
 					!(e => {
@@ -143991,7 +143878,6 @@
 							for (
 								var c, l, u, p, g = null, f = !1, y = st(t.node.body);
 								!(c = y()).done;
-
 							)
 								(() => {
 									var e = c.value;
@@ -146533,7 +146419,6 @@
 							;
 							(r = o[i.COERCERTL].exec(e)) &&
 							(!a || a.index + a[0].length !== e.length);
-
 						)
 							((a && r.index + r[0].length === a.index + a[0].length) || (a = r),
 								(o[i.COERCERTL].lastIndex = r.index + r[1].length + r[2].length));
@@ -150890,7 +150775,6 @@
 										for (
 											var l = ot(c[d], 2), u = l[0], p = st(l[1]);
 											!(g = p()).done;
-
 										) {
 											var g = g.value;
 											if (t.referencesImport(u, g)) return 1;
