@@ -1,7 +1,10 @@
-<script lang="ts">
-defineComponent({
-	name: Vue._X_TABLE_EASY_COMPS_NAME.VE_TABLE_THADER,
-	mixins: [Vue._X_TABLE_EASY_MIXINS.emitter],
+import { clsName } from "../util";
+import HeaderTr from "./header-tr";
+import { COMPS_NAME, EMIT_EVENTS } from "../util/constant";
+import emitter from "../../../src/mixins/emitter";
+export default {
+	name: COMPS_NAME.VE_TABLE_THADER,
+	mixins: [emitter],
 	props: {
 		columnsOptionResetTime: {
 			type: Number,
@@ -88,9 +91,9 @@ defineComponent({
 	},
 	computed: {
 		// header class
-		cpt_header_class() {
+		headerClass() {
 			return {
-				[`${Vue._X_TABLE_EASY_CLS_NAME}fixed-header`]: this.fixedHeader
+				[clsName("fixed-header")]: this.fixedHeader
 			};
 		}
 	},
@@ -119,11 +122,7 @@ defineComponent({
 				}
 			}
 
-			this.dispatch(
-				Vue._X_TABLE_EASY_COMPS_NAME.VE_TABLE,
-				Vue._X_TABLE_EASY_EMIT_EVENTS.SORT_CHANGE,
-				sortColumns
-			);
+			this.dispatch(COMPS_NAME.VE_TABLE, EMIT_EVENTS.SORT_CHANGE, sortColumns);
 
 			// invoke
 			sortChange(sortColumns);
@@ -139,62 +138,54 @@ defineComponent({
 				}
 			});
 			this.sortColumns = sortColumns;
-		},
+		}
+	},
+	mounted() {
+		// receive sort change
+		this.$on(EMIT_EVENTS.SORT_CHANGE, params => {
+			this.sortChange(params);
+		});
+	},
+	render() {
+		const {
+			headerClass,
+			groupColumns,
+			colgroups,
+			fixedHeader,
+			headerRows,
+			checkboxOption,
+			sortOption,
+			sortColumns,
+			cellStyleOption,
+			cellSelectionData
+		} = this;
 
-		render(h) {
-			const {
-				cpt_header_class,
-				groupColumns,
-				colgroups,
-				fixedHeader,
-				headerRows,
-				checkboxOption,
-				sortOption,
-				sortColumns,
-				cellStyleOption,
-				cellSelectionData,
-				isGroupHeader,
-				cellSelectionRangeData,
-				headerIndicatorColKeys,
-				columnsOptionResetTime,
-				eventCustomOption
-			} = this;
-
-			return h("thead", {
-				class: cpt_header_class
-			}, [
-				groupColumns.map((groupColumn, rowIndex) => {
+		return (
+			<thead class={headerClass}>
+				{groupColumns.map((groupColumn, rowIndex) => {
 					const trProps = {
 						key: rowIndex,
 						props: {
-							columnsOptionResetTime,
+							columnsOptionResetTime: this.columnsOptionResetTime,
 							groupColumn,
 							headerRows,
 							colgroups,
 							fixedHeader,
-							isGroupHeader,
+							isGroupHeader: this.isGroupHeader,
 							rowIndex,
 							checkboxOption,
 							sortOption,
 							sortColumns,
 							cellStyleOption,
-							eventCustomOption,
+							eventCustomOption: this.eventCustomOption,
 							cellSelectionData,
-							cellSelectionRangeData,
-							headerIndicatorColKeys
+							cellSelectionRangeData: this.cellSelectionRangeData,
+							headerIndicatorColKeys: this.headerIndicatorColKeys
 						}
 					};
-
-					return h(Vue._X_TABLE_EASY_COMPONENTS.HeaderTr, trProps);
-				})
-			]);
-		}
-	},
-	mounted() {
-		// receive sort change
-		this.$on(Vue._X_TABLE_EASY_EMIT_EVENTS.SORT_CHANGE, params => {
-			this.sortChange(params);
-		});
+					return <HeaderTr {...trProps} />;
+				})}
+			</thead>
+		);
 	}
-});
-</script>
+};
