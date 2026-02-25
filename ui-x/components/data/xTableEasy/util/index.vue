@@ -1,20 +1,15 @@
 <script lang="ts">
 export default async function () {
 	const [
-		{
-			PREFIX_CLS,
-			CONTEXTMENU_NODE_TYPES,
-			COLUMN_FIXED_TYPE,
-			AUTOFILLING_DIRECTION
-		},
+		{ PREFIX_CLS, CONTEXTMENU_NODE_TYPES, COLUMN_FIXED_TYPE, AUTOFILLING_DIRECTION },
 		{ MOUSE_EVENT_CLICK_TYPE },
 		{ isEmptyValue, isEmptyArray, isFunction },
 		{ getRandomId }
 	] = await Promise.all([
-		_.$importVue("./constant"),
-		_.$importVue("../../../src/utils/constant"),
-		_.$importVue("../../../src/utils/index"),
-		_.$importVue("../../../src/utils/random")
+		_.$importVue("/common/ui-x/components/data/xTableEasy/util/constant.vue"),
+		_.$importVue("/common/ui-x/components/data/xTableEasy/utils/constant.vue"),
+		_.$importVue("/common/ui-x/components/data/xTableEasy/utils/index.vue"),
+		_.$importVue("/common/ui-x/components/data/xTableEasy/utils/random.vue")
 	]);
 
 	/**
@@ -783,12 +778,7 @@ export default async function () {
 	 * @param {array<object>} allRowKeys
 	 * @return {Array<colKeys>}
 	 */
-	function isCellInSelectionRange({
-		cellData,
-		cellSelectionRangeData,
-		colgroups,
-		allRowKeys
-	}) {
+	function isCellInSelectionRange({ cellData, cellSelectionRangeData, colgroups, allRowKeys }) {
 		const { leftColKey, rightColKey, topRowKey, bottomRowKey } = cellSelectionRangeData;
 
 		const colKeys = getColKeysByRangeColKeys({
