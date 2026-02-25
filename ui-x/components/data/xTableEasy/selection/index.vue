@@ -63,7 +63,7 @@
 
 <script lang="ts">
 export default async function ({ PRIVATE_GLOBAL }) {
-	return Vue.defineComponent({
+	return defineComponent({
 		name: Vue._X_TABLE_EASY_COMPS_NAME.VE_TABLE_SELECTION,
 		mixins: [Vue._X_TABLE_EASY_MIXINS.emitter],
 		props: {
@@ -1658,7 +1658,7 @@ export default async function ({ PRIVATE_GLOBAL }) {
 
 <style lang="less">
 // 选择区域样式
-@{VE_TABLE_PREFIX-cls} {
+.ve-table {
 	&-selection-wrapper {
 		position: absolute;
 		top: 0;

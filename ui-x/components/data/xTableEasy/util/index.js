@@ -242,7 +242,7 @@ export function initGroupColumns(cloneColumns) {
 			column._colspan = colspan;
 			column._rowspan = 1;
 		} else {
-			column._keys = column.key;
+			column._keys = column.key || column.colKey;
 			column._colspan = 1;
 			column._rowspan = maxLevel - column._level + 1;
 		}
@@ -259,7 +259,7 @@ export function initGroupColumns(cloneColumns) {
 	// set colgroups and groupColumns
 	const setColgroupsAndGroupColumns = column => {
 		// column has children || column key is not empty
-		if (!isEmptyArray(column.children) || !isEmptyValue(column.key)) {
+		if (!isEmptyArray(column.children) || !isEmptyValue(column.key || column.colKey)) {
 			// set groupColumns
 			const { ...groupColumn } = column;
 			groupColumns[column._level - 1].push(groupColumn);

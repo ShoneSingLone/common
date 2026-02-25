@@ -25,7 +25,7 @@
 
 <script lang="ts">
 export default async function ({ PRIVATE_GLOBAL }) {
-	return Vue.defineComponent({
+	return defineComponent({
 		name: Vue._X_TABLE_EASY_COMPS_NAME.VE_TABLE_FOOTER,
 		props: {
 			footerData: {
@@ -96,7 +96,7 @@ export default async function ({ PRIVATE_GLOBAL }) {
 
 <style lang="less">
 // 表尾样式
-@{VE_TABLE_PREFIX-cls} {
+.ve-table {
 	&-footer-row {
 		background-color: #fafafa;
 	}

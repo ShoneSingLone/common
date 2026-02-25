@@ -19,7 +19,7 @@
 
 <script lang="ts">
 export default async function ({ PRIVATE_GLOBAL }) {
-	return Vue.defineComponent({
+	return defineComponent({
 		name: Vue._X_TABLE_EASY_COMPS_NAME.VE_TABLE_FOOTER_TD,
 		mixins: [Vue._X_TABLE_EASY_MIXINS.emitter],
 		props: {
@@ -314,7 +314,7 @@ export default async function ({ PRIVATE_GLOBAL }) {
 
 <style lang="less">
 // 表尾单元格样式
-@{VE_TABLE_PREFIX-cls} {
+.ve-table {
 	&-footer-td {
 		padding: 12px 16px;
 		white-space: nowrap;

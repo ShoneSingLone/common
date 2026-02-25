@@ -16,7 +16,7 @@
 
 <script lang="ts">
 export default async function ({ PRIVATE_GLOBAL }) {
-	return Vue.defineComponent({
+	return defineComponent({
 		name: Vue._X_TABLE_EASY_COMPS_NAME.VE_TABLE_EDIT_INPUT,
 		directives: {
 			focus: Vue._X_TABLE_EASY_DIRECTIVES.focus
@@ -514,7 +514,7 @@ export default async function ({ PRIVATE_GLOBAL }) {
 
 <style lang="less">
 // 编辑框样式
-@{VE_TABLE_PREFIX-cls} {
+.ve-table {
 	&-edit-input-container {
 		position: absolute;
 		top: 0;
@@ -524,7 +524,7 @@ export default async function ({ PRIVATE_GLOBAL }) {
 		z-index: 100;
 		pointer-events: none;
 
-		&.@{VE_TABLE_PREFIX-cls}-edit-input-container-show {
+		&.ve-table-edit-input-container-show {
 			pointer-events: auto;
 		}
 	}

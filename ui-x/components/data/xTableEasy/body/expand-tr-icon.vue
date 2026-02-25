@@ -1,6 +1,6 @@
 <script lang="ts">
 export default async function ({ PRIVATE_GLOBAL }) {
-	return Vue.defineComponent({
+	return defineComponent({
 		name: Vue._X_TABLE_EASY_COMPS_NAME.VE_TABLE_EXPAND_TR_ICON,
 		props: {
 			column: {

@@ -4,7 +4,7 @@
 
 - **项目目标**：将 vue-easytable-master 项目移植为 xTableEasy 组件，符合 xUI 实现指南
 - **组件入口**：statics\common\ui-x\components\data\xTableEasy\xTableEasy.vue
-- **源文件参考**：statics\common\ui-x\components\data\xTableEasy\vue-easytable-master\packages\ve-table\src\index.jsx
+- **源文件参考**：statics\common\ui-x\components\data\xvue_table_easy
 - **文档位置**：statics\business_doc 项目中添加相关文档
 - **测试工具**：使用 puppeteer-core 进行组件测试
 
@@ -47,7 +47,7 @@
 
 3. **源文件对照**：
     - 应该先查看源文件，然后补全doc项目下的文档
-    - 源文件位置：`statics\common\ui-x\components\data\xTableEasy\vue-easytable-master\examples\src\docs\zh\ve-table`
+    - 源文件位置：`statics\common\ui-x\components\data\vue_table_easy\vue-easytable-master\examples\src\docs\zh\ve-table`
     - 对照源文件一一移植，确保功能完整性
 
 ## 开发计划
@@ -104,7 +104,7 @@ await page.setViewport({
 
 ## 文档结构
 
-- **源文档参考**：statics\common\ui-x\components\data\xTableEasy\vue-easytable-master\examples\src\docs\zh
+- **源文档参考**：statics\common\ui-x\components\data\vue_table_easy\vue-easytable-master\examples\src\docs\zh
 - **文档项目**：statics\business_doc（所有组件的文档）
 - **菜单配置**：需在 statics\business_doc\router 下修改对应的菜单、目录
 
@@ -220,7 +220,35 @@ await page.setViewport({
 - **事件处理**：正确处理表格相关事件
 - **兼容性**：确保在不同浏览器环境下正常运行
 
-## 开发经验总结
+##### 开发经验总结
+
+### 问题修复记录
+
+1. **CSS 语法兼容性问题**：
+    - 问题：xTableEasy 组件使用了不支持的 `@{VE_TABLE_PREFIX-cls}` Less 语法
+    - 原因：项目构建系统不支持这种动态类名生成语法
+    - 解决：将 `@{VE_TABLE_PREFIX-cls}` 替换为 `.ve-table`，将颜色变量替换为实际颜色值
+    - 影响文件：xTableEasy.vue、selection/index.vue、footer/footer-td.vue、editor/index.vue、footer/index.vue
+
+2. **未实现方法导致文档页面报错**：
+    - 问题：文档页面 `http://192.168.1.9:3002/#/component/data/x-table-easy` 报错
+    - 原因：xTableEasy.vue 中有多个方法只有空实现，没有具体逻辑
+    - 解决：实现以下方法：
+        - `handleTableContainerScroll`：处理表格容器滚动事件，触发 hooks，处理虚拟滚动和固定列滚动
+        - `handleTableContainerMousedown`：处理鼠标按下事件
+        - `handleTableContainerMouseup`：处理鼠标释放事件
+        - `handleTableContainerMousemove`：处理鼠标移动事件
+        - `handleTableContainerClick`：处理点击事件，清除单元格选择
+        - `startEditingCell`：开始编辑单元格，设置编辑状态和初始值
+        - `stopEditingCell`：停止编辑单元格，清除编辑状态
+        - `initVirtualScrollPositions`：初始化虚拟滚动位置
+        - `setVirtualScrollVisibleData`：设置虚拟滚动的可见数据
+        - `handleVirtualScroll`：处理虚拟滚动，更新可见数据和位置
+        - `handleFixedColumnScroll`：处理固定列滚动，更新滚动状态
+        - `deleteCellSelectionRangeValue`：删除选中范围内的单元格值
+        - `setRangeCellSelectionByHeaderIndicator`：通过表头指示器设置单元格选择范围
+        - `setRangeCellSelectionByBodyIndicator`：通过表体指示器设置单元格选择范围
+        - `handleContextmenuOptionClick`：处理上下文菜单选项点击事件
 
 ### 常见问题与解决方案
 
