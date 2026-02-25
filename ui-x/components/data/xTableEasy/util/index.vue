@@ -1,21 +1,28 @@
-<script>
+<script lang="ts">
 export default async function () {
-	import {
-		PREFIX_CLS,
-		CONTEXTMENU_NODE_TYPES,
-		COLUMN_FIXED_TYPE,
-		AUTOFILLING_DIRECTION
-	} from "./constant";
-	import { MOUSE_EVENT_CLICK_TYPE } from "../../../src/utils/constant";
-	import { isEmptyValue, isEmptyArray, isFunction } from "../../../src/utils/index";
-	import { getRandomId } from "../../../src/utils/random";
+	const [
+		{
+			PREFIX_CLS,
+			CONTEXTMENU_NODE_TYPES,
+			COLUMN_FIXED_TYPE,
+			AUTOFILLING_DIRECTION
+		},
+		{ MOUSE_EVENT_CLICK_TYPE },
+		{ isEmptyValue, isEmptyArray, isFunction },
+		{ getRandomId }
+	] = await Promise.all([
+		_.$importVue("./constant"),
+		_.$importVue("../../../src/utils/constant"),
+		_.$importVue("../../../src/utils/index"),
+		_.$importVue("../../../src/utils/random")
+	]);
 
 	/**
 	 * @clsName
 	 * @desc  get class name
 	 * @param {string} cls - class
 	 */
-	export function clsName(cls) {
+	function clsName(cls) {
 		return PREFIX_CLS + cls;
 	}
 
@@ -25,7 +32,7 @@ export default async function () {
 	 * @param {Object} rowData - rowData
 	 * @param {string} rowKeyFieldName - row key field name
 	 */
-	export function getRowKey(rowData, rowKeyFieldName) {
+	function getRowKey(rowData, rowKeyFieldName) {
 		let result = null;
 
 		if (rowData && rowKeyFieldName) {
@@ -39,7 +46,7 @@ export default async function () {
 	 * @desc  get column by col key
 	 * @param {string} colKey - column key
 	 */
-	export function getColumnByColkey(colKey, colgroups) {
+	function getColumnByColkey(colKey, colgroups) {
 		if (colKey) {
 			return colgroups.find(x => x.key === colKey);
 		}
@@ -51,7 +58,7 @@ export default async function () {
 	 * @desc is last column by column key
 	 * @param {string} colKey - column key
 	 */
-	export function isLastColumnByColKey(colKey, colgroups) {
+	function isLastColumnByColKey(colKey, colgroups) {
 		if (!isEmptyValue(colKey) && !isEmptyArray(colgroups)) {
 			return colgroups[colgroups.length - 1].key === colKey;
 		}
@@ -64,7 +71,7 @@ export default async function () {
 	 * @param {string} colKey - column key
 	 * @param {arrat<object>} colgroups - column key
 	 */
-	export function isOperationColumn(colKey, colgroups) {
+	function isOperationColumn(colKey, colgroups) {
 		if (!isEmptyValue(colKey) && !isEmptyArray(colgroups)) {
 			const firstCol = colgroups[0];
 			if (firstCol.key === colKey && firstCol.operationColumn) {
@@ -79,7 +86,7 @@ export default async function () {
 	 * @desc is last row by row key
 	 * @param {string} rowKey - row key
 	 */
-	export function isLastRowByRowKey(rowKey, allRowKeys) {
+	function isLastRowByRowKey(rowKey, allRowKeys) {
 		if (!isEmptyValue(rowKey) && !isEmptyArray(allRowKeys)) {
 			return allRowKeys[allRowKeys.length - 1] === rowKey;
 		}
@@ -92,7 +99,7 @@ export default async function () {
 	 * @param {Any} originalKey - original key
 	 * @param {Number} columnsOptionResetTime - columns option change time
 	 */
-	export function getDomResizeObserverCompKey(originalKey, columnsOptionResetTime) {
+	function getDomResizeObserverCompKey(originalKey, columnsOptionResetTime) {
 		let result = originalKey;
 
 		if (result || result == 0) {
@@ -108,7 +115,7 @@ export default async function () {
 	 * @param {object} columns - deep clone column
 	 * @param {any} key - column key
 	 */
-	export function recursiveRemoveColumnByKey(columns, key) {
+	function recursiveRemoveColumnByKey(columns, key) {
 		return columns.filter(item => {
 			if ("children" in item) {
 				item.children = recursiveRemoveColumnByKey(item.children, key);
@@ -124,7 +131,7 @@ export default async function () {
 	 * @param {any} colKey - column key
 	 * @param {string} fixed - left|right
 	 */
-	export function getFixedTotalWidthByColumnKey({ colgroups, colKey, fixed }) {
+	function getFixedTotalWidthByColumnKey({ colgroups, colKey, fixed }) {
 		const currentIndex = colgroups.findIndex(x => x.key === colKey);
 
 		let result = 0;
@@ -155,7 +162,7 @@ export default async function () {
 	 * @param {any} colKey - column key
 	 * @param {string} direction - left|right
 	 */
-	export function getNotFixedTotalWidthByColumnKey({ colgroups, colKey, fixed }) {
+	function getNotFixedTotalWidthByColumnKey({ colgroups, colKey, fixed }) {
 		const currentIndex = colgroups.findIndex(x => x.key === colKey);
 
 		let result = 0;
@@ -186,7 +193,7 @@ export default async function () {
 	 * @param {array<object>} colgroups
 	 * @return {number} width
 	 */
-	export function getTotalWidthByColKeys({ colKeys, colgroups }) {
+	function getTotalWidthByColKeys({ colKeys, colgroups }) {
 		let result = colgroups.reduce((total, currentVal, index) => {
 			return colKeys.indexOf(currentVal.key) > -1 ? currentVal._realTimeWidth + total : total;
 		}, 0);
@@ -204,7 +211,7 @@ export default async function () {
    groupColumns
 }
  */
-	export function initGroupColumns(cloneColumns) {
+	function initGroupColumns(cloneColumns) {
 		let colgroups = [];
 		let groupColumns = [];
 
@@ -294,7 +301,7 @@ export default async function () {
 	}
 
 	// get header contextmenu option collection
-	export function getHeaderContextmenuOptionCollection(t) {
+	function getHeaderContextmenuOptionCollection(t) {
 		return [
 			{
 				type: CONTEXTMENU_NODE_TYPES.SEPARATOR
@@ -343,7 +350,7 @@ export default async function () {
 	}
 
 	// get body contextmenu option collection
-	export function getBodyContextmenuOptionCollection(t) {
+	function getBodyContextmenuOptionCollection(t) {
 		return [
 			{
 				type: CONTEXTMENU_NODE_TYPES.SEPARATOR
@@ -399,7 +406,7 @@ export default async function () {
 	 * @param {boolean} t locale
 	 * @return headerContextmenuOptions
 	 */
-	export function setHeaderContextmenuOptions({
+	function setHeaderContextmenuOptions({
 		column,
 		contextmenuHeaderOption,
 		cellSelectionRangeData,
@@ -531,7 +538,7 @@ export default async function () {
 	 * @param {boolean} t locale
 	 * @return headerContextmenuOptions
 	 */
-	export function setBodyContextmenuOptions({
+	function setBodyContextmenuOptions({
 		enableBodyContextmenu,
 		contextmenuBodyOption,
 		cellSelectionRangeData,
@@ -621,7 +628,7 @@ export default async function () {
 	}
 
 	// create empty row data
-	export function createEmptyRowData({ colgroups, rowKeyFieldName }) {
+	function createEmptyRowData({ colgroups, rowKeyFieldName }) {
 		let rowData = {
 			[rowKeyFieldName]: getRandomId()
 		};
@@ -647,7 +654,7 @@ export default async function () {
 	// }
 
 	// is contextmenu panel clicked
-	export function isContextmenuPanelClicked(event) {
+	function isContextmenuPanelClicked(event) {
 		let result = false;
 		const contextmenuPanelEls = document.querySelectorAll(".ve-contextmenu-popper");
 		[].forEach.call(contextmenuPanelEls, function (el) {
@@ -666,7 +673,7 @@ export default async function () {
 	 * @param {any} colKey2
 	 * @return Array<colKeys>
 	 */
-	export function getColKeysByHeaderColumn({ headerColumnItem }) {
+	function getColKeysByHeaderColumn({ headerColumnItem }) {
 		let result = null;
 
 		const { _keys } = headerColumnItem;
@@ -686,7 +693,7 @@ export default async function () {
 	 * @param {any} colKey2
 	 * @return Array<colKeys>
 	 */
-	export function getColKeysByRangeColKeys({ colKey1, colKey2, colgroups }) {
+	function getColKeysByRangeColKeys({ colKey1, colKey2, colgroups }) {
 		let result = null;
 
 		const index1 = colgroups.findIndex(x => x.key === colKey1);
@@ -709,7 +716,7 @@ export default async function () {
 	 * @param {array<object>} colgroups
 	 * @return {array} colKeys
 	 */
-	export function getColKeysByFixedTypeWithinColKeys({ colKeys, fixedType, colgroups }) {
+	function getColKeysByFixedTypeWithinColKeys({ colKeys, fixedType, colgroups }) {
 		let result = null;
 
 		if (Array.isArray(colKeys)) {
@@ -729,7 +736,7 @@ export default async function () {
 	 * * @param {boolean} isExcludeOperationColumn
 	 * @return colKey
 	 */
-	export function getColKeysByFixedType({ fixedType, colgroups, isExcludeOperationColumn }) {
+	function getColKeysByFixedType({ fixedType, colgroups, isExcludeOperationColumn }) {
 		let result = null;
 
 		result = colgroups
@@ -754,7 +761,7 @@ export default async function () {
 	 * @param {any} bottomRowKey - bottom row key
 	 * @return Array<colKeys>
 	 */
-	export function getRowKeysByRangeRowKeys({ topRowKey, bottomRowKey, allRowKeys }) {
+	function getRowKeysByRangeRowKeys({ topRowKey, bottomRowKey, allRowKeys }) {
 		let result = null;
 
 		const beginIndex = allRowKeys.findIndex(x => x === topRowKey);
@@ -776,7 +783,7 @@ export default async function () {
 	 * @param {array<object>} allRowKeys
 	 * @return {Array<colKeys>}
 	 */
-	export function isCellInSelectionRange({
+	function isCellInSelectionRange({
 		cellData,
 		cellSelectionRangeData,
 		colgroups,
@@ -811,7 +818,7 @@ export default async function () {
 	 * @param {array<object>} allRowKeys
 	 * @return {bool}
 	 */
-	export function isClearSelectionByBodyCellRightClick({
+	function isClearSelectionByBodyCellRightClick({
 		mouseEventClickType,
 		cellData,
 		cellSelectionData,
@@ -840,7 +847,7 @@ export default async function () {
 	 * @param {object} cellSelectionRangeData
 	 * @return Array<colKeys>
 	 */
-	export function getSelectionRangeKeys({ cellSelectionRangeData }) {
+	function getSelectionRangeKeys({ cellSelectionRangeData }) {
 		const { leftColKey, rightColKey, topRowKey, bottomRowKey } = cellSelectionRangeData;
 		return {
 			startColKey: leftColKey,
@@ -858,7 +865,7 @@ export default async function () {
 	 * @param {array<object>} allRowKeys
 	 * @return Array<colKeys>
 	 */
-	export function getSelectionRangeIndexes({ cellSelectionRangeData, colgroups, allRowKeys }) {
+	function getSelectionRangeIndexes({ cellSelectionRangeData, colgroups, allRowKeys }) {
 		const { leftColKey, rightColKey, topRowKey, bottomRowKey } = cellSelectionRangeData;
 		return {
 			startColIndex: colgroups.findIndex(x => x.key === leftColKey),
@@ -878,7 +885,7 @@ export default async function () {
 	 * @param {array<object>} allRowKeys
 	 * @return Array<colKeys>
 	 */
-	export function getSelectionRangeData({
+	function getSelectionRangeData({
 		cellSelectionRangeData,
 		resultType = "normal",
 		tableData,
@@ -929,7 +936,7 @@ export default async function () {
 	 * @param {array<object>} colgroups
 	 * @return bool
 	 */
-	export function isExistGivenFixedColKey({ fixedType, colKeys, colgroups }) {
+	function isExistGivenFixedColKey({ fixedType, colKeys, colgroups }) {
 		let result = false;
 		if (Array.isArray(colKeys)) {
 			result = colgroups.some(x => {
@@ -946,7 +953,7 @@ export default async function () {
 	 * @param {array<object>} colgroups
 	 * @return bool
 	 */
-	export function isExistNotFixedColKey({ colKeys, colgroups }) {
+	function isExistNotFixedColKey({ colKeys, colgroups }) {
 		let result = false;
 		if (Array.isArray(colKeys)) {
 			result = colgroups.filter(x => !x.fixed && colKeys.indexOf(x.key) > -1).length;
@@ -1017,7 +1024,7 @@ export default async function () {
 	 * @param {array<any>} colKeys
 	 * @return colKey
 	 */
-	export function getLeftmostColKey({ colgroups, colKeys }) {
+	function getLeftmostColKey({ colgroups, colKeys }) {
 		return getLeftmostOrRightmostColKey({
 			type: "leftmost",
 			colgroups,
@@ -1032,7 +1039,7 @@ export default async function () {
 	 * @param {array<any>} colKeys
 	 * @return colKey
 	 */
-	export function getRightmostColKey({ colgroups, colKeys }) {
+	function getRightmostColKey({ colgroups, colKeys }) {
 		return getLeftmostOrRightmostColKey({
 			type: "rightmost",
 			colgroups,
@@ -1047,7 +1054,7 @@ export default async function () {
 	 * @param {any} currentColKey
 	 * @return colKey
 	 */
-	export function getPreviewColKey({ colgroups, currentColKey }) {
+	function getPreviewColKey({ colgroups, currentColKey }) {
 		let result = null;
 
 		if (!isEmptyValue(currentColKey)) {
@@ -1068,7 +1075,7 @@ export default async function () {
 	 * @param {any} currentColKey
 	 * @return colKey
 	 */
-	export function getNextColKey({ colgroups, currentColKey }) {
+	function getNextColKey({ colgroups, currentColKey }) {
 		let result = null;
 
 		if (!isEmptyValue(currentColKey)) {
@@ -1095,7 +1102,7 @@ export default async function () {
 	 * @param {object} nextNormalEndCell next normal end cell
 	 * @return autofillChangeDatas
 	 */
-	export function cellAutofill({
+	function cellAutofill({
 		isReplaceData,
 		tableData,
 		allRowKeys,
@@ -1352,7 +1359,7 @@ export default async function () {
 	 * @param {bool} enableColumnResize
 	 * @return cloneColumns
 	 */
-	export function setColumnFixed({
+	function setColumnFixed({
 		cloneColumns,
 		cellSelectionRangeData,
 		fixedType,
@@ -1438,7 +1445,7 @@ export default async function () {
 	 * @param {bool} enableColumnResize
 	 * @return cloneColumns
 	 */
-	export function cancelColumnFixed({ cloneColumns, colgroups, fixedType, enableColumnResize }) {
+	function cancelColumnFixed({ cloneColumns, colgroups, fixedType, enableColumnResize }) {
 		return cloneColumns.map(colItem => {
 			// 允许列自适应 && 不是多列表头
 			if (
@@ -1463,5 +1470,46 @@ export default async function () {
 			return colItem;
 		});
 	}
+
+	// 返回所有函数
+	return {
+		clsName,
+		getRowKey,
+		getColumnByColkey,
+		isLastColumnByColKey,
+		isOperationColumn,
+		isLastRowByRowKey,
+		getDomResizeObserverCompKey,
+		recursiveRemoveColumnByKey,
+		getFixedTotalWidthByColumnKey,
+		getNotFixedTotalWidthByColumnKey,
+		getTotalWidthByColKeys,
+		initGroupColumns,
+		getHeaderContextmenuOptionCollection,
+		getBodyContextmenuOptionCollection,
+		setHeaderContextmenuOptions,
+		setBodyContextmenuOptions,
+		createEmptyRowData,
+		isContextmenuPanelClicked,
+		getColKeysByHeaderColumn,
+		getColKeysByRangeColKeys,
+		getColKeysByFixedTypeWithinColKeys,
+		getColKeysByFixedType,
+		getRowKeysByRangeRowKeys,
+		isCellInSelectionRange,
+		isClearSelectionByBodyCellRightClick,
+		getSelectionRangeKeys,
+		getSelectionRangeIndexes,
+		getSelectionRangeData,
+		isExistGivenFixedColKey,
+		isExistNotFixedColKey,
+		getLeftmostColKey,
+		getRightmostColKey,
+		getPreviewColKey,
+		getNextColKey,
+		cellAutofill,
+		setColumnFixed,
+		cancelColumnFixed
+	};
 }
 </script>
