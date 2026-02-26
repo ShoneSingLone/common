@@ -5,11 +5,11 @@ export default async function () {
 		{ MOUSE_EVENT_CLICK_TYPE },
 		{ isEmptyValue, isEmptyArray, isFunction },
 		{ getRandomId }
-	] = await Promise.all([
-		_.$importVue("/common/ui-x/components/data/xTableEasy/util/constant.vue"),
-		_.$importVue("/common/ui-x/components/data/xTableEasy/utils/constant.vue"),
-		_.$importVue("/common/ui-x/components/data/xTableEasy/utils/index.vue"),
-		_.$importVue("/common/ui-x/components/data/xTableEasy/utils/random.vue")
+	] = await _.$importVue([
+		"/common/ui-x/components/data/xTableEasy/util/constant.vue",
+		"/common/ui-x/components/data/xTableEasy/utils/constant.vue",
+		"/common/ui-x/components/data/xTableEasy/utils/index.vue",
+		"/common/ui-x/components/data/xTableEasy/utils/random.vue"
 	]);
 
 	/**
