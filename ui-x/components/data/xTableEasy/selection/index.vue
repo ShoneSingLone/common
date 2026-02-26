@@ -25,13 +25,11 @@ export default async function ({ PRIVATE_GLOBAL }) {
 			COLUMN_FIXED_TYPE
 		},
 		{ INSTANCE_METHODS },
-		emitter,
 		{ isEmptyValue, isBoolean }
 	] = await Promise.all([
 		_.$importVue("/common/ui-x/components/data/xTableEasy/util/index.vue"),
 		_.$importVue("/common/ui-x/components/data/xTableEasy/util/constant.vue"),
 		_.$importVue("/common/ui-x/components/data/xTableEasy/selection/constant.vue"),
-		_.$importVue("/common/src/mixins/emitter.vue"),
 		_.$importVue("/common/ui-x/components/data/xTableEasy/utils/index.vue")
 	]);
 
@@ -40,7 +38,6 @@ export default async function ({ PRIVATE_GLOBAL }) {
 
 	return {
 		name: COMPS_NAME.VE_TABLE_SELECTION,
-		mixins: [emitter],
 		props: {
 			tableEl: {
 				type: HTMLTableElement,
@@ -183,7 +180,12 @@ export default async function ({ PRIVATE_GLOBAL }) {
 				const { cellAutofillOption } = this;
 				if (cellAutofillOption) {
 					const { directionX, directionY } = this.cellAutofillOption;
-					if (isBoolean(directionY) && !directionY && isBoolean(directionX) && !directionX) {
+					if (
+						isBoolean(directionY) &&
+						!directionY &&
+						isBoolean(directionX) &&
+						!directionX
+					) {
 						result = false;
 					}
 				} else {
@@ -542,7 +544,8 @@ export default async function ({ PRIVATE_GLOBAL }) {
                 */
 					if (
 						(isCurrentCellOverflow && !this.cellSelectionRect.currentCellRect.height) ||
-						(isNormalEndCellOverflow && !this.cellSelectionRect.normalEndCellRect.height)
+						(isNormalEndCellOverflow &&
+							!this.cellSelectionRect.normalEndCellRect.height)
 					) {
 						let mackUpRectParams = {
 							tableLeft,
@@ -959,7 +962,8 @@ export default async function ({ PRIVATE_GLOBAL }) {
 					borders.leftBorder.top = areaPostions.bottomBorder.top;
 					borders.leftBorder.left = areaPostions.leftBorder.left;
 
-					borders.bottomBorder.top = autoFillEndCellRect.top + autoFillEndCellRect.height - 1;
+					borders.bottomBorder.top =
+						autoFillEndCellRect.top + autoFillEndCellRect.height - 1;
 					borders.bottomBorder.left = areaPostions.bottomBorder.left;
 				}
 				// end cell above
@@ -987,7 +991,10 @@ export default async function ({ PRIVATE_GLOBAL }) {
 					borders.leftBorder.left = areaPostions.leftBorder.left;
 				}
 				// auto fill end cell right
-				else if (rightmostColKey === autoFillEndCell.colKey && !isEmptyValue(rightmostColKey)) {
+				else if (
+					rightmostColKey === autoFillEndCell.colKey &&
+					!isEmptyValue(rightmostColKey)
+				) {
 					autofillingDirection = AUTOFILLING_DIRECTION.RIGHT;
 
 					rangeColKey1 = getNextColKey({
@@ -1009,13 +1016,17 @@ export default async function ({ PRIVATE_GLOBAL }) {
 					borders.topBorder.left = areaPostions.rightBorder.left - 1;
 
 					borders.rightBorder.top = areaPostions.topBorder.top;
-					borders.rightBorder.left = autoFillEndCellRect.left + autoFillEndCellRect.width - 1;
+					borders.rightBorder.left =
+						autoFillEndCellRect.left + autoFillEndCellRect.width - 1;
 
 					borders.bottomBorder.top = areaPostions.bottomBorder.top;
 					borders.bottomBorder.left = areaPostions.rightBorder.left - 1;
 				}
 				// auto fill end cell left
-				else if (leftmostColKey === autoFillEndCell.colKey && !isEmptyValue(leftmostColKey)) {
+				else if (
+					leftmostColKey === autoFillEndCell.colKey &&
+					!isEmptyValue(leftmostColKey)
+				) {
 					autofillingDirection = AUTOFILLING_DIRECTION.LEFT;
 
 					rangeColKey1 = getPreviewColKey({
@@ -1026,7 +1037,8 @@ export default async function ({ PRIVATE_GLOBAL }) {
 
 					borders.rightBorder.show = false;
 
-					borders.borderWidth = areaPostions.leftBorder.left - autoFillEndCellRect.left + 1;
+					borders.borderWidth =
+						areaPostions.leftBorder.left - autoFillEndCellRect.left + 1;
 					borders.borderHeight = areaPostions.borderHeight;
 
 					borders.topBorder.top = areaPostions.topBorder.top;
@@ -1210,14 +1222,22 @@ export default async function ({ PRIVATE_GLOBAL }) {
 					},
 					on: {
 						mousedown: e => {
-							this.dispatch(COMPS_NAME.VE_TABLE, EMIT_EVENTS.SELECTION_CORNER_MOUSEDOWN, {
-								event: e
-							});
+							this.dispatch(
+								COMPS_NAME.VE_TABLE,
+								EMIT_EVENTS.SELECTION_CORNER_MOUSEDOWN,
+								{
+									event: e
+								}
+							);
 						},
 						mouseup: e => {
-							this.dispatch(COMPS_NAME.VE_TABLE, EMIT_EVENTS.SELECTION_CORNER_MOUSEUP, {
-								event: e
-							});
+							this.dispatch(
+								COMPS_NAME.VE_TABLE,
+								EMIT_EVENTS.SELECTION_CORNER_MOUSEUP,
+								{
+									event: e
+								}
+							);
 						}
 					}
 				};
@@ -1360,7 +1380,9 @@ export default async function ({ PRIVATE_GLOBAL }) {
 				const { tableEl } = this;
 
 				if (tableEl) {
-					result = tableEl.querySelector(`tbody.ve-table-body tr td[col-key="${colKey}"]`);
+					result = tableEl.querySelector(
+						`tbody.ve-table-body tr td[col-key="${colKey}"]`
+					);
 				}
 				return result;
 			},

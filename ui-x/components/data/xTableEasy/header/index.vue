@@ -1,20 +1,13 @@
 <script lang="ts">
 export default async function ({ PRIVATE_GLOBAL }) {
-	const [
-		{ clsName },
-		HeaderTr,
-		{ COMPS_NAME, EMIT_EVENTS },
-		emitter
-	] = await Promise.all([
+	const [{ clsName }, HeaderTr, { COMPS_NAME, EMIT_EVENTS }] = await Promise.all([
 		_.$importVue("/common/ui-x/components/data/xTableEasy/util/index.vue"),
 		_.$importVue("/common/ui-x/components/data/xTableEasy/header/header-tr.vue"),
-		_.$importVue("/common/ui-x/components/data/xTableEasy/util/constant.vue"),
-		_.$importVue("/common/src/mixins/emitter.vue")
+		_.$importVue("/common/ui-x/components/data/xTableEasy/util/constant.vue")
 	]);
 
 	return {
 		name: COMPS_NAME.VE_TABLE_THADER,
-		mixins: [emitter],
 		props: {
 			columnsOptionResetTime: {
 				type: Number,
@@ -170,7 +163,9 @@ export default async function ({ PRIVATE_GLOBAL }) {
 				cellSelectionData
 			} = this;
 
-			return h("thead", { class: cpt_header_class },
+			return h(
+				"thead",
+				{ class: cpt_header_class },
 				groupColumns.map((groupColumn, rowIndex) => {
 					const trProps = {
 						key: rowIndex,

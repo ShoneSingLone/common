@@ -1,21 +1,14 @@
 <script lang="ts">
 export default async function ({ PRIVATE_GLOBAL }) {
 	// 使用 _.$importVue() 加载依赖
-	const [
-		VeCheckbox,
-		{ COMPS_NAME, EMIT_EVENTS },
-		{ clsName },
-		emitter
-	] = await Promise.all([
+	const [VeCheckbox, { COMPS_NAME, EMIT_EVENTS }, { clsName }] = await Promise.all([
 		_.$importVue("vue-easytable/packages/ve-checkbox"),
 		_.$importVue("/common/ui-x/components/data/xTableEasy/util/constant.vue"),
-		_.$importVue("/common/ui-x/components/data/xTableEasy/util/index.vue"),
-		_.$importVue("/common/src/mixins/emitter.vue")
+		_.$importVue("/common/ui-x/components/data/xTableEasy/util/index.vue")
 	]);
 
 	return {
 		name: COMPS_NAME.VE_TABLE_HEADER_CHECKBOX_CONTENT,
-		mixins: [emitter],
 		props: {
 			// checkbox option
 			checkboxOption: {

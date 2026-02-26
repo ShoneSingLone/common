@@ -1,21 +1,15 @@
 <script lang="ts">
 export default async function ({ PRIVATE_GLOBAL }) {
 	// 使用 _.$importVue() 加载依赖
-	const [
-		{ getFixedTotalWidthByColumnKey, clsName },
-		{ getValByUnit },
-		{ COMPS_NAME },
-		emitter
-	] = await Promise.all([
-		_.$importVue("/common/ui-x/components/data/xTableEasy/util/index.vue"),
-		_.$importVue("/common/ui-x/components/data/xTableEasy/utils/index.vue"),
-		_.$importVue("/common/ui-x/components/data/xTableEasy/util/constant.vue"),
-		_.$importVue("/common/src/mixins/emitter.vue")
-	]);
+	const [{ getFixedTotalWidthByColumnKey, clsName }, { getValByUnit }, { COMPS_NAME }] =
+		await Promise.all([
+			_.$importVue("/common/ui-x/components/data/xTableEasy/util/index.vue"),
+			_.$importVue("/common/ui-x/components/data/xTableEasy/utils/index.vue"),
+			_.$importVue("/common/ui-x/components/data/xTableEasy/util/constant.vue")
+		]);
 
 	return {
 		name: COMPS_NAME.VE_TABLE_BODY_TD,
-		mixins: [emitter],
 		props: {
 			rowData: {
 				type: Object,
@@ -142,7 +136,8 @@ export default async function ({ PRIVATE_GLOBAL }) {
 					result[clsName("fixed-left")] = fixed === "left";
 					result[clsName("fixed-right")] = fixed === "right";
 					result[clsName("last-left-fixed-column")] = this.cpt_is_last_left_fixed_column;
-					result[clsName("first-right-fixed-column")] = this.cpt_isfirst_right_fixed_column;
+					result[clsName("first-right-fixed-column")] =
+						this.cpt_isfirst_right_fixed_column;
 				}
 
 				// cell style option

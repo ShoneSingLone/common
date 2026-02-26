@@ -1,20 +1,13 @@
 <script lang="ts">
 export default async function ({ PRIVATE_GLOBAL }) {
 	// 使用 _.$importVue() 加载依赖
-	const [
-		{ clsName },
-		{ COMPS_NAME }
-	] = await Promise.all([
+	const [{ clsName }, { COMPS_NAME }] = await Promise.all([
 		_.$importVue("/common/ui-x/components/data/xTableEasy/util/index.vue"),
 		_.$importVue("/common/ui-x/components/data/xTableEasy/util/constant.vue")
 	]);
 
-	// 加载 emitter mixin
-	const emitter = await _.$importVue("/common/ui-x/components/src/mixins/emitter.vue");
-
 	return {
 		name: COMPS_NAME.VE_TABLE_EXPAND_TR,
-		mixins: [emitter],
 		props: {
 			tableViewportWidth: {
 				type: Number,
@@ -138,21 +131,33 @@ export default async function ({ PRIVATE_GLOBAL }) {
 
 			if (cpt_is_row_expanded) {
 				let content = getExpandRowContent(h);
-				result = h("tr", {
-					class: this.cpt_expan_row_class
-				}, [
-					h("td", {
-						class: clsName("expand-td"),
-						attrs: {
-							colSpan: cpt_column_count
-						}
-					}, [
-						h("div", {
-							class: clsName("expand-td-content"),
-							style: this.cpt_expand_td_content_style
-						}, [content])
-					])
-				]);
+				result = h(
+					"tr",
+					{
+						class: this.cpt_expan_row_class
+					},
+					[
+						h(
+							"td",
+							{
+								class: clsName("expand-td"),
+								attrs: {
+									colSpan: cpt_column_count
+								}
+							},
+							[
+								h(
+									"div",
+									{
+										class: clsName("expand-td-content"),
+										style: this.cpt_expand_td_content_style
+									},
+									[content]
+								)
+							]
+						)
+					]
+				);
 			}
 
 			return result;

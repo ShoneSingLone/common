@@ -5,19 +5,16 @@ export default async function ({ PRIVATE_GLOBAL }) {
 		{ default: HeaderTh },
 		{ clsName, getDomResizeObserverCompKey },
 		{ COMPS_NAME, EMIT_EVENTS },
-		{ default: VueDomResizeObserver },
-		emitter
+		{ default: VueDomResizeObserver }
 	] = await Promise.all([
 		_.$importVue("/common/ui-x/components/data/xTableEasy/header/header-th.vue"),
 		_.$importVue("/common/ui-x/components/data/xTableEasy/util/index.vue"),
 		_.$importVue("/common/ui-x/components/data/xTableEasy/util/constant.vue"),
-		_.$importVue("/common/src/comps/resize-observer.vue"),
-		_.$importVue("/common/src/mixins/emitter.vue")
+		_.$importVue("/common/src/comps/resize-observer.vue")
 	]);
 
 	return {
 		name: COMPS_NAME.VE_TABLE_THADER_TR,
-		mixins: [emitter],
 		props: {
 			columnsOptionResetTime: {
 				type: Number,

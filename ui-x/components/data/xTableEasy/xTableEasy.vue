@@ -51,7 +51,6 @@ export default async function ({ PRIVATE_GLOBAL }) {
 		{ isInputKeyCode },
 		Hooks,
 		{ getMouseEventClickType },
-		emitter,
 		{
 			COMPS_NAME,
 			HOOKS_NAME,
@@ -86,7 +85,6 @@ export default async function ({ PRIVATE_GLOBAL }) {
 		"/common/ui-x/components/data/xTableEasy/utils/event-key-codes.vue",
 		"/common/ui-x/components/data/xTableEasy/utils/hooks-manager.vue",
 		"/common/ui-x/components/data/xTableEasy/utils/mouse-event.vue",
-		"/common/src/mixins/emitter.vue",
 		"/common/ui-x/components/data/xTableEasy/util/constant.vue",
 		"/common/ui-x/components/data/xTableEasy/colgroup.vue",
 		"/common/ui-x/components/data/xTableEasy/header/index.vue",
@@ -107,7 +105,6 @@ export default async function ({ PRIVATE_GLOBAL }) {
 		directives: {
 			"click-outside": clickoutside
 		},
-		mixins: [emitter],
 		props: {
 			tableData: {
 				required: true,
@@ -1770,13 +1767,17 @@ export default async function ({ PRIVATE_GLOBAL }) {
 						}
 					};
 
-					content = h("div", {
-						ref: this.virtualPhantomRef,
-						class: [
-							clsName("virtual-phantom"),
-							isVirtualScroll ? clsName("virtual-scroll") : ""
-						]
-					}, [h(VueDomResizeObserver, props)]);
+					content = h(
+						"div",
+						{
+							ref: this.virtualPhantomRef,
+							class: [
+								clsName("virtual-phantom"),
+								isVirtualScroll ? clsName("virtual-scroll") : ""
+							]
+						},
+						[h(VueDomResizeObserver, props)]
+					);
 				}
 
 				return content;
