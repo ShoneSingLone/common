@@ -13,7 +13,7 @@ export default async function ({ PRIVATE_GLOBAL }) {
 		_.$importVue("/common/ui-x/components/data/xTableEasy/util/index.vue"),
 		_.$importVue("/common/ui-x/components/data/xTableEasy/editor/constant.vue"),
 		_.$importVue("/common/ui-x/components/data/xTableEasy/util/constant.vue"),
-		_.$importVue("/common/src/directives/focus.vue"),
+		_.$importVue("/common/ui-x/components/data/xTableEasy/helper/directives/focus.vue"),
 		_.$importVue("/common/ui-x/components/data/xTableEasy/utils/auto-resize.vue"),
 		_.$importVue("/common/ui-x/components/data/xTableEasy/utils/index.vue"),
 		_.$importVue("/common/ui-x/components/data/xTableEasy/utils/dom.vue")

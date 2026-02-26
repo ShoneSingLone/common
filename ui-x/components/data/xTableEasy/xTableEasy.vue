@@ -42,14 +42,13 @@ export default async function ({ PRIVATE_GLOBAL }) {
 			isEmptyValue,
 			isEmptyArray,
 			isBoolean,
-			isDefined,
-			createLocale
+			isDefined
 		},
 		{ KEY_CODES, MOUSE_EVENT_CLICK_TYPE },
 		{ getScrollbarWidth },
 		{ requestAnimationTimeout, cancelAnimationTimeout },
 		{ isInputKeyCode },
-		Hooks,
+		{ Hooks },
 		{ getMouseEventClickType },
 		{
 			COMPS_NAME,
@@ -86,19 +85,17 @@ export default async function ({ PRIVATE_GLOBAL }) {
 		"/common/ui-x/components/data/xTableEasy/utils/hooks-manager.vue",
 		"/common/ui-x/components/data/xTableEasy/utils/mouse-event.vue",
 		"/common/ui-x/components/data/xTableEasy/util/constant.vue",
-		"/common/ui-x/components/data/xTableEasy/colgroup.vue",
+		"/common/ui-x/components/data/xTableEasy/colgroup/index.vue",
 		"/common/ui-x/components/data/xTableEasy/header/index.vue",
 		"/common/ui-x/components/data/xTableEasy/body/index.vue",
 		"/common/ui-x/components/data/xTableEasy/footer/index.vue",
 		"/common/ui-x/components/data/xTableEasy/editor/index.vue",
 		"/common/ui-x/components/data/xTableEasy/selection/index.vue",
 		"/common/ui-x/directive/clickoutside.vue",
-		"/common/src/comps/resize-observer.vue",
+		"/common/ui-x/components/data/xTableEasy/helper/comps/resize-observer.vue",
 		"vue-easytable/packages/ve-contextmenu",
 		"/common/ui-x/components/data/xTableEasy/column-resizer/index.vue"
 	]);
-
-	const i18n_t = createLocale(LOCALE_COMP_NAME);
 
 	return {
 		name: COMPS_NAME.VE_TABLE,
@@ -2401,7 +2398,7 @@ export default async function ({ PRIVATE_GLOBAL }) {
 						allRowKeys: this.allRowKeys,
 						headerIndicatorColKeys: this.headerIndicatorColKeys,
 						enableHeaderContextmenu: this.enableHeaderContextmenu,
-						t: i18n_t
+						t: i18n
 					});
 				}
 				// body contextmenu
@@ -2414,7 +2411,7 @@ export default async function ({ PRIVATE_GLOBAL }) {
 						colgroups: this.colgroups,
 						allRowKeys: this.allRowKeys,
 						bodyIndicatorRowKeys: this.bodyIndicatorRowKeys,
-						t: i18n_t
+						t: i18n
 					});
 				}
 			},

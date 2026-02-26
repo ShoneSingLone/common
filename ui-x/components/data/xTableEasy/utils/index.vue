@@ -5,16 +5,6 @@ export default async function () {
 	]);
 
 	/*
-	 * @createLocale
-	 * @desc create namespace by comp name
-	 * @param {string} compName
-	 * @return {function}
-	 */
-	function createLocale(compName) {
-		return createI18N(compName);
-	}
-
-	/*
 	 * @isEmptyArray
 	 * @desc  is empty array
 	 * @param {array} arr
@@ -42,48 +32,12 @@ export default async function () {
 	}
 
 	/*
-	 * @isObject
-	 * @desc is object
-	 * @param {any} val
-	 */
-	function isObject(val) {
-		return val !== null && typeof val === "object";
-	}
-
-	/*
-	 * @isFunction
-	 * @desc is function
-	 * @param {any} val
-	 */
-	function isFunction(val) {
-		return typeof val === "function";
-	}
-
-	/*
-	 * @isBoolean
-	 * @desc is boolean
-	 * @param {any} val
-	 */
-	function isBoolean(val) {
-		return typeof val === "boolean";
-	}
-
-	/*
-	 * @isNumber
-	 * @desc is number
-	 * @param {any} val
-	 */
-	function isNumber(val) {
-		return typeof val === "number";
-	}
-
-	/*
 	 * @isTrue
 	 * @desc is equal true
 	 * @param {any} val
 	 */
 	function isTrue(val) {
-		return isBoolean(val) && val;
+		return _.isBoolean(val) && val;
 	}
 
 	/*
@@ -92,7 +46,7 @@ export default async function () {
 	 * @param {any} val
 	 */
 	function isFalse(val) {
-		return isBoolean(val) && !val;
+		return _.isBoolean(val) && !val;
 	}
 
 	/*
@@ -155,7 +109,7 @@ export default async function () {
 	 * @param {object} option - scroll option
 	 */
 	function scrollTo(el, option) {
-		if (isFunction(el.scrollTo)) {
+		if (_.isFunction(el.scrollTo)) {
 			el.scrollTo(option);
 		} else {
 			const { top, left } = option;
@@ -165,14 +119,13 @@ export default async function () {
 	}
 
 	return {
-		createLocale,
 		isEmptyArray,
 		isEmptyValue,
 		isDefined,
-		isObject,
-		isFunction,
-		isBoolean,
-		isNumber,
+		isObject: _.isObject,
+		isFunction: _.isFunction,
+		isBoolean: _.isBoolean,
+		isNumber: _.isNumber,
 		isTrue,
 		isFalse,
 		getValByUnit,

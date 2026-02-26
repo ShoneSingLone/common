@@ -10,7 +10,7 @@ export default async function ({ PRIVATE_GLOBAL }) {
 		_.$importVue("/common/ui-x/components/data/xTableEasy/util/index.vue"),
 		_.$importVue("/common/ui-x/components/data/xTableEasy/util/constant.vue"),
 		_.$importVue("/common/ui-x/components/data/xTableEasy/footer/footer-td.vue"),
-		_.$importVue("/common/src/comps/resize-observer.vue")
+		_.$importVue("/common/ui-x/components/data/xTableEasy/helper/comps/resize-observer.vue")
 	]);
 
 	return {

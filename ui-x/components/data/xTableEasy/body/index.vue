@@ -13,7 +13,7 @@ export default async function ({ PRIVATE_GLOBAL }) {
 		_.$importVue("/common/ui-x/components/data/xTableEasy/body/body-tr.vue"),
 		_.$importVue("/common/ui-x/components/data/xTableEasy/body/body-tr-scrolling.vue"),
 		_.$importVue("/common/ui-x/components/data/xTableEasy/body/expand-tr.vue"),
-		_.$importVue("/common/src/comps/resize-observer.vue"),
+		_.$importVue("/common/ui-x/components/data/xTableEasy/helper/comps/resize-observer.vue"),
 		_.$importVue("/common/ui-x/components/data/xTableEasy/util/index.vue"),
 		_.$importVue("/common/ui-x/components/data/xTableEasy/utils/index.vue"),
 		_.$importVue("/common/ui-x/components/data/xTableEasy/util/constant.vue")
