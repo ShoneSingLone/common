@@ -102,7 +102,7 @@ export default async function ({ PRIVATE_GLOBAL }) {
 
 	const i18n_t = createLocale(LOCALE_COMP_NAME);
 
-	export default {
+	return {
 		name: COMPS_NAME.VE_TABLE,
 		directives: {
 			"click-outside": clickoutside
