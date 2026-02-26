@@ -1,113 +1,121 @@
-<template>
-	<tfoot v-if="cpt_has_footer_data">
-		<tr
-			v-for="(footerRow, rowIndex) in footerRows"
-			:key="rowIndex"
-			:style="{ height: footerRow.rowHeight + 'px' }"
-			:class="cpt_footer_row_class">
-			<footer-td-component
-				v-for="(column, colIndex) in colgroups"
-				:key="colIndex"
-				:column="column"
-				:row-index="rowIndex"
-				:footer-data="footerData"
-				:has-left-fixed-column="hasLeftFixedColumn"
-				:has-right-fixed-column="hasRightFixedColumn"
-				:event-custom-option="eventCustomOption"
-				:cell-style-option="cellStyleOption"
-				:row-style-option="rowStyleOption"
-				:cell-span-option="cellSpanOption"
-				:is-group-header="isGroupHeader"
-				@foot-row-height-change="$emit('foot-row-height-change', { rowIndex, height })" />
-		</tr>
-	</tfoot>
-</template>
-
 <script lang="ts">
 export default async function ({ PRIVATE_GLOBAL }) {
-	return Vue.defineComponent({
-		name: Vue._X_TABLE_EASY_COMPS_NAME.VE_TABLE_FOOTER,
+	// 使用 _.$importVue() 加载依赖
+	const [
+		{ clsName },
+		FooterTr,
+		{ COMPS_NAME }
+	] = await Promise.all([
+		_.$importVue("/common/ui-x/components/data/xTableEasy/util/index.vue"),
+		_.$importVue("/common/ui-x/components/data/xTableEasy/footer/footer-tr.vue"),
+		_.$importVue("/common/ui-x/components/data/xTableEasy/util/constant.vue")
+	]);
+
+	return {
+		name: COMPS_NAME.VE_TABLE_FOOTER,
 		props: {
-			footerData: {
-				type: Array,
-				default: () => []
-			},
-			footerRows: {
-				type: Array,
-				default: () => []
-			},
 			colgroups: {
 				type: Array,
 				required: true
 			},
-			groupColumns: {
+			footerData: {
 				type: Array,
-				default: () => []
+				required: true
 			},
-			headerRows: {
-				type: Array,
-				default: () => []
-			},
-			hasLeftFixedColumn: {
+			hasFixedColumn: {
 				type: Boolean,
 				default: false
 			},
-			hasRightFixedColumn: {
-				type: Boolean,
-				default: false
+			allRowKeys: {
+				type: Array,
+				required: true
 			},
-			eventCustomOption: {
-				type: Object,
+			rowKeyFieldName: {
+				type: String,
 				default: null
 			},
+			// cell style option
 			cellStyleOption: {
 				type: Object,
-				default: null
+				default: function () {
+					return null;
+				}
 			},
-			rowStyleOption: {
+			// event custom option
+			eventCustomOption: {
 				type: Object,
-				default: null
+				default: function () {
+					return null;
+				}
 			},
+			// footer rows
+			footerRows: {
+				type: Array,
+				default: function () {
+					return [];
+				}
+			},
+			// fixed footer
+			fixedFooter: {
+				type: Boolean,
+				default: true
+			},
+			// cell span option
 			cellSpanOption: {
 				type: Object,
-				default: null
-			},
-			isGroupHeader: {
-				type: Boolean,
-				default: false
+				default: function () {
+					return null;
+				}
 			}
 		},
-		emits: ["foot-row-height-change"],
 		computed: {
-			// has footer data
-			cpt_has_footer_data() {
-				return this.footerData && this.footerData.length > 0;
-			},
-			// footer row class
-			cpt_footer_row_class() {
+			// footer class
+			cpt_footerClass() {
 				return {
-					[Vue._X_TABLE_EASY_UTILS.clsName("footer-row")]: true
+					[clsName("fixed-footer")]: this.fixedFooter
 				};
 			}
+		},
+		methods: {
+			// get tr key
+			getTrKey({ rowData, rowIndex }) {
+				let result = rowIndex;
+
+				const { rowKeyFieldName } = this;
+				if (rowKeyFieldName) {
+					result = rowData[rowKeyFieldName];
+				}
+				return result;
+			}
+		},
+		render(h) {
+			const { colgroups, rowKeyFieldName, cellStyleOption } = this;
+
+			return h(
+				"tfoot",
+				{
+					class: this.cpt_footerClass
+				},
+				this.footerData.map((rowData, rowIndex) => {
+					const trProps = {
+						key: this.getTrKey({ rowData, rowIndex }),
+						props: {
+							rowIndex,
+							rowData,
+							colgroups,
+							rowKeyFieldName,
+							cellStyleOption,
+							footerRows: this.footerRows,
+							fixedFooter: this.fixedFooter,
+							cellSpanOption: this.cellSpanOption,
+							eventCustomOption: this.eventCustomOption
+						}
+					};
+
+					return h(FooterTr, trProps);
+				})
+			);
 		}
-	});
+	};
 }
 </script>
-
-<style lang="less">
-// 表尾样式
-@{VE_TABLE_PREFIX-cls} {
-	&-footer-row {
-		background-color: #fafafa;
-	}
-
-	&-footer-row td {
-		padding: 12px 16px;
-		white-space: nowrap;
-		overflow: hidden;
-		text-overflow: ellipsis;
-		font-weight: 500;
-		border-top: 1px solid #e8e8e8;
-	}
-}
-</style>

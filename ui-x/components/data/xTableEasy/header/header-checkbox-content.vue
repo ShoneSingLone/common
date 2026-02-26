@@ -1,8 +1,21 @@
 <script lang="ts">
 export default async function ({ PRIVATE_GLOBAL }) {
-	return Vue.defineComponent({
-		name: Vue._X_TABLE_EASY_COMPS_NAME.VE_TABLE_HEADER_CHECKBOX_CONTENT,
-		mixins: [Vue._X_TABLE_EASY_MIXINS.emitter],
+	// 使用 _.$importVue() 加载依赖
+	const [
+		VeCheckbox,
+		{ COMPS_NAME, EMIT_EVENTS },
+		{ clsName },
+		emitter
+	] = await Promise.all([
+		_.$importVue("vue-easytable/packages/ve-checkbox"),
+		_.$importVue("/common/ui-x/components/data/xTableEasy/util/constant.vue"),
+		_.$importVue("/common/ui-x/components/data/xTableEasy/util/index.vue"),
+		_.$importVue("/common/src/mixins/emitter.vue")
+	]);
+
+	return {
+		name: COMPS_NAME.VE_TABLE_HEADER_CHECKBOX_CONTENT,
+		mixins: [emitter],
 		props: {
 			// checkbox option
 			checkboxOption: {
@@ -25,13 +38,9 @@ export default async function ({ PRIVATE_GLOBAL }) {
 			selectedChange(isSelected) {
 				this.isSelected = isSelected;
 
-				this.dispatch(
-					Vue._X_TABLE_EASY_COMPS_NAME.VE_TABLE,
-					Vue._X_TABLE_EASY_EMIT_EVENTS.CHECKBOX_SELECTED_ALL_CHANGE,
-					{
-						isSelected
-					}
-				);
+				this.dispatch(COMPS_NAME.VE_TABLE, EMIT_EVENTS.CHECKBOX_SELECTED_ALL_CHANGE, {
+					isSelected
+				});
 			},
 
 			// set selected all info
@@ -42,15 +51,16 @@ export default async function ({ PRIVATE_GLOBAL }) {
 		},
 		mounted() {
 			// receive selected all info
-			this.$on(Vue._X_TABLE_EASY_EMIT_EVENTS.CHECKBOX_SELECTED_ALL_INFO, params => {
+			this.$on(EMIT_EVENTS.CHECKBOX_SELECTED_ALL_INFO, params => {
 				this.setSelectedAllInfo(params);
 			});
 		},
 		render(h) {
 			const { isSelected, isIndeterminate, selectedChange } = this;
 
-			const checkboxProps = {
-				class: Vue._X_TABLE_EASY_UTILS.clsName("checkbox-wrapper"),
+			// 使用 h 函数创建组件
+			return h(VeCheckbox, {
+				class: clsName("checkbox-wrapper"),
 				props: {
 					isControlled: true,
 					isSelected: isSelected,
@@ -59,10 +69,8 @@ export default async function ({ PRIVATE_GLOBAL }) {
 				on: {
 					"on-checked-change": isSelectedParam => selectedChange(isSelectedParam)
 				}
-			};
-
-			return h(Vue._X_TABLE_EASY_COMPONENTS.VeCheckbox, checkboxProps);
+			});
 		}
-	});
+	};
 }
 </script>

@@ -1,71 +1,46 @@
-<template>
-	<div
-		v-if="cpt_selection_borders_visibility"
-		:class="cpt_selection_wrapper_class"
-		:style="cpt_selection_wrapper_style">
-		<!-- fixed left -->
-		<div :class="cpt_selection_fixed_left_class">
-			<!-- current -->
-			<div
-				v-if="cpt_fixed_left_selection_current.selectionCurrent"
-				v-html="cpt_fixed_left_selection_current.selectionCurrent"></div>
-			<!-- area -->
-			<div
-				v-if="cpt_fixed_left_selection_area.normalArea"
-				v-html="cpt_fixed_left_selection_area.normalArea"></div>
-			<!-- auto fill -->
-			<div v-if="cpt_fixed_left_auto_fill_area" v-html="cpt_fixed_left_auto_fill_area"></div>
-			<!-- area layer -->
-			<div
-				v-if="cpt_fixed_left_selection_area.normalAreaLayer"
-				v-html="cpt_fixed_left_selection_area.normalAreaLayer"></div>
-		</div>
-
-		<!-- middle -->
-		<div :class="cpt_selection_middle_class">
-			<!-- current -->
-			<div
-				v-if="cpt_middle_selection_current.selectionCurrent"
-				v-html="cpt_middle_selection_current.selectionCurrent"></div>
-			<!-- area -->
-			<div
-				v-if="cpt_middle_selection_area.normalArea"
-				v-html="cpt_middle_selection_area.normalArea"></div>
-			<!-- auto fill -->
-			<div v-if="cpt_middle_auto_fill_area" v-html="cpt_middle_auto_fill_area"></div>
-			<!-- area layer -->
-			<div
-				v-if="cpt_middle_selection_area.normalAreaLayer"
-				v-html="cpt_middle_selection_area.normalAreaLayer"></div>
-		</div>
-
-		<!-- fixed right -->
-		<div :class="cpt_selection_fixed_right_class">
-			<!-- current -->
-			<div
-				v-if="cpt_fixed_right_selection_current.selectionCurrent"
-				v-html="cpt_fixed_right_selection_current.selectionCurrent"></div>
-			<!-- area -->
-			<div
-				v-if="cpt_fixed_right_selection_area.normalArea"
-				v-html="cpt_fixed_right_selection_area.normalArea"></div>
-			<!-- auto fill -->
-			<div
-				v-if="cpt_fixed_right_auto_fill_area"
-				v-html="cpt_fixed_right_auto_fill_area"></div>
-			<!-- area layer -->
-			<div
-				v-if="cpt_fixed_right_selection_area.normalAreaLayer"
-				v-html="cpt_fixed_right_selection_area.normalAreaLayer"></div>
-		</div>
-	</div>
-</template>
-
 <script lang="ts">
 export default async function ({ PRIVATE_GLOBAL }) {
-	return Vue.defineComponent({
-		name: Vue._X_TABLE_EASY_COMPS_NAME.VE_TABLE_SELECTION,
-		mixins: [Vue._X_TABLE_EASY_MIXINS.emitter],
+	// 使用 _.$importVue() 加载依赖模块
+	const [
+		{
+			clsName,
+			isLastColumnByColKey,
+			isLastRowByRowKey,
+			getColKeysByRangeColKeys,
+			isExistGivenFixedColKey,
+			isExistNotFixedColKey,
+			getLeftmostColKey,
+			getRightmostColKey,
+			getColKeysByFixedTypeWithinColKeys,
+			getTotalWidthByColKeys,
+			getPreviewColKey,
+			getNextColKey
+		},
+		{
+			COMPS_NAME,
+			EMIT_EVENTS,
+			HOOKS_NAME,
+			AUTOFILLING_DIRECTION,
+			CURRENT_CELL_SELECTION_TYPES,
+			COLUMN_FIXED_TYPE
+		},
+		{ INSTANCE_METHODS },
+		emitter,
+		{ isEmptyValue, isBoolean }
+	] = await Promise.all([
+		_.$importVue("/common/ui-x/components/data/xTableEasy/util/index.vue"),
+		_.$importVue("/common/ui-x/components/data/xTableEasy/util/constant.vue"),
+		_.$importVue("/common/ui-x/components/data/xTableEasy/selection/constant.vue"),
+		_.$importVue("/common/src/mixins/emitter.vue"),
+		_.$importVue("/common/ui-x/components/data/xTableEasy/utils/index.vue")
+	]);
+
+	// 从 lodash 获取 debounce 函数
+	const { debounce } = _;
+
+	return {
+		name: COMPS_NAME.VE_TABLE_SELECTION,
+		mixins: [emitter],
 		props: {
 			tableEl: {
 				type: HTMLTableElement,
@@ -164,7 +139,7 @@ export default async function ({ PRIVATE_GLOBAL }) {
 
 		computed: {
 			// selection borders visibility
-			cpt_selection_borders_visibility() {
+			cpt_selectionBordersVisibility() {
 				let result = true;
 				if (this.isVirtualScroll) {
 					const {
@@ -179,10 +154,7 @@ export default async function ({ PRIVATE_GLOBAL }) {
 					} else {
 						const { currentCell, normalEndCell } = cellSelectionData;
 
-						if (
-							currentCellSelectionType ===
-							Vue._X_TABLE_EASY_CONSTANTS.CURRENT_CELL_SELECTION_TYPES.SINGLE
-						) {
+						if (currentCellSelectionType === CURRENT_CELL_SELECTION_TYPES.SINGLE) {
 							if (
 								currentCell.rowIndex < virtualScrollVisibleIndexs.start ||
 								currentCell.rowIndex > virtualScrollVisibleIndexs.end
@@ -191,10 +163,7 @@ export default async function ({ PRIVATE_GLOBAL }) {
 							}
 						}
 
-						if (
-							currentCellSelectionType ===
-							Vue._X_TABLE_EASY_CONSTANTS.CURRENT_CELL_SELECTION_TYPES.RANGE
-						) {
+						if (currentCellSelectionType === CURRENT_CELL_SELECTION_TYPES.RANGE) {
 							if (
 								(currentCell.rowIndex < virtualScrollVisibleIndexs.start &&
 									normalEndCell.rowIndex < virtualScrollVisibleIndexs.start) ||
@@ -209,17 +178,12 @@ export default async function ({ PRIVATE_GLOBAL }) {
 				return result;
 			},
 			// show corner
-			cpt_show_corner() {
+			cpt_showCorner() {
 				let result = true;
 				const { cellAutofillOption } = this;
 				if (cellAutofillOption) {
 					const { directionX, directionY } = this.cellAutofillOption;
-					if (
-						Vue._X_TABLE_EASY_UTILS.isBoolean(directionY) &&
-						!directionY &&
-						Vue._X_TABLE_EASY_UTILS.isBoolean(directionX) &&
-						!directionX
-					) {
+					if (isBoolean(directionY) && !directionY && isBoolean(directionX) && !directionX) {
 						result = false;
 					}
 				} else {
@@ -229,29 +193,27 @@ export default async function ({ PRIVATE_GLOBAL }) {
 				return result;
 			},
 			// corner cell info
-			cpt_corner_cell_info() {
+			cpt_cornerCellInfo() {
 				const { allRowKeys, colgroups, cellSelectionRangeData } = this;
 
 				const { rightColKey, bottomRowKey } = cellSelectionRangeData;
 
 				let isLastColumn = false;
-				if (Vue._X_TABLE_EASY_UTILS.isLastColumnByColKey(rightColKey, colgroups)) {
+				if (isLastColumnByColKey(rightColKey, colgroups)) {
 					isLastColumn = true;
 				} else {
 					const index = colgroups.findIndex(x => x.key === rightColKey);
 					// right col is right fixed and current col is not right fixed
 					if (
-						colgroups[index + 1].fixed ===
-							Vue._X_TABLE_EASY_CONSTANTS.COLUMN_FIXED_TYPE.RIGHT &&
-						colgroups[index].fixed !==
-							Vue._X_TABLE_EASY_CONSTANTS.COLUMN_FIXED_TYPE.RIGHT
+						colgroups[index + 1].fixed === COLUMN_FIXED_TYPE.RIGHT &&
+						colgroups[index].fixed !== COLUMN_FIXED_TYPE.RIGHT
 					) {
 						isLastColumn = true;
 					}
 				}
 
 				let isLastRow = false;
-				if (Vue._X_TABLE_EASY_UTILS.isLastRowByRowKey(bottomRowKey, allRowKeys)) {
+				if (isLastRowByRowKey(bottomRowKey, allRowKeys)) {
 					isLastRow = true;
 				}
 
@@ -261,26 +223,22 @@ export default async function ({ PRIVATE_GLOBAL }) {
 				};
 			},
 			// is first selection row
-			cpt_is_first_selection_row() {
+			cpt_isFirstSelectionRow() {
 				const { allRowKeys, cellSelectionRangeData } = this;
 				return allRowKeys[0] === cellSelectionRangeData.topRowKey;
 			},
 			// is first selection column
-			cpt_is_first_selection_col() {
+			cpt_isFirstSelectionCol() {
 				const { colgroups, cellSelectionRangeData } = this;
 				return colgroups[0].key === cellSelectionRangeData.leftColKey;
 			},
 			// is first not fixed selection column
-			cpt_is_first_not_fixed_selection_col() {
+			cpt_isFirstNotFixedSelectionCol() {
 				let result = false;
 
 				const { colgroups, cellSelectionRangeData } = this;
 
-				if (
-					colgroups.find(
-						x => x.fixed === Vue._X_TABLE_EASY_CONSTANTS.COLUMN_FIXED_TYPE.LEFT
-					)
-				) {
+				if (colgroups.find(x => x.fixed === "left")) {
 					const col = colgroups.find(x => !x.fixed);
 					if (col && col.field === cellSelectionRangeData.leftColKey) {
 						result = true;
@@ -288,92 +246,6 @@ export default async function ({ PRIVATE_GLOBAL }) {
 				}
 
 				return result;
-			},
-			// selection wrapper class
-			cpt_selection_wrapper_class() {
-				return {
-					[Vue._X_TABLE_EASY_UTILS.clsName("selection-wrapper")]: true
-				};
-			},
-			// selection wrapper style
-			cpt_selection_wrapper_style() {
-				return {
-					visibility: this.isCellEditing ? "hidden" : ""
-				};
-			},
-			// selection fixed left class
-			cpt_selection_fixed_left_class() {
-				return {
-					[Vue._X_TABLE_EASY_UTILS.clsName("selection-fixed-left")]: true
-				};
-			},
-			// selection middle class
-			cpt_selection_middle_class() {
-				return {
-					[Vue._X_TABLE_EASY_UTILS.clsName("selection-middle")]: true
-				};
-			},
-			// selection fixed right class
-			cpt_selection_fixed_right_class() {
-				return {
-					[Vue._X_TABLE_EASY_UTILS.clsName("selection-fixed-right")]: true
-				};
-			},
-			// fixed left selection current
-			cpt_fixed_left_selection_current() {
-				return this.cpt_get_selection_current({
-					fixedType: Vue._X_TABLE_EASY_CONSTANTS.COLUMN_FIXED_TYPE.LEFT
-				});
-			},
-			// fixed left selection area
-			cpt_fixed_left_selection_area() {
-				return this.cpt_get_selection_areas({
-					fixedType: Vue._X_TABLE_EASY_CONSTANTS.COLUMN_FIXED_TYPE.LEFT
-				});
-			},
-			// fixed left auto fill area
-			cpt_fixed_left_auto_fill_area() {
-				const { cpt_fixed_left_selection_current, cpt_fixed_left_selection_area } = this;
-				return (
-					cpt_fixed_left_selection_current.autoFillArea ||
-					cpt_fixed_left_selection_area.autoFillArea
-				);
-			},
-			// middle selection current
-			cpt_middle_selection_current() {
-				return this.cpt_get_selection_current({ fixedType: "" });
-			},
-			// middle selection area
-			cpt_middle_selection_area() {
-				return this.cpt_get_selection_areas({ fixedType: "" });
-			},
-			// middle auto fill area
-			cpt_middle_auto_fill_area() {
-				const { cpt_middle_selection_current, cpt_middle_selection_area } = this;
-				return (
-					cpt_middle_selection_current.autoFillArea ||
-					cpt_middle_selection_area.autoFillArea
-				);
-			},
-			// fixed right selection current
-			cpt_fixed_right_selection_current() {
-				return this.cpt_get_selection_current({
-					fixedType: Vue._X_TABLE_EASY_CONSTANTS.COLUMN_FIXED_TYPE.RIGHT
-				});
-			},
-			// fixed right selection area
-			cpt_fixed_right_selection_area() {
-				return this.cpt_get_selection_areas({
-					fixedType: Vue._X_TABLE_EASY_CONSTANTS.COLUMN_FIXED_TYPE.RIGHT
-				});
-			},
-			// fixed right auto fill area
-			cpt_fixed_right_auto_fill_area() {
-				const { cpt_fixed_right_selection_current, cpt_fixed_right_selection_area } = this;
-				return (
-					cpt_fixed_right_selection_current.autoFillArea ||
-					cpt_fixed_right_selection_area.autoFillArea
-				);
 			}
 		},
 
@@ -382,44 +254,32 @@ export default async function ({ PRIVATE_GLOBAL }) {
 				handler: function (val) {
 					if (val) {
 						// add table container scroll hook
-						this.hooks.addHook(
-							Vue._X_TABLE_EASY_CONSTANTS.HOOKS_NAME.TABLE_CONTAINER_SCROLL,
-							() => {
-								this.cpt_set_cell_els();
-								this.debounceSetCellEls();
+						this.hooks.addHook(HOOKS_NAME.TABLE_CONTAINER_SCROLL, () => {
+							this.setCellEls();
+							this.debounceSetCellEls();
 
-								this.cpt_reset_cell_positions();
-								// debounce reset cell positions
-								this.debounceResetCellPositions();
-							}
-						);
+							this.resetCellPositions();
+							// debounce reset cell positions
+							this.debounceResetCellPositions();
+						});
 						// add table size change hook
-						this.hooks.addHook(
-							Vue._X_TABLE_EASY_CONSTANTS.HOOKS_NAME.TABLE_SIZE_CHANGE,
-							() => {
-								// debounce reset cell positions
-								this.debounceResetCellPositions();
-							}
-						);
+						this.hooks.addHook(HOOKS_NAME.TABLE_SIZE_CHANGE, () => {
+							// debounce reset cell positions
+							this.debounceResetCellPositions();
+						});
 						// add table td width change hook
-						this.hooks.addHook(
-							Vue._X_TABLE_EASY_CONSTANTS.HOOKS_NAME.TABLE_CELL_WIDTH_CHANGE,
-							() => {
-								this.$nextTick(() => {
-									this.cpt_reset_cell_positions();
-								});
-							}
-						);
+						this.hooks.addHook(HOOKS_NAME.TABLE_CELL_WIDTH_CHANGE, () => {
+							this.$nextTick(() => {
+								this.resetCellPositions();
+							});
+						});
 
 						// add clipboard cell value change hook
-						this.hooks.addHook(
-							Vue._X_TABLE_EASY_CONSTANTS.HOOKS_NAME.CLIPBOARD_CELL_VALUE_CHANGE,
-							() => {
-								this.$nextTick(() => {
-									this.cpt_reset_cell_positions();
-								});
-							}
-						);
+						this.hooks.addHook(HOOKS_NAME.CLIPBOARD_CELL_VALUE_CHANGE, () => {
+							this.$nextTick(() => {
+								this.resetCellPositions();
+							});
+						});
 					}
 				},
 				immediate: true
@@ -428,18 +288,13 @@ export default async function ({ PRIVATE_GLOBAL }) {
 			"cellSelectionData.currentCell": {
 				handler: function (val) {
 					const { rowKey, colKey } = val;
-					if (
-						!Vue._X_TABLE_EASY_UTILS.isEmptyValue(rowKey) &&
-						!Vue._X_TABLE_EASY_UTILS.isEmptyValue(colKey)
-					) {
-						this.cpt_set_current_cell_el();
-						this.cpt_set_selection_positions({ type: "currentCell" });
+					if (!isEmptyValue(rowKey) && !isEmptyValue(colKey)) {
+						this.setCurrentCellEl();
+						this.setSelectionPositions({ type: "currentCell" });
 					} else {
-						this[
-							Vue._X_TABLE_EASY_CONSTANTS.INSTANCE_METHODS.CLEAR_CURRENT_CELL_RECT
-						]();
+						this[INSTANCE_METHODS.CLEAR_CURRENT_CELL_RECT]();
 					}
-					this.cpt_set_cell_selection_range_data();
+					this.setCellSelectionRangeData();
 				},
 				deep: true,
 				immediate: true
@@ -448,19 +303,14 @@ export default async function ({ PRIVATE_GLOBAL }) {
 			"cellSelectionData.normalEndCell": {
 				handler: function (val) {
 					const { rowKey, colKey } = val;
-					if (
-						!Vue._X_TABLE_EASY_UTILS.isEmptyValue(rowKey) &&
-						!Vue._X_TABLE_EASY_UTILS.isEmptyValue(colKey)
-					) {
+					if (!isEmptyValue(rowKey) && !isEmptyValue(colKey)) {
 						// set normal end cell el
-						this.cpt_set_normal_end_cell_el();
-						this.cpt_set_selection_positions({ type: "normalEndCell" });
+						this.setNormalEndCellEl();
+						this.setSelectionPositions({ type: "normalEndCell" });
 					} else {
-						this[
-							Vue._X_TABLE_EASY_CONSTANTS.INSTANCE_METHODS.CLEAR_NORMAL_END_CELL_RECT
-						]();
+						this[INSTANCE_METHODS.CLEAR_NORMAL_END_CELL_RECT]();
 					}
-					this.cpt_set_cell_selection_range_data();
+					this.setCellSelectionRangeData();
 				},
 				deep: true,
 				immediate: true
@@ -469,14 +319,11 @@ export default async function ({ PRIVATE_GLOBAL }) {
 			"cellSelectionData.autoFillEndCell": {
 				handler: function (val) {
 					const { rowKey, colKey } = val;
-					if (
-						!Vue._X_TABLE_EASY_UTILS.isEmptyValue(rowKey) &&
-						!Vue._X_TABLE_EASY_UTILS.isEmptyValue(colKey)
-					) {
-						this.cpt_set_autofill_end_cell_el();
-						this.cpt_set_selection_positions({ type: "autoFillEndCell" });
+					if (!isEmptyValue(rowKey) && !isEmptyValue(colKey)) {
+						this.setAutofillEndCellEl();
+						this.setSelectionPositions({ type: "autoFillEndCell" });
 					} else {
-						this.cpt_clear_autofill_end_cell_rect();
+						this.clearAutofillEndCellRect();
 					}
 				},
 				deep: true,
@@ -486,65 +333,53 @@ export default async function ({ PRIVATE_GLOBAL }) {
 
 		methods: {
 			// reset cell position
-			cpt_reset_cell_positions() {
+			resetCellPositions() {
 				const { currentCell, normalEndCell } = this.cellSelectionData;
-				if (
-					!Vue._X_TABLE_EASY_UTILS.isEmptyValue(currentCell.rowKey) &&
-					!Vue._X_TABLE_EASY_UTILS.isEmptyValue(currentCell.colKey)
-				) {
-					this.cpt_set_selection_positions({
+				if (!isEmptyValue(currentCell.rowKey) && !isEmptyValue(currentCell.colKey)) {
+					this.setSelectionPositions({
 						type: "currentCell"
 					});
 				}
 
-				if (
-					!Vue._X_TABLE_EASY_UTILS.isEmptyValue(normalEndCell.rowKey) &&
-					!Vue._X_TABLE_EASY_UTILS.isEmptyValue(normalEndCell.colKey)
-				) {
-					this.cpt_set_selection_positions({
+				if (!isEmptyValue(normalEndCell.rowKey) && !isEmptyValue(normalEndCell.colKey)) {
+					this.setSelectionPositions({
 						type: "normalEndCell"
 					});
 				}
 			},
 
 			// set cell els
-			cpt_set_cell_els() {
-				if (this.isVirtualScroll && this.cpt_selection_borders_visibility) {
-					this.cpt_set_current_cell_el();
-					this.cpt_set_normal_end_cell_el();
+			setCellEls() {
+				if (this.isVirtualScroll && this.cpt_selectionBordersVisibility) {
+					this.setCurrentCellEl();
+					this.setNormalEndCellEl();
 				}
 			},
 
 			// set cell selection range data
-			cpt_set_cell_selection_range_data() {
+			setCellSelectionRangeData() {
 				const { currentCellSelectionType } = this;
 				const { currentCell, normalEndCell } = this.cellSelectionData;
 
 				let result = {};
 
-				if (
-					currentCellSelectionType ===
-					Vue._X_TABLE_EASY_CONSTANTS.CURRENT_CELL_SELECTION_TYPES.SINGLE
-				) {
+				if (currentCellSelectionType === CURRENT_CELL_SELECTION_TYPES.SINGLE) {
 					result = {
 						leftColKey: currentCell.colKey,
 						rightColKey: currentCell.colKey,
 						topRowKey: currentCell.rowKey,
 						bottomRowKey: currentCell.rowKey
 					};
-				} else if (
-					currentCellSelectionType ===
-					Vue._X_TABLE_EASY_CONSTANTS.CURRENT_CELL_SELECTION_TYPES.RANGE
-				) {
-					const leftmostColKey = Vue._X_TABLE_EASY_UTILS.getLeftmostColKey({
+				} else if (currentCellSelectionType === CURRENT_CELL_SELECTION_TYPES.RANGE) {
+					const leftmostColKey = getLeftmostColKey({
 						colgroups: this.colgroups,
 						colKeys: [currentCell.colKey, normalEndCell.colKey]
 					});
 
 					/*
-          current cell col key is leftmost colKey
-          需要用 colKey 的位置进行判断，不能根据当前单元格 left 值判断（固定列时）
-          */
+                current cell col key is leftmost colKey
+                需要用 colKey 的位置进行判断，不能根据当前单元格 left 值判断（固定列时）
+                */
 					if (leftmostColKey === currentCell.colKey) {
 						result.leftColKey = currentCell.colKey;
 						result.rightColKey = normalEndCell.colKey;
@@ -570,15 +405,12 @@ export default async function ({ PRIVATE_GLOBAL }) {
 					};
 				}
 
-				this.$emit(
-					Vue._X_TABLE_EASY_CONSTANTS.EMIT_EVENTS.CELL_SELECTION_RANGE_DATA_CHANGE,
-					result
-				);
+				this.$emit(EMIT_EVENTS.CELL_SELECTION_RANGE_DATA_CHANGE, result);
 			},
 
 			// get cell position
-			cpt_get_cell_position({ cellEl, tableLeft, tableTop }) {
-				if (!this.cpt_selection_borders_visibility) {
+			getCellPosition({ cellEl, tableLeft, tableTop }) {
+				if (!this.cpt_selectionBordersVisibility) {
 					return false;
 				}
 
@@ -600,22 +432,16 @@ export default async function ({ PRIVATE_GLOBAL }) {
 			},
 
 			// get cell position by column key
-			cpt_get_cell_position_by_col_key({
-				tableLeft,
-				tableTop,
-				colKey,
-				isFirstRow,
-				isLastRow
-			}) {
-				if (!this.cpt_selection_borders_visibility) {
+			getCellPositionByColKey({ tableLeft, tableTop, colKey, isFirstRow, isLastRow }) {
+				if (!this.cpt_selectionBordersVisibility) {
 					return false;
 				}
 
 				let cellEl;
 				if (isFirstRow) {
-					cellEl = this.cpt_get_table_first_row_cell_by_col_key(colKey);
+					cellEl = this.getTableFirstRowCellByColKey(colKey);
 				} else if (isLastRow) {
-					cellEl = this.cpt_get_table_last_row_cell_by_col_key(colKey);
+					cellEl = this.getTableLastRowCellByColKey(colKey);
 				}
 
 				if (!cellEl) {
@@ -639,7 +465,7 @@ export default async function ({ PRIVATE_GLOBAL }) {
 			},
 
 			// set selection positions
-			cpt_set_selection_positions({ type }) {
+			setSelectionPositions({ type }) {
 				const {
 					allRowKeys,
 					tableEl,
@@ -667,7 +493,7 @@ export default async function ({ PRIVATE_GLOBAL }) {
 				if (type === "currentCell") {
 					isCurrentCellOverflow = true;
 					if (currentCellEl) {
-						const rect = this.cpt_get_cell_position({
+						const rect = this.getCellPosition({
 							cellEl: currentCellEl,
 							tableLeft,
 							tableTop
@@ -683,7 +509,7 @@ export default async function ({ PRIVATE_GLOBAL }) {
 				if (type === "normalEndCell") {
 					isNormalEndCellOverflow = true;
 					if (normalEndCellEl) {
-						const rect = this.cpt_get_cell_position({
+						const rect = this.getCellPosition({
 							cellEl: normalEndCellEl,
 							tableLeft,
 							tableTop
@@ -712,12 +538,11 @@ export default async function ({ PRIVATE_GLOBAL }) {
 
 					let mackUpRect;
 					/* 
-          当没有 currentCellRect 或 normalCellRect 时 进行纠正，否则只更新top值
-          */
+                当没有 currentCellRect 或 normalCellRect 时 进行纠正，否则只更新top值
+                */
 					if (
 						(isCurrentCellOverflow && !this.cellSelectionRect.currentCellRect.height) ||
-						(isNormalEndCellOverflow &&
-							!this.cellSelectionRect.normalEndCellRect.height)
+						(isNormalEndCellOverflow && !this.cellSelectionRect.normalEndCellRect.height)
 					) {
 						let mackUpRectParams = {
 							tableLeft,
@@ -726,14 +551,14 @@ export default async function ({ PRIVATE_GLOBAL }) {
 						};
 						// 上方超出
 						if (mackUpRowIndex < virtualScrollVisibleIndexs.start) {
-							mackUpRect = this.cpt_get_cell_position_by_col_key({
+							mackUpRect = this.getCellPositionByColKey({
 								...mackUpRectParams,
 								isFirstRow: true
 							});
 						}
 						// 下方超出
 						else if (mackUpRowIndex > virtualScrollVisibleIndexs.end) {
-							mackUpRect = this.cpt_get_cell_position_by_col_key({
+							mackUpRect = this.getCellPositionByColKey({
 								...mackUpRectParams,
 								isLastRow: true
 							});
@@ -763,7 +588,7 @@ export default async function ({ PRIVATE_GLOBAL }) {
 				}
 
 				if (autoFillEndCellEl && type === "autoFillEndCell") {
-					const rect = this.cpt_get_cell_position({
+					const rect = this.getCellPosition({
 						cellEl: autoFillEndCellEl,
 						tableLeft,
 						tableTop
@@ -776,11 +601,11 @@ export default async function ({ PRIVATE_GLOBAL }) {
 			},
 
 			/*
-      get selection current
-      1、selection current
-      2、auto fill area
-      */
-			cpt_get_selection_current({ fixedType }) {
+        get selection current
+        1、selection current
+        2、auto fill area
+        */
+			getSelectionCurrent({ fixedType }) {
 				let result = {
 					selectionCurrent: null,
 					autoFillArea: null
@@ -838,7 +663,7 @@ export default async function ({ PRIVATE_GLOBAL }) {
 
 				// cell selection single autofill
 				if (!normalEndCellRect.width) {
-					result.autoFillArea = this.cpt_get_selection_autofill_area({
+					result.autoFillArea = this.getSelectionAutofillArea({
 						areaPostions: borders,
 						fixedType
 					});
@@ -846,13 +671,13 @@ export default async function ({ PRIVATE_GLOBAL }) {
 
 				const totalColKeys = [cellSelectionData.currentCell.colKey];
 
-				const fixedColKeys = Vue._X_TABLE_EASY_UTILS.getColKeysByFixedTypeWithinColKeys({
+				const fixedColKeys = getColKeysByFixedTypeWithinColKeys({
 					colKeys: totalColKeys,
 					fixedType,
 					colgroups
 				});
 
-				result.selectionCurrent = this.cpt_get_borders({
+				result.selectionCurrent = this.getBorders({
 					...borders,
 					showCorner: !normalEndCellRect.width,
 					className: "selection-current",
@@ -865,11 +690,11 @@ export default async function ({ PRIVATE_GLOBAL }) {
 			},
 
 			/*
-      get selection areas
-      1、normal area
-      2、auto fill area
-      */
-			cpt_get_selection_areas({ fixedType }) {
+        get selection areas
+        1、normal area
+        2、auto fill area
+        */
+			getSelectionAreas({ fixedType }) {
 				let result = {
 					normalArea: null,
 					autoFillArea: null
@@ -924,7 +749,7 @@ export default async function ({ PRIVATE_GLOBAL }) {
 					}
 				};
 
-				const leftmostColKey = Vue._X_TABLE_EASY_UTILS.getLeftmostColKey({
+				const leftmostColKey = getLeftmostColKey({
 					colgroups: this.colgroups,
 					colKeys: [currentCell.colKey, normalEndCell.colKey]
 				});
@@ -975,26 +800,26 @@ export default async function ({ PRIVATE_GLOBAL }) {
 				borders.corner.left = borders.rightBorder.left - 4;
 
 				if (normalEndCellRect.width) {
-					result.autoFillArea = this.cpt_get_selection_autofill_area({
+					result.autoFillArea = this.getSelectionAutofillArea({
 						areaPostions: borders,
 						fixedType
 					});
 				}
 
 				const { leftColKey, rightColKey } = cellSelectionRangeData;
-				const totalColKeys = Vue._X_TABLE_EASY_UTILS.getColKeysByRangeColKeys({
+				const totalColKeys = getColKeysByRangeColKeys({
 					colKey1: leftColKey,
 					colKey2: rightColKey,
 					colgroups
 				});
 
-				const fixedColKeys = Vue._X_TABLE_EASY_UTILS.getColKeysByFixedTypeWithinColKeys({
+				const fixedColKeys = getColKeysByFixedTypeWithinColKeys({
 					colKeys: totalColKeys,
 					fixedType,
 					colgroups
 				});
 
-				result.normalArea = this.cpt_get_borders({
+				result.normalArea = this.getBorders({
 					...borders,
 					className: "selection-normal-area",
 					fixedType,
@@ -1002,7 +827,7 @@ export default async function ({ PRIVATE_GLOBAL }) {
 					fixedColKeys
 				});
 
-				result.normalAreaLayer = this.cpt_get_area_layer({
+				result.normalAreaLayer = this.getAreaLayer({
 					...borders,
 					className: "selection-normal-area-layer",
 					fixedType,
@@ -1014,7 +839,7 @@ export default async function ({ PRIVATE_GLOBAL }) {
 			},
 
 			// get selection auto fill
-			cpt_get_selection_autofill_area({ areaPostions, fixedType }) {
+			getSelectionAutofillArea({ areaPostions, fixedType }) {
 				let result = null;
 
 				const {
@@ -1083,17 +908,14 @@ export default async function ({ PRIVATE_GLOBAL }) {
 				const { currentCell, autoFillEndCell } = cellSelectionData;
 
 				let { leftColKey, rightColKey } = cellSelectionRangeData;
-				if (
-					currentCellSelectionType ===
-					Vue._X_TABLE_EASY_CONSTANTS.CURRENT_CELL_SELECTION_TYPES.SINGLE
-				) {
+				if (currentCellSelectionType === CURRENT_CELL_SELECTION_TYPES.SINGLE) {
 					leftColKey = currentCell.colKey;
 					rightColKey = currentCell.colKey;
 				}
 
 				let leftmostColKey;
 				if (leftColKey !== autoFillEndCell.colKey) {
-					leftmostColKey = Vue._X_TABLE_EASY_UTILS.getLeftmostColKey({
+					leftmostColKey = getLeftmostColKey({
 						colgroups,
 						colKeys: [leftColKey, autoFillEndCell.colKey]
 					});
@@ -1101,7 +923,7 @@ export default async function ({ PRIVATE_GLOBAL }) {
 
 				let rightmostColKey;
 				if (rightColKey !== autoFillEndCell.colKey) {
-					rightmostColKey = Vue._X_TABLE_EASY_UTILS.getRightmostColKey({
+					rightmostColKey = getRightmostColKey({
 						colgroups,
 						colKeys: [rightColKey, autoFillEndCell.colKey]
 					});
@@ -1115,7 +937,7 @@ export default async function ({ PRIVATE_GLOBAL }) {
 
 				// auto fill end cell below
 				if (autoFillEndCellRect.top > areaPostions.bottomBorder.top) {
-					autofillingDirection = Vue._X_TABLE_EASY_CONSTANTS.AUTOFILLING_DIRECTION.DOWN;
+					autofillingDirection = AUTOFILLING_DIRECTION.DOWN;
 
 					rangeColKey1 = leftColKey;
 					rangeColKey2 = rightColKey;
@@ -1130,23 +952,19 @@ export default async function ({ PRIVATE_GLOBAL }) {
 
 					borders.rightBorder.top = areaPostions.bottomBorder.top;
 					borders.rightBorder.left = areaPostions.rightBorder.left;
-					if (
-						currentCellSelectionType ===
-						Vue._X_TABLE_EASY_CONSTANTS.CURRENT_CELL_SELECTION_TYPES.SINGLE
-					) {
+					if (currentCellSelectionType === CURRENT_CELL_SELECTION_TYPES.SINGLE) {
 						borders.rightBorder.left++;
 					}
 
 					borders.leftBorder.top = areaPostions.bottomBorder.top;
 					borders.leftBorder.left = areaPostions.leftBorder.left;
 
-					borders.bottomBorder.top =
-						autoFillEndCellRect.top + autoFillEndCellRect.height - 1;
+					borders.bottomBorder.top = autoFillEndCellRect.top + autoFillEndCellRect.height - 1;
 					borders.bottomBorder.left = areaPostions.bottomBorder.left;
 				}
 				// end cell above
 				else if (autoFillEndCellRect.top < areaPostions.topBorder.top) {
-					autofillingDirection = Vue._X_TABLE_EASY_CONSTANTS.AUTOFILLING_DIRECTION.UP;
+					autofillingDirection = AUTOFILLING_DIRECTION.UP;
 
 					rangeColKey1 = leftColKey;
 					rangeColKey2 = rightColKey;
@@ -1161,10 +979,7 @@ export default async function ({ PRIVATE_GLOBAL }) {
 
 					borders.rightBorder.top = autoFillEndCellRect.top;
 					borders.rightBorder.left = areaPostions.rightBorder.left;
-					if (
-						currentCellSelectionType ===
-						Vue._X_TABLE_EASY_CONSTANTS.CURRENT_CELL_SELECTION_TYPES.SINGLE
-					) {
+					if (currentCellSelectionType === CURRENT_CELL_SELECTION_TYPES.SINGLE) {
 						borders.rightBorder.left++;
 					}
 
@@ -1172,13 +987,10 @@ export default async function ({ PRIVATE_GLOBAL }) {
 					borders.leftBorder.left = areaPostions.leftBorder.left;
 				}
 				// auto fill end cell right
-				else if (
-					rightmostColKey === autoFillEndCell.colKey &&
-					!Vue._X_TABLE_EASY_UTILS.isEmptyValue(rightmostColKey)
-				) {
-					autofillingDirection = Vue._X_TABLE_EASY_CONSTANTS.AUTOFILLING_DIRECTION.RIGHT;
+				else if (rightmostColKey === autoFillEndCell.colKey && !isEmptyValue(rightmostColKey)) {
+					autofillingDirection = AUTOFILLING_DIRECTION.RIGHT;
 
-					rangeColKey1 = Vue._X_TABLE_EASY_UTILS.getNextColKey({
+					rangeColKey1 = getNextColKey({
 						colgroups,
 						currentColKey: rightColKey
 					});
@@ -1197,20 +1009,16 @@ export default async function ({ PRIVATE_GLOBAL }) {
 					borders.topBorder.left = areaPostions.rightBorder.left - 1;
 
 					borders.rightBorder.top = areaPostions.topBorder.top;
-					borders.rightBorder.left =
-						autoFillEndCellRect.left + autoFillEndCellRect.width - 1;
+					borders.rightBorder.left = autoFillEndCellRect.left + autoFillEndCellRect.width - 1;
 
 					borders.bottomBorder.top = areaPostions.bottomBorder.top;
 					borders.bottomBorder.left = areaPostions.rightBorder.left - 1;
 				}
 				// auto fill end cell left
-				else if (
-					leftmostColKey === autoFillEndCell.colKey &&
-					!Vue._X_TABLE_EASY_UTILS.isEmptyValue(leftmostColKey)
-				) {
-					autofillingDirection = Vue._X_TABLE_EASY_CONSTANTS.AUTOFILLING_DIRECTION.LEFT;
+				else if (leftmostColKey === autoFillEndCell.colKey && !isEmptyValue(leftmostColKey)) {
+					autofillingDirection = AUTOFILLING_DIRECTION.LEFT;
 
-					rangeColKey1 = Vue._X_TABLE_EASY_UTILS.getPreviewColKey({
+					rangeColKey1 = getPreviewColKey({
 						colgroups,
 						currentColKey: leftColKey
 					});
@@ -1218,8 +1026,7 @@ export default async function ({ PRIVATE_GLOBAL }) {
 
 					borders.rightBorder.show = false;
 
-					borders.borderWidth =
-						areaPostions.leftBorder.left - autoFillEndCellRect.left + 1;
+					borders.borderWidth = areaPostions.leftBorder.left - autoFillEndCellRect.left + 1;
 					borders.borderHeight = areaPostions.borderHeight;
 
 					borders.topBorder.top = areaPostions.topBorder.top;
@@ -1237,41 +1044,37 @@ export default async function ({ PRIVATE_GLOBAL }) {
 				}
 
 				const { directionX, directionY } = cellAutofillOption;
-				if (Vue._X_TABLE_EASY_UTILS.isBoolean(directionX) && !directionX) {
+				if (isBoolean(directionX) && !directionX) {
 					if (
-						autofillingDirection ===
-							Vue._X_TABLE_EASY_CONSTANTS.AUTOFILLING_DIRECTION.LEFT ||
-						autofillingDirection ===
-							Vue._X_TABLE_EASY_CONSTANTS.AUTOFILLING_DIRECTION.RIGHT
+						autofillingDirection === AUTOFILLING_DIRECTION.LEFT ||
+						autofillingDirection === AUTOFILLING_DIRECTION.RIGHT
 					) {
 						return false;
 					}
 				}
 
-				if (Vue._X_TABLE_EASY_UTILS.isBoolean(directionY) && !directionY) {
+				if (isBoolean(directionY) && !directionY) {
 					if (
-						autofillingDirection ===
-							Vue._X_TABLE_EASY_CONSTANTS.AUTOFILLING_DIRECTION.UP ||
-						autofillingDirection ===
-							Vue._X_TABLE_EASY_CONSTANTS.AUTOFILLING_DIRECTION.DOWN
+						autofillingDirection === AUTOFILLING_DIRECTION.UP ||
+						autofillingDirection === AUTOFILLING_DIRECTION.DOWN
 					) {
 						return false;
 					}
 				}
 
-				const totalColKeys = Vue._X_TABLE_EASY_UTILS.getColKeysByRangeColKeys({
+				const totalColKeys = getColKeysByRangeColKeys({
 					colKey1: rangeColKey1,
 					colKey2: rangeColKey2,
 					colgroups
 				});
 
-				let fixedColKeys = Vue._X_TABLE_EASY_UTILS.getColKeysByFixedTypeWithinColKeys({
+				let fixedColKeys = getColKeysByFixedTypeWithinColKeys({
 					colKeys: totalColKeys,
 					fixedType,
 					colgroups
 				});
 
-				result = this.cpt_get_borders({
+				result = this.getBorders({
 					className: "selection-autofill-area",
 					...borders,
 					fixedType,
@@ -1281,8 +1084,8 @@ export default async function ({ PRIVATE_GLOBAL }) {
 
 				if (result) {
 					this.dispatch(
-						Vue._X_TABLE_EASY_COMPS_NAME.VE_TABLE,
-						Vue._X_TABLE_EASY_CONSTANTS.EMIT_EVENTS.AUTOFILLING_DIRECTION_CHANGE,
+						COMPS_NAME.VE_TABLE,
+						EMIT_EVENTS.AUTOFILLING_DIRECTION_CHANGE,
 						autofillingDirection
 					);
 				}
@@ -1291,7 +1094,7 @@ export default async function ({ PRIVATE_GLOBAL }) {
 			},
 
 			// get borders
-			cpt_get_borders({
+			getBorders({
 				borderWidth,
 				borderHeight,
 				topBorder,
@@ -1305,18 +1108,18 @@ export default async function ({ PRIVATE_GLOBAL }) {
 				fixedColKeys
 			}) {
 				const {
-					cpt_corner_cell_info,
+					cpt_cornerCellInfo,
 					colgroups,
-					cpt_is_first_selection_row,
-					cpt_is_first_selection_col,
-					cpt_is_first_not_fixed_selection_col,
-					cpt_show_corner
+					cpt_isFirstSelectionRow,
+					cpt_isFirstSelectionCol,
+					cpt_isFirstNotFixedSelectionCol,
+					cpt_showCorner
 				} = this;
 
 				let isRender = true;
 
 				if (fixedType) {
-					isRender = Vue._X_TABLE_EASY_UTILS.isExistGivenFixedColKey({
+					isRender = isExistGivenFixedColKey({
 						fixedType,
 						colKeys: totalColKeys,
 						colgroups
@@ -1324,7 +1127,7 @@ export default async function ({ PRIVATE_GLOBAL }) {
 				}
 				// middle normal area
 				else {
-					isRender = Vue._X_TABLE_EASY_UTILS.isExistNotFixedColKey({
+					isRender = isExistNotFixedColKey({
 						colKeys: totalColKeys,
 						colgroups
 					});
@@ -1337,7 +1140,7 @@ export default async function ({ PRIVATE_GLOBAL }) {
 				// fixed columns total width
 				let fixedColsTotalWidth = 0;
 				if (fixedColKeys.length) {
-					fixedColsTotalWidth = Vue._X_TABLE_EASY_UTILS.getTotalWidthByColKeys({
+					fixedColsTotalWidth = getTotalWidthByColKeys({
 						colKeys: fixedColKeys,
 						colgroups
 					});
@@ -1345,19 +1148,19 @@ export default async function ({ PRIVATE_GLOBAL }) {
 
 				if (fixedType) {
 					borderWidth = fixedColsTotalWidth;
-					if (fixedType === Vue._X_TABLE_EASY_CONSTANTS.COLUMN_FIXED_TYPE.LEFT) {
+					if (fixedType === COLUMN_FIXED_TYPE.LEFT) {
 						borderWidth += 1;
 					}
 				}
 
-				if (fixedType === Vue._X_TABLE_EASY_CONSTANTS.COLUMN_FIXED_TYPE.LEFT) {
+				if (fixedType === COLUMN_FIXED_TYPE.LEFT) {
 					if (totalColKeys.length !== fixedColKeys.length) {
 						rightBorder.show = false;
 						corner.show = false;
 					}
 				}
 
-				if (fixedType === Vue._X_TABLE_EASY_CONSTANTS.COLUMN_FIXED_TYPE.RIGHT) {
+				if (fixedType === COLUMN_FIXED_TYPE.RIGHT) {
 					if (totalColKeys.length !== fixedColKeys.length) {
 						leftBorder.show = false;
 					}
@@ -1367,13 +1170,13 @@ export default async function ({ PRIVATE_GLOBAL }) {
 				}
 
 				// solved first row、first column、first not fixed column selection border hidden
-				if (cpt_is_first_selection_row) {
+				if (cpt_isFirstSelectionRow) {
 					topBorder.top += 1;
 				}
-				if (cpt_is_first_selection_col) {
+				if (cpt_isFirstSelectionCol) {
 					leftBorder.left += 1;
 				}
-				if (cpt_is_first_not_fixed_selection_col) {
+				if (cpt_isFirstNotFixedSelectionCol) {
 					leftBorder.left += 1;
 				}
 
@@ -1382,23 +1185,23 @@ export default async function ({ PRIVATE_GLOBAL }) {
 				let cornerBorderRightWidth = "1px";
 				let cornerBorderBottomtWidth = "1px";
 
-				if (cpt_corner_cell_info.isLastRow) {
+				if (cpt_cornerCellInfo.isLastRow) {
 					cornerTop -= 3;
 					cornerBorderBottomtWidth = "0px";
 				}
 
-				if (cpt_corner_cell_info.isLastColumn) {
+				if (cpt_cornerCellInfo.isLastColumn) {
 					cornerLeft -= 3;
 					cornerBorderRightWidth = "0px";
 				}
 
-				if (!cpt_show_corner) {
+				if (!cpt_showCorner) {
 					corner.show = false;
 				}
 
 				// corner props
 				const cornerProps = {
-					class: Vue._X_TABLE_EASY_UTILS.clsName("selection-corner"),
+					class: clsName("selection-corner"),
 					style: {
 						display: corner.show ? "block" : "none",
 						top: cornerTop + "px",
@@ -1407,56 +1210,85 @@ export default async function ({ PRIVATE_GLOBAL }) {
 					},
 					on: {
 						mousedown: e => {
-							this.dispatch(
-								Vue._X_TABLE_EASY_COMPS_NAME.VE_TABLE,
-								Vue._X_TABLE_EASY_CONSTANTS.EMIT_EVENTS.SELECTION_CORNER_MOUSEDOWN,
-								{
-									event: e
-								}
-							);
+							this.dispatch(COMPS_NAME.VE_TABLE, EMIT_EVENTS.SELECTION_CORNER_MOUSEDOWN, {
+								event: e
+							});
 						},
 						mouseup: e => {
-							this.dispatch(
-								Vue._X_TABLE_EASY_COMPS_NAME.VE_TABLE,
-								Vue._X_TABLE_EASY_CONSTANTS.EMIT_EVENTS.SELECTION_CORNER_MOUSEUP,
-								{
-									event: e
-								}
-							);
+							this.dispatch(COMPS_NAME.VE_TABLE, EMIT_EVENTS.SELECTION_CORNER_MOUSEUP, {
+								event: e
+							});
 						}
 					}
 				};
 
-				let html = `<div class="${Vue._X_TABLE_EASY_UTILS.clsName(className)}">`;
+				// 使用 h 函数创建虚拟 DOM
+				const h = this.$createElement;
 
-				// top
-				html += `<div style="display: ${topBorder.show ? "block" : "none"}; width: ${borderWidth}px; height: ${topBorder.height}px; top: ${topBorder.top}px; left: ${topBorder.left}px" class="${Vue._X_TABLE_EASY_UTILS.clsName("selection-border")}"></div>`;
-
-				// right
-				html += `<div style="display: ${rightBorder.show ? "block" : "none"}; width: ${rightBorder.width}px; height: ${borderHeight}px; top: ${rightBorder.top}px; left: ${rightBorder.left}px" class="${Vue._X_TABLE_EASY_UTILS.clsName("selection-border")}"></div>`;
-
-				// bottom
-				html += `<div style="display: ${bottomBorder.show ? "block" : "none"}; width: ${borderWidth}px; height: ${bottomBorder.height}px; top: ${bottomBorder.top}px; left: ${bottomBorder.left}px" class="${Vue._X_TABLE_EASY_UTILS.clsName("selection-border")}"></div>`;
-
-				// left
-				html += `<div style="display: ${leftBorder.show ? "block" : "none"}; width: ${leftBorder.width}px; height: ${borderHeight}px; top: ${leftBorder.top}px; left: ${leftBorder.left}px" class="${Vue._X_TABLE_EASY_UTILS.clsName("selection-border")}"></div>`;
-
-				// corner
-				html += `<div class="${cornerProps.class}" style="${Object.entries(
-					cornerProps.style
-				)
-					.map(([key, value]) => `${key}: ${value}`)
-					.join(
-						"; "
-					)}" onmousedown="${cornerProps.on.mousedown.toString()}" onmouseup="${cornerProps.on.mouseup.toString()}"></div>`;
-
-				html += "</div>";
-
-				return html;
+				return h(
+					"div",
+					{
+						class: clsName(className)
+					},
+					[
+						// top
+						h("div", {
+							style: {
+								display: topBorder.show ? "block" : "none",
+								width: borderWidth + "px",
+								height: topBorder.height + "px",
+								top: topBorder.top + "px",
+								left: topBorder.left + "px"
+							},
+							class: clsName("selection-border")
+						}),
+						// right
+						h("div", {
+							style: {
+								display: rightBorder.show ? "block" : "none",
+								width: rightBorder.width + "px",
+								height: borderHeight + "px",
+								top: rightBorder.top + "px",
+								left: rightBorder.left + "px"
+							},
+							class: clsName("selection-border")
+						}),
+						// bottom
+						h("div", {
+							style: {
+								display: bottomBorder.show ? "block" : "none",
+								width: borderWidth + "px",
+								height: bottomBorder.height + "px",
+								top: bottomBorder.top + "px",
+								left: bottomBorder.left + "px"
+							},
+							class: clsName("selection-border")
+						}),
+						// left
+						h("div", {
+							style: {
+								display: leftBorder.show ? "block" : "none",
+								width: leftBorder.width + "px",
+								height: borderHeight + "px",
+								top: leftBorder.top + "px",
+								left: leftBorder.left + "px"
+							},
+							class: clsName("selection-border")
+						}),
+						// corner
+						h("div", {
+							attrs: {
+								class: cornerProps.class
+							},
+							style: cornerProps.style,
+							on: cornerProps.on
+						})
+					]
+				);
 			},
 
 			// get area rect
-			cpt_get_area_layer({
+			getAreaLayer({
 				borderWidth,
 				borderHeight,
 				topBorder,
@@ -1470,7 +1302,7 @@ export default async function ({ PRIVATE_GLOBAL }) {
 				let isRender = true;
 
 				if (fixedType) {
-					isRender = Vue._X_TABLE_EASY_UTILS.isExistGivenFixedColKey({
+					isRender = isExistGivenFixedColKey({
 						fixedType,
 						colKeys: totalColKeys,
 						colgroups
@@ -1478,7 +1310,7 @@ export default async function ({ PRIVATE_GLOBAL }) {
 				}
 				// middle normal area
 				else {
-					isRender = Vue._X_TABLE_EASY_UTILS.isExistNotFixedColKey({
+					isRender = isExistNotFixedColKey({
 						colKeys: totalColKeys,
 						colgroups
 					});
@@ -1491,7 +1323,7 @@ export default async function ({ PRIVATE_GLOBAL }) {
 				// fixed columns total width
 				let fixedColsTotalWidth = 0;
 				if (fixedColKeys.length) {
-					fixedColsTotalWidth = Vue._X_TABLE_EASY_UTILS.getTotalWidthByColKeys({
+					fixedColsTotalWidth = getTotalWidthByColKeys({
 						colKeys: fixedColKeys,
 						colgroups
 					});
@@ -1499,36 +1331,45 @@ export default async function ({ PRIVATE_GLOBAL }) {
 
 				if (fixedType) {
 					borderWidth = fixedColsTotalWidth;
-					if (fixedType === Vue._X_TABLE_EASY_CONSTANTS.COLUMN_FIXED_TYPE.LEFT) {
+					if (fixedType === COLUMN_FIXED_TYPE.LEFT) {
 						borderWidth += 1;
 					}
 				}
 
-				return `<div class="${Vue._X_TABLE_EASY_UTILS.clsName(className)}" style="top: ${topBorder.top}px; left: ${topBorder.left}px; width: ${borderWidth}px; height: ${borderHeight}px"></div>`;
+				// 使用 h 函数创建虚拟 DOM
+				const h = this.$createElement;
+
+				return h("div", {
+					class: clsName(className),
+					style: {
+						top: topBorder.top + "px",
+						left: topBorder.left + "px",
+						width: borderWidth + "px",
+						height: borderHeight + "px"
+					}
+				});
 			},
 
 			/* 
-      get table first row cell by col key
-      用作跨页单元格选择，表格大小变化或者存在横向滚动条时，区域选择位置自动校准
-      */
-			cpt_get_table_first_row_cell_by_col_key(colKey) {
+        get table first row cell by col key
+        用作跨页单元格选择，表格大小变化或者存在横向滚动条时，区域选择位置自动校准
+        */
+			getTableFirstRowCellByColKey(colKey) {
 				let result = null;
 
 				const { tableEl } = this;
 
 				if (tableEl) {
-					result = tableEl.querySelector(
-						`tbody.ve-table-body tr td[col-key="${colKey}"]`
-					);
+					result = tableEl.querySelector(`tbody.ve-table-body tr td[col-key="${colKey}"]`);
 				}
 				return result;
 			},
 
 			/* 
-      get table last row cell by col key
-      用作跨页单元格选择，表格大小变化或者存在横向滚动条时，区域选择位置自动校准
-      */
-			cpt_get_table_last_row_cell_by_col_key(colKey) {
+        get table last row cell by col key
+        用作跨页单元格选择，表格大小变化或者存在横向滚动条时，区域选择位置自动校准
+        */
+			getTableLastRowCellByColKey(colKey) {
 				let result = null;
 
 				const { tableEl } = this;
@@ -1542,7 +1383,7 @@ export default async function ({ PRIVATE_GLOBAL }) {
 			},
 
 			// get table el
-			cpt_get_table_cell_el({ rowKey, colKey }) {
+			getTableCellEl({ rowKey, colKey }) {
 				let result = null;
 
 				const { tableEl } = this;
@@ -1556,16 +1397,13 @@ export default async function ({ PRIVATE_GLOBAL }) {
 			},
 
 			// set current cell el
-			cpt_set_current_cell_el() {
+			setCurrentCellEl() {
 				const { cellSelectionData } = this;
 
 				const { rowKey, colKey } = cellSelectionData.currentCell;
 
-				if (
-					!Vue._X_TABLE_EASY_UTILS.isEmptyValue(rowKey) &&
-					!Vue._X_TABLE_EASY_UTILS.isEmptyValue(colKey)
-				) {
-					const cellEl = this.cpt_get_table_cell_el({
+				if (!isEmptyValue(rowKey) && !isEmptyValue(colKey)) {
+					const cellEl = this.getTableCellEl({
 						rowKey,
 						colKey
 					});
@@ -1576,16 +1414,13 @@ export default async function ({ PRIVATE_GLOBAL }) {
 			},
 
 			// set normal end cell el
-			cpt_set_normal_end_cell_el() {
+			setNormalEndCellEl() {
 				const { cellSelectionData } = this;
 
 				const { rowKey, colKey } = cellSelectionData.normalEndCell;
 
-				if (
-					!Vue._X_TABLE_EASY_UTILS.isEmptyValue(rowKey) &&
-					!Vue._X_TABLE_EASY_UTILS.isEmptyValue(colKey)
-				) {
-					const cellEl = this.cpt_get_table_cell_el({
+				if (!isEmptyValue(rowKey) && !isEmptyValue(colKey)) {
+					const cellEl = this.getTableCellEl({
 						rowKey,
 						colKey
 					});
@@ -1596,7 +1431,7 @@ export default async function ({ PRIVATE_GLOBAL }) {
 			},
 
 			// set auto fill cell el
-			cpt_set_autofill_end_cell_el() {
+			setAutofillEndCellEl() {
 				const { cellSelectionData, tableEl } = this;
 
 				const { rowKey, colKey } = cellSelectionData.autoFillEndCell;
@@ -1613,7 +1448,7 @@ export default async function ({ PRIVATE_GLOBAL }) {
 			},
 
 			// clear auto fill end cell rect
-			cpt_clear_autofill_end_cell_rect() {
+			clearAutofillEndCellRect() {
 				this.autoFillEndCellEl = null;
 				this.cellSelectionRect.autoFillEndCellRect = {
 					left: 0,
@@ -1624,7 +1459,7 @@ export default async function ({ PRIVATE_GLOBAL }) {
 			},
 
 			// clear current cell rect
-			[Vue._X_TABLE_EASY_CONSTANTS.INSTANCE_METHODS.CLEAR_CURRENT_CELL_RECT]() {
+			[INSTANCE_METHODS.CLEAR_CURRENT_CELL_RECT]() {
 				this.currentCellEl = null;
 				this.cellSelectionRect.currentCellRect = {
 					left: 0,
@@ -1635,7 +1470,7 @@ export default async function ({ PRIVATE_GLOBAL }) {
 			},
 
 			// clear normal end cell rect
-			[Vue._X_TABLE_EASY_CONSTANTS.INSTANCE_METHODS.CLEAR_NORMAL_END_CELL_RECT]() {
+			[INSTANCE_METHODS.CLEAR_NORMAL_END_CELL_RECT]() {
 				this.normalEndCellEl = null;
 				this.cellSelectionRect.normalEndCellRect = {
 					left: 0,
@@ -1648,75 +1483,107 @@ export default async function ({ PRIVATE_GLOBAL }) {
 
 		created() {
 			// debounce reset cell positions
-			this.debounceResetCellPositions = _.debounce(this.cpt_reset_cell_positions, 210);
+			this.debounceResetCellPositions = debounce(this.resetCellPositions, 210);
 			// debounce set cell els
-			this.debounceSetCellEls = _.debounce(this.cpt_set_cell_els, 200);
+			this.debounceSetCellEls = debounce(this.setCellEls, 200);
+		},
+
+		render(h) {
+			if (!this.cpt_selectionBordersVisibility) {
+				return null;
+			}
+
+			// fixed left
+			const fixedLeftSelectionCurrent = this.getSelectionCurrent({
+				fixedType: COLUMN_FIXED_TYPE.LEFT
+			});
+			const fixedLeftSelectionArea = this.getSelectionAreas({
+				fixedType: COLUMN_FIXED_TYPE.LEFT
+			});
+
+			const fixedLeftAutoFillArea =
+				fixedLeftSelectionCurrent.autoFillArea || fixedLeftSelectionArea.autoFillArea;
+
+			// middle
+			const middleSelectionCurrent = this.getSelectionCurrent({
+				fixedType: ""
+			});
+			const middleSelectionArea = this.getSelectionAreas({
+				fixedType: ""
+			});
+
+			const middleAutoFillArea =
+				middleSelectionCurrent.autoFillArea || middleSelectionArea.autoFillArea;
+
+			// fixed right
+			const fixedRightSelectionCurrent = this.getSelectionCurrent({
+				fixedType: COLUMN_FIXED_TYPE.RIGHT
+			});
+			const fixedRightSelectionArea = this.getSelectionAreas({
+				fixedType: COLUMN_FIXED_TYPE.RIGHT
+			});
+
+			const fixedRightAutoFillArea =
+				fixedRightSelectionCurrent.autoFillArea || fixedRightSelectionArea.autoFillArea;
+
+			return h(
+				"div",
+				{
+					class: clsName("selection-wrapper"),
+					style: { visibility: this.isCellEditing ? "hidden" : "" }
+				},
+				[
+					h(
+						"div",
+						{
+							class: clsName("selection-fixed-left")
+						},
+						[
+							// current
+							fixedLeftSelectionCurrent.selectionCurrent,
+							// area
+							fixedLeftSelectionArea.normalArea,
+							// auto fill
+							fixedLeftAutoFillArea,
+							// area layer
+							fixedLeftSelectionArea.normalAreaLayer
+						]
+					),
+					h(
+						"div",
+						{
+							class: clsName("selection-middle")
+						},
+						[
+							// current
+							middleSelectionCurrent.selectionCurrent,
+							// area
+							middleSelectionArea.normalArea,
+							// auto fill
+							middleAutoFillArea,
+							// area layer
+							middleSelectionArea.normalAreaLayer
+						]
+					),
+					h(
+						"div",
+						{
+							class: clsName("selection-fixed-right")
+						},
+						[
+							// current
+							fixedRightSelectionCurrent.selectionCurrent,
+							// area
+							fixedRightSelectionArea.normalArea,
+							// auto fill
+							fixedRightAutoFillArea,
+							// area layer
+							fixedRightSelectionArea.normalAreaLayer
+						]
+					)
+				]
+			);
 		}
-	});
+	};
 }
 </script>
-
-<style lang="less">
-// 选择区域样式
-@{VE_TABLE_PREFIX-cls} {
-	&-selection-wrapper {
-		position: absolute;
-		top: 0;
-		left: 0;
-		right: 0;
-		bottom: 0;
-		pointer-events: none;
-		z-index: 100;
-	}
-
-	&-selection-fixed-left,
-	&-selection-middle,
-	&-selection-fixed-right {
-		position: absolute;
-		top: 0;
-		bottom: 0;
-		pointer-events: none;
-	}
-
-	&-selection-fixed-left {
-		left: 0;
-	}
-
-	&-selection-middle {
-		left: 0;
-		right: 0;
-	}
-
-	&-selection-fixed-right {
-		right: 0;
-	}
-
-	&-selection-border {
-		position: absolute;
-		background-color: #1890ff;
-		pointer-events: none;
-	}
-
-	&-selection-corner {
-		position: absolute;
-		border: 1px solid #1890ff;
-		background-color: #fff;
-		width: 6px;
-		height: 6px;
-		cursor: crosshair;
-		pointer-events: auto;
-	}
-
-	&-selection-normal-area-layer {
-		position: absolute;
-		background-color: rgba(24, 144, 255, 0.1);
-		pointer-events: none;
-	}
-
-	&-selection-autofill-area {
-		position: absolute;
-		background-color: rgba(24, 144, 255, 0.1);
-		pointer-events: none;
-	}
-}
-</style>

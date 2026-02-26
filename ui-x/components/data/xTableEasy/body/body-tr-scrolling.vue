@@ -1,7 +1,16 @@
 <script lang="ts">
 export default async function ({ PRIVATE_GLOBAL }) {
-	return Vue.defineComponent({
-		name: Vue._X_TABLE_EASY_COMPS_NAME.VE_TABLE_BODY_TR_SCROLLING,
+	// 使用 _.$importVue() 加载依赖模块
+	const [
+		{ clsName },
+		{ COMPS_NAME }
+	] = await Promise.all([
+		_.$importVue("/common/ui-x/components/data/xTableEasy/util/index.vue"),
+		_.$importVue("/common/ui-x/components/data/xTableEasy/util/constant.vue")
+	]);
+
+	return {
+		name: COMPS_NAME.VE_TABLE_BODY_TR_SCROLLING,
 		props: {
 			colgroups: {
 				type: Array,
@@ -14,8 +23,8 @@ export default async function ({ PRIVATE_GLOBAL }) {
 				let result = null;
 
 				result = {
-					[Vue._X_TABLE_EASY_UTILS.clsName("body-tr")]: true,
-					[Vue._X_TABLE_EASY_UTILS.clsName("body-row-scrolling")]: true
+					[clsName("body-tr")]: true,
+					[clsName("body-row-scrolling")]: true
 				};
 
 				return result;
@@ -32,11 +41,11 @@ export default async function ({ PRIVATE_GLOBAL }) {
 			return h("tr", props, [
 				h("td", {
 					attrs: {
-						colspan: colgroups.length
+						colSpan: colgroups.length
 					}
 				})
 			]);
 		}
-	});
+	};
 }
 </script>

@@ -1,141 +1,154 @@
 <script lang="ts">
-defineComponent({
-	name: Vue._X_TABLE_EASY_COMPS_NAME.VE_TABLE_THADER_TR,
-	mixins: [Vue._X_TABLE_EASY_MIXINS.emitter],
-	props: {
-		columnsOptionResetTime: {
-			type: Number,
-			default: 0
-		},
-		// group columns item
-		groupColumn: {
-			type: Array,
-			required: true
-		},
-		headerRows: {
-			type: Array,
-			default: function () {
-				return [];
+export default async function ({ PRIVATE_GLOBAL }) {
+	// 使用 _.$importVue() 加载依赖
+	const [
+		{ default: HeaderTh },
+		{ clsName, getDomResizeObserverCompKey },
+		{ COMPS_NAME, EMIT_EVENTS },
+		{ default: VueDomResizeObserver },
+		emitter
+	] = await Promise.all([
+		_.$importVue("/common/ui-x/components/data/xTableEasy/header/header-th.vue"),
+		_.$importVue("/common/ui-x/components/data/xTableEasy/util/index.vue"),
+		_.$importVue("/common/ui-x/components/data/xTableEasy/util/constant.vue"),
+		_.$importVue("/common/src/comps/resize-observer.vue"),
+		_.$importVue("/common/src/mixins/emitter.vue")
+	]);
+
+	return {
+		name: COMPS_NAME.VE_TABLE_THADER_TR,
+		mixins: [emitter],
+		props: {
+			columnsOptionResetTime: {
+				type: Number,
+				default: 0
+			},
+			// group columns item
+			groupColumn: {
+				type: Array,
+				required: true
+			},
+			headerRows: {
+				type: Array,
+				default: function () {
+					return [];
+				}
+			},
+			colgroups: {
+				type: Array,
+				required: true
+			},
+			fixedHeader: {
+				type: Boolean,
+				required: true
+			},
+			isGroupHeader: {
+				type: Boolean,
+				required: true
+			},
+			rowIndex: {
+				type: Number,
+				required: true
+			},
+			cellSelectionData: {
+				type: Object,
+				default: function () {
+					return null;
+				}
+			},
+			// cell selection range data
+			cellSelectionRangeData: {
+				type: Object,
+				default: function () {
+					return null;
+				}
+			},
+			headerIndicatorColKeys: {
+				type: Object,
+				default: function () {
+					return null;
+				}
+			},
+			// checkbox option
+			checkboxOption: {
+				type: Object,
+				default: function () {
+					return null;
+				}
+			},
+			// sort option
+			sortOption: {
+				type: Object,
+				default: function () {
+					return null;
+				}
+			},
+			// sort columns
+			sortColumns: {
+				type: Object,
+				default: function () {
+					return null;
+				}
+			},
+			// cell style option
+			cellStyleOption: {
+				type: Object,
+				default: function () {
+					return null;
+				}
+			},
+			// event custom option
+			eventCustomOption: {
+				type: Object,
+				default: function () {
+					return null;
+				}
 			}
 		},
-		colgroups: {
-			type: Array,
-			required: true
-		},
-		fixedHeader: {
-			type: Boolean,
-			required: true
-		},
-		isGroupHeader: {
-			type: Boolean,
-			required: true
-		},
-		rowIndex: {
-			type: Number,
-			required: true
-		},
-		cellSelectionData: {
-			type: Object,
-			default: function () {
-				return null;
-			}
-		},
-		// cell selection range data
-		cellSelectionRangeData: {
-			type: Object,
-			default: function () {
-				return null;
-			}
-		},
-		headerIndicatorColKeys: {
-			type: Object,
-			default: function () {
-				return null;
-			}
-		},
-		// checkbox option
-		checkboxOption: {
-			type: Object,
-			default: function () {
-				return null;
-			}
-		},
-		// sort option
-		sortOption: {
-			type: Object,
-			default: function () {
-				return null;
-			}
-		},
-		// sort columns
-		sortColumns: {
-			type: Object,
-			default: function () {
-				return null;
-			}
-		},
-		// cell style option
-		cellStyleOption: {
-			type: Object,
-			default: function () {
-				return null;
-			}
-		},
-		// event custom option
-		eventCustomOption: {
-			type: Object,
-			default: function () {
-				return null;
-			}
-		}
-	},
-	methods: {
-		// tr height change
-		trHeightChange({ height }) {
-			this.dispatch(
-				Vue._X_TABLE_EASY_COMPS_NAME.VE_TABLE,
-				Vue._X_TABLE_EASY_EMIT_EVENTS.HEADER_ROW_HEIGHT_CHANGE,
-				{
+		methods: {
+			// tr height change
+			trHeightChange({ height }) {
+				this.dispatch(COMPS_NAME.VE_TABLE, EMIT_EVENTS.HEADER_ROW_HEIGHT_CHANGE, {
 					rowIndex: this.rowIndex,
 					height: height
-				}
-			);
-		},
-		// click
-		rowClick(e, fn) {
-			fn && fn(e);
-		},
-		// dblclick
-		rowDblclick(e, fn) {
-			fn && fn(e);
-		},
-		// contextmenu
-		rowContextmenu(e, fn) {
-			fn && fn(e);
-		},
-		// mouseenter
-		rowMouseenter(e, fn) {
-			fn && fn(e);
-		},
-		// mouseleave
-		rowMouseleave(e, fn) {
-			fn && fn(e);
-		},
-		// mousemove
-		rowMousemove(e, fn) {
-			fn && fn(e);
-		},
-		// mouseover
-		rowMouseover(e, fn) {
-			fn && fn(e);
-		},
-		// mousedown
-		rowMousedown(e, fn) {
-			fn && fn(e);
-		},
-		// mouseup
-		rowMouseup(e, fn) {
-			fn && fn(e);
+				});
+			},
+			// click
+			rowClick(e, fn) {
+				fn && fn(e);
+			},
+			// dblclick
+			rowDblclick(e, fn) {
+				fn && fn(e);
+			},
+			// contextmenu
+			rowContextmenu(e, fn) {
+				fn && fn(e);
+			},
+			// mouseenter
+			rowMouseenter(e, fn) {
+				fn && fn(e);
+			},
+			// mouseleave
+			rowMouseleave(e, fn) {
+				fn && fn(e);
+			},
+			// mousemove
+			rowMousemove(e, fn) {
+				fn && fn(e);
+			},
+			// mouseover
+			rowMouseover(e, fn) {
+				fn && fn(e);
+			},
+			// mousedown
+			rowMousedown(e, fn) {
+				fn && fn(e);
+			},
+			// mouseup
+			rowMouseup(e, fn) {
+				fn && fn(e);
+			}
 		},
 		render(h) {
 			const {
@@ -150,11 +163,7 @@ defineComponent({
 				sortColumns,
 				cellStyleOption,
 				eventCustomOption,
-				cellSelectionData,
-				columnsOptionResetTime,
-				isGroupHeader,
-				cellSelectionRangeData,
-				headerIndicatorColKeys
+				cellSelectionData
 			} = this;
 
 			// custom on cell event
@@ -206,53 +215,47 @@ defineComponent({
 				}
 			};
 
-			return h(
-				"div",
-				{
-					class: `${Vue._X_TABLE_EASY_CLS_NAME}header-tr-wrapper`
+			const trProps = {
+				key: getDomResizeObserverCompKey(rowIndex, this.columnsOptionResetTime),
+				class: clsName("header-tr"),
+				props: {
+					tagName: "tr"
 				},
-				[
-					h(
-						"tr",
-						{
-							key: Vue._X_TABLE_EASY_UTIL.getDomResizeObserverCompKey(
-								rowIndex,
-								columnsOptionResetTime
-							),
-							class: `${Vue._X_TABLE_EASY_CLS_NAME}header-tr`,
-							on: events
-						},
-						[
-							groupColumn.map(groupColumnItem => {
-								// th props
-								const thProps = {
-									key: groupColumnItem.key,
-									props: {
-										groupColumn,
-										groupColumnItem,
-										colgroups,
-										headerRows,
-										fixedHeader,
-										isGroupHeader,
-										rowIndex,
-										checkboxOption,
-										sortOption,
-										sortColumns,
-										cellStyleOption,
-										eventCustomOption,
-										cellSelectionData,
-										cellSelectionRangeData,
-										headerIndicatorColKeys
-									}
-								};
+				on: {
+					"on-dom-resize-change": trHeightChange
+				},
+				nativeOn: events
+			};
 
-								return h(Vue._X_TABLE_EASY_COMPONENTS.HeaderTh, thProps);
-							})
-						]
-					)
-				]
-			);
+			// 使用 h 函数创建子元素
+			const children = groupColumn.map(groupColumnItem => {
+				// th props
+				const thProps = {
+					key: groupColumnItem.key,
+					props: {
+						groupColumn,
+						groupColumnItem,
+						colgroups,
+						headerRows,
+						fixedHeader,
+						isGroupHeader: this.isGroupHeader,
+						rowIndex,
+						checkboxOption,
+						sortOption,
+						sortColumns,
+						cellStyleOption,
+						eventCustomOption: this.eventCustomOption,
+						cellSelectionData,
+						cellSelectionRangeData: this.cellSelectionRangeData,
+						headerIndicatorColKeys: this.headerIndicatorColKeys
+					}
+				};
+
+				return h(HeaderTh, thProps);
+			});
+
+			return h(VueDomResizeObserver, trProps, children);
 		}
-	}
-});
+	};
+}
 </script>

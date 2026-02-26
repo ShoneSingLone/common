@@ -1,8 +1,16 @@
 <script lang="ts">
 export default async function ({ PRIVATE_GLOBAL }) {
-	return Vue.defineComponent({
-		name: Vue._X_TABLE_EASY_COMPS_NAME.VE_TABLE_BODY_RADIO_CONTENT,
-		mixins: [Vue._X_TABLE_EASY_MIXINS.emitter],
+	// 使用 _.$importVue() 加载依赖
+	const [VeRadio, { COMPS_NAME, EMIT_EVENTS }, { clsName }, emitter] = await Promise.all([
+		_.$importVue("vue-easytable/packages/ve-radio"),
+		_.$importVue("/common/ui-x/components/data/xTableEasy/util/constant.vue"),
+		_.$importVue("/common/ui-x/components/data/xTableEasy/util/index.vue"),
+		_.$importVue("/common/src/mixins/emitter.vue")
+	]);
+
+	return {
+		name: COMPS_NAME.VE_TABLE_BODY_RADIO_CONTENT,
+		mixins: [emitter],
 		props: {
 			// checkbox option
 			radioOption: {
@@ -27,7 +35,7 @@ export default async function ({ PRIVATE_GLOBAL }) {
 		},
 		computed: {
 			// disabled
-			cpt_disabled() {
+			disabled() {
 				let result = false;
 
 				const { radioOption, rowKey } = this;
@@ -49,7 +57,7 @@ export default async function ({ PRIVATE_GLOBAL }) {
 			},
 
 			// 是否是受控属性（取决于selectedRowKey）
-			cpt_is_controlled_prop() {
+			isControlledProp() {
 				const { radioOption } = this;
 
 				return radioOption && Object.keys(radioOption).includes("selectedRowKey");
@@ -72,39 +80,35 @@ export default async function ({ PRIVATE_GLOBAL }) {
 
 			// selected change
 			selectedChange() {
-				const { cpt_is_controlled_prop } = this;
+				const { isControlledProp } = this;
 
 				// 非受控
-				if (!cpt_is_controlled_prop) {
+				if (!isControlledProp) {
 					this.isSelected = true;
 				}
 
-				this.dispatch(
-					Vue._X_TABLE_EASY_COMPS_NAME.VE_TABLE_BODY,
-					Vue._X_TABLE_EASY_EMIT_EVENTS.RADIO_SELECTED_ROW_CHANGE,
-					{
-						rowKey: this.rowKey
-					}
-				);
+				this.dispatch(COMPS_NAME.VE_TABLE_BODY, EMIT_EVENTS.RADIO_SELECTED_ROW_CHANGE, {
+					rowKey: this.rowKey
+				});
 			}
 		},
 		render(h) {
-			const { isSelected, selectedChange, cpt_disabled } = this;
+			const { isSelected, selectedChange, disabled } = this;
 
 			const radioProps = {
-				class: Vue._X_TABLE_EASY_UTILS.clsName("radio-wrapper"),
+				class: clsName("radio-wrapper"),
 				props: {
 					isControlled: true,
 					isSelected,
-					disabled: cpt_disabled
+					disabled
 				},
 				on: {
 					"on-radio-change": () => selectedChange()
 				}
 			};
 
-			return h(Vue._X_TABLE_EASY_COMPONENTS.VeRadio, radioProps);
+			return h(VeRadio, radioProps);
 		}
-	});
+	};
 }
 </script>

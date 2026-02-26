@@ -1,8 +1,14 @@
 <script lang="ts">
 export default async function ({ PRIVATE_GLOBAL }) {
-	return Vue.defineComponent({
-		name: Vue._X_TABLE_EASY_COMPS_NAME.VE_TABLE_BODY_CHECKBOX_CONTENT,
-		mixins: [Vue._X_TABLE_EASY_MIXINS.emitter],
+	// 使用 _.$importVue() 加载依赖
+	const [VeCheckbox, { COMPS_NAME, EMIT_EVENTS }, { clsName }] = await Promise.all([
+		_.$importVue("vue-easytable/packages/ve-checkbox"),
+		_.$importVue("/common/ui-x/components/data/xTableEasy/util/constant.vue"),
+		_.$importVue("/common/ui-x/components/data/xTableEasy/util/index.vue")
+	]);
+
+	return {
+		name: COMPS_NAME.VE_TABLE_BODY_CHECKBOX_CONTENT,
 		props: {
 			// checkbox option
 			checkboxOption: {
@@ -29,13 +35,13 @@ export default async function ({ PRIVATE_GLOBAL }) {
 		},
 		computed: {
 			// disabled
-			cpt_disabled() {
+			disabled() {
 				let result = false;
 
 				const { checkboxOption, rowKey } = this;
 
 				if (!checkboxOption) {
-					return result;
+					return;
 				}
 
 				const { disableSelectedRowKeys } = checkboxOption;
@@ -51,7 +57,7 @@ export default async function ({ PRIVATE_GLOBAL }) {
 			},
 
 			// 是否是受控属性（取决于selectedRowKeys）
-			cpt_is_controlled_prop() {
+			isControlledProp() {
 				const { checkboxOption } = this;
 
 				return checkboxOption && Array.isArray(checkboxOption.selectedRowKeys);
@@ -85,40 +91,34 @@ export default async function ({ PRIVATE_GLOBAL }) {
 
 			// selected change
 			selectedChange(isSelected) {
-				const { cpt_is_controlled_prop } = this;
+				const { isControlledProp } = this;
 
 				// 非受控
-				if (!cpt_is_controlled_prop) {
+				if (!isControlledProp) {
 					this.isSelected = isSelected;
 				}
 
-				this.dispatch(
-					Vue._X_TABLE_EASY_COMPS_NAME.VE_TABLE_BODY,
-					Vue._X_TABLE_EASY_EMIT_EVENTS.CHECKBOX_SELECTED_ROW_CHANGE,
-					{
-						rowKey: this.rowKey,
-						isSelected
-					}
-				);
+				this.dispatch(COMPS_NAME.VE_TABLE_BODY, EMIT_EVENTS.CHECKBOX_SELECTED_ROW_CHANGE, {
+					rowKey: this.rowKey,
+					isSelected
+				});
 			}
 		},
 		render(h) {
-			const { isSelected, selectedChange, cpt_disabled } = this;
+			const { isSelected, selectedChange, disabled } = this;
 
-			const checkboxProps = {
-				class: Vue._X_TABLE_EASY_UTILS.clsName("checkbox-wrapper"),
+			return h(VeCheckbox, {
+				class: clsName("checkbox-wrapper"),
 				props: {
 					isControlled: true,
 					isSelected: isSelected,
-					disabled: cpt_disabled
+					disabled
 				},
 				on: {
 					"on-checked-change": isSelected => selectedChange(isSelected)
 				}
-			};
-
-			return h(Vue._X_TABLE_EASY_COMPONENTS.VeCheckbox, checkboxProps);
+			});
 		}
-	});
+	};
 }
 </script>

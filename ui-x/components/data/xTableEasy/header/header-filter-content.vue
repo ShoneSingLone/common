@@ -1,106 +1,120 @@
 <script lang="ts">
 export default async function ({ PRIVATE_GLOBAL }) {
-	return Vue.defineComponent({
-		name: Vue._X_TABLE_EASY_COMPS_NAME.VE_TABLE_HEADER_FILTER_CONTENT,
-		props: {
-			column: {
-				type: Object,
-				required: true
-			}
-		},
-		data() {
-			return {
-				filterList: []
-			};
-		},
-		watch: {
-			column: {
-				handler: function (column) {
-					if (column.filter && Array.isArray(column.filter.filterList)) {
-						this.filterList = column.filter.filterList;
-					}
-				},
-				immediate: true,
-				deep: true
-			}
-		},
-		methods: {
-			/*
-			 * @filterConfirm
-			 * @desc  filter confirm
-			 * @param {Array} val - filter list
-			 */
-			filterConfirm() {
-				const { filterConfirm } = this.column.filter;
-				filterConfirm && filterConfirm(this.filterList);
-			},
-			// filter reset
-			filterReset() {
-				const { filterReset } = this.column.filter;
-				filterReset && filterReset(this.filterList);
-			},
-			// getIcon
-			getIcon(h) {
-				let result;
-				const { filterIcon } = this.column.filter;
-				if (Vue._X_TABLE_EASY_UTILS.isFunction(filterIcon)) {
-					result = filterIcon(h);
-				} else {
-					result = h(Vue._X_TABLE_EASY_COMPONENTS.VeIcon, {
-						props: {
-							name: Vue._X_TABLE_EASY_ICON_NAMES.FILTER
-						}
-					});
-				}
-				return result;
-			}
-		},
-		render(h) {
-			const { filterList, isMultiple, maxHeight, beforeVisibleChange } = this.column.filter;
+    // 使用 _.$importVue() 加载依赖
+    const [
+        VeDropdown,
+        { COMPS_NAME, EMIT_EVENTS, LOCALE_COMP_NAME },
+        { clsName },
+        { createLocale, isFunction },
+        VeIcon,
+        { ICON_NAMES }
+    ] = await Promise.all([
+        _.$importVue("vue-easytable/packages/ve-dropdown"),
+        _.$importVue("/common/ui-x/components/data/xTableEasy/util/constant.vue"),
+        _.$importVue("/common/ui-x/components/data/xTableEasy/util/index.vue"),
+        _.$importVue("/common/ui-x/components/data/xTableEasy/utils/index.vue"),
+        _.$importVue("vue-easytable/packages/ve-icon"),
+        _.$importVue("/common/ui-x/components/data/xTableEasy/utils/constant.vue")
+    ]);
 
-			const compProps = {
-				props: {
-					value: filterList,
-					showOperation: true,
-					isMultiple: isMultiple,
-					showRadio: true, // when single selection
-					confirmFilterText: Vue._X_TABLE_EASY_I18N.t("confirmFilter"),
-					resetFilterText: Vue._X_TABLE_EASY_I18N.t("resetFilter"),
-					beforeVisibleChange: beforeVisibleChange
-				},
-				on: {
-					[Vue._X_TABLE_EASY_EMIT_EVENTS.HEADER_FILTER_CONFIRM]: this.filterConfirm,
-					[Vue._X_TABLE_EASY_EMIT_EVENTS.HEADER_FILTER_RESET]: this.filterReset,
-					// v-model
-					input: val => {
-						this.filterList = val;
-					}
-				}
-			};
+    // 创建本地化函数
+    const t = createLocale(LOCALE_COMP_NAME);
 
-			if (typeof maxHeight === "number") {
-				compProps.props.maxHeight = maxHeight;
-			}
+    return {
+        name: COMPS_NAME.VE_TABLE_HEADER_FILTER_CONTENT,
+        props: {
+            column: {
+                type: Object,
+                required: true
+            }
+        },
+        data() {
+            return {
+                filterList: []
+            };
+        },
+        watch: {
+            column: {
+                handler: function (column) {
+                    if (column.filter && Array.isArray(column.filter.filterList)) {
+                        this.filterList = column.filter.filterList;
+                    }
+                },
+                immediate: true,
+                deep: true
+            }
+        },
+        methods: {
+            /*
+             * @filterConfirm
+             * @desc  filter confirm
+             * @param {Array} val - filter list
+             */
+            filterConfirm() {
+                const { filterConfirm } = this.column.filter;
+                filterConfirm && filterConfirm(this.filterList);
+            },
+            // filter reset
+            filterReset() {
+                const { filterReset } = this.column.filter;
+                filterReset && filterReset(this.filterList);
+            },
+            // getIcon
+            getIcon(h) {
+                let result;
+                const { filterIcon } = this.column.filter;
+                if (isFunction(filterIcon)) {
+                    result = filterIcon(h);
+                } else {
+                    // 使用 h 函数替代 JSX
+                    result = h(VeIcon, {
+                        props: {
+                            name: ICON_NAMES.FILTER
+                        }
+                    });
+                }
+                return result;
+            }
+        },
+        render(h) {
+            const { filterList, isMultiple, maxHeight, beforeVisibleChange } = this.column.filter;
 
-			return h(Vue._X_TABLE_EASY_COMPONENTS.VeDropdown, compProps, [
-				// icon
-				h(
-					"span",
-					{
-						class: Vue._X_TABLE_EASY_UTILS.clsName("filter")
-					},
-					[
-						h(
-							"span",
-							{
-								class: Vue._X_TABLE_EASY_UTILS.clsName("filter-icon")
-							},
-							[this.getIcon(h)]
-						)
-					]
-				)
-			]);
-		}
-	});
+            const compProps = {
+                props: {
+                    value: filterList,
+                    showOperation: true,
+                    isMultiple: isMultiple,
+                    showRadio: true, // when single selection
+                    confirmFilterText: t("confirmFilter"),
+                    resetFilterText: t("resetFilter"),
+                    beforeVisibleChange: beforeVisibleChange
+                },
+                on: {
+                    [EMIT_EVENTS.HEADER_FILTER_CONFIRM]: this.filterConfirm,
+                    [EMIT_EVENTS.HEADER_FILTER_RESET]: this.filterReset,
+                    // v-model
+                    input: val => {
+                        this.filterList = val;
+                    }
+                }
+            };
+
+            if (typeof maxHeight === "number") {
+                compProps.props.maxHeight = maxHeight;
+            }
+
+            // 使用 h 函数替代 JSX
+            return h(VeDropdown, compProps, [
+                // icon
+                h("span", {
+                    class: clsName("filter")
+                }, [
+                    h("span", {
+                        class: clsName("filter-icon")
+                    }, [this.getIcon(h)])
+                ])
+            ]);
+        }
+    };
 }
 </script>

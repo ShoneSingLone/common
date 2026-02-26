@@ -1,13 +1,26 @@
 <script lang="ts">
 export default async function ({ PRIVATE_GLOBAL }) {
-	return Vue.defineComponent({
-		name: Vue._X_TABLE_EASY_COMPS_NAME.VE_TABLE_EXPAND_TR_ICON,
+	// 使用 _.$importVue() 加载依赖
+	const [
+		{ COMPS_NAME, COLUMN_TYPES },
+		{ clsName },
+		VeIcon,
+		{ ICON_NAMES }
+	] = await Promise.all([
+		_.$importVue("/common/ui-x/components/data/xTableEasy/util/constant.vue"),
+		_.$importVue("/common/ui-x/components/data/xTableEasy/util/index.vue"),
+		_.$importVue("vue-easytable/packages/ve-icon"),
+		_.$importVue("/common/ui-x/components/data/xTableEasy/utils/constant.vue")
+	]);
+
+	return {
+		name: COMPS_NAME.VE_TABLE_EXPAND_TR_ICON,
 		props: {
 			column: {
 				type: Object,
 				required: true
 			},
-			// expand row option
+			// 展开行选项
 			expandOption: {
 				type: Object,
 				default: function () {
@@ -18,7 +31,7 @@ export default async function ({ PRIVATE_GLOBAL }) {
 				type: Object,
 				required: true
 			},
-			// expanded row keys
+			// 已展开的行键
 			expandedRowkeys: {
 				type: Array,
 				default: function () {
@@ -29,31 +42,31 @@ export default async function ({ PRIVATE_GLOBAL }) {
 				type: String,
 				default: null
 			},
-			// row expand click event
+			// 行展开点击事件
 			cellClick: {
 				type: Function,
 				default: null
 			}
 		},
 		computed: {
-			// is row expanded
+			// 是否展开
 			cpt_is_expanded() {
 				let result = false;
 
 				const { column, rowData, expandedRowkeys, rowKeyFieldName } = this;
 
-				if (column.type === Vue._X_TABLE_EASY_CONSTANTS.COLUMN_TYPES.EXPAND) {
+				if (column.type === COLUMN_TYPES.EXPAND) {
 					const rowKey = rowData[rowKeyFieldName];
 					result = expandedRowkeys.includes(rowKey);
 				}
 
 				return result;
 			},
-			// expand row icon class
+			// 展开行图标类名
 			cpt_expand_row_icon_container_class() {
 				return {
-					[Vue._X_TABLE_EASY_UTILS.clsName("row-expand-icon")]: true,
-					[Vue._X_TABLE_EASY_UTILS.clsName("expand-icon-collapsed")]: this.cpt_is_expanded
+					[clsName("row-expand-icon")]: true,
+					[clsName("expand-icon-collapsed")]: this.cpt_is_expanded
 				};
 			}
 		},
@@ -62,26 +75,22 @@ export default async function ({ PRIVATE_GLOBAL }) {
 
 			const { cellClick, column, cpt_expand_row_icon_container_class } = this;
 
-			if (column.type === Vue._X_TABLE_EASY_CONSTANTS.COLUMN_TYPES.EXPAND) {
+			if (column.type === COLUMN_TYPES.EXPAND) {
 				content = h(
 					"span",
 					{
 						class: cpt_expand_row_icon_container_class,
 						on: {
-							click: e => cellClick(e)
+							click: function (e) {
+								cellClick(e);
+							}
 						}
 					},
-					[
-						h(Vue._X_TABLE_EASY_COMPONENTS.VeIcon, {
-							props: {
-								name: Vue._X_TABLE_EASY_ICON_NAMES.RIGHT_ARROW
-							}
-						})
-					]
+					[h(VeIcon, { props: { name: ICON_NAMES.RIGHT_ARROW } })]
 				);
 			}
 			return content;
 		}
-	});
+	};
 }
 </script>

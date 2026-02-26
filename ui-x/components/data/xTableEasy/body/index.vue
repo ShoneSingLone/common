@@ -1,269 +1,887 @@
-<template>
-	<tbody :class="tableBodyClass" ref="tableBodyRef">
-		<!-- 虚拟滚动占位符 -->
-		<tr
-			v-if="isVirtualScroll && showVirtualScrollingPlaceholder"
-			:class="['virtual-placeholder']"
-			:style="{ height: virtualScrollPlaceholderHeight + 'px' }">
-			<td :colspan="colgroups[0].length + (expandOption?.enable ? 1 : 0)"></td>
-		</tr>
-
-		<!-- 数据行 -->
-		<template v-for="(row, rowIndex) in actualRenderTableData">
-			<tr
-				:key="rowIndex"
-				:row-key="row[rowKeyFieldName]"
-				:class="getRowClass(row, rowIndex)"
-				@click="handleRowClick(row, rowIndex)"
-				@dblclick="handleRowDblClick(row, rowIndex)"
-				@contextmenu="handleRowContextmenu(row, rowIndex, $event)">
-				<!-- 展开图标列 -->
-				<td
-					v-if="expandOption?.enable"
-					class="expand-column"
-					@click.stop="toggleRowExpand(row, rowIndex)">
-					<i :class="['expand-icon', { expanded: isRowExpanded(row) }]"></i>
-				</td>
-				<!-- 数据列 -->
-				<td
-					v-for="(column, colIndex) in colgroups[0]"
-					:key="colIndex"
-					:width="column.width"
-					:col-key="column.colKey"
-					:col-index="colIndex"
-					:row-index="rowIndex"
-					:row-key="row[rowKeyFieldName]"
-					:class="getColumnClass(column, row, rowIndex, colIndex)"
-					@click="handleCellClick(row, rowIndex, column, colIndex)"
-					@dblclick="handleCellDblClick(row, rowIndex, column, colIndex)"
-					@contextmenu="handleCellContextmenu(row, rowIndex, column, colIndex, $event)">
-					{{ row[column.field] }}
-				</td>
-			</tr>
-			<!-- 展开内容行 -->
-			<tr v-if="expandOption?.enable && isRowExpanded(row)" class="expand-content-row">
-				<td :colspan="colgroups[0].length + 1" class="expand-content-cell">
-					<slot name="expand" :row="row" :rowIndex="rowIndex"></slot>
-				</td>
-			</tr>
-		</template>
-	</tbody>
-</template>
-
 <script lang="ts">
-export default async function () {
-	return {
-		name: "xTableEasyBody",
-		props: {
-			actualRenderTableData: {
-				type: Array,
-				required: true
-			},
-			colgroups: {
-				type: Array,
-				required: true
-			},
-			rowKeyFieldName: {
-				type: String,
-				default: null
-			},
-			expandOption: {
-				type: Object,
-				default: null
-			},
-			isVirtualScroll: {
-				type: Boolean,
-				default: false
-			},
-			showVirtualScrollingPlaceholder: {
-				type: Boolean,
-				default: false
-			},
-			virtualScrollPlaceholderHeight: {
-				type: Number,
-				default: 0
-			},
-			tableBodyClass: {
-				type: Object,
-				default: () => ({})
-			},
-			expandedRowKeys: {
-				type: Set,
-				default: () => new Set()
-			},
-			highlightRowKey: {
-				type: [String, Number],
-				default: ""
-			},
-			rowStyleOption: {
-				type: Object,
-				default: null
-			},
-			editingCell: {
-				type: Object,
-				default: () => ({ rowKey: "", colKey: "", row: null, column: null })
-			},
-			cellSelectionRangeData: {
-				type: Object,
-				default: () => ({
-					leftColKey: "",
-					rightColKey: "",
-					topRowKey: "",
-					bottomRowKey: ""
-				})
-			}
-		},
-		methods: {
-			getRowClass(row, rowIndex) {
-				// 获取行样式类
-				var rowClass = {};
-				var rowKey = this.rowKeyFieldName ? row[this.rowKeyFieldName] : rowIndex;
+export default async function ({ PRIVATE_GLOBAL }) {
+  // 使用 _.$importVue() 加载依赖
+  const [
+    BodyTr,
+    BodyTrScrolling,
+    ExpandTr,
+    VueDomResizeObserver,
+    utilIndex,
+    utilsIndex,
+    emitter,
+    constant
+  ] = await Promise.all([
+    _.$importVue("/common/ui-x/components/data/xTableEasy/body/body-tr.vue"),
+    _.$importVue("/common/ui-x/components/data/xTableEasy/body/body-tr-scrolling.vue"),
+    _.$importVue("/common/ui-x/components/data/xTableEasy/body/expand-tr.vue"),
+    _.$importVue("/common/src/comps/resize-observer.vue"),
+    _.$importVue("/common/ui-x/components/data/xTableEasy/util/index.vue"),
+    _.$importVue("/common/ui-x/components/data/xTableEasy/utils/index.vue"),
+    _.$importVue("/common/src/mixins/emitter.vue"),
+    _.$importVue("/common/ui-x/components/data/xTableEasy/util/constant.vue")
+  ]);
 
-				// 高亮行
-				if (rowKey === this.highlightRowKey) {
-					rowClass["row-highlighted"] = true;
-				}
+  const { getDomResizeObserverCompKey, getFixedTotalWidthByColumnKey, clsName } = utilIndex;
+  const { getValByUnit } = utilsIndex;
+  const { COMPS_NAME, EMIT_EVENTS, COLUMN_TYPES, EXPAND_TRIGGER_TYPES } = constant;
 
-				// 斑马纹
-				if (this.rowStyleOption && this.rowStyleOption.stripe) {
-					rowClass["row-stripe"] = rowIndex % 2 === 1;
-				}
+  return {
+    name: COMPS_NAME.VE_TABLE_BODY,
+    mixins: [emitter],
+    props: {
+      tableViewportWidth: {
+        type: Number,
+        default: 0
+      },
+      columnsOptionResetTime: {
+        type: Number,
+        default: 0
+      },
+      colgroups: {
+        type: Array,
+        required: true
+      },
+      actualRenderTableData: {
+        type: Array,
+        required: true
+      },
+      hasFixedColumn: {
+        type: Boolean,
+        default: false
+      },
+      allRowKeys: {
+        type: Array,
+        required: true
+      },
+      // expand row option
+      expandOption: {
+        type: Object,
+        default: function () {
+          return null;
+        }
+      },
+      // checkbox option
+      checkboxOption: {
+        type: Object,
+        default: function () {
+          return null;
+        }
+      },
+      // radio option
+      radioOption: {
+        type: Object,
+        default: function () {
+          return null;
+        }
+      },
+      // virual scroll
+      virtualScrollOption: {
+        type: Object,
+        default: null
+      },
+      // is virtual scroll
+      isVirtualScroll: {
+        type: Boolean,
+        default: false
+      },
+      // is scrolling
+      showVirtualScrollingPlaceholder: {
+        type: Boolean,
+        default: false
+      },
+      rowKeyFieldName: {
+        type: String,
+        default: null
+      },
+      // cell style option
+      cellStyleOption: {
+        type: Object,
+        default: function () {
+          return null;
+        }
+      },
+      // cell span option
+      cellSpanOption: {
+        type: Object,
+        default: function () {
+          return null;
+        }
+      },
+      // highlight row key
+      highlightRowKey: {
+        type: [String, Number],
+        default: null
+      },
+      // event custom option
+      eventCustomOption: {
+        type: Object,
+        default: function () {
+          return null;
+        }
+      },
+      // cell selection option
+      cellSelectionOption: {
+        type: Object,
+        default: function () {
+          return null;
+        }
+      },
+      // cell selection data
+      cellSelectionData: {
+        type: Object,
+        default: function () {
+          return null;
+        }
+      },
+      // cell selection range data
+      cellSelectionRangeData: {
+        type: Object,
+        default: function () {
+          return null;
+        }
+      },
+      bodyIndicatorRowKeys: {
+        type: Object,
+        default: function () {
+          return null;
+        }
+      },
+      // edit option
+      editOption: {
+        type: Object,
+        default: function () {
+          return null;
+        }
+      }
+    },
+    data() {
+      return {
+        // columns widths map
+        colsWidths: new Map(),
+        /*
+        internal expand row keys
+        1、当没有设置 expandedRowKeys 时生效
+        */
+        internalExpandRowkeys: [],
+        /*
+        1、存储当前多选功能的rowkey 信息
+        */
+        internalCheckboxSelectedRowKeys: [],
+        /*
+        1、存储当前单选功能的rowkey 信息
+        */
+        internalRadioSelectedRowKey: null,
+        // virtual scroll preview rendered rowKey
+        virtualScrollPreviewRenderedRowKeys: [],
+        // virtual scroll repeat rendered rowKey
+        virtualScrollRepeatRenderedRowKeys: []
+      };
+    },
+    computed: {
+      /*
+      column collenction info
+      1、style of each column
+      2、class of each column
+      */
+      columnCollection() {
+        let columnCollection = [];
 
-				return rowClass;
-			},
+        const { colgroups } = this;
 
-			isRowExpanded(row) {
-				// 检查行是否展开
-				var rowKey = this.rowKeyFieldName ? row[this.rowKeyFieldName] : row;
-				return this.expandedRowKeys.has(rowKey);
-			},
+        colgroups.forEach(col => {
+          const colKey = col.key;
 
-			toggleRowExpand(row, rowIndex) {
-				// 切换行展开状态
-				var rowKey = this.rowKeyFieldName ? row[this.rowKeyFieldName] : rowIndex;
-				if (this.expandedRowKeys.has(rowKey)) {
-					this.expandedRowKeys.delete(rowKey);
-					this.$emit("row-collapse", { row, rowIndex });
-				} else {
-					this.expandedRowKeys.add(rowKey);
-					this.$emit("row-expand", { row, rowIndex });
-				}
-				this.$emit("expand-change", {
-					rowKey,
-					expanded: this.expandedRowKeys.has(rowKey),
-					row,
-					rowIndex
-				});
-			},
+          let columnCollectionItem = {
+            colKey: colKey,
+            class: {
+              [clsName("last-left-fixed-column")]: this.isLastLeftFixedColumn(col),
+              [clsName("first-right-fixed-column")]: this.isfirstRightFixedColumn(col)
+            },
+            style: {}
+          };
 
-			getColumnClass(column, row, rowIndex, colIndex) {
-				// 获取列样式类
-				var colClass = {};
-				var rowKey = this.rowKeyFieldName ? row[this.rowKeyFieldName] : rowIndex;
+          const { fixed, align } = col;
 
-				// 当前编辑单元格
-				if (
-					this.editingCell.rowKey === rowKey &&
-					this.editingCell.colKey === column.colKey
-				) {
-					colClass["cell-editing"] = true;
-				}
+          columnCollectionItem.style["text-align"] = align || "center";
 
-				// 选择的单元格
-				if (this.isCellInSelectionRange(rowKey, column.colKey)) {
-					colClass["cell-selected"] = true;
-				}
+          if (fixed) {
+            let totalWidth = 0;
+            // column index
+            const columnIndex = colgroups.findIndex(x => x.key === colKey);
+            if (
+              (fixed === "left" && columnIndex > 0) ||
+              (fixed === "right" && columnIndex < colgroups.length - 1)
+            ) {
+              totalWidth = getFixedTotalWidthByColumnKey({
+                colgroups,
+                colKey,
+                fixed
+              });
 
-				return colClass;
-			},
+              totalWidth = getValByUnit(totalWidth);
+            }
 
-			handleRowClick(row, rowIndex, event) {
-				// 处理行点击事件
-				this.$emit("row-click", { row, rowIndex, event });
-			},
+            columnCollectionItem.style["left"] = fixed === "left" ? totalWidth : "";
+            columnCollectionItem.style["right"] = fixed === "right" ? totalWidth : "";
+          }
 
-			handleRowDblClick(row, rowIndex, event) {
-				// 处理行双击事件
-				this.$emit("row-dblclick", { row, rowIndex, event });
-			},
+          columnCollection.push(columnCollectionItem);
+        });
+        return columnCollection;
+      },
+      // expand column
+      expandColumn() {
+        return this.colgroups.find(x => x.type === COLUMN_TYPES.EXPAND);
+      },
+      /*
+      是否是可控行展开
+      1、当设置了 expandedRowKeys 属性时则为可控行展开
+      */
+      isControlledExpand() {
+        return this.expandOption && Array.isArray(this.expandOption.expandedRowKeys);
+      },
 
-			handleRowContextmenu(row, rowIndex, event) {
-				// 处理行右键菜单事件
-				event.preventDefault();
-				this.$emit("row-contextmenu", { row, rowIndex, event });
-			},
+      // expanded row keys
+      expandedRowkeys() {
+        return this.isControlledExpand
+          ? this.expandOption.expandedRowKeys
+          : this.internalExpandRowkeys;
+      },
 
-			handleCellClick(row, rowIndex, column, colIndex, event) {
-				// 处理单元格点击事件
-				this.$emit("cell-click", { row, rowIndex, column, colIndex, event });
-			},
+      // disable row selected row keys
+      disableCheckboxSelectedRowKeys() {
+        let result = [];
 
-			handleCellDblClick(row, rowIndex, column, colIndex, event) {
-				// 处理单元格双击事件
-				this.$emit("cell-dblclick", { row, rowIndex, column, colIndex, event });
-			},
+        const { checkboxOption, internalCheckboxSelectedRowKeys } = this;
 
-			handleCellContextmenu(row, rowIndex, column, colIndex, event) {
-				// 处理单元格右键菜单事件
-				event.preventDefault();
-				this.$emit("cell-contextmenu", { row, rowIndex, column, colIndex, event });
-			},
+        if (!checkboxOption) {
+          return result;
+        }
+        const { disableSelectedRowKeys } = checkboxOption;
 
-			isCellInSelectionRange(rowKey, colKey) {
-				// 检查单元格是否在选择范围内
-				var range = this.cellSelectionRangeData;
-				if (
-					!range ||
-					!range.leftColKey ||
-					!range.rightColKey ||
-					!range.topRowKey ||
-					!range.bottomRowKey
-				) {
-					return false;
-				}
+        if (
+          internalCheckboxSelectedRowKeys.length > 0 &&
+          Array.isArray(disableSelectedRowKeys) &&
+          disableSelectedRowKeys.length > 0
+        ) {
+          disableSelectedRowKeys.forEach(rowkey => {
+            if (internalCheckboxSelectedRowKeys.includes(rowkey)) {
+              result.push(rowkey);
+            }
+          });
+        }
 
-				// 实现单元格选择范围检查逻辑
-				return false;
-			}
-		}
-	};
+        return result;
+      },
+
+      // disable row unselected row keys
+      disableCheckboxUnselectedRowKeys() {
+        let result = [];
+
+        const { checkboxOption, internalCheckboxSelectedRowKeys } = this;
+
+        if (!checkboxOption) {
+          return result;
+        }
+        const { disableSelectedRowKeys } = checkboxOption;
+
+        if (Array.isArray(disableSelectedRowKeys) && disableSelectedRowKeys.length > 0) {
+          disableSelectedRowKeys.forEach(rowkey => {
+            if (!internalCheckboxSelectedRowKeys.includes(rowkey)) {
+              result.push(rowkey);
+            }
+          });
+        }
+
+        return result;
+      },
+
+      /*
+      is row keys selected all
+      为 true 的条件：选中数量 + 禁用选中数量 === 总量
+      */
+      isCheckboxSelectedAll() {
+        if (this.allRowKeys.length > 0) {
+          if (
+            this.internalCheckboxSelectedRowKeys.length +
+              this.disableCheckboxUnselectedRowKeys.length ===
+            this.allRowKeys.length
+          ) {
+            return true;
+          }
+        }
+
+        return false;
+      },
+      // is checkbox indeterminate
+      isCheckboxIndeterminate() {
+        const { internalCheckboxSelectedRowKeys, allRowKeys } = this;
+
+        return (
+          internalCheckboxSelectedRowKeys.length > 0 &&
+          internalCheckboxSelectedRowKeys.length < allRowKeys.length
+        );
+      },
+      // 是否是受控属性（取决于selectedRowKey）
+      isControlledRadio() {
+        const { radioOption } = this;
+
+        return radioOption && Object.keys(radioOption).includes("selectedRowKey");
+      }
+    },
+    watch: {
+      // watch expand Option
+      expandOption: {
+        handler: function () {
+          this.initInternalExpandRowKeys();
+        },
+        immediate: true
+      },
+      // watch expandOption expandedRowKeys
+      "expandOption.expandedRowKeys": {
+        handler: function () {
+          this.initInternalExpandRowKeys();
+        }
+      },
+      // watch checkbox option
+      checkboxOption: {
+        handler: function () {
+          this.initInternalCheckboxSelectedRowKeys();
+        },
+        immediate: true
+      },
+      // watch selectedRowKeys
+      "checkboxOption.selectedRowKeys": {
+        handler: function () {
+          this.resetInternalCheckboxSelectedRowKeys();
+        }
+      },
+      // watch internalCheckboxSelectedRowKeys
+      internalCheckboxSelectedRowKeys: {
+        handler: function () {
+          // send to checkbox all(in header)
+          this.sendToCheckboxAll();
+        }
+      },
+      // watch checkbox option
+      radioOption: {
+        handler: function () {
+          this.initInternalRadioSelectedRowKey();
+        },
+        immediate: true
+      },
+      // watch selectedRowKeys
+      "radioOption.selectedRowKey": {
+        handler: function () {
+          this.initInternalRadioSelectedRowKey();
+        }
+      }
+    },
+    methods: {
+      // is last left fixed column
+      isLastLeftFixedColumn(column) {
+        let result = false;
+
+        const { colgroups } = this;
+
+        const { fixed } = column;
+
+        if (fixed === "left") {
+          const { field } = column;
+          const leftFixedColumns = colgroups.filter(x => x.fixed === "left");
+          const index = leftFixedColumns.findIndex(x => x.field === field);
+
+          if (index === leftFixedColumns.length - 1) {
+            result = true;
+          }
+        }
+        return result;
+      },
+
+      // is first right fixed column
+      isfirstRightFixedColumn(column) {
+        let result = false;
+
+        const { colgroups } = this;
+
+        const { fixed } = column;
+
+        if (fixed === "right") {
+          const { field } = column;
+          const rightFixedColumns = colgroups.filter(x => x.fixed === "right");
+
+          if (rightFixedColumns[0].field === field) {
+            result = true;
+          }
+        }
+        return result;
+      },
+
+      /*
+       * @expandRowChange
+       * @desc  row expand change
+       * @param {object} rowData - row data
+       * @param {number} rowIndex - row index
+       */
+      expandRowChange(rowData, rowIndex) {
+        const { expandOption, internalExpandRowkeys, expandedRowkeys, rowKeyFieldName } = this;
+
+        // deal before expand row method
+        if (typeof expandOption.beforeExpandRowChange === "function") {
+          const beforeExpandRowResult = expandOption.beforeExpandRowChange({
+            beforeExpandedRowKeys: expandedRowkeys,
+            row: rowData,
+            rowIndex
+          });
+          // interrupt execute
+          if (beforeExpandRowResult === false) {
+            return false;
+          }
+        }
+
+        const rowKey = rowData[rowKeyFieldName];
+
+        const rowKeyIndex = internalExpandRowkeys.indexOf(rowKey);
+        if (rowKeyIndex > -1) {
+          internalExpandRowkeys.splice(rowKeyIndex, 1);
+        } else {
+          internalExpandRowkeys.push(rowKey);
+        }
+
+        // deal after expand row method
+        if (typeof expandOption.afterExpandRowChange === "function") {
+          expandOption.afterExpandRowChange({
+            afterExpandedRowKeys: internalExpandRowkeys,
+            row: rowData,
+            rowIndex
+          });
+        }
+      },
+
+      /*
+       * @rowClick
+       * @desc  row expand click event
+       * @param {object} rowData - row data
+       * @param {number} rowIndex - row index
+       */
+      rowClick({ rowData, rowIndex }) {
+        const { expandOption, isExpandRow, expandRowChange, rowKeyFieldName } = this;
+
+        // 行高亮功能
+        if (rowKeyFieldName) {
+          const rowKey = rowData[rowKeyFieldName];
+          this.$emit(EMIT_EVENTS.HIGHLIGHT_ROW_CHANGE, { rowKey });
+        }
+
+        // 行展开功能
+        if (!isExpandRow({ rowData, rowIndex })) {
+          return false;
+        }
+
+        const trigger = expandOption.trigger;
+
+        // expand row by click row
+        if (trigger === EXPAND_TRIGGER_TYPES.ROW) {
+          expandRowChange(rowData, rowIndex);
+        }
+      },
+
+      /*
+       * @isExpandRow
+       * @desc  is expand row
+       * @param {object} rowData - row data
+       * @param {number} rowIndex - row index
+       */
+      isExpandRow({ rowData, rowIndex }) {
+        let result = false;
+
+        const { expandColumn, expandOption } = this;
+
+        if (expandColumn && expandOption) {
+          // 是否允许展开
+          let expandable = true;
+          if (typeof expandOption.expandable === "function") {
+            expandable = expandOption.expandable({
+              row: rowData,
+              column: expandColumn,
+              rowIndex
+            });
+          }
+
+          if (expandable !== false) {
+            result = true;
+          }
+        }
+
+        return result;
+      },
+
+      /*
+       * @tdSizeChange
+       * @desc  td size change
+       * @param {any} key - column key
+       * @param {number|string} width - column real width
+       */
+      tdSizeChange({ key, width }) {
+        const { colsWidths } = this;
+        colsWidths.set(key, width);
+        this.$emit(EMIT_EVENTS.BODY_CELL_WIDTH_CHANGE, colsWidths);
+      },
+
+      // init internal expand row keys
+      initInternalExpandRowKeys() {
+        const { expandOption, isControlledExpand, allRowKeys } = this;
+
+        if (!expandOption) {
+          return false;
+        }
+
+        if (isControlledExpand) {
+          this.internalExpandRowkeys = expandOption.expandedRowKeys.slice(0);
+        } else if (expandOption.defaultExpandAllRows) {
+          this.internalExpandRowkeys = allRowKeys;
+        } else if (expandOption.defaultExpandedRowKeys) {
+          this.internalExpandRowkeys = expandOption.defaultExpandedRowKeys.slice(0);
+        }
+      },
+      // get expand row
+      getExpandRowComp({ rowData, rowIndex }) {
+        if (this.isExpandRow({ rowData, rowIndex })) {
+          return h(ExpandTr, {
+            props: {
+              tableViewportWidth: this.tableViewportWidth,
+              colgroups: this.colgroups,
+              expandOption: this.expandOption,
+              expandedRowkeys: this.expandedRowkeys,
+              expandColumn: this.expandColumn,
+              rowKeyFieldName: this.rowKeyFieldName,
+              rowData,
+              rowIndex
+            }
+          });
+        }
+
+        return null;
+      },
+
+      // send to checkbox all
+      sendToCheckboxAll() {
+        const { isCheckboxSelectedAll, isCheckboxIndeterminate } = this;
+
+        this.dispatch(COMPS_NAME.VE_TABLE, EMIT_EVENTS.CHECKBOX_SELECTED_ALL_INFO, {
+          isIndeterminate: isCheckboxIndeterminate,
+          isSelected: isCheckboxSelectedAll
+        });
+      },
+
+      // init internal Radio SelectedRowKey
+      initInternalRadioSelectedRowKey() {
+        const { radioOption, isControlledRadio } = this;
+
+        if (!radioOption) {
+          return false;
+        }
+
+        const { selectedRowKey, defaultSelectedRowKey } = radioOption;
+
+        this.internalRadioSelectedRowKey = isControlledRadio
+          ? selectedRowKey
+          : defaultSelectedRowKey;
+      },
+
+      // init internal Checkbox SelectedRowKeys
+      initInternalCheckboxSelectedRowKeys() {
+        let result = [];
+        const { checkboxOption, allRowKeys } = this;
+
+        if (!checkboxOption) {
+          return false;
+        }
+
+        const { selectedRowKeys, defaultSelectedAllRows, defaultSelectedRowKeys } =
+          checkboxOption;
+
+        if (Array.isArray(selectedRowKeys)) {
+          result = selectedRowKeys;
+        } else if (defaultSelectedAllRows) {
+          result = allRowKeys;
+        } else if (Array.isArray(defaultSelectedRowKeys)) {
+          result = defaultSelectedRowKeys;
+        }
+        this.internalCheckboxSelectedRowKeys = result;
+      },
+      // reset internalCheckboxSelectedRowKeys by selectedRowKeys
+      resetInternalCheckboxSelectedRowKeys() {
+        this.internalCheckboxSelectedRowKeys = this.checkboxOption.selectedRowKeys.slice(0);
+      },
+
+      /*
+       * @checkboxSelectedRowChange
+       * @desc  selected row change
+       * @param {number|string} rowKey - rowKey
+       * @param {bool} isSelected
+       */
+      checkboxSelectedRowChange({ rowKey, isSelected }) {
+        const { checkboxOption, internalCheckboxSelectedRowKeys, rowKeyFieldName } = this;
+        const { selectedRowChange, selectedRowKeys } = checkboxOption;
+
+        let internalCheckboxSelectedRowKeysTemp = internalCheckboxSelectedRowKeys.slice(0);
+
+        // will selected
+        const rowKeyIndex = internalCheckboxSelectedRowKeysTemp.indexOf(rowKey);
+        if (isSelected) {
+          // bug fixed:通过行点击触发，导致key重复的问题
+          if (rowKeyIndex === -1) {
+            internalCheckboxSelectedRowKeysTemp.push(rowKey);
+          }
+        } else {
+          if (rowKeyIndex > -1) {
+            internalCheckboxSelectedRowKeysTemp.splice(rowKeyIndex, 1);
+          }
+        }
+
+        // 非可控才改变 internalCheckboxSelectedRowKeys
+        if (!Array.isArray(selectedRowKeys)) {
+          this.internalCheckboxSelectedRowKeys = internalCheckboxSelectedRowKeysTemp;
+        }
+
+        selectedRowChange({
+          row: this.actualRenderTableData.find(x => x[rowKeyFieldName] === rowKey),
+          isSelected,
+          selectedRowKeys: internalCheckboxSelectedRowKeysTemp
+        });
+      },
+
+      /*
+       * @checkboxSelectedAllChange
+       * @desc  selected all change
+       * @param {bool} isSelected - is selected
+       */
+      checkboxSelectedAllChange({ isSelected }) {
+        const {
+          checkboxOption,
+          internalCheckboxSelectedRowKeys,
+          allRowKeys,
+          disableCheckboxSelectedRowKeys,
+          disableCheckboxUnselectedRowKeys
+        } = this;
+        const { selectedAllChange, selectedRowKeys } = checkboxOption;
+
+        let internalCheckboxSelectedRowKeysTemp = internalCheckboxSelectedRowKeys.slice(0);
+        // selected all
+        if (isSelected) {
+          // except disable Row Unselected keys
+          let allSelectedKeys = allRowKeys.slice(0);
+          if (disableCheckboxUnselectedRowKeys.length > 0) {
+            disableCheckboxUnselectedRowKeys.forEach(rowkey => {
+              let index = allSelectedKeys.indexOf(rowkey);
+              if (index > -1) {
+                allSelectedKeys.splice(index, 1);
+              }
+            });
+          }
+
+          internalCheckboxSelectedRowKeysTemp = allSelectedKeys;
+        } else {
+          // except disable Row Selected keys
+          internalCheckboxSelectedRowKeysTemp = disableCheckboxSelectedRowKeys;
+        }
+
+        // 非可控才改变 internalCheckboxSelectedRowKeys
+        if (!Array.isArray(selectedRowKeys)) {
+          this.internalCheckboxSelectedRowKeys = internalCheckboxSelectedRowKeysTemp;
+        }
+
+        selectedAllChange &&
+          selectedAllChange({
+            isSelected,
+            selectedRowKeys: internalCheckboxSelectedRowKeysTemp
+            //changeRowKeys:
+          });
+      },
+
+      /*
+       * @radioSelectedRowChange
+       * @desc  selected all change
+       * @param {number|string} rowKey - rowKey
+       */
+      radioSelectedRowChange({ rowKey }) {
+        const { radioOption, rowKeyFieldName, isControlledRadio } = this;
+
+        const { selectedRowChange } = radioOption;
+
+        // 非受控
+        if (!isControlledRadio) {
+          this.internalRadioSelectedRowKey = rowKey;
+        }
+
+        selectedRowChange({
+          row: this.actualRenderTableData.find(x => x[rowKeyFieldName] === rowKey)
+        });
+      },
+      // get tr key
+      getTrKey({ rowData, rowIndex }) {
+        let result = rowIndex;
+
+        const { rowKeyFieldName } = this;
+        if (rowKeyFieldName) {
+          result = rowData[rowKeyFieldName];
+        }
+        return result;
+      },
+
+      /*
+      rendering row keys
+      virtual scrolling will invoke
+      */
+      renderingRowKeys(rowKeys) {
+        const { virtualScrollPreviewRenderedRowKeys: previewRenderedRowKeys } = this;
+
+        this.virtualScrollRepeatRenderedRowKeys = rowKeys.filter(rowKey => {
+          return previewRenderedRowKeys.indexOf(rowKey) != -1;
+        });
+
+        this.virtualScrollPreviewRenderedRowKeys = rowKeys;
+      }
+    },
+    mounted() {
+      // receive checkbox row selected change from VE_TABLE_BODY_CHECKBOX_CONTENT
+      this.$on(EMIT_EVENTS.CHECKBOX_SELECTED_ROW_CHANGE, params => {
+        this.checkboxSelectedRowChange(params);
+      });
+
+      // receive checkbox row selected change from VE_TABLE_BODY_CHECKBOX_CONTENT
+      this.$on(EMIT_EVENTS.CHECKBOX_SELECTED_ALL_CHANGE, params => {
+        this.checkboxSelectedAllChange(params);
+      });
+
+      // receive radio row selected change from VE_TABLE_BODY_RADIO_CONTENT
+      this.$on(EMIT_EVENTS.RADIO_SELECTED_ROW_CHANGE, params => {
+        this.radioSelectedRowChange(params);
+      });
+
+      // recieve tr click
+      this.$on(EMIT_EVENTS.BODY_ROW_CLICK, params => {
+        this.rowClick(params);
+      });
+
+      if (this.checkboxOption) {
+        // 这里 nextTick 解决由于子组件先初始化，导致父组件无法接收消息的问题
+        this.$nextTick(() => {
+          this.sendToCheckboxAll();
+        });
+      }
+    },
+    render(h) {
+      const {
+        colgroups,
+        actualRenderTableData,
+        expandOption,
+        expandRowChange,
+        isExpandRow,
+        getExpandRowComp,
+        expandedRowkeys,
+        checkboxOption,
+        radioOption,
+        rowKeyFieldName,
+        tdSizeChange,
+        internalCheckboxSelectedRowKeys,
+        internalRadioSelectedRowKey,
+        isVirtualScroll,
+        cellStyleOption,
+        showVirtualScrollingPlaceholder
+      } = this;
+
+      const { virtualScrollRepeatRenderedRowKeys } = this;
+
+      // 构建测量行
+      const measureRow = h("tr", { style: { height: "0" } },
+        colgroups.map(column => {
+          return h(VueDomResizeObserver, {
+            key: getDomResizeObserverCompKey(
+              column.key,
+              this.columnsOptionResetTime
+            ),
+            props: {
+              tagName: "td",
+              id: column.key
+            },
+            on: {
+              "on-dom-resize-change": tdSizeChange
+            },
+            style: {
+              padding: 0,
+              border: 0,
+              height: 0
+            }
+          });
+        })
+      );
+
+      // 构建数据行
+      const dataRows = actualRenderTableData.map((rowData, rowIndex) => {
+        const trProps = {
+          key: this.getTrKey({ rowData, rowIndex }),
+          props: {
+            rowIndex,
+            rowData,
+            colgroups,
+            expandOption,
+            expandedRowkeys,
+            checkboxOption,
+            radioOption,
+            rowKeyFieldName,
+            allRowKeys: this.allRowKeys,
+            expandRowChange,
+            internalCheckboxSelectedRowKeys,
+            internalRadioSelectedRowKey,
+            isVirtualScroll,
+            isExpandRow: isExpandRow({
+              rowData,
+              rowIndex
+            }),
+            cellStyleOption,
+            cellSpanOption: this.cellSpanOption,
+            highlightRowKey: this.highlightRowKey,
+            eventCustomOption: this.eventCustomOption,
+            cellSelectionData: this.cellSelectionData,
+            editOption: this.editOption,
+            columnCollection: this.columnCollection,
+            cellSelectionRangeData: this.cellSelectionRangeData,
+            bodyIndicatorRowKeys: this.bodyIndicatorRowKeys
+          }
+        };
+
+        if (showVirtualScrollingPlaceholder) {
+          const trPropsScrolling = {
+            key: this.getTrKey({ rowData, rowIndex }),
+            props: {
+              colgroups
+            }
+          };
+
+          if (
+            virtualScrollRepeatRenderedRowKeys.indexOf(
+              rowData[this.rowKeyFieldName]
+            ) != -1
+          ) {
+            return h(BodyTr, trProps);
+          } else {
+            return h(BodyTrScrolling, trPropsScrolling);
+          }
+        } else {
+          const bodyTr = h(BodyTr, trProps);
+          const expandTr = getExpandRowComp({ rowData, rowIndex });
+
+          if (expandTr) {
+            return [bodyTr, expandTr];
+          }
+          return bodyTr;
+        }
+      });
+
+      return h("tbody", [measureRow, ...dataRows]);
+    }
+  };
 }
 </script>
-
-<style scoped>
-/* 行样式 */
-.row-hover tr:hover {
-	background-color: #f5f7fa;
-}
-
-.row-highlighted {
-	background-color: #e6f7ff;
-}
-
-.stripe tr:nth-child(even),
-.row-stripe {
-	background-color: #fafafa;
-}
-
-/* 虚拟滚动样式 */
-.virtual-scroll {
-	overflow: auto;
-}
-
-/* 虚拟滚动占位符样式 */
-.virtual-placeholder {
-	overflow: hidden;
-	background: linear-gradient(90deg, rgba(240, 242, 245, 0.8), rgba(248, 249, 250, 0.8));
-	background-size: 200% 100%;
-	animation: placeholderShimmer 1.5s infinite;
-}
-
-@keyframes placeholderShimmer {
-	0% {
-		background-position: -200px 0;
-	}
-	100% {
-		background-position: 200px 0;
-	}
-}
-</style>

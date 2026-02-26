@@ -94,7 +94,7 @@ export default async function ({ PRIVATE_GLOBAL }) {
 		"/common/ui-x/components/data/xTableEasy/footer/index.vue",
 		"/common/ui-x/components/data/xTableEasy/editor/index.vue",
 		"/common/ui-x/components/data/xTableEasy/selection/index.vue",
-		"/common/ui-x/directives/clickoutside.vue",
+		"/common/ui-x/directive/clickoutside.vue",
 		"/common/src/comps/resize-observer.vue",
 		"vue-easytable/packages/ve-contextmenu",
 		"/common/ui-x/components/data/xTableEasy/column-resizer/index.vue"
@@ -1770,16 +1770,13 @@ export default async function ({ PRIVATE_GLOBAL }) {
 						}
 					};
 
-					content = (
-						<div
-							ref={this.virtualPhantomRef}
-							class={[
-								clsName("virtual-phantom"),
-								isVirtualScroll ? clsName("virtual-scroll") : ""
-							]}>
-							<VueDomResizeObserver {...props} />
-						</div>
-					);
+					content = h("div", {
+						ref: this.virtualPhantomRef,
+						class: [
+							clsName("virtual-phantom"),
+							isVirtualScroll ? clsName("virtual-scroll") : ""
+						]
+					}, [h(VueDomResizeObserver, props)]);
 				}
 
 				return content;
