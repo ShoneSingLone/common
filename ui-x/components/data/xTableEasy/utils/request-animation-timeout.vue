@@ -6,7 +6,7 @@ export default async function () {
 	*/
 
 	const [{ raf, caf }] = await Promise.all([
-		_.$importVue("./animation-frame")
+		_.$importVue("/common/ui-x/components/data/xTableEasy/utils/animation-frame.vue")
 	]);
 
 	const cancelAnimationTimeout = frame => caf(frame.id);

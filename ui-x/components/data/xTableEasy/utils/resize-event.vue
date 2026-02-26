@@ -6,7 +6,7 @@ export default async function () {
 	*/
 
 	const [{ default: ResizeObserver }] = await Promise.all([
-		_.$importVue("resize-observer-polyfill")
+		_.$importVue("/common/ui-x/components/data/xTableEasy/utils/resize-observer-polyfill.vue")
 	]);
 
 	/* istanbul ignore next */

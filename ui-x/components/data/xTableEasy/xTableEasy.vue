@@ -86,18 +86,18 @@ export default async function ({ PRIVATE_GLOBAL }) {
 		"/common/ui-x/components/data/xTableEasy/utils/event-key-codes.vue",
 		"/common/ui-x/components/data/xTableEasy/utils/hooks-manager.vue",
 		"/common/ui-x/components/data/xTableEasy/utils/mouse-event.vue",
-		"../../src/mixins/emitter",
+		"/common/src/mixins/emitter.vue",
 		"/common/ui-x/components/data/xTableEasy/util/constant.vue",
-		"./colgroup",
-		"./header",
-		"./body",
-		"./footer",
-		"./editor/index",
-		"./selection/index",
-		"/common/ui-x/directive/clickoutside.vue",
-		"../../src/comps/resize-observer",
+		"/common/ui-x/components/data/xTableEasy/colgroup.vue",
+		"/common/ui-x/components/data/xTableEasy/header/index.vue",
+		"/common/ui-x/components/data/xTableEasy/body/index.vue",
+		"/common/ui-x/components/data/xTableEasy/footer/index.vue",
+		"/common/ui-x/components/data/xTableEasy/editor/index.vue",
+		"/common/ui-x/components/data/xTableEasy/selection/index.vue",
+		"/common/ui-x/directives/clickoutside.vue",
+		"/common/src/comps/resize-observer.vue",
 		"vue-easytable/packages/ve-contextmenu",
-		"./column-resizer"
+		"/common/ui-x/components/data/xTableEasy/column-resizer/index.vue"
 	]);
 
 	const i18n_t = createLocale(LOCALE_COMP_NAME);
