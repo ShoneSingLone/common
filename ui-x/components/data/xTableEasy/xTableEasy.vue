@@ -34,16 +34,7 @@ export default async function ({ PRIVATE_GLOBAL }) {
 			onBeforeDelete,
 			onAfterDelete
 		},
-		{
-			getValByUnit,
-			isFunction,
-			isNumber,
-			scrollTo,
-			isEmptyValue,
-			isEmptyArray,
-			isBoolean,
-			isDefined
-		},
+		{ getValByUnit, scrollTo, isEmptyValue, isEmptyArray, isDefined },
 		{ KEY_CODES, MOUSE_EVENT_CLICK_TYPE },
 		{ getScrollbarWidth },
 		{ requestAnimationTimeout, cancelAnimationTimeout },
@@ -507,7 +498,7 @@ export default async function ({ PRIVATE_GLOBAL }) {
 					const { bufferScale } = virtualScrollOption;
 
 					let realBufferScale =
-						isNumber(bufferScale) && bufferScale > 0
+						_.isNumber(bufferScale) && bufferScale > 0
 							? bufferScale
 							: defaultVirtualScrollBufferScale;
 
@@ -529,11 +520,11 @@ export default async function ({ PRIVATE_GLOBAL }) {
 				} = this;
 
 				if (isVirtualScroll && maxHeight) {
-					const minRowHeight = isNumber(virtualScrollOption.minRowHeight)
+					const minRowHeight = _.isNumber(virtualScrollOption.minRowHeight)
 						? virtualScrollOption.minRowHeight
 						: defaultVirtualScrollMinRowHeight;
 
-					if (isNumber(maxHeight)) {
+					if (_.isNumber(maxHeight)) {
 						result = Math.ceil(maxHeight / minRowHeight);
 					} else if (tableOffestHeight) {
 						// 修复当动态高度 当 max-height="calc(100vh - 210px)" 或者 max-height="80%" 时无法计算的问题
@@ -724,7 +715,7 @@ export default async function ({ PRIVATE_GLOBAL }) {
 					result = false;
 				} else if (
 					cellSelectionOption &&
-					isBoolean(cellSelectionOption.enable) &&
+					_.isBoolean(cellSelectionOption.enable) &&
 					cellSelectionOption.enable === false
 				) {
 					result = false;
@@ -741,7 +732,7 @@ export default async function ({ PRIVATE_GLOBAL }) {
 				const { columnWidthResizeOption } = this;
 				if (columnWidthResizeOption) {
 					const { enable } = columnWidthResizeOption;
-					if (isBoolean(enable)) {
+					if (_.isBoolean(enable)) {
 						result = enable;
 					}
 				}
@@ -971,7 +962,7 @@ export default async function ({ PRIVATE_GLOBAL }) {
 				if (enableColumnResize) {
 					this.colgroups = this.colgroups.map(item => {
 						let columnWidth = columnDefaultWidth;
-						if (isNumber(item.width)) {
+						if (_.isNumber(item.width)) {
 							columnWidth = item.width;
 						}
 						item._columnResizeWidth = columnWidth;
@@ -1282,14 +1273,14 @@ export default async function ({ PRIVATE_GLOBAL }) {
 				if (cellAutofillOption) {
 					const { beforeAutofill, afterAutofill } = cellAutofillOption;
 
-					if (isFunction(beforeAutofill)) {
+					if (_.isFunction(beforeAutofill)) {
 						// before autofill
 						const autofillResponse = cellAutofill({
 							isReplaceData: false,
 							...cellAutofillParams
 						});
 						const callback = beforeAutofill(autofillResponse);
-						if (isBoolean(callback) && !callback) {
+						if (_.isBoolean(callback) && !callback) {
 							return false;
 						}
 					}
@@ -1299,7 +1290,7 @@ export default async function ({ PRIVATE_GLOBAL }) {
 						isReplaceData: true,
 						...cellAutofillParams
 					});
-					if (isFunction(afterAutofill)) {
+					if (_.isFunction(afterAutofill)) {
 						afterAutofill(autofillResponse);
 					}
 				}
@@ -1790,7 +1781,7 @@ export default async function ({ PRIVATE_GLOBAL }) {
 						defaultVirtualScrollMinRowHeight
 					} = this;
 
-					const minRowHeight = isNumber(virtualScrollOption.minRowHeight)
+					const minRowHeight = _.isNumber(virtualScrollOption.minRowHeight)
 						? virtualScrollOption.minRowHeight
 						: defaultVirtualScrollMinRowHeight;
 
@@ -1929,7 +1920,7 @@ export default async function ({ PRIVATE_GLOBAL }) {
 				}
 
 				const { scrolling } = virtualScrollOption;
-				if (isFunction(scrolling)) {
+				if (_.isFunction(scrolling)) {
 					const visibleAboveCount = this.getVirtualScrollAboveCount();
 					const visibleBelowCount = this.getVirtualScrollBelowCount();
 
@@ -2070,13 +2061,13 @@ export default async function ({ PRIVATE_GLOBAL }) {
 
 						const changeValue = editingCell.row[currentColumn.field];
 
-						if (isFunction(beforeCellValueChange)) {
+						if (_.isFunction(beforeCellValueChange)) {
 							const allowChange = beforeCellValueChange({
 								row: _.cloneDeep(currentRow),
 								column: currentColumn,
 								changeValue
 							});
-							if (isBoolean(allowChange) && !allowChange) {
+							if (_.isBoolean(allowChange) && !allowChange) {
 								// celar editing cell
 								this.clearEditingCell();
 								return false;
@@ -2817,13 +2808,13 @@ export default async function ({ PRIVATE_GLOBAL }) {
 						allRowKeys
 					});
 
-					if (isFunction(afterMenuClick)) {
+					if (_.isFunction(afterMenuClick)) {
 						const callback = afterMenuClick({
 							type,
 							selectionRangeKeys,
 							selectionRangeIndexes
 						});
-						if (isBoolean(callback) && !callback) {
+						if (_.isBoolean(callback) && !callback) {
 							return false;
 						}
 					}
@@ -2961,7 +2952,7 @@ export default async function ({ PRIVATE_GLOBAL }) {
 					afterPaste: afterPasteCallback
 				} = clipboardOption || {};
 
-				if (isBoolean(paste) && !paste) {
+				if (_.isBoolean(paste) && !paste) {
 					return false;
 				}
 
@@ -2976,9 +2967,9 @@ export default async function ({ PRIVATE_GLOBAL }) {
 				});
 
 				if (response && Array.isArray(response.data) && response.data.length) {
-					if (isFunction(beforePasteCallback)) {
+					if (_.isFunction(beforePasteCallback)) {
 						const allowPasting = beforePasteCallback(response);
-						if (isBoolean(allowPasting) && !allowPasting) {
+						if (_.isBoolean(allowPasting) && !allowPasting) {
 							return false;
 						}
 					}
@@ -2988,7 +2979,7 @@ export default async function ({ PRIVATE_GLOBAL }) {
 						beforePasteResponse: response
 					});
 
-					if (isFunction(afterPasteCallback)) {
+					if (_.isFunction(afterPasteCallback)) {
 						afterPasteCallback(response);
 					}
 
@@ -3037,7 +3028,7 @@ export default async function ({ PRIVATE_GLOBAL }) {
 					afterCut: afterCutCallback
 				} = clipboardOption || {};
 
-				if (isBoolean(cut) && !cut) {
+				if (_.isBoolean(cut) && !cut) {
 					return false;
 				}
 
@@ -3058,9 +3049,9 @@ export default async function ({ PRIVATE_GLOBAL }) {
 					allRowKeys
 				});
 
-				if (isFunction(beforeCutCallback)) {
+				if (_.isFunction(beforeCutCallback)) {
 					const allowCuting = beforeCutCallback(response);
-					if (isBoolean(allowCuting) && !allowCuting) {
+					if (_.isBoolean(allowCuting) && !allowCuting) {
 						return false;
 					}
 				}
@@ -3073,7 +3064,7 @@ export default async function ({ PRIVATE_GLOBAL }) {
 					selectionRangeIndexes: response.selectionRangeIndexes
 				});
 
-				if (isFunction(afterCutCallback)) {
+				if (_.isFunction(afterCutCallback)) {
 					afterCutCallback(response);
 				}
 			},
@@ -3106,7 +3097,7 @@ export default async function ({ PRIVATE_GLOBAL }) {
 					afterDelete: afterDeleteCallback
 				} = clipboardOption || {};
 
-				if (isBoolean(delete2) && !delete2) {
+				if (_.isBoolean(delete2) && !delete2) {
 					return false;
 				}
 
@@ -3125,9 +3116,9 @@ export default async function ({ PRIVATE_GLOBAL }) {
 					allRowKeys
 				});
 
-				if (isFunction(beforeDeleteCallback)) {
+				if (_.isFunction(beforeDeleteCallback)) {
 					const allowDeleting = beforeDeleteCallback(response);
-					if (isBoolean(allowDeleting) && !allowDeleting) {
+					if (_.isBoolean(allowDeleting) && !allowDeleting) {
 						return false;
 					}
 				}
@@ -3138,7 +3129,7 @@ export default async function ({ PRIVATE_GLOBAL }) {
 					selectionRangeIndexes: response.selectionRangeIndexes
 				});
 
-				if (isFunction(afterDeleteCallback)) {
+				if (_.isFunction(afterDeleteCallback)) {
 					afterDeleteCallback(response);
 				}
 			},
@@ -3434,7 +3425,7 @@ export default async function ({ PRIVATE_GLOBAL }) {
 
 				const { beforeStartCellEditing } = editOption;
 
-				if (isFunction(beforeStartCellEditing)) {
+				if (_.isFunction(beforeStartCellEditing)) {
 					const allowContinue = beforeStartCellEditing({
 						row: _.cloneDeep(currentRow),
 						column: currentColumn,
@@ -3442,7 +3433,7 @@ export default async function ({ PRIVATE_GLOBAL }) {
 							? defaultValue
 							: currentRow[currentColumn.field]
 					});
-					if (isBoolean(allowContinue) && !allowContinue) {
+					if (_.isBoolean(allowContinue) && !allowContinue) {
 						return false;
 					}
 				}
