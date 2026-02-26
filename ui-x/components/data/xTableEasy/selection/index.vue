@@ -25,7 +25,7 @@ export default async function ({ PRIVATE_GLOBAL }) {
 			COLUMN_FIXED_TYPE
 		},
 		{ INSTANCE_METHODS },
-		{ isEmptyValue, isBoolean }
+		{ isEmptyValue }
 	] = await Promise.all([
 		_.$importVue("/common/ui-x/components/data/xTableEasy/util/index.vue"),
 		_.$importVue("/common/ui-x/components/data/xTableEasy/util/constant.vue"),
@@ -181,11 +181,11 @@ export default async function ({ PRIVATE_GLOBAL }) {
 				if (cellAutofillOption) {
 					const { directionX, directionY } = this.cellAutofillOption;
 					if (
-						isBoolean(directionY) &&
-						!directionY &&
-						isBoolean(directionX) &&
-						!directionX
-					) {
+					_.isBoolean(directionY) &&
+					!directionY &&
+					_.isBoolean(directionX) &&
+					!directionX
+				) {
 						result = false;
 					}
 				} else {
@@ -1056,7 +1056,7 @@ export default async function ({ PRIVATE_GLOBAL }) {
 				}
 
 				const { directionX, directionY } = cellAutofillOption;
-				if (isBoolean(directionX) && !directionX) {
+				if (_.isBoolean(directionX) && !directionX) {
 					if (
 						autofillingDirection === AUTOFILLING_DIRECTION.LEFT ||
 						autofillingDirection === AUTOFILLING_DIRECTION.RIGHT
@@ -1065,7 +1065,7 @@ export default async function ({ PRIVATE_GLOBAL }) {
 					}
 				}
 
-				if (isBoolean(directionY) && !directionY) {
+				if (_.isBoolean(directionY) && !directionY) {
 					if (
 						autofillingDirection === AUTOFILLING_DIRECTION.UP ||
 						autofillingDirection === AUTOFILLING_DIRECTION.DOWN

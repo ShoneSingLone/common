@@ -3,7 +3,7 @@ export default async function () {
 	const [PopupManager] = await _.$importVue(["/common/libs/VuePopper/popupManager.vue"]);
 	return defineComponent({
 		props: ["contents"],
-		setup(props, { emit }) {
+		setup(props, { emit, slots }) {
 			// 组件根元素引用
 			const rootRef = ref(null);
 
@@ -11,8 +11,9 @@ export default async function () {
 			const isCollapsed = ref(true);
 
 			const contents = computed(() => {
-				if (_.isArray(this.$slots.default)) {
-					return this.$slots.default;
+				// 检查是否有默认slot
+				if (slots.default) {
+					return slots.default();
 				}
 				try {
 					return JSON.stringify(props.contents, null, 2);
@@ -165,7 +166,10 @@ export default async function () {
 									display: isCollapsed.value ? "none" : "block"
 								}
 							},
-							[h("pre", {}, [h("code", {}, [contents.value])])]
+							// 检查是否有默认slot
+							slots.default
+								? contents.value
+								: [h("pre", {}, [h("code", {}, [contents.value])])]
 						)
 					]
 				);

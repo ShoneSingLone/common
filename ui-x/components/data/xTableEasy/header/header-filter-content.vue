@@ -5,14 +5,12 @@ export default async function ({ PRIVATE_GLOBAL }) {
 		VeDropdown,
 		{ COMPS_NAME, EMIT_EVENTS, LOCALE_COMP_NAME },
 		{ clsName },
-		{ isFunction },
 		VeIcon,
 		{ ICON_NAMES }
 	] = await Promise.all([
 		_.$importVue("vue-easytable/packages/ve-dropdown"),
 		_.$importVue("/common/ui-x/components/data/xTableEasy/util/constant.vue"),
 		_.$importVue("/common/ui-x/components/data/xTableEasy/util/index.vue"),
-		_.$importVue("/common/ui-x/components/data/xTableEasy/utils/index.vue"),
 		_.$importVue("vue-easytable/packages/ve-icon"),
 		_.$importVue("/common/ui-x/components/data/xTableEasy/utils/constant.vue")
 	]);
@@ -60,7 +58,7 @@ export default async function ({ PRIVATE_GLOBAL }) {
 			getIcon(h) {
 				let result;
 				const { filterIcon } = this.column.filter;
-				if (isFunction(filterIcon)) {
+				if (_.isFunction(filterIcon)) {
 					result = filterIcon(h);
 				} else {
 					// 使用 h 函数替代 JSX

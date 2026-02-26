@@ -4,12 +4,10 @@ export default async function ({ PRIVATE_GLOBAL }) {
   const [
     { COMPS_NAME },
     { clsName },
-    { isFunction, isBoolean },
     { ICON_NAMES }
   ] = await Promise.all([
     _.$importVue("/common/ui-x/components/data/xTableEasy/util/constant.vue"),
     _.$importVue("/common/ui-x/components/data/xTableEasy/util/index.vue"),
-    _.$importVue("/common/ui-x/components/data/xTableEasy/utils/index.vue"),
     _.$importVue("/common/ui-x/components/data/xTableEasy/utils/constant.vue")
   ]);
 
@@ -29,7 +27,7 @@ export default async function ({ PRIVATE_GLOBAL }) {
     watch: {
       column: {
         handler: function (column) {
-          if (column.filterCustom && isBoolean(column.filterCustom.defaultVisible)) {
+          if (column.filterCustom && _.isBoolean(column.filterCustom.defaultVisible)) {
             this.internalVisible = column.filterCustom.defaultVisible;
           }
         },
@@ -47,7 +45,7 @@ export default async function ({ PRIVATE_GLOBAL }) {
         let result = null;
 
         const { render } = this.column.filterCustom;
-        if (isFunction(render)) {
+        if (_.isFunction(render)) {
           const props = {
             slot: "custom-content"
           };
@@ -68,7 +66,7 @@ export default async function ({ PRIVATE_GLOBAL }) {
       getIcon(h) {
         let result;
         const { filterIcon } = this.column.filterCustom;
-        if (isFunction(filterIcon)) {
+        if (_.isFunction(filterIcon)) {
           result = filterIcon(h);
         } else {
           // 使用 VeIcon 组件

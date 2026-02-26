@@ -2715,16 +2715,16 @@ export default async function ({ PRIVATE_GLOBAL }) {
 						allRowKeys
 					});
 
-					if (isFunction(afterMenuClick)) {
-						const callback = afterMenuClick({
-							type,
-							selectionRangeKeys,
-							selectionRangeIndexes
-						});
-						if (isBoolean(callback) && !callback) {
-							return false;
-						}
+					if (_.isFunction(afterMenuClick)) {
+					const callback = afterMenuClick({
+						type,
+						selectionRangeKeys,
+						selectionRangeIndexes
+					});
+					if (_.isBoolean(callback) && !callback) {
+						return false;
 					}
+				}
 					const editInputEditor = this.$refs[this.editInputRef];
 
 					// cut
@@ -2898,7 +2898,7 @@ export default async function ({ PRIVATE_GLOBAL }) {
 					afterCopy: afterCopyCallback
 				} = clipboardOption || {};
 
-				if (isBoolean(copy) && !copy) {
+				if (_.isBoolean(copy) && !copy) {
 					return false;
 				}
 
@@ -2919,16 +2919,16 @@ export default async function ({ PRIVATE_GLOBAL }) {
 					allRowKeys
 				});
 
-				if (isFunction(beforeCopyCallback)) {
+				if (_.isFunction(beforeCopyCallback)) {
 					const allowCoping = beforeCopyCallback(response);
-					if (isBoolean(allowCoping) && !allowCoping) {
+					if (_.isBoolean(allowCoping) && !allowCoping) {
 						return false;
 					}
 				}
 
 				onAfterCopy({ event, selectionRangeData });
 
-				if (isFunction(afterCopyCallback)) {
+				if (_.isFunction(afterCopyCallback)) {
 					afterCopyCallback(response);
 				}
 			},

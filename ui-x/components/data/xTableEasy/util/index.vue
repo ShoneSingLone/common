@@ -3,7 +3,7 @@ export default async function () {
 	const [
 		{ PREFIX_CLS, CONTEXTMENU_NODE_TYPES, COLUMN_FIXED_TYPE, AUTOFILLING_DIRECTION },
 		{ MOUSE_EVENT_CLICK_TYPE },
-		{ isEmptyValue, isEmptyArray, isFunction },
+		{ isEmptyValue, isEmptyArray },
 		{ getRandomId }
 	] = await _.$importVue([
 		"/common/ui-x/components/data/xTableEasy/util/constant.vue",
@@ -440,22 +440,22 @@ export default async function () {
 			});
 
 			const rightFixedColKeys = getColKeysByFixedType({
-				fixedType: COLUMN_FIXED_TYPE.RIGHT,
-				colgroups,
-				isExcludeOperationColumn: true
+			fixedType: COLUMN_FIXED_TYPE.RIGHT,
+			colgroups,
+			isExcludeOperationColumn: true
+		});
+
+		if (_.isFunction(beforeShow)) {
+			beforeShow({
+				isWholeColSelection,
+				selectionRangeKeys,
+				selectionRangeIndexes
 			});
+		}
 
-			if (isFunction(beforeShow)) {
-				beforeShow({
-					isWholeColSelection,
-					selectionRangeKeys,
-					selectionRangeIndexes
-				});
-			}
+		const headerContextmenuOptionCollection = getHeaderContextmenuOptionCollection(t);
 
-			const headerContextmenuOptionCollection = getHeaderContextmenuOptionCollection(t);
-
-			contextmenus.forEach(contextmenu => {
+		contextmenus.forEach(contextmenu => {
 				const contentmenuCollectionItem = headerContextmenuOptionCollection.find(
 					x => x.type === contextmenu.type
 				);
@@ -562,15 +562,15 @@ export default async function () {
 			const { contextmenus, beforeShow } = contextmenuBodyOption;
 
 			const isWholeRowSelection = !isEmptyValue(bodyIndicatorRowKeys.startRowKey);
-			if (isFunction(beforeShow)) {
-				beforeShow({
-					isWholeRowSelection,
-					selectionRangeKeys,
-					selectionRangeIndexes
-				});
-			}
+		if (_.isFunction(beforeShow)) {
+			beforeShow({
+				isWholeRowSelection,
+				selectionRangeKeys,
+				selectionRangeIndexes
+			});
+		}
 
-			const bodyContextmenuOptionCollection = getBodyContextmenuOptionCollection(t);
+		const bodyContextmenuOptionCollection = getBodyContextmenuOptionCollection(t);
 
 			contextmenus.forEach(contextmenu => {
 				const contentmenuCollectionItem = bodyContextmenuOptionCollection.find(

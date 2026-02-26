@@ -6,7 +6,7 @@ export default async function ({ PRIVATE_GLOBAL }) {
 		BodyRadioContent,
 		ExpandTrIcon,
 		{ clsName, getRowKeysByRangeRowKeys },
-		{ isNumber, isBoolean, isEmptyValue },
+		{ isEmptyValue },
 		{ COMPS_NAME, COLUMN_TYPES, EXPAND_TRIGGER_TYPES, EMIT_EVENTS, COMPS_CUSTOM_ATTRS }
 	] = await Promise.all([
 		_.$importVue("/common/ui-x/components/data/xTableEasy/body/body-checkbox-content.vue"),
@@ -305,7 +305,7 @@ export default async function ({ PRIVATE_GLOBAL }) {
 				if (ellipsis) {
 					const { lineClamp } = ellipsis;
 
-					let _lineClamp = isNumber(lineClamp) ? lineClamp : 1;
+					let _lineClamp = _.isNumber(lineClamp) ? lineClamp : 1;
 					result["-webkit-line-clamp"] = _lineClamp;
 				}
 
@@ -339,7 +339,7 @@ export default async function ({ PRIVATE_GLOBAL }) {
 					const { showTitle } = column.ellipsis;
 
 					// default true
-					const isShowTitle = isBoolean(showTitle) ? showTitle : true;
+					const isShowTitle = _.isBoolean(showTitle) ? showTitle : true;
 
 					content = h(
 						"span",

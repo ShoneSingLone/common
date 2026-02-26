@@ -3,12 +3,10 @@ export default async function ({ PRIVATE_GLOBAL }) {
 	// 使用 _.$importVue() 加载依赖
 	const [
 		{ clsName },
-		{ COMPS_NAME, HOOKS_NAME },
-		{ isNumber }
+		{ COMPS_NAME, HOOKS_NAME }
 	] = await Promise.all([
 		_.$importVue("/common/ui-x/components/data/xTableEasy/util/index.vue"),
-		_.$importVue("/common/ui-x/components/data/xTableEasy/util/constant.vue"),
-		_.$importVue("/common/ui-x/components/data/xTableEasy/utils/index.vue")
+		_.$importVue("/common/ui-x/components/data/xTableEasy/util/constant.vue")
 	]);
 
 	return {
@@ -83,7 +81,7 @@ export default async function ({ PRIVATE_GLOBAL }) {
 
 				if (columnWidthResizeOption) {
 					const { minWidth } = columnWidthResizeOption;
-					if (isNumber(minWidth) && minWidth > 0) {
+					if (_.isNumber(minWidth) && minWidth > 0) {
 						result = minWidth;
 					}
 				}
