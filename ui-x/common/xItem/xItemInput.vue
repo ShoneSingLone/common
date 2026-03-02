@@ -33,7 +33,8 @@ export default async function ({ PRIVATE_GLOBAL }) {
 				attrs = _.merge(
 					{},
 					PRIVATE_GLOBAL.x_item_input_is_number_default_attrs || {},
-					attrs
+					attrs,
+					attrs?.cpt_configs || {}
 				);
 			}
 
