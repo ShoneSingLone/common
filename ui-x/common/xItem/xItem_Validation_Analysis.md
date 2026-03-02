@@ -116,14 +116,14 @@ configs: {
 
 ## 2. 核心方法分析
 
-### 1.1 emitValueChange 方法
+### 1.1 emit_value_change 方法
 
 **功能**：处理值变化并触发相应的事件和校验
 
 **核心逻辑**：
 
 - **值变化检测**：通过 `isRended` 和 `isEmited` 检查值是否已经渲染和发射过，避免重复处理
-- **值更新**：更新 `emitValueChange.val` 缓存当前值，并在适当情况下更新 `cpt_configs.value`
+- **值更新**：更新 `emit_value_change.val` 缓存当前值，并在适当情况下更新 `cpt_configs.value`
 - **回调执行**：调用 `triggerOnEmitValue` 执行 `onEmitValue` 回调
 - **事件发射**：发射 `change` 事件
 - **校验触发**：检查是否有 `change` 触发的规则，如果有则调用 `debounceValidate`
@@ -131,18 +131,18 @@ configs: {
 **代码实现**：
 
 ```javascript
-emitValueChange(val) {
+emit_value_change(val) {
   // set=>emit=>prop=>render
   const isRended = this.cpt_value === val;
   // prop=>render=>emit
-  const isEmited = this.emitValueChange.val === val;
+  const isEmited = this.emit_value_change.val === val;
 
   if (isRended && isEmited) {
     return;
   }
 
   const next = () => {
-    this.emitValueChange.val = val;
+    this.emit_value_change.val = val;
     /* 设置了configs.value，未设置model ；二者只能取其一*/
     if (
       _.$val(this, "cpt_configs.value") !== undefined &&
@@ -247,7 +247,7 @@ async validate(payload) {
 
 ## 2. 问题分析
 
-1. **校验触发逻辑耦合**：校验触发的逻辑被硬编码在 `emitValueChange` 方法中，不够灵活
+1. **校验触发逻辑耦合**：校验触发的逻辑被硬编码在 `emit_value_change` 方法中，不够灵活
 2. **触发方式单一**：目前只在 `change` 事件时触发校验，没有考虑其他触发方式
 3. **校验触发时机**：校验触发与值变化事件耦合，无法单独控制
 
@@ -264,8 +264,8 @@ validateBy(triggerName = 'change') {
   }
 },
 
-// 修改 emitValueChange 方法
-emitValueChange(val) {
+// 修改 emit_value_change 方法
+emit_value_change(val) {
   // 原有逻辑...
 
   if (!isBreak) {
@@ -309,19 +309,19 @@ validateBy(triggerName) {
   }
 },
 
-// 修改 emitValueChange 方法
-emitValueChange(val) {
+// 修改 emit_value_change 方法
+emit_value_change(val) {
   // set=>emit=>prop=>render
   const isRended = this.cpt_value === val;
   // prop=>render=>emit
-  const isEmited = this.emitValueChange.val === val;
+  const isEmited = this.emit_value_change.val === val;
 
   if (isRended && isEmited) {
     return;
   }
 
   const next = () => {
-    this.emitValueChange.val = val;
+    this.emit_value_change.val = val;
     /* 设置了configs.value，未设置model ；二者只能取其一*/
     if (
       _.$val(this, "cpt_configs.value") !== undefined &&
@@ -368,7 +368,7 @@ validateBy(triggerName) {
 
 ### 5.1 校验触发机制优化
 
-1. **独立校验触发逻辑**：将校验触发逻辑从 `emitValueChange` 中分离，形成独立的 `validateBy` 方法
+1. **独立校验触发逻辑**：将校验触发逻辑从 `emit_value_change` 中分离，形成独立的 `validateBy` 方法
 2. **支持多种触发方式**：允许通过不同的触发方式（如 'blur', 'input' 等）触发校验
 3. **外部触发接口**：提供 `validateBy` 方法，允许外部代码主动触发校验
 
@@ -419,7 +419,7 @@ validateBy(triggerName) {
 ## 6. 结论
 
 1. **值改变与emit判断合理**：当前的实现通过 `isRended` 和 `isEmited` 避免了重复处理，逻辑合理。
-2. **触发校验的方式可以独立出来**：将校验触发逻辑从 `emitValueChange`
+2. **触发校验的方式可以独立出来**：将校验触发逻辑从 `emit_value_change`
    中分离，形成独立的方法，可以提高代码的灵活性和可维护性。
 3. **代码优化空间大**：xItem 组件还有很多优化空间，包括性能、代码结构和功能扩展等方面。
 4. **建议实施**：建议按照上述优化建议，逐步改进 xItem 组件，提高其可维护性和扩展性。

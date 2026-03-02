@@ -30,11 +30,14 @@ export default async function ({ PRIVATE_GLOBAL }) {
 			}
 			if (this.isNumber) {
 				tag = "xInputNumber";
-				attrs = _.merge(
-					{},
-					PRIVATE_GLOBAL.x_item_input_is_number_default_attrs || {},
-					attrs,
-					attrs?.cpt_configs || {}
+				attrs = _.omit(
+					_.merge(
+						{},
+						PRIVATE_GLOBAL.x_item_input_is_number_default_attrs || {},
+						attrs?.cpt_configs || {},
+						attrs
+					),
+					["value"]
 				);
 			}
 
@@ -86,21 +89,21 @@ export default async function ({ PRIVATE_GLOBAL }) {
 				);
 				return h(tag, inputProps);
 			}
-
-			return h(
-				tag,
-				mergeProps4h([
-					{
-						attrs,
-						on: vm.mixin_listeners,
-						/* configs,value */
-						onInput(val) {
-							vm.x_item_value = val;
-						}
-					},
-					_.$val(this, "$vnode.data")
-				])
-			);
+			const xInputProps = mergeProps4h([
+				{
+					attrs,
+					on: vm.mixin_listeners,
+					/* configs,value */
+					onInput(val) {
+						vm.x_item_value = val;
+					}
+				},
+				_.$val(this, "$vnode.data"),
+				{
+					value: vm.x_item_value
+				}
+			]);
+			return h(tag, xInputProps);
 		}
 	});
 }

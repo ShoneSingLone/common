@@ -105,11 +105,24 @@ export default async function ({ PRIVATE_GLOBAL }) {
 
 			const cpt_configs = computed({
 				get() {
+					// 处理 configs 为函数的情况
 					if (vm.configs) {
-						return vm.configs;
+						if (_.isFunction(vm.configs)) {
+							// 如果 configs 是函数，调用它获取配置
+							const configs = vm.configs({ xItem: vm });
+							// 缓存函数返回的配置对象，避免每次访问都调用函数
+							if (!vm._cachedConfigs || vm._configsFunc !== vm.configs) {
+								vm._cachedConfigs = configs;
+								vm._configsFunc = vm.configs;
+							}
+							return vm._cachedConfigs;
+						} else {
+							// 如果 configs 是对象，直接返回
+							return vm.configs;
+						}
 					} else if (vm.CONFIGS_ONLY_AS_WRAPPER) {
 						return vm.CONFIGS_ONLY_AS_WRAPPER;
-					} else if (this.$slots.default) {
+					} else if (vm.$slots.default) {
 						/*<xItem :label="'X_ITEM_LABEL_IS_EMPTY' :rule="rules"/>
 						 * 可以为自定义空间提供validator方法
 						 * X_ITEM_LABEL_IS_EMPTY为不显示label
@@ -118,7 +131,7 @@ export default async function ({ PRIVATE_GLOBAL }) {
 						vm.CONFIGS_ONLY_AS_WRAPPER = new Proxy(
 							{
 								THIS_CONFIGS_ONLY_FOR_LABEL: true,
-								label: this.label
+								label: vm.label
 							},
 							{
 								get(obj, prop) {
@@ -131,8 +144,8 @@ export default async function ({ PRIVATE_GLOBAL }) {
 							}
 						);
 
-						if (this.rules) {
-							vm.CONFIGS_ONLY_AS_WRAPPER.rules = this.rules;
+						if (vm.rules) {
+							vm.CONFIGS_ONLY_AS_WRAPPER.rules = vm.rules;
 						}
 						return vm.CONFIGS_ONLY_AS_WRAPPER;
 					} else {
@@ -261,18 +274,18 @@ export default async function ({ PRIVATE_GLOBAL }) {
 					this.$watch("cpt_configs.placeholder", this.setAttrs);
 				}
 				if (cpt_configs.value.value !== undefined) {
-					this.$watch("cpt_configs.value", this.emitValueChange);
+					this.$watch("cpt_configs.value", this.emit_value_change);
 				}
 				if (this.value !== undefined) {
-					this.$watch("value", this.emitValueChange, { deep: true });
+					this.$watch("value", this.emit_value_change, { deep: true });
 				}
-				this.$watch("cpt_value", this.emitValueChange, { deep: true });
+				this.$watch("cpt_value", this.emit_value_change, { deep: true });
 
 				this.updateStyle();
 				this.setProps();
 				this.setAttrs();
 				this.setListeners();
-				this.emitValueChange(this.cpt_value);
+				this.emit_value_change(this.cpt_value);
 			});
 
 			onBeforeUnmount(() => {
@@ -344,28 +357,35 @@ export default async function ({ PRIVATE_GLOBAL }) {
 			},
 			cpt_value: {
 				get() {
-					const isValueUndefined = _.isUndefined(this.value);
-					const isModelValueUndefined = _.isUndefined(_.$val(this, "cpt_configs.value"));
-					return (() => {
-						if (!isValueUndefined) {
-							return this.value;
+					// 优先使用标签上的 value 或 v-model
+					if (!_.isUndefined(this.value)) {
+						return this.value;
+					}
+					// 其次使用 configs 里面的 value
+					// 直接访问 this.configs 而不是通过 cpt_configs，避免函数调用问题
+					let configsValue;
+					if (this.configs) {
+						if (_.isFunction(this.configs)) {
+							const configs = this.configs({ xItem: this });
+							configsValue = configs.value;
+						} else {
+							configsValue = this.configs.value;
 						}
-						if (!isModelValueUndefined) {
-							return this.cpt_configs.value;
-						}
-
-						if (this.cpt_configs.THIS_CONFIGS_ONLY_FOR_LABEL) {
-							return "";
-						}
-
-						console.error(
-							"For xItem configuration items, the value property must be present in either v-model or configs",
-							this
-						);
-					})();
+					}
+					if (!_.isUndefined(configsValue)) {
+						return configsValue;
+					}
+					// 其他情况
+					if (this.cpt_configs.THIS_CONFIGS_ONLY_FOR_LABEL) {
+						return "";
+					}
+					console.error(
+						"For xItem configuration items, the value property must be present in either v-model or configs",
+						this
+					);
 				},
 				set(val) {
-					this.emitValueChange(val);
+					this.emit_value_change(val);
 					return;
 				}
 			},
@@ -443,7 +463,7 @@ export default async function ({ PRIVATE_GLOBAL }) {
 		},
 		data() {
 			const vm = this;
-			/* vm.emitValueChange = _.debounce(vm.emitValueChange, 32); */
+			/* vm.emit_value_change = _.debounce(vm.emit_value_change, 32); */
 			setTimeout(() => {
 				/* 前3s（即初始化之后）不校验， */
 				vm.p_debounceValidate = _.debounce(vm.validate, 1000);
@@ -549,24 +569,31 @@ export default async function ({ PRIVATE_GLOBAL }) {
 					this.debounceValidate();
 				}
 			},
-			emitValueChange(val) {
+			emit_value_change(val) {
 				// set=>emit=>prop=>render
 				const isRended = this.cpt_value === val;
 				// prop=>render=>emit
-				const isEmited = this.emitValueChange.val === val;
+				const isEmited = this.emit_value_change.val === val;
 
 				if (isRended && isEmited) {
 					return;
 				}
 
 				const next = () => {
-					this.emitValueChange.val = val;
+					debugger;
+					this.emit_value_change.val = val;
 					/* 设置了configs.value，未设置model ；二者只能取其一*/
-					if (
-						_.$val(this, "cpt_configs.value") !== undefined &&
-						this.value === undefined
-					) {
-						this.cpt_configs.value = val;
+					if (this.value === undefined) {
+						// 只有当标签上没有value时，才尝试修改configs.value
+						if (this.configs) {
+							if (_.isFunction(this.configs)) {
+								// 如果configs是函数，不直接修改，因为函数返回的是新对象
+								// 而是通过触发change事件，让父组件更新
+							} else {
+								// 如果configs是对象，直接修改
+								this.configs.value = val;
+							}
+						}
 					}
 
 					const { isBreak } = this.triggerOnEmitValue(val) || {};
