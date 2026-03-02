@@ -180,14 +180,25 @@ export default async function () {
 						default: {}
 					}
 				},
-				created() {
-					this.xItem.childVm = this;
-				},
 				model: {
 					prop: "value",
 					event: "change"
 				},
 				props: ["value", "configs", "readonly"],
+				created() {
+					this.xItem.childVm = this;
+				},
+				mounted() {
+					this.$watch(
+						() => {
+							return this.x_item_value;
+						},
+						() => {
+							/* 子值变化触发xItem校验 */
+							this.dispatch("xItem", "subcomponent-trigger-validate");
+						}
+					);
+				},
 				computed: {
 					mixin_attrs() {
 						return _.merge({}, this.configs, this.$attrs);

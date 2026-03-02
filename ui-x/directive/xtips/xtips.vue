@@ -39,6 +39,7 @@ export default async function () {
 			}
 		}
 	}
+
 	/* placement offset arrowOffset */
 	function usePops(ele) {
 		const $ele = $(ele);
@@ -47,7 +48,7 @@ export default async function () {
 		const trigger = options.trigger || "hover";
 		const vmRefrence = REFRENCE_MAP.get(refId);
 		const vmPopover = POPOVER_MAP.get(refId);
-		let $popover = $(`[${SELECTOR_POPOVER}=${refId}]`);
+		const $popover = $(`[${SELECTOR_POPOVER}=${refId}]`);
 
 		const showAble = !!options.content;
 		return {
@@ -63,76 +64,71 @@ export default async function () {
 
 	async function ensurePopover({ ele }) {
 		/* 使用 usePops 获取弹出框的相关配置 */
-		let { trigger, $ele, refId, $popover, vmRefrence, vmPopover } = usePops(ele);
+		const { trigger, $ele, refId, $popover, vmRefrence } = usePops(ele);
 
-		/* 如果弹出框不存在，则创建一个新的弹出框元素并挂载到 DOM 中。 */
-		if (!$popover.length) {
-			const $popover = $("<div/>", {
-				/* 调用$mounte挂载的元素 */
-				[SELECTOR_POPOVER]: refId
-			});
-			_.$single.shadowTemplate.append($popover);
-
-			/* 如果PopoverComponent已经加载，则不需要再加载 */
-			PopoverComponent =
-				PopoverComponent ||
-				(await _.$importVue("/common/ui-x/directive/xtips/xtipsDefaultPopover.vue"));
-
-			let _PopoverComponent = { ...PopoverComponent };
-			_PopoverComponent.parent = vmRefrence;
-
-			vmPopover = new Vue(_PopoverComponent);
-			POPOVER_MAP.set(refId, vmPopover);
-
-			/* popover使用onPopoverChange */
-			vmPopover.refId = refId;
-			vmPopover.options = TIPS_OPTIONS_MAP.get(refId);
-			vmPopover.options && (vmPopover.options.$reference = $ele);
-
-			vmRefrence.onPopoverChange = vmRefrence.onPopoverChange || {};
-			vmRefrence.onPopoverChange[refId] = val => {
-				if (!val) {
-					/* 如果是click，则延迟清除 */
-					if (["click", "rightClick"].includes(trigger)) {
-						vmRefrence.popoverClearTimer = setTimeout(() => {
-							vmPopover.$destroy();
-							$popover.remove();
-							vmRefrence.popoverClearTimer = null;
-						}, 32);
-					} else {
-						vmPopover.$destroy();
-						$popover.remove();
-					}
-				}
-			};
-
-			vmPopover.$on("hook:mounted", () => {
-				if (_.isFunction(vmPopover.options.onMounted)) {
-					vmPopover.options.onMounted.call(vmPopover, {
-						popoverVm: vmPopover,
-						referenceVm: vmRefrence
-					});
-				}
-			});
-
-			vmPopover.$mount(`[${SELECTOR_POPOVER}=${refId}]`);
-
-			vmPopover.$on("hook:beforeDestroy", () => {});
-
-			/* 挂载成功后即可展示，除非是manual */
-			vmPopover.options.visible = (function () {
-				if ("manual" === trigger) {
-					return vmPopover.options.visible;
-				}
-				return true;
-			})();
-
-			$(vmPopover.$el).attr({
-				[SELECTOR_POPOVER]: refId
-			});
+		/* 如果弹出框已存在，直接返回 */
+		if ($popover.length) {
+			return $popover;
 		}
 
-		return $popover;
+		/* 创建一个新的弹出框元素并挂载到 DOM 中 */
+		const $newPopover = $("<div/>", {
+			[SELECTOR_POPOVER]: refId
+		});
+		_.$single.shadowTemplate.append($newPopover);
+
+		/* 如果PopoverComponent已经加载，则不需要再加载 */
+		PopoverComponent =
+			PopoverComponent ||
+			(await _.$importVue("/common/ui-x/directive/xtips/xtipsDefaultPopover.vue"));
+
+		const _PopoverComponent = { ...PopoverComponent };
+		_PopoverComponent.parent = vmRefrence;
+
+		const vmPopover = new Vue(_PopoverComponent);
+		POPOVER_MAP.set(refId, vmPopover);
+
+		/* popover使用onPopoverChange */
+		vmPopover.refId = refId;
+		vmPopover.options = TIPS_OPTIONS_MAP.get(refId);
+		vmPopover.options && (vmPopover.options.$reference = $ele);
+
+		vmRefrence.onPopoverChange = vmRefrence.onPopoverChange || {};
+		vmRefrence.onPopoverChange[refId] = val => {
+			if (!val) {
+				/* 如果是click，则延迟清除 */
+				if (["click", "rightClick"].includes(trigger)) {
+					vmRefrence.popoverClearTimer = setTimeout(() => {
+						vmPopover.$destroy();
+						$newPopover.remove();
+						vmRefrence.popoverClearTimer = null;
+					}, 32);
+				} else {
+					vmPopover.$destroy();
+					$newPopover.remove();
+				}
+			}
+		};
+
+		vmPopover.$on("hook:mounted", () => {
+			if (_.isFunction(vmPopover.options.onMounted)) {
+				vmPopover.options.onMounted.call(vmPopover, {
+					popoverVm: vmPopover,
+					referenceVm: vmRefrence
+				});
+			}
+		});
+
+		vmPopover.$mount(`[${SELECTOR_POPOVER}=${refId}]`);
+
+		/* 挂载成功后即可展示，除非是manual */
+		vmPopover.options.visible = trigger === "manual" ? vmPopover.options.visible : true;
+
+		$(vmPopover.$el).attr({
+			[SELECTOR_POPOVER]: refId
+		});
+
+		return $newPopover;
 	}
 
 	function handleClick(event) {
@@ -148,7 +144,7 @@ export default async function () {
 	function handleEnterReference(event) {
 		const { trigger, showAble } = usePops(this);
 		if (!showAble) return;
-		if ("hover" === trigger) {
+		if (trigger === "hover") {
 			ensurePopover({ ele: this });
 		}
 	}
@@ -156,7 +152,7 @@ export default async function () {
 	function handleFocusinReference(event) {
 		const { trigger, showAble } = usePops(this);
 		if (!showAble) return;
-		if ("focus" === trigger) {
+		if (trigger === "focus") {
 			ensurePopover({ ele: this });
 		}
 	}
@@ -171,27 +167,17 @@ export default async function () {
 	}
 
 	_.$single.doc
-		/* click处理 */ .on(
-			`click.${EVENT_UI_TARGET}` /* 左键单击 */,
-			`[${SELECTOR_REFERENCE}]`,
-			handleClick
-		)
+		/* click处理 */
+		.on(`click.${EVENT_UI_TARGET}`, `[${SELECTOR_REFERENCE}]`, handleClick)
 		.on(
-			`contextmenu.${EVENT_UI_TARGET}` /* 右键单击 */,
+			`contextmenu.${EVENT_UI_TARGET}`,
 			`[${SELECTOR_REFERENCE}][data-trigger=rightClick]`,
 			handleClick
 		)
-		/* hover处理 */ .on(
-			`mouseenter.${EVENT_UI_TARGET}`,
-			`[${SELECTOR_REFERENCE}]`,
-			handleEnterReference
-		)
-		/* focus处理 */ .on(
-			`mousedown.${EVENT_UI_TARGET}`,
-			`[${SELECTOR_REFERENCE}]`,
-			handleFocusinReference
-		);
-	//.on(`mouseup.${EVENT_UI_TARGET}`, `[${SELECTOR_REFERENCE}]`, handleFocusoutReference);
+		/* hover处理 */
+		.on(`mouseenter.${EVENT_UI_TARGET}`, `[${SELECTOR_REFERENCE}]`, handleEnterReference)
+		/* focus处理 */
+		.on(`focusin.${EVENT_UI_TARGET}`, `[${SELECTOR_REFERENCE}]`, handleFocusinReference);
 
 	return Vue.directive("xtips", {
 		name: "xtips",
@@ -199,7 +185,7 @@ export default async function () {
 		inserted(ele, binding, vnode) {
 			const configs = binding.value;
 			/* v-xtips绑定在dom元素上 */
-			let vm = vnode.componentInstance || vnode.context;
+			const vm = vnode.componentInstance || vnode.context;
 			if (_.isFunction(binding.value.onUpdated) && vm) {
 				binding.value.onUpdated(vm);
 			}
@@ -211,6 +197,7 @@ export default async function () {
 				.addClass(CLASS_NAME_REFERENCE)
 				.attr({ [SELECTOR_REFERENCE]: refId })
 				.data("oldValue", { ...configs });
+
 			/* 如果 trigger 为 manual 且 visible 为 true，则直接显示 popover */
 			if (configs.trigger === "manual" && configs.visible) {
 				ensurePopover({ ele });
@@ -220,18 +207,23 @@ export default async function () {
 			const { refId, $popover, vmPopover, $ele } = usePops(ele);
 			const oldValue = $ele.data("oldValue");
 			$ele.data("oldValue", { ...binding.value });
+
 			if (hasOwn(binding.value, "_btnInnerTips")) {
 				return;
-			} else {
-				if (_.$isEqualByObjVal(binding.value, _.omit(oldValue, ["$reference"]))) {
-					return;
-				}
-				if (_.$isEqualByObjVal(binding.value, oldValue)) {
-					return;
-				}
 			}
+
+			/* 合并两次比较，减少重复计算 */
+			const normalizedOldValue = _.omit(oldValue, ["$reference"]);
+			if (
+				_.$isEqualByObjVal(binding.value, normalizedOldValue) ||
+				_.$isEqualByObjVal(binding.value, oldValue)
+			) {
+				return;
+			}
+
 			setOptions(refId, binding.value);
-			if ("manual" === _.$val(binding, "value.trigger")) {
+
+			if (_.$val(binding, "value.trigger") === "manual") {
 				if ($popover.length) {
 					vmPopover && vmPopover.$destroy();
 					$popover.remove();

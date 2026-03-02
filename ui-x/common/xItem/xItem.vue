@@ -78,6 +78,10 @@ export default async function ({ PRIVATE_GLOBAL }) {
 				});
 			}
 
+			vm.$on("subcomponent-trigger-validate", () => {
+				vm.validate();
+			});
+
 			/*** xItem对外暴露自身实例*/
 			vm.$emit("setup", { xItem: vm });
 			const { cptPlaceholder } = useProps(vm);
@@ -538,6 +542,13 @@ export default async function ({ PRIVATE_GLOBAL }) {
 					console.error(error);
 				}
 			},
+			validateBy(triggerName) {
+				if (!triggerName) return;
+				const rules = this.cpt_rules_by_trigger[triggerName];
+				if (rules && rules.length > 0) {
+					this.debounceValidate();
+				}
+			},
 			emitValueChange(val) {
 				// set=>emit=>prop=>render
 				const isRended = this.cpt_value === val;
@@ -563,10 +574,8 @@ export default async function ({ PRIVATE_GLOBAL }) {
 					if (!isBreak) {
 						this.$emit("change", val);
 					}
-					const rule = this.cpt_rules_by_trigger["change"];
-					if (rule) {
-						this.debounceValidate();
-					}
+					// 调用独立的校验触发方法
+					this.validateBy("change");
 				};
 
 				if (_.isFunction(this.cpt_configs.beforeChange)) {
@@ -651,10 +660,7 @@ export default async function ({ PRIVATE_GLOBAL }) {
 					listeners[eventName] = function (value, $event) {
 						const on = vm.cpt_configs.on;
 						/*除非主动调用 _.$validateForm，只有对应的事件才会触发校验*/
-						const rule = vm.cpt_rules_by_trigger[eventName];
-						if (rule) {
-							vm.debounceValidate();
-						}
+						vm.validateBy(eventName);
 						if (_.$val(on, `${eventName}`)) {
 							on[eventName]({
 								val: value,
