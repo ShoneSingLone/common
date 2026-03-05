@@ -580,7 +580,6 @@ export default async function ({ PRIVATE_GLOBAL }) {
 				}
 
 				const next = () => {
-					debugger;
 					this.emit_value_change.val = val;
 					/* 设置了configs.value，未设置model ；二者只能取其一*/
 					if (this.value === undefined) {
@@ -670,7 +669,9 @@ export default async function ({ PRIVATE_GLOBAL }) {
 			setAttrs() {
 				const vm = this;
 				const clearable =
-					vm.cpt_configs.clearable === undefined ? false : vm.cpt_configs.clearable;
+					vm.cpt_configs.clearable === undefined
+						? PRIVATE_GLOBAL.x_item_is_clearable
+						: vm.cpt_configs.clearable;
 
 				this.p_attrs = {
 					...(vm.cpt_configs.attrs || {}),

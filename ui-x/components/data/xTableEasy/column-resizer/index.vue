@@ -1,10 +1,7 @@
 <script lang="ts">
 export default async function ({ PRIVATE_GLOBAL }) {
 	// 使用 _.$importVue() 加载依赖
-	const [
-		{ clsName },
-		{ COMPS_NAME, HOOKS_NAME }
-	] = await Promise.all([
+	const [{ clsName }, { COMPS_NAME, HOOKS_NAME }] = await Promise.all([
 		_.$importVue("/common/ui-x/components/data/xTableEasy/util/index.vue"),
 		_.$importVue("/common/ui-x/components/data/xTableEasy/util/constant.vue")
 	]);
@@ -93,10 +90,13 @@ export default async function ({ PRIVATE_GLOBAL }) {
 				handler: function (val) {
 					if (val) {
 						// header cell mousemove
-						this.hooks.addHook(HOOKS_NAME.HEADER_CELL_MOUSEMOVE, ({ event, column }) => {
-							if (column.disableResizing) return;
-							this.initColumnResizerPosition({ event, column });
-						});
+						this.hooks.addHook(
+							HOOKS_NAME.HEADER_CELL_MOUSEMOVE,
+							({ event, column }) => {
+								if (column.disableResizing) return;
+								this.initColumnResizerPosition({ event, column });
+							}
+						);
 					}
 				},
 				immediate: true
@@ -123,7 +123,8 @@ export default async function ({ PRIVATE_GLOBAL }) {
 						const cellRect = target.getBoundingClientRect();
 						const { height, left, top } = cellRect;
 
-						this.columnResizerRect.left = left + col._realTimeWidth - tableContainerLeft;
+						this.columnResizerRect.left =
+							left + col._realTimeWidth - tableContainerLeft;
 						this.columnResizerRect.top = top - tableContainerTop;
 						this.columnResizerRect.height = height;
 
@@ -278,35 +279,39 @@ export default async function ({ PRIVATE_GLOBAL }) {
 				left: left + "px"
 			};
 
-			return h("div", {
-				class: clsName("column-resizer")
-			}, [
-				h("div", {
-					class: handlerClass,
-					style: handlerStyle,
-					on: {
-						click: () => {
-							//
-						},
-						mousedown: (event) => {
-							this.columnResizerHandlerMousedown({ event });
-						},
-						mouseenter: () => {
-							this.setIsColumnResizerHover(true);
-						},
-						mouseleave: () => {
-							this.setIsColumnResizerHover(false);
-						},
-						mouseup: (event) => {
-							this.columnResizerMouseup(event);
+			return h(
+				"div",
+				{
+					class: clsName("column-resizer")
+				},
+				[
+					h("div", {
+						class: handlerClass,
+						style: handlerStyle,
+						on: {
+							click: () => {
+								//
+							},
+							mousedown: event => {
+								this.columnResizerHandlerMousedown({ event });
+							},
+							mouseenter: () => {
+								this.setIsColumnResizerHover(true);
+							},
+							mouseleave: () => {
+								this.setIsColumnResizerHover(false);
+							},
+							mouseup: event => {
+								this.columnResizerMouseup(event);
+							}
 						}
-					}
-				}),
-				h("div", {
-					class: clsName("column-resizer-line"),
-					style: lineStyle
-				})
-			]);
+					}),
+					h("div", {
+						class: clsName("column-resizer-line"),
+						style: lineStyle
+					})
+				]
+			);
 		}
 	};
 }

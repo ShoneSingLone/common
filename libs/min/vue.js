@@ -2396,6 +2396,7 @@ window.Vue = (() => {
 					x = b.$options.methods,
 					k = w.length;
 				k--;
+
 			) {
 				var C = w[k];
 				(x &&
@@ -3684,6 +3685,7 @@ window.Vue = (() => {
 							n.$el && (n.$el.__vue__ = n),
 							n);
 					i && i.$vnode && i.$parent && i.$vnode === i.$parent._vnode;
+
 				)
 					((i.$parent.$el = i.$el), (i = i.$parent));
 			}),
@@ -4649,6 +4651,7 @@ window.Vue = (() => {
 				for (
 					var n = " ".concat(t.getAttribute("class") || "", " "), r = " " + e + " ";
 					0 <= n.indexOf(r);
+
 				)
 					n = n.replace(r, " ");
 				(n = n.trim()) ? Cc(t, "class", n) : t.removeAttribute("class");
@@ -4788,6 +4791,7 @@ window.Vue = (() => {
 					b = dn,
 					w = dn.$vnode;
 				w && w.parent;
+
 			)
 				((b = w.context), (w = w.parent));
 			var $,
@@ -5977,6 +5981,7 @@ window.Vue = (() => {
 											n = (k(e[0].length), void 0),
 											r = void 0;
 										!(n = h.match(Ni)) && (r = h.match(Ei) || h.match(ji));
+
 									)
 										((r.start = x),
 											k(r[0].length),
@@ -6050,6 +6055,7 @@ window.Vue = (() => {
 									Di.test(t) ||
 									(v = t.indexOf("<", 1)) < 0
 								);
+
 							)
 								t = h.slice((n += v));
 							e = h.substring(0, n);
@@ -6069,6 +6075,7 @@ window.Vue = (() => {
 						);
 				};
 			h && "break" !== e();
+
 		);
 		function k(e) {
 			((x += e), (h = h.substring(e)));
@@ -6227,6 +6234,7 @@ window.Vue = (() => {
 				for (
 					var t;
 					(t = e.children[e.children.length - 1]) && 3 === t.type && " " === t.text;
+
 				)
 					e.children.pop();
 		}
