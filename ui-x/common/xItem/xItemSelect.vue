@@ -30,8 +30,8 @@ export default async function () {
 			]);
 
 			const children = (() => {
-				if (_.$val(vm, "configs.optonsRender")) {
-					return [vm.configs.optonsRender({ options: vm.selectOptions, vm })];
+				if (_.$val(vm, "configs.optionsRender")) {
+					return [vm.configs.optionsRender({ options: vm.selectOptions, vm })];
 				} else {
 					return _.map(vm.selectOptions, (item, key) => {
 						return h("xOption", {
