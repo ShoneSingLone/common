@@ -13,6 +13,7 @@
 		appEntryName,
 		appVersion,
 		loadingImg,
+		loadingHideBlur,
 		appPrefix,
 		noNprogress,
 		appUseBabel
@@ -29,6 +30,7 @@
 			appEntryName: dataset.appEntryName,
 			appVersion: dataset.appVersion,
 			loadingImg: dataset.loadingImg,
+			loadingHideBlur: dataset.loadingHideBlur || false,
 			appPrefix: dataset.appPrefix || "business_",
 			noNprogress: dataset.noNProgress,
 			appUseBabel: dataset.appUseBabel === "true"
@@ -796,7 +798,7 @@
 									const preloadArray = getPreload();
 									preloadArray.forEach(url => $loadText(url));
 								}
-							} catch (error) {}
+							} catch (error) { }
 						}
 					}
 				],
@@ -851,14 +853,46 @@
 				setRemBase();
 			}
 
-			/* 在计算rem之后添加样式，否则会有闪烁 */
+			let blur = `.x-loading::before { 
+	content: " "; 
+	display: block; 
+	top: 0; 
+	bottom: 0; 
+	right: 0; 
+	left: 0; 
+	position: absolute; 
+	backdrop-filter: blur(10px);
+	-webkit-backdrop-filter: blur(10px);
+	background-color: rgba(255, 255, 255, 0.3);
+	z-index: 9999999998;
+	pointer-events: none;
+}`;
+
+
+			if (loadingHideBlur) {
+				blur = "";
+			}
+			/* 在计算 rem 之后添加样式，否则会有闪烁 */
 			$appendStyle(
 				"xLoadingStyle",
 				`html, body, #app { height: 100%; width: 100%; }
 @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
 .spin {animation: spin 2s linear infinite;}
-.x-loading { min-height: 48px; position: relative; // filter: blur(1px); overflow: hidden; pointer-events: none; }
-.x-loading::before { animation: spin 2s linear infinite;pointer-events: none; content: " "; display: block; top: 0; bottom: 0; right: 0; left: 0; position: absolute; background: url(${LOADING_IMAGE_NAME}) center/32px no-repeat; z-index: 9999999999; }
+.x-loading { min-height: 48px; position: relative; overflow: hidden; }
+${blur}
+.x-loading::after { 
+	animation: spin 2s linear infinite;
+	content: " "; 
+	display: block; 
+	top: 0; 
+	bottom: 0; 
+	right: 0; 
+	left: 0; 
+	position: absolute; 
+	background: url(${LOADING_IMAGE_NAME}) center/32px no-repeat; 
+	z-index: 9999999999;
+	pointer-events: none;
+}
 `
 			);
 		})();
