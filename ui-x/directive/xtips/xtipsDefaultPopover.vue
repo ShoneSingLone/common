@@ -126,10 +126,10 @@ export default async function () {
 				};
 			},
 			transition() {
-				if (_.isObject(this.options.content)) {
+				if (_.isObject(this.options?.content)) {
 					return "fade-in-linear";
 				}
-				return this.options.transition || "fade-in-linear";
+				return this.options?.transition || "fade-in-linear";
 			},
 			tabindex() {
 				return this.options.tabindex || 0;
