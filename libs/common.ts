@@ -15,6 +15,13 @@
 		$$clean: obj => _.omitBy(obj, v => _.isUndefined(v) || _.isNull(v))
 	});
 
+	_.$onBeforeUnmountRemoveStyle = ({ vm }) => {
+		Vue.onBeforeUnmount(() => {
+			const styleId = _.$$toDomIdStr(vm?.$vnode?.FILE_URL, "style");
+			$(`#${styleId}`).remove();
+		});
+	};
+
 	/**
 	 * 获取数组中所有相同字符串的对应索引（全部分组）
 	 * @param {Array} arr 原数组(字符串数组)

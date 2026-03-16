@@ -63,14 +63,36 @@
 		return arr.length ? arr[arr.length - 1] : false;
 	}
 
-	function camelCase(str = "") {
-		str = String(str).replace(/@/g, "");
-		return (
-			str &&
-			str.replace(camelizeRE, function (_, c) {
-				return c ? c.toUpperCase() : "";
-			})
-		);
+	/**
+	 * 将字符串（特别是URL地址）转换为符合DOM ID规范的字符串
+	 * DOM ID规范：必须以字母、下划线(_)或美元符号($)开头，后面可以跟字母、数字、下划线、美元符号或连字符(-)
+	 * @param {string} str 要转换的字符串，默认为空字符串
+	 * @param {string} prefix 前缀字符串，默认为空字符串
+	 * @returns {string} 符合DOM ID规范的字符串
+	 */
+	function toDomIdStr(str = "", prefix = "") {
+		const processedStr =
+			String(str)
+				// 1. 首先处理URL特定字符：协议、域名、路径分隔符等
+				.replace(/^https?:\/\//, "") // 移除http://或https://
+				.replace(/[:/?#[\]@!$&'()*+,;=.]/g, "_") // 将URL特殊字符替换为下划线
+				// 2. 处理DOM ID规范：确保以字母、下划线或美元符号开头
+				.replace(/^[^a-zA-Z_$]+/, "") // 移除开头的无效字符
+				// 3. 处理其他无效字符
+				.replace(/[^a-zA-Z0-9_$-]/g, "") // 只保留有效的DOM ID字符
+				// 4. 转为小写（保持一致性）
+				.toLowerCase() ||
+			// 5. 防止空字符串（如果处理后为空，返回默认值）
+			"empty-id";
+
+		// 处理前缀
+		const processedPrefix = String(prefix)
+			// 确保前缀符合DOM ID规范
+			.replace(/[^a-zA-Z0-9_$-]/g, "_") // 将无效字符替换为下划线
+			.toLowerCase();
+
+		// 组合前缀和处理后的字符串
+		return processedPrefix ? `${processedPrefix}_${processedStr}` : processedStr;
 	}
 
 	/**
@@ -426,7 +448,7 @@
 	async function $loadText(url) {
 		url = $resolvePath(url);
 		return new Promise(async (resolve, reject) => {
-			const key = camelCase(url);
+			const key = toDomIdStr(url);
 			let collection = $loadText.pending[key];
 
 			if (typeof collection === "string" && !IS_DEV) {
@@ -462,7 +484,7 @@
 	$loadText.pending = {};
 
 	const $loadTextCacheify = async function (url) {
-		const key = camelCase(url);
+		const key = toDomIdStr(url);
 		let res = await $idb.get(key);
 		if (!res) {
 			res = await $loadText(url);
@@ -496,7 +518,7 @@
 
 			const body = $$tags("body")[0];
 			for (const { url, innerHtml, callback } of scripts) {
-				const id = camelCase(url);
+				const id = toDomIdStr(url);
 				const $script = document.createElement("script");
 				$script.id = id;
 				$script.innerHTML = innerHtml;
@@ -581,7 +603,7 @@
 	/* @typescriptDeclare (url:string,globalName:string)=>any */
 	async function $appendScript(url, globalName = "", _SCRIPT_USE_SRC = false) {
 		try {
-			const id = camelCase(url);
+			const id = toDomIdStr(url);
 			if ($appendScript.loaded[id]) {
 				if (globalName) {
 					return $ensure(() => $val(window, globalName));
@@ -646,7 +668,7 @@
 	/* @typescriptDeclare (url:string,styleSourceCode?:string,options?:any)=>any */
 	async function $appendStyle(url, styleSourceCode = "", options = {}) {
 		const { useLink = false } = options;
-		const id = camelCase(url);
+		const id = toDomIdStr(url, "style");
 
 		if (useLink) {
 			try {
@@ -728,6 +750,7 @@
 					Libs("/lodash.js"),
 					null,
 					() => {
+						_.$$toDomIdStr = toDomIdStr;
 						_.$$tags = $$tags;
 						_.$$id = $$id;
 						_.$val = $val;
@@ -798,7 +821,7 @@
 									const preloadArray = getPreload();
 									preloadArray.forEach(url => $loadText(url));
 								}
-							} catch (error) { }
+							} catch (error) {}
 						}
 					}
 				],
@@ -867,7 +890,6 @@
 	z-index: 9999999998;
 	pointer-events: none;
 }`;
-
 
 			if (loadingHideBlur) {
 				blur = "";
