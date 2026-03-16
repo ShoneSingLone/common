@@ -2077,7 +2077,10 @@ ${callerInfo.message}:`);
 					`with ({...PRIVATE_GLOBAL,..._,...Vue,}){${innerCode};}`
 				);
 			} catch (e) {
+				console.groupCollapsed("RESOURCE ERROR:::::::::::" + resolvedURL);
 				console.error(e);
+				console.warn(innerCode);
+				console.groupEnd();
 			}
 			const fnPayload = new Proxy(payload, {
 				get(obj, prop) {
@@ -2117,7 +2120,10 @@ ${callerInfo.message}:`);
 					component = await scfObjAsyncFn(fnPayload, PRIVATE_GLOBAL);
 					templateSourceCode = "";
 				} else {
-					console.error(e);
+					console.groupCollapsed("RESOURCE ERROR:::::::::::" + resolvedURL);
+					console.error(error);
+					console.warn(innerCode);
+					console.groupEnd();
 				}
 			}
 			/* 可以不返回对象，只执行外层 wrapper层的function */
