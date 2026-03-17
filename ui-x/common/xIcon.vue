@@ -358,4 +358,11 @@ export default async function ({ PRIVATE_GLOBAL }) {
 	width: var(--xIcon-width, 16px);
 	height: var(--xIcon-height, 16px);
 }
+
+.el-button--small {
+	& > .xbtn-contnet-wrapper {
+		--xIcon-width: 12px;
+		--xIcon-height: 12px;
+	}
+}
 </style>
