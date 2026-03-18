@@ -111,7 +111,7 @@ export default async function () {
 				return this.options.title || "";
 			},
 			disabled() {
-				return this.options.disabled || "";
+				return this.options?.disabled || "";
 			},
 			content() {
 				return this.options.content || "";
@@ -175,7 +175,7 @@ export default async function () {
 			},
 			popperOptions() {
 				return (
-					this.options.popperOptions || {
+					this.options?.popperOptions || {
 						gpuAcceleration: false
 					}
 				);
