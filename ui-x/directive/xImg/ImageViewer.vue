@@ -65,7 +65,7 @@
 				</div>
 			</div>
 			<!-- CANVAS -->
-			<div class="el-image-viewer__canvas">
+			<div :class="{ 'el-image-viewer__canvas': true, hidden: isHiddenImg }">
 				<img
 					v-xloading="loading"
 					ref="img"
@@ -111,6 +111,7 @@ export default async function () {
 		name: "xImageViewer",
 		data() {
 			return {
+				isHiddenImg: true,
 				index: 0,
 				urlList: [],
 				styleViewerMask: {},
@@ -621,6 +622,7 @@ export default async function () {
 				// 如果没有提供源DOM，直接显示
 				if (!this.originDom) {
 					console.log("没有提供源DOM，直接显示");
+					this.isHiddenImg = false;
 					this.isAnimating = false;
 					this.originRect = null; // 确保 originRect 为 null，让 imgStyle 计算属性返回正常样式
 					// 普通预览时，确保 mask 样式正确
@@ -665,7 +667,7 @@ export default async function () {
 
 				if (previewImgDom) {
 					// 确保 DOM 更新完成，图片元素可用
-					await _.$sleep(1);
+					await _.$sleep(32);
 					console.log("图片元素:", previewImgDom);
 					console.log(
 						"源图片自然尺寸:",
@@ -688,6 +690,7 @@ export default async function () {
 					// 强制刷新 DOM，确保样式更新生效
 					console.log("强制刷新 DOM，确保样式更新生效");
 					previewImgDom.getBoundingClientRect();
+					this.isHiddenImg = false;
 
 					// 显示覆盖层和预览 - 为 hero 动画设置 mask 样式
 					console.log("显示覆盖层和预览");
@@ -899,6 +902,9 @@ export default async function () {
 /* 图片加载时的毛玻璃效果 */
 .el-image-viewer__canvas {
 	position: relative;
+	&.hidden {
+		opacity: 0;
+	}
 }
 
 .el-image-viewer__img-blur {
