@@ -7,10 +7,10 @@
 			class="el-image-viewer__wrapper"
 			:style="{ 'z-index': viewerZIndex }">
 			<div
-			ref="el-image-viewer__mask"
-			class="el-image-viewer__mask"
-			@click.self="handleMaskClick"
-			:style="styleViewerMask"></div>
+				ref="el-image-viewer__mask"
+				class="el-image-viewer__mask"
+				@click.self="handleMaskClick"
+				:style="styleViewerMask"></div>
 			<!-- CLOSE -->
 			<span class="el-image-viewer__btn el-image-viewer__close" @click="hide">
 				<xIcon class="el-icon-close" icon="icon_close" />
@@ -180,12 +180,13 @@ export default async function () {
 				return this.urlList[this.index];
 			},
 			imgStyle() {
-				// 如果正在进行英雄动画，返回空对象以避免干扰直接操作的 DOM 样式
-				if (this.isAnimating) {
+				// 如果正在进行英雄动画或有源DOM（说明刚刚动画结束），返回空对象
+				// 这样可以确保我们通过 DOM 操作设置的居中样式不会被 Vue 的响应式系统覆盖
+				if (this.isAnimating || this.originRect) {
 					return {};
 				}
 
-				// 正常状态
+				// 正常状态样式
 				const { scale, deg, offsetX, offsetY, enableTransition } = this.transform;
 				const style = {
 					transform: `scale(${scale}) rotate(${deg}deg)`,
@@ -221,7 +222,7 @@ export default async function () {
 				if (this.isAnimating) {
 					this.cancelAnimation();
 				}
-				
+
 				// 直接隐藏，不播放关闭动画
 				this.deviceSupportUninstall();
 				this.onClose();
@@ -603,182 +604,184 @@ export default async function () {
 			},
 
 			// 切换到新图片的动画，与 hero_animation.html 完全一致
-		switchToImageWithAnimation() {
-			// 如果正在动画，先取消当前动画
-			if (this.isAnimating) {
-				this.cancelAnimation();
-			}
-			
-			// 直接切换到新图片，不需要先关闭
-			this.startHeroAnimation();
-		},
-		
-		// 开始 FLIP 动画，与 hero_animation.html 完全一致
-		startHeroAnimation() {
-			// 如果没有提供源DOM，直接显示
-			if (!this.originDom) {
-				this.isAnimating = false;
-				return;
-			}
-
-			// 获取源DOM的位置和尺寸
-			const originElement = typeof this.originDom === "string"
-				? document.querySelector(this.originDom)
-				: this.originDom;
-
-			if (!originElement) {
-				this.isAnimating = false;
-				return;
-			}
-
-			this.isAnimating = true;
-			
-			// 立即获取新卡片的位置信息
-			const rect = originElement.getBoundingClientRect();
-			this.originRect = {
-				left: rect.left,
-				top: rect.top,
-				width: rect.width,
-				height: rect.height
-			};
-
-			// 立即设置图片的初始位置和尺寸（无动画）
-			const $img = this.$refs.img;
-			if ($img) {
-				// 重置所有样式到初始状态（无动画）
-				$img.style.transition = 'none';
-				$img.style.width = rect.width + 'px';
-				$img.style.height = rect.height + 'px';
-				$img.style.left = rect.left + 'px';
-				$img.style.top = rect.top + 'px';
-				$img.style.transform = 'translate(0, 0)';
-				$img.style.borderRadius = '18px';
-				$img.style.opacity = '0';
-				$img.style.pointerEvents = 'none';
-				$img.style.maxWidth = 'none';
-				$img.style.maxHeight = 'none';
-				
-				// 强制刷新 DOM，确保样式更新生效
-				$img.getBoundingClientRect();
-				
-				// 显示覆盖层和预览
-				this.$refs['el-image-viewer__mask'].style.opacity = '1';
-				this.$refs['el-image-viewer__mask'].style.pointerEvents = 'auto';
-				$img.style.opacity = '1';
-				$img.style.pointerEvents = 'auto';
-				
-				// 开启动画
-				$img.style.transition = 'all 0.42s cubic-bezier(0.2, 0, 0, 1)';
-				
-				// 放大到中央
-				$img.style.width = '360px';
-				$img.style.height = '360px';
-				$img.style.left = '50%';
-				$img.style.top = '50%';
-				$img.style.transform = 'translate(-50%, -50%)';
-				$img.style.borderRadius = '24px';
-				
-				// 动画完成后更新状态
-				setTimeout(() => {
-					this.isAnimating = false;
-					// 确保动画结束后样式不会被覆盖
-					if ($img) {
-						// 保持居中状态的样式
-						$img.style.position = 'fixed';
-						$img.style.left = '50%';
-						$img.style.top = '50%';
-						$img.style.transform = 'translate(-50%, -50%)';
-						$img.style.width = '360px';
-						$img.style.height = '360px';
-						$img.style.borderRadius = '24px';
-						$img.style.opacity = '1';
-						$img.style.pointerEvents = 'auto';
-					}
-				}, 420);
-			}
-		},
-		
-		// 取消当前动画，与 hero_animation.html 一致
-		cancelAnimation() {
-			const $img = this.$refs.img;
-			if ($img) {
-				// 强制停止所有动画
-				$img.style.transition = 'none';
-				$img.getBoundingClientRect();
-			}
-			this.isAnimating = false;
-		},
-		
-		// 关闭动画，与 hero_animation.html 一致
-		closeHeroAnimation() {
-			if (!this.originRect || this.isAnimating) return;
-			
-			this.isAnimating = true;
-			
-			const $img = this.$refs.img;
-			if ($img && this.originRect) {
-				// 回到原图位置
-				$img.style.width = this.originRect.width + 'px';
-				$img.style.height = this.originRect.height + 'px';
-				$img.style.left = this.originRect.left + 'px';
-				$img.style.top = this.originRect.top + 'px';
-				$img.style.transform = 'translate(0, 0)';
-				$img.style.borderRadius = '18px';
-				
-				setTimeout(() => {
-					// 隐藏覆盖层和预览
-					this.$refs['el-image-viewer__mask'].style.opacity = '0';
-					this.$refs['el-image-viewer__mask'].style.pointerEvents = 'none';
-					$img.style.opacity = '0';
-					$img.style.pointerEvents = 'none';
-					
-					// 恢复图片的原始样式
-					$img.style.transition = '';
-					$img.style.position = '';
-					$img.style.left = '';
-					$img.style.top = '';
-					$img.style.width = '';
-					$img.style.height = '';
-					$img.style.borderRadius = '';
-					$img.style.maxWidth = '';
-					$img.style.maxHeight = '';
-					
-					this.isAnimating = false;
-					this.originRect = null;
-					this.hide();
-				}, 420);
-			}
-		},
-		
-		// 动画帧更新方法
-		animate() {
-			const startTime = performance.now();
-
-			const animateFrame = currentTime => {
-				const elapsedTime = currentTime - startTime;
-				const progress = Math.min(elapsedTime / this.animationDuration, 1);
-
-				// 使用缓动函数使动画更自然
-				this.animationProgress = this.easeInOutQuad(progress);
-
-				if (progress < 1) {
-					requestAnimationFrame(animateFrame);
-				} else {
-					// 动画结束，恢复正常状态
-					this.isAnimating = false;
-					this.originRect = null;
-					this.targetRect = null;
+			switchToImageWithAnimation() {
+				// 如果正在动画，先取消当前动画
+				if (this.isAnimating) {
+					this.cancelAnimation();
 				}
-			};
 
-			requestAnimationFrame(animateFrame);
+				// 直接切换到新图片，不需要先关闭
+				this.startHeroAnimation();
+			},
+
+			// 开始 FLIP 动画，与 hero_animation.html 完全一致
+			startHeroAnimation() {
+				// 如果没有提供源DOM，直接显示
+				if (!this.originDom) {
+					this.isAnimating = false;
+					this.originRect = null; // 确保 originRect 为 null，让 imgStyle 计算属性返回正常样式
+					return;
+				}
+
+				// 获取源DOM的位置和尺寸
+				const originElement =
+					typeof this.originDom === "string"
+						? document.querySelector(this.originDom)
+						: this.originDom;
+
+				if (!originElement) {
+					this.isAnimating = false;
+					return;
+				}
+
+				this.isAnimating = true;
+
+				// 立即获取新卡片的位置信息
+				const rect = originElement.getBoundingClientRect();
+				this.originRect = {
+					left: rect.left,
+					top: rect.top,
+					width: rect.width,
+					height: rect.height
+				};
+
+				// 立即设置图片的初始位置和尺寸（无动画）
+				const $img = this.$refs.img;
+				if ($img) {
+					// 重置所有样式到初始状态（无动画）
+					$img.style.transition = "none";
+					$img.style.width = rect.width + "px";
+					$img.style.height = rect.height + "px";
+					$img.style.left = rect.left + "px";
+					$img.style.top = rect.top + "px";
+					$img.style.transform = "translate(0, 0)";
+					$img.style.borderRadius = "18px";
+					$img.style.opacity = "0";
+					$img.style.pointerEvents = "none";
+					$img.style.maxWidth = "none";
+					$img.style.maxHeight = "none";
+
+					// 强制刷新 DOM，确保样式更新生效
+					$img.getBoundingClientRect();
+
+					// 显示覆盖层和预览
+					this.$refs["el-image-viewer__mask"].style.opacity = "1";
+					this.$refs["el-image-viewer__mask"].style.pointerEvents = "auto";
+					$img.style.opacity = "1";
+					$img.style.pointerEvents = "auto";
+
+					// 开启动画
+					$img.style.transition = "all 0.42s cubic-bezier(0.2, 0, 0, 1)";
+
+					// 放大到中央
+					$img.style.width = "360px";
+					$img.style.height = "360px";
+					$img.style.left = "50%";
+					$img.style.top = "50%";
+					$img.style.transform = "translate(-50%, -50%)";
+					$img.style.borderRadius = "24px";
+
+					// 动画完成后更新状态
+					setTimeout(() => {
+						this.isAnimating = false;
+						// 确保动画结束后样式不会被覆盖
+						if ($img) {
+							// 保持居中状态的样式
+							$img.style.position = "fixed";
+							$img.style.left = "50%";
+							$img.style.top = "50%";
+							$img.style.transform = "translate(-50%, -50%)";
+							$img.style.width = "360px";
+							$img.style.height = "360px";
+							$img.style.borderRadius = "24px";
+							$img.style.opacity = "1";
+							$img.style.pointerEvents = "auto";
+						}
+					}, 420);
+				}
+			},
+
+			// 取消当前动画，与 hero_animation.html 一致
+			cancelAnimation() {
+				const $img = this.$refs.img;
+				if ($img) {
+					// 强制停止所有动画
+					$img.style.transition = "none";
+					$img.getBoundingClientRect();
+				}
+				this.isAnimating = false;
+			},
+
+			// 关闭动画，与 hero_animation.html 一致
+			closeHeroAnimation() {
+				if (!this.originRect || this.isAnimating) return;
+
+				this.isAnimating = true;
+
+				const $img = this.$refs.img;
+				if ($img && this.originRect) {
+					// 回到原图位置
+					$img.style.width = this.originRect.width + "px";
+					$img.style.height = this.originRect.height + "px";
+					$img.style.left = this.originRect.left + "px";
+					$img.style.top = this.originRect.top + "px";
+					$img.style.transform = "translate(0, 0)";
+					$img.style.borderRadius = "18px";
+
+					setTimeout(() => {
+						// 隐藏覆盖层和预览
+						this.$refs["el-image-viewer__mask"].style.opacity = "0";
+						this.$refs["el-image-viewer__mask"].style.pointerEvents = "none";
+						$img.style.opacity = "0";
+						$img.style.pointerEvents = "none";
+
+						// 恢复图片的原始样式
+						$img.style.transition = "";
+						$img.style.position = "";
+						$img.style.left = "";
+						$img.style.top = "";
+						$img.style.width = "";
+						$img.style.height = "";
+						$img.style.borderRadius = "";
+						$img.style.maxWidth = "";
+						$img.style.maxHeight = "";
+
+						this.isAnimating = false;
+						this.originRect = null;
+						this.hide();
+					}, 420);
+				}
+			},
+
+			// 动画帧更新方法
+			animate() {
+				const startTime = performance.now();
+
+				const animateFrame = currentTime => {
+					const elapsedTime = currentTime - startTime;
+					const progress = Math.min(elapsedTime / this.animationDuration, 1);
+
+					// 使用缓动函数使动画更自然
+					this.animationProgress = this.easeInOutQuad(progress);
+
+					if (progress < 1) {
+						requestAnimationFrame(animateFrame);
+					} else {
+						// 动画结束，恢复正常状态
+						this.isAnimating = false;
+						this.originRect = null;
+						this.targetRect = null;
+					}
+				};
+
+				requestAnimationFrame(animateFrame);
+			},
+
+			// 缓动函数 - 先加速后减速
+			easeInOutQuad(t) {
+				return t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t;
+			}
 		},
-		
-		// 缓动函数 - 先加速后减速
-		easeInOutQuad(t) {
-			return t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t;
-		}
-	},
 		mounted() {
 			this.deviceSupportInstall();
 			if (this.appendToBody) {
