@@ -197,7 +197,7 @@ export default async function ({ PRIVATE_GLOBAL }) {
 			labelRender(h) {
 				return;
 			},
-			async handleClick(...args) {
+			async on_click_x_btn(...args) {
 				if (this.buttonDisabled || this.privateLoading) {
 					return;
 				}
@@ -246,9 +246,7 @@ export default async function ({ PRIVATE_GLOBAL }) {
 				..._.pick(vm.configs, ["attrs"]),
 				...(vm.configs.props || {}),
 				directives: vm.getDirectives({}),
-				onClick() {
-					vm.handleClick();
-				},
+				onClick: vm.on_click_x_btn,
 				on: vm.$listeners,
 				disabled: vm.buttonDisabled || vm.cptLoading,
 				autofocus: vm.autofocus,

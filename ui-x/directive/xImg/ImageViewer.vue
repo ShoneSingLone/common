@@ -151,7 +151,18 @@ export default async function () {
 				autoPlayInterval: 3000, // 默认3秒切换一次
 				autoPlayTimer: null,
 				// 屏幕常亮相关
-				wakeLock: null
+				wakeLock: null,
+				// 英雄动画相关状态
+				originDom: null,
+				isAnimating: false,
+				// 动画起始位置和尺寸
+				originRect: null,
+				// 动画结束位置和尺寸
+				targetRect: null,
+				// 动画进度
+				animationProgress: 0,
+				// 动画持续时间（毫秒）
+				animationDuration: 400
 			};
 		},
 		computed: {
@@ -168,6 +179,44 @@ export default async function () {
 				return this.urlList[this.index];
 			},
 			imgStyle() {
+				// 如果正在进行英雄动画，使用动画计算的值
+				if (this.isAnimating && this.originRect && this.targetRect) {
+					const progress = this.animationProgress;
+					const {
+						startLeft,
+						startTop,
+						startWidth,
+						startHeight,
+						endLeft,
+						endTop,
+						endWidth,
+						endHeight
+					} = this.getAnimationValues();
+
+					// 计算当前进度的位置和尺寸
+					const currentLeft = startLeft + (endLeft - startLeft) * progress;
+					const currentTop = startTop + (endTop - startTop) * progress;
+					const currentWidth = startWidth + (endWidth - startWidth) * progress;
+					const currentHeight = startHeight + (endHeight - startHeight) * progress;
+
+					// 计算缩放比例，基于尺寸变化
+					const scale = currentWidth / startWidth;
+
+					return {
+						position: "fixed",
+						left: `${currentLeft}px`,
+						top: `${currentTop}px`,
+						width: `${currentWidth}px`,
+						height: `${currentHeight}px`,
+						transform: `scale(${scale})`,
+						transition: "none",
+						"object-fit": "cover",
+						"max-width": "none",
+						"max-height": "none"
+					};
+				}
+
+				// 正常状态
 				const { scale, deg, offsetX, offsetY, enableTransition } = this.transform;
 				const style = {
 					transform: `scale(${scale}) rotate(${deg}deg)`,
@@ -460,57 +509,57 @@ export default async function () {
 				}
 			},
 			// 开始自动播放
-				startAutoPlay() {
-					if (this.urlList.length <= 1) return;
-					// 先清除之前的定时器，避免多个定时器同时运行
-					if (this.autoPlayTimer) {
-						clearInterval(this.autoPlayTimer);
-						this.autoPlayTimer = null;
-					}
-					this.isAutoPlay = true;
-					// 请求屏幕常亮
-					this.requestWakeLock();
-					this.autoPlayTimer = setInterval(() => {
-						this.next(false);
-					}, this.autoPlayInterval);
-				},
-				// 停止自动播放
-				stopAutoPlay() {
-					this.isAutoPlay = false;
-					if (this.autoPlayTimer) {
-						clearInterval(this.autoPlayTimer);
-						this.autoPlayTimer = null;
-					}
-					// 释放屏幕常亮
-					this.releaseWakeLock();
-				},
+			startAutoPlay() {
+				if (this.urlList.length <= 1) return;
+				// 先清除之前的定时器，避免多个定时器同时运行
+				if (this.autoPlayTimer) {
+					clearInterval(this.autoPlayTimer);
+					this.autoPlayTimer = null;
+				}
+				this.isAutoPlay = true;
 				// 请求屏幕常亮
-				requestWakeLock() {
-					// 检查浏览器是否支持Wake Lock API
-					if ('wakeLock' in navigator) {
-						navigator.wakeLock.request('screen')
-							.then(lock => {
-								this.wakeLock = lock;
-								// 监听释放事件
-								lock.addEventListener('release', () => {
-									this.wakeLock = null;
-								});
-							})
-							.catch(err => {
-								// 请求失败，可能是用户拒绝或浏览器不支持
-								console.log('Wake Lock request failed:', err);
-							});
-					}
-				},
+				this.requestWakeLock();
+				this.autoPlayTimer = setInterval(() => {
+					this.next(false);
+				}, this.autoPlayInterval);
+			},
+			// 停止自动播放
+			stopAutoPlay() {
+				this.isAutoPlay = false;
+				if (this.autoPlayTimer) {
+					clearInterval(this.autoPlayTimer);
+					this.autoPlayTimer = null;
+				}
 				// 释放屏幕常亮
-				releaseWakeLock() {
-					if (this.wakeLock) {
-						this.wakeLock.release()
-							.then(() => {
+				this.releaseWakeLock();
+			},
+			// 请求屏幕常亮
+			requestWakeLock() {
+				// 检查浏览器是否支持Wake Lock API
+				if ("wakeLock" in navigator) {
+					navigator.wakeLock
+						.request("screen")
+						.then(lock => {
+							this.wakeLock = lock;
+							// 监听释放事件
+							lock.addEventListener("release", () => {
 								this.wakeLock = null;
 							});
-					}
-				},
+						})
+						.catch(err => {
+							// 请求失败，可能是用户拒绝或浏览器不支持
+							console.log("Wake Lock request failed:", err);
+						});
+				}
+			},
+			// 释放屏幕常亮
+			releaseWakeLock() {
+				if (this.wakeLock) {
+					this.wakeLock.release().then(() => {
+						this.wakeLock = null;
+					});
+				}
+			},
 			// 增加播放速度（减少间隔时间）
 			increaseSpeed() {
 				if (this.autoPlayInterval > 1000) {
@@ -528,6 +577,128 @@ export default async function () {
 						this.startAutoPlay();
 					}
 				}
+			},
+
+			// 计算动画的起始和结束值
+			getAnimationValues() {
+				// 起始值：源DOM的位置和尺寸
+				const startLeft = this.originRect.left;
+				const startTop = this.originRect.top;
+				const startWidth = this.originRect.width;
+				const startHeight = this.originRect.height;
+
+				// 结束值：全屏预览的位置和尺寸
+				const windowWidth = window.innerWidth;
+				const windowHeight = window.innerHeight;
+
+				// 计算结束位置和尺寸（居中显示）
+				let endWidth, endHeight;
+				if (isMobile) {
+					// 移动端全屏显示
+					endWidth = windowWidth * 0.9;
+					endHeight = windowHeight * 0.8;
+				} else {
+					// 桌面端限制最大尺寸
+					endWidth = Math.min(800, windowWidth * 0.8);
+					endHeight = Math.min(600, windowHeight * 0.8);
+				}
+
+				const endLeft = (windowWidth - endWidth) / 2;
+				const endTop = (windowHeight - endHeight) / 2;
+
+				return {
+					startLeft,
+					startTop,
+					startWidth,
+					startHeight,
+					endLeft,
+					endTop,
+					endWidth,
+					endHeight
+				};
+			},
+
+			// 开始英雄动画
+			startHeroAnimation() {
+				// 如果没有提供源DOM，直接显示
+				if (!this.originDom) {
+					this.isAnimating = false;
+					return;
+				}
+
+				// 获取源DOM的位置和尺寸
+				const originElement =
+					typeof this.originDom === "string"
+						? document.querySelector(this.originDom)
+						: this.originDom;
+
+				if (!originElement) {
+					this.isAnimating = false;
+					return;
+				}
+
+				// 获取源DOM的位置信息
+				const rect = originElement.getBoundingClientRect();
+				this.originRect = {
+					left: rect.left,
+					top: rect.top,
+					width: rect.width,
+					height: rect.height
+				};
+
+				// 计算目标位置和尺寸
+				const windowWidth = window.innerWidth;
+				const windowHeight = window.innerHeight;
+
+				let targetWidth, targetHeight;
+				if (isMobile) {
+					targetWidth = windowWidth * 0.9;
+					targetHeight = windowHeight * 0.8;
+				} else {
+					targetWidth = Math.min(800, windowWidth * 0.8);
+					targetHeight = Math.min(600, windowHeight * 0.8);
+				}
+
+				this.targetRect = {
+					left: (windowWidth - targetWidth) / 2,
+					top: (windowHeight - targetHeight) / 2,
+					width: targetWidth,
+					height: targetHeight
+				};
+
+				// 开始动画
+				this.isAnimating = true;
+				this.animationProgress = 0;
+				this.animate();
+			},
+
+			// 动画帧更新方法
+			animate() {
+				const startTime = performance.now();
+
+				const animateFrame = currentTime => {
+					const elapsedTime = currentTime - startTime;
+					const progress = Math.min(elapsedTime / this.animationDuration, 1);
+
+					// 使用缓动函数使动画更自然
+					this.animationProgress = this.easeInOutQuad(progress);
+
+					if (progress < 1) {
+						requestAnimationFrame(animateFrame);
+					} else {
+						// 动画结束，恢复正常状态
+						this.isAnimating = false;
+						this.originRect = null;
+						this.targetRect = null;
+					}
+				};
+
+				requestAnimationFrame(animateFrame);
+			},
+
+			// 缓动函数 - 先加速后减速
+			easeInOutQuad(t) {
+				return t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t;
 			}
 		},
 		mounted() {
@@ -542,6 +713,11 @@ export default async function () {
 			// prevent body scroll
 			prevOverflow = document.body.style.overflow;
 			document.body.style.overflow = "hidden";
+
+			// 检查是否需要开始英雄动画
+			this.$nextTick(() => {
+				this.startHeroAnimation();
+			});
 		},
 		destroyed() {
 			document.body.style.overflow = prevOverflow;
