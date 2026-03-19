@@ -620,6 +620,12 @@ export default async function () {
 				if (!this.originDom) {
 					this.isAnimating = false;
 					this.originRect = null; // 确保 originRect 为 null，让 imgStyle 计算属性返回正常样式
+					// 普通预览时，确保 mask 样式正确
+					const mask = this.$refs["el-image-viewer__mask"];
+					if (mask) {
+						mask.style.opacity = "0.5";
+						mask.style.pointerEvents = "auto";
+					}
 					return;
 				}
 
@@ -664,9 +670,12 @@ export default async function () {
 					// 强制刷新 DOM，确保样式更新生效
 					$img.getBoundingClientRect();
 
-					// 显示覆盖层和预览
-					this.$refs["el-image-viewer__mask"].style.opacity = "1";
-					this.$refs["el-image-viewer__mask"].style.pointerEvents = "auto";
+					// 显示覆盖层和预览 - 为 hero 动画设置 mask 样式
+					const mask = this.$refs["el-image-viewer__mask"];
+					if (mask) {
+						mask.style.opacity = "1";
+						mask.style.pointerEvents = "auto";
+					}
 					$img.style.opacity = "1";
 					$img.style.pointerEvents = "auto";
 

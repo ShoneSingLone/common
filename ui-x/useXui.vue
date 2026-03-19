@@ -858,12 +858,13 @@ export default async function ({
 }
 
 .el-image-viewer__mask {
-	position: fixed;
-	inset: 0;
-	background: rgba(0,0,0,0.7);
-	opacity: 0;
-	pointer-events: none;
-	z-index: 999;
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	top: 0;
+	left: 0;
+	opacity: 0.5;
+	background: #000;
 	transition: opacity 0.4s ease;
 }
 
