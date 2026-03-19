@@ -180,6 +180,7 @@ export default async function () {
 				return this.urlList[this.index];
 			},
 			imgStyle() {
+				return {};
 				// 如果正在进行英雄动画或有源DOM（说明刚刚动画结束），返回空对象
 				// 这样可以确保我们通过 DOM 操作设置的居中样式不会被 Vue 的响应式系统覆盖
 				if (this.isAnimating || this.originRect) {
@@ -188,6 +189,7 @@ export default async function () {
 
 				// 正常状态样式
 				const { scale, deg, offsetX, offsetY, enableTransition } = this.transform;
+				debugger;
 				const style = {
 					transform: `scale(${scale}) rotate(${deg}deg)`,
 					transition: enableTransition ? "transform .3s" : "",
@@ -421,6 +423,7 @@ export default async function () {
 				}
 			},
 			reset() {
+				debugger;
 				this.transform = {
 					scale: 1,
 					deg: 0,
@@ -615,9 +618,12 @@ export default async function () {
 			},
 
 			// 开始 FLIP 动画，与 hero_animation.html 完全一致
-			startHeroAnimation() {
+			async startHeroAnimation() {
+				console.log("=== 开始英雄动画 ===");
+
 				// 如果没有提供源DOM，直接显示
 				if (!this.originDom) {
+					console.log("没有提供源DOM，直接显示");
 					this.isAnimating = false;
 					this.originRect = null; // 确保 originRect 为 null，让 imgStyle 计算属性返回正常样式
 					// 普通预览时，确保 mask 样式正确
@@ -630,12 +636,12 @@ export default async function () {
 				}
 
 				// 获取源DOM的位置和尺寸
+				console.log("获取源DOM的位置和尺寸");
 				const originElement =
-					typeof this.originDom === "string"
-						? document.querySelector(this.originDom)
-						: this.originDom;
+					typeof this.originDom === "string" ? $(this.originDom)[0] : this.originDom;
 
 				if (!originElement) {
+					console.log("没有找到源DOM元素");
 					this.isAnimating = false;
 					return;
 				}
@@ -643,68 +649,115 @@ export default async function () {
 				this.isAnimating = true;
 
 				// 立即获取新卡片的位置信息
+				console.log("立即获取源处的位置信息");
 				const rect = originElement.getBoundingClientRect();
+				// 保存源 DOM 信息，以便在动画过程中使用
 				this.originRect = {
 					left: rect.left,
 					top: rect.top,
 					width: rect.width,
-					height: rect.height
+					height: rect.height,
+					// 保存对原始 DOM 的引用
+					element: originElement
 				};
+				console.log("源DOM尺寸:", this.originRect);
 
 				// 立即设置图片的初始位置和尺寸（无动画）
-				const $img = this.$refs.img;
-				if ($img) {
+				console.log("立即设置图片的初始位置和尺寸");
+				const previewImgDom = this.$refs.img;
+
+				if (previewImgDom) {
+					// 确保 DOM 更新完成，图片元素可用
+					await _.$sleep(1);
+					debugger;
+					console.log("图片元素:", previewImgDom);
+					console.log(
+						"源图片自然尺寸:",
+						previewImgDom.naturalWidth,
+						"x",
+						previewImgDom.naturalHeight
+					);
+
 					// 重置所有样式到初始状态（无动画）
-					$img.style.transition = "none";
-					$img.style.width = rect.width + "px";
-					$img.style.height = rect.height + "px";
-					$img.style.left = rect.left + "px";
-					$img.style.top = rect.top + "px";
-					$img.style.transform = "translate(0, 0)";
-					$img.style.borderRadius = "18px";
-					$img.style.opacity = "0";
-					$img.style.pointerEvents = "none";
-					$img.style.maxWidth = "none";
-					$img.style.maxHeight = "none";
+					previewImgDom.style.transition = "none";
+					previewImgDom.style.width = rect.width + "px";
+					previewImgDom.style.height = rect.height + "px";
+					previewImgDom.style.left = rect.left + "px";
+					previewImgDom.style.top = rect.top + "px";
+					previewImgDom.style.transform = "translate(0, 0)";
+					previewImgDom.style.borderRadius = "18px";
+					previewImgDom.style.maxWidth = "none";
+					previewImgDom.style.maxHeight = "none";
 
 					// 强制刷新 DOM，确保样式更新生效
-					$img.getBoundingClientRect();
+					console.log("强制刷新 DOM，确保样式更新生效");
+					previewImgDom.getBoundingClientRect();
 
 					// 显示覆盖层和预览 - 为 hero 动画设置 mask 样式
+					console.log("显示覆盖层和预览");
 					const mask = this.$refs["el-image-viewer__mask"];
 					if (mask) {
 						mask.style.opacity = "0.5";
 						mask.style.pointerEvents = "auto";
 					}
-					$img.style.opacity = "1";
-					$img.style.pointerEvents = "auto";
-
+					previewImgDom.style.opacity = "1";
+					previewImgDom.style.pointerEvents = "auto";
+					debugger;
 					// 开启动画
-					$img.style.transition = "all 0.42s cubic-bezier(0.2, 0, 0, 1)";
+					console.log("开启动画");
+					previewImgDom.style.transition = "all 0.42s cubic-bezier(0.2, 0, 0, 1)";
+
+					// 根据源图片尺寸计算预览图尺寸，保持宽高比
+					let targetWidth, targetHeight;
+					const imgWidth = previewImgDom.naturalWidth || 800;
+					const imgHeight = previewImgDom.naturalHeight || 600;
+					const aspectRatio = imgWidth / imgHeight;
+
+					// 计算最大可显示尺寸（限制在屏幕范围内）
+					const maxWidth = window.innerWidth * 0.8;
+					const maxHeight = window.innerHeight * 0.8;
+					console.log("计算最大可显示尺寸:", maxWidth, "x", maxHeight);
+
+					if (aspectRatio > 1) {
+						console.log("宽屏图片");
+						targetWidth = Math.min(imgWidth, maxWidth);
+						targetHeight = targetWidth / aspectRatio;
+						// 确保高度不超过最大高度
+						if (targetHeight > maxHeight) {
+							targetHeight = maxHeight;
+							targetWidth = targetHeight * aspectRatio;
+						}
+					} else {
+						console.log("竖屏图片");
+						targetHeight = Math.min(imgHeight, maxHeight);
+						targetWidth = targetHeight * aspectRatio;
+						// 确保宽度不超过最大宽度
+						if (targetWidth > maxWidth) {
+							targetWidth = maxWidth;
+							targetHeight = targetWidth / aspectRatio;
+						}
+					}
+					console.log("目标尺寸:", targetWidth, "x", targetHeight);
 
 					// 放大到中央
-					$img.style.width = "360px";
-					$img.style.height = "360px";
-					$img.style.left = "50%";
-					$img.style.top = "50%";
-					$img.style.transform = "translate(-50%, -50%)";
-					$img.style.borderRadius = "24px";
+					console.log("放大到中央");
+					previewImgDom.style.width = targetWidth + "px";
+					previewImgDom.style.height = targetHeight + "px";
 
 					// 动画完成后更新状态
 					setTimeout(() => {
+						console.log("动画完成");
 						this.isAnimating = false;
 						// 确保动画结束后样式不会被覆盖
-						if ($img) {
+						if (previewImgDom) {
+							console.log("动画结束，保持居中状态");
 							// 保持居中状态的样式
-							$img.style.position = "fixed";
-							$img.style.left = "50%";
-							$img.style.top = "50%";
-							$img.style.transform = "translate(-50%, -50%)";
-							$img.style.width = "360px";
-							$img.style.height = "360px";
-							$img.style.borderRadius = "24px";
-							$img.style.opacity = "1";
-							$img.style.pointerEvents = "auto";
+							previewImgDom.style.position = "fixed";
+							previewImgDom.style.width = targetWidth + "px";
+							previewImgDom.style.height = targetHeight + "px";
+							previewImgDom.style.borderRadius = "24px";
+							previewImgDom.style.opacity = "1";
+							previewImgDom.style.pointerEvents = "auto";
 						}
 					}, 420);
 				}
@@ -712,6 +765,7 @@ export default async function () {
 
 			// 取消当前动画，与 hero_animation.html 一致
 			cancelAnimation() {
+				console.log("=== 取消动画 ===");
 				const $img = this.$refs.img;
 				if ($img) {
 					// 强制停止所有动画
@@ -719,17 +773,26 @@ export default async function () {
 					$img.getBoundingClientRect();
 				}
 				this.isAnimating = false;
+				// 清理源 DOM 信息，防止动画过程中再次使用无效的 DOM 元素
+				this.originRect = null;
+				console.log("动画取消完成");
 			},
 
 			// 关闭动画，与 hero_animation.html 一致
 			closeHeroAnimation() {
-				if (!this.originRect || this.isAnimating) return;
+				console.log("=== 开始关闭英雄动画 ===");
+				if (!this.originRect || this.isAnimating) {
+					console.log("无原始位置信息或正在动画中，取消关闭");
+					return;
+				}
 
 				this.isAnimating = true;
+				console.log("原始位置信息:", this.originRect);
 
 				const $img = this.$refs.img;
 				if ($img && this.originRect) {
-					// 回到原图位置
+					console.log("开始动画回到原图位置");
+					// 回到原图位置，使用保存的尺寸和位置信息，不依赖原始 DOM
 					$img.style.width = this.originRect.width + "px";
 					$img.style.height = this.originRect.height + "px";
 					$img.style.left = this.originRect.left + "px";
@@ -738,12 +801,15 @@ export default async function () {
 					$img.style.borderRadius = "18px";
 
 					setTimeout(() => {
+						console.log("动画完成，隐藏覆盖层和预览");
 						// 隐藏覆盖层和预览
-						this.$refs["el-image-viewer__mask"].style.opacity = "0";
-						this.$refs["el-image-viewer__mask"].style.pointerEvents = "none";
+						const mask = this.$refs["el-image-viewer__mask"];
+						if (mask) {
+							mask.style.opacity = "0";
+						}
 						$img.style.opacity = "0";
-						$img.style.pointerEvents = "none";
 
+						console.log("恢复图片的原始样式");
 						// 恢复图片的原始样式
 						$img.style.transition = "";
 						$img.style.position = "";
@@ -756,7 +822,8 @@ export default async function () {
 						$img.style.maxHeight = "";
 
 						this.isAnimating = false;
-						this.originRect = null;
+						this.originRect = null; // 清理所有源 DOM 信息
+						console.log("=== 英雄动画完全关闭 ===");
 						this.hide();
 					}, 420);
 				}
