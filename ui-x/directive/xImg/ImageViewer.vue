@@ -838,15 +838,9 @@ export default async function () {
 	transition: all 0.3s ease;
 }
 
-/* 预览图片样式，与 hero_animation.html 完全一致 */
+/* 预览图片基础样式 */
 .el-image-viewer__img {
-	position: fixed;
-	z-index: 1000;
-	will-change: transform;
 	transition: all 0.42s cubic-bezier(0.2, 0, 0, 1);
-	opacity: 0;
-	pointer-events: none;
-	border-radius: 18px;
-	overflow: hidden;
+	will-change: transform;
 }
 </style>
