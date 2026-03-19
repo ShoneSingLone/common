@@ -45,11 +45,11 @@
 					<xIcon
 						class="el-icon-refresh-left"
 						icon="refresh-left"
-						@click="handleActions('anticlocelise')"></xIcon>
+						@click="handleActions('anticlockwise')"></xIcon>
 					<xIcon
 						class="el-icon-refresh-right"
 						icon="refresh-right"
-						@click="handleActions('clocelise')"></xIcon>
+						@click="handleActions('clockwise')"></xIcon>
 					<!-- 自动播放按钮，仅当autoPlay为true时显示 -->
 					<xIcon
 						v-if="autoPlay"
@@ -180,7 +180,6 @@ export default async function () {
 				return this.urlList[this.index];
 			},
 			imgStyle() {
-				return {};
 				// 如果正在进行英雄动画或有源DOM（说明刚刚动画结束），返回空对象
 				// 这样可以确保我们通过 DOM 操作设置的居中样式不会被 Vue 的响应式系统覆盖
 				if (this.isAnimating || this.originRect) {
@@ -189,7 +188,6 @@ export default async function () {
 
 				// 正常状态样式
 				const { scale, deg, offsetX, offsetY, enableTransition } = this.transform;
-				debugger;
 				const style = {
 					transform: `scale(${scale}) rotate(${deg}deg)`,
 					transition: enableTransition ? "transform .3s" : "",
@@ -423,7 +421,6 @@ export default async function () {
 				}
 			},
 			reset() {
-				debugger;
 				this.transform = {
 					scale: 1,
 					deg: 0,
@@ -479,10 +476,10 @@ export default async function () {
 					case "zoomIn":
 						transform.scale = parseFloat((transform.scale + zoomRate).toFixed(3));
 						break;
-					case "clocelise":
+					case "clockwise":
 						transform.deg += rotateDeg;
 						break;
-					case "anticlocelise":
+					case "anticlockwise":
 						transform.deg -= rotateDeg;
 						break;
 				}
@@ -669,7 +666,6 @@ export default async function () {
 				if (previewImgDom) {
 					// 确保 DOM 更新完成，图片元素可用
 					await _.$sleep(1);
-					debugger;
 					console.log("图片元素:", previewImgDom);
 					console.log(
 						"源图片自然尺寸:",
@@ -702,7 +698,6 @@ export default async function () {
 					}
 					previewImgDom.style.opacity = "1";
 					previewImgDom.style.pointerEvents = "auto";
-					debugger;
 					// 开启动画
 					console.log("开启动画");
 					previewImgDom.style.transition = "all 0.42s cubic-bezier(0.2, 0, 0, 1)";
@@ -741,8 +736,13 @@ export default async function () {
 
 					// 放大到中央
 					console.log("放大到中央");
+					previewImgDom.style.position = "fixed";
+					previewImgDom.style.left = "50%";
+					previewImgDom.style.top = "50%";
+					previewImgDom.style.transform = "translate(-50%, -50%)";
 					previewImgDom.style.width = targetWidth + "px";
 					previewImgDom.style.height = targetHeight + "px";
+					previewImgDom.style.borderRadius = "24px";
 
 					// 动画完成后更新状态
 					setTimeout(() => {
@@ -753,6 +753,9 @@ export default async function () {
 							console.log("动画结束，保持居中状态");
 							// 保持居中状态的样式
 							previewImgDom.style.position = "fixed";
+							previewImgDom.style.left = "50%";
+							previewImgDom.style.top = "50%";
+							previewImgDom.style.transform = "translate(-50%, -50%)";
 							previewImgDom.style.width = targetWidth + "px";
 							previewImgDom.style.height = targetHeight + "px";
 							previewImgDom.style.borderRadius = "24px";
