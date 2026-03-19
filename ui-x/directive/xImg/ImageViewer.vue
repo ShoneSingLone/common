@@ -673,7 +673,7 @@ export default async function () {
 					// 显示覆盖层和预览 - 为 hero 动画设置 mask 样式
 					const mask = this.$refs["el-image-viewer__mask"];
 					if (mask) {
-						mask.style.opacity = "1";
+						mask.style.opacity = "0.5";
 						mask.style.pointerEvents = "auto";
 					}
 					$img.style.opacity = "1";
