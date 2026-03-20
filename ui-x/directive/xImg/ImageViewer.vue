@@ -683,7 +683,6 @@ export default async function () {
 					previewImgDom.style.left = rect.left + "px";
 					previewImgDom.style.top = rect.top + "px";
 					previewImgDom.style.transform = "translate(0, 0)";
-					previewImgDom.style.borderRadius = "18px";
 					previewImgDom.style.maxWidth = "none";
 					previewImgDom.style.maxHeight = "none";
 
@@ -745,7 +744,6 @@ export default async function () {
 					previewImgDom.style.transform = "translate(-50%, -50%)";
 					previewImgDom.style.width = targetWidth + "px";
 					previewImgDom.style.height = targetHeight + "px";
-					previewImgDom.style.borderRadius = "24px";
 
 					// 动画完成后更新状态
 					setTimeout(() => {
@@ -753,17 +751,14 @@ export default async function () {
 						this.isAnimating = false;
 						// 确保动画结束后样式不会被覆盖
 						if (previewImgDom) {
-							console.log("动画结束，保持居中状态");
-							// 保持居中状态的样式
-							previewImgDom.style.position = "fixed";
-							previewImgDom.style.left = "50%";
-							previewImgDom.style.top = "50%";
-							previewImgDom.style.transform = "translate(-50%, -50%)";
-							previewImgDom.style.width = targetWidth + "px";
-							previewImgDom.style.height = targetHeight + "px";
-							previewImgDom.style.borderRadius = "24px";
-							previewImgDom.style.opacity = "1";
-							previewImgDom.style.pointerEvents = "auto";
+							// 重要：清除 originRect，让 imgStyle 计算属性返回正常样式
+							$(previewImgDom).addClass("no-transition").removeAttr("style");
+
+							this.originRect = null;
+							setTimeout(() => {
+								$(previewImgDom).removeClass("no-transition");
+								/* transition: 0.42s */
+							}, 420);
 						}
 					}, 420);
 				}
@@ -786,6 +781,7 @@ export default async function () {
 
 			// 关闭动画，与 hero_animation.html 一致
 			closeHeroAnimation() {
+				debugger;
 				console.log("=== 开始关闭英雄动画 ===");
 				if (!this.originRect || this.isAnimating) {
 					console.log("无原始位置信息或正在动画中，取消关闭");
@@ -804,7 +800,6 @@ export default async function () {
 					$img.style.left = this.originRect.left + "px";
 					$img.style.top = this.originRect.top + "px";
 					$img.style.transform = "translate(0, 0)";
-					$img.style.borderRadius = "18px";
 
 					setTimeout(() => {
 						console.log("动画完成，隐藏覆盖层和预览");
@@ -823,7 +818,6 @@ export default async function () {
 						$img.style.top = "";
 						$img.style.width = "";
 						$img.style.height = "";
-						$img.style.borderRadius = "";
 						$img.style.maxWidth = "";
 						$img.style.maxHeight = "";
 
@@ -925,6 +919,9 @@ export default async function () {
 
 /* 预览图片基础样式 */
 .el-image-viewer__img {
+	&.no-transition {
+		transition: none;
+	}
 	transition: all 0.42s cubic-bezier(0.2, 0, 0, 1);
 	will-change: transform;
 }
