@@ -9,7 +9,7 @@
 			<div
 				ref="el-image-viewer__mask"
 				class="el-image-viewer__mask"
-				@click.self="handleMaskClick"
+				@click.self="handle_click_mask"
 				:style="styleViewerMask"></div>
 			<!-- CLOSE -->
 			<span class="el-image-viewer__btn el-image-viewer__close" @click="hide">
@@ -218,10 +218,16 @@ export default async function () {
 			}
 		},
 		methods: {
-			hide() {
+			async hide() {
 				// 如果正在动画，先取消动画
 				if (this.isAnimating) {
 					this.cancelAnimation();
+				}
+
+				if (this._origin_rect_for_hide) {
+					// 如果有源DOM，播放关闭动画
+					await this.closeHeroAnimation();
+					this._origin_rect_for_hide = null;
 				}
 
 				// 直接隐藏，不播放关闭动画
@@ -389,20 +395,11 @@ export default async function () {
 				this.touchState.isPinching = false;
 				e.preventDefault();
 			},
-			handleMaskClick() {
+			handle_click_mask() {
 				// 在移动端，只能通过关闭按钮关闭弹窗，点击背景不关闭
 				const isMobile = window.innerWidth <= 768;
 				if (this.maskClosable && !isMobile) {
-					// 如果正在动画，直接隐藏
-					if (this.isAnimating) {
-						this.hide();
-					} else if (this.originRect) {
-						// 如果有源DOM，播放关闭动画
-						this.closeHeroAnimation();
-					} else {
-						// 没有源DOM，直接隐藏
-						this.hide();
-					}
+					this.hide();
 				}
 			},
 			// 处理双击事件
@@ -624,7 +621,8 @@ export default async function () {
 					console.log("没有提供源DOM，直接显示");
 					this.isHiddenImg = false;
 					this.isAnimating = false;
-					this.originRect = null; // 确保 originRect 为 null，让 imgStyle 计算属性返回正常样式
+					// 确保 originRect 为 null，让 imgStyle 计算属性返回正常样式
+					this.originRect = null;
 					// 普通预览时，确保 mask 样式正确
 					const mask = this.$refs["el-image-viewer__mask"];
 					if (mask) {
@@ -754,6 +752,7 @@ export default async function () {
 							// 重要：清除 originRect，让 imgStyle 计算属性返回正常样式
 							$(previewImgDom).addClass("no-transition").removeAttr("style");
 
+							this._origin_rect_for_hide = this.originRect;
 							this.originRect = null;
 							setTimeout(() => {
 								$(previewImgDom).removeClass("no-transition");
@@ -780,53 +779,58 @@ export default async function () {
 			},
 
 			// 关闭动画，与 hero_animation.html 一致
-			closeHeroAnimation() {
-				debugger;
-				console.log("=== 开始关闭英雄动画 ===");
-				if (!this.originRect || this.isAnimating) {
-					console.log("无原始位置信息或正在动画中，取消关闭");
-					return;
-				}
+			async closeHeroAnimation() {
+				return new Promise(async resolve => {
+					console.log("=== 开始关闭英雄动画 ===");
+					if (!this._origin_rect_for_hide || this.isAnimating) {
+						console.log("无原始位置信息或正在动画中，取消关闭");
+						return;
+					}
 
-				this.isAnimating = true;
-				console.log("原始位置信息:", this.originRect);
+					this.isAnimating = true;
+					console.log("原始位置信息:", this._origin_rect_for_hide);
 
-				const $img = this.$refs.img;
-				if ($img && this.originRect) {
-					console.log("开始动画回到原图位置");
-					// 回到原图位置，使用保存的尺寸和位置信息，不依赖原始 DOM
-					$img.style.width = this.originRect.width + "px";
-					$img.style.height = this.originRect.height + "px";
-					$img.style.left = this.originRect.left + "px";
-					$img.style.top = this.originRect.top + "px";
-					$img.style.transform = "translate(0, 0)";
+					if (this.$refs?.img && this._origin_rect_for_hide) {
+						console.log("开始动画回到原图位置");
+						// 回到原图位置，使用保存的尺寸和位置信息，不依赖原始 DOM
+						const $img = $(this.$refs?.img);
 
-					setTimeout(() => {
+						$img.css({
+							position: "fixed",
+							width: $img.width() + "px",
+							height: $img.height() + "px",
+							left: $img.offset().left + "px",
+							top: $img.offset().top + "px"
+						});
+
+						// await _.$sleep(1);
+						$img[0].getBoundingClientRect();
+
+						const { width, height, left, top } = this._origin_rect_for_hide;
+
+						$img.css({
+							width: width + "px",
+							height: height + "px",
+							left: left + "px",
+							top: top + "px"
+						});
+
+						await _.$sleep(420);
+
 						console.log("动画完成，隐藏覆盖层和预览");
 						// 隐藏覆盖层和预览
 						const mask = this.$refs["el-image-viewer__mask"];
+
 						if (mask) {
 							mask.style.opacity = "0";
 						}
-						$img.style.opacity = "0";
-
-						console.log("恢复图片的原始样式");
-						// 恢复图片的原始样式
-						$img.style.transition = "";
-						$img.style.position = "";
-						$img.style.left = "";
-						$img.style.top = "";
-						$img.style.width = "";
-						$img.style.height = "";
-						$img.style.maxWidth = "";
-						$img.style.maxHeight = "";
 
 						this.isAnimating = false;
-						this.originRect = null; // 清理所有源 DOM 信息
+						this._origin_rect_for_hide = null; // 清理所有源 DOM 信息
 						console.log("=== 英雄动画完全关闭 ===");
-						this.hide();
-					}, 420);
-				}
+						resolve("=== 英雄动画完全关闭 ===");
+					}
+				});
 			},
 
 			// 动画帧更新方法
