@@ -15,6 +15,14 @@
 		$$clean: obj => _.omitBy(obj, v => _.isUndefined(v) || _.isNull(v))
 	});
 
+	_.$ifelse = (a, b) => {
+		if (_.isUndefined(a)) {
+			return b;
+		} else {
+			return a;
+		}
+	};
+
 	_.$onBeforeUnmountRemoveStyle = ({ vm }) => {
 		Vue.onBeforeUnmount(() => {
 			const styleId = _.$$toDomIdStr(vm?.$vnode?.FILE_URL, "style");
