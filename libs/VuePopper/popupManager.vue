@@ -53,6 +53,7 @@ export default async function ({ PRIVATE_GLOBAL }) {
 			},
 
 			nextZIndex: function () {
+				_.$single.win.trigger("POPUP_MANAGER_Z_INDEX", _PopupManager.zIndex);
 				return _PopupManager.zIndex++;
 			},
 
