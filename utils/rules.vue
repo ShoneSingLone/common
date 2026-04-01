@@ -323,6 +323,77 @@ export default async function ({ PRIVATE_GLOBAL }) {
 					trigger: ["change", "blur"]
 				};
 			},
+			port_single_range: (default_min, default_max) => {
+				return {
+					async validator({ val }) {
+						try {
+							if (!_.$isInput(val)) {
+								/* 必须输入 */
+								return;
+							}
+
+							// 1. 按逗号分割所有端口项
+							const portItems = _.split(val, ",");
+
+							for (let item of portItems) {
+								item = _.trim(item); // 去除空格
+								if (!item) {
+									return i18n(
+										"端口格式错误，请输入：单个端口 或 端口段（起始-结束），多端口用英文逗号分隔"
+									);
+								}
+
+								// 2. 拆分单个/段端口
+								const portArr = _.split(item, "-");
+
+								// 只能是 1 段（单个）或 2 段（范围）
+								if (portArr.length < 1 || portArr.length > 2) {
+									return i18n(
+										"端口格式错误，请输入：单个端口 或 端口段（起始-结束），多端口用英文逗号分隔"
+									);
+								}
+
+								let minVal, maxVal;
+								if (portArr.length === 1) {
+									minVal = maxVal = portArr[0];
+								} else {
+									[minVal, maxVal] = portArr;
+								}
+
+								// 3. 必须是纯数字
+								if (
+									!_reg.numberValue().test(minVal) ||
+									!_reg.numberValue().test(maxVal)
+								) {
+									return i18n("端口只能输入数字，端口段用英文短横线分隔");
+								}
+
+								// 4. 转数字
+								minVal = _.toNumber(minVal);
+								maxVal = _.toNumber(maxVal);
+
+								// 5. 核心规则校验
+								if (
+									minVal < default_min ||
+									maxVal > default_max ||
+									minVal > maxVal
+								) {
+									return i18n(
+										"端口范围错误：端口必须在 {min}~{max} 之间，端口段需满足 起始≤结束",
+										{ min: default_min, max: default_max }
+									);
+								}
+							}
+
+							// 全部校验通过
+							return "";
+						} catch (error) {
+							return i18n("端口格式不正确，请检查后重试");
+						}
+					},
+					trigger: ["change", "blur"]
+				};
+			},
 			/**
 			 * 范围这种形式的值 1-65535
 			 * @param default_min
@@ -330,7 +401,11 @@ export default async function ({ PRIVATE_GLOBAL }) {
 			 * @param msg
 			 * @returns
 			 */
-			port_use_range: (default_min, default_max, msg = `请输入{min}~{max}范围内的整数`) => {
+			port_use_range: (
+				default_min,
+				default_max,
+				msg = `端口 {min}~{max}，端口段需「起始≤结束」`
+			) => {
 				return {
 					async validator({ val }) {
 						try {

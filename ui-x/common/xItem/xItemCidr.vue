@@ -4,7 +4,7 @@
 			<div class="xItemCidr-readonly">{{ x_item_value }}</div>
 		</template>
 		<template v-else>
-			<xItemIpAddress v-model="cptIp" :disabled="cptIsDisabled" />
+			<xInput v-model="cptIp" :disabled="cptIsDisabled" />
 			<div class="cidr-point">/</div>
 			<xSelect
 				v-if="optionsPorts.length > 0"

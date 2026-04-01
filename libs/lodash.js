@@ -17645,8 +17645,7 @@
 		set(_lodash, prop, val) {
 			if (lodash[prop]) {
 				if (!["$msgError", "$msgSuccess"].includes(prop)) {
-					debugger;
-					alert(`lodash ${prop} 重复`);
+					console.warn(`lodash ${prop} 重复`);
 				}
 			} else {
 				lodash[prop] = val;
