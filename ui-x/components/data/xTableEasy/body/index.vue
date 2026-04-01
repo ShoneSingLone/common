@@ -544,6 +544,7 @@ export default async function ({ PRIVATE_GLOBAL }) {
 			},
 			// get expand row
 			getExpandRowComp({ rowData, rowIndex }) {
+				const h = this.$createElement;
 				if (this.isExpandRow({ rowData, rowIndex })) {
 					return h(ExpandTr, {
 						props: {
