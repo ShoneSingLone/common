@@ -865,6 +865,7 @@ export default async function ({
 	left: 0;
 	opacity: 0.5;
 	background: #000;
+	transition: opacity 0.4s ease;
 }
 
 .el-image__error,

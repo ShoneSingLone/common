@@ -97,6 +97,9 @@ export default async function () {
 			const position = reactive({ x: 20, y: 20 });
 
 			return function () {
+				if (localStorage.isDev !== "DEV") {
+					return null;
+				}
 				return h(
 					"div",
 					{

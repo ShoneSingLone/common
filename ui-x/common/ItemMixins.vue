@@ -206,7 +206,7 @@ export default async function () {
 					x_item_value: {
 						get() {
 							if (_.isUndefined(this.value)) {
-								debugger;
+								console.error(this);
 							}
 							return this.value;
 						},

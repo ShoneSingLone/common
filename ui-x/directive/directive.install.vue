@@ -15,6 +15,18 @@ export default async function ({ PRIVATE_GLOBAL }) {
 				options.index = _.findIndex(options.urlList, i => i === options.currentUrl) || 0;
 			}
 
+			// 处理originDom参数，支持DOM元素或选择器字符串
+			if (options.originDom) {
+				if (_.isString(options.originDom)) {
+					// 如果是选择器字符串，尝试查找DOM元素
+					options.originDom = document.querySelector(options.originDom);
+				}
+				// 确保是有效的DOM元素
+				if (!options.originDom || !(options.originDom instanceof HTMLElement)) {
+					options.originDom = null;
+				}
+			}
+
 			// 确保options包含必要的回调
 			const defaultOptions = {
 				onClose: () => {

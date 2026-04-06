@@ -15,6 +15,14 @@
 		$$clean: obj => _.omitBy(obj, v => _.isUndefined(v) || _.isNull(v))
 	});
 
+	_.$ifelse = (a, b) => {
+		if (_.isUndefined(a)) {
+			return b;
+		} else {
+			return a;
+		}
+	};
+
 	_.$onBeforeUnmountRemoveStyle = ({ vm }) => {
 		Vue.onBeforeUnmount(() => {
 			const styleId = _.$$toDomIdStr(vm?.$vnode?.FILE_URL, "style");
@@ -1756,6 +1764,8 @@ ${callerInfo.message}:`);
 		} else {
 			closeLoading(selector);
 		}
+
+		_.$single.win.trigger("LOADING_COUNT_CHANGE", _.$loading.count);
 		/* try { throw new Error(); } catch (error) { try { const msg = error.stack .split("\n") .map(row => { const res = /at (.[^\(\[]*) \(/.exec(row); if (res && res[1]) { return res[1]; } }) .filter(row => !!row); console.log(isLoading ? "open x-loading" : "close x-loading", msg.join("\n=>")); } catch (error) {} } */
 	};
 

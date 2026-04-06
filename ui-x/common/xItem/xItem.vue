@@ -845,6 +845,10 @@ export default async function ({ PRIVATE_GLOBAL }) {
 	}
 }
 
+.as-x-item-msg {
+	color: var(--el-text-color-secondary);
+}
+
 /* 加在父元素上也可以 */
 .xItem-pos {
 	&.top {

@@ -34,7 +34,7 @@ export default async function () {
 		destroyed() {
 			removeResizeListener(this.$el, this.resizeListener);
 		},
-		render() {
+		render(h) {
 			return h(this.tagName, this.$slots.default);
 		}
 	});

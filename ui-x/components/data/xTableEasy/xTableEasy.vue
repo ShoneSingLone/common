@@ -1164,8 +1164,9 @@ export default async function ({ PRIVATE_GLOBAL }) {
 					return false;
 				}
 
-				let currentCellData = {};
-				let normalEndCellData = {};
+				// 预置字段，避免编辑器把对象推断成空对象类型
+				let currentCellData = { rowKey: "", colKey: "" };
+				let normalEndCellData = { rowKey: "", colKey: "" };
 
 				const { leftColKey, rightColKey, topRowKey, bottomRowKey } = cellSelectionRangeData;
 
@@ -1730,6 +1731,7 @@ export default async function ({ PRIVATE_GLOBAL }) {
 
 			// get virtual phantom
 			getVirtualViewPhantom() {
+				const h = this.$createElement;
 				let content = null;
 
 				/*
@@ -1870,7 +1872,8 @@ export default async function ({ PRIVATE_GLOBAL }) {
 				let tempIndex = null;
 
 				while (start <= end) {
-					let midIndex = parseInt((start + end) / 2);
+					// 这里本身就是数值运算，使用 Math.floor 更符合实际语义
+					let midIndex = Math.floor((start + end) / 2);
 					let midValue = list[midIndex].bottom;
 					if (midValue === value) {
 						return midIndex + 1;
@@ -2821,7 +2824,7 @@ export default async function ({ PRIVATE_GLOBAL }) {
 
 					const { startRowIndex, endRowIndex } = selectionRangeIndexes;
 
-					const currentRowIndex = allRowKeys.findIndex(x => x === rowKey);
+					const currentRowIndex = _.findIndex(allRowKeys, x => x === rowKey);
 
 					const editInputEditor = this.$refs[this.editInputRef];
 

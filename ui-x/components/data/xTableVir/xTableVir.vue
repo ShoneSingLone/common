@@ -2549,6 +2549,36 @@ export default async function ({ PRIVATE_GLOBAL, mergeProps4h }) {
 			}
 		},
 		methods: {
+			getColumnTitleMinWidth(column) {
+				const fallbackMinWidth = 80;
+				const label = _.toString(column.label || column.title || column.prop || "");
+				const configuredMinWidth = _.toNumber(column.minWidth) || 0;
+				const horizontalPadding = 24;
+				const sortIconWidth = column.sortable ? 20 : 0;
+				let textWidth = 0;
+
+				if (label) {
+					textWidth = _.sum(
+						_.map(Array.from(label), char => {
+							if (/\s/.test(char)) {
+								return 6;
+							}
+							if (/[A-Z]/.test(char)) {
+								return 9;
+							}
+							if (/[a-z0-9]/.test(char)) {
+								return 8;
+							}
+							if (char.charCodeAt(0) <= 127) {
+								return 8;
+							}
+							return 14;
+						})
+					);
+				}
+
+				return Math.max(fallbackMinWidth, configuredMinWidth, Math.ceil(textWidth) + horizontalPadding + sortIconWidth);
+			},
 			columnAutoWidth({ width, height }) {
 				if (!width) {
 					return this.$props.columns;
@@ -2574,10 +2604,8 @@ export default async function ({ PRIVATE_GLOBAL, mergeProps4h }) {
 					[]
 				);
 
-				const unsetWidth = {};
-				let usedWidth = 0,
-					/* 平分剩余的宽度 */
-					eachWidth;
+				const unsetColumns = [];
+				let usedWidth = 0;
 
 				_.each(currentShouldShow, (column, index) => {
 					if (column.width && !column.__unset_width) {
@@ -2585,25 +2613,34 @@ export default async function ({ PRIVATE_GLOBAL, mergeProps4h }) {
 						usedWidth += column.width;
 					} else {
 						/* 初始化时收集未配置宽度的列 */
-						unsetWidth[index] = true;
 						column.__unset_width = true;
+						unsetColumns.push({
+							column,
+							index,
+							minWidth: this.getColumnTitleMinWidth(column)
+						});
 					}
 				});
 				/* 剩余的宽度 */
 				const remainWidth = width - usedWidth;
-				const unsetCount = Object.keys(unsetWidth).length;
+				const unsetCount = unsetColumns.length;
 
 				if (unsetCount) {
-					/* 没有设置宽度的列平分剩余的宽度 */
-					eachWidth = Math.floor(remainWidth / unsetCount);
-					/* 最小宽度 */
-					eachWidth = eachWidth > 80 ? eachWidth : 80;
+					const totalMinWidth = _.sumBy(unsetColumns, "minWidth");
+					const extraWidth = Math.max(remainWidth - totalMinWidth, 0);
+					const sharedExtraWidth = Math.floor(extraWidth / unsetCount);
+					let remainderWidth = extraWidth - sharedExtraWidth * unsetCount;
+
+					_.each(unsetColumns, ({ column, minWidth }) => {
+						const appendedWidth = sharedExtraWidth + (remainderWidth > 0 ? 1 : 0);
+						if (remainderWidth > 0) {
+							remainderWidth -= 1;
+						}
+						_.$val(column, "width", minWidth + appendedWidth);
+					});
 				}
 
 				return _.map(currentShouldShow, column => {
-					if (column.__unset_width) {
-						_.$val(column, "width", eachWidth);
-					}
 					return {
 						dataKey: column.prop,
 						title: column.label,
