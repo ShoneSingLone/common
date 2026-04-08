@@ -2096,7 +2096,7 @@ ${callerInfo.message}:`);
 			} catch (e) {
 				console.groupCollapsed("RESOURCE ERROR:::::::::::" + resolvedURL);
 				console.error(e);
-				console.warn(innerCode);
+				console.error(innerCode);
 				console.groupEnd();
 			}
 			const fnPayload = new Proxy(payload, {
@@ -2139,7 +2139,7 @@ ${callerInfo.message}:`);
 				} else {
 					console.groupCollapsed("RESOURCE ERROR:::::::::::" + resolvedURL);
 					console.error(error);
-					console.warn(innerCode);
+					console.error(innerCode);
 					console.groupEnd();
 				}
 			}
