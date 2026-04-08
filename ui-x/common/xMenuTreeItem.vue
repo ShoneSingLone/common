@@ -209,15 +209,15 @@ export default async function () {
 .xMenuTreeItem {
 	&.active {
 		.xMenuTreeItem-submenu-wrapper {
-			background-color: var(--primary-light, #e6f7ff);
-			border-left: 3px solid var(--primary, #1890ff);
+			background-color: var(--primary-light);
+			border-left: 3px solid var(--primary);
 			font-weight: 500;
 		}
 	}
 
 	&.open {
 		.xMenuTreeItem-submenu-wrapper {
-			background-color: var(--background-light, #f5f5f5);
+			background-color: var(--background-light);
 		}
 	}
 }
@@ -227,7 +227,6 @@ export default async function () {
 	align-items: center;
 	position: relative;
 	padding: 8px 16px;
-	border-radius: 4px;
 	transition: all 0.2s ease;
 	margin: 2px 0;
 
