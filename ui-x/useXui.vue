@@ -259,7 +259,6 @@ export default async function ({
 							return value === null || value === undefined ? "null" : value;
 						}
 					});
-					debugger;
 					_sortedKeys = _sortedKeys || _.sortBy(Object.keys(groups), sortBy);
 					// Process each group
 					const result = _.flatMap(_sortedKeys, key => {

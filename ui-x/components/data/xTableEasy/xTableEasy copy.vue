@@ -1,6 +1,5 @@
 <script lang="ts">
 export default async function ({ PRIVATE_GLOBAL }) {
-	debugger;
 	const [
 		{
 			initGroupColumns,

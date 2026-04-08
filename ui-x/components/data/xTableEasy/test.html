@@ -1,0 +1,369 @@
+<!doctype html>
+<html lang="zh-CN">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>xTableEasy 测试</title>
+		<style>
+			body {
+				font-family: Arial, sans-serif;
+				padding: 20px;
+				background-color: #f0f2f5;
+			}
+			.test-container {
+				max-width: 1000px;
+				margin: 0 auto;
+				background-color: white;
+				padding: 20px;
+				border-radius: 8px;
+				box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
+			}
+			h1 {
+				text-align: center;
+				color: #303133;
+				margin-bottom: 30px;
+			}
+			.test-section {
+				margin-bottom: 30px;
+				padding: 20px;
+				border: 1px solid #e4e7ed;
+				border-radius: 4px;
+			}
+			h2 {
+				color: #409eff;
+				margin-bottom: 15px;
+				font-size: 18px;
+			}
+			.code-block {
+				background-color: #f5f7fa;
+				padding: 15px;
+				border-radius: 4px;
+				margin: 10px 0;
+				font-family: "Courier New", monospace;
+				font-size: 14px;
+				overflow-x: auto;
+			}
+		</style>
+		<script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+	</head>
+	<body>
+		<div class="test-container">
+			<h1>xTableEasy 组件测试</h1>
+
+			<!-- 基本功能测试 -->
+			<div class="test-section">
+				<h2>1. 基本功能测试</h2>
+				<div id="app1">
+					<x-table-easy :table-data="tableData" :columns="columns" row-key-field-name="id" border-around></x-table-easy>
+				</div>
+				<div class="code-block">
+					<pre>
+&lt;x-table-easy 
+  :table-data="tableData" 
+  :columns="columns" 
+  row-key-field-name="id"
+  border-around
+&gt;&lt;/x-table-easy&gt;</pre
+					>
+				</div>
+			</div>
+
+			<!-- 自定义列宽和对齐方式测试 -->
+			<div class="test-section">
+				<h2>2. 自定义列宽和对齐方式测试</h2>
+				<div id="app2">
+					<x-table-easy
+						:table-data="tableData"
+						:columns="columnsWithWidth"
+						row-key-field-name="id"
+						border-around></x-table-easy>
+				</div>
+				<div class="code-block">
+					<pre>
+columns: [
+  { key: 'id', title: 'ID', width: '80px', align: 'center' },
+  { key: 'name', title: '姓名', width: '150px' },
+  { key: 'age', title: '年龄', width: '80px', align: 'center' },
+  { key: 'address', title: '地址' }
+]</pre
+					>
+				</div>
+			</div>
+
+			<!-- 自定义格式化测试 -->
+			<div class="test-section">
+				<h2>3. 自定义格式化测试</h2>
+				<div id="app3">
+					<x-table-easy
+						:table-data="tableData"
+						:columns="columnsWithFormatter"
+						row-key-field-name="id"
+						border-around></x-table-easy>
+				</div>
+				<div class="code-block">
+					<pre>
+columns: [
+  { key: 'id', title: 'ID' },
+  { key: 'name', title: '姓名' },
+  { 
+    key: 'age', 
+    title: '年龄',
+    formatter: (row) => row.age + ' 岁'
+  },
+  { key: 'address', title: '地址' }
+]</pre
+					>
+				</div>
+			</div>
+
+			<!-- 空数据测试 -->
+			<div class="test-section">
+				<h2>4. 空数据测试</h2>
+				<div id="app4">
+					<x-table-easy
+						:table-data="emptyData"
+						:columns="columns"
+						row-key-field-name="id"
+						border-around
+						empty-text="暂无数据，请添加"></x-table-easy>
+				</div>
+				<div class="code-block">
+					<pre>
+&lt;x-table-easy 
+  :table-data="[]" 
+  :columns="columns" 
+  row-key-field-name="id"
+  border-around
+  empty-text="暂无数据，请添加"
+&gt;&lt;/x-table-easy&gt;</pre
+					>
+				</div>
+			</div>
+
+			<!-- 最大高度测试 -->
+			<div class="test-section">
+				<h2>5. 最大高度测试</h2>
+				<div id="app5">
+					<x-table-easy
+						:table-data="largeData"
+						:columns="columns"
+						row-key-field-name="id"
+						border-around
+						max-height="300px"></x-table-easy>
+				</div>
+				<div class="code-block">
+					<pre>
+&lt;x-table-easy 
+  :table-data="largeData" 
+  :columns="columns" 
+  row-key-field-name="id"
+  border-around
+  max-height="300px"
+&gt;&lt;/x-table-easy&gt;</pre
+					>
+				</div>
+			</div>
+		</div>
+
+		<script>
+			// 模拟数据
+			const mockData = [
+				{ id: 1, name: "张三", age: 28, address: "北京市朝阳区" },
+				{ id: 2, name: "李四", age: 32, address: "上海市浦东新区" },
+				{ id: 3, name: "王五", age: 25, address: "广州市天河区" },
+				{ id: 4, name: "赵六", age: 30, address: "深圳市南山区" },
+				{ id: 5, name: "钱七", age: 26, address: "杭州市西湖区" }
+			];
+
+			// 生成大数据
+			const generateLargeData = () => {
+				const data = [];
+				for (let i = 1; i <= 50; i++) {
+					data.push({
+						id: i,
+						name: `用户${i}`,
+						age: 20 + (i % 20),
+						address: `地址${i}`
+					});
+				}
+				return data;
+			};
+
+			// 注册组件
+			Vue.component("x-table-easy", {
+				template: `
+        <div class="x-table-easy" :class="{ 'border-around': borderAround }">
+          <div class="x-table-easy-container" :class="{ 'has-max-height': maxHeight }" :style="{ maxHeight: maxHeight }">
+            <table>
+              <!-- 表头 -->
+              <thead>
+                <tr>
+                  <th v-for="column in columns" :key="column.key" :style="getColumnStyle(column)">
+                    {{ column.title }}
+                  </th>
+                </tr>
+              </thead>
+              
+              <!-- 表体 -->
+              <tbody>
+                <tr v-for="(row, index) in tableData" :key="getRowKey(row, index)" :class="{ 'hover-row': true }">
+                  <td v-for="column in columns" :key="column.key" :style="getColumnStyle(column)">
+                    {{ getCellValue(row, column) }}
+                  </td>
+                </tr>
+                
+                <!-- 空数据提示 -->
+                <tr v-if="tableData.length === 0">
+                  <td :colspan="columns.length" class="empty-data">
+                    {{ emptyText }}
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      `,
+				props: {
+					// 表格数据
+					tableData: {
+						type: Array,
+						default: () => []
+					},
+
+					// 列定义
+					columns: {
+						type: Array,
+						default: () => []
+					},
+
+					// 行唯一标识字段
+					rowKeyFieldName: {
+						type: String,
+						default: null
+					},
+
+					// 表格最大高度
+					maxHeight: {
+						type: [String, Number],
+						default: null
+					},
+
+					// 是否显示边框
+					borderAround: {
+						type: Boolean,
+						default: true
+					},
+
+					// 空数据提示文本
+					emptyText: {
+						type: String,
+						default: "暂无数据"
+					}
+				},
+				methods: {
+					// 获取行唯一标识
+					getRowKey(row, index) {
+						if (this.rowKeyFieldName && row[this.rowKeyFieldName]) {
+							return row[this.rowKeyFieldName];
+						}
+						return index;
+					},
+
+					// 获取单元格值
+					getCellValue(row, column) {
+						if (column.formatter && typeof column.formatter === "function") {
+							return column.formatter(row, column, row[this.rowKeyFieldName]);
+						}
+						return row[column.key];
+					},
+
+					// 获取列样式
+					getColumnStyle(column) {
+						const style = {};
+						if (column.width) {
+							style.width = column.width;
+						}
+						if (column.align) {
+							style.textAlign = column.align;
+						}
+						return style;
+					}
+				}
+			});
+
+			// 测试应用 1: 基本功能
+			new Vue({
+				el: "#app1",
+				data: {
+					tableData: mockData,
+					columns: [
+						{ key: "id", title: "ID" },
+						{ key: "name", title: "姓名" },
+						{ key: "age", title: "年龄" },
+						{ key: "address", title: "地址" }
+					]
+				}
+			});
+
+			// 测试应用 2: 自定义列宽和对齐方式
+			new Vue({
+				el: "#app2",
+				data: {
+					tableData: mockData,
+					columnsWithWidth: [
+						{ key: "id", title: "ID", width: "80px", align: "center" },
+						{ key: "name", title: "姓名", width: "150px" },
+						{ key: "age", title: "年龄", width: "80px", align: "center" },
+						{ key: "address", title: "地址" }
+					]
+				}
+			});
+
+			// 测试应用 3: 自定义格式化
+			new Vue({
+				el: "#app3",
+				data: {
+					tableData: mockData,
+					columnsWithFormatter: [
+						{ key: "id", title: "ID" },
+						{ key: "name", title: "姓名" },
+						{
+							key: "age",
+							title: "年龄",
+							formatter: row => row.age + " 岁"
+						},
+						{ key: "address", title: "地址" }
+					]
+				}
+			});
+
+			// 测试应用 4: 空数据
+			new Vue({
+				el: "#app4",
+				data: {
+					emptyData: [],
+					columns: [
+						{ key: "id", title: "ID" },
+						{ key: "name", title: "姓名" },
+						{ key: "age", title: "年龄" },
+						{ key: "address", title: "地址" }
+					]
+				}
+			});
+
+			// 测试应用 5: 最大高度
+			new Vue({
+				el: "#app5",
+				data: {
+					largeData: generateLargeData(),
+					columns: [
+						{ key: "id", title: "ID" },
+						{ key: "name", title: "姓名" },
+						{ key: "age", title: "年龄" },
+						{ key: "address", title: "地址" }
+					]
+				}
+			});
+		</script>
+	</body>
+</html>
