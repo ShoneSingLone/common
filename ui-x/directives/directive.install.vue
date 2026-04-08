@@ -3,7 +3,7 @@ export default async function ({ PRIVATE_GLOBAL }) {
 	(function () /* 预览图片 */ {
 		let instance;
 		_.$previewImgs = async function (options, previewOptions = {}) {
-			const ImageViewer = await _.$importVue("/common/ui-x/directive/xImg/ImageViewer.vue");
+			const ImageViewer = await _.$importVue("/common/ui-x/directives/xImg/ImageViewer.vue");
 			const PopupManager = await _.$importVue("/common/libs/VuePopper/popupManager.vue");
 
 			// 销毁之前的实例，确保每次只有一个ImageViewer实例
@@ -55,7 +55,7 @@ export default async function ({ PRIVATE_GLOBAL }) {
 
 	(function () /* 弹窗 */ {
 		_.$openModal = async function (options, modalConfigs) {
-			const xModal = await _.$importVue("/common/ui-x/directive/xModal/xModal.vue", {
+			const xModal = await _.$importVue("/common/ui-x/directives/xModal/xModal.vue", {
 				options,
 				modalConfigs
 			});
@@ -75,7 +75,7 @@ export default async function ({ PRIVATE_GLOBAL }) {
 	(function () /* xDrawer */ {
 		_.$openDrawer = async function (options) {
 			const [xDrawer, PopupManager] = await _.$importVue([
-				"/common/ui-x/directive/xDrawer/xDrawer.vue",
+				"/common/ui-x/directives/xDrawer/xDrawer.vue",
 				"/common/libs/VuePopper/popupManager.vue"
 			]);
 			xDrawer.parent = options.parent || Vue.forceUpdate.getVM();
@@ -125,7 +125,7 @@ export default async function ({ PRIVATE_GLOBAL }) {
 
 		const getCurrentNotifyComponent = componentName => {
 			if (!componentName) {
-				return _.$importVue("/common/ui-x/directive/xNotification/xNotification.vue");
+				return _.$importVue("/common/ui-x/directives/xNotification/xNotification.vue");
 			}
 			/* TODO:可以作为prop传递 在 xNotification 内部用vIf添加新的样式*/
 		};
@@ -228,7 +228,7 @@ export default async function ({ PRIVATE_GLOBAL }) {
 
 		const getCurrentMessageComponent = componentName => {
 			if (!componentName) {
-				return _.$importVue("/common/ui-x/directive/xMessage/xMessage.vue");
+				return _.$importVue("/common/ui-x/directives/xMessage/xMessage.vue");
 			}
 		};
 

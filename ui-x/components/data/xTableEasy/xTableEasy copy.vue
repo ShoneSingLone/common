@@ -82,7 +82,7 @@ export default async function ({ PRIVATE_GLOBAL }) {
 		"/common/ui-x/components/data/xTableEasy/footer/index.vue",
 		"/common/ui-x/components/data/xTableEasy/editor/index.vue",
 		"/common/ui-x/components/data/xTableEasy/selection/index.vue",
-		"/common/ui-x/directive/clickoutside.vue",
+		"/common/ui-x/directives/clickoutside.vue",
 		"/common/ui-x/components/data/xTableEasy/helper/comps/resize-observer.vue",
 		"vue-easytable/packages/ve-contextmenu",
 		"/common/ui-x/components/data/xTableEasy/column-resizer/index.vue"

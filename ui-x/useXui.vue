@@ -291,12 +291,12 @@ export default async function ({
 	await Promise.all(
 		_.map(
 			[
-				"/common/ui-x/directive/directive.install.vue",
-				"/common/ui-x/directive/xtips/xtips.vue",
-				"/common/ui-x/directive/ripple.vue",
-				"/common/ui-x/directive/infinitescroll.vue",
-				"/common/ui-x/directive/xloading.vue",
-				"/common/ui-x/directive/xmove.vue"
+				"/common/ui-x/directives/directive.install.vue",
+				"/common/ui-x/directives/xtips/xtips.vue",
+				"/common/ui-x/directives/ripple.vue",
+				"/common/ui-x/directives/infinitescroll.vue",
+				"/common/ui-x/directives/xloading.vue",
+				"/common/ui-x/directives/xmove.vue"
 			],
 
 			url => _.$importVue(url)

@@ -86,7 +86,7 @@ export default async function () {
 	const [{ isDate, modifyWithTimeString, prevYear, nextYear, nextMonth }, Clickoutside] =
 		await _.$importVue([
 			"/common/ui-x/components/form/xDatePicker/dateUtils.vue",
-			"/common/ui-x/directive/clickoutside.vue"
+			"/common/ui-x/directives/clickoutside.vue"
 		]);
 
 	const calcDefaultValue = defaultValue => {

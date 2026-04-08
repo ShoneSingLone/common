@@ -80,7 +80,7 @@ export default async function () {
 		/* 如果PopoverComponent已经加载，则不需要再加载 */
 		PopoverComponent =
 			PopoverComponent ||
-			(await _.$importVue("/common/ui-x/directive/xtips/xtipsDefaultPopover.vue"));
+			(await _.$importVue("/common/ui-x/directives/xtips/xtipsDefaultPopover.vue"));
 
 		const _PopoverComponent = { ...PopoverComponent };
 		_PopoverComponent.parent = vmRefrence;

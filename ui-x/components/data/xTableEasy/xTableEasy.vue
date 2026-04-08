@@ -1,6 +1,5 @@
 <script lang="ts">
 export default async function ({ PRIVATE_GLOBAL }) {
-	debugger;
 	const [
 		{
 			initGroupColumns,
@@ -83,9 +82,9 @@ export default async function ({ PRIVATE_GLOBAL }) {
 		"/common/ui-x/components/data/xTableEasy/footer/index.vue",
 		"/common/ui-x/components/data/xTableEasy/editor/index.vue",
 		"/common/ui-x/components/data/xTableEasy/selection/index.vue",
-		"/common/ui-x/directive/clickoutside.vue",
+		"/common/ui-x/directives/clickoutside.vue",
 		"/common/ui-x/components/data/xTableEasy/helper/comps/resize-observer.vue",
-		"vue-easytable/packages/ve-contextmenu",
+		"/common/ui-x/components/data/contextmenu.vue",
 		"/common/ui-x/components/data/xTableEasy/column-resizer/index.vue"
 	]);
 	debugger;
@@ -431,7 +430,7 @@ export default async function ({ PRIVATE_GLOBAL }) {
 				currentCellSelectionType: "",
 				/*
             table offest height（开启虚拟滚动时使用）
-            1、当 :max-height="500" 时使用 max-height 
+            1、当 :max-height="500" 时使用 max-height
             2、当 max-height="calc(100vh - 210px)" 或者 max-height="80%" 时使用 tableOffestHeight
             */
 				tableOffestHeight: 0,
@@ -439,7 +438,7 @@ export default async function ({ PRIVATE_GLOBAL }) {
 				tableHeight: 0,
 				// highlight row key
 				highlightRowKey: "",
-				/* 
+				/*
             editing cell
             */
 				editingCell: {
@@ -450,7 +449,7 @@ export default async function ({ PRIVATE_GLOBAL }) {
 				},
 				// 编辑单元格每次开始编辑前的初始值
 				editorInputStartValue: "",
-				/* 
+				/*
             是否允许按下方向键时，停止编辑并移动选中单元格。当双击可编辑单元格或者点击输入文本框时设置为false值
 
             像excel一样：如果直接在可编辑单元格上输入内容后，按下上、下、左、右按键可以直接选中其他单元格，并停止当前单元格编辑状态
@@ -555,7 +554,7 @@ export default async function ({ PRIVATE_GLOBAL }) {
 						);
 					}
 				} else {
-					/* 
+					/*
                 fixed:虚拟滚动表格行展开的 ve-table 存在固定头时（sticky 冲突），表格样式错乱的问题
                 fixed:When there is a fixed header in the ve-table expanded by the row of the virtual rolling table(header sticky conflict),Incorrect table presentation
                 */
@@ -3415,7 +3414,7 @@ export default async function ({ PRIVATE_GLOBAL }) {
 
 				currentRow = _.cloneDeep(currentRow);
 
-				/* 
+				/*
             调用API编辑的情况，需要关闭之前编辑的单元格
             */
 				if (editingCell.rowKey === rowKey && editingCell.colKey === colKey) {

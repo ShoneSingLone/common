@@ -159,7 +159,7 @@ export default async function ({ PRIVATE_GLOBAL }) {
 	] = await Promise.all([
 		_.$importVue("/common/utils/hooks.vue"),
 		_.$importVue("/common/utils/utils.vue"),
-		_.$importVue("/common/ui-x/directive/clickoutside.vue"),
+		_.$importVue("/common/ui-x/directives/clickoutside.vue"),
 		_.$importVue("/common/ui-x/components/form/xSelect/navigationMixin.vue")
 	]);
 

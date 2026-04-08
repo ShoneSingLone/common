@@ -58,7 +58,7 @@
 export default async function () {
 	const [{ useFocus }, Clickoutside] = await Promise.all([
 		_.$importVue("/common/utils/hooks.vue"),
-		_.$importVue("/common/ui-x/directive/clickoutside.vue")
+		_.$importVue("/common/ui-x/directives/clickoutside.vue")
 	]);
 
 	return defineComponent({

@@ -93,10 +93,10 @@ export default async function () {
 		"components/layout/page/xPageContent",
 		"components/layout/page/xPageFooter",
 		/* *********directive********** */
-		"directive/xImg/xImg",
-		"directive/xTooltip/xTooltip",
-		"directive/xDrawer/xDrawer",
-		"directive/xtips/xPopover",
+		"directives/xImg/xImg",
+		"directives/xTooltip/xTooltip",
+		"directives/xDrawer/xDrawer",
+		"directives/xtips/xPopover",
 		/* ********************** */
 		"common/xAppLayoutHeaderOcOprs",
 		"common/xMd",

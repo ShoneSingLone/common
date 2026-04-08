@@ -80,7 +80,7 @@ export default async function ({ PRIVATE_GLOBAL }) {
 		await _.$importVue([
 			"/common/libs/VuePopper/VuePopper.vue",
 			"/common/ui-x/components/form/xDatePicker/dateUtils.vue",
-			"/common/ui-x/directive/clickoutside.vue"
+			"/common/ui-x/directives/clickoutside.vue"
 		]);
 
 	const NewPopper = {

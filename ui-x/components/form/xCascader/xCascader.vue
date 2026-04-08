@@ -109,7 +109,7 @@ export default async function () {
 		await _.$importVue([
 			"/common/libs/VuePopper/VuePopper.vue",
 			"/common/utils/utils.vue",
-			"/common/ui-x/directive/clickoutside.vue"
+			"/common/ui-x/directives/clickoutside.vue"
 		]);
 
 	const InputSizeMap = {

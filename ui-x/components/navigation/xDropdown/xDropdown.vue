@@ -1,7 +1,7 @@
 <script lang="ts">
 export default async function ({ PRIVATE_GLOBAL }) {
 	const [Clickoutside] = await Promise.all([
-		_.$importVue("/common/ui-x/directive/clickoutside.vue")
+		_.$importVue("/common/ui-x/directives/clickoutside.vue")
 	]);
 
 	return defineComponent({

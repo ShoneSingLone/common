@@ -189,7 +189,7 @@ export default async function () {
 		Clickoutside
 	] = await _.$importVue([
 		"/common/ui-x/components/form/xDatePicker/dateUtils.vue",
-		"/common/ui-x/directive/clickoutside.vue"
+		"/common/ui-x/directives/clickoutside.vue"
 	]);
 
 	return defineComponent({
