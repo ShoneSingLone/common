@@ -1,11 +1,7 @@
 <script lang="ts">
 export default async function ({ PRIVATE_GLOBAL }) {
 	// 使用 _.$importVue() 加载依赖
-	const [
-		{ clsName },
-		FooterTr,
-		{ COMPS_NAME }
-	] = await Promise.all([
+	const [{ clsName }, FooterTr, { COMPS_NAME }] = await Promise.all([
 		_.$importVue("/common/ui-x/components/data/xTableEasy/util/index.vue"),
 		_.$importVue("/common/ui-x/components/data/xTableEasy/footer/footer-tr.vue"),
 		_.$importVue("/common/ui-x/components/data/xTableEasy/util/constant.vue")

@@ -440,22 +440,22 @@ export default async function () {
 			});
 
 			const rightFixedColKeys = getColKeysByFixedType({
-			fixedType: COLUMN_FIXED_TYPE.RIGHT,
-			colgroups,
-			isExcludeOperationColumn: true
-		});
-
-		if (_.isFunction(beforeShow)) {
-			beforeShow({
-				isWholeColSelection,
-				selectionRangeKeys,
-				selectionRangeIndexes
+				fixedType: COLUMN_FIXED_TYPE.RIGHT,
+				colgroups,
+				isExcludeOperationColumn: true
 			});
-		}
 
-		const headerContextmenuOptionCollection = getHeaderContextmenuOptionCollection(t);
+			if (_.isFunction(beforeShow)) {
+				beforeShow({
+					isWholeColSelection,
+					selectionRangeKeys,
+					selectionRangeIndexes
+				});
+			}
 
-		contextmenus.forEach(contextmenu => {
+			const headerContextmenuOptionCollection = getHeaderContextmenuOptionCollection(t);
+
+			contextmenus.forEach(contextmenu => {
 				const contentmenuCollectionItem = headerContextmenuOptionCollection.find(
 					x => x.type === contextmenu.type
 				);
@@ -562,15 +562,15 @@ export default async function () {
 			const { contextmenus, beforeShow } = contextmenuBodyOption;
 
 			const isWholeRowSelection = !isEmptyValue(bodyIndicatorRowKeys.startRowKey);
-		if (_.isFunction(beforeShow)) {
-			beforeShow({
-				isWholeRowSelection,
-				selectionRangeKeys,
-				selectionRangeIndexes
-			});
-		}
+			if (_.isFunction(beforeShow)) {
+				beforeShow({
+					isWholeRowSelection,
+					selectionRangeKeys,
+					selectionRangeIndexes
+				});
+			}
 
-		const bodyContextmenuOptionCollection = getBodyContextmenuOptionCollection(t);
+			const bodyContextmenuOptionCollection = getBodyContextmenuOptionCollection(t);
 
 			contextmenus.forEach(contextmenu => {
 				const contentmenuCollectionItem = bodyContextmenuOptionCollection.find(

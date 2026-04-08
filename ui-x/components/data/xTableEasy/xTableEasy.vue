@@ -2719,15 +2719,15 @@ export default async function ({ PRIVATE_GLOBAL }) {
 					});
 
 					if (_.isFunction(afterMenuClick)) {
-					const callback = afterMenuClick({
-						type,
-						selectionRangeKeys,
-						selectionRangeIndexes
-					});
-					if (_.isBoolean(callback) && !callback) {
-						return false;
+						const callback = afterMenuClick({
+							type,
+							selectionRangeKeys,
+							selectionRangeIndexes
+						});
+						if (_.isBoolean(callback) && !callback) {
+							return false;
+						}
 					}
-				}
 					const editInputEditor = this.$refs[this.editInputRef];
 
 					// cut

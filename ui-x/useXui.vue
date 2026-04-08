@@ -249,8 +249,17 @@ export default async function ({
 						_sortedKeys = sortedKeys && sortedKeys({ rows });
 					}
 
-					// Group rows by current prop
-					const groups = _groupBy(rows, prop);
+					// Group rows by current prop, ensuring null values are grouped together
+					const groups = _groupBy(rows, row => {
+						if (typeof prop === "function") {
+							const value = prop(row);
+							return value === null || value === undefined ? "null" : value;
+						} else {
+							const value = row[prop];
+							return value === null || value === undefined ? "null" : value;
+						}
+					});
+					debugger;
 					_sortedKeys = _sortedKeys || _.sortBy(Object.keys(groups), sortBy);
 					// Process each group
 					const result = _.flatMap(_sortedKeys, key => {

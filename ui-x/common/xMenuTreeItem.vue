@@ -207,20 +207,67 @@ export default async function () {
 </script>
 <style lang="less">
 .xMenuTreeItem {
+	&.active {
+		.xMenuTreeItem-submenu-wrapper {
+			background-color: var(--primary-light, #e6f7ff);
+			border-left: 3px solid var(--primary, #1890ff);
+			font-weight: 500;
+		}
+	}
+
+	&.open {
+		.xMenuTreeItem-submenu-wrapper {
+			background-color: var(--background-light, #f5f5f5);
+		}
+	}
 }
 
 .xMenuTreeItem-submenu-wrapper {
 	display: flex;
 	align-items: center;
 	position: relative;
+	padding: 8px 16px;
+	border-radius: 4px;
+	transition: all 0.2s ease;
+	margin: 2px 0;
+
+	&:hover {
+		background-color: var(--background-hover, #f0f0f0);
+	}
 }
+
 .xMenuTreeItem-submenu-icon {
 	margin-right: var(--ui-half);
+	font-size: 14px;
 }
+
 .xMenuTreeItem-submenu-icon-arrow {
 	transition: all 0.3s ease-in-out;
+	font-size: 12px;
+
 	&.xMenuTreeItem-icon-arrow-up {
 		transform: rotate(180deg);
+	}
+}
+
+/* 层级关系样式 */
+.xMenuTreeItem {
+	& > div:nth-child(2) {
+		.xMenuTreeItem {
+			padding-left: 24px;
+
+			& > div:nth-child(2) {
+				.xMenuTreeItem {
+					padding-left: 48px;
+
+					& > div:nth-child(2) {
+						.xMenuTreeItem {
+							padding-left: 72px;
+						}
+					}
+				}
+			}
+		}
 	}
 }
 </style>

@@ -2577,7 +2577,11 @@ export default async function ({ PRIVATE_GLOBAL, mergeProps4h }) {
 					);
 				}
 
-				return Math.max(fallbackMinWidth, configuredMinWidth, Math.ceil(textWidth) + horizontalPadding + sortIconWidth);
+				return Math.max(
+					fallbackMinWidth,
+					configuredMinWidth,
+					Math.ceil(textWidth) + horizontalPadding + sortIconWidth
+				);
 			},
 			columnAutoWidth({ width, height }) {
 				if (!width) {
@@ -2739,6 +2743,7 @@ export default async function ({ PRIVATE_GLOBAL, mergeProps4h }) {
 </script>
 <style lang="less">
 .xDataGrid_table {
+	
 	&.small {
 		.el-table-v2__row-cell {
 			font-size: 12px;

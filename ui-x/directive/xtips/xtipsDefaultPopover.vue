@@ -36,8 +36,8 @@ export default async function () {
 				if (this.disabled) {
 					return;
 				}
-				if (this.options.onVisibleChange) {
-					this.options.onVisibleChange(val);
+				if (this.options?.onVisibleChange) {
+					this.options?.onVisibleChange(val);
 				}
 				val ? this.$emit("show") : this.$emit("hide");
 				val ? this.updatePopper() : this.destroyPopper();
@@ -99,29 +99,29 @@ export default async function () {
 				return `el-popover-${this.refId}`;
 			},
 			trigger() {
-				return this.options.trigger || "hover";
+				return this.options?.trigger || "hover";
 			},
 			openDelay() {
-				return this.options.openDelay || 0;
+				return this.options?.openDelay || 0;
 			},
 			closeDelay() {
-				return this.options.closeDelay || 200;
+				return this.options?.closeDelay || 200;
 			},
 			title() {
-				return this.options.title || "";
+				return this.options?.title || "";
 			},
 			disabled() {
 				return this.options?.disabled || "";
 			},
 			content() {
-				return this.options.content || "";
+				return this.options?.content || "";
 			},
 			popperClass() {
-				return this.options.popperClass || "";
+				return this.options?.popperClass || "";
 			},
 			cptStyle() {
 				return {
-					...(this.options.style || {}),
+					...(this.options?.style || {}),
 					opacity: this.opacity
 				};
 			},
@@ -132,11 +132,11 @@ export default async function () {
 				return this.options?.transition || "fade-in-linear";
 			},
 			tabindex() {
-				return this.options.tabindex || 0;
+				return this.options?.tabindex || 0;
 			},
 			$reference() {
-				if (this.options.$reference) {
-					return this.options.$reference;
+				if (this.options?.$reference) {
+					return this.options?.$reference;
 				}
 				if (this.$refs.wrapper && $(this.$refs.wrapper)) {
 					return $(this.$refs.wrapper);
@@ -149,29 +149,29 @@ export default async function () {
 			},
 			transformOrigin() {
 				return hasOwn(this.options, "transformOrigin")
-					? this.options.transformOrigin
+					? this.options?.transformOrigin
 					: true;
 			},
 			placement() {
-				return this.options.placement || "bottom";
+				return this.options?.placement || "bottom";
 			},
 			boundariesPadding() {
-				return this.options.boundariesPadding || 5;
+				return this.options?.boundariesPadding || 5;
 			},
 			offset() {
-				return this.options.offset || 0;
+				return this.options?.offset || 0;
 			},
 			visible() {
 				return this.options?.visible || false;
 			},
 			visibleArrow() {
-				return hasOwn(this.options, "visibleArrow") ? this.options.visibleArrow : true;
+				return hasOwn(this.options, "visibleArrow") ? this.options?.visibleArrow : true;
 			},
 			arrowOffset() {
-				return this.options.arrowOffset || 35;
+				return this.options?.arrowOffset || 35;
 			},
 			appendToBody() {
-				return hasOwn(this.options, "appendToBody") ? this.options.appendToBody : true;
+				return hasOwn(this.options, "appendToBody") ? this.options?.appendToBody : true;
 			},
 			popperOptions() {
 				return (

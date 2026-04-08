@@ -1,14 +1,13 @@
 <script lang="ts">
 export default async function ({ PRIVATE_GLOBAL }) {
 	// 显式导入下拉与图标组件，避免依赖全局字符串组件注册
-	const [VeDropdown, { COMPS_NAME }, { clsName }, VeIcon, { ICON_NAMES }] =
-		await Promise.all([
-			_.$importVue("vue-easytable/packages/ve-dropdown"),
-			_.$importVue("/common/ui-x/components/data/xTableEasy/util/constant.vue"),
-			_.$importVue("/common/ui-x/components/data/xTableEasy/util/index.vue"),
-			_.$importVue("vue-easytable/packages/ve-icon"),
-			_.$importVue("/common/ui-x/components/data/xTableEasy/utils/constant.vue")
-		]);
+	const [VeDropdown, { COMPS_NAME }, { clsName }, VeIcon, { ICON_NAMES }] = await Promise.all([
+		_.$importVue("vue-easytable/packages/ve-dropdown"),
+		_.$importVue("/common/ui-x/components/data/xTableEasy/util/constant.vue"),
+		_.$importVue("/common/ui-x/components/data/xTableEasy/util/index.vue"),
+		_.$importVue("vue-easytable/packages/ve-icon"),
+		_.$importVue("/common/ui-x/components/data/xTableEasy/utils/constant.vue")
+	]);
 
 	return {
 		name: COMPS_NAME.VE_TABLE_HEADER_FILTER_CUSTOM_CONTENT,

@@ -2763,9 +2763,9 @@ ${callerInfo.message}:`);
 		 * @returns
 		 */
 		_.$xItemSelected = function (xItemConfigs, vModelValue = "") {
-			let defaultValue = { value: "", label: "", labelKey: "" };
+			let { options, value } = xItemConfigs;
+			let defaultValue = _.isArray(value) ? [] : { value: "", label: "", labelKey: "" };
 			try {
-				let { options, value } = xItemConfigs;
 				value = _.$isInput(value) ? value : vModelValue;
 				if (_.$isArrayFill(options) && _.$isInput(value)) {
 					if (_.isArray(value)) {

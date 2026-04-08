@@ -31,10 +31,10 @@
 1. `xTableEasy.readme.md` 可以作为参考资料；
 2. 但其中“已实现 / 未实现”勾选，**不能直接视为真实完成状态**；
 3. 后续判断一律以以下内容为准：
-   - 源库代码与示例；
-   - 当前移植后的实际代码；
-   - 页面真实运行结果；
-   - 我逐项核对后的结论。
+    - 源库代码与示例；
+    - 当前移植后的实际代码；
+    - 页面真实运行结果；
+    - 我逐项核对后的结论。
 
 ### 2.3 迁移方式前提
 
@@ -43,7 +43,8 @@
 1. **先梳理功能，再实施代码迁移**；
 2. **尽量沿用原库文件结构迁移**；
 3. **把原来的 js / jsx 模块逐步转成符合本项目规范的 `.vue` 文件**；
-4. 根组件 `xTableEasy.vue` 当前采用 `async function + _.$importVue(...)` 的异步壳方案，这种思路本身成立，但需要严格核对完整性。
+4. 根组件 `xTableEasy.vue` 当前采用 `async function + _.$importVue(...)`
+   的异步壳方案，这种思路本身成立，但需要严格核对完整性。
 
 ---
 
@@ -77,35 +78,36 @@
 在继续梳理功能真值表后，本轮新增确认并处理了几项关键问题：
 
 1. **已补齐一批缺失的 `.vue` 包装文件**
-   - `selection/constant.vue`
-   - `editor/constant.vue`
-   - `locale/index.vue`
-   - `utils/resize-observer-polyfill.vue`
-   
-   这些文件的目的，是让当前 `async function + _.$importVue(...)` 体系下的导入路径，能和项目内真实文件结构对齐。
+    - `selection/constant.vue`
+    - `editor/constant.vue`
+    - `locale/index.vue`
+    - `utils/resize-observer-polyfill.vue`
+
+    这些文件的目的，是让当前 `async function + _.$importVue(...)` 体系下的导入路径，能和项目内真实文件结构对齐。
 
 2. **已通过脚本完成一轮内部 `.vue` 动态导入扫描**
-   - 新增脚本：`scripts/check-x-table-easy-imports.js`
-   - 当前扫描结果：
-     - 扫描到 `.vue` 文件数：199
-     - 命中内部 `.vue` 导入数：102
-     - 缺失导入数：0
+    - 新增脚本：`scripts/check-x-table-easy-imports.js`
+    - 当前扫描结果：
+        - 扫描到 `.vue` 文件数：199
+        - 命中内部 `.vue` 导入数：102
+        - 缺失导入数：0
 
-   这说明当前 `xTableEasy` 目录内的内部 `.vue` 动态导入路径，已经没有明显缺文件问题。
+    这说明当前 `xTableEasy` 目录内的内部 `.vue` 动态导入路径，已经没有明显缺文件问题。
 
 3. **当前仍需保留为结构性风险的项**
-   - `header-filter-custom-content.vue` 与源实现存在运行时差异：
-     - 当前版本没有像源文件一样显式导入 `VeDropdown`、`VeIcon`
-     - 而是使用 `h("ve-dropdown")`、`h("ve-icon")` 这种字符串组件名
-     - 是否可靠依赖于运行时全局注册，因此必须进入页面验证，不适合仅靠静态代码直接判断通过。
-   - `business_doc` 仍存在同一路径重复声明：
-     - `routes.vue` 中多个 `x-table-easy` 功能路径同时指向英文聚合页和中文旧示例页
-     - 后续如果不先统一正式入口，会影响文档维护、页面回归和自动化测试基线。
+    - `header-filter-custom-content.vue` 与源实现存在运行时差异：
+        - 当前版本没有像源文件一样显式导入 `VeDropdown`、`VeIcon`
+        - 而是使用 `h("ve-dropdown")`、`h("ve-icon")` 这种字符串组件名
+        - 是否可靠依赖于运行时全局注册，因此必须进入页面验证，不适合仅靠静态代码直接判断通过。
+    - `business_doc` 仍存在同一路径重复声明：
+        - `routes.vue` 中多个 `x-table-easy` 功能路径同时指向英文聚合页和中文旧示例页
+        - 后续如果不先统一正式入口，会影响文档维护、页面回归和自动化测试基线。
 
 4. **编辑器里的 ts-plugin 报错暂按误报处理**
-   - 新补的 `.vue` 包装文件在编辑器中出现了 `A module cannot have multiple default exports`
-   - 但从现有 `util/constant.vue` 的同类写法、项目运行模式和脚本扫描结果看，当前更像是 IDE/ts 插件对这种异步壳写法的不兼容误报
-   - 在页面运行前，先不把它当成阻塞结论。
+    - 新补的 `.vue` 包装文件在编辑器中出现了 `A module cannot have multiple default exports`
+    - 但从现有 `util/constant.vue`
+      的同类写法、项目运行模式和脚本扫描结果看，当前更像是 IDE/ts 插件对这种异步壳写法的不兼容误报
+    - 在页面运行前，先不把它当成阻塞结论。
 
 这几项说明：
 
@@ -168,52 +170,52 @@
 按源库功能拆分以下能力域：
 
 1. 表格基础
-   - 宽度
-   - 高度
-   - 边框
-   - 空数据
-   - loading
+    - 宽度
+    - 高度
+    - 边框
+    - 空数据
+    - loading
 2. 表头能力
-   - 表头显示/隐藏
-   - 固定表头
-   - 分组表头
-   - 排序
-   - 筛选
+    - 表头显示/隐藏
+    - 固定表头
+    - 分组表头
+    - 排序
+    - 筛选
 3. 列能力
-   - 列宽
-   - 列宽拖拽
-   - 列固定
-   - 列隐藏
+    - 列宽
+    - 列宽拖拽
+    - 列固定
+    - 列隐藏
 4. 表体与行能力
-   - 行样式
-   - 行高亮
-   - 行展开
-   - 单选/多选
-   - 序号列 / 操作列
+    - 行样式
+    - 行高亮
+    - 行展开
+    - 单选/多选
+    - 序号列 / 操作列
 5. 单元格能力
-   - 样式
-   - 对齐
-   - 自定义渲染
-   - 合并
-   - 省略
-   - 选择
-   - 编辑
-   - 自动填充
+    - 样式
+    - 对齐
+    - 自定义渲染
+    - 合并
+    - 省略
+    - 选择
+    - 编辑
+    - 自动填充
 6. 剪贴板与右键菜单
-   - copy / paste / cut / delete
-   - header contextmenu
-   - body contextmenu
+    - copy / paste / cut / delete
+    - header contextmenu
+    - body contextmenu
 7. 性能与滚动能力
-   - 固定列联动
-   - 虚拟滚动
-   - 行高回传
-   - 占位渲染
+    - 固定列联动
+    - 虚拟滚动
+    - 行高回传
+    - 占位渲染
 8. 实例方法与事件
-   - scrollTo
-   - setCellSelection
-   - hide/show columns
-   - highlight row
-   - 各类 emit / dispatch / broadcast 链路
+    - scrollTo
+    - setCellSelection
+    - hide/show columns
+    - highlight row
+    - 各类 emit / dispatch / broadcast 链路
 
 ### 输出结果
 

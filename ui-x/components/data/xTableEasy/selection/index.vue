@@ -181,11 +181,11 @@ export default async function ({ PRIVATE_GLOBAL }) {
 				if (cellAutofillOption) {
 					const { directionX, directionY } = this.cellAutofillOption;
 					if (
-					_.isBoolean(directionY) &&
-					!directionY &&
-					_.isBoolean(directionX) &&
-					!directionX
-				) {
+						_.isBoolean(directionY) &&
+						!directionY &&
+						_.isBoolean(directionX) &&
+						!directionX
+					) {
 						result = false;
 					}
 				} else {

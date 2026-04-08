@@ -140,12 +140,7 @@ export default async function () {
 	 * @param {Event} event
 	 * @return {selectionRangeIndexes,selectionRangeKeys,data}
 	 */
-	function onBeforeCopy({
-		cellSelectionRangeData,
-		selectionRangeData,
-		colgroups,
-		allRowKeys
-	}) {
+	function onBeforeCopy({ cellSelectionRangeData, selectionRangeData, colgroups, allRowKeys }) {
 		const { leftColKey, rightColKey, topRowKey, bottomRowKey } = cellSelectionRangeData;
 
 		const selectionRangeIndexes = {
@@ -218,7 +213,10 @@ export default async function () {
 			colgroups.length - 1
 		);
 		const startRowIndex = allRowKeys.indexOf(cellSelectionRangeData.topRowKey);
-		const endRowIndex = Math.min(startRowIndex + decodePasteData.length - 1, allRowKeys.length - 1);
+		const endRowIndex = Math.min(
+			startRowIndex + decodePasteData.length - 1,
+			allRowKeys.length - 1
+		);
 
 		let response = {
 			selectionRangeIndexes: {
@@ -341,12 +339,7 @@ export default async function () {
 	 * @param {Event} event
 	 * @return {selectionRangeIndexes,selectionRangeKeys,data}
 	 */
-	function onBeforeDelete({
-		cellSelectionRangeData,
-		selectionRangeData,
-		colgroups,
-		allRowKeys
-	}) {
+	function onBeforeDelete({ cellSelectionRangeData, selectionRangeData, colgroups, allRowKeys }) {
 		const { leftColKey, rightColKey, topRowKey, bottomRowKey } = cellSelectionRangeData;
 
 		const selectionRangeIndexes = {
