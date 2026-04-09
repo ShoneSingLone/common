@@ -1,59 +1,66 @@
 <style lang="less">
 .ve-contextmenu {
-  display: none;
-  
-  .ve-contextmenu-panel {
-    /* 面板样式 */
-  }
-  
-  .ve-contextmenu-list {
-    /* 列表样式 */
-  }
-  
-  .ve-contextmenu-node {
-    /* 节点样式 */
-    
-    &.ve-contextmenu-node-active {
-      /* 激活状态样式 */
-    }
-    
-    &.ve-contextmenu-node-disabled {
-      /* 禁用状态样式 */
-    }
-  }
-  
-  .ve-contextmenu-node-separator {
-    /* 分隔线样式 */
-  }
-  
-  .ve-contextmenu-node-label {
-    /* 标签样式 */
-  }
-  
-  .ve-contextmenu-node-icon-postfix {
-    /* 后缀图标样式 */
-  }
+	display: none;
+
+	.ve-contextmenu-panel {
+		/* 面板样式 */
+	}
+
+	.ve-contextmenu-list {
+		/* 列表样式 */
+	}
+
+	.ve-contextmenu-node {
+		/* 节点样式 */
+
+		&.ve-contextmenu-node-active {
+			/* 激活状态样式 */
+		}
+
+		&.ve-contextmenu-node-disabled {
+			/* 禁用状态样式 */
+		}
+	}
+
+	.ve-contextmenu-node-separator {
+		/* 分隔线样式 */
+	}
+
+	.ve-contextmenu-node-label {
+		/* 标签样式 */
+	}
+
+	.ve-contextmenu-node-icon-postfix {
+		/* 后缀图标样式 */
+	}
 }
 </style>
 
 <script lang="ts">
 export default async function () {
-  // 导入依赖
-  const { COMPS_NAME, INIT_DATA, EMIT_EVENTS, CONTEXTMENU_NODE_TYPES, INSTANCE_METHODS } = await _.$importVue('/common/ui-x/components/data/contextmenu/util/constant.vue');
-  const { clsName } = await _.$importVue('/common/ui-x/components/data/contextmenu/util/index.vue');
-  const { getMousePosition, getViewportOffset } = await _.$importVue('/common/ui-x/src/utils/dom.vue');
-  const { getRandomId } = await _.$importVue('/common/ui-x/src/utils/random.vue');
-  const eventsOutside = await _.$importVue('/common/ui-x/src/directives/events-outside.vue');
-  const { ICON_NAMES } = await _.$importVue('/common/ui-x/src/utils/constant.vue');
-  const VeIcon = await _.$importVue('vue-easytable/packages/ve-icon');
+	// 导入依赖
+	const { COMPS_NAME, INIT_DATA, EMIT_EVENTS, CONTEXTMENU_NODE_TYPES, INSTANCE_METHODS } =
+		await _.$importVue("/common/ui-x/components/data/contextmenu/util/constant.vue");
+	const { clsName } = await _.$importVue(
+		"/common/ui-x/components/data/contextmenu/util/index.vue"
+	);
+	const { getMousePosition, getViewportOffset } = await _.$importVue(
+		"/common/ui-x/src/utils/dom.vue"
+	);
+	const { getRandomId } = await _.$importVue("/common/ui-x/src/utils/random.vue");
+	const eventsOutside = await _.$importVue(
+		"/common/ui-x/directives/events-outside.vue/events-outside.vue"
+	);
+	const { ICON_NAMES } = await _.$importVue("/common/ui-x/src/utils/constant.vue");
+	const VeIcon = await _.$importVue("vue-easytable/packages/ve-icon");
 
-  return {
-    name: COMPS_NAME.VE_CONTEXTMENU,
-    directives: {
-      "events-outside": eventsOutside
-    },
-    props: {
-      /*
+	return {
+		name: COMPS_NAME.VE_CONTEXTMENU,
+		directives: {
+			"events-outside": eventsOutside
+		},
+		props: {
+			/*
          options(contextmenu)
             [
                 {
@@ -78,22 +85,22 @@ export default async function () {
                 },
             ]
         */
-      options: {
-        type: Array,
-        required: true
-      },
-      /*
+			options: {
+				type: Array,
+				required: true
+			},
+			/*
         event target
         contextmenu event will register on it
         */
-      eventTarget: {
-        type: [String, HTMLElement],
-        required: true
-      }
-    },
-    data() {
-      return {
-        /* 
+			eventTarget: {
+				type: [String, HTMLElement],
+				required: true
+			}
+		},
+		data() {
+			return {
+				/* 
             internal options:
             [
                 {
@@ -124,9 +131,9 @@ export default async function () {
                 },
             ]
             */
-        internalOptions: [],
+				internalOptions: [],
 
-        /*
+				/*
             panels option
             {
                     id: 1,
@@ -161,559 +168,563 @@ export default async function () {
                     ],
                 },
             */
-        panelOptions: [],
-        // event target element
-        eventTargetEl: "",
-        // root contextmenu id
-        rootContextmenuId: "",
-        /*
+				panelOptions: [],
+				// event target element
+				eventTargetEl: "",
+				// root contextmenu id
+				rootContextmenuId: "",
+				/*
             is children panels clicked
             如果点击了则不关闭 panels
             */
-        isChildrenPanelsClicked: false,
-        /*
+				isChildrenPanelsClicked: false,
+				/*
             is panel right direction
             决定了子 panel 默认展示方向
             */
-        isPanelRightDirection: true,
-        /*
+				isPanelRightDirection: true,
+				/*
             is panels remove
             防止hover后菜单被移除，仍然显示子集菜单的问题
             */
-        isPanelsEmptyed: true
-      };
-    },
+				isPanelsEmptyed: true
+			};
+		},
 
-    computed: {
-      // active menus ids
-      activeMenuIds() {
-        const { panelOptions } = this;
+		computed: {
+			// active menus ids
+			activeMenuIds() {
+				const { panelOptions } = this;
 
-        return panelOptions.map(x => x.parentId);
-      }
-    },
+				return panelOptions.map(x => x.parentId);
+			}
+		},
 
-    watch: {
-      options: {
-        handler: function (val) {
-          if (Array.isArray(val) && val.length > 0) {
-            /* 
-                    如果配置项修改,则重新销毁并创建
-                    */
-            this.removeOrEmptyPanels(true);
-            this.rootContextmenuId = this.getRandomIdWithPrefix();
-            this.createInternalOptions();
-            this.createPanelOptions({ options: this.internalOptions });
-            this.resetContextmenu();
-            this.addRootContextmenuPanelToBody();
-          }
-        },
-        immediate: true
-      },
-      eventTarget: {
-        handler: function (val) {
-          if (val) {
-            this.registerContextmenuEvent();
-          }
-        },
-        immediate: true
-      }
-    },
+		watch: {
+			options: {
+				handler: function (val) {
+					if (Array.isArray(val) && val.length > 0) {
+						/* 如果配置项修改,则重新销毁并创建 */
+						this.removeOrEmptyPanels(true);
+						this.rootContextmenuId = this.getRandomIdWithPrefix();
+						this.createInternalOptions();
+						this.createPanelOptions({ options: this.internalOptions });
+						this.resetContextmenu();
+						this.addRootContextmenuPanelToBody();
+					}
+				},
+				immediate: true
+			},
+			eventTarget: {
+				handler: function (val) {
+					if (val) {
+						this.registerContextmenuEvent();
+					}
+				},
+				immediate: true
+			}
+		},
 
-    methods: {
-      // get random id
-      getRandomIdWithPrefix() {
-        return clsName(getRandomId());
-      },
+		methods: {
+			// get random id
+			getRandomIdWithPrefix() {
+				return clsName(getRandomId());
+			},
 
-      // has children
-      hasChildren(option) {
-        return Array.isArray(option.children) && option.children.length;
-      },
+			// has children
+			hasChildren(option) {
+				return Array.isArray(option.children) && option.children.length;
+			},
 
-      /*
+			/*
         get panel option by menu id
         */
-      getPanelOptionByMenuId(options, menuId) {
-        for (let i = 0; i < options.length; i++) {
-          if (options[i].id === menuId) {
-            return options[i].children;
-          }
+			getPanelOptionByMenuId(options, menuId) {
+				for (let i = 0; i < options.length; i++) {
+					if (options[i].id === menuId) {
+						return options[i].children;
+					}
 
-          if (options[i].children) {
-            const panelOption = this.getPanelOptionByMenuId(
-              options[i].children,
-              menuId
-            );
-            if (panelOption) return panelOption;
-          }
-        }
-      },
+					if (options[i].children) {
+						const panelOption = this.getPanelOptionByMenuId(
+							options[i].children,
+							menuId
+						);
+						if (panelOption) return panelOption;
+					}
+				}
+			},
 
-      // get parent contextmenu panel element
-      getParentContextmenuPanelEl(contextmenuPanelId) {
-        let result;
+			// get parent contextmenu panel element
+			getParentContextmenuPanelEl(contextmenuPanelId) {
+				let result;
 
-        const { panelOptions } = this;
+				const { panelOptions } = this;
 
-        const panelIndex = panelOptions.findIndex(x => x.parentId === contextmenuPanelId);
-        if (panelIndex > 0) {
-          // preview panel's panelId
-          const parentPanelId = panelOptions[panelIndex - 1].parentId;
-          result = document.querySelector(`#${parentPanelId}`);
-        }
-        return result;
-      },
+				const panelIndex = panelOptions.findIndex(x => x.parentId === contextmenuPanelId);
+				if (panelIndex > 0) {
+					// preview panel's panelId
+					const parentPanelId = panelOptions[panelIndex - 1].parentId;
+					result = document.querySelector(`#${parentPanelId}`);
+				}
+				return result;
+			},
 
-      // create panel by hover
-      createPanelByHover({ event, menu }) {
-        const { internalOptions, panelOptions } = this;
+			// create panel by hover
+			createPanelByHover({ event, menu }) {
+				const { internalOptions, panelOptions } = this;
 
-        // 如果被移除则不创建
-        if (this.isPanelsEmptyed) {
-          return false;
-        }
+				// 如果被移除则不创建
+				if (this.isPanelsEmptyed) {
+					return false;
+				}
 
-        // has already exists
-        if (panelOptions.findIndex(x => x.parentId === menu.id) > -1) {
-          return false;
-        }
+				// has already exists
+				if (panelOptions.findIndex(x => x.parentId === menu.id) > -1) {
+					return false;
+				}
 
-        /*
+				/*
             移除 panel 深度大于等于当前悬浮菜单的。从后往前删除
             remove panels
             */
-        const deletePanelDeeps = panelOptions
-          .filter(x => x.parentDeep >= menu.deep)
-          .map(x => x.parentDeep)
-          .reverse();
+				const deletePanelDeeps = panelOptions
+					.filter(x => x.parentDeep >= menu.deep)
+					.map(x => x.parentDeep)
+					.reverse();
 
-        if (deletePanelDeeps.length) {
-          for (let i = deletePanelDeeps.length - 1; i >= 0; i--) {
-            const delIndex = panelOptions.findIndex(
-              x => x.parentDeep === deletePanelDeeps[i]
-            );
-            if (delIndex > -1) {
-              this.panelOptions.splice(delIndex, 1);
-            }
-          }
-        }
+				if (deletePanelDeeps.length) {
+					for (let i = deletePanelDeeps.length - 1; i >= 0; i--) {
+						const delIndex = panelOptions.findIndex(
+							x => x.parentDeep === deletePanelDeeps[i]
+						);
+						if (delIndex > -1) {
+							this.panelOptions.splice(delIndex, 1);
+						}
+					}
+				}
 
-        const panelOption = this.getPanelOptionByMenuId(internalOptions, menu.id);
+				const panelOption = this.getPanelOptionByMenuId(internalOptions, menu.id);
 
-        if (panelOption) {
-          this.createPanelOptions({
-            options: panelOption,
-            currentMenu: menu
-          });
+				if (panelOption) {
+					this.createPanelOptions({
+						options: panelOption,
+						currentMenu: menu
+					});
 
-          this.$nextTick(() => {
-            this.addContextmenuPanelToBody({
-              contextmenuId: menu.id
-            });
+					this.$nextTick(() => {
+						this.addContextmenuPanelToBody({
+							contextmenuId: menu.id
+						});
 
-            this.showContextmenuPanel({
-              event,
-              contextmenuId: menu.id
-            });
-          });
-        }
-      },
+						this.showContextmenuPanel({
+							event,
+							contextmenuId: menu.id
+						});
+					});
+				}
+			},
 
-      // create panels option
-      createPanelOptions({ options, currentMenu }) {
-        const { hasChildren, rootContextmenuId } = this;
+			// create panels option
+			createPanelOptions({ options, currentMenu }) {
+				const { hasChildren, rootContextmenuId } = this;
 
-        if (Array.isArray(options)) {
-          //
-          let menus = options.map(option => {
-            return {
-              hasChildren: hasChildren(option),
-              ...option
-            };
-          });
+				if (Array.isArray(options)) {
+					//
+					let menus = options.map(option => {
+						return {
+							hasChildren: hasChildren(option),
+							...option
+						};
+					});
 
-          this.panelOptions.push({
-            parentId: currentMenu ? currentMenu.id : rootContextmenuId,
-            parentDeep: currentMenu ? currentMenu.deep : INIT_DATA.PARENT_DEEP,
-            menus: menus
-          });
-        }
-      },
+					this.panelOptions.push({
+						parentId: currentMenu ? currentMenu.id : rootContextmenuId,
+						parentDeep: currentMenu ? currentMenu.deep : INIT_DATA.PARENT_DEEP,
+						menus: menus
+					});
+				}
+			},
 
-      // create internal options recursion
-      createInternalOptionsRecursion(options, deep = 0) {
-        options.id = this.getRandomIdWithPrefix();
-        options.deep = deep;
-        deep++;
-        if (Array.isArray(options.children)) {
-          options.children.map(option => {
-            return this.createInternalOptionsRecursion(option, deep);
-          });
-        }
+			// create internal options recursion
+			createInternalOptionsRecursion(options, deep = 0) {
+				options.id = this.getRandomIdWithPrefix();
+				options.deep = deep;
+				deep++;
+				if (Array.isArray(options.children)) {
+					options.children.map(option => {
+						return this.createInternalOptionsRecursion(option, deep);
+					});
+				}
 
-        return options;
-      },
+				return options;
+			},
 
-      // create internal options
-      createInternalOptions() {
-        this.internalOptions = _.cloneDeep(this.options).map(option => {
-          return this.createInternalOptionsRecursion(option);
-        });
-      },
+			// create internal options
+			createInternalOptions() {
+				this.internalOptions = _.cloneDeep(this.options).map(option => {
+					return this.createInternalOptionsRecursion(option);
+				});
+			},
 
-      // show root contextmenu panel
-      showRootContextmenuPanel(event) {
-        event.preventDefault();
-        const { rootContextmenuId } = this;
+			// show root contextmenu panel
+			showRootContextmenuPanel(event) {
+				event.preventDefault();
+				const { rootContextmenuId } = this;
 
-        if (rootContextmenuId) {
-          // refresh contextmenu
-          this.resetContextmenu();
-          this.showContextmenuPanel({
-            event,
-            contextmenuId: rootContextmenuId,
-            isRootContextmenu: true
-          });
-          this.isPanelsEmptyed = false;
-        }
-      },
+				if (rootContextmenuId) {
+					// refresh contextmenu
+					this.resetContextmenu();
+					this.showContextmenuPanel({
+						event,
+						contextmenuId: rootContextmenuId,
+						isRootContextmenu: true
+					});
+					this.isPanelsEmptyed = false;
+				}
+			},
 
-      // show contextmenu panel
-      showContextmenuPanel({ event, contextmenuId, isRootContextmenu }) {
-        const { getParentContextmenuPanelEl } = this;
+			// show contextmenu panel
+			showContextmenuPanel({ event, contextmenuId, isRootContextmenu }) {
+				const { getParentContextmenuPanelEl } = this;
 
-        let contextmenuPanelEl = document.querySelector(`#${contextmenuId}`);
+				let contextmenuPanelEl = document.querySelector(`#${contextmenuId}`);
 
-        if (contextmenuPanelEl) {
-          // remove first
-          contextmenuPanelEl.innerHTML = "";
+				if (contextmenuPanelEl) {
+					// remove first
+					contextmenuPanelEl.innerHTML = "";
 
-          contextmenuPanelEl.appendChild(this.$refs[contextmenuId]);
+					contextmenuPanelEl.appendChild(this.$refs[contextmenuId]);
 
-          contextmenuPanelEl.style.position = "absolute";
-          contextmenuPanelEl.classList.add(clsName("popper"));
+					contextmenuPanelEl.style.position = "absolute";
+					contextmenuPanelEl.classList.add(clsName("popper"));
 
-          const { width: currentPanelWidth, height: currentPanelHeight } =
-            contextmenuPanelEl.getBoundingClientRect();
-          if (isRootContextmenu) {
-            const {
-              left: clickLeft,
-              top: clickTop,
-              right: clickRight,
-              bottom: clickBottom
-            } = getMousePosition(event);
+					const { width: currentPanelWidth, height: currentPanelHeight } =
+						contextmenuPanelEl.getBoundingClientRect();
+					if (isRootContextmenu) {
+						const {
+							left: clickLeft,
+							top: clickTop,
+							right: clickRight,
+							bottom: clickBottom
+						} = getMousePosition(event);
 
-            let panelX = 0;
-            let panelY = 0;
+						let panelX = 0;
+						let panelY = 0;
 
-            // 右方宽度够显示
-            if (clickRight >= currentPanelWidth) {
-              panelX = clickLeft;
-              this.isPanelRightDirection = true;
-            }
-            // 右方宽度不够显示在鼠标点击左方
-            else {
-              panelX = clickLeft - currentPanelWidth;
-              this.isPanelRightDirection = false;
-            }
+						// 右方宽度够显示
+						if (clickRight >= currentPanelWidth) {
+							panelX = clickLeft;
+							this.isPanelRightDirection = true;
+						}
+						// 右方宽度不够显示在鼠标点击左方
+						else {
+							panelX = clickLeft - currentPanelWidth;
+							this.isPanelRightDirection = false;
+						}
 
-            // 下方高度够显示
-            if (clickBottom >= currentPanelHeight) {
-              panelY = clickTop;
-            }
-            // 下方高度不够显示在鼠标点击上方
-            else {
-              panelY = clickTop - currentPanelHeight;
-            }
+						// 下方高度够显示
+						if (clickBottom >= currentPanelHeight) {
+							panelY = clickTop;
+						}
+						// 下方高度不够显示在鼠标点击上方
+						else {
+							panelY = clickTop - currentPanelHeight;
+						}
 
-            contextmenuPanelEl.style.left = panelX + "px";
-            contextmenuPanelEl.style.top = panelY + "px";
-          } else {
-            const parentContextmenuPanelEl = getParentContextmenuPanelEl(contextmenuId);
+						contextmenuPanelEl.style.left = panelX + "px";
+						contextmenuPanelEl.style.top = panelY + "px";
+					} else {
+						const parentContextmenuPanelEl = getParentContextmenuPanelEl(contextmenuId);
 
-            if (parentContextmenuPanelEl) {
-              const { left: parentPanelLeft, right: parentPanelRight } =
-                getViewportOffset(parentContextmenuPanelEl);
+						if (parentContextmenuPanelEl) {
+							const { left: parentPanelLeft, right: parentPanelRight } =
+								getViewportOffset(parentContextmenuPanelEl);
 
-              const { top: clickTop, bottom: clickBottom } = getMousePosition(event);
+							const { top: clickTop, bottom: clickBottom } = getMousePosition(event);
 
-              const { width: parentPanelWidth } =
-                parentContextmenuPanelEl.getBoundingClientRect();
+							const { width: parentPanelWidth } =
+								parentContextmenuPanelEl.getBoundingClientRect();
 
-              let panelX = 0;
-              let panelY = 0;
+							let panelX = 0;
+							let panelY = 0;
 
-              // 如果默认展示在右方向
-              if (this.isPanelRightDirection) {
-                // 右方宽度够显示
-                if (parentPanelRight >= currentPanelWidth) {
-                  panelX = parentPanelLeft + parentPanelWidth;
-                }
-                // 右方宽度不够显示在鼠标点击左方
-                else {
-                  panelX = parentPanelLeft - parentPanelWidth;
-                }
-              }
-              // 如果默认展示在左方向
-              else {
-                // 左方宽度够显示
-                if (parentPanelLeft >= currentPanelWidth) {
-                  panelX = parentPanelLeft - parentPanelWidth;
-                }
-                // 左方宽度不够显示在鼠标点击右方
-                else {
-                  panelX = parentPanelLeft + parentPanelWidth;
-                }
-              }
+							// 如果默认展示在右方向
+							if (this.isPanelRightDirection) {
+								// 右方宽度够显示
+								if (parentPanelRight >= currentPanelWidth) {
+									panelX = parentPanelLeft + parentPanelWidth;
+								}
+								// 右方宽度不够显示在鼠标点击左方
+								else {
+									panelX = parentPanelLeft - parentPanelWidth;
+								}
+							}
+							// 如果默认展示在左方向
+							else {
+								// 左方宽度够显示
+								if (parentPanelLeft >= currentPanelWidth) {
+									panelX = parentPanelLeft - parentPanelWidth;
+								}
+								// 左方宽度不够显示在鼠标点击右方
+								else {
+									panelX = parentPanelLeft + parentPanelWidth;
+								}
+							}
 
-              // 下方高度够显示
-              if (clickBottom >= currentPanelHeight) {
-                panelY = clickTop;
-              }
-              // 下方高度不够显示在鼠标点击上方
-              else {
-                panelY = clickTop - currentPanelHeight;
-              }
+							// 下方高度够显示
+							if (clickBottom >= currentPanelHeight) {
+								panelY = clickTop;
+							}
+							// 下方高度不够显示在鼠标点击上方
+							else {
+								panelY = clickTop - currentPanelHeight;
+							}
 
-              contextmenuPanelEl.style.left = panelX + "px";
-              contextmenuPanelEl.style.top = panelY + "px";
-            }
-          }
-        }
-      },
+							contextmenuPanelEl.style.left = panelX + "px";
+							contextmenuPanelEl.style.top = panelY + "px";
+						}
+					}
+				}
+			},
 
-      // empty contextmenu panels
-      emptyContextmenuPanels() {
-        /*
+			// empty contextmenu panels
+			emptyContextmenuPanels() {
+				/*
             wait for children panel clicked by setTimeout
             如果点击的是非 root panel 不关闭
             */
-        setTimeout(() => {
-          if (this.isChildrenPanelsClicked) {
-            this.isChildrenPanelsClicked = false;
-          } else {
-            this.removeOrEmptyPanels();
-            this.isPanelsEmptyed = true;
-          }
-        });
-      },
+				setTimeout(() => {
+					if (this.isChildrenPanelsClicked) {
+						this.isChildrenPanelsClicked = false;
+					} else {
+						this.removeOrEmptyPanels();
+						this.isPanelsEmptyed = true;
+					}
+				});
+			},
 
-      // remove or empty panels
-      removeOrEmptyPanels(isRemove) {
-        const { panelOptions } = this;
+			// remove or empty panels
+			removeOrEmptyPanels(isRemove) {
+				const { panelOptions } = this;
 
-        panelOptions.forEach(panelOption => {
-          let contextmenuPanelEl = document.querySelector(`#${panelOption.parentId}`);
-          if (contextmenuPanelEl) {
-            if (isRemove) {
-              contextmenuPanelEl.remove();
-            } else {
-              contextmenuPanelEl.innerHTML = "";
-            }
-          }
-        });
-      },
+				panelOptions.forEach(panelOption => {
+					let contextmenuPanelEl = document.querySelector(`#${panelOption.parentId}`);
+					if (contextmenuPanelEl) {
+						if (isRemove) {
+							contextmenuPanelEl.remove();
+						} else {
+							contextmenuPanelEl.innerHTML = "";
+						}
+					}
+				});
+			},
 
-      // reset contextmeny
-      resetContextmenu() {
-        this.panelOptions = [];
-        this.createPanelOptions({ options: this.internalOptions });
-      },
+			// reset contextmeny
+			resetContextmenu() {
+				this.panelOptions = [];
+				this.createPanelOptions({ options: this.internalOptions });
+			},
 
-      // add context menu panel to body
-      addContextmenuPanelToBody({ contextmenuId }) {
-        let contextmenuPanelEl = document.querySelector(`#${contextmenuId}`);
+			// add context menu panel to body
+			addContextmenuPanelToBody({ contextmenuId }) {
+				let contextmenuPanelEl = document.querySelector(`#${contextmenuId}`);
 
-        if (contextmenuPanelEl) {
-          return false;
-        } else {
-          let containerEl = document.createElement("div");
+				if (contextmenuPanelEl) {
+					return false;
+				} else {
+					let containerEl = document.createElement("div");
 
-          containerEl.setAttribute("id", contextmenuId);
+					containerEl.setAttribute("id", contextmenuId);
 
-          document.body.appendChild(containerEl);
-        }
-      },
+					document.body.appendChild(containerEl);
+				}
+			},
 
-      // add root contextmenu panel to body
-      addRootContextmenuPanelToBody() {
-        if (this.rootContextmenuId) {
-          this.addContextmenuPanelToBody({
-            contextmenuId: this.rootContextmenuId
-          });
-        }
-      },
+			// add root contextmenu panel to body
+			addRootContextmenuPanelToBody() {
+				if (this.rootContextmenuId) {
+					this.addContextmenuPanelToBody({
+						contextmenuId: this.rootContextmenuId
+					});
+				}
+			},
 
-      // register contextmenu event
-      registerContextmenuEvent() {
-        const { eventTarget } = this;
+			// register contextmenu event
+			registerContextmenuEvent() {
+				const { eventTarget } = this;
 
-        if (typeof eventTarget === "string" && eventTarget.length > 0) {
-          this.eventTargetEl = document.querySelector(eventTarget);
-        } else {
-          this.eventTargetEl = eventTarget;
-        }
+				if (typeof eventTarget === "string" && eventTarget.length > 0) {
+					this.eventTargetEl = document.querySelector(eventTarget);
+				} else {
+					this.eventTargetEl = eventTarget;
+				}
 
-        if (this.eventTargetEl) {
-          // contextmenu is on the current element
-          this.eventTargetEl.addEventListener(
-            "contextmenu",
-            this.showRootContextmenuPanel
-          );
-        }
-      },
+				if (this.eventTargetEl) {
+					// contextmenu is on the current element
+					this.eventTargetEl.addEventListener(
+						"contextmenu",
+						this.showRootContextmenuPanel
+					);
+				}
+			},
 
-      // unregister contextmen event
-      removeContextmenuEvent() {
-        if (this.eventTargetEl) {
-          this.eventTargetEl.removeEventListener(
-            "contextmenu",
-            this.showRootContextmenuPanel
-          );
-        }
-      },
+			// unregister contextmen event
+			removeContextmenuEvent() {
+				if (this.eventTargetEl) {
+					this.eventTargetEl.removeEventListener(
+						"contextmenu",
+						this.showRootContextmenuPanel
+					);
+				}
+			},
 
-      // hide contextmenu
-      [INSTANCE_METHODS.HIDE_CONTEXTMENU]() {
-        this.emptyContextmenuPanels();
-      },
+			// hide contextmenu
+			[INSTANCE_METHODS.HIDE_CONTEXTMENU]() {
+				this.emptyContextmenuPanels();
+			},
 
-      // render function using h
-      render(h) {
-        const {
-          panelOptions,
-          activeMenuIds,
-          hasChildren,
-          emptyContextmenuPanels,
-          debounceCreatePanelByHover
-        } = this;
+			// render function using h
+			render(h) {
+				const {
+					panelOptions,
+					activeMenuIds,
+					hasChildren,
+					emptyContextmenuPanels,
+					debounceCreatePanelByHover
+				} = this;
 
-        const contextmenuProps = {
-          class: ["ve-contextmenu"],
-          style: {
-            display: "none"
-          }
-        };
+				const contextmenuProps = {
+					class: ["ve-contextmenu"],
+					style: {
+						display: "none"
+					}
+				};
 
-        const panels = panelOptions.map((panelOption, panelIndex) => {
-          const contextmenuPanelProps = {
-            ref: panelOption.parentId,
-            class: {
-              [clsName("panel")]: true
-            },
-            directives: [
-              {
-                name: "events-outside",
-                value: {
-                  events: ["click"],
-                  callback: e => {
-                    // only for root panel
-                    if (panelIndex === 0) {
-                      emptyContextmenuPanels();
-                    }
-                  }
-                }
-              }
-            ],
-            on: {
-              click: () => {
-                if (panelIndex !== 0) {
-                  this.isChildrenPanelsClicked = true;
-                }
-              },
-              contextmenu: e => {
-                e.preventDefault();
-              }
-            }
-          };
+				const panels = panelOptions.map((panelOption, panelIndex) => {
+					const contextmenuPanelProps = {
+						ref: panelOption.parentId,
+						class: {
+							[clsName("panel")]: true
+						},
+						directives: [
+							{
+								name: "events-outside",
+								value: {
+									events: ["click"],
+									callback: e => {
+										// only for root panel
+										if (panelIndex === 0) {
+											emptyContextmenuPanels();
+										}
+									}
+								}
+							}
+						],
+						on: {
+							click: () => {
+								if (panelIndex !== 0) {
+									this.isChildrenPanelsClicked = true;
+								}
+							},
+							contextmenu: e => {
+								e.preventDefault();
+							}
+						}
+					};
 
-          const menuItems = panelOption.menus.map(menu => {
-            let contextmenuNodeProps;
+					const menuItems = panelOption.menus.map(menu => {
+						let contextmenuNodeProps;
 
-            if (menu.type !== CONTEXTMENU_NODE_TYPES.SEPARATOR) {
-              contextmenuNodeProps = {
-                class: {
-                  [clsName("node")]: true,
-                  [clsName("node-active")]:
-                    activeMenuIds.includes(menu.id),
-                  [clsName("node-disabled")]: menu.disabled
-                },
-                on: {
-                  mouseover: event => {
-                    // disable
-                    if (!menu.disabled) {
-                      debounceCreatePanelByHover({
-                        event,
-                        menu
-                      });
-                    }
-                  },
-                  click: () => {
-                    if (!menu.disabled && !hasChildren(menu)) {
-                      this.$emit(
-                        EMIT_EVENTS.ON_NODE_CLICK,
-                        menu.type
-                      );
-                      setTimeout(() => {
-                        emptyContextmenuPanels();
-                      }, 50);
-                    }
-                  }
-                }
-              };
+						if (menu.type !== CONTEXTMENU_NODE_TYPES.SEPARATOR) {
+							contextmenuNodeProps = {
+								class: {
+									[clsName("node")]: true,
+									[clsName("node-active")]: activeMenuIds.includes(menu.id),
+									[clsName("node-disabled")]: menu.disabled
+								},
+								on: {
+									mouseover: event => {
+										// disable
+										if (!menu.disabled) {
+											debounceCreatePanelByHover({
+												event,
+												menu
+											});
+										}
+									},
+									click: () => {
+										if (!menu.disabled && !hasChildren(menu)) {
+											this.$emit(EMIT_EVENTS.ON_NODE_CLICK, menu.type);
+											setTimeout(() => {
+												emptyContextmenuPanels();
+											}, 50);
+										}
+									}
+								}
+							};
 
-              const children = [
-                h('span', {
-                  class: clsName("node-label")
-                }, menu.label)
-              ];
+							const children = [
+								h(
+									"span",
+									{
+										class: clsName("node-label")
+									},
+									menu.label
+								)
+							];
 
-              if (menu.hasChildren) {
-                children.push(h(VeIcon, {
-                  class: clsName("node-icon-postfix"),
-                  props: {
-                    name: ICON_NAMES.RIGHT_ARROW
-                  }
-                }));
-              }
+							if (menu.hasChildren) {
+								children.push(
+									h(VeIcon, {
+										class: clsName("node-icon-postfix"),
+										props: {
+											name: ICON_NAMES.RIGHT_ARROW
+										}
+									})
+								);
+							}
 
-              return h('li', contextmenuNodeProps, children);
-            } else {
-              contextmenuNodeProps = {
-                class: {
-                  [clsName("node-separator")]: true
-                }
-              };
+							return h("li", contextmenuNodeProps, children);
+						} else {
+							contextmenuNodeProps = {
+								class: {
+									[clsName("node-separator")]: true
+								}
+							};
 
-              return h('li', contextmenuNodeProps);
-            }
-          });
+							return h("li", contextmenuNodeProps);
+						}
+					});
 
-          return h('div', contextmenuPanelProps, [
-            h('ul', {
-              class: clsName("list")
-            }, menuItems)
-          ]);
-        });
+					return h("div", contextmenuPanelProps, [
+						h(
+							"ul",
+							{
+								class: clsName("list")
+							},
+							menuItems
+						)
+					]);
+				});
 
-        return h('div', contextmenuProps, panels);
-      }
-    },
+				return h("div", contextmenuProps, panels);
+			}
+		},
 
-    created() {
-      // bug fixed #467
-      this.debounceCreatePanelByHover = _.debounce(this.createPanelByHover, 300);
-    },
+		created() {
+			// bug fixed #467
+			this.debounceCreatePanelByHover = _.debounce(this.createPanelByHover, 300);
+		},
 
-    mounted() {
-      this.addRootContextmenuPanelToBody();
-    },
+		mounted() {
+			this.addRootContextmenuPanelToBody();
+		},
 
-    destroyed() {
-      this.removeContextmenuEvent();
-      this.removeOrEmptyPanels(true);
-    }
-  };
+		destroyed() {
+			this.removeContextmenuEvent();
+			this.removeOrEmptyPanels(true);
+		}
+	};
 }
 </script>
