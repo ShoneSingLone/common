@@ -1,16 +1,16 @@
 <script lang="ts">
 export default async function () {
-	const [
-		{ PREFIX_CLS, CONTEXTMENU_NODE_TYPES, COLUMN_FIXED_TYPE, AUTOFILLING_DIRECTION },
-		{ MOUSE_EVENT_CLICK_TYPE },
-		{ isEmptyValue, isEmptyArray },
-		{ getRandomId }
-	] = await _.$importVue([
-		"/common/ui-x/components/data/xTableEasy/util/constant.vue",
-		"/common/ui-x/components/data/xTableEasy/utils/constant.vue",
-		"/common/ui-x/components/data/xTableEasy/utils/index.vue",
-		"/common/ui-x/components/data/xTableEasy/utils/random.vue"
-	]);
+	// util/constant.vue
+	const { PREFIX_CLS, CONTEXTMENU_NODE_TYPES, COLUMN_FIXED_TYPE, AUTOFILLING_DIRECTION } = await _.$importVue("/common/ui-x/components/data/xTableEasy/util/constant.vue");
+
+	// utils/constant.vue
+	const { MOUSE_EVENT_CLICK_TYPE } = await _.$importVue("/common/ui-x/components/data/xTableEasy/utils/constant.vue");
+
+	// utils/index.vue
+	const { isEmptyValue, isEmptyArray } = await _.$importVue("/common/ui-x/components/data/xTableEasy/utils/index.vue");
+
+	// utils/random.vue
+	const { getRandomId } = await _.$importVue("/common/ui-x/components/data/xTableEasy/utils/random.vue");
 
 	/**
 	 * @clsName

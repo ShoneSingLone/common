@@ -1001,8 +1001,8 @@ export default async function ({ PRIVATE_GLOBAL }) {
 			// 定时检测popperAppendToBody
 			if (this.mustAppendToBody) {
 				const setPopperAppendToBody = () => {
-					console.log("popperAppendToBody", this.popperAppendToBody);
 					if (!this.popperAppendToBody) {
+						console.log("popperAppendToBody", this.popperAppendToBody);
 						this.popperAppendToBody = true;
 					}
 				};

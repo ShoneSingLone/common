@@ -1,92 +1,135 @@
 <script lang="ts">
 export default async function ({ PRIVATE_GLOBAL }) {
-	const [
-		{
-			initGroupColumns,
-			clsName,
-			getNotFixedTotalWidthByColumnKey,
-			recursiveRemoveColumnByKey,
-			setHeaderContextmenuOptions,
-			setBodyContextmenuOptions,
-			createEmptyRowData,
-			isContextmenuPanelClicked,
-			getRowKey,
-			getColKeysByHeaderColumn,
-			getColumnByColkey,
-			getLeftmostColKey,
-			isCellInSelectionRange,
-			isClearSelectionByBodyCellRightClick,
-			cellAutofill,
-			isOperationColumn,
-			getSelectionRangeData,
-			getSelectionRangeKeys,
-			getSelectionRangeIndexes,
-			setColumnFixed,
-			cancelColumnFixed
-		},
-		{
-			onBeforeCopy,
-			onAfterCopy,
-			onBeforePaste,
-			onAfterPaste,
-			onBeforeCut,
-			onAfterCut,
-			onBeforeDelete,
-			onAfterDelete
-		},
-		{ getValByUnit, scrollTo, isEmptyValue, isEmptyArray, isDefined },
-		{ KEY_CODES, MOUSE_EVENT_CLICK_TYPE },
-		{ getScrollbarWidth },
-		{ requestAnimationTimeout, cancelAnimationTimeout },
-		{ isInputKeyCode },
-		{ Hooks },
-		{ getMouseEventClickType },
-		{
-			COMPS_NAME,
-			HOOKS_NAME,
-			EMIT_EVENTS,
-			COMPS_CUSTOM_ATTRS,
-			INSTANCE_METHODS,
-			CELL_SELECTION_DIRECTION,
-			LOCALE_COMP_NAME,
-			CONTEXTMENU_TYPES,
-			CONTEXTMENU_NODE_TYPES,
-			AUTOFILLING_DIRECTION,
-			CURRENT_CELL_SELECTION_TYPES,
-			COLUMN_FIXED_TYPE
-		},
-		Colgroup,
-		Header,
-		Body,
-		Footer,
-		EditInput,
-		Selection,
-		clickoutside,
-		VueDomResizeObserver,
-		VeContextmenu,
-		ColumnResizer
-	] = await _.$importVue([
-		"/common/ui-x/components/data/xTableEasy/util/index.vue",
-		"/common/ui-x/components/data/xTableEasy/util/clipboard.vue",
-		"/common/ui-x/components/data/xTableEasy/utils/index.vue",
-		"/common/ui-x/components/data/xTableEasy/utils/constant.vue",
-		"/common/ui-x/components/data/xTableEasy/utils/scroll-bar.vue",
-		"/common/ui-x/components/data/xTableEasy/utils/request-animation-timeout.vue",
-		"/common/ui-x/components/data/xTableEasy/utils/event-key-codes.vue",
-		"/common/ui-x/components/data/xTableEasy/utils/hooks-manager.vue",
-		"/common/ui-x/components/data/xTableEasy/utils/mouse-event.vue",
-		"/common/ui-x/components/data/xTableEasy/util/constant.vue",
-		"/common/ui-x/components/data/xTableEasy/colgroup/index.vue",
-		"/common/ui-x/components/data/xTableEasy/header/index.vue",
-		"/common/ui-x/components/data/xTableEasy/body/index.vue",
-		"/common/ui-x/components/data/xTableEasy/footer/index.vue",
-		"/common/ui-x/components/data/xTableEasy/editor/index.vue",
-		"/common/ui-x/components/data/xTableEasy/selection/index.vue",
-		"/common/ui-x/directives/clickoutside.vue",
-		"/common/ui-x/components/data/xTableEasy/helper/comps/resize-observer.vue",
-		"/common/ui-x/components/data/contextmenu.vue",
+	debugger;
+
+	// util/index.vue
+	const {
+		initGroupColumns,
+		clsName,
+		getNotFixedTotalWidthByColumnKey,
+		recursiveRemoveColumnByKey,
+		setHeaderContextmenuOptions,
+		setBodyContextmenuOptions,
+		createEmptyRowData,
+		isContextmenuPanelClicked,
+		getRowKey,
+		getColKeysByHeaderColumn,
+		getColumnByColkey,
+		getLeftmostColKey,
+		isCellInSelectionRange,
+		isClearSelectionByBodyCellRightClick,
+		cellAutofill,
+		isOperationColumn,
+		getSelectionRangeData,
+		getSelectionRangeKeys,
+		getSelectionRangeIndexes,
+		setColumnFixed,
+		cancelColumnFixed
+	} = await _.$importVue("/common/ui-x/components/data/xTableEasy/util/index.vue");
+
+	// util/clipboard.vue
+	const {
+		onBeforeCopy,
+		onAfterCopy,
+		onBeforePaste,
+		onAfterPaste,
+		onBeforeCut,
+		onAfterCut,
+		onBeforeDelete,
+		onAfterDelete
+	} = await _.$importVue("/common/ui-x/components/data/xTableEasy/util/clipboard.vue");
+	// utils/index.vue
+	const { getValByUnit, scrollTo, isEmptyValue, isEmptyArray, isDefined } = await _.$importVue(
+		"/common/ui-x/components/data/xTableEasy/utils/index.vue"
+	);
+
+	// utils/constant.vue
+	const { KEY_CODES, MOUSE_EVENT_CLICK_TYPE } = await _.$importVue(
+		"/common/ui-x/components/data/xTableEasy/utils/constant.vue"
+	);
+
+	// utils/scroll-bar.vue
+	const { getScrollbarWidth } = await _.$importVue(
+		"/common/ui-x/components/data/xTableEasy/utils/scroll-bar.vue"
+	);
+
+	// utils/request-animation-timeout.vue
+	const { requestAnimationTimeout, cancelAnimationTimeout } = await _.$importVue(
+		"/common/ui-x/components/data/xTableEasy/utils/request-animation-timeout.vue"
+	);
+
+	// utils/event-key-codes.vue
+	const { isInputKeyCode } = await _.$importVue(
+		"/common/ui-x/components/data/xTableEasy/utils/event-key-codes.vue"
+	);
+
+	// utils/hooks-manager.vue
+	const { Hooks } = await _.$importVue(
+		"/common/ui-x/components/data/xTableEasy/utils/hooks-manager.vue"
+	);
+
+	// utils/mouse-event.vue
+	const { getMouseEventClickType } = await _.$importVue(
+		"/common/ui-x/components/data/xTableEasy/utils/mouse-event.vue"
+	);
+
+	// util/constant.vue
+	const {
+		COMPS_NAME,
+		HOOKS_NAME,
+		EMIT_EVENTS,
+		COMPS_CUSTOM_ATTRS,
+		INSTANCE_METHODS,
+		CELL_SELECTION_DIRECTION,
+		LOCALE_COMP_NAME,
+		CONTEXTMENU_TYPES,
+		CONTEXTMENU_NODE_TYPES,
+		AUTOFILLING_DIRECTION,
+		CURRENT_CELL_SELECTION_TYPES,
+		COLUMN_FIXED_TYPE
+	} = await _.$importVue("/common/ui-x/components/data/xTableEasy/util/constant.vue");
+
+	// colgroup/index.vue
+	const Colgroup = await _.$importVue(
+		"/common/ui-x/components/data/xTableEasy/colgroup/index.vue"
+	);
+
+	// header/index.vue
+	const Header = await _.$importVue("/common/ui-x/components/data/xTableEasy/header/index.vue");
+
+	// body/index.vue
+	const Body = await _.$importVue("/common/ui-x/components/data/xTableEasy/body/index.vue");
+
+	// footer/index.vue
+	const Footer = await _.$importVue("/common/ui-x/components/data/xTableEasy/footer/index.vue");
+
+	// editor/index.vue
+	const EditInput = await _.$importVue(
+		"/common/ui-x/components/data/xTableEasy/editor/index.vue"
+	);
+
+	// selection/index.vue
+	const Selection = await _.$importVue(
+		"/common/ui-x/components/data/xTableEasy/selection/index.vue"
+	);
+
+	// directives/clickoutside.vue
+	const clickoutside = await _.$importVue("/common/ui-x/directives/clickoutside.vue");
+
+	// helper/comps/resize-observer.vue
+	const VueDomResizeObserver = await _.$importVue(
+		"/common/ui-x/components/data/xTableEasy/helper/comps/resize-observer.vue"
+	);
+
+	// data/contextmenu.vue
+	const VeContextmenu = await _.$importVue(
+		"/common/ui-x/components/data/contextmenu/contextmenu.vue"
+	);
+
+	// column-resizer/index.vue
+	const ColumnResizer = await _.$importVue(
 		"/common/ui-x/components/data/xTableEasy/column-resizer/index.vue"
-	]);
+	);
 	debugger;
 
 	return {

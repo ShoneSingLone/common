@@ -1,9 +1,5 @@
 <script lang="ts">
 export default async function () {
-	const [{ createI18N }] = await Promise.all([
-		_.$importVue("/common/ui-x/components/data/xTableEasy/locale/index.vue")
-	]);
-
 	/*
 	 * @isEmptyArray
 	 * @desc  is empty array

@@ -8,7 +8,6 @@ export default async function ({ PRIVATE_GLOBAL }) {
 		utilIndex,
 		utilsIndex,
 		utilConstant,
-		VeIcon,
 		utilsConstant
 	] = await Promise.all([
 		_.$importVue("/common/ui-x/components/data/xTableEasy/header/header-checkbox-content.vue"),
@@ -19,7 +18,6 @@ export default async function ({ PRIVATE_GLOBAL }) {
 		_.$importVue("/common/ui-x/components/data/xTableEasy/util/index.vue"),
 		_.$importVue("/common/ui-x/components/data/xTableEasy/utils/index.vue"),
 		_.$importVue("/common/ui-x/components/data/xTableEasy/util/constant.vue"),
-		_.$importVue("vue-easytable/packages/ve-icon"),
 		_.$importVue("/common/ui-x/components/data/xTableEasy/utils/constant.vue")
 	]);
 
@@ -390,23 +388,23 @@ export default async function ({ PRIVATE_GLOBAL }) {
 					const sortBy = sortColumns[currentField];
 
 					result = h("span", { class: clsName("sort") }, [
-						h(VeIcon, {
-							class: [
-								clsName("sort-icon"),
-								clsName("sort-icon-top"),
-								sortBy === "asc" ? "active" : ""
-							],
-							props: { name: ICON_NAMES.SORT_TOP_ARROW }
-						}),
-						h(VeIcon, {
-							class: [
-								clsName("sort-icon"),
-								clsName("sort-icon-bottom"),
-								sortBy === "desc" ? "active" : ""
-							],
-							props: { name: ICON_NAMES.SORT_BOTTOM_ARROW }
-						})
-					]);
+				h("xIcon", {
+					class: [
+						clsName("sort-icon"),
+						clsName("sort-icon-top"),
+						sortBy === "asc" ? "active" : ""
+					],
+					props: { icon: ICON_NAMES.SORT_TOP_ARROW }
+				}),
+				h("xIcon", {
+					class: [
+						clsName("sort-icon"),
+						clsName("sort-icon-bottom"),
+						sortBy === "desc" ? "active" : ""
+					],
+					props: { icon: ICON_NAMES.SORT_BOTTOM_ARROW }
+				})
+			]);
 				}
 
 				return result;

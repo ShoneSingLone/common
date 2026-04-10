@@ -1,37 +1,36 @@
 <script lang="ts">
 export default async function ({ PRIVATE_GLOBAL }) {
-	// 使用 _.$importVue() 加载依赖模块
-	const [
-		{
-			clsName,
-			isLastColumnByColKey,
-			isLastRowByRowKey,
-			getColKeysByRangeColKeys,
-			isExistGivenFixedColKey,
-			isExistNotFixedColKey,
-			getLeftmostColKey,
-			getRightmostColKey,
-			getColKeysByFixedTypeWithinColKeys,
-			getTotalWidthByColKeys,
-			getPreviewColKey,
-			getNextColKey
-		},
-		{
-			COMPS_NAME,
-			EMIT_EVENTS,
-			HOOKS_NAME,
-			AUTOFILLING_DIRECTION,
-			CURRENT_CELL_SELECTION_TYPES,
-			COLUMN_FIXED_TYPE
-		},
-		{ INSTANCE_METHODS },
-		{ isEmptyValue }
-	] = await Promise.all([
-		_.$importVue("/common/ui-x/components/data/xTableEasy/util/index.vue"),
-		_.$importVue("/common/ui-x/components/data/xTableEasy/util/constant.vue"),
-		_.$importVue("/common/ui-x/components/data/xTableEasy/selection/constant.vue"),
-		_.$importVue("/common/ui-x/components/data/xTableEasy/utils/index.vue")
-	]);
+	// util/index.vue
+	const {
+		clsName,
+		isLastColumnByColKey,
+		isLastRowByRowKey,
+		getColKeysByRangeColKeys,
+		isExistGivenFixedColKey,
+		isExistNotFixedColKey,
+		getLeftmostColKey,
+		getRightmostColKey,
+		getColKeysByFixedTypeWithinColKeys,
+		getTotalWidthByColKeys,
+		getPreviewColKey,
+		getNextColKey
+	} = await _.$importVue("/common/ui-x/components/data/xTableEasy/util/index.vue");
+
+	// util/constant.vue
+	const {
+		COMPS_NAME,
+		EMIT_EVENTS,
+		HOOKS_NAME,
+		AUTOFILLING_DIRECTION,
+		CURRENT_CELL_SELECTION_TYPES,
+		COLUMN_FIXED_TYPE
+	} = await _.$importVue("/common/ui-x/components/data/xTableEasy/util/constant.vue");
+
+	// selection/constant.vue
+	const { INSTANCE_METHODS } = await _.$importVue("/common/ui-x/components/data/xTableEasy/selection/constant.vue");
+
+	// utils/index.vue
+	const { isEmptyValue } = await _.$importVue("/common/ui-x/components/data/xTableEasy/utils/index.vue");
 
 	// 从 lodash 获取 debounce 函数
 	const { debounce } = _;

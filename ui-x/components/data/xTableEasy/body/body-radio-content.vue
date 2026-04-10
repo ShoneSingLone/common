@@ -1,8 +1,8 @@
 <script lang="ts">
 export default async function ({ PRIVATE_GLOBAL }) {
 	// 使用 _.$importVue() 加载依赖
-	const [VeRadio, { COMPS_NAME, EMIT_EVENTS }, { clsName }] = await Promise.all([
-		_.$importVue("vue-easytable/packages/ve-radio"),
+	const [xRadio, { COMPS_NAME, EMIT_EVENTS }, { clsName }] = await Promise.all([
+		_.$importVue("/common/ui-x/components/form/xRadio/xRadio.vue"),
 		_.$importVue("/common/ui-x/components/data/xTableEasy/util/constant.vue"),
 		_.$importVue("/common/ui-x/components/data/xTableEasy/util/index.vue")
 	]);
@@ -96,16 +96,15 @@ export default async function ({ PRIVATE_GLOBAL }) {
 			const radioProps = {
 				class: clsName("radio-wrapper"),
 				props: {
-					isControlled: true,
-					isSelected,
+					checked: isSelected,
 					disabled
 				},
 				on: {
-					"on-radio-change": () => selectedChange()
+					change: () => selectedChange()
 				}
 			};
 
-			return h(VeRadio, radioProps);
+			return h(xRadio, radioProps);
 		}
 	};
 }

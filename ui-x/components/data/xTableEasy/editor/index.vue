@@ -1,23 +1,25 @@
 <script lang="ts">
 export default async function ({ PRIVATE_GLOBAL }) {
-	// 使用 _.$importVue() 加载所有依赖
-	const [
-		{ clsName, getFixedTotalWidthByColumnKey },
-		{ INSTANCE_METHODS },
-		{ COMPS_NAME, EMIT_EVENTS, HOOKS_NAME },
-		focus,
-		{ autoResize },
-		{ isEmptyValue },
-		{ getCaretPosition, setCaretPosition }
-	] = await Promise.all([
-		_.$importVue("/common/ui-x/components/data/xTableEasy/util/index.vue"),
-		_.$importVue("/common/ui-x/components/data/xTableEasy/editor/constant.vue"),
-		_.$importVue("/common/ui-x/components/data/xTableEasy/util/constant.vue"),
-		_.$importVue("/common/ui-x/components/data/xTableEasy/helper/directives/focus.vue"),
-		_.$importVue("/common/ui-x/components/data/xTableEasy/utils/auto-resize.vue"),
-		_.$importVue("/common/ui-x/components/data/xTableEasy/utils/index.vue"),
-		_.$importVue("/common/ui-x/components/data/xTableEasy/utils/dom.vue")
-	]);
+	// util/index.vue
+	const { clsName, getFixedTotalWidthByColumnKey } = await _.$importVue("/common/ui-x/components/data/xTableEasy/util/index.vue");
+
+	// editor/constant.vue
+	const { INSTANCE_METHODS } = await _.$importVue("/common/ui-x/components/data/xTableEasy/editor/constant.vue");
+
+	// util/constant.vue
+	const { COMPS_NAME, EMIT_EVENTS, HOOKS_NAME } = await _.$importVue("/common/ui-x/components/data/xTableEasy/util/constant.vue");
+
+	// helper/directives/focus.vue
+	const focus = await _.$importVue("/common/ui-x/directives/focus.vue");
+
+	// utils/auto-resize.vue
+	const { autoResize } = await _.$importVue("/common/ui-x/components/data/xTableEasy/utils/auto-resize.vue");
+
+	// utils/index.vue
+	const { isEmptyValue } = await _.$importVue("/common/ui-x/components/data/xTableEasy/utils/index.vue");
+
+	// utils/dom.vue
+	const { getCaretPosition, setCaretPosition } = await _.$importVue("/common/ui-x/components/data/xTableEasy/utils/dom.vue");
 
 	// 使用 lodash 的 debounce
 	const { debounce } = _;

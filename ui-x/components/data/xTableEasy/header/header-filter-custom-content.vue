@@ -1,11 +1,10 @@
 <script lang="ts">
 export default async function ({ PRIVATE_GLOBAL }) {
 	// 显式导入下拉与图标组件，避免依赖全局字符串组件注册
-	const [VeDropdown, { COMPS_NAME }, { clsName }, VeIcon, { ICON_NAMES }] = await Promise.all([
-		_.$importVue("vue-easytable/packages/ve-dropdown"),
+	const [xDropdown, { COMPS_NAME }, { clsName }, { ICON_NAMES }] = await Promise.all([
+		_.$importVue("/common/ui-x/components/navigation/xDropdown/xDropdown.vue"),
 		_.$importVue("/common/ui-x/components/data/xTableEasy/util/constant.vue"),
 		_.$importVue("/common/ui-x/components/data/xTableEasy/util/index.vue"),
-		_.$importVue("vue-easytable/packages/ve-icon"),
 		_.$importVue("/common/ui-x/components/data/xTableEasy/utils/constant.vue")
 	]);
 
@@ -67,11 +66,11 @@ export default async function ({ PRIVATE_GLOBAL }) {
 				if (_.isFunction(filterIcon)) {
 					result = filterIcon(h);
 				} else {
-					result = h(VeIcon, {
-						props: {
-							name: ICON_NAMES.FILTER
-						}
-					});
+					result = h("xIcon", {
+				props: {
+					icon: ICON_NAMES.FILTER
+				}
+			});
 				}
 				return result;
 			},
@@ -86,17 +85,15 @@ export default async function ({ PRIVATE_GLOBAL }) {
 		render(h) {
 			const compProps = {
 				props: {
-					isCustomContent: true,
-					isControlled: true,
 					visible: this.internalVisible,
 					beforeVisibleChange: this.column.filterCustom.beforeVisibleChange
 				},
 				on: {
-					"on-dropdown-visible-change": this.visibleChange
+					"visible-change": this.visibleChange
 				}
 			};
 
-			return h(VeDropdown, compProps, [
+			return h(xDropdown, compProps, [
 				// icon
 				h("span", { class: clsName("filter") }, [
 					h("span", { class: clsName("filter-icon") }, [this.getIcon(h)])

@@ -1,27 +1,25 @@
 <script lang="ts">
 export default async function ({ PRIVATE_GLOBAL }) {
-	// 使用 _.$importVue() 加载依赖
-	const [
-		BodyTr,
-		BodyTrScrolling,
-		ExpandTr,
-		VueDomResizeObserver,
-		utilIndex,
-		utilsIndex,
-		constant
-	] = await Promise.all([
-		_.$importVue("/common/ui-x/components/data/xTableEasy/body/body-tr.vue"),
-		_.$importVue("/common/ui-x/components/data/xTableEasy/body/body-tr-scrolling.vue"),
-		_.$importVue("/common/ui-x/components/data/xTableEasy/body/expand-tr.vue"),
-		_.$importVue("/common/ui-x/components/data/xTableEasy/helper/comps/resize-observer.vue"),
-		_.$importVue("/common/ui-x/components/data/xTableEasy/util/index.vue"),
-		_.$importVue("/common/ui-x/components/data/xTableEasy/utils/index.vue"),
-		_.$importVue("/common/ui-x/components/data/xTableEasy/util/constant.vue")
-	]);
+	// body-tr.vue
+	const BodyTr = await _.$importVue("/common/ui-x/components/data/xTableEasy/body/body-tr.vue");
 
-	const { getDomResizeObserverCompKey, getFixedTotalWidthByColumnKey, clsName } = utilIndex;
-	const { getValByUnit } = utilsIndex;
-	const { COMPS_NAME, EMIT_EVENTS, COLUMN_TYPES, EXPAND_TRIGGER_TYPES } = constant;
+	// body-tr-scrolling.vue
+	const BodyTrScrolling = await _.$importVue("/common/ui-x/components/data/xTableEasy/body/body-tr-scrolling.vue");
+
+	// expand-tr.vue
+	const ExpandTr = await _.$importVue("/common/ui-x/components/data/xTableEasy/body/expand-tr.vue");
+
+	// helper/comps/resize-observer.vue
+	const VueDomResizeObserver = await _.$importVue("/common/ui-x/components/data/xTableEasy/helper/comps/resize-observer.vue");
+
+	// util/index.vue
+	const { getDomResizeObserverCompKey, getFixedTotalWidthByColumnKey, clsName } = await _.$importVue("/common/ui-x/components/data/xTableEasy/util/index.vue");
+
+	// utils/index.vue
+	const { getValByUnit } = await _.$importVue("/common/ui-x/components/data/xTableEasy/utils/index.vue");
+
+	// util/constant.vue
+	const { COMPS_NAME, EMIT_EVENTS, COLUMN_TYPES, EXPAND_TRIGGER_TYPES } = await _.$importVue("/common/ui-x/components/data/xTableEasy/util/constant.vue");
 
 	return {
 		name: COMPS_NAME.VE_TABLE_BODY,
