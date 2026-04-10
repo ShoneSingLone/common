@@ -111,7 +111,7 @@ export default async function () {
 		};
 
 		vmPopover.$on("hook:mounted", () => {
-			if (_.isFunction(vmPopover.options.onMounted)) {
+			if (_.isFunction(vmPopover.options?.onMounted)) {
 				vmPopover.options.onMounted.call(vmPopover, {
 					popoverVm: vmPopover,
 					referenceVm: vmRefrence
