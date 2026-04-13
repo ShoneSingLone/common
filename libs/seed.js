@@ -537,15 +537,15 @@
 		let lastLogTime = 0;
 		const LOG_INTERVAL = 1000 * 2; // 日志打印间隔，单位：毫秒
 
-		const _ensure_inner_print = (count, callerInfo) => {
+		const _ensure_inner_print = ({ count, info, handler }) => {
 			if (window._?.$ensure_inner_print) {
-				_.$ensure_inner_print(count, callerInfo);
+				_.$ensure_inner_print({ count, info, handler });
 			} else {
 				const now = Date.now();
 				// 只有在上次日志打印后的指定时间间隔后才打印
 				if (now - lastLogTime >= LOG_INTERVAL) {
-					console.groupCollapsed(`${callerInfo.message}: ${count}`);
-					console.warn(callerInfo);
+					console.groupCollapsed(`${info.message}: ${count}`);
+					console.warn(info);
 					console.groupEnd();
 					lastLogTime = now;
 				}
@@ -561,15 +561,17 @@
 		/* @typescriptDeclare (fn_get_value:(()=>Promise<any>)|(()=>any), duration?:number) =>Promise<any> */
 		$ensure = async (fn_get_value, duration = 0, gap = 64) => {
 			/* 获取完整的调用者信息，包含初始调用栈 */
-			const callerInfo = new Error(fn_get_value.toString());
+			const callerInfo = fn_get_value.toString();
 
 			return new Promise((resolve, reject) => {
 				let timer;
 				let exeCount = 0;
 
+				const handler = { louder: null };
+
 				const checkValue = async () => {
-					const value = await fn_get_value({ exeCount });
-					_ensure_inner_print(++exeCount, callerInfo);
+					const value = await fn_get_value({ exeCount, handler });
+					_ensure_inner_print({ count: ++exeCount, info: callerInfo, handler });
 					if (value) {
 						clearTimeout(timer);
 						resolve(value);
@@ -581,7 +583,7 @@
 				if (duration) {
 					setTimeout(() => {
 						clearTimeout(timer);
-						_ensure_inner_print(exeCount, callerInfo);
+						_ensure_inner_print({ count: exeCount, info: callerInfo, handler });
 						reject(new Error("ensure timeout"));
 					}, duration);
 				}
@@ -821,7 +823,7 @@
 									const preloadArray = getPreload();
 									preloadArray.forEach(url => $loadText(url));
 								}
-							} catch (error) {}
+							} catch (error) { }
 						}
 					}
 				],

@@ -7,7 +7,7 @@ export default async function UTILS() {
 				const listeners = entry.target.__resizeListeners__ || [];
 				if (listeners.length) {
 					listeners.forEach(fn => {
-						fn();
+						fn(entry.contentRect);
 					});
 				}
 			}

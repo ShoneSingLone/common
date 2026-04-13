@@ -18,7 +18,7 @@ export default async function () {
 		},
 		methods: {
 			resizeListener(contentRect) {
-				debugger;
+				if (!contentRect) return;
 				const { left, top, width, height } = contentRect;
 				this.$emit("on-dom-resize-change", {
 					key: this.id,
