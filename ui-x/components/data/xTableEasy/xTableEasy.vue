@@ -1,6 +1,5 @@
 <script lang="ts">
 export default async function ({ PRIVATE_GLOBAL }) {
-	debugger;
 
 	// util/index.vue
 	const {
@@ -130,7 +129,6 @@ export default async function ({ PRIVATE_GLOBAL }) {
 	const ColumnResizer = await _.$importVue(
 		"/common/ui-x/components/data/xTableEasy/column-resizer/index.vue"
 	);
-	debugger;
 
 	return {
 		name: COMPS_NAME.VE_TABLE,

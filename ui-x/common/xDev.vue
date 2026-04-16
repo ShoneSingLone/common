@@ -1,3 +1,33 @@
+<template>
+	<div
+		v-if="cpt_is_dev"
+		class="x-dev-component"
+		ref="rootRef"
+		:style="componentStyle"
+		@click="updateZIndex">
+		<!-- 标题栏 - 可拖动和折叠控制 -->
+		<div class="x-dev-header">
+			<!-- 折叠/展开按钮 -->
+			<button class="x-dev-toggle-btn" @click="toggleCollapse">{{
+				isCollapsed ? "▶" : "▼"
+			}}</button>
+			<!-- 标题文本 -->
+			<span :style="titleStyle" v-xmove="moveOptions">Debug Info</span>
+			<!-- 关闭按钮 -->
+			<button class="x-dev-close-btn" @click="closeComponent">×</button>
+		</div>
+		<!-- 内容区域 - 可折叠 -->
+		<div class="x-dev-content" :style="contentStyle">
+			<template v-if="$slots.default">
+				<slot></slot>
+			</template>
+			<template v-else>
+				<pre><code>{{ contentsText }}</code></pre>
+			</template>
+		</div>
+	</div>
+</template>
+
 <script>
 export default async function () {
 	const [PopupManager] = await _.$importVue(["/common/libs/VuePopper/popupManager.vue"]);
@@ -10,11 +40,8 @@ export default async function () {
 			// 可折叠状态 - 默认折叠
 			const isCollapsed = ref(true);
 
-			const contents = computed(() => {
-				// 检查是否有默认slot
-				if (slots.default) {
-					return slots.default();
-				}
+			// 计算内容文本
+			const contentsText = computed(() => {
 				try {
 					return JSON.stringify(props.contents, null, 2);
 				} catch (error) {
@@ -22,6 +49,26 @@ export default async function () {
 					return "error";
 				}
 			});
+
+			// 标题文本样式
+			const titleStyle = computed(() => ({
+				fontWeight: "bold",
+				fontSize: "14px",
+				color: "#303133",
+				flex: 1,
+				marginLeft: "8px"
+			}));
+
+			// 组件位置样式
+			const componentStyle = computed(() => ({
+				left: `${position.x}px`,
+				top: `${position.y}px`
+			}));
+
+			// 内容区域显示样式
+			const contentStyle = computed(() => ({
+				display: isCollapsed.value ? "none" : "block"
+			}));
 
 			// 折叠/展开切换
 			const toggleCollapse = () => {
@@ -34,6 +81,14 @@ export default async function () {
 			const closeComponent = () => {
 				emit("close");
 			};
+
+			// 更新zIndex，保持置顶
+			const updateZIndex = () => {
+				rootRef.value.style.zIndex = PopupManager.nextZIndex();
+			};
+
+			// 位置状态用于拖动
+			const position = reactive({ x: 20, y: 20 });
 
 			// v-xmove 配置选项
 			const moveOptions = {
@@ -49,7 +104,6 @@ export default async function () {
 						return false;
 					}
 					// 拖动时更新zIndex，保持置顶
-
 					rootRef.value.style.zIndex = PopupManager.nextZIndex();
 					// 记录初始位置
 					this.x = position.x;
@@ -83,100 +137,34 @@ export default async function () {
 			// 组件销毁时清理资源
 			onUnmounted(() => {
 				// 清理DOM元素
-				if (this.$el) {
+				if (rootRef.value) {
 					// 移除组件元素
-					if (this.$el.parentNode) {
-						this.$el.parentNode.removeChild(this.$el);
+					if (rootRef.value.parentNode) {
+						rootRef.value.parentNode.removeChild(rootRef.value);
 					}
 					// 清空引用
-					this.$el = null;
+					rootRef.value = null;
 				}
 			});
 
-			// 位置状态用于拖动
-			const position = reactive({ x: 20, y: 20 });
-
-			return function () {
-				if (localStorage.isDev !== "DEV") {
-					return null;
-				}
-				return h(
-					"div",
-					{
-						staticClass: "x-dev-component",
-						ref: rootRef,
-						// 只保留动态变化的位置样式
-						style: {
-							left: `${position.x}px`,
-							top: `${position.y}px`
-						},
-						// 点击组件时更新zIndex，保持置顶
-						onClick() {
-							rootRef.value.style.zIndex = PopupManager.nextZIndex();
-						}
-					},
-					[
-						// 标题栏 - 可拖动和折叠控制
-						h(
-							"div",
-							{
-								staticClass: "x-dev-header"
-							},
-							[
-								// 折叠/展开按钮
-								h(
-									"button",
-									{
-										staticClass: "x-dev-toggle-btn",
-										onClick: toggleCollapse
-									},
-									isCollapsed.value ? "▶" : "▼"
-								),
-								// 标题文本
-								h(
-									"span",
-									{
-										style: {
-											fontWeight: "bold",
-											fontSize: "14px",
-											color: "#303133",
-											flex: 1,
-											marginLeft: "8px"
-										},
-										// 使用v-xmove指令实现拖动，只应用在标题栏上
-										directives: [{ name: "xmove", value: moveOptions }]
-									},
-									"Debug Info"
-								),
-								// 关闭按钮
-								h(
-									"button",
-									{
-										staticClass: "x-dev-close-btn",
-										onClick: closeComponent
-									},
-									"×"
-								)
-							]
-						),
-						// 内容区域 - 可折叠
-						h(
-							"div",
-							{
-								staticClass: "x-dev-content",
-								// 只保留动态变化的样式
-								style: {
-									display: isCollapsed.value ? "none" : "block"
-								}
-							},
-							// 检查是否有默认slot
-							slots.default
-								? contents.value
-								: [h("pre", {}, [h("code", {}, [contents.value])])]
-						)
-					]
-				);
+			return {
+				rootRef,
+				isCollapsed,
+				contentsText,
+				titleStyle,
+				componentStyle,
+				contentStyle,
+				toggleCollapse,
+				closeComponent,
+				updateZIndex,
+				position,
+				moveOptions
 			};
+		},
+		computed: {
+			cpt_is_dev() {
+				return localStorage.isDev === "DEV";
+			}
 		}
 	});
 }
