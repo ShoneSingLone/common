@@ -2932,6 +2932,7 @@
 		const state = Vue.observable({
 			focusedWindowId: ""
 		});
+		let PopupManager;
 
 		return {
 			/**
@@ -2948,6 +2949,9 @@
 			 * @returns {Promise<any>} 返回窗口实例
 			 */
 			async open(options = {}) {
+				if (!PopupManager) {
+					PopupManager = await _.$importVue("/common/libs/VuePopper/popupManager.vue");
+				}
 				const id = options.id || _.$ramdomStr(8);
 
 				if (windowsRegistry.has(id)) {
@@ -3084,8 +3088,10 @@
 				const vm = windowsRegistry.get(id);
 				if (vm) {
 					state.focusedWindowId = id;
-					// 动态加载 PopupManager 以获取下一个 z-index
-					const PopupManager = await _.$importVue("/common/libs/VuePopper/popupManager.vue");
+					// 如果 PopupManager 还没加载完，等待加载（通常 open 时已经加载好了）
+					if (!PopupManager) {
+						PopupManager = await _.$importVue("/common/libs/VuePopper/popupManager.vue");
+					}
 					if (PopupManager && _.isFunction(PopupManager.nextZIndex)) {
 						const zIndex = PopupManager.nextZIndex();
 						// 优先更新 Vue 实例上的属性以触发响应式更新
