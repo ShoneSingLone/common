@@ -2688,12 +2688,11 @@
 
 					/* 如果有异步支持的选型，判断是否需要等待下拉有值 */
 					if (["xItemSelect", "xItemRadioGroup"].includes(cfg.itemType)) {
-						if (prop === "hostRoomArea") debugger;
-
 						/* 需要下拉项的 */
 						const is_value_default_first =
 							options.FIRST_OPTION_AS_VALUE && _.isUndefined(value);
 
+						/* 被隐藏项无需处理 */
 						const isHide = _.isFunction(cfg.isHide) ? cfg.isHide() : !!cfg.isHide;
 						/* 被隐藏项无需等待 */
 						if (is_value_default_first || _.$isInput(value) || !isHide) {
