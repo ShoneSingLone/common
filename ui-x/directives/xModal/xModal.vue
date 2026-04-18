@@ -400,7 +400,7 @@ export default async function ({ PRIVATE_GLOBAL, options, modalConfigs }) {
 				}
 			},
 			handleMaskClick() {
-				if (isMask && options.closeOnClickMask !== false) {
+				if (isMask && options.closeOnClickMask === true) {
 					this.closeModal();
 				}
 			}
