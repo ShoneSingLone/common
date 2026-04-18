@@ -1,13 +1,21 @@
 <template>
 	<transition name="viewer-fade">
 		<div class="el-dialog__wrapper" :style="cptWrapperStyle">
-			<div role="dialog" :class="dialog_class" :style="dialogStyle" ref="refDialog">
+			<div role="dialog" :class="dialog_class" :style="dialogStyle" ref="refDialog" @mousedown="toTop">
 				<div class="el-dialog__header" v-if="!isHideHeader">
 					<div class="el-dialog__title-bar" v-xmove="moveOptions" />
 					<span class="el-dialog__title">
 						<span class="xModel-title_prefixe"></span>
 						<xRender :render="cpt_title" />
 					</span>
+					<button
+						v-if="isShowFullScreen"
+						type="button"
+						aria-label="Minimize"
+						class="x-dialog__headerbtn minimize"
+						@click="minimize">
+						<xIcon icon="minus" />
+					</button>
 					<button
 						v-if="isShowFullScreen"
 						type="button"
@@ -50,19 +58,24 @@ export default async function ({ PRIVATE_GLOBAL, options, modalConfigs }) {
 	options = options || {};
 
 	const isHideHeader = options.isHideHeader || false;
+	const isModal = options.modal !== false;
 
 	function useModal(vm) {
 		onMounted(() => {
 			vm.deviceSupportInstall();
 			document.body.appendChild(vm.$el);
-			vm.styleOverflow = document.body.style.overflow;
-			// vm.stylePointerEvents = document.body.style.pointerEvents;
-			document.body.style.overflow = "hidden";
-			// document.body.style.pointerEvents = "none";
+			if (isModal) {
+				vm.styleOverflow = document.body.style.overflow;
+				// vm.stylePointerEvents = document.body.style.pointerEvents;
+				document.body.style.overflow = "hidden";
+				// document.body.style.pointerEvents = "none";
+			}
 		});
 
 		onBeforeUnmount(() => {
-			document.body.style.overflow = vm.styleOverflow;
+			if (isModal) {
+				document.body.style.overflow = vm.styleOverflow;
+			}
 			// document.body.style.pointerEvents = vm.stylePointerEvents;
 			if (vm.$el && vm.$el.parentNode) {
 				vm.$el.parentNode.removeChild(vm.$el);
@@ -134,6 +147,11 @@ export default async function ({ PRIVATE_GLOBAL, options, modalConfigs }) {
 						if (vm.dialog_class.fullscreen) {
 							return 0;
 						}
+
+						if (options.style && _.$isInput(options.style.left)) {
+							return parseInt(options.style.left);
+						}
+
 						let left = (currentValues.winWidth - currentValues.width) / 2;
 
 						if (left < 0) {
@@ -147,6 +165,10 @@ export default async function ({ PRIVATE_GLOBAL, options, modalConfigs }) {
 							return 0;
 						}
 
+						if (options.style && _.$isInput(options.style.top)) {
+							return parseInt(options.style.top);
+						}
+
 						let topOnepice = 2;
 						const topTotal = currentValues.winHeight - currentValues.height;
 						if (topTotal >= 4) {
@@ -157,24 +179,32 @@ export default async function ({ PRIVATE_GLOBAL, options, modalConfigs }) {
 
 					// 使用 requestAnimationFrame 确保样式更新在下一帧执行
 					requestAnimationFrame(() => {
+						const style = {
+							"margin-top": "0",
+							opacity: 1,
+							left: `${left}px`,
+							top: `${topOnepice}px`,
+							transform: "none",
+							visibility: "visible"
+						};
+
+						if (options.style && _.$isInput(options.style.width)) {
+							style.width = `${parseInt(options.style.width)}px`;
+						}
+						if (options.style && _.$isInput(options.style.height)) {
+							style.height = `${parseInt(options.style.height)}px`;
+						}
+
 						if (vm.dialog_class.fullscreen) {
 							vm.dialogStyle = {
-								"margin-top": "0",
-								opacity: 1,
+								...style,
 								left: "0",
 								top: "0",
-								transform: "none",
-								visibility: "visible"
+								width: "100vw",
+								height: "100vh"
 							};
 						} else {
-							vm.dialogStyle = {
-								"margin-top": "0",
-								opacity: 1,
-								left: `${left}px`,
-								top: `${topOnepice}px`,
-								transform: "none",
-								visibility: "visible"
-							};
+							vm.dialogStyle = style;
 						}
 						lastCalculatedValues = currentValues;
 						isCalculating = false;
@@ -229,6 +259,7 @@ export default async function ({ PRIVATE_GLOBAL, options, modalConfigs }) {
 					left: 0,
 					width: 0,
 					onStart() {
+						vm.toTop();
 						const { left, top } = vm.$refs.refDialog.getBoundingClientRect();
 						vm.moveOptions.left = left;
 						vm.moveOptions.top = top;
@@ -285,11 +316,13 @@ export default async function ({ PRIVATE_GLOBAL, options, modalConfigs }) {
 				// ContentComponent: defineComponent({ template: `<div class="el-skeleton is-animated flex vertical x-padding" style="min-width: 200px;"><div class="el-skeleton__item el-skeleton__p is-first"></div><div class="el-skeleton__item el-skeleton__p el-skeleton__paragraph is-last mt"></div></div>` }),
 				ContentComponent: "",
 				isShowFullScreen: _.isBoolean(modalConfigs.fullscreen),
+				id: options.id || "",
 				viewerZIndex: 0,
 				left: 0,
 				dialog_class: {
 					"el-dialog": true,
-					fullscreen: !!_.$val(modalConfigs, "fullscreen")
+					fullscreen: !!_.$val(modalConfigs, "fullscreen"),
+					minimized: false
 				},
 				dialogStyle: {
 					transform: "unset",
@@ -312,6 +345,14 @@ export default async function ({ PRIVATE_GLOBAL, options, modalConfigs }) {
 				}
 
 				if (isClose) {
+					// 记录当前位置和大小以便下次恢复
+					const { top, left } = _.$getLeftTopFromAbsolute($(this.$refs.refDialog));
+					const width = $(this.$refs.refDialog).width();
+					const height = $(this.$refs.refDialog).height();
+					if (this.id) {
+						_.$lStorage[`window_state_${this.id}`] = { top, left, width, height };
+					}
+
 					this.dialogStyle = {
 						...this.dialogStyle,
 						opacity: 0
@@ -320,6 +361,29 @@ export default async function ({ PRIVATE_GLOBAL, options, modalConfigs }) {
 						this.isClickCloseIcon = isClickCloseIcon;
 						this.$destroy();
 					}, 300);
+				}
+			},
+			minimize() {
+				this.dialog_class.minimized = true;
+				this.dialogStyle = {
+					...this.dialogStyle,
+					opacity: 0,
+					visibility: "hidden",
+					pointerEvents: "none"
+				};
+			},
+			restore() {
+				this.dialog_class.minimized = false;
+				this.dialogStyle = {
+					...this.dialogStyle,
+					opacity: 1,
+					visibility: "visible",
+					pointerEvents: "auto"
+				};
+			},
+			toTop() {
+				if (this.id) {
+					_.$windowsManager.toTop(this.id);
 				}
 			}
 		},
@@ -332,7 +396,8 @@ export default async function ({ PRIVATE_GLOBAL, options, modalConfigs }) {
 			},
 			cptWrapperStyle() {
 				return {
-					"--xModal-zIndex": this.viewerZIndex
+					"--xModal-zIndex": this.viewerZIndex,
+					"pointer-events": isModal ? "auto" : "none"
 				};
 			}
 		},
@@ -354,6 +419,7 @@ export default async function ({ PRIVATE_GLOBAL, options, modalConfigs }) {
 	box-sizing: border-box;
 	width: 50%;
 	background-color: var(--xModal-bg-color, #fff);
+	pointer-events: auto;
 
 	&.is-fullscreen {
 		width: 100%;
@@ -564,6 +630,10 @@ export default async function ({ PRIVATE_GLOBAL, options, modalConfigs }) {
 
 				&.fullscreen {
 					right: 36px;
+				}
+
+				&.minimize {
+					right: 62px;
 				}
 
 				&.close {

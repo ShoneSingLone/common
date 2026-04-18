@@ -62,8 +62,14 @@ export default async function ({ PRIVATE_GLOBAL }) {
 			const PopupManager = await _.$importVue("/common/libs/VuePopper/popupManager.vue");
 			xModal.parent = options.parent || Vue.forceUpdate.getVM();
 			let instance = new Vue(xModal);
+			if (options.windowId) {
+				instance.windowId = options.windowId;
+			}
 			instance.$mount();
 			document.body.appendChild(instance.$el);
+			if (options.windowId) {
+				instance.$el.setAttribute("data-window-id", options.windowId);
+			}
 			instance.viewerZIndex = PopupManager.nextZIndex();
 			/*TODO:*/
 			if (_.isFunction(PRIVATE_GLOBAL.x_open_modal_do_some_thing_before_open)) {

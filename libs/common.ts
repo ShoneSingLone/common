@@ -2922,6 +2922,191 @@
 		const mask = ~(2 ** (32 - bits) - 1);
 		return [_.$intToIp4(_.$ip4ToInt(range) & mask), _.$intToIp4(_.$ip4ToInt(range) | ~mask)];
 	};
+
+	/**
+	 * 管理窗口的模块
+	 */
+	/* @typescriptDeclare { open(options:any):Promise<any>; close(id:string):void; closeAll():void; minimize(id:string):void; restore(id:string):void; maximize(id:string):void; toTop(id:string):void; getAllInstances():any[]; getInstance(id:string):any; } */
+	_.$windowsManager = (function () {
+		const windowsRegistry = new Map();
+
+		return {
+			/**
+			 * 打开一个窗口
+			 * @param {Object} options 窗口配置
+			 * @returns {Promise<any>} 返回窗口实例
+			 */
+			async open(options = {}) {
+				const id = options.id || _.$ramdomStr(8);
+
+				if (windowsRegistry.has(id)) {
+					const vm = windowsRegistry.get(id);
+					await this.toTop(id);
+					return vm;
+				}
+
+				// 默认不使用遮罩，允许点击其他窗口
+				if (options.modal === undefined) {
+					options.modal = false;
+				}
+
+				// 内存恢复：如果提供了 ID，尝试从本地存储恢复位置和大小
+				if (options.id) {
+					const savedState = _.$lStorage[`window_state_${id}`];
+					if (savedState) {
+						options.style = _.merge({}, options.style, savedState);
+					}
+				}
+
+				// 调用 _.$openModal 打开窗口
+				const modalVm = await _.$openModal(options);
+				modalVm.id = id;
+				windowsRegistry.set(id, modalVm);
+
+				// 监听销毁事件
+				modalVm.$on("hook:beforeDestroy", () => {
+					if (options.id) {
+						// 记录当前位置和大小以便下次恢复
+						const { top, left, width, height } = modalVm;
+						if (_.$isInput(top) || _.$isInput(left)) {
+							_.$lStorage[`window_state_${id}`] = { top, left, width, height };
+						}
+					}
+					windowsRegistry.delete(id);
+				});
+
+				return modalVm;
+			},
+
+			/**
+			 * 关闭指定窗口
+			 * @param {string} id 窗口 ID
+			 */
+			close(id) {
+				const vm = windowsRegistry.get(id);
+				if (vm) {
+					if (_.isFunction(vm.close)) {
+						vm.close();
+					} else if (_.isFunction(vm.$destroy)) {
+						vm.$destroy();
+					}
+				}
+			},
+
+			/**
+			 * 关闭所有已打开的窗口
+			 */
+			closeAll() {
+				windowsRegistry.forEach((vm, id) => {
+					this.close(id);
+				});
+			},
+
+			/**
+			 * 最小化窗口
+			 * @param {string} id 窗口 ID
+			 */
+			minimize(id) {
+				const vm = windowsRegistry.get(id);
+				if (vm && _.isFunction(vm.minimize)) {
+					vm.minimize();
+				}
+			},
+
+			/**
+			 * 还原窗口
+			 * @param {string} id 窗口 ID
+			 */
+			restore(id) {
+				const vm = windowsRegistry.get(id);
+				if (vm && _.isFunction(vm.restore)) {
+					vm.restore();
+				}
+			},
+
+			/**
+			 * 最大化窗口
+			 * @param {string} id 窗口 ID
+			 */
+			maximize(id) {
+				const vm = windowsRegistry.get(id);
+				if (vm && _.isFunction(vm.maximize)) {
+					vm.maximize();
+				}
+			},
+
+			/**
+			 * 将窗口置顶
+			 * @param {string} id 窗口 ID
+			 */
+			async toTop(id) {
+				const vm = windowsRegistry.get(id);
+				if (vm) {
+					// 动态加载 PopupManager 以获取下一个 z-index
+					const PopupManager = await _.$importVue("/common/libs/VuePopper/popupManager.vue");
+					if (PopupManager && _.isFunction(PopupManager.nextZIndex)) {
+						const zIndex = PopupManager.nextZIndex();
+						// 优先更新 Vue 实例上的属性以触发响应式更新
+						if ("viewerZIndex" in vm) {
+							vm.viewerZIndex = zIndex;
+						} else {
+							$(vm.$el).css("z-index", zIndex);
+						}
+					}
+				}
+			},
+
+			/**
+			 * 获取所有窗口实例
+			 * @returns {any[]}
+			 */
+			getAllInstances() {
+				return Array.from(windowsRegistry.values());
+			},
+
+			/**
+			 * 获取指定 ID 的窗口实例
+			 * @param {string} id 窗口 ID
+			 * @returns {any|undefined}
+			 */
+			getInstance(id) {
+				return windowsRegistry.get(id);
+			}
+		};
+	})();
+
+	// 全局键盘监听
+	window.addEventListener("keydown", function (event) {
+		const isCtrl = event.ctrlKey || event.metaKey;
+		if (isCtrl) {
+			const instances = _.$windowsManager.getAllInstances();
+			if (instances.length === 0) return;
+
+			// 按 zIndex 排序，获取最顶层的可见窗口
+			const topInstance = _.chain(instances)
+				.filter(vm => vm.dialog_class && !vm.dialog_class.minimized)
+				.sortBy(vm => {
+					const zIndex = parseInt($(vm.$el).css("z-index")) || 0;
+					return zIndex;
+				})
+				.last()
+				.value();
+
+			if (!topInstance) return;
+
+			if (event.key.toLowerCase() === "w") {
+				event.preventDefault();
+				if (_.isFunction(topInstance.closeModal)) {
+					topInstance.closeModal();
+				}
+			} else if (event.key.toLowerCase() === "m") {
+				event.preventDefault();
+				if (_.isFunction(topInstance.minimize)) {
+					topInstance.minimize();
+				}
+			}
+		}
+	});
 })();
 
 (function () {
