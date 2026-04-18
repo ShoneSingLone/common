@@ -272,8 +272,16 @@ export default async function ({ PRIVATE_GLOBAL, options, modalConfigs }) {
 						vm.moveOptions.left = left;
 						vm.moveOptions.top = top;
 
+						// 显示全局遮罩，防止 iframe 拦截鼠标
+						if (_.$single && _.$single.mask) {
+							_.$single.mask.css("cursor", "move").show();
+						}
+
 						$(document).one("mouseup", () => {
 							$(vm.$refs.refDialog).removeClass("dragging");
+							if (_.$single && _.$single.mask) {
+								_.$single.mask.hide();
+							}
 						});
 					},
 					onMoving({ clickEvent, movingEvent }) {
@@ -328,14 +336,14 @@ export default async function ({ PRIVATE_GLOBAL, options, modalConfigs }) {
 				// ContentComponent: defineComponent({ template: `<div class="el-skeleton is-animated flex vertical x-padding" style="min-width: 200px;"><div class="el-skeleton__item el-skeleton__p is-first"></div><div class="el-skeleton__item el-skeleton__p el-skeleton__paragraph is-last mt"></div></div>` }),
 				ContentComponent: "",
 				isShowFullScreen: "fullscreen" in modalConfigs,
-				isShowMinimize: "minimizable" in modalConfigs,
+				isShowMinimize: modalConfigs.minimizable === true,
 				id: options.id || "",
 				viewerZIndex: 0,
 				left: 0,
 				dialog_class: {
 					"el-dialog": true,
 					fullscreen: !!modalConfigs.fullscreen,
-					minimized: !!modalConfigs.minimizable
+					minimized: false
 				},
 				dialogStyle: {
 					transform: "unset",

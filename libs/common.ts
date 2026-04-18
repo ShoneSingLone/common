@@ -2929,7 +2929,9 @@
 	/* @typescriptDeclare { open(options:any):Promise<any>; close(id:string):void; closeAll():void; minimize(id:string):void; restore(id:string):void; maximize(id:string):void; toTop(id:string):void; getAllInstances():any[]; getInstance(id:string):any; } */
 	_.$windowsManager = (function () {
 		const windowsRegistry = new Map();
-		let focusedWindowId = "";
+		const state = Vue.observable({
+			focusedWindowId: ""
+		});
 
 		return {
 			/**
@@ -2937,7 +2939,7 @@
 			 * @returns {string}
 			 */
 			getFocusedId() {
-				return focusedWindowId;
+				return state.focusedWindowId;
 			},
 
 			/**
@@ -2960,7 +2962,7 @@
 				}
 
 				const modalConfigs = _.merge({
-					minimizable: false,
+					minimizable: true,
 					fullscreen: false
 				}, options.modalConfigs);
 
@@ -2998,8 +3000,8 @@
 						}
 					}
 					windowsRegistry.delete(id);
-					if (focusedWindowId === id) {
-						focusedWindowId = "";
+					if (state.focusedWindowId === id) {
+						state.focusedWindowId = "";
 					}
 				});
 
@@ -3030,6 +3032,7 @@
 				windowsRegistry.forEach((vm, id) => {
 					this.close(id);
 				});
+				state.focusedWindowId = "";
 			},
 
 			/**
@@ -3040,8 +3043,8 @@
 				const vm = windowsRegistry.get(id);
 				if (vm && _.isFunction(vm.minimize)) {
 					vm.minimize();
-					if (focusedWindowId === id) {
-						focusedWindowId = "";
+					if (state.focusedWindowId === id) {
+						state.focusedWindowId = "";
 					}
 				}
 			},
@@ -3077,7 +3080,7 @@
 			async toTop(id) {
 				const vm = windowsRegistry.get(id);
 				if (vm) {
-					focusedWindowId = id;
+					state.focusedWindowId = id;
 					// 动态加载 PopupManager 以获取下一个 z-index
 					const PopupManager = await _.$importVue("/common/libs/VuePopper/popupManager.vue");
 					if (PopupManager && _.isFunction(PopupManager.nextZIndex)) {
