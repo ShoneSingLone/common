@@ -268,6 +268,7 @@ export default async function ({ PRIVATE_GLOBAL, options, modalConfigs }) {
 					left: 0,
 					top: 0,
 					onStart() {
+						isUserInteracting = true;
 						$(vm.$refs.refDialog).addClass("dragging");
 						vm.toTop();
 						const { left, top } = vm.$refs.refDialog.getBoundingClientRect();
@@ -280,6 +281,7 @@ export default async function ({ PRIVATE_GLOBAL, options, modalConfigs }) {
 						}
 
 						$(document).one("mouseup", () => {
+							isUserInteracting = false;
 							$(vm.$refs.refDialog).removeClass("dragging");
 							if (_.$single && _.$single.mask) {
 								_.$single.mask.hide();
@@ -318,6 +320,11 @@ export default async function ({ PRIVATE_GLOBAL, options, modalConfigs }) {
 							}
 						})();
 
+						// 同步更新 options.style 以便持久化和防止重置
+						if (!options.style) options.style = {};
+						options.style.left = left;
+						options.style.top = top;
+
 						setPosition({
 							left,
 							top
@@ -329,6 +336,7 @@ export default async function ({ PRIVATE_GLOBAL, options, modalConfigs }) {
 					width: 0,
 					height: 0,
 					onStart() {
+						isUserInteracting = true;
 						$(vm.$refs.refDialog).addClass("dragging");
 						vm.toTop();
 						const { width, height } = vm.$refs.refDialog.getBoundingClientRect();
@@ -340,6 +348,7 @@ export default async function ({ PRIVATE_GLOBAL, options, modalConfigs }) {
 						}
 
 						$(document).one("mouseup", () => {
+							isUserInteracting = false;
 							$(vm.$refs.refDialog).removeClass("dragging");
 							if (_.$single && _.$single.mask) {
 								_.$single.mask.hide();
@@ -366,6 +375,11 @@ export default async function ({ PRIVATE_GLOBAL, options, modalConfigs }) {
 
 						if (left + width > winWidth) width = winWidth - left;
 						if (top + height > winHeight) height = winHeight - top;
+
+						// 同步更新 options.style
+						if (!options.style) options.style = {};
+						options.style.width = width;
+						options.style.height = height;
 
 						requestAnimationFrame(() => {
 							vm.dialogStyle = {
