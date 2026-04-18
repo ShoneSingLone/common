@@ -1,7 +1,7 @@
 <template>
 	<transition name="viewer-fade">
 		<div class="el-dialog__wrapper" :style="cptWrapperStyle">
-			<div role="dialog" :class="dialog_class" :style="dialogStyle" ref="refDialog" @mousedown="toTop">
+			<div role="dialog" :class="[dialog_class, { 'is-focused': isFocused }]" :style="dialogStyle" ref="refDialog" @mousedown="toTop">
 				<div class="el-dialog__header" v-if="!isHideHeader">
 					<div class="el-dialog__title-bar" v-xmove="moveOptions" />
 					<span class="el-dialog__title">
@@ -122,7 +122,7 @@ export default async function ({ PRIVATE_GLOBAL, options, modalConfigs }) {
 
 			const setDialogOffset = _.debounce(() => {
 				try {
-					// 防止重复计算
+					// 防止重复计算或在拖动过程中重置位置
 					if (isCalculating) return;
 					isCalculating = true;
 					// 检查是否需要重新计算
@@ -233,12 +233,19 @@ export default async function ({ PRIVATE_GLOBAL, options, modalConfigs }) {
 				{ flush: "post" } // 确保在 DOM 更新后执行
 			);
 
-			const setPosition = _.throttle(function ({ left, top }) {
-				vm.dialogStyle = _.merge(vm.dialogStyle, {
-					left: `${left}px`,
-					top: `${top}px`
-				});
-			}, 18);
+			let ticking = false;
+			const setPosition = function ({ left, top }) {
+				if (!ticking) {
+					requestAnimationFrame(() => {
+						vm.dialogStyle = _.merge(vm.dialogStyle, {
+							left: `${left}px`,
+							top: `${top}px`
+						});
+						ticking = false;
+					});
+					ticking = true;
+				}
+			};
 
 			return {
 				title: ref(options.title),
@@ -259,10 +266,15 @@ export default async function ({ PRIVATE_GLOBAL, options, modalConfigs }) {
 					left: 0,
 					width: 0,
 					onStart() {
+						$(vm.$refs.refDialog).addClass("dragging");
 						vm.toTop();
 						const { left, top } = vm.$refs.refDialog.getBoundingClientRect();
 						vm.moveOptions.left = left;
 						vm.moveOptions.top = top;
+
+						$(document).one("mouseup", () => {
+							$(vm.$refs.refDialog).removeClass("dragging");
+						});
 					},
 					onMoving({ clickEvent, movingEvent }) {
 						const offsetLeft = movingEvent.clientX - clickEvent.clientX;
@@ -389,6 +401,9 @@ export default async function ({ PRIVATE_GLOBAL, options, modalConfigs }) {
 			}
 		},
 		computed: {
+			isFocused() {
+				return _.$windowsManager && _.$windowsManager.getFocusedId && _.$windowsManager.getFocusedId() === this.id;
+			},
 			cptCloseIcon() {
 				return PRIVATE_GLOBAL.x_modal_close_icon;
 			},
@@ -415,13 +430,12 @@ export default async function ({ PRIVATE_GLOBAL, options, modalConfigs }) {
 
 .el-dialog {
 	position: relative;
-	margin: 0 auto 50px;
-	border-radius: var(--border-radius--mini);
-	-webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
-	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+	margin: 0 auto var(--xModal-margin-bottom);
+	border-radius: var(--xModal-border-radius);
+	box-shadow: var(--xModal-box-shadow);
 	box-sizing: border-box;
 	width: 50%;
-	background-color: var(--xModal-bg-color, #fff);
+	background-color: var(--xModal-bg-color);
 	pointer-events: auto;
 
 	&.is-fullscreen {
@@ -434,19 +448,19 @@ export default async function ({ PRIVATE_GLOBAL, options, modalConfigs }) {
 }
 
 .el-dialog__header {
-	padding: 20px 20px 10px;
+	padding: var(--xModal-header-padding);
 }
 
 .el-dialog__headerbtn {
 	position: absolute;
-	top: 20px;
-	right: 20px;
+	top: var(--xModal-header-btn-top);
+	right: var(--xModal-header-close-right);
 	padding: 0;
 	background: 0 0;
 	border: none;
 	outline: 0;
 	cursor: pointer;
-	font-size: 16px;
+	font-size: var(--xModal-header-btn-font-size);
 }
 
 .el-dialog__headerbtn .el-dialog__close {
@@ -459,20 +473,20 @@ export default async function ({ PRIVATE_GLOBAL, options, modalConfigs }) {
 }
 
 .el-dialog__title {
-	line-height: 24px;
-	font-size: 18px;
-	color: var(--el-text-color-primary);
+	line-height: var(--xModal-title-line-height);
+	font-size: var(--xModal-title-font-size);
+	color: var(--xModal-title-color);
 }
 
 .el-dialog__body {
-	padding: 30px 20px;
-	color: var(--el-text-color-regular);
-	font-size: 14px;
+	padding: var(--xModal-body-padding);
+	color: var(--xModal-body-color);
+	font-size: var(--xModal-body-font-size);
 	word-break: break-all;
 }
 
 .el-dialog__footer {
-	padding: 10px 20px 20px;
+	padding: var(--xModal-footer-padding);
 	text-align: right;
 	-webkit-box-sizing: border-box;
 	box-sizing: border-box;
@@ -557,7 +571,31 @@ export default async function ({ PRIVATE_GLOBAL, options, modalConfigs }) {
 	}
 }
 
-.el-dialog__wrapper {
+	.el-dialog__wrapper {
+	/* CSS 变量定义 */
+	--xModal-bg-color: #fff;
+	--xModal-border-radius: var(--border-radius--mini);
+	--xModal-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+	--xModal-header-padding: 20px 20px 10px;
+	--xModal-header-btn-top: 20px;
+	--xModal-header-btn-font-size: 16px;
+	--xModal-header-close-right: 10px;
+	--xModal-header-fullscreen-right: 36px;
+	--xModal-header-minimize-right: 62px;
+	--xModal-title-font-size: 18px;
+	--xModal-title-line-height: 24px;
+	--xModal-title-color: var(--el-text-color-primary);
+	--xModal-body-padding: 30px 20px;
+	--xModal-body-color: var(--el-text-color-regular);
+	--xModal-body-font-size: 14px;
+	--xModal-footer-padding: 10px 20px 20px;
+	--xModal-focused-shadow: 0 12px 32px 0 rgba(0, 0, 0, 0.12), 0 8px 16px -8px rgba(0, 0, 0, 0.16), 0 16px 48px 16px rgba(0, 0, 0, 0.08);
+	--xModal-focused-border-color: transparent;
+	--xModal-border-color: transparent;
+	--xModal-margin-bottom: 50px;
+	--xModal-transition-duration: 0.3s;
+	--xModal-move-transition-duration: 0.1s;
+
 	position: fixed;
 	top: 0;
 	right: 0;
@@ -582,22 +620,29 @@ export default async function ({ PRIVATE_GLOBAL, options, modalConfigs }) {
 		width: auto;
 		margin: auto;
 		overflow: hidden;
-		border-radius: var(--xModel-dialog-border-radius, --border-radius--mini);
-		box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+		border-radius: var(--xModal-border-radius);
+		box-shadow: var(--xModal-box-shadow);
 		box-sizing: border-box;
 		position: absolute;
+		background-color: var(--xModal-bg-color);
 		transition:
-			opacity 0.3s ease-in-out,
-			top 0.1s ease,
-			right 0.1s ease,
-			bottom 0.1s ease,
-			left 0.1s ease,
-			width 0.1s ease,
-			height 0.1s ease;
-		box-shadow:
-			0 6px 16px 0 rgba(0, 0, 0, 0.08),
-			0 3px 6px -4px rgba(0, 0, 0, 0.12),
-			0 9px 28px 8px rgba(0, 0, 0, 0.05);
+			opacity var(--xModal-transition-duration) ease-in-out,
+			top var(--xModal-move-transition-duration) ease,
+			right var(--xModal-move-transition-duration) ease,
+			bottom var(--xModal-move-transition-duration) ease,
+			left var(--xModal-move-transition-duration) ease,
+			width var(--xModal-move-transition-duration) ease,
+			height var(--xModal-move-transition-duration) ease;
+
+		&.dragging {
+			transition: none !important;
+			user-select: none;
+		}
+
+		&.is-focused {
+			box-shadow: var(--xModal-focused-shadow);
+			border: 1px solid var(--xModal-focused-border-color);
+		}
 
 		&.fullscreen {
 			display: flex;
@@ -607,7 +652,7 @@ export default async function ({ PRIVATE_GLOBAL, options, modalConfigs }) {
 		}
 
 		> .el-dialog__header {
-			padding: var(--ui-one);
+			padding: var(--xModal-header-padding);
 			border-bottom: 1px solid #eee;
 
 			.el-dialog__title-bar {
@@ -623,24 +668,24 @@ export default async function ({ PRIVATE_GLOBAL, options, modalConfigs }) {
 
 			.x-dialog__headerbtn {
 				position: absolute;
-				top: 20px;
+				top: var(--xModal-header-btn-top);
 				padding: 0;
 				background: 0 0;
 				border: none;
 				outline: 0;
 				cursor: pointer;
-				font-size: 16px;
+				font-size: var(--xModal-header-btn-font-size);
 
 				&.fullscreen {
-					right: 36px;
+					right: var(--xModal-header-fullscreen-right);
 				}
 
 				&.minimize {
-					right: 62px;
+					right: var(--xModal-header-minimize-right);
 				}
 
 				&.close {
-					right: 10px;
+					right: var(--xModal-header-close-right);
 				}
 			}
 		}

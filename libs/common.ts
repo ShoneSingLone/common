@@ -2929,8 +2929,17 @@
 	/* @typescriptDeclare { open(options:any):Promise<any>; close(id:string):void; closeAll():void; minimize(id:string):void; restore(id:string):void; maximize(id:string):void; toTop(id:string):void; getAllInstances():any[]; getInstance(id:string):any; } */
 	_.$windowsManager = (function () {
 		const windowsRegistry = new Map();
+		let focusedWindowId = "";
 
 		return {
+			/**
+			 * 获取当前焦点窗口 ID
+			 * @returns {string}
+			 */
+			getFocusedId() {
+				return focusedWindowId;
+			},
+
 			/**
 			 * 打开一个窗口
 			 * @param {Object} options 窗口配置
@@ -2959,7 +2968,15 @@
 				if (options.id) {
 					const savedState = _.$lStorage[`window_state_${id}`];
 					if (savedState) {
-						options.style = _.merge({}, options.style, savedState);
+						// 增加边界检查：确保至少有 100px 在视口内
+						const winWidth = window.innerWidth;
+						const winHeight = window.innerHeight;
+						const isLeftValid = savedState.left < winWidth - 100 && savedState.left > -100;
+						const isTopValid = savedState.top < winHeight - 100 && savedState.top > -50;
+
+						if (isLeftValid && isTopValid) {
+							options.style = _.merge({}, options.style, savedState);
+						}
 					}
 				}
 
@@ -2967,6 +2984,9 @@
 				const modalVm = await _.$openModal(options, modalConfigs);
 				modalVm.id = id;
 				windowsRegistry.set(id, modalVm);
+
+				// 初始置顶并设为焦点
+				await this.toTop(id);
 
 				// 监听销毁事件
 				modalVm.$on("hook:beforeDestroy", () => {
@@ -2978,6 +2998,9 @@
 						}
 					}
 					windowsRegistry.delete(id);
+					if (focusedWindowId === id) {
+						focusedWindowId = "";
+					}
 				});
 
 				return modalVm;
@@ -2992,6 +3015,8 @@
 				if (vm) {
 					if (_.isFunction(vm.close)) {
 						vm.close();
+					} else if (_.isFunction(vm.closeModal)) {
+						vm.closeModal();
 					} else if (_.isFunction(vm.$destroy)) {
 						vm.$destroy();
 					}
@@ -3015,6 +3040,9 @@
 				const vm = windowsRegistry.get(id);
 				if (vm && _.isFunction(vm.minimize)) {
 					vm.minimize();
+					if (focusedWindowId === id) {
+						focusedWindowId = "";
+					}
 				}
 			},
 
@@ -3026,6 +3054,7 @@
 				const vm = windowsRegistry.get(id);
 				if (vm && _.isFunction(vm.restore)) {
 					vm.restore();
+					this.toTop(id);
 				}
 			},
 
@@ -3037,6 +3066,7 @@
 				const vm = windowsRegistry.get(id);
 				if (vm && _.isFunction(vm.maximize)) {
 					vm.maximize();
+					this.toTop(id);
 				}
 			},
 
@@ -3047,6 +3077,7 @@
 			async toTop(id) {
 				const vm = windowsRegistry.get(id);
 				if (vm) {
+					focusedWindowId = id;
 					// 动态加载 PopupManager 以获取下一个 z-index
 					const PopupManager = await _.$importVue("/common/libs/VuePopper/popupManager.vue");
 					if (PopupManager && _.isFunction(PopupManager.nextZIndex)) {
