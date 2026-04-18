@@ -388,23 +388,23 @@ export default async function ({ PRIVATE_GLOBAL }) {
 					const sortBy = sortColumns[currentField];
 
 					result = h("span", { class: clsName("sort") }, [
-				h("xIcon", {
-					class: [
-						clsName("sort-icon"),
-						clsName("sort-icon-top"),
-						sortBy === "asc" ? "active" : ""
-					],
-					props: { icon: ICON_NAMES.SORT_TOP_ARROW }
-				}),
-				h("xIcon", {
-					class: [
-						clsName("sort-icon"),
-						clsName("sort-icon-bottom"),
-						sortBy === "desc" ? "active" : ""
-					],
-					props: { icon: ICON_NAMES.SORT_BOTTOM_ARROW }
-				})
-			]);
+						h("xIcon", {
+							class: [
+								clsName("sort-icon"),
+								clsName("sort-icon-top"),
+								sortBy === "asc" ? "active" : ""
+							],
+							props: { icon: ICON_NAMES.SORT_TOP_ARROW }
+						}),
+						h("xIcon", {
+							class: [
+								clsName("sort-icon"),
+								clsName("sort-icon-bottom"),
+								sortBy === "desc" ? "active" : ""
+							],
+							props: { icon: ICON_NAMES.SORT_BOTTOM_ARROW }
+						})
+					]);
 				}
 
 				return result;

@@ -1,10 +1,14 @@
 <script lang="ts">
 export default async function ({ PRIVATE_GLOBAL }) {
 	// util/index.vue
-	const { clsName } = await _.$importVue("/common/ui-x/components/data/xTableEasy/util/index.vue");
+	const { clsName } = await _.$importVue(
+		"/common/ui-x/components/data/xTableEasy/util/index.vue"
+	);
 
 	// util/constant.vue
-	const { COMPS_NAME, HOOKS_NAME } = await _.$importVue("/common/ui-x/components/data/xTableEasy/util/constant.vue");
+	const { COMPS_NAME, HOOKS_NAME } = await _.$importVue(
+		"/common/ui-x/components/data/xTableEasy/util/constant.vue"
+	);
 
 	return {
 		name: COMPS_NAME.VE_TABLE_COLUMN_RESISZER,

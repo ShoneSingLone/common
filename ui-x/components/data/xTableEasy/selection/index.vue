@@ -27,10 +27,14 @@ export default async function ({ PRIVATE_GLOBAL }) {
 	} = await _.$importVue("/common/ui-x/components/data/xTableEasy/util/constant.vue");
 
 	// selection/constant.vue
-	const { INSTANCE_METHODS } = await _.$importVue("/common/ui-x/components/data/xTableEasy/selection/constant.vue");
+	const { INSTANCE_METHODS } = await _.$importVue(
+		"/common/ui-x/components/data/xTableEasy/selection/constant.vue"
+	);
 
 	// utils/index.vue
-	const { isEmptyValue } = await _.$importVue("/common/ui-x/components/data/xTableEasy/utils/index.vue");
+	const { isEmptyValue } = await _.$importVue(
+		"/common/ui-x/components/data/xTableEasy/utils/index.vue"
+	);
 
 	// 从 lodash 获取 debounce 函数
 	const { debounce } = _;

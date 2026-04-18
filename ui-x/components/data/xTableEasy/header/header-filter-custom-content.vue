@@ -67,10 +67,10 @@ export default async function ({ PRIVATE_GLOBAL }) {
 					result = filterIcon(h);
 				} else {
 					result = h("xIcon", {
-				props: {
-					icon: ICON_NAMES.FILTER
-				}
-			});
+						props: {
+							icon: ICON_NAMES.FILTER
+						}
+					});
 				}
 				return result;
 			},

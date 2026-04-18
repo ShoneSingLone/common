@@ -1,13 +1,19 @@
 <script lang="ts">
 export default async function ({ PRIVATE_GLOBAL }) {
 	// util/index.vue
-	const { clsName } = await _.$importVue("/common/ui-x/components/data/xTableEasy/util/index.vue");
+	const { clsName } = await _.$importVue(
+		"/common/ui-x/components/data/xTableEasy/util/index.vue"
+	);
 
 	// header-tr.vue
-	const HeaderTr = await _.$importVue("/common/ui-x/components/data/xTableEasy/header/header-tr.vue");
+	const HeaderTr = await _.$importVue(
+		"/common/ui-x/components/data/xTableEasy/header/header-tr.vue"
+	);
 
 	// util/constant.vue
-	const { COMPS_NAME, EMIT_EVENTS } = await _.$importVue("/common/ui-x/components/data/xTableEasy/util/constant.vue");
+	const { COMPS_NAME, EMIT_EVENTS } = await _.$importVue(
+		"/common/ui-x/components/data/xTableEasy/util/constant.vue"
+	);
 
 	return {
 		name: COMPS_NAME.VE_TABLE_THADER,

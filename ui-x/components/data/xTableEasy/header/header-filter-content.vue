@@ -1,17 +1,13 @@
 <script lang="ts">
 export default async function ({ PRIVATE_GLOBAL }) {
 	// 使用 _.$importVue() 加载依赖
-	const [
-		xDropdown,
-		{ COMPS_NAME, EMIT_EVENTS, LOCALE_COMP_NAME },
-		{ clsName },
-		{ ICON_NAMES }
-	] = await Promise.all([
-		_.$importVue("/common/ui-x/components/navigation/xDropdown/xDropdown.vue"),
-		_.$importVue("/common/ui-x/components/data/xTableEasy/util/constant.vue"),
-		_.$importVue("/common/ui-x/components/data/xTableEasy/util/index.vue"),
-		_.$importVue("/common/ui-x/components/data/xTableEasy/utils/constant.vue")
-	]);
+	const [xDropdown, { COMPS_NAME, EMIT_EVENTS, LOCALE_COMP_NAME }, { clsName }, { ICON_NAMES }] =
+		await Promise.all([
+			_.$importVue("/common/ui-x/components/navigation/xDropdown/xDropdown.vue"),
+			_.$importVue("/common/ui-x/components/data/xTableEasy/util/constant.vue"),
+			_.$importVue("/common/ui-x/components/data/xTableEasy/util/index.vue"),
+			_.$importVue("/common/ui-x/components/data/xTableEasy/utils/constant.vue")
+		]);
 
 	return {
 		name: COMPS_NAME.VE_TABLE_HEADER_FILTER_CONTENT,
@@ -60,11 +56,11 @@ export default async function ({ PRIVATE_GLOBAL }) {
 					result = filterIcon(h);
 				} else {
 					// 使用 h 函数替代 JSX
-				result = h("xIcon", {
-					props: {
-						icon: ICON_NAMES.FILTER
-					}
-				});
+					result = h("xIcon", {
+						props: {
+							icon: ICON_NAMES.FILTER
+						}
+					});
 				}
 				return result;
 			}
@@ -100,58 +96,96 @@ export default async function ({ PRIVATE_GLOBAL }) {
 					]
 				),
 				// filter content
-				h("div", {
-					slot: "dropdown"
-				}, [
-					h("div", {
-						class: clsName("filter-content")
-					}, [
-						// filter items
-						filterList.map(item => h("div", {
-							class: clsName("filter-item"),
-							on: {
-								click: () => {
-									if (isMultiple) {
-										const index = this.filterList.indexOf(item.value);
-										if (index > -1) {
-											this.filterList.splice(index, 1);
-										} else {
-											this.filterList.push(item.value);
-										}
-									} else {
-										this.filterList = [item.value];
-									}
-								}
-							}
-						}, [
-							h("input", {
-								attrs: {
-									type: isMultiple ? "checkbox" : "radio",
-									name: "filter",
-									checked: this.filterList.includes(item.value)
-								}
-							}),
-							h("span", { class: clsName("filter-item-label") }, item.label)
-						])),
-						// operations
-						h("div", {
-							class: clsName("filter-operations")
-						}, [
-							h("button", {
-								class: clsName("filter-button", "filter-button-reset"),
-								on: {
-									click: this.filterReset
-								}
-							}, i18n("resetFilter")),
-							h("button", {
-								class: clsName("filter-button", "filter-button-confirm"),
-								on: {
-									click: this.filterConfirm
-								}
-							}, i18n("confirmFilter"))
-						])
-					])
-				])
+				h(
+					"div",
+					{
+						slot: "dropdown"
+					},
+					[
+						h(
+							"div",
+							{
+								class: clsName("filter-content")
+							},
+							[
+								// filter items
+								filterList.map(item =>
+									h(
+										"div",
+										{
+											class: clsName("filter-item"),
+											on: {
+												click: () => {
+													if (isMultiple) {
+														const index = this.filterList.indexOf(
+															item.value
+														);
+														if (index > -1) {
+															this.filterList.splice(index, 1);
+														} else {
+															this.filterList.push(item.value);
+														}
+													} else {
+														this.filterList = [item.value];
+													}
+												}
+											}
+										},
+										[
+											h("input", {
+												attrs: {
+													type: isMultiple ? "checkbox" : "radio",
+													name: "filter",
+													checked: this.filterList.includes(item.value)
+												}
+											}),
+											h(
+												"span",
+												{ class: clsName("filter-item-label") },
+												item.label
+											)
+										]
+									)
+								),
+								// operations
+								h(
+									"div",
+									{
+										class: clsName("filter-operations")
+									},
+									[
+										h(
+											"button",
+											{
+												class: clsName(
+													"filter-button",
+													"filter-button-reset"
+												),
+												on: {
+													click: this.filterReset
+												}
+											},
+											i18n("resetFilter")
+										),
+										h(
+											"button",
+											{
+												class: clsName(
+													"filter-button",
+													"filter-button-confirm"
+												),
+												on: {
+													click: this.filterConfirm
+												}
+											},
+											i18n("confirmFilter")
+										)
+									]
+								)
+							]
+						)
+					]
+				)
 			]);
 		}
 	};

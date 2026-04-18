@@ -823,7 +823,7 @@
 									const preloadArray = getPreload();
 									preloadArray.forEach(url => $loadText(url));
 								}
-							} catch (error) { }
+							} catch (error) {}
 						}
 					}
 				],

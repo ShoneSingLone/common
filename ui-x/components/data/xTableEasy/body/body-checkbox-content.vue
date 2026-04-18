@@ -1,7 +1,7 @@
 <script lang="ts">
 export default async function ({ PRIVATE_GLOBAL }) {
 	// 使用 _.$importVue() 加载依赖
-	const [ { COMPS_NAME, EMIT_EVENTS }, { clsName }] = await Promise.all([
+	const [{ COMPS_NAME, EMIT_EVENTS }, { clsName }] = await Promise.all([
 		_.$importVue("/common/ui-x/components/data/xTableEasy/util/constant.vue"),
 		_.$importVue("/common/ui-x/components/data/xTableEasy/util/index.vue")
 	]);
@@ -107,15 +107,15 @@ export default async function ({ PRIVATE_GLOBAL }) {
 			const { isSelected, selectedChange, disabled } = this;
 
 			return h("xCheckbox", {
-			class: clsName("checkbox-wrapper"),
-			props: {
-				value: isSelected,
-				disabled
-			},
-			on: {
-				"change": isSelected => selectedChange(isSelected)
-			}
-		});
+				class: clsName("checkbox-wrapper"),
+				props: {
+					value: isSelected,
+					disabled
+				},
+				on: {
+					change: isSelected => selectedChange(isSelected)
+				}
+			});
 		}
 	};
 }

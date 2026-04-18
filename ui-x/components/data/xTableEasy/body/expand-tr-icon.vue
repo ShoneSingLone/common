@@ -71,17 +71,17 @@ export default async function ({ PRIVATE_GLOBAL }) {
 
 			if (column.type === COLUMN_TYPES.EXPAND) {
 				content = h(
-				"span",
-				{
-					class: cpt_expand_row_icon_container_class,
-					on: {
-						click: function (e) {
-							cellClick(e);
+					"span",
+					{
+						class: cpt_expand_row_icon_container_class,
+						on: {
+							click: function (e) {
+								cellClick(e);
+							}
 						}
-					}
-				},
-				[h("xIcon", { props: { icon: ICON_NAMES.RIGHT_ARROW } })]
-			);
+					},
+					[h("xIcon", { props: { icon: ICON_NAMES.RIGHT_ARROW } })]
+				);
 			}
 			return content;
 		}

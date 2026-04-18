@@ -4,22 +4,33 @@ export default async function ({ PRIVATE_GLOBAL }) {
 	const BodyTr = await _.$importVue("/common/ui-x/components/data/xTableEasy/body/body-tr.vue");
 
 	// body-tr-scrolling.vue
-	const BodyTrScrolling = await _.$importVue("/common/ui-x/components/data/xTableEasy/body/body-tr-scrolling.vue");
+	const BodyTrScrolling = await _.$importVue(
+		"/common/ui-x/components/data/xTableEasy/body/body-tr-scrolling.vue"
+	);
 
 	// expand-tr.vue
-	const ExpandTr = await _.$importVue("/common/ui-x/components/data/xTableEasy/body/expand-tr.vue");
+	const ExpandTr = await _.$importVue(
+		"/common/ui-x/components/data/xTableEasy/body/expand-tr.vue"
+	);
 
 	// helper/comps/resize-observer.vue
-	const VueDomResizeObserver = await _.$importVue("/common/ui-x/components/data/xTableEasy/helper/comps/resize-observer.vue");
+	const VueDomResizeObserver = await _.$importVue(
+		"/common/ui-x/components/data/xTableEasy/helper/comps/resize-observer.vue"
+	);
 
 	// util/index.vue
-	const { getDomResizeObserverCompKey, getFixedTotalWidthByColumnKey, clsName } = await _.$importVue("/common/ui-x/components/data/xTableEasy/util/index.vue");
+	const { getDomResizeObserverCompKey, getFixedTotalWidthByColumnKey, clsName } =
+		await _.$importVue("/common/ui-x/components/data/xTableEasy/util/index.vue");
 
 	// utils/index.vue
-	const { getValByUnit } = await _.$importVue("/common/ui-x/components/data/xTableEasy/utils/index.vue");
+	const { getValByUnit } = await _.$importVue(
+		"/common/ui-x/components/data/xTableEasy/utils/index.vue"
+	);
 
 	// util/constant.vue
-	const { COMPS_NAME, EMIT_EVENTS, COLUMN_TYPES, EXPAND_TRIGGER_TYPES } = await _.$importVue("/common/ui-x/components/data/xTableEasy/util/constant.vue");
+	const { COMPS_NAME, EMIT_EVENTS, COLUMN_TYPES, EXPAND_TRIGGER_TYPES } = await _.$importVue(
+		"/common/ui-x/components/data/xTableEasy/util/constant.vue"
+	);
 
 	return {
 		name: COMPS_NAME.VE_TABLE_BODY,

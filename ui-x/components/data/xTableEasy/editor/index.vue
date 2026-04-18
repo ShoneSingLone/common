@@ -1,25 +1,37 @@
 <script lang="ts">
 export default async function ({ PRIVATE_GLOBAL }) {
 	// util/index.vue
-	const { clsName, getFixedTotalWidthByColumnKey } = await _.$importVue("/common/ui-x/components/data/xTableEasy/util/index.vue");
+	const { clsName, getFixedTotalWidthByColumnKey } = await _.$importVue(
+		"/common/ui-x/components/data/xTableEasy/util/index.vue"
+	);
 
 	// editor/constant.vue
-	const { INSTANCE_METHODS } = await _.$importVue("/common/ui-x/components/data/xTableEasy/editor/constant.vue");
+	const { INSTANCE_METHODS } = await _.$importVue(
+		"/common/ui-x/components/data/xTableEasy/editor/constant.vue"
+	);
 
 	// util/constant.vue
-	const { COMPS_NAME, EMIT_EVENTS, HOOKS_NAME } = await _.$importVue("/common/ui-x/components/data/xTableEasy/util/constant.vue");
+	const { COMPS_NAME, EMIT_EVENTS, HOOKS_NAME } = await _.$importVue(
+		"/common/ui-x/components/data/xTableEasy/util/constant.vue"
+	);
 
 	// helper/directives/focus.vue
 	const focus = await _.$importVue("/common/ui-x/directives/focus.vue");
 
 	// utils/auto-resize.vue
-	const { autoResize } = await _.$importVue("/common/ui-x/components/data/xTableEasy/utils/auto-resize.vue");
+	const { autoResize } = await _.$importVue(
+		"/common/ui-x/components/data/xTableEasy/utils/auto-resize.vue"
+	);
 
 	// utils/index.vue
-	const { isEmptyValue } = await _.$importVue("/common/ui-x/components/data/xTableEasy/utils/index.vue");
+	const { isEmptyValue } = await _.$importVue(
+		"/common/ui-x/components/data/xTableEasy/utils/index.vue"
+	);
 
 	// utils/dom.vue
-	const { getCaretPosition, setCaretPosition } = await _.$importVue("/common/ui-x/components/data/xTableEasy/utils/dom.vue");
+	const { getCaretPosition, setCaretPosition } = await _.$importVue(
+		"/common/ui-x/components/data/xTableEasy/utils/dom.vue"
+	);
 
 	// 使用 lodash 的 debounce
 	const { debounce } = _;

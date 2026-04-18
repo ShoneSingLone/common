@@ -1,10 +1,14 @@
 <script lang="ts">
 export default async function ({ PRIVATE_GLOBAL }) {
 	// utils/index.vue
-	const { getValByUnit } = await _.$importVue("/common/ui-x/components/data/xTableEasy/utils/index.vue");
+	const { getValByUnit } = await _.$importVue(
+		"/common/ui-x/components/data/xTableEasy/utils/index.vue"
+	);
 
 	// util/constant.vue
-	const { COMPS_NAME } = await _.$importVue("/common/ui-x/components/data/xTableEasy/util/constant.vue");
+	const { COMPS_NAME } = await _.$importVue(
+		"/common/ui-x/components/data/xTableEasy/util/constant.vue"
+	);
 
 	return {
 		name: COMPS_NAME.VE_TABLE_COLGROUP,
