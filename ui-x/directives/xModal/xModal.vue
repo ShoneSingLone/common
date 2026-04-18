@@ -48,7 +48,7 @@
 						:closeModal="closeModal"
 						@hook:mounted="setDialogOffset" />
 				</transition>
-				<div v-if="isShowResize" class="x-modal-resize-handle" v-xmove="resizeOptions" />
+				<div v-if="isShowResize && !dialog_class.fullscreen" class="x-modal-resize-handle" v-xmove="resizeOptions" />
 			</div>
 		</div>
 	</transition>
@@ -406,6 +406,7 @@ export default async function ({ PRIVATE_GLOBAL, options, modalConfigs }) {
 				isShowFullScreen: "fullscreen" in modalConfigs,
 				isShowMinimize: modalConfigs.minimizable === true,
 				isShowResize: modalConfigs.resize === true,
+				isShowKeyboard: modalConfigs.keyboard === true,
 				id: options.id || "",
 				viewerZIndex: 0,
 				left: 0,

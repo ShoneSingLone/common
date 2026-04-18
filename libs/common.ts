@@ -2964,7 +2964,8 @@
 				const modalConfigs = _.merge({
 					minimizable: true,
 					fullscreen: false,
-					resize: true
+					resize: true,
+					keyboard: false
 				}, options.modalConfigs);
 
 				// 内存恢复：如果提供了 ID，尝试从本地存储恢复位置和大小
@@ -2994,8 +2995,9 @@
 				// 监听销毁事件
 				modalVm.$on("hook:beforeDestroy", () => {
 					if (options.id) {
-						// 记录当前位置和大小以便下次恢复
-						const { top, left, width, height } = modalVm;
+						// 优先从 options.style 获取最新的位置和大小（在 xModal.vue 中已实时同步）
+						const style = options.style || {};
+						const { top, left, width, height } = style;
 						if (_.$isInput(top) || _.$isInput(left)) {
 							_.$lStorage[`window_state_${id}`] = { top, left, width, height };
 						}
@@ -3122,9 +3124,9 @@
 			const instances = _.$windowsManager.getAllInstances();
 			if (instances.length === 0) return;
 
-			// 按 zIndex 排序，获取最顶层的可见窗口
+			// 按 zIndex 排序，获取最顶层的可见窗口，且开启了键盘快捷键
 			const topInstance = _.chain(instances)
-				.filter(vm => vm.dialog_class && !vm.dialog_class.minimized)
+				.filter(vm => vm.dialog_class && !vm.dialog_class.minimized && vm.isShowKeyboard === true)
 				.sortBy(vm => {
 					const zIndex = parseInt($(vm.$el).css("z-index")) || 0;
 					return zIndex;

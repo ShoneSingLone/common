@@ -57,7 +57,8 @@ export default async function ({ PRIVATE_GLOBAL }) {
 		_.$openModal = async function (options, modalConfigs) {
 			modalConfigs = _.merge(
 				{
-					resize: false
+					resize: false,
+					keyboard: false
 				},
 				modalConfigs
 			);
