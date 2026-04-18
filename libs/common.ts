@@ -2945,10 +2945,15 @@
 					return vm;
 				}
 
-				// 默认不使用遮罩，允许点击其他窗口
+				// 默认不使用遮罩，允许点击其他窗口，且默认支持最小化
 				if (options.modal === undefined) {
 					options.modal = false;
 				}
+
+				const modalConfigs = _.merge({
+					minimizable: false,
+					fullscreen: false
+				}, options.modalConfigs);
 
 				// 内存恢复：如果提供了 ID，尝试从本地存储恢复位置和大小
 				if (options.id) {
@@ -2959,7 +2964,7 @@
 				}
 
 				// 调用 _.$openModal 打开窗口
-				const modalVm = await _.$openModal(options);
+				const modalVm = await _.$openModal(options, modalConfigs);
 				modalVm.id = id;
 				windowsRegistry.set(id, modalVm);
 

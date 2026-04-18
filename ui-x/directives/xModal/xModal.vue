@@ -9,7 +9,7 @@
 						<xRender :render="cpt_title" />
 					</span>
 					<button
-						v-if="isShowFullScreen"
+						v-if="isShowMinimize"
 						type="button"
 						aria-label="Minimize"
 						class="x-dialog__headerbtn minimize"
@@ -315,14 +315,15 @@ export default async function ({ PRIVATE_GLOBAL, options, modalConfigs }) {
 				/* TODO: 动画闪烁 */
 				// ContentComponent: defineComponent({ template: `<div class="el-skeleton is-animated flex vertical x-padding" style="min-width: 200px;"><div class="el-skeleton__item el-skeleton__p is-first"></div><div class="el-skeleton__item el-skeleton__p el-skeleton__paragraph is-last mt"></div></div>` }),
 				ContentComponent: "",
-				isShowFullScreen: _.isBoolean(modalConfigs.fullscreen),
+				isShowFullScreen: "fullscreen" in modalConfigs,
+				isShowMinimize: "minimizable" in modalConfigs,
 				id: options.id || "",
 				viewerZIndex: 0,
 				left: 0,
 				dialog_class: {
 					"el-dialog": true,
-					fullscreen: !!_.$val(modalConfigs, "fullscreen"),
-					minimized: false
+					fullscreen: !!modalConfigs.fullscreen,
+					minimized: !!modalConfigs.minimizable
 				},
 				dialogStyle: {
 					transform: "unset",
@@ -395,9 +396,11 @@ export default async function ({ PRIVATE_GLOBAL, options, modalConfigs }) {
 				return this.title;
 			},
 			cptWrapperStyle() {
+				const isVisible = !this.dialog_class.minimized;
 				return {
 					"--xModal-zIndex": this.viewerZIndex,
-					"pointer-events": isModal ? "auto" : "none"
+					"pointer-events": isModal && isVisible ? "auto" : "none",
+					visibility: isVisible ? "visible" : "hidden"
 				};
 			}
 		},
