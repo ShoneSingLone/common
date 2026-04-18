@@ -48,6 +48,7 @@
 						:closeModal="closeModal"
 						@hook:mounted="setDialogOffset" />
 				</transition>
+				<div v-if="isShowResize" class="x-modal-resize-handle" v-xmove="resizeOptions" />
 			</div>
 		</div>
 	</transition>
@@ -119,11 +120,12 @@ export default async function ({ PRIVATE_GLOBAL, options, modalConfigs }) {
 			// 添加状态标记避免重复计算
 			let isCalculating = false;
 			let lastCalculatedValues = null;
+			let isUserInteracting = false;
 
 			const setDialogOffset = _.debounce(() => {
 				try {
-					// 防止重复计算或在拖动过程中重置位置
-					if (isCalculating) return;
+					// 防止重复计算或在用户交互过程中重置位置
+					if (isCalculating || isUserInteracting) return;
 					isCalculating = true;
 					// 检查是否需要重新计算
 					const currentValues = {
@@ -264,7 +266,7 @@ export default async function ({ PRIVATE_GLOBAL, options, modalConfigs }) {
 				/*移动*/
 				moveOptions: {
 					left: 0,
-					width: 0,
+					top: 0,
 					onStart() {
 						$(vm.$refs.refDialog).addClass("dragging");
 						vm.toTop();
@@ -321,6 +323,58 @@ export default async function ({ PRIVATE_GLOBAL, options, modalConfigs }) {
 							top
 						});
 					}
+				},
+				/* 调整大小 */
+				resizeOptions: {
+					width: 0,
+					height: 0,
+					onStart() {
+						$(vm.$refs.refDialog).addClass("dragging");
+						vm.toTop();
+						const { width, height } = vm.$refs.refDialog.getBoundingClientRect();
+						vm.resizeOptions.width = width;
+						vm.resizeOptions.height = height;
+
+						if (_.$single && _.$single.mask) {
+							_.$single.mask.css("cursor", "nwse-resize").show();
+						}
+
+						$(document).one("mouseup", () => {
+							$(vm.$refs.refDialog).removeClass("dragging");
+							if (_.$single && _.$single.mask) {
+								_.$single.mask.hide();
+							}
+						});
+					},
+					onMoving({ clickEvent, movingEvent }) {
+						const offsetWidth = movingEvent.clientX - clickEvent.clientX;
+						const offsetHeight = movingEvent.clientY - clickEvent.clientY;
+						let width = vm.resizeOptions.width + offsetWidth;
+						let height = vm.resizeOptions.height + offsetHeight;
+
+						// 最小尺寸限制
+						const minWidth = 200;
+						const minHeight = 100;
+
+						if (width < minWidth) width = minWidth;
+						if (height < minHeight) height = minHeight;
+
+						// 最大尺寸限制（视口）
+						const winWidth = _.$single.win.width();
+						const winHeight = _.$single.win.height();
+						const { left, top } = vm.$refs.refDialog.getBoundingClientRect();
+
+						if (left + width > winWidth) width = winWidth - left;
+						if (top + height > winHeight) height = winHeight - top;
+
+						requestAnimationFrame(() => {
+							vm.dialogStyle = {
+								...vm.dialogStyle,
+								width: `${width}px`,
+								height: `${height}px`
+							};
+						});
+					}
 				}
 			};
 		},
@@ -337,6 +391,7 @@ export default async function ({ PRIVATE_GLOBAL, options, modalConfigs }) {
 				ContentComponent: "",
 				isShowFullScreen: "fullscreen" in modalConfigs,
 				isShowMinimize: modalConfigs.minimizable === true,
+				isShowResize: modalConfigs.resize === true,
 				id: options.id || "",
 				viewerZIndex: 0,
 				left: 0,
@@ -700,6 +755,43 @@ export default async function ({ PRIVATE_GLOBAL, options, modalConfigs }) {
 				&.close {
 					right: var(--xModal-header-close-right);
 				}
+			}
+		}
+
+		.x-modal-resize-handle {
+			position: absolute;
+			right: 0;
+			bottom: 0;
+			width: 15px;
+			height: 15px;
+			cursor: nwse-resize;
+			z-index: 10;
+			background: linear-gradient(
+				135deg,
+				transparent 0%,
+				transparent 50%,
+				#ccc 50%,
+				#ccc 60%,
+				transparent 60%,
+				transparent 70%,
+				#ccc 70%,
+				#ccc 80%,
+				transparent 80%
+			);
+
+			&:hover {
+				background: linear-gradient(
+					135deg,
+					transparent 0%,
+					transparent 50%,
+					var(--el-color-primary) 50%,
+					var(--el-color-primary) 60%,
+					transparent 60%,
+					transparent 70%,
+					var(--el-color-primary) 70%,
+					var(--el-color-primary) 80%,
+					transparent 80%
+				);
 			}
 		}
 	}

@@ -2963,7 +2963,8 @@
 
 				const modalConfigs = _.merge({
 					minimizable: true,
-					fullscreen: false
+					fullscreen: false,
+					resize: true
 				}, options.modalConfigs);
 
 				// 内存恢复：如果提供了 ID，尝试从本地存储恢复位置和大小

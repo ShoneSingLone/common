@@ -56,7 +56,9 @@ export default async function ({ PRIVATE_GLOBAL }) {
 	(function () /* 弹窗 */ {
 		_.$openModal = async function (options, modalConfigs) {
 			modalConfigs = _.merge(
-				{},
+				{
+					resize: false
+				},
 				modalConfigs
 			);
 			// 统一使用 mask 术语，默认开启遮罩
