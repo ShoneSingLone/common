@@ -1,6 +1,6 @@
 <template>
 	<transition name="viewer-fade">
-		<div class="el-dialog__wrapper" :style="cptWrapperStyle">
+		<div class="x-modal-mask-container" :style="cptWrapperStyle" @click.self="handleMaskClick">
 			<div role="dialog" :class="[dialog_class, { 'is-focused': isFocused }]" :style="dialogStyle" ref="refDialog" @mousedown="toTop">
 				<div class="el-dialog__header" v-if="!isHideHeader">
 					<div class="el-dialog__title-bar" v-xmove="moveOptions" />
@@ -58,13 +58,13 @@ export default async function ({ PRIVATE_GLOBAL, options, modalConfigs }) {
 	options = options || {};
 
 	const isHideHeader = options.isHideHeader || false;
-	const isModal = options.modal !== false;
+	const isMask = options.mask !== false;
 
-	function useModal(vm) {
+	function useMask(vm) {
 		onMounted(() => {
 			vm.deviceSupportInstall();
 			document.body.appendChild(vm.$el);
-			if (isModal) {
+			if (isMask) {
 				vm.styleOverflow = document.body.style.overflow;
 				// vm.stylePointerEvents = document.body.style.pointerEvents;
 				document.body.style.overflow = "hidden";
@@ -73,7 +73,7 @@ export default async function ({ PRIVATE_GLOBAL, options, modalConfigs }) {
 		});
 
 		onBeforeUnmount(() => {
-			if (isModal) {
+			if (isMask) {
 				document.body.style.overflow = vm.styleOverflow;
 			}
 			// document.body.style.pointerEvents = vm.stylePointerEvents;
@@ -101,7 +101,7 @@ export default async function ({ PRIVATE_GLOBAL, options, modalConfigs }) {
 		},
 		setup(props) {
 			const vm = this;
-			useModal(this);
+			useMask(this);
 			const { useAutoResize } = _xUtils;
 
 			const {
@@ -398,6 +398,11 @@ export default async function ({ PRIVATE_GLOBAL, options, modalConfigs }) {
 				if (this.id) {
 					_.$windowsManager.toTop(this.id);
 				}
+			},
+			handleMaskClick() {
+				if (isMask && options.closeOnClickMask !== false) {
+					this.closeModal();
+				}
 			}
 		},
 		computed: {
@@ -414,7 +419,7 @@ export default async function ({ PRIVATE_GLOBAL, options, modalConfigs }) {
 				const isVisible = !this.dialog_class.minimized;
 				return {
 					"--xModal-zIndex": this.viewerZIndex,
-					"pointer-events": isModal && isVisible ? "auto" : "none",
+					"pointer-events": isMask && isVisible ? "auto" : "none",
 					visibility: isVisible ? "visible" : "hidden"
 				};
 			}
@@ -571,7 +576,7 @@ export default async function ({ PRIVATE_GLOBAL, options, modalConfigs }) {
 	}
 }
 
-	.el-dialog__wrapper {
+	.x-modal-mask-container {
 	/* CSS 变量定义 */
 	--xModal-bg-color: #fff;
 	--xModal-border-radius: var(--border-radius--mini);

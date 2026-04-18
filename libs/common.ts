@@ -2954,9 +2954,9 @@
 					return vm;
 				}
 
-				// 默认不使用遮罩，允许点击其他窗口，且默认支持最小化
-				if (options.modal === undefined) {
-					options.modal = false;
+				// 统一使用 mask 术语，默认不使用遮罩，允许点击其他窗口，且默认支持最小化
+				if (options.mask === undefined) {
+					options.mask = false;
 				}
 
 				const modalConfigs = _.merge({

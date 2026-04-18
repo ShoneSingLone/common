@@ -55,6 +55,14 @@ export default async function ({ PRIVATE_GLOBAL }) {
 
 	(function () /* 弹窗 */ {
 		_.$openModal = async function (options, modalConfigs) {
+			modalConfigs = _.merge(
+				{},
+				modalConfigs
+			);
+			// 统一使用 mask 术语，默认开启遮罩
+			if (options.mask === undefined) {
+				options.mask = true;
+			}
 			const xModal = await _.$importVue("/common/ui-x/directives/xModal/xModal.vue", {
 				options,
 				modalConfigs
