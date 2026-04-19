@@ -41,13 +41,11 @@
 						<xIcon :icon="cptCloseIcon" class="el-dialog__close" />
 					</button>
 				</div>
-				<transition name="slide">
 					<component
 						:is="ContentComponent"
 						ref="refContent"
 						:closeModal="closeModal"
 						@hook:mounted="setDialogOffset" />
-				</transition>
 				<div v-if="isShowResize && !dialog_class.fullscreen" class="x-modal-resize-handle" v-xmove="resizeOptions" />
 			</div>
 		</div>
@@ -325,6 +323,9 @@ export default async function ({ PRIVATE_GLOBAL, options, modalConfigs }) {
 						options.style.left = left;
 						options.style.top = top;
 
+						// 标记用户手动调整过大小/位置
+						$(vm.$el).find(".xDialog.xDialog-wrapper").addClass("custom-manual-resize");
+
 						setPosition({
 							left,
 							top
@@ -380,6 +381,9 @@ export default async function ({ PRIVATE_GLOBAL, options, modalConfigs }) {
 						if (!options.style) options.style = {};
 						options.style.width = width;
 						options.style.height = height;
+
+						// 标记用户手动调整过大小/位置
+						$(vm.$el).find(".xDialog.xDialog-wrapper").addClass("custom-manual-resize");
 
 						requestAnimationFrame(() => {
 							vm.dialogStyle = {
