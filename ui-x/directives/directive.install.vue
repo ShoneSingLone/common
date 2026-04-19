@@ -53,6 +53,250 @@ export default async function ({ PRIVATE_GLOBAL }) {
 		};
 	})();
 
+	(function () /* ModalManager */ {
+		const windowsRegistry = new Map();
+		const state = Vue.observable({
+			focusedWindowId: ""
+		});
+		let PopupManager;
+
+		_.$ModalManager = {
+			/**
+			 * 获取当前焦点窗口 ID
+			 * @returns {string}
+			 */
+			getFocusedId() {
+				return state.focusedWindowId;
+			},
+
+			/**
+			 * 打开一个窗口
+			 * @param {Object} options 窗口配置
+			 * @returns {Promise<any>} 返回窗口实例
+			 */
+			async open(options = {}) {
+				if (!PopupManager) {
+					PopupManager = await _.$importVue("/common/libs/VuePopper/popupManager.vue");
+				}
+				const id = options.id || _.$ramdomStr(8);
+
+				if (windowsRegistry.has(id)) {
+					const vm = windowsRegistry.get(id);
+					await this.toTop(id);
+					return vm;
+				}
+
+				// 统一使用 mask 术语，默认不使用遮罩，允许点击其他窗口，且默认支持最小化
+				if (options.mask === undefined) {
+					options.mask = false;
+				}
+
+				const modalConfigs = _.merge(
+					{
+						minimizable: true,
+						fullscreen: false,
+						resize: true,
+						keyboard: false,
+						center: false,
+						responsiveMaximize: false
+					},
+					options.modalConfigs
+				);
+
+				// 内存恢复：如果提供了 ID，尝试从本地存储恢复位置和大小
+				if (options.id) {
+					const savedState = _.$lStorage[`window_state_${id}`];
+					if (savedState) {
+						// 增加边界检查：确保至少有 100px 在视口内
+						const winWidth = window.innerWidth;
+						const winHeight = window.innerHeight;
+						const isLeftValid = savedState.left < winWidth - 100 && savedState.left > -100;
+						const isTopValid = savedState.top < winHeight - 100 && savedState.top > -50;
+
+						if (isLeftValid && isTopValid) {
+							options.style = _.merge({}, options.style, savedState);
+						}
+					}
+				}
+
+				// 级联定位逻辑：如果既没有显式传入坐标，也没有恢复坐标，则使用级联偏移
+				if (!options.style || (!_.$isInput(options.style.left) && !_.$isInput(options.style.top))) {
+					const instances = this.getAllInstances();
+					const offset = instances.length * 20;
+					options.style = _.merge({}, options.style, {
+						left: 50 + offset,
+						top: 50 + offset
+					});
+				}
+
+				// 调用 _.$openModal 打开窗口
+				const modalVm = await _.$openModal(options, modalConfigs);
+				modalVm.id = id;
+				windowsRegistry.set(id, modalVm);
+
+				// 初始置顶并设为焦点
+				await this.toTop(id);
+
+				// 监听销毁事件
+				modalVm.$on("hook:beforeDestroy", () => {
+					if (options.id) {
+						// 优先从 options.style 获取最新的位置和大小（在 xModal.vue 中已实时同步）
+						const style = options.style || {};
+						const { top, left, width, height } = style;
+						if (_.$isInput(top) || _.$isInput(left)) {
+							_.$lStorage[`window_state_${id}`] = { top, left, width, height };
+						}
+					}
+					windowsRegistry.delete(id);
+					if (state.focusedWindowId === id) {
+						state.focusedWindowId = "";
+					}
+				});
+
+				return modalVm;
+			},
+
+			/**
+			 * 关闭指定窗口
+			 * @param {string} id 窗口 ID
+			 */
+			close(id) {
+				const vm = windowsRegistry.get(id);
+				if (vm) {
+					if (_.isFunction(vm.close)) {
+						vm.close();
+					} else if (_.isFunction(vm.closeModal)) {
+						vm.closeModal();
+					} else if (_.isFunction(vm.$destroy)) {
+						vm.$destroy();
+					}
+				}
+			},
+
+			/**
+			 * 关闭所有已打开的窗口
+			 */
+			closeAll() {
+				windowsRegistry.forEach((vm, id) => {
+					this.close(id);
+				});
+				state.focusedWindowId = "";
+			},
+
+			/**
+			 * 最小化窗口
+			 * @param {string} id 窗口 ID
+			 */
+			minimize(id) {
+				const vm = windowsRegistry.get(id);
+				if (vm && _.isFunction(vm.minimize)) {
+					vm.minimize();
+					if (state.focusedWindowId === id) {
+						state.focusedWindowId = "";
+					}
+				}
+			},
+
+			/**
+			 * 还原窗口
+			 * @param {string} id 窗口 ID
+			 */
+			restore(id) {
+				const vm = windowsRegistry.get(id);
+				if (vm && _.isFunction(vm.restore)) {
+					vm.restore();
+					this.toTop(id);
+				}
+			},
+
+			/**
+			 * 最大化窗口
+			 * @param {string} id 窗口 ID
+			 */
+			maximize(id) {
+				const vm = windowsRegistry.get(id);
+				if (vm && _.isFunction(vm.maximize)) {
+					vm.maximize();
+					this.toTop(id);
+				}
+			},
+
+			/**
+			 * 将窗口置顶
+			 * @param {string} id 窗口 ID
+			 */
+			async toTop(id) {
+				const vm = windowsRegistry.get(id);
+				if (vm) {
+					state.focusedWindowId = id;
+					// 如果 PopupManager 还没加载完，等待加载（通常 open 时已经加载好了）
+					if (!PopupManager) {
+						PopupManager = await _.$importVue("/common/libs/VuePopper/popupManager.vue");
+					}
+					if (PopupManager && _.isFunction(PopupManager.nextZIndex)) {
+						const zIndex = PopupManager.nextZIndex();
+						// 优先更新 Vue 实例上的属性以触发响应式更新
+						if ("viewerZIndex" in vm) {
+							vm.viewerZIndex = zIndex;
+						} else {
+							$(vm.$el).css("z-index", zIndex);
+						}
+					}
+				}
+			},
+
+			/**
+			 * 获取所有窗口实例
+			 * @returns {any[]}
+			 */
+			getAllInstances() {
+				return Array.from(windowsRegistry.values());
+			},
+
+			/**
+			 * 获取指定 ID 的窗口实例
+			 * @param {string} id 窗口 ID
+			 * @returns {any|undefined}
+			 */
+			getInstance(id) {
+				return windowsRegistry.get(id);
+			}
+		};
+
+		// 全局键盘监听
+		window.addEventListener("keydown", function (event) {
+			const isCtrl = event.ctrlKey || event.metaKey;
+			if (isCtrl) {
+				const instances = _.$ModalManager.getAllInstances();
+				if (instances.length === 0) return;
+
+				// 按 zIndex 排序，获取最顶层的可见窗口，且开启了键盘快捷键
+				const topInstance = _.chain(instances)
+					.filter(vm => vm.dialog_class && !vm.dialog_class.minimized && vm.isShowKeyboard === true)
+					.sortBy(vm => {
+						const zIndex = parseInt($(vm.$el).css("z-index")) || 0;
+						return zIndex;
+					})
+					.last()
+					.value();
+
+				if (!topInstance) return;
+
+				if (event.key.toLowerCase() === "w") {
+					event.preventDefault();
+					if (_.isFunction(topInstance.closeModal)) {
+						topInstance.closeModal();
+					}
+				} else if (event.key.toLowerCase() === "m") {
+					event.preventDefault();
+					if (_.isFunction(topInstance.minimize)) {
+						topInstance.minimize();
+					}
+				}
+			}
+		});
+	})();
+
 	(function () /* 弹窗 */ {
 		_.$openModal = async function (options, modalConfigs) {
 			modalConfigs = _.merge(
