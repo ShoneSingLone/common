@@ -219,10 +219,11 @@ export default async function ({ PRIVATE_GLOBAL, options, modalConfigs }) {
 			const setPosition = function ({ left, top }) {
 				if (!ticking) {
 					requestAnimationFrame(() => {
-						vm.dialogStyle = _.merge(vm.dialogStyle, {
+						vm.dialogStyle = {
+							...vm.dialogStyle,
 							left: `${left}px`,
 							top: `${top}px`
-						});
+						};
 						ticking = false;
 					});
 					ticking = true;
@@ -702,7 +703,8 @@ export default async function ({ PRIVATE_GLOBAL, options, modalConfigs }) {
 			flex: 1;
 			/* 核心：占满剩余空间 */
 			max-height: none !important;
-			height: 0 !important;
+			height: auto !important;
+			min-height: 0;
 			/* 关键：强制撑开，不被内容挤压 */
 			overflow: auto;
 			/* 内容溢出自动滚动（可选） */
@@ -738,6 +740,9 @@ export default async function ({ PRIVATE_GLOBAL, options, modalConfigs }) {
 		>.el-dialog__header {
 			padding: var(--xModal-header-padding);
 			border-bottom: 1px solid #eee;
+			position: relative;
+			z-index: 2;
+			flex-shrink: 0;
 
 			.el-dialog__title-bar {
 				cursor: move;
