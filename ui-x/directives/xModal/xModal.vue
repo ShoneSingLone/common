@@ -479,7 +479,7 @@ export default async function ({ PRIVATE_GLOBAL, options, modalConfigs }) {
 			},
 			toTop() {
 				if (this.id) {
-					_.$windowsManager.toTop(this.id);
+					_.$ModalManager.toTop(this.id);
 				}
 			},
 			handleMaskClick() {
@@ -490,7 +490,7 @@ export default async function ({ PRIVATE_GLOBAL, options, modalConfigs }) {
 		},
 		computed: {
 			isFocused() {
-				return _.$windowsManager && _.$windowsManager.getFocusedId && _.$windowsManager.getFocusedId() === this.id;
+				return _.$ModalManager && _.$ModalManager.getFocusedId && _.$ModalManager.getFocusedId() === this.id;
 			},
 			cptCloseIcon() {
 				return PRIVATE_GLOBAL.x_modal_close_icon;

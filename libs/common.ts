@@ -2927,7 +2927,7 @@
 	 * 管理窗口的模块
 	 */
 	/* @typescriptDeclare { open(options:any):Promise<any>; close(id:string):void; closeAll():void; minimize(id:string):void; restore(id:string):void; maximize(id:string):void; toTop(id:string):void; getAllInstances():any[]; getInstance(id:string):any; } */
-	_.$windowsManager = (function () {
+	_.$ModalManager = (function () {
 		const windowsRegistry = new Map();
 		const state = Vue.observable({
 			focusedWindowId: ""
@@ -3129,7 +3129,7 @@
 	window.addEventListener("keydown", function (event) {
 		const isCtrl = event.ctrlKey || event.metaKey;
 		if (isCtrl) {
-			const instances = _.$windowsManager.getAllInstances();
+			const instances = _.$ModalManager.getAllInstances();
 			if (instances.length === 0) return;
 
 			// 按 zIndex 排序，获取最顶层的可见窗口，且开启了键盘快捷键

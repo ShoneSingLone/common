@@ -1,23 +1,23 @@
-在 common.ts 中新增 $windowsManager 多窗口管理模块，基于现有 \_.$openModal 能力封装一套完整的「打开 / 关闭 / 最小化 / 还原 / 拖动 / 最大化 / 置顶 / 记忆 / 快捷键」生命周期管理方案，并配套编写端到端自动化测试用例，确保所有 API 行为符合以下规范：
+在 common.ts 中新增 $ModalManager 多窗口管理模块，基于现有 \_.$openModal 能力封装一套完整的「打开 / 关闭 / 最小化 / 还原 / 拖动 / 最大化 / 置顶 / 记忆 / 快捷键」生命周期管理方案，并配套编写端到端自动化测试用例，确保所有 API 行为符合以下规范：
 
 1. 核心 API 定义
-   - `_.$windowsManager.open(windowId: string, config: WindowConfig): Promise<WindowInstance>`
+   - `_.$ModalManager.open(windowId: string, config: WindowConfig): Promise<WindowInstance>`
      复用 $openModal 创建窗口，返回实例句柄；若 windowId 已存在则直接 resolve 现有实例。
-   - `_.$windowsManager.minimize(windowId: string): void`
+   - `_.$ModalManager.minimize(windowId: string): void`
      将目标窗口可视状态置为最小化，DOM 节点保留但隐藏，记录最小化前位置与尺寸。
-   - `_.$windowsManager.restore(windowId: string): void`
+   - `_.$ModalManager.restore(windowId: string): void`
      将最小化窗口恢复至最小化前的几何状态；若窗口处于最大化，则先执行还原再恢复。
-   - `_.$windowsManager.close(windowId: string): void`
+   - `_.$ModalManager.close(windowId: string): void`
      销毁对应 modal 实例，触发 before-close 钩子，持久化窗口最后几何信息到 localStorage。
-   - `_.$windowsManager.closeAll(): void`
+   - `_.$ModalManager.closeAll(): void`
      顺序调用所有已打开窗口的 close 方法，确保钩子正常执行，清空内存索引表。
-   - `_.$windowsManager.getAllInstances(): WindowInstance[]`
+   - `_.$ModalManager.getAllInstances(): WindowInstance[]`
      返回当前存活窗口实例快照，顺序按 zIndex 升序排列。
-   - `_.$windowsManager.getInstance(windowId: string): WindowInstance | null`
+   - `_.$ModalManager.getInstance(windowId: string): WindowInstance | null`
      通过 windowId 获取对应的窗口实例。
-   - `_.$windowsManager.maximize(windowId: string): void`
+   - `_.$ModalManager.maximize(windowId: string): void`
      将窗口宽高设置为 `window.innerWidth / innerHeight`，记录原几何用于后续 restore。
-   - `_.$windowsManager.toTop(windowId: string): void`
+   - `_.$ModalManager.toTop(windowId: string): void`
      通过 `PopupManager.nextZIndex()` 获取最新 zIndex 并应用，并同步更新内部索引，保证点击任意窗口自动置顶。
 2. 扩展功能实现细节
    a) \_.$openModal 重构
