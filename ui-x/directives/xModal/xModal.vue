@@ -108,12 +108,29 @@ export default async function ({ PRIVATE_GLOBAL, options, modalConfigs }) {
 					// 防止重复计算或在用户交互过程中重置位置
 					if (isCalculating || isUserInteracting) return;
 					isCalculating = true;
+
+					const winWidth = _.$single.win.width();
+					const winHeight = _.$single.win.height();
+
+					// 响应式全屏处理
+					if (modalConfigs.responsiveMaximize) {
+						const threshold = _.isNumber(modalConfigs.responsiveMaximize)
+							? modalConfigs.responsiveMaximize
+							: 768; // 默认阈值 768px
+
+						if (winWidth <= threshold) {
+							if (!vm.dialog_class.fullscreen) {
+								vm.dialog_class.fullscreen = true;
+							}
+						}
+					}
+
 					// 检查是否需要重新计算
 					const currentValues = {
 						width: refDialogRectWidth.value,
 						height: refDialogRectHeight.value,
-						winWidth: _.$single.win.width(),
-						winHeight: _.$single.win.height(),
+						winWidth,
+						winHeight,
 						fullscreen: vm.dialog_class.fullscreen
 					};
 
@@ -135,6 +152,10 @@ export default async function ({ PRIVATE_GLOBAL, options, modalConfigs }) {
 							return parseInt(options.style.left);
 						}
 
+						if (modalConfigs.center === false) {
+							return 0;
+						}
+
 						let left = (currentValues.winWidth - currentValues.width) / 2;
 						return left < 0 ? 0 : left;
 					})();
@@ -146,6 +167,10 @@ export default async function ({ PRIVATE_GLOBAL, options, modalConfigs }) {
 
 						if (options.style && _.$isInput(options.style.top)) {
 							return parseInt(options.style.top);
+						}
+
+						if (modalConfigs.center === false) {
+							return 0;
 						}
 
 						let topOnepice = 2;
@@ -160,11 +185,12 @@ export default async function ({ PRIVATE_GLOBAL, options, modalConfigs }) {
 					requestAnimationFrame(() => {
 						const style = {
 							"margin-top": "0",
-							opacity: 1,
+							opacity: vm.dialog_class.minimized ? 0 : 1,
 							left: `${left}px`,
 							top: `${topOnepice}px`,
 							transform: "none",
-							visibility: "visible"
+							visibility: vm.dialog_class.minimized ? "hidden" : "visible",
+							pointerEvents: vm.dialog_class.minimized ? "none" : "auto"
 						};
 
 						// 如果用户已经手动调整过大小，或者初始配置了大小，则锁定宽高
@@ -258,6 +284,12 @@ export default async function ({ PRIVATE_GLOBAL, options, modalConfigs }) {
 						if (!_.$isInput(options.style.width)) options.style.width = width;
 						if (!_.$isInput(options.style.height)) options.style.height = height;
 
+						vm.dialogStyle = {
+							...vm.dialogStyle,
+							width: `${width}px`,
+							height: `${height}px`
+						};
+
 						if (_.$single && _.$single.mask) {
 							_.$single.mask.css("cursor", "move").show();
 						}
@@ -291,8 +323,6 @@ export default async function ({ PRIVATE_GLOBAL, options, modalConfigs }) {
 						options.style.left = left;
 						options.style.top = top;
 
-						$(vm.$el).find(".xDialog.xDialog-wrapper").addClass("custom-manual-resize");
-
 						setPosition({ left, top });
 					}
 				},
@@ -311,6 +341,14 @@ export default async function ({ PRIVATE_GLOBAL, options, modalConfigs }) {
 						if (!options.style) options.style = {};
 						if (!_.$isInput(options.style.left)) options.style.left = left;
 						if (!_.$isInput(options.style.top)) options.style.top = top;
+
+						vm.dialogStyle = {
+							...vm.dialogStyle,
+							width: `${width}px`,
+							height: `${height}px`,
+							left: `${left}px`,
+							top: `${top}px`
+						};
 
 						if (_.$single && _.$single.mask) {
 							_.$single.mask.css("cursor", "nwse-resize").show();

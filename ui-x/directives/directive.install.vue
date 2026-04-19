@@ -58,7 +58,8 @@ export default async function ({ PRIVATE_GLOBAL }) {
 			modalConfigs = _.merge(
 				{
 					resize: false,
-					keyboard: false
+					keyboard: false,
+					center: true
 				},
 				modalConfigs
 			);
