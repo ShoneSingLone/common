@@ -59,7 +59,8 @@ export default async function ({ PRIVATE_GLOBAL }) {
 				{
 					resize: false,
 					keyboard: false,
-					center: true
+					center: true,
+					responsiveMaximize: false
 				},
 				modalConfigs
 			);

@@ -2970,7 +2970,8 @@
 					fullscreen: false,
 					resize: true,
 					keyboard: false,
-					center: false
+					center: false,
+					responsiveMaximize: false
 				}, options.modalConfigs);
 
 				// 内存恢复：如果提供了 ID，尝试从本地存储恢复位置和大小
