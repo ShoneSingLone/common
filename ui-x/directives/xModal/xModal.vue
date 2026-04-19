@@ -72,17 +72,18 @@ export default async function ({ PRIVATE_GLOBAL, options, modalConfigs }) {
 			};
 		},
 		async mounted() {
+			const vm = this;
 			/* 兼容废弃代码 */
 			if (options._VueCtor) {
-				this.ContentComponent = options._VueCtor;
+				vm.ContentComponent = options._VueCtor;
 			} else {
 				options.$DIALOG_VM = this;
-				this.ContentComponent = await _.$importVue(options.url, options);
+				vm.ContentComponent = await _.$importVue(options.url, options);
 			}
 		},
 		setup(props) {
-			const vm = this;
-			useMask(this);
+			const vm = getCurrentInstance().proxy;
+			useMask(vm);
 			const { useAutoResize } = _xUtils;
 
 			const {
@@ -135,11 +136,7 @@ export default async function ({ PRIVATE_GLOBAL, options, modalConfigs }) {
 						}
 
 						let left = (currentValues.winWidth - currentValues.width) / 2;
-
-						if (left < 0) {
-							return 0;
-						}
-						return left;
+						return left < 0 ? 0 : left;
 					})();
 
 					let topOnepice = (() => {
@@ -170,6 +167,7 @@ export default async function ({ PRIVATE_GLOBAL, options, modalConfigs }) {
 							visibility: "visible"
 						};
 
+						// 如果用户已经手动调整过大小，或者初始配置了大小，则锁定宽高
 						if (options.style && _.$isInput(options.style.width)) {
 							style.width = `${parseInt(options.style.width)}px`;
 						}
@@ -195,24 +193,25 @@ export default async function ({ PRIVATE_GLOBAL, options, modalConfigs }) {
 					isCalculating = false;
 					return {};
 				}
-			}, 50); // 减少防抖延迟
+			}, 50);
 
 			watch(
-				() => {
-					return [
-						refDialogRectHeight.value,
-						refDialogRectWidth.value,
-						refContentHeight.value,
-						refContentWidth.value
-					];
-				},
+				() => [
+					refDialogRectHeight.value,
+					refDialogRectWidth.value,
+					refContentHeight.value,
+					refContentWidth.value
+				],
 				rectArray => {
-					// 添加更严格的检查条件
 					if (_.every(rectArray, val => val && val > 0)) {
+						// 如果发生了 resize 且尚未锁定尺寸，捕获当前尺寸
+						if (!options.style || (!_.$isInput(options.style.width) && !isUserInteracting)) {
+							// 仅在首次渲染或内容导致的大小变化时触发
+						}
 						setDialogOffset();
 					}
 				},
-				{ flush: "post" } // 确保在 DOM 更新后执行
+				{ flush: "post" }
 			);
 
 			let ticking = false;
@@ -241,10 +240,8 @@ export default async function ({ PRIVATE_GLOBAL, options, modalConfigs }) {
 				},
 				setPosition,
 				setDialogOffset,
-				/*  */
 				refDialog,
 				refContent,
-				/*移动*/
 				moveOptions: {
 					left: 0,
 					top: 0,
@@ -252,11 +249,15 @@ export default async function ({ PRIVATE_GLOBAL, options, modalConfigs }) {
 						isUserInteracting = true;
 						$(vm.$refs.refDialog).addClass("dragging");
 						vm.toTop();
-						const { left, top } = vm.$refs.refDialog.getBoundingClientRect();
+						const { left, top, width, height } = vm.$refs.refDialog.getBoundingClientRect();
 						vm.moveOptions.left = left;
 						vm.moveOptions.top = top;
 
-						// 显示全局遮罩，防止 iframe 拦截鼠标
+						// 拖拽开始即锁定当前尺寸
+						if (!options.style) options.style = {};
+						if (!_.$isInput(options.style.width)) options.style.width = width;
+						if (!_.$isInput(options.style.height)) options.style.height = height;
+
 						if (_.$single && _.$single.mask) {
 							_.$single.mask.css("cursor", "move").show();
 						}
@@ -275,47 +276,26 @@ export default async function ({ PRIVATE_GLOBAL, options, modalConfigs }) {
 						let left = vm.moveOptions.left + offsetLeft;
 						let top = vm.moveOptions.top + offsetTop;
 
-						(function () {
-							if (left <= 0) {
-								left = 0;
-								return;
-							}
+						const winWidth = _.$single.win.width();
+						const winHeight = _.$single.win.height();
+						const width = refDialogRectWidth.value;
+						const height = refDialogRectHeight.value;
 
-							const width = refDialogRectWidth.value;
-							if (left + width > _.$single.win.width()) {
-								left = _.$single.win.width() - width;
-								return;
-							}
-						})();
+						if (left <= 0) left = 0;
+						else if (left + width > winWidth) left = winWidth - width;
 
-						(function () {
-							if (top <= 0) {
-								top = 0;
-								return;
-							}
+						if (top <= 0) top = 0;
+						else if (top + height > winHeight) top = winHeight - height;
 
-							const height = refDialogRectHeight.value;
-							if (top + height > _.$single.win.height()) {
-								top = _.$single.win.height() - height;
-								return;
-							}
-						})();
-
-						// 同步更新 options.style 以便持久化和防止重置
 						if (!options.style) options.style = {};
 						options.style.left = left;
 						options.style.top = top;
 
-						// 标记用户手动调整过大小/位置
 						$(vm.$el).find(".xDialog.xDialog-wrapper").addClass("custom-manual-resize");
 
-						setPosition({
-							left,
-							top
-						});
+						setPosition({ left, top });
 					}
 				},
-				/* 调整大小 */
 				resizeOptions: {
 					width: 0,
 					height: 0,
@@ -323,9 +303,14 @@ export default async function ({ PRIVATE_GLOBAL, options, modalConfigs }) {
 						isUserInteracting = true;
 						$(vm.$refs.refDialog).addClass("dragging");
 						vm.toTop();
-						const { width, height } = vm.$refs.refDialog.getBoundingClientRect();
+						const { width, height, left, top } = vm.$refs.refDialog.getBoundingClientRect();
 						vm.resizeOptions.width = width;
 						vm.resizeOptions.height = height;
+
+						// 缩放开始即锁定当前位置
+						if (!options.style) options.style = {};
+						if (!_.$isInput(options.style.left)) options.style.left = left;
+						if (!_.$isInput(options.style.top)) options.style.top = top;
 
 						if (_.$single && _.$single.mask) {
 							_.$single.mask.css("cursor", "nwse-resize").show();
@@ -345,14 +330,11 @@ export default async function ({ PRIVATE_GLOBAL, options, modalConfigs }) {
 						let width = vm.resizeOptions.width + offsetWidth;
 						let height = vm.resizeOptions.height + offsetHeight;
 
-						// 最小尺寸限制
 						const minWidth = 200;
 						const minHeight = 100;
-
 						if (width < minWidth) width = minWidth;
 						if (height < minHeight) height = minHeight;
 
-						// 最大尺寸限制（视口）
 						const winWidth = _.$single.win.width();
 						const winHeight = _.$single.win.height();
 						const { left, top } = vm.$refs.refDialog.getBoundingClientRect();
@@ -360,12 +342,10 @@ export default async function ({ PRIVATE_GLOBAL, options, modalConfigs }) {
 						if (left + width > winWidth) width = winWidth - left;
 						if (top + height > winHeight) height = winHeight - top;
 
-						// 同步更新 options.style
 						if (!options.style) options.style = {};
 						options.style.width = width;
 						options.style.height = height;
 
-						// 标记用户手动调整过大小/位置
 						$(vm.$el).find(".xDialog.xDialog-wrapper").addClass("custom-manual-resize");
 
 						requestAnimationFrame(() => {
@@ -686,39 +666,43 @@ export default async function ({ PRIVATE_GLOBAL, options, modalConfigs }) {
 		// backdrop-filter: blur(1px);
 	}
 
-	>.el-dialog {
-		width: auto;
-		margin: auto;
-		overflow: hidden;
-		display: flex;
-		flex-direction: column;
-		border-radius: var(--xModal-border-radius);
-		box-shadow: var(--xModal-box-shadow);
-		box-sizing: border-box;
-		position: absolute;
-		background-color: var(--xModal-bg-color);
-
-		// 核心逻辑：用户手动 resize 后，强制占满空间
-		>.custom-manual-resize {
-			flex: 1;
-			/* 核心：占满剩余空间 */
-			max-height: none !important;
-			height: auto !important;
-			min-height: 0;
-			/* 关键：强制撑开，不被内容挤压 */
-			overflow: auto;
-			/* 内容溢出自动滚动（可选） */
+		>.el-dialog {
+			width: auto;
+			margin: auto;
+			overflow: hidden;
 			display: flex;
 			flex-direction: column;
-		}
+			border-radius: var(--xModal-border-radius);
+			box-shadow: var(--xModal-box-shadow);
+			box-sizing: border-box;
+			position: absolute;
+			background-color: var(--xModal-bg-color);
 
-		transition: opacity var(--xModal-transition-duration) ease-in-out,
-		top var(--xModal-move-transition-duration) ease,
-		right var(--xModal-move-transition-duration) ease,
-		bottom var(--xModal-move-transition-duration) ease,
-		left var(--xModal-move-transition-duration) ease,
-		width var(--xModal-move-transition-duration) ease,
-		height var(--xModal-move-transition-duration) ease;
+			// 默认让内容区具备占满能力
+			> :not(.el-dialog__header):not(.x-modal-resize-handle) {
+				flex: 1;
+				min-height: 0;
+				display: flex;
+				flex-direction: column;
+			}
+
+			// 用户手动 resize 后，强制占满空间
+			>.custom-manual-resize {
+				flex: 1;
+				/* 核心：占满剩余空间 */
+				max-height: none !important;
+				height: 100% !important;
+				/* 关键：强制撑开，不被内容挤压 */
+				overflow: auto;
+			}
+
+			transition: opacity var(--xModal-transition-duration) ease-in-out,
+				top var(--xModal-move-transition-duration) ease,
+				right var(--xModal-move-transition-duration) ease,
+				bottom var(--xModal-move-transition-duration) ease,
+				left var(--xModal-move-transition-duration) ease,
+				width var(--xModal-move-transition-duration) ease,
+				height var(--xModal-move-transition-duration) ease;
 
 		&.dragging {
 			transition: none !important;
