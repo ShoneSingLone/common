@@ -1,52 +1,34 @@
 <template>
 	<transition name="viewer-fade">
 		<div class="x-modal-mask-container" :style="cptWrapperStyle" @click.self="handleMaskClick">
-			<div role="dialog" :class="[dialog_class, { 'is-focused': isFocused }]" :style="dialogStyle" ref="refDialog" @mousedown="toTop">
+			<div role="dialog" :class="[dialog_class, { 'is-focused': isFocused }]" :style="dialogStyle" ref="refDialog"
+				@mousedown="toTop">
 				<div class="el-dialog__header" v-if="!isHideHeader">
 					<div class="el-dialog__title-bar" v-xmove="moveOptions" />
 					<span class="el-dialog__title">
 						<span class="xModel-title_prefixe"></span>
 						<xRender :render="cpt_title" />
 					</span>
-					<button
-						v-if="isShowMinimize"
-						type="button"
-						aria-label="Minimize"
-						class="x-dialog__headerbtn minimize"
-						@click="minimize">
+					<button v-if="isShowMinimize" type="button" aria-label="Minimize"
+						class="x-dialog__headerbtn minimize" @click="minimize">
 						<xIcon icon="minus" />
 					</button>
-					<button
-						v-if="isShowFullScreen"
-						type="button"
-						aria-label="Close"
-						class="x-dialog__headerbtn fullscreen"
-						@click="toggleFullScreen">
-						<xIcon
-							v-if="dialog_class.fullscreen"
-							class="el-icon el-icon-copy-document"
-							icon="copy-document"
+					<button v-if="isShowFullScreen" type="button" aria-label="Close"
+						class="x-dialog__headerbtn fullscreen" @click="toggleFullScreen">
+						<xIcon v-if="dialog_class.fullscreen" class="el-icon el-icon-copy-document" icon="copy-document"
 							style="transform: rotate(180deg)"></xIcon>
-						<xIcon
-							v-else
-							class="el-icon el-icon-full-screen"
-							icon="full-screen"></xIcon>
+						<xIcon v-else class="el-icon el-icon-full-screen" icon="full-screen"></xIcon>
 					</button>
-					<button
-						type="button"
-						aria-label="Close"
-						class="x-dialog__headerbtn close"
+					<button type="button" aria-label="Close" class="x-dialog__headerbtn close"
 						@click="closeModal({ isClickCloseIcon: true })">
 						<!-- <i class="el-dialog__close el-icon el-icon-close"></i> -->
 						<xIcon :icon="cptCloseIcon" class="el-dialog__close" />
 					</button>
 				</div>
-					<component
-						:is="ContentComponent"
-						ref="refContent"
-						:closeModal="closeModal"
-						@hook:mounted="setDialogOffset" />
-				<div v-if="isShowResize && !dialog_class.fullscreen" class="x-modal-resize-handle" v-xmove="resizeOptions" />
+				<component :is="ContentComponent" ref="refContent" :closeModal="closeModal"
+					@hook:mounted="setDialogOffset" />
+				<div v-if="isShowResize && !dialog_class.fullscreen" class="x-modal-resize-handle"
+					v-xmove="resizeOptions" />
 			</div>
 		</div>
 	</transition>
@@ -429,7 +411,7 @@ export default async function ({ PRIVATE_GLOBAL, options, modalConfigs }) {
 			};
 		},
 		methods: {
-			deviceSupportInstall() {},
+			deviceSupportInstall() { },
 			async closeModal(options) {
 				options = options || {};
 				const { isClickCloseIcon } = options;
@@ -658,7 +640,7 @@ export default async function ({ PRIVATE_GLOBAL, options, modalConfigs }) {
 	}
 }
 
-	.x-modal-mask-container {
+.x-modal-mask-container {
 	/* CSS 变量定义 */
 	--xModal-bg-color: #fff;
 	--xModal-border-radius: var(--border-radius--mini);
@@ -703,23 +685,38 @@ export default async function ({ PRIVATE_GLOBAL, options, modalConfigs }) {
 		// backdrop-filter: blur(1px);
 	}
 
-	> .el-dialog {
+	>.el-dialog {
 		width: auto;
 		margin: auto;
 		overflow: hidden;
+		display: flex;
+		flex-direction: column;
 		border-radius: var(--xModal-border-radius);
 		box-shadow: var(--xModal-box-shadow);
 		box-sizing: border-box;
 		position: absolute;
 		background-color: var(--xModal-bg-color);
-		transition:
-			opacity var(--xModal-transition-duration) ease-in-out,
-			top var(--xModal-move-transition-duration) ease,
-			right var(--xModal-move-transition-duration) ease,
-			bottom var(--xModal-move-transition-duration) ease,
-			left var(--xModal-move-transition-duration) ease,
-			width var(--xModal-move-transition-duration) ease,
-			height var(--xModal-move-transition-duration) ease;
+
+		// 核心逻辑：用户手动 resize 后，强制占满空间
+		>.custom-manual-resize {
+			flex: 1;
+			/* 核心：占满剩余空间 */
+			max-height: none !important;
+			height: 0 !important;
+			/* 关键：强制撑开，不被内容挤压 */
+			overflow: auto;
+			/* 内容溢出自动滚动（可选） */
+			display: flex;
+			flex-direction: column;
+		}
+
+		transition: opacity var(--xModal-transition-duration) ease-in-out,
+		top var(--xModal-move-transition-duration) ease,
+		right var(--xModal-move-transition-duration) ease,
+		bottom var(--xModal-move-transition-duration) ease,
+		left var(--xModal-move-transition-duration) ease,
+		width var(--xModal-move-transition-duration) ease,
+		height var(--xModal-move-transition-duration) ease;
 
 		&.dragging {
 			transition: none !important;
@@ -738,7 +735,7 @@ export default async function ({ PRIVATE_GLOBAL, options, modalConfigs }) {
 			height: 100vh;
 		}
 
-		> .el-dialog__header {
+		>.el-dialog__header {
 			padding: var(--xModal-header-padding);
 			border-bottom: 1px solid #eee;
 
@@ -785,32 +782,28 @@ export default async function ({ PRIVATE_GLOBAL, options, modalConfigs }) {
 			height: 15px;
 			cursor: nwse-resize;
 			z-index: 10;
-			background: linear-gradient(
-				135deg,
-				transparent 0%,
-				transparent 50%,
-				#ccc 50%,
-				#ccc 60%,
-				transparent 60%,
-				transparent 70%,
-				#ccc 70%,
-				#ccc 80%,
-				transparent 80%
-			);
-
-			&:hover {
-				background: linear-gradient(
-					135deg,
+			background: linear-gradient(135deg,
 					transparent 0%,
 					transparent 50%,
-					var(--el-color-primary) 50%,
-					var(--el-color-primary) 60%,
+					#ccc 50%,
+					#ccc 60%,
 					transparent 60%,
 					transparent 70%,
-					var(--el-color-primary) 70%,
-					var(--el-color-primary) 80%,
-					transparent 80%
-				);
+					#ccc 70%,
+					#ccc 80%,
+					transparent 80%);
+
+			&:hover {
+				background: linear-gradient(135deg,
+						transparent 0%,
+						transparent 50%,
+						var(--el-color-primary) 50%,
+						var(--el-color-primary) 60%,
+						transparent 60%,
+						transparent 70%,
+						var(--el-color-primary) 70%,
+						var(--el-color-primary) 80%,
+						transparent 80%);
 			}
 		}
 	}
