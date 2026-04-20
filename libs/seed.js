@@ -558,33 +558,104 @@
 		 * @param {*} duration 默认为0即不断尝试；若给定时间，未在给定时间内完成，则失败
 		 * @returns
 		 */
-		/* @typescriptDeclare (fn_get_value:(()=>Promise<any>)|(()=>any), duration?:number) =>Promise<any> */
-		$ensure = async (fn_get_value, duration = 0, gap = 64) => {
+		/* @typescriptDeclare (fn_get_value:(()=>Promise<any>)|(()=>any), duration?:number, gap?:number, options?:{vm?:any}) =>Promise<any> */
+		$ensure = async (fn_get_value, duration = 0, gap = 64, options = {}) => {
 			/* 获取完整的调用者信息，包含初始调用栈 */
 			const callerInfo = fn_get_value.toString();
+			const getVmFromCurrentInstance = () => {
+				try {
+					if (window.Vue && typeof window.Vue.getCurrentInstance === "function") {
+						const vm = $val(window.Vue.getCurrentInstance(), "proxy");
+						if (vm) {
+							return vm;
+						}
+					}
+				} catch (error) {
+					/* 忽略获取当前实例失败，回退为无 vm 模式 */
+				}
+				return null;
+			};
 
 			return new Promise((resolve, reject) => {
-				let timer;
+				let timer = null;
+				let durationTimer = null;
 				let exeCount = 0;
+				let isFinished = false;
+				let isCanceledByVmDestroy = false;
 
 				const handler = { louder: null };
-
-				const checkValue = async () => {
-					const value = await fn_get_value({ exeCount, handler });
-					_ensure_inner_print({ count: ++exeCount, info: callerInfo, handler });
-					if (value) {
+				const vm = options.vm || getVmFromCurrentInstance();
+				const onVmDestroy = () => {
+					if (isFinished) {
+						return;
+					}
+					isCanceledByVmDestroy = true;
+					clearTimers();
+					isFinished = true;
+					reject(new Error("ensure canceled: vm destroyed"));
+				};
+				const clearTimers = () => {
+					if (timer) {
 						clearTimeout(timer);
+						timer = null;
+					}
+					if (durationTimer) {
+						clearTimeout(durationTimer);
+						durationTimer = null;
+					}
+				};
+				const unbindVmDestroyHook = () => {
+					if (vm && typeof vm.$off === "function") {
+						vm.$off("hook:beforeDestroy", onVmDestroy);
+						vm.$off("hook:destroyed", onVmDestroy);
+					}
+				};
+				const finish = ({ isResolve, value, error }) => {
+					if (isFinished) {
+						return;
+					}
+					isFinished = true;
+					clearTimers();
+					unbindVmDestroyHook();
+					if (isResolve) {
 						resolve(value);
 					} else {
-						timer = setTimeout(checkValue, gap);
+						reject(error);
+					}
+				};
+
+				if (vm && typeof vm.$once === "function") {
+					vm.$once("hook:beforeDestroy", onVmDestroy);
+					vm.$once("hook:destroyed", onVmDestroy);
+				}
+
+				const checkValue = async () => {
+					if (isFinished || isCanceledByVmDestroy) {
+						return;
+					}
+					try {
+						const value = await fn_get_value({ exeCount, handler, vm });
+						if (isFinished || isCanceledByVmDestroy) {
+							return;
+						}
+						_ensure_inner_print({ count: ++exeCount, info: callerInfo, handler });
+						if (value) {
+							finish({ isResolve: true, value });
+						} else {
+							timer = setTimeout(checkValue, gap);
+						}
+					} catch (error) {
+						finish({ isResolve: false, error });
 					}
 				};
 
 				if (duration) {
-					setTimeout(() => {
-						clearTimeout(timer);
+					durationTimer = setTimeout(() => {
+						if (isFinished || isCanceledByVmDestroy) {
+							return;
+						}
 						_ensure_inner_print({ count: exeCount, info: callerInfo, handler });
-						reject(new Error("ensure timeout"));
+						finish({ isResolve: false, error: new Error("ensure timeout") });
 					}, duration);
 				}
 

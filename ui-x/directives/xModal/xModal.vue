@@ -1,7 +1,11 @@
 <template>
 	<transition name="viewer-fade">
 		<div class="x-modal-mask-container" :style="cptWrapperStyle" @click.self="handleMaskClick">
-			<div role="dialog" :class="[dialog_class, { 'is-focused': isFocused }]" :style="dialogStyle" ref="refDialog"
+			<div
+				role="dialog"
+				:class="[dialog_class, { 'is-focused': isFocused }]"
+				:style="dialogStyle"
+				ref="refDialog"
 				@mousedown="toTop">
 				<div class="el-dialog__header" v-if="!isHideHeader">
 					<div class="el-dialog__title-bar" v-xmove="moveOptions" />
@@ -9,25 +13,47 @@
 						<span class="xModel-title_prefixe"></span>
 						<xRender :render="cpt_title" />
 					</span>
-					<button v-if="isShowMinimize" type="button" aria-label="Minimize"
-						class="x-dialog__headerbtn minimize" @click="minimize">
+					<button
+						v-if="isShowMinimize"
+						type="button"
+						aria-label="Minimize"
+						class="x-dialog__headerbtn minimize"
+						@click="minimize">
 						<xIcon icon="minus" />
 					</button>
-					<button v-if="isShowFullScreen" type="button" aria-label="Close"
-						class="x-dialog__headerbtn fullscreen" @click="toggleFullScreen">
-						<xIcon v-if="dialog_class.fullscreen" class="el-icon el-icon-copy-document" icon="copy-document"
+					<button
+						v-if="isShowFullScreen"
+						type="button"
+						aria-label="Close"
+						class="x-dialog__headerbtn fullscreen"
+						@click="toggleFullScreen">
+						<xIcon
+							v-if="dialog_class.fullscreen"
+							class="el-icon el-icon-copy-document"
+							icon="copy-document"
 							style="transform: rotate(180deg)"></xIcon>
-						<xIcon v-else class="el-icon el-icon-full-screen" icon="full-screen"></xIcon>
+						<xIcon
+							v-else
+							class="el-icon el-icon-full-screen"
+							icon="full-screen"></xIcon>
 					</button>
-					<button type="button" aria-label="Close" class="x-dialog__headerbtn close"
+					<button
+						type="button"
+						aria-label="Close"
+						class="x-dialog__headerbtn close"
 						@click="closeModal({ isClickCloseIcon: true })">
 						<!-- <i class="el-dialog__close el-icon el-icon-close"></i> -->
 						<xIcon :icon="cptCloseIcon" class="el-dialog__close" />
 					</button>
 				</div>
-				<component :is="ContentComponent" ref="refContent" :closeModal="closeModal"
+				<component
+					:is="ContentComponent"
+					ref="refContent"
+					:closeModal="closeModal"
 					@hook:mounted="setDialogOffset" />
-				<div v-if="isShowResize && !dialog_class.fullscreen" class="x-modal-resize-handle"
+				<div
+					v-if="isShowResize && !dialog_class.fullscreen"
+					class="x-modal-resize-handle"
 					v-xmove="resizeOptions" />
 			</div>
 		</div>
@@ -231,7 +257,10 @@ export default async function ({ PRIVATE_GLOBAL, options, modalConfigs }) {
 				rectArray => {
 					if (_.every(rectArray, val => val && val > 0)) {
 						// 如果发生了 resize 且尚未锁定尺寸，捕获当前尺寸
-						if (!options.style || (!_.$isInput(options.style.width) && !isUserInteracting)) {
+						if (
+							!options.style ||
+							(!_.$isInput(options.style.width) && !isUserInteracting)
+						) {
 							// 仅在首次渲染或内容导致的大小变化时触发
 						}
 						setDialogOffset();
@@ -275,7 +304,8 @@ export default async function ({ PRIVATE_GLOBAL, options, modalConfigs }) {
 						isUserInteracting = true;
 						$(vm.$refs.refDialog).addClass("dragging");
 						vm.toTop();
-						const { left, top, width, height } = vm.$refs.refDialog.getBoundingClientRect();
+						const { left, top, width, height } =
+							vm.$refs.refDialog.getBoundingClientRect();
 						vm.moveOptions.left = left;
 						vm.moveOptions.top = top;
 
@@ -333,7 +363,8 @@ export default async function ({ PRIVATE_GLOBAL, options, modalConfigs }) {
 						isUserInteracting = true;
 						$(vm.$refs.refDialog).addClass("dragging");
 						vm.toTop();
-						const { width, height, left, top } = vm.$refs.refDialog.getBoundingClientRect();
+						const { width, height, left, top } =
+							vm.$refs.refDialog.getBoundingClientRect();
 						vm.resizeOptions.width = width;
 						vm.resizeOptions.height = height;
 
@@ -430,7 +461,7 @@ export default async function ({ PRIVATE_GLOBAL, options, modalConfigs }) {
 			};
 		},
 		methods: {
-			deviceSupportInstall() { },
+			deviceSupportInstall() {},
 			async closeModal(options) {
 				options = options || {};
 				const { isClickCloseIcon } = options;
@@ -490,7 +521,11 @@ export default async function ({ PRIVATE_GLOBAL, options, modalConfigs }) {
 		},
 		computed: {
 			isFocused() {
-				return _.$ModalManager && _.$ModalManager.getFocusedId && _.$ModalManager.getFocusedId() === this.id;
+				return (
+					_.$ModalManager &&
+					_.$ModalManager.getFocusedId &&
+					_.$ModalManager.getFocusedId() === this.id
+				);
 			},
 			cptCloseIcon() {
 				return PRIVATE_GLOBAL.x_modal_close_icon;
@@ -677,7 +712,9 @@ export default async function ({ PRIVATE_GLOBAL, options, modalConfigs }) {
 	--xModal-body-color: var(--el-text-color-regular);
 	--xModal-body-font-size: 14px;
 	--xModal-footer-padding: 10px 20px 20px;
-	--xModal-focused-shadow: 0 12px 32px 0 rgba(0, 0, 0, 0.12), 0 8px 16px -8px rgba(0, 0, 0, 0.16), 0 16px 48px 16px rgba(0, 0, 0, 0.08);
+	--xModal-focused-shadow:
+		0 12px 32px 0 rgba(0, 0, 0, 0.12), 0 8px 16px -8px rgba(0, 0, 0, 0.16),
+		0 16px 48px 16px rgba(0, 0, 0, 0.08);
 	--xModal-focused-border-color: transparent;
 	--xModal-border-color: transparent;
 	--xModal-margin-bottom: 50px;
@@ -704,43 +741,43 @@ export default async function ({ PRIVATE_GLOBAL, options, modalConfigs }) {
 		// backdrop-filter: blur(1px);
 	}
 
-		>.el-dialog {
-			width: auto;
-			margin: auto;
-			overflow: hidden;
+	> .el-dialog {
+		width: auto;
+		margin: auto;
+		overflow: hidden;
+		display: flex;
+		flex-direction: column;
+		border-radius: var(--xModal-border-radius);
+		box-shadow: var(--xModal-box-shadow);
+		box-sizing: border-box;
+		position: absolute;
+		background-color: var(--xModal-bg-color);
+
+		// 默认让内容区具备占满能力
+		> :not(.el-dialog__header):not(.x-modal-resize-handle) {
+			min-height: 0;
 			display: flex;
 			flex-direction: column;
-			border-radius: var(--xModal-border-radius);
-			box-shadow: var(--xModal-box-shadow);
-			box-sizing: border-box;
-			position: absolute;
-			background-color: var(--xModal-bg-color);
+		}
 
-			// 默认让内容区具备占满能力
-			> :not(.el-dialog__header):not(.x-modal-resize-handle) {
-				flex: 1;
-				min-height: 0;
-				display: flex;
-				flex-direction: column;
-			}
+		// 用户手动 resize 后，强制占满空间
+		> .custom-manual-resize {
+			flex: 1;
+			/* 核心：占满剩余空间 */
+			max-height: none !important;
+			height: 100% !important;
+			/* 关键：强制撑开，不被内容挤压 */
+			overflow: auto;
+		}
 
-			// 用户手动 resize 后，强制占满空间
-			>.custom-manual-resize {
-				flex: 1;
-				/* 核心：占满剩余空间 */
-				max-height: none !important;
-				height: 100% !important;
-				/* 关键：强制撑开，不被内容挤压 */
-				overflow: auto;
-			}
-
-			transition: opacity var(--xModal-transition-duration) ease-in-out,
-				top var(--xModal-move-transition-duration) ease,
-				right var(--xModal-move-transition-duration) ease,
-				bottom var(--xModal-move-transition-duration) ease,
-				left var(--xModal-move-transition-duration) ease,
-				width var(--xModal-move-transition-duration) ease,
-				height var(--xModal-move-transition-duration) ease;
+		transition:
+			opacity var(--xModal-transition-duration) ease-in-out,
+			top var(--xModal-move-transition-duration) ease,
+			right var(--xModal-move-transition-duration) ease,
+			bottom var(--xModal-move-transition-duration) ease,
+			left var(--xModal-move-transition-duration) ease,
+			width var(--xModal-move-transition-duration) ease,
+			height var(--xModal-move-transition-duration) ease;
 
 		&.dragging {
 			transition: none !important;
@@ -759,7 +796,7 @@ export default async function ({ PRIVATE_GLOBAL, options, modalConfigs }) {
 			height: 100vh;
 		}
 
-		>.el-dialog__header {
+		> .el-dialog__header {
 			padding: var(--xModal-header-padding);
 			border-bottom: 1px solid #eee;
 			position: relative;
@@ -809,28 +846,32 @@ export default async function ({ PRIVATE_GLOBAL, options, modalConfigs }) {
 			height: 15px;
 			cursor: nwse-resize;
 			z-index: 10;
-			background: linear-gradient(135deg,
-					transparent 0%,
-					transparent 50%,
-					#ccc 50%,
-					#ccc 60%,
-					transparent 60%,
-					transparent 70%,
-					#ccc 70%,
-					#ccc 80%,
-					transparent 80%);
+			background: linear-gradient(
+				135deg,
+				transparent 0%,
+				transparent 50%,
+				#ccc 50%,
+				#ccc 60%,
+				transparent 60%,
+				transparent 70%,
+				#ccc 70%,
+				#ccc 80%,
+				transparent 80%
+			);
 
 			&:hover {
-				background: linear-gradient(135deg,
-						transparent 0%,
-						transparent 50%,
-						var(--el-color-primary) 50%,
-						var(--el-color-primary) 60%,
-						transparent 60%,
-						transparent 70%,
-						var(--el-color-primary) 70%,
-						var(--el-color-primary) 80%,
-						transparent 80%);
+				background: linear-gradient(
+					135deg,
+					transparent 0%,
+					transparent 50%,
+					var(--el-color-primary) 50%,
+					var(--el-color-primary) 60%,
+					transparent 60%,
+					transparent 70%,
+					var(--el-color-primary) 70%,
+					var(--el-color-primary) 80%,
+					transparent 80%
+				);
 			}
 		}
 	}

@@ -110,10 +110,9 @@ export default async function () {
 		min-width: unset;
 
 		&.custom-manual-resize {
-			width:100%;
-			height:100%;
+			width: 100%;
+			height: 100%;
 		}
-
 
 		&.fullscreen {
 			max-height: 100vh;

@@ -110,7 +110,8 @@ export default async function ({ PRIVATE_GLOBAL }) {
 						// 增加边界检查：确保至少有 100px 在视口内
 						const winWidth = window.innerWidth;
 						const winHeight = window.innerHeight;
-						const isLeftValid = savedState.left < winWidth - 100 && savedState.left > -100;
+						const isLeftValid =
+							savedState.left < winWidth - 100 && savedState.left > -100;
 						const isTopValid = savedState.top < winHeight - 100 && savedState.top > -50;
 
 						if (isLeftValid && isTopValid) {
@@ -120,7 +121,10 @@ export default async function ({ PRIVATE_GLOBAL }) {
 				}
 
 				// 级联定位逻辑：如果既没有显式传入坐标，也没有恢复坐标，则使用级联偏移
-				if (!options.style || (!_.$isInput(options.style.left) && !_.$isInput(options.style.top))) {
+				if (
+					!options.style ||
+					(!_.$isInput(options.style.left) && !_.$isInput(options.style.top))
+				) {
 					const instances = this.getAllInstances();
 					const offset = instances.length * 20;
 					options.style = _.merge({}, options.style, {
@@ -231,7 +235,9 @@ export default async function ({ PRIVATE_GLOBAL }) {
 					state.focusedWindowId = id;
 					// 如果 PopupManager 还没加载完，等待加载（通常 open 时已经加载好了）
 					if (!PopupManager) {
-						PopupManager = await _.$importVue("/common/libs/VuePopper/popupManager.vue");
+						PopupManager = await _.$importVue(
+							"/common/libs/VuePopper/popupManager.vue"
+						);
 					}
 					if (PopupManager && _.isFunction(PopupManager.nextZIndex)) {
 						const zIndex = PopupManager.nextZIndex();
@@ -272,7 +278,12 @@ export default async function ({ PRIVATE_GLOBAL }) {
 
 				// 按 zIndex 排序，获取最顶层的可见窗口，且开启了键盘快捷键
 				const topInstance = _.chain(instances)
-					.filter(vm => vm.dialog_class && !vm.dialog_class.minimized && vm.isShowKeyboard === true)
+					.filter(
+						vm =>
+							vm.dialog_class &&
+							!vm.dialog_class.minimized &&
+							vm.isShowKeyboard === true
+					)
 					.sortBy(vm => {
 						const zIndex = parseInt($(vm.$el).css("z-index")) || 0;
 						return zIndex;
