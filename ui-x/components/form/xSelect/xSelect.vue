@@ -163,6 +163,7 @@ export default async function ({ PRIVATE_GLOBAL }) {
 		_.$importVue("/common/ui-x/components/form/xSelect/navigationMixin.vue")
 	]);
 
+						console.log("🚀 ~ setPopperAppendToBody ~ popperAppendToBody:", popperAppendToBody);
 	return defineComponent({
 		setup() {
 			const { focus } = useFocus(this, "reference");

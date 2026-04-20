@@ -19,7 +19,10 @@ export default async function () {
 
 			const selectProps = mergeProps4h([
 				{
-					attrs,
+					attrs: {
+						...vm.$attrs,
+						...attrs
+					},
 					on: vm.mixin_listeners,
 					/* configs,value */
 					onChange(val) {
