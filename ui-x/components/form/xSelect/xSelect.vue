@@ -163,7 +163,6 @@ export default async function ({ PRIVATE_GLOBAL }) {
 		_.$importVue("/common/ui-x/components/form/xSelect/navigationMixin.vue")
 	]);
 
-						console.log("🚀 ~ setPopperAppendToBody ~ popperAppendToBody:", popperAppendToBody);
 	return defineComponent({
 		setup() {
 			const { focus } = useFocus(this, "reference");
@@ -998,9 +997,12 @@ export default async function ({ PRIVATE_GLOBAL }) {
 				}
 			});
 			this.setSelected();
-
 			// 定时检测popperAppendToBody
-			if (this.mustAppendToBody) {
+			if (
+				this.mustAppendToBody ||
+				this.$attrs?.popperAppendToBody ||
+				this.$attrs?.cpt_configs?.mustAppendToBody
+			) {
 				const setPopperAppendToBody = () => {
 					if (!this.popperAppendToBody) {
 						console.log("popperAppendToBody", this.popperAppendToBody);
