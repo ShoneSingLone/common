@@ -555,10 +555,14 @@
 		/**
 		 *
 		 * @param {*} fn_get_value 执行此函数，直到返回真值
-		 * @param {*} duration 默认为0即不断尝试；若给定时间，未在给定时间内完成，则失败
-		 * @returns
+		 * @param {*} duration 默认为 0 即不断尝试；若给定时间，未在给定时间内完成，则失败
+		 * @param {*} gap 每次尝试的间隔时间，默认 64ms
+		 * @param {*} options 配置选项
+		 * @param {*} options.vm 指定 Vue 实例，不传则自动获取当前实例
+		 * @param {*} options.shouldRejectOnVmDestroy 是否在 VM 销毁时 reject，默认 false（resolve null），向后兼容
+		 * @returns Promise<any> 成功时返回 fn_get_value 的结果，VM 销毁时根据配置返回 null 或 reject
 		 */
-		/* @typescriptDeclare (fn_get_value:(()=>Promise<any>)|(()=>any), duration?:number, gap?:number, options?:{vm?:any}) =>Promise<any> */
+		/* @typescriptDeclare (fn_get_value:(()=>Promise<any>)|(()=>any), duration?:number, gap?:number, options?:{vm?:any, shouldRejectOnVmDestroy?:boolean}) =>Promise<any> */
 		$ensure = async (fn_get_value, duration = 0, gap = 64, options = {}) => {
 			/* 获取完整的调用者信息，包含初始调用栈 */
 			const callerInfo = fn_get_value.toString();
@@ -585,6 +589,7 @@
 
 				const handler = { louder: null };
 				const vm = options.vm || getVmFromCurrentInstance();
+				const shouldRejectOnVmDestroy = options.shouldRejectOnVmDestroy === true;
 				const onVmDestroy = () => {
 					if (isFinished) {
 						return;
@@ -592,7 +597,12 @@
 					isCanceledByVmDestroy = true;
 					clearTimers();
 					isFinished = true;
-					reject(new Error("ensure canceled: vm destroyed"));
+					/* 向后兼容：默认 resolve null 而不是 reject，避免大量未捕获的 Promise rejection */
+					if (shouldRejectOnVmDestroy) {
+						reject(new Error("ensure canceled: vm destroyed"));
+					} else {
+						resolve(null);
+					}
 				};
 				const clearTimers = () => {
 					if (timer) {
@@ -894,7 +904,7 @@
 									const preloadArray = getPreload();
 									preloadArray.forEach(url => $loadText(url));
 								}
-							} catch (error) {}
+							} catch (error) { }
 						}
 					}
 				],
