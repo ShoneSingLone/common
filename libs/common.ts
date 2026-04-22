@@ -2679,6 +2679,7 @@
 		) => Promise<void[]> */
 		_.$xItemsValue = async function (xItemFormConfigs, values, options = {}) {
 			/* 只要values 有可用值（null亦可支持响应，undefined不行），configs有匹配项，则进行赋值 */
+			_.$setFormValues(xItemFormConfigs, values);
 			return Promise.all(
 				_.map(values, async (value, prop) => {
 					const cfg = xItemFormConfigs[prop];
