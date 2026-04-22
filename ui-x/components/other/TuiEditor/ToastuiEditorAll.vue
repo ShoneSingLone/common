@@ -38196,7 +38196,7 @@ PERFORMANCE OF THIS SOFTWARE.
 							altText = _a.altText;
 						var attrs = getCustomAttrs(node.attrs);
 						(function () {
-							/* yapi 资源解析 */
+							/* xspace 资源解析 */
 							const [all, prefix, id] = String(imageUrl).match(/(.*)_id:(\d+)/) || [];
 
 							if (id) {

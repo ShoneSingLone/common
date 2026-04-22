@@ -697,7 +697,6 @@ export default async function ({ PRIVATE_GLOBAL, options, modalConfigs }) {
 .x-modal-mask-container {
 	/* CSS 变量定义 */
 	--xModal-bg-color: #fff;
-	--xModal-border-radius: var(--border-radius--mini);
 	--xModal-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
 	--xModal-header-padding: 20px 20px 10px;
 	--xModal-header-btn-top: 20px;
@@ -729,6 +728,8 @@ export default async function ({ PRIVATE_GLOBAL, options, modalConfigs }) {
 	margin: 0;
 	overflow: hidden;
 	z-index: var(--xModal-zIndex);
+ 	border-radius: var(--xModal-border-radius,var(--border-radius));
+
 
 	&::before {
 		content: "";
