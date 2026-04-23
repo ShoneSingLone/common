@@ -998,20 +998,21 @@ export default async function ({ PRIVATE_GLOBAL }) {
 			});
 			this.setSelected();
 			// 定时检测popperAppendToBody
-			if (
-				this.mustAppendToBody ||
-				this.$attrs?.popperAppendToBody ||
-				this.$attrs?.cpt_configs?.mustAppendToBody
-			) {
-				const setPopperAppendToBody = () => {
-					if (!this.popperAppendToBody) {
-						console.log("popperAppendToBody", this.popperAppendToBody);
+
+			const setPopperAppendToBody = () => {
+				if (
+					this.mustAppendToBody ||
+					this.$attrs?.popperAppendToBody ||
+					this.$attrs?.cpt_configs?.mustAppendToBody
+				) {
+					if ($(this.$el).find(".xSelectDropdown").length > 0) {
 						this.popperAppendToBody = true;
+						this.$forceUpdate();
 					}
-				};
-				this._appendToBodyTimer = setInterval(setPopperAppendToBody, 1000);
-				setPopperAppendToBody();
-			}
+				}
+			};
+			this._appendToBodyTimer = setInterval(setPopperAppendToBody, 1000);
+			setPopperAppendToBody();
 		},
 
 		beforeDestroy() {
