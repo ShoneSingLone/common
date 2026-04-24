@@ -538,6 +538,14 @@ export default async function ({ PRIVATE_GLOBAL }) {
 					return;
 				}
 
+				// 检查当前状态是否已经是目标状态
+				const currentInBody = popperElm.parentNode === document.body;
+				const alreadyInTargetState = isAppendToBody ? currentInBody : !currentInBody;
+
+				if (alreadyInTargetState) {
+					return;
+				}
+
 				console.log(
 					`changePopperPositionTo: mode=${mode}, isAppendToBody=${isAppendToBody}, retryCount=${retryCount}`
 				);
@@ -560,25 +568,17 @@ export default async function ({ PRIVATE_GLOBAL }) {
 				// 立即移动 DOM，不等待 $nextTick
 				if (isAppendToBody) {
 					// 移动到 body
-					if (popperElm.parentNode !== document.body) {
-						console.log("changePopperPositionTo: 将下拉框移动到 body");
-						document.body.appendChild(popperElm);
-					} else {
-						console.log("changePopperPositionTo: 下拉框已在 body 下");
-					}
+					console.log("changePopperPositionTo: 将下拉框移动到 body");
+					document.body.appendChild(popperElm);
 				} else {
 					// 移回组件内部
-					if (popperElm.parentNode === document.body) {
-						console.log("changePopperPositionTo: 将下拉框移回组件内部");
-						const selectContainer = this.$el.querySelector(".el-select");
-						if (selectContainer) {
-							selectContainer.appendChild(popperElm);
-						} else {
-							console.warn("找不到 .el-select 容器，使用 this.$el");
-							this.$el.appendChild(popperElm);
-						}
+					console.log("changePopperPositionTo: 将下拉框移回组件内部");
+					const selectContainer = this.$el.querySelector(".el-select");
+					if (selectContainer) {
+						selectContainer.appendChild(popperElm);
 					} else {
-						console.log("changePopperPositionTo: 下拉框已在组件内部");
+						console.warn("找不到 .el-select 容器，使用 this.$el");
+						this.$el.appendChild(popperElm);
 					}
 				}
 
@@ -598,9 +598,12 @@ export default async function ({ PRIVATE_GLOBAL }) {
 						console.log(
 							`changePopperPositionTo: 检测未通过，${checkResult.reason}，${100 * (retryCount + 1)}ms 后重试...`
 						);
-						setTimeout(() => {
-							this.changePopperPositionTo(mode, retryCount + 1);
-						}, 100 * (retryCount + 1));
+						setTimeout(
+							() => {
+								this.changePopperPositionTo(mode, retryCount + 1);
+							},
+							100 * (retryCount + 1)
+						);
 					} else {
 						console.error(
 							`changePopperPositionTo: 重试${retryCount}次后仍失败，放弃重试。${checkResult.reason}`
@@ -618,7 +621,9 @@ export default async function ({ PRIVATE_GLOBAL }) {
 					if (popperElm.parentNode !== document.body) {
 						return {
 							success: false,
-							reason: "下拉框未移动到 body，当前父节点：" + (popperElm.parentNode?.tagName || "unknown")
+							reason:
+								"下拉框未移动到 body，当前父节点：" +
+								(popperElm.parentNode?.tagName || "unknown")
 						};
 					}
 				} else {
@@ -628,7 +633,9 @@ export default async function ({ PRIVATE_GLOBAL }) {
 					if (popperElm.parentNode !== expectedParent) {
 						return {
 							success: false,
-							reason: "下拉框未移回组件内部，当前父节点：" + (popperElm.parentNode?.tagName || "unknown")
+							reason:
+								"下拉框未移回组件内部，当前父节点：" +
+								(popperElm.parentNode?.tagName || "unknown")
 						};
 					}
 				}
