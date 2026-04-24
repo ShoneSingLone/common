@@ -193,8 +193,10 @@ export default async function hooks() {
 		useDynamicStyle({ vm }) {
 			const id = vm._uid;
 			const styleId = `dynamicstyleid${id}`;
+			let isUnmounted = false;
 			
 			onBeforeUnmount(() => {
+				isUnmounted = true;
 				// 组件销毁时移除对应的 style 元素
 				// _.$appendStyle 创建的样式元素 ID 会被 toDomIdStr 处理为 style_ 前缀
 				try {
@@ -212,11 +214,22 @@ export default async function hooks() {
 				styleId,
 				setStyle: _.debounce(async cssLessString => {
 					try {
+						// 检查是否已经卸载
+						if (isUnmounted) {
+							console.warn('组件已卸载，跳过样式更新');
+							return;
+						}
+						
+						// 检查 _.$appendStyle 是否存在
+						if (!_.$appendStyle) {
+							throw new Error('_.$appendStyle 未定义，请确保 seed.js 已加载');
+						}
+						
 						const css = await _.$preprocessCssByless(cssLessString);
 						// _.$appendStyle 会自动处理 styleId，添加 style_ 前缀
 						_.$appendStyle(styleId, css);
 					} catch (error) {
-						console.error(error);
+						console.error('动态样式更新失败:', error);
 					}
 				}, 64)
 			};
