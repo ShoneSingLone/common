@@ -728,8 +728,7 @@ export default async function ({ PRIVATE_GLOBAL, options, modalConfigs }) {
 	margin: 0;
 	overflow: hidden;
 	z-index: var(--xModal-zIndex);
- 	border-radius: var(--xModal-border-radius,var(--border-radius));
-
+	border-radius: var(--xModal-border-radius, var(--border-radius));
 
 	&::before {
 		content: "";
