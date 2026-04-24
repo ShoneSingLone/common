@@ -123,7 +123,7 @@
 			<xSelectDropdown
 				ref="popper"
 				:data-tag="xItem.cpt_configs?.dropdownId"
-				:append-to-body="popperAppendToBody"
+				:append-to-body="appendToBody"
 				v-show="visible && emptyText !== false">
 				<xScrollbar
 					tag="ul"
@@ -361,13 +361,9 @@ export default async function ({ PRIVATE_GLOBAL }) {
 				default: "value"
 			},
 			collapseTags: Boolean,
-			popperAppendToBody: {
+			appendToBody: {
 				type: Boolean,
 				default: true
-			},
-			mustAppendToBody: {
-				type: Boolean,
-				default: false
 			}
 		},
 
@@ -517,6 +513,10 @@ export default async function ({ PRIVATE_GLOBAL }) {
 		},
 
 		methods: {
+			MustSetPopperAppendToBody() {
+				if ($(this.$el).find(".xSelectDropdown").length > 0) {
+				}
+			},
 			handleNavigate(direction) {
 				if (this.isOnComposition) return;
 
@@ -997,30 +997,11 @@ export default async function ({ PRIVATE_GLOBAL }) {
 				}
 			});
 			this.setSelected();
-			// 定时检测popperAppendToBody
-
-			const setPopperAppendToBody = () => {
-				if (
-					this.mustAppendToBody ||
-					this.$attrs?.popperAppendToBody ||
-					this.$attrs?.cpt_configs?.mustAppendToBody
-				) {
-					if ($(this.$el).find(".xSelectDropdown").length > 0) {
-						this.popperAppendToBody = true;
-						this.$forceUpdate();
-					}
-				}
-			};
-			this._appendToBodyTimer = setInterval(setPopperAppendToBody, 1000);
-			setPopperAppendToBody();
+			// 定时检测appendToBody
 		},
 
 		beforeDestroy() {
 			if (this.$el && this.handleResize) removeResizeListener(this.$el, this.handleResize);
-			// 清除定时器
-			if (this._appendToBodyTimer) {
-				clearInterval(this._appendToBodyTimer);
-			}
 		}
 	});
 }

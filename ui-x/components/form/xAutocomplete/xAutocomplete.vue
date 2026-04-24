@@ -36,7 +36,7 @@
 			ref="suggestions"
 			:class="[popperClass ? popperClass : '']"
 			:popper-options="popperOptions"
-			:append-to-body="popperAppendToBody"
+			:append-to-body="appendToBody"
 			:placement="placement"
 			:id="id">
 			<li
@@ -111,7 +111,7 @@ export default async function () {
 				default: "bottom-start"
 			},
 			hideLoading: Boolean,
-			popperAppendToBody: {
+			appendToBody: {
 				type: Boolean,
 				default: true
 			},

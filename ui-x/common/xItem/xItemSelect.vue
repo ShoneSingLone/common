@@ -16,8 +16,8 @@ export default async function () {
 			if (_.isFunction(_.$val(_xUtils, "globalConfigs.xItemSelect.defaultProps"))) {
 				attrs = _xUtils.globalConfigs.xItemSelect.defaultProps(vm, vm.$attrs);
 			}
-
 			const selectProps = mergeProps4h([
+				vm.configs,
 				{
 					attrs: {
 						...vm.$attrs,
@@ -31,7 +31,7 @@ export default async function () {
 				},
 				_.$val(vm, "$vnode.data")
 			]);
-
+			console.log("🚀 ~ selectProps:", selectProps);
 			const children = (() => {
 				if (_.$val(vm, "configs.optionsRender")) {
 					return [vm.configs.optionsRender({ options: vm.selectOptions, vm })];

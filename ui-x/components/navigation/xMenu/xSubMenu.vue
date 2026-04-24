@@ -54,7 +54,7 @@ export default async function () {
 			},
 			popperClass: String,
 			disabled: Boolean,
-			popperAppendToBody: {
+			appendToBody: {
 				type: Boolean,
 				default: true
 			}
@@ -80,9 +80,7 @@ export default async function () {
 		computed: {
 			// popper option
 			appendToBody() {
-				return this.popperAppendToBody === undefined
-					? this.isFirstLevel
-					: this.popperAppendToBody;
+				return this.appendToBody === undefined ? this.isFirstLevel : this.appendToBody;
 			},
 			menuTransitionName() {
 				return this.rootMenu.collapse ? "el-zoom-in-left" : "el-zoom-in-top";
