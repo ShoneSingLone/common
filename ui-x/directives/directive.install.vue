@@ -134,8 +134,28 @@ export default async function ({ PRIVATE_GLOBAL }) {
 				}
 
 				// 调用 _.$openModal 打开窗口
-				const modalVm = await _.$openModal(options, modalConfigs);
+				let modalVm;
+				try {
+					modalVm = await _.$openModal(options, modalConfigs);
+				} catch (error) {
+					console.error(`ModalManager.open: 打开窗口失败 - ${id}`, error);
+					// 清理可能已注册的实例
+					if (windowsRegistry.has(id)) {
+						windowsRegistry.delete(id);
+					}
+					throw error;
+				}
+
+				if (!modalVm) {
+					console.error(`ModalManager.open: 创建窗口实例失败 - ${id}`);
+					return null;
+				}
+
+				// id: 窗口实例的唯一标识符，用于窗口管理（最小化、最大化、关闭、置顶）
+				// appId: 应用程序的类型标识符，用于应用级别的分组和管理（支持多开）
+				// 两者用途不同，不能合并：id标识"哪个窗口"，appId标识"哪个应用"
 				modalVm.id = id;
+				modalVm.appId = options.appId;
 				windowsRegistry.set(id, modalVm);
 
 				// 初始置顶并设为焦点
@@ -252,11 +272,16 @@ export default async function ({ PRIVATE_GLOBAL }) {
 			},
 
 			/**
-			 * 获取所有窗口实例
+			 * 获取所有有效的窗口实例
 			 * @returns {any[]}
 			 */
 			getAllInstances() {
-				return Array.from(windowsRegistry.values());
+				return Array.from(windowsRegistry.values()).filter(vm => {
+					// 过滤掉无效或已销毁的实例
+					if (!vm) return false;
+					if (!vm.$el || !vm.$el.parentNode) return false;
+					return true;
+				});
 			},
 
 			/**

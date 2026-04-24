@@ -174,12 +174,14 @@ export default async function ({ PRIVATE_GLOBAL, options, modalConfigs }) {
 							return 0;
 						}
 
-						if (options.style && _.$isInput(options.style.left)) {
-							return parseInt(options.style.left);
+						if (modalConfigs.center === false) {
+							return options.style && _.$isInput(options.style.left)
+								? parseInt(options.style.left)
+								: 0;
 						}
 
-						if (modalConfigs.center === false) {
-							return 0;
+						if (options.style && _.$isInput(options.style.left)) {
+							return parseInt(options.style.left);
 						}
 
 						let left = (currentValues.winWidth - currentValues.width) / 2;
@@ -191,12 +193,14 @@ export default async function ({ PRIVATE_GLOBAL, options, modalConfigs }) {
 							return 0;
 						}
 
-						if (options.style && _.$isInput(options.style.top)) {
-							return parseInt(options.style.top);
+						if (modalConfigs.center === false) {
+							return options.style && _.$isInput(options.style.top)
+								? parseInt(options.style.top)
+								: 0;
 						}
 
-						if (modalConfigs.center === false) {
-							return 0;
+						if (options.style && _.$isInput(options.style.top)) {
+							return parseInt(options.style.top);
 						}
 
 						let topOnepice = 2;
@@ -288,9 +292,22 @@ export default async function ({ PRIVATE_GLOBAL, options, modalConfigs }) {
 				title: ref(options.title),
 				isHideHeader: ref(isHideHeader),
 				toggleFullScreen() {
-					vm.dialog_class.fullscreen = !vm.dialog_class.fullscreen;
-					if (!vm.dialog_class.fullscreen) {
+					if (vm.dialog_class.fullscreen) {
+						vm.dialog_class.fullscreen = false;
+						lastCalculatedValues = null;
 						vm.setDialogOffset();
+					} else {
+						vm.dialog_class.fullscreen = true;
+						vm.dialogStyle = {
+							...vm.dialogStyle,
+							left: "0",
+							top: "0",
+							width: "100vw",
+							height: "100vh",
+							opacity: 1,
+							visibility: "visible",
+							pointerEvents: "auto"
+						};
 					}
 				},
 				setPosition,
@@ -501,12 +518,8 @@ export default async function ({ PRIVATE_GLOBAL, options, modalConfigs }) {
 			},
 			restore() {
 				this.dialog_class.minimized = false;
-				this.dialogStyle = {
-					...this.dialogStyle,
-					opacity: 1,
-					visibility: "visible",
-					pointerEvents: "auto"
-				};
+				lastCalculatedValues = null;
+				this.setDialogOffset();
 			},
 			toTop() {
 				if (this.id) {
@@ -526,6 +539,9 @@ export default async function ({ PRIVATE_GLOBAL, options, modalConfigs }) {
 					_.$ModalManager.getFocusedId &&
 					_.$ModalManager.getFocusedId() === this.id
 				);
+			},
+			isMinimized() {
+				return this.dialog_class.minimized;
 			},
 			cptCloseIcon() {
 				return PRIVATE_GLOBAL.x_modal_close_icon;
