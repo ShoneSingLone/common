@@ -189,44 +189,38 @@ export default async function hooks() {
 				/* 让vm保持对此引用 */
 				return contentRect;
 			},
-			/* 动态修改css样式 */
-			useDynamicStyle({ vm }) {
-				const id = vm._uid;
-				const styleId = `dynamicstyleid${id}`;
-				let $style;
-				onBeforeMount(() => {
-					$style = _.$$id(styleId);
-					if (!$style) {
-						$style = document.createElement("style");
-
-						$style.id = styleId;
-						const body = _.$$tags("body")[0];
-						body.appendChild($style);
+			/* 动态修改 css 样式 */
+		useDynamicStyle({ vm }) {
+			const id = vm._uid;
+			const styleId = `dynamicstyleid${id}`;
+			
+			onBeforeUnmount(() => {
+				// 组件销毁时移除对应的 style 元素
+				// _.$appendStyle 创建的样式元素 ID 会被 toDomIdStr 处理为 style_ 前缀
+				try {
+					const processedStyleId = _.$$toDomIdStr(styleId, "style");
+					const $style = _.$$id(processedStyleId);
+					if ($style) {
+						$style.parentNode.removeChild($style);
 					}
-				});
-				onBeforeUnmount(() => {
+				} catch (error) {
+					console.warn("移除动态样式失败:", error);
+				}
+			});
+
+			return {
+				styleId,
+				setStyle: _.debounce(async cssLessString => {
 					try {
-						if ($style) {
-							$style.parentNode.removeChild($style);
-						}
+						const css = await _.$preprocessCssByless(cssLessString);
+						// _.$appendStyle 会自动处理 styleId，添加 style_ 前缀
+						_.$appendStyle(styleId, css);
 					} catch (error) {
-						$style = null;
+						console.error(error);
 					}
-				});
-
-				return {
-					styleId,
-					setStyle: _.debounce(async cssLessString => {
-						try {
-							await _.$ensure(() => $style);
-							const css = await _.$preprocessCssByless(cssLessString);
-							_.$appendStyle(styleId, css);
-						} catch (error) {
-							console.error(error);
-						}
-					}, 64)
-				};
-			},
+				}, 64)
+			};
+		},
 			/*
 			 * @description onUnmounted 的时候会移除组件引入的样式
 			 *
