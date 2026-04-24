@@ -1,7 +1,7 @@
 <template>
 	<div
 		class="el-select"
-		:class="[selectSize ? 'el-select--' + selectSize : '']"
+		:class="cptClassRoot"
 		@click.stop="toggleMenu"
 		v-clickoutside="handleClose">
 		<div
@@ -223,6 +223,15 @@ export default async function ({ PRIVATE_GLOBAL }) {
 			},
 			cptClassInput() {
 				return [this.selectSize ? `is-${this.selectSize}` : ""];
+			},
+			cptClassRoot() {
+				return [
+					this.selectSize ? "el-select--" + this.selectSize : "",
+					{
+						"is-append-to-body": this.appendToBody,
+						"is-append-to-self": !this.appendToBody
+					}
+				];
 			},
 			_elFormItemSize() {
 				return (this.elFormItem || {}).elFormItemSize;
@@ -513,9 +522,117 @@ export default async function ({ PRIVATE_GLOBAL }) {
 		},
 
 		methods: {
-			MustSetPopperAppendToBody() {
-				if ($(this.$el).find(".xSelectDropdown").length > 0) {
+			changePopperPositionTo(mode, retryCount = 0) {
+				const isAppendToBody = mode === "body";
+				const popper = this.$refs.popper;
+
+				if (!popper) {
+					console.warn("changePopperPositionTo: popper 引用不存在");
+					return;
 				}
+
+				const popperElm = popper.popperElm || popper.$el;
+
+				if (!popperElm) {
+					console.warn("changePopperPositionTo: popperElm 不存在");
+					return;
+				}
+
+				console.log(
+					`changePopperPositionTo: mode=${mode}, isAppendToBody=${isAppendToBody}, retryCount=${retryCount}`
+				);
+
+				// 更新状态类
+				if (isAppendToBody) {
+					$(this.$el).addClass("is-append-to-body");
+					$(this.$el).removeClass("is-append-to-self");
+				} else {
+					$(this.$el).addClass("is-append-to-self");
+					$(this.$el).removeClass("is-append-to-body");
+				}
+
+				// 更新 popper 组件的 appendToBody
+				popper.appendToBody = isAppendToBody;
+
+				// 更新自身的 appendToBody（保持同步）
+				this.$set(this, "appendToBody", isAppendToBody);
+
+				// 立即移动 DOM，不等待 $nextTick
+				if (isAppendToBody) {
+					// 移动到 body
+					if (popperElm.parentNode !== document.body) {
+						console.log("changePopperPositionTo: 将下拉框移动到 body");
+						document.body.appendChild(popperElm);
+					} else {
+						console.log("changePopperPositionTo: 下拉框已在 body 下");
+					}
+				} else {
+					// 移回组件内部
+					if (popperElm.parentNode === document.body) {
+						console.log("changePopperPositionTo: 将下拉框移回组件内部");
+						const selectContainer = this.$el.querySelector(".el-select");
+						if (selectContainer) {
+							selectContainer.appendChild(popperElm);
+						} else {
+							console.warn("找不到 .el-select 容器，使用 this.$el");
+							this.$el.appendChild(popperElm);
+						}
+					} else {
+						console.log("changePopperPositionTo: 下拉框已在组件内部");
+					}
+				}
+
+				// 更新 popper 定位
+				if (popper.popperJS) {
+					popper.updatePopper();
+					console.log("changePopperPositionTo: 已更新 popper 定位");
+				}
+
+				// 检测是否达到预期效果
+				const checkResult = this.checkPopperPosition(isAppendToBody, popperElm);
+				console.log(`changePopperPositionTo: 检测结果=${checkResult.success}`);
+
+				if (!checkResult.success) {
+					// 检测失败，尝试重试
+					if (retryCount < 3) {
+						console.log(
+							`changePopperPositionTo: 检测未通过，${checkResult.reason}，${100 * (retryCount + 1)}ms 后重试...`
+						);
+						setTimeout(() => {
+							this.changePopperPositionTo(mode, retryCount + 1);
+						}, 100 * (retryCount + 1));
+					} else {
+						console.error(
+							`changePopperPositionTo: 重试${retryCount}次后仍失败，放弃重试。${checkResult.reason}`
+						);
+					}
+				}
+
+				console.log(`changePopperPositionTo: 完成，appendToBody=${this.appendToBody}`);
+			},
+
+			// 检测 popper 位置是否正确
+			checkPopperPosition(isAppendToBody, popperElm) {
+				if (isAppendToBody) {
+					// 应该移动到 body
+					if (popperElm.parentNode !== document.body) {
+						return {
+							success: false,
+							reason: "下拉框未移动到 body，当前父节点：" + (popperElm.parentNode?.tagName || "unknown")
+						};
+					}
+				} else {
+					// 应该移回组件内部
+					const selectContainer = this.$el.querySelector(".el-select");
+					const expectedParent = selectContainer || this.$el;
+					if (popperElm.parentNode !== expectedParent) {
+						return {
+							success: false,
+							reason: "下拉框未移回组件内部，当前父节点：" + (popperElm.parentNode?.tagName || "unknown")
+						};
+					}
+				}
+				return { success: true };
 			},
 			handleNavigate(direction) {
 				if (this.isOnComposition) return;

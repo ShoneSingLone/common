@@ -4,12 +4,39 @@ export default async function () {
 	return defineComponent({
 		mixins: [mixins],
 		props: ["value", "options", "configs"],
+		data() {
+			return {
+				xSelectInner: null
+			};
+		},
 		computed: {
 			selectOptions() {
 				return this.options || _.$val(this, "configs.options") || [];
 			}
 		},
-		mounted() {},
+		mounted() {
+			// 在 nextTick 中获取 xSelect 实例
+			this.$nextTick(() => {
+				const xSelectVm = this.$children.find(child => child.$options.name === 'xSelect');
+				if (xSelectVm) {
+					this.xSelectInner = xSelectVm;
+				}
+			});
+		},
+		methods: {
+			/**
+			 * 获取内部的 xSelect 组件实例
+			 * @returns {Vue} xSelect 组件实例
+			 * @example
+			 * const xItemVm = Vue._X_ITEM_VM_S['your-item-id'];
+			 * const xItemSelectVm = xItemVm.childVm;
+			 * const xSelectVm = xItemSelectVm.getXSelect();
+			 * // 现在可以调用 xSelect 的方法，如：xSelectVm.toggleMenu()
+			 */
+			getXSelect() {
+				return this.xSelectInner;
+			}
+		},
 		render() {
 			const vm = this;
 			let attrs = {};
