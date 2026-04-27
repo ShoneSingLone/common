@@ -1722,6 +1722,8 @@
 	console.info = genConsole("info");
 	console.time = genConsole("time");
 	console.timeEnd = genConsole("timeEnd");
+	console.groupCollapsed = genConsole("groupCollapsed");
+	console.groupEnd = genConsole("groupEnd");
 
 	/**
 	 * 全局loading单例

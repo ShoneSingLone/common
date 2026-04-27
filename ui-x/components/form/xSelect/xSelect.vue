@@ -123,6 +123,7 @@
 			<xSelectDropdown
 				ref="popper"
 				:data-tag="xItem.cpt_configs?.dropdownId"
+				:data-parent-uid="_uid"
 				:append-to-body="appendToBody"
 				v-show="visible && emptyText !== false">
 				<xScrollbar
