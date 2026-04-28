@@ -14,6 +14,7 @@ export default async function UTILS() {
 		};
 		/* istanbul ignore next */
 		const addResizeListener = function (element, fn) {
+			if (!element || !(element instanceof Element)) return;
 			if (!element.__resizeListeners__) {
 				element.__resizeListeners__ = [];
 				element.__ro__ = new ResizeObserver(_.debounce(resizeHandler, 32));

@@ -20,7 +20,7 @@ export default async function () {
 		update: function (el, { value }) {
 			if (!value) {
 				return;
-			// }
+			}
 
 			const { focus } = value;
 			if (focus) {

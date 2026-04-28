@@ -30,13 +30,17 @@ export default async function () {
 			}
 		},
 		mounted() {
-			addResizeListener(this.$el, this.resizeListener);
+			if (this.$el) {
+				addResizeListener(this.$el, this.resizeListener);
+			}
 		},
 		destroyed() {
-			removeResizeListener(this.$el, this.resizeListener);
+			if (this.$el) {
+				removeResizeListener(this.$el, this.resizeListener);
+			}
 		},
 		render(h) {
-			return h(this.tagName, this.$data, this.$slots.default);
+			return h(this.tagName, {}, this.$slots.default);
 		}
 	});
 }

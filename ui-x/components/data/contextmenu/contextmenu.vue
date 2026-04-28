@@ -45,14 +45,10 @@ export default async function () {
 		"/common/ui-x/components/data/contextmenu/util/index.vue"
 	);
 	const { getMousePosition, getViewportOffset } = await _.$importVue(
-		"/common/ui-x/src/utils/dom.vue"
+		"/common/ui-x/components/data/xTableEasy/utils/dom.vue"
 	);
-	const { getRandomId } = await _.$importVue("/common/ui-x/src/utils/random.vue");
-	const eventsOutside = await _.$importVue(
-		"/common/ui-x/directives/events-outside.vue/events-outside.vue"
-	);
-	const { ICON_NAMES } = await _.$importVue("/common/ui-x/src/utils/constant.vue");
-	const VeIcon = await _.$importVue("vue-easytable/packages/ve-icon");
+	const { getRandomId } = await _.$importVue("/common/ui-x/components/data/xTableEasy/utils/random.vue");
+	const eventsOutside = await _.$importVue("/common/ui-x/directives/events-outside.vue");
 
 	return {
 		name: COMPS_NAME.VE_CONTEXTMENU,
