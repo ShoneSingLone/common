@@ -139,11 +139,11 @@
 		}
 		return expectsLowerCase
 			? function (val) {
-					return map[val.toLowerCase()];
-				}
+				return map[val.toLowerCase()];
+			}
 			: function (val) {
-					return map[val];
-				};
+				return map[val];
+			};
 	}
 
 	/**
@@ -287,7 +287,7 @@
 	 * Stubbing args to make Flow happy without leaving useless transpiled code
 	 * with ...rest (https://flow.org/blog/2017/05/07/Strict-Function-Call-Arity/).
 	 */
-	function noop(a, b, c) {}
+	function noop(a, b, c) { }
 
 	/**
 	 * Always return false.
@@ -563,7 +563,7 @@
 				}
 			}); // https://github.com/facebook/flow/issues/285
 			window.addEventListener("test-passive", null, opts);
-		} catch (e) {}
+		} catch (e) { }
 	}
 	// this needs to be lazy-evaled because vue may be required before
 	// vue-server-renderer can set VUE_ENV
@@ -748,17 +748,17 @@
 	{
 		var allowedGlobals_1 = makeMap(
 			"Infinity,undefined,NaN,isFinite,isNaN," +
-				"parseFloat,parseInt,decodeURI,decodeURIComponent,encodeURI,encodeURIComponent," +
-				"Math,Number,Date,Array,Object,Boolean,String,RegExp,Map,Set,JSON,Intl,BigInt," +
-				"require" // for Webpack/Browserify
+			"parseFloat,parseInt,decodeURI,decodeURIComponent,encodeURI,encodeURIComponent," +
+			"Math,Number,Date,Array,Object,Boolean,String,RegExp,Map,Set,JSON,Intl,BigInt," +
+			"require" // for Webpack/Browserify
 		);
 		var warnNonPresent_1 = function (target, key) {
 			warnMsgVm(
 				'Property or method "'.concat(key, '" is not defined on the instance but ') +
-					"referenced during render. Make sure that this property is reactive, " +
-					"either in the data option, or for class-based components, by " +
-					"initializing the property. " +
-					"See: https://v2.vuejs.org/v2/guide/reactivity.html#Declaring-Reactive-Properties.",
+				"referenced during render. Make sure that this property is reactive, " +
+				"either in the data option, or for class-based components, by " +
+				"initializing the property. " +
+				"See: https://v2.vuejs.org/v2/guide/reactivity.html#Declaring-Reactive-Properties.",
 				target
 			);
 		};
@@ -767,9 +767,9 @@
 				'Property "'
 					.concat(key, '" must be accessed with "$data.')
 					.concat(key, '" because ') +
-					'properties starting with "$" or "_" are not proxied in the Vue instance to ' +
-					"prevent conflicts with Vue internals. " +
-					"See: https://v2.vuejs.org/v2/api/#data",
+				'properties starting with "$" or "_" are not proxied in the Vue instance to ' +
+				"prevent conflicts with Vue internals. " +
+				"See: https://v2.vuejs.org/v2/api/#data",
 				target
 			);
 		};
@@ -855,14 +855,14 @@
 	typeof SuppressedError === "function"
 		? SuppressedError
 		: function (error, suppressed, message) {
-				var e = new Error(message);
-				return (
-					(e.name = "SuppressedError"),
-					(e.error = error),
-					(e.suppressed = suppressed),
-					e
-				);
-			};
+			var e = new Error(message);
+			return (
+				(e.name = "SuppressedError"),
+				(e.error = error),
+				(e.suppressed = suppressed),
+				e
+			);
+		};
 
 	var uid$2 = 0;
 	var pendingCleanupDeps = [];
@@ -1236,7 +1236,7 @@
 		if (target._isVue || (ob && ob.vmCount)) {
 			warnMsgVm(
 				"Avoid deleting properties on a Vue instance or its root $data " +
-					"- just set it to null."
+				"- just set it to null."
 			);
 			return;
 		}
@@ -1447,25 +1447,25 @@
 	function customRef(factory) {
 		var dep = new Dep();
 		var _a = factory(
-				function () {
-					{
-						dep.depend({
-							target: ref,
-							type: "get" /* TrackOpTypes.GET */,
-							key: "value"
-						});
-					}
-				},
-				function () {
-					{
-						dep.notify({
-							target: ref,
-							type: "set" /* TriggerOpTypes.SET */,
-							key: "value"
-						});
-					}
+			function () {
+				{
+					dep.depend({
+						target: ref,
+						type: "get" /* TrackOpTypes.GET */,
+						key: "value"
+					});
 				}
-			),
+			},
+			function () {
+				{
+					dep.notify({
+						target: ref,
+						type: "set" /* TriggerOpTypes.SET */,
+						key: "value"
+					});
+				}
+			}
+		),
 			get = _a.get,
 			set = _a.set;
 		var ref = {
@@ -1783,19 +1783,19 @@
 					if (key !== keyInLowerCase && attrs && hasOwn(attrs, keyInLowerCase)) {
 						tipMsgVm(
 							'Prop "'.concat(keyInLowerCase, '" is passed to component ') +
-								"".concat(
-									formatComponentName(
-										// @ts-expect-error tag is string
-										tag || Ctor
-									),
-									", but the declared prop name is"
-								) +
-								' "'.concat(key, '". ') +
-								"Note that HTML attributes are case-insensitive and camelCased " +
-								"props need to use their kebab-case equivalents when using in-DOM " +
-								'templates. You should probably use "'
-									.concat(hyphenateKey, '" instead of "')
-									.concat(key, '".')
+							"".concat(
+								formatComponentName(
+									// @ts-expect-error tag is string
+									tag || Ctor
+								),
+								", but the declared prop name is"
+							) +
+							' "'.concat(key, '". ') +
+							"Note that HTML attributes are case-insensitive and camelCased " +
+							"props need to use their kebab-case equivalents when using in-DOM " +
+							'templates. You should probably use "'
+								.concat(hyphenateKey, '" instead of "')
+								.concat(key, '".')
 						);
 					}
 				}
@@ -2617,7 +2617,7 @@
 				if (setupResult instanceof VNode) {
 					warnMsgVm(
 						"setup() should not return VNodes directly - " +
-							"return a render function instead."
+						"return a render function instead."
 					);
 				}
 				vm._setupState = setupResult;
@@ -2765,8 +2765,8 @@
 	function mergeDefaults(raw, defaults) {
 		var props = isArray(raw)
 			? raw.reduce(function (normalized, p) {
-					return ((normalized[p] = {}), normalized);
-				}, {})
+				return ((normalized[p] = {}), normalized);
+			}, {})
 			: raw;
 		for (var key in defaults) {
 			var opt = props[key];
@@ -2902,7 +2902,7 @@
 				if (isArray(vnode)) {
 					warnMsgVm(
 						"Multiple root nodes returned from render function. Render function " +
-							"should return a single root node.",
+						"should return a single root node.",
 						vm
 					);
 				}
@@ -3050,7 +3050,7 @@
 			var onError = once(function (reason) {
 				warnMsgVm(
 					"Failed to resolve async component: ".concat(String(factory)) +
-						(reason ? "\nReason: ".concat(reason) : "")
+					(reason ? "\nReason: ".concat(reason) : "")
 				);
 				if (isDef(factory.errorComp)) {
 					factory.error = true;
@@ -3228,17 +3228,17 @@
 				if (lowerCaseEvent !== event && vm._events[lowerCaseEvent]) {
 					tipMsgVm(
 						'Event "'.concat(lowerCaseEvent, '" is emitted in component ') +
-							""
-								.concat(
-									formatComponentName(vm),
-									' but the handler is registered for "'
-								)
-								.concat(event, '". ') +
-							"Note that HTML attributes are case-insensitive and you cannot use " +
-							"v-on to listen to camelCase events when using in-DOM templates. " +
-							'You should probably use "'
-								.concat(hyphenate(event), '" instead of "')
-								.concat(event, '".')
+						""
+							.concat(
+								formatComponentName(vm),
+								' but the handler is registered for "'
+							)
+							.concat(event, '". ') +
+						"Note that HTML attributes are case-insensitive and you cannot use " +
+						"v-on to listen to camelCase events when using in-DOM templates. " +
+						'You should probably use "'
+							.concat(hyphenate(event), '" instead of "')
+							.concat(event, '".')
 					);
 				}
 			}
@@ -3365,7 +3365,7 @@
 		} else {
 			warnMsgVm(
 				"onScopeDispose() is called when there is no active effect scope" +
-					" to be associated with."
+				" to be associated with."
 			);
 		}
 	}
@@ -3503,8 +3503,8 @@
 				) {
 					warnMsgVm(
 						"You are using the runtime-only build of Vue where the template " +
-							"compiler is not available. Either pre-compile the templates into " +
-							"render functions, or use the compiler-included build.",
+						"compiler is not available. Either pre-compile the templates into " +
+						"render functions, or use the compiler-included build.",
 						vm
 					);
 				} else {
@@ -3822,9 +3822,9 @@
 				if (circular[id] > MAX_UPDATE_COUNT) {
 					warnMsgVm(
 						"You may have an infinite update loop " +
-							(watcher.user
-								? 'in watcher with expression "'.concat(watcher.expression, '"')
-								: "in a component render function."),
+						(watcher.user
+							? 'in watcher with expression "'.concat(watcher.expression, '"')
+							: "in a component render function."),
 						watcher.vm
 					);
 					break;
@@ -3928,8 +3928,8 @@
 		if (typeof cb !== "function") {
 			warnMsgVm(
 				"`watch(fn, options?)` signature has been moved to a separate API. " +
-					"Use `watchEffect(fn, options?)` instead. `watch` now only " +
-					"supports `watch(source, cb, options?) signature."
+				"Use `watchEffect(fn, options?)` instead. `watch` now only " +
+				"supports `watch(source, cb, options?) signature."
 			);
 		}
 		return doWatch(source, cb, options);
@@ -3946,13 +3946,13 @@
 			if (immediate !== undefined) {
 				warnMsgVm(
 					'watch() "immediate" option is only respected when using the ' +
-						"watch(source, callback, options?) signature."
+					"watch(source, callback, options?) signature."
 				);
 			}
 			if (deep !== undefined) {
 				warnMsgVm(
 					'watch() "deep" option is only respected when using the ' +
-						"watch(source, callback, options?) signature."
+					"watch(source, callback, options?) signature."
 				);
 			}
 		}
@@ -4070,8 +4070,8 @@
 					forceTrigger ||
 					(isMultiSource
 						? newValue.some(function (v, i) {
-								return hasChanged(v, oldValue[i]);
-							})
+							return hasChanged(v, oldValue[i]);
+						})
 						: hasChanged(newValue, oldValue))
 				) {
 					// cleanup before running cb again
@@ -4196,7 +4196,7 @@
 		if (!currentInstance) {
 			warnMsgVm(
 				"globally imported h() can only be invoked when there is an active " +
-					"component instance, e.g. synchronously in a component's render or setup function."
+				"component instance, e.g. synchronously in a component's render or setup function."
 			);
 		}
 
@@ -4467,7 +4467,7 @@
 							if (!comp) {
 								warnMsgVm(
 									"Async component loader resolved to undefined. " +
-										"If you are using retry(), make sure to return its return value."
+									"If you are using retry(), make sure to return its return value."
 								);
 							}
 							// interop module default
@@ -4509,8 +4509,8 @@
 						formatName(hookName),
 						" is called when there is no active component instance to be "
 					) +
-						"associated with. " +
-						"Lifecycle injection APIs can only be used during execution of setup()."
+					"associated with. " +
+					"Lifecycle injection APIs can only be used during execution of setup()."
 				);
 				return;
 			}
@@ -4715,8 +4715,8 @@
 					this.getter = noop;
 					warnMsgVm(
 						'Failed watching path: "'.concat(expOrFn, '" ') +
-							"Watcher only accepts simple dot-delimited paths. " +
-							"For full control, use a function instead.",
+						"Watcher only accepts simple dot-delimited paths. " +
+						"For full control, use a function instead.",
 						vm
 					);
 				}
@@ -4929,9 +4929,9 @@
 						} else if (!isRoot && !isUpdatingChildComponent) {
 							warnMsgVm(
 								"Avoid mutating a prop directly since the value will be " +
-									"overwritten whenever the parent component re-renders. " +
-									"Instead, use a data or computed property based on the prop's " +
-									'value. Prop being mutated: "'.concat(key, '"'),
+								"overwritten whenever the parent component re-renders. " +
+								"Instead, use a data or computed property based on the prop's " +
+								'value. Prop being mutated: "'.concat(key, '"'),
 								vm
 							);
 						}
@@ -4958,7 +4958,7 @@
 			data = {};
 			warnMsgVm(
 				"data functions should return an object:\n" +
-					"https://v2.vuejs.org/v2/guide/components.html#data-Must-Be-a-Function",
+				"https://v2.vuejs.org/v2/guide/components.html#data-Must-Be-a-Function",
 				vm
 			);
 		}
@@ -4980,7 +4980,7 @@
 			if (props && hasOwn(props, key)) {
 				warnMsgVm(
 					'The data property "'.concat(key, '" is already declared as a prop. ') +
-						"Use prop default value instead.",
+					"Use prop default value instead.",
 					vm
 				);
 			} else if (!isReserved(key)) {
@@ -5106,7 +5106,7 @@
 						'Method "'
 							.concat(key, '" has type "')
 							.concat(typeof methods[key], '" in the component definition. ') +
-							"Did you reference the function correctly?",
+						"Did you reference the function correctly?",
 						vm
 					);
 				}
@@ -5221,8 +5221,8 @@
 					defineReactive(vm, key, result[key], function () {
 						warnMsgVm(
 							"Avoid mutating an injected value directly since the changes will be " +
-								"overwritten whenever the provided component re-renders. " +
-								'injection being mutated: "'.concat(key, '"'),
+							"overwritten whenever the provided component re-renders. " +
+							'injection being mutated: "'.concat(key, '"'),
 							vm
 						);
 					});
@@ -5836,8 +5836,8 @@
 							.concat(
 								isArray(vm)
 									? ""
-											.concat(formatComponentName(vm[0]), "... (")
-											.concat(vm[1], " recursive calls)")
+										.concat(formatComponentName(vm[0]), "... (")
+										.concat(vm[1], " recursive calls)")
 									: formatComponentName(vm)
 							);
 					})
@@ -5862,7 +5862,7 @@
 			if (!vm) {
 				warnMsgVm(
 					'option "'.concat(key, '" can only be used during instance ') +
-						"creation with the `new` keyword."
+					"creation with the `new` keyword."
 				);
 			}
 			return defaultStrat(parent, child);
@@ -5933,8 +5933,8 @@
 			if (childVal && typeof childVal !== "function") {
 				warnMsgVm(
 					'The "data" option should be a function ' +
-						"that returns a per-instance value in component " +
-						"definitions.",
+					"that returns a per-instance value in component " +
+					"definitions.",
 					vm
 				);
 				return parentVal;
@@ -6024,16 +6024,16 @@
 		strats.methods =
 		strats.inject =
 		strats.computed =
-			function (parentVal, childVal, vm, key) {
-				if (childVal && true) {
-					assertObjectType(key, childVal, vm);
-				}
-				if (!parentVal) return childVal;
-				var ret = Object.create(null);
-				extend(ret, parentVal);
-				if (childVal) extend(ret, childVal);
-				return ret;
-			};
+		function (parentVal, childVal, vm, key) {
+			if (childVal && true) {
+				assertObjectType(key, childVal, vm);
+			}
+			if (!parentVal) return childVal;
+			var ret = Object.create(null);
+			extend(ret, parentVal);
+			if (childVal) extend(ret, childVal);
+			return ret;
+		};
 	strats.provide = function (parentVal, childVal) {
 		if (!parentVal) return childVal;
 		return function () {
@@ -6067,9 +6067,9 @@
 		if (!new RegExp("^[a-zA-Z][\\-\\.0-9_".concat(unicodeRegExp.source, "]*$")).test(name)) {
 			warnMsgVm(
 				'Invalid component name: "' +
-					name +
-					'". Component names ' +
-					"should conform to valid custom element name in html5 specification."
+				name +
+				'". Component names ' +
+				"should conform to valid custom element name in html5 specification."
 			);
 		}
 		if (isBuiltInTag(name) || config.isReservedTag(name)) {
@@ -6107,7 +6107,7 @@
 		} else {
 			warnMsgVm(
 				'Invalid value for option "props": expected an Array or an Object, ' +
-					"but got ".concat(toRawType(props), "."),
+				"but got ".concat(toRawType(props), "."),
 				vm
 			);
 		}
@@ -6132,7 +6132,7 @@
 		} else {
 			warnMsgVm(
 				'Invalid value for option "inject": expected an Array or an Object, ' +
-					"but got ".concat(toRawType(inject), "."),
+				"but got ".concat(toRawType(inject), "."),
 				vm
 			);
 		}
@@ -6155,7 +6155,7 @@
 		if (!isPlainObject(value)) {
 			warnMsgVm(
 				'Invalid value for option "'.concat(name, '": expected an Object, ') +
-					"but got ".concat(toRawType(value), "."),
+				"but got ".concat(toRawType(value), "."),
 				vm
 			);
 		}
@@ -6307,10 +6307,10 @@
 		if (isObject(def)) {
 			warnMsgVm(
 				'Invalid default value for prop "' +
-					key +
-					'": ' +
-					"Props with type Object/Array must use a factory function " +
-					"to return the default value.",
+				key +
+				'": ' +
+				"Props with type Object/Array must use a factory function " +
+				"to return the default value.",
 				vm
 			);
 		}
@@ -6752,9 +6752,9 @@
 				var key =
 					vnode.key == null
 						? // same constructor may get registered as different local components
-							// so cid alone is not enough (#3269)
-							componentOptions.Ctor.cid +
-							(componentOptions.tag ? "::".concat(componentOptions.tag) : "")
+						// so cid alone is not enough (#3269)
+						componentOptions.Ctor.cid +
+						(componentOptions.tag ? "::".concat(componentOptions.tag) : "")
 						: vnode.key;
 				if (cache[key]) {
 					vnode.componentInstance = cache[key].componentInstance;
@@ -6855,17 +6855,17 @@
 		return isFalsyAttrValue(value) || value === "false"
 			? "false"
 			: // allow arbitrary string value for contenteditable
-				key === "contenteditable" && isValidContentEditableValue(value)
+			key === "contenteditable" && isValidContentEditableValue(value)
 				? value
 				: "true";
 	};
 	var isBooleanAttr = makeMap(
 		"allowfullscreen,async,autofocus,autoplay,checked,compact,controls,declare," +
-			"default,defaultchecked,defaultmuted,defaultselected,defer,disabled," +
-			"enabled,formnovalidate,hidden,indeterminate,inert,ismap,itemscope,loop,multiple," +
-			"muted,nohref,noresize,noshade,novalidate,nowrap,open,pauseonexit,readonly," +
-			"required,reversed,scoped,seamless,selected,sortable," +
-			"truespeed,typemustmatch,visible"
+		"default,defaultchecked,defaultmuted,defaultselected,defer,disabled," +
+		"enabled,formnovalidate,hidden,indeterminate,inert,ismap,itemscope,loop,multiple," +
+		"muted,nohref,noresize,noshade,novalidate,nowrap,open,pauseonexit,readonly," +
+		"required,reversed,scoped,seamless,selected,sortable," +
+		"truespeed,typemustmatch,visible"
 	);
 	var xlinkNS = "http://www.w3.org/1999/xlink";
 	var isXlink = function (name) {
@@ -6953,23 +6953,23 @@
 	};
 	var isHTMLTag = makeMap(
 		"html,body,base,head,link,meta,style,title," +
-			"address,article,aside,footer,header,h1,h2,h3,h4,h5,h6,hgroup,nav,section," +
-			"div,dd,dl,dt,figcaption,figure,picture,hr,img,li,main,ol,p,pre,ul," +
-			"a,b,abbr,bdi,bdo,br,cite,code,data,dfn,em,i,kbd,mark,q,rp,rt,rtc,ruby," +
-			"s,samp,small,span,strong,sub,sup,time,u,var,wbr,area,audio,map,track,video," +
-			"embed,object,param,source,canvas,script,noscript,del,ins," +
-			"caption,col,colgroup,table,thead,tbody,td,th,tr," +
-			"button,datalist,fieldset,form,input,label,legend,meter,optgroup,option," +
-			"output,progress,select,textarea," +
-			"details,dialog,menu,menuitem,summary," +
-			"content,element,shadow,template,blockquote,iframe,tfoot"
+		"address,article,aside,footer,header,h1,h2,h3,h4,h5,h6,hgroup,nav,section," +
+		"div,dd,dl,dt,figcaption,figure,picture,hr,img,li,main,ol,p,pre,ul," +
+		"a,b,abbr,bdi,bdo,br,cite,code,data,dfn,em,i,kbd,mark,q,rp,rt,rtc,ruby," +
+		"s,samp,small,span,strong,sub,sup,time,u,var,wbr,area,audio,map,track,video," +
+		"embed,object,param,source,canvas,script,noscript,del,ins," +
+		"caption,col,colgroup,table,thead,tbody,td,th,tr," +
+		"button,datalist,fieldset,form,input,label,legend,meter,optgroup,option," +
+		"output,progress,select,textarea," +
+		"details,dialog,menu,menuitem,summary," +
+		"content,element,shadow,template,blockquote,iframe,tfoot"
 	);
 	// this map is intentionally selective, only covering SVG elements that may
 	// contain child elements.
 	var isSVG = makeMap(
 		"svg,animate,circle,clippath,cursor,defs,desc,ellipse,filter,font-face," +
-			"foreignobject,g,glyph,image,line,marker,mask,missing-glyph,path,pattern," +
-			"polygon,polyline,rect,switch,symbol,text,textpath,tspan,use,view",
+		"foreignobject,g,glyph,image,line,marker,mask,missing-glyph,path,pattern," +
+		"polygon,polyline,rect,switch,symbol,text,textpath,tspan,use,view",
 		true
 	);
 	var isPreTag = function (tag) {
@@ -7285,10 +7285,10 @@
 					if (isUnknownElement(vnode, creatingElmInVPre)) {
 						warnMsgVm(
 							"Unknown custom element: <" +
-								tag +
-								"> - did you " +
-								"register the component correctly? For recursive components, " +
-								'make sure to provide the "name" option.',
+							tag +
+							"> - did you " +
+							"register the component correctly? For recursive components, " +
+							'make sure to provide the "name" option.',
 							vnode.context
 						);
 					}
@@ -7874,10 +7874,10 @@
 							} else {
 								warnMsgVm(
 									"The client-side rendered virtual DOM tree is not matching " +
-										"server-rendered content. This is likely caused by incorrect " +
-										"HTML markup, for example nesting block-level elements inside " +
-										"<p>, or missing <tbody>. Bailing hydration and performing " +
-										"full client-side render."
+									"server-rendered content. This is likely caused by incorrect " +
+									"HTML markup, for example nesting block-level elements inside " +
+									"<p>, or missing <tbody>. Bailing hydration and performing " +
+									"full client-side render."
 								);
 							}
 						}
@@ -8316,12 +8316,12 @@
 	function pluckModuleFunction(modules, key) {
 		return modules
 			? modules
-					.map(function (m) {
-						return m[key];
-					})
-					.filter(function (_) {
-						return _;
-					})
+				.map(function (m) {
+					return m[key];
+				})
+				.filter(function (_) {
+					return _;
+				})
 			: [];
 	}
 	function addProp(el, name, value, range, dynamic) {
@@ -8368,7 +8368,7 @@
 		if (warn && modifiers.prevent && modifiers.passive) {
 			warn(
 				"passive and prevent can't be used together. " +
-					"Passive handler can't prevent default event.",
+				"Passive handler can't prevent default event.",
 				range
 			);
 		}
@@ -8623,7 +8623,7 @@
 			if (tag === "input" && type === "file") {
 				warn$1(
 					"<".concat(el.tag, ' v-model="').concat(value, '" type="file">:\n') +
-						"File inputs are read only. Use a v-on:change listener instead.",
+					"File inputs are read only. Use a v-on:change listener instead.",
 					el.rawAttrsMap["v-model"]
 				);
 			}
@@ -8647,9 +8647,9 @@
 		} else {
 			warn$1(
 				"<".concat(el.tag, ' v-model="').concat(value, '">: ') +
-					"v-model is not supported on this element type. " +
-					"If you are working with contenteditable, it's recommended to " +
-					"wrap a library dedicated for that purpose inside a custom component.",
+				"v-model is not supported on this element type. " +
+				"If you are working with contenteditable, it's recommended to " +
+				"wrap a library dedicated for that purpose inside a custom component.",
 				el.rawAttrsMap["v-model"]
 			);
 		}
@@ -8665,31 +8665,31 @@
 			el,
 			"checked",
 			"Array.isArray(".concat(value, ")") +
-				"?looseIndexOf(".concat(value, ",").concat(valueBinding, ")>-1") +
-				(trueValueBinding === "true"
-					? ":(".concat(value, ")")
-					: ":looseEqual(".concat(value, ",").concat(trueValueBinding, ")"))
+			"?looseIndexOf(".concat(value, ",").concat(valueBinding, ")>-1") +
+			(trueValueBinding === "true"
+				? ":(".concat(value, ")")
+				: ":looseEqual(".concat(value, ",").concat(trueValueBinding, ")"))
 		);
 		addHandler(
 			el,
 			"change",
 			"var $$a=".concat(value, ",") +
-				"$$el=$event.target," +
-				"$$c=$$el.checked?("
-					.concat(trueValueBinding, "):(")
-					.concat(falseValueBinding, ");") +
-				"if(Array.isArray($$a)){" +
-				"var $$v=".concat(number ? "toNumber(" + valueBinding + ")" : valueBinding, ",") +
-				"$$i=looseIndexOf($$a,$$v);" +
-				"if($$el.checked){$$i<0&&(".concat(
-					genAssignmentCode(value, "$$a.concat([$$v])"),
-					")}"
-				) +
-				"else{$$i>-1&&(".concat(
-					genAssignmentCode(value, "$$a.slice(0,$$i).concat($$a.slice($$i+1))"),
-					")}"
-				) +
-				"}else{".concat(genAssignmentCode(value, "$$c"), "}"),
+			"$$el=$event.target," +
+			"$$c=$$el.checked?("
+				.concat(trueValueBinding, "):(")
+				.concat(falseValueBinding, ");") +
+			"if(Array.isArray($$a)){" +
+			"var $$v=".concat(number ? "toNumber(" + valueBinding + ")" : valueBinding, ",") +
+			"$$i=looseIndexOf($$a,$$v);" +
+			"if($$el.checked){$$i<0&&(".concat(
+				genAssignmentCode(value, "$$a.concat([$$v])"),
+				")}"
+			) +
+			"else{$$i>-1&&(".concat(
+				genAssignmentCode(value, "$$a.slice(0,$$i).concat($$a.slice($$i+1))"),
+				")}"
+			) +
+			"}else{".concat(genAssignmentCode(value, "$$c"), "}"),
 			null,
 			true
 		);
@@ -8726,7 +8726,7 @@
 					""
 						.concat(binding, '="')
 						.concat(value_1, '" conflicts with v-model on the same element ') +
-						"because the latter already expands to a value binding internally",
+					"because the latter already expands to a value binding internally",
 					el.rawAttrsMap[binding]
 				);
 			}
@@ -8831,7 +8831,9 @@
 		(_target || target).removeEventListener(
 			name,
 			//@ts-expect-error
-			handler._wrapper || handler,
+			handler?._wrapper || handler || function () {
+				console.error("unable to remove handler");
+			},
 			capture
 		);
 	}
@@ -8920,7 +8922,7 @@
 				// e.g. `value` on <progress> w/ non-finite value
 				try {
 					elm[key] = cur;
-				} catch (e) {}
+				} catch (e) { }
 			}
 		}
 	}
@@ -8941,7 +8943,7 @@
 		// work around IE bug when accessing document.activeElement in an iframe
 		try {
 			notInFocus = document.activeElement !== elm;
-		} catch (e) {}
+		} catch (e) { }
 		return notInFocus && elm.value !== checkVal;
 	}
 	function isDirtyWithModifiers(elm, newVal) {
@@ -9214,8 +9216,8 @@
 			? window.requestAnimationFrame.bind(window)
 			: setTimeout
 		: /* istanbul ignore next */ function (/* istanbul ignore next */ fn) {
-				return fn();
-			};
+			return fn();
+		};
 	function nextFrame(fn) {
 		raf(function () {
 			// @ts-expect-error
@@ -9541,13 +9543,13 @@
 		if (typeof val !== "number") {
 			warnMsgVm(
 				"<transition> explicit ".concat(name, " duration is not a valid number - ") +
-					"got ".concat(JSON.stringify(val), "."),
+				"got ".concat(JSON.stringify(val), "."),
 				vnode.context
 			);
 		} else if (isNaN(val)) {
 			warnMsgVm(
 				"<transition> explicit ".concat(name, " duration is NaN - ") +
-					"the duration expression might be incorrect.",
+				"the duration expression might be incorrect.",
 				vnode.context
 			);
 		}
@@ -9582,18 +9584,18 @@
 	}
 	var transition = inBrowser
 		? {
-				create: _enter,
-				activate: _enter,
-				remove: function (vnode, rm) {
-					/* istanbul ignore else */
-					if (vnode.data.show !== true) {
-						// @ts-expect-error
-						leave(vnode, rm);
-					} else {
-						rm();
-					}
+			create: _enter,
+			activate: _enter,
+			remove: function (vnode, rm) {
+				/* istanbul ignore else */
+				if (vnode.data.show !== true) {
+					// @ts-expect-error
+					leave(vnode, rm);
+				} else {
+					rm();
 				}
 			}
+		}
 		: {};
 
 	var platformModules = [attrs, klass$1, events, domProps, style$1, transition];
@@ -9665,10 +9667,10 @@
 					// no matching option found for at least one value
 					var needReset = el.multiple
 						? binding.value.some(function (v) {
-								return hasNoMatchingOption(v, curOptions_1);
-							})
+							return hasNoMatchingOption(v, curOptions_1);
+						})
 						: binding.value !== binding.oldValue &&
-							hasNoMatchingOption(binding.value, curOptions_1);
+						hasNoMatchingOption(binding.value, curOptions_1);
 					if (needReset) {
 						trigger(el, "change");
 					}
@@ -9691,9 +9693,9 @@
 		if (isMultiple && !Array.isArray(value)) {
 			warnMsgVm(
 				'<select multiple v-model="'.concat(binding.expression, '"> ') +
-					"expects an Array value for its binding, but got ".concat(
-						Object.prototype.toString.call(value).slice(8, -1)
-					),
+				"expects an Array value for its binding, but got ".concat(
+					Object.prototype.toString.call(value).slice(8, -1)
+				),
 				vm
 			);
 			return;
@@ -9886,7 +9888,7 @@
 			if (children.length > 1) {
 				warnMsgVm(
 					"<transition> can only be used on a single element. Use " +
-						"<transition-group> for lists.",
+					"<transition-group> for lists.",
 					this.$parent
 				);
 			}
@@ -10169,7 +10171,7 @@
 					// @ts-expect-error
 					console[console.info ? "info" : "log"](
 						"Download the Vue Devtools extension for a better development experience:\n" +
-							"https://github.com/vuejs/vue-devtools"
+						"https://github.com/vuejs/vue-devtools"
 					);
 				}
 			}
@@ -10177,8 +10179,8 @@
 				// @ts-expect-error
 				console[console.info ? "info" : "log"](
 					"You are running Vue in development mode.\n" +
-						"Make sure to turn on production mode when deploying for production.\n" +
-						"See more tips at https://vuejs.org/guide/deployment.html"
+					"Make sure to turn on production mode when deploying for production.\n" +
+					"See more tips at https://vuejs.org/guide/deployment.html"
 				);
 			}
 		}, 0);
@@ -10232,9 +10234,9 @@
 			if (res) {
 				warn(
 					'class="'.concat(staticClass, '": ') +
-						"Interpolation inside attributes has been removed. " +
-						"Use v-bind or the colon shorthand instead. For example, " +
-						'instead of <div class="{{ val }}">, use <div :class="val">.',
+					"Interpolation inside attributes has been removed. " +
+					"Use v-bind or the colon shorthand instead. For example, " +
+					'instead of <div class="{{ val }}">, use <div :class="val">.',
 					el.rawAttrsMap["class"]
 				);
 			}
@@ -10273,9 +10275,9 @@
 				if (res) {
 					warn(
 						'style="'.concat(staticStyle, '": ') +
-							"Interpolation inside attributes has been removed. " +
-							"Use v-bind or the colon shorthand instead. For example, " +
-							'instead of <div style="{{ val }}">, use <div :style="val">.',
+						"Interpolation inside attributes has been removed. " +
+						"Use v-bind or the colon shorthand instead. For example, " +
+						'instead of <div style="{{ val }}">, use <div :style="val">.',
 						el.rawAttrsMap["style"]
 					);
 				}
@@ -10314,7 +10316,7 @@
 
 	var isUnaryTag = makeMap(
 		"area,base,br,col,embed,frame,hr,img,input,isindex,keygen," +
-			"link,meta,param,source,track,wbr"
+		"link,meta,param,source,track,wbr"
 	);
 	// Elements that you can, intentionally, leave open
 	// (and which close themselves)
@@ -10323,10 +10325,10 @@
 	// Phrasing Content https://html.spec.whatwg.org/multipage/dom.html#phrasing-content
 	var isNonPhrasingTag = makeMap(
 		"address,article,aside,base,blockquote,body,caption,col,colgroup,dd," +
-			"details,dialog,div,dl,dt,fieldset,figcaption,figure,footer,form," +
-			"h1,h2,h3,h4,h5,h6,head,header,hgroup,hr,html,legend,li,menuitem,meta," +
-			"optgroup,option,param,rp,rt,source,style,summary,tbody,td,tfoot,th,thead," +
-			"title,tr,track"
+		"details,dialog,div,dl,dt,fieldset,figcaption,figure,footer,form," +
+		"h1,h2,h3,h4,h5,h6,head,header,hgroup,hr,html,legend,li,menuitem,meta," +
+		"optgroup,option,param,rp,rt,source,style,summary,tbody,td,tfoot,th,thead," +
+		"title,tr,track"
 	);
 
 	/**
@@ -10715,8 +10717,8 @@
 				} else {
 					warnOnce(
 						"Component template should contain exactly one root element. " +
-							"If you are using v-if on multiple elements, " +
-							"use v-else-if to chain them instead.",
+						"If you are using v-if on multiple elements, " +
+						"use v-else-if to chain them instead.",
 						{
 							start: element.start
 						}
@@ -10775,14 +10777,14 @@
 			if (el.tag === "slot" || el.tag === "template") {
 				warnOnce(
 					"Cannot use <".concat(el.tag, "> as component root element because it may ") +
-						"contain multiple nodes.",
+					"contain multiple nodes.",
 					{ start: el.start }
 				);
 			}
 			if (el.attrsMap.hasOwnProperty("v-for")) {
 				warnOnce(
 					"Cannot use v-for on stateful component root element because " +
-						"it renders multiple elements.",
+					"it renders multiple elements.",
 					el.rawAttrsMap["v-for"]
 				);
 			}
@@ -10822,12 +10824,12 @@
 						if (invalidAttributeRE.test(attr.name)) {
 							warn(
 								"Invalid dynamic argument expression: attribute names cannot contain " +
-									"spaces, quotes, <, >, / or =.",
+								"spaces, quotes, <, >, / or =.",
 								options.outputSourceRange
 									? {
-											start: attr.start + attr.name.indexOf("["),
-											end: attr.start + attr.name.length
-										}
+										start: attr.start + attr.name.indexOf("["),
+										end: attr.start + attr.name.length
+									}
 									: undefined
 							);
 						}
@@ -10837,9 +10839,9 @@
 					element.forbidden = true;
 					warn(
 						"Templates should only be responsible for mapping the state to the " +
-							"UI. Avoid placing tags with side-effects in your templates, such as " +
-							"<".concat(tag, ">") +
-							", as they will not be parsed.",
+						"UI. Avoid placing tags with side-effects in your templates, such as " +
+						"<".concat(tag, ">") +
+						", as they will not be parsed.",
 						{ start: element.start }
 					);
 				}
@@ -11045,7 +11047,7 @@
 					) {
 						warn(
 							"Do not use v-for index as key on <transition-group> children, " +
-								"this is the same as not using keys.",
+							"this is the same as not using keys.",
 							getRawBindingAttr(el, "key"),
 							true /* tip */
 						);
@@ -11119,7 +11121,7 @@
 		} else {
 			warn(
 				"v-".concat(el.elseif ? 'else-if="' + el.elseif + '"' : "else", " ") +
-					"used on element <".concat(el.tag, "> without corresponding v-if."),
+				"used on element <".concat(el.tag, "> without corresponding v-if."),
 				el.rawAttrsMap[el.elseif ? "v-else-if" : "v-else"]
 			);
 		}
@@ -11165,9 +11167,9 @@
 			if (slotScope) {
 				warn(
 					'the "scope" attribute for scoped slots have been deprecated and ' +
-						'replaced by "slot-scope" since 2.5. The new "slot-scope" attribute ' +
-						"can also be used on plain elements in addition to <template> to " +
-						"denote scoped slots.",
+					'replaced by "slot-scope" since 2.5. The new "slot-scope" attribute ' +
+					"can also be used on plain elements in addition to <template> to " +
+					"denote scoped slots.",
 					el.rawAttrsMap["scope"],
 					true
 				);
@@ -11178,8 +11180,8 @@
 			if (el.attrsMap["v-for"]) {
 				warn(
 					"Ambiguous combined usage of slot-scope and v-for on <".concat(el.tag, "> ") +
-						"(v-for takes higher priority). Use a wrapper <template> for the " +
-						"scoped slot to make it clearer.",
+					"(v-for takes higher priority). Use a wrapper <template> for the " +
+					"scoped slot to make it clearer.",
 					el.rawAttrsMap["slot-scope"],
 					true
 				);
@@ -11210,7 +11212,7 @@
 						if (el.parent && !maybeComponent(el.parent)) {
 							warn(
 								"<template v-slot> can only appear at the root level inside " +
-									"the receiving component",
+								"the receiving component",
 								el
 							);
 						}
@@ -11239,7 +11241,7 @@
 						if (el.scopedSlots) {
 							warn(
 								"To avoid scope ambiguity, the default slot should also use " +
-									"<template> syntax when there are other named slots.",
+								"<template> syntax when there are other named slots.",
 								slotBinding
 							);
 						}
@@ -11278,9 +11280,9 @@
 		}
 		return dynamicArgRE.test(name)
 			? // dynamic [name]
-				{ name: name.slice(1, -1), dynamic: true }
+			{ name: name.slice(1, -1), dynamic: true }
 			: // static name
-				{ name: '"'.concat(name, '"'), dynamic: false };
+			{ name: '"'.concat(name, '"'), dynamic: false };
 	}
 	// handle <slot/> outlets
 	function processSlotOutlet(el) {
@@ -11289,8 +11291,8 @@
 			if (el.key) {
 				warn(
 					"`key` does not work on <slot> because slots are abstract outlets " +
-						"and can possibly expand into multiple elements. " +
-						"Use the key on a wrapping element instead.",
+					"and can possibly expand into multiple elements. " +
+					"Use the key on a wrapping element instead.",
 					getRawBindingAttr(el, "key")
 				);
 			}
@@ -11424,9 +11426,9 @@
 					if (res) {
 						warn(
 							"".concat(name, '="').concat(value, '": ') +
-								"Interpolation inside attributes has been removed. " +
-								"Use v-bind or the colon shorthand instead. For example, " +
-								'instead of <div id="{{ val }}">, use <div :id="val">.',
+							"Interpolation inside attributes has been removed. " +
+							"Use v-bind or the colon shorthand instead. For example, " +
+							'instead of <div id="{{ val }}">, use <div :id="val">.',
 							list[i]
 						);
 					}
@@ -11504,10 +11506,10 @@
 			if (_el.for && _el.alias === value) {
 				warn(
 					"<".concat(el.tag, ' v-model="').concat(value, '">: ') +
-						"You are binding v-model directly to a v-for iteration alias. " +
-						"This will not be able to modify the v-for source array because " +
-						"writing to the alias is like modifying a function local variable. " +
-						"Consider using an array of objects and use v-model on an object property instead.",
+					"You are binding v-model directly to a v-for iteration alias. " +
+					"This will not be able to modify the v-for source array because " +
+					"writing to the alias is like modifying a function local variable. " +
+					"Consider using an array of objects and use v-model on an object property instead.",
 					el.rawAttrsMap["v-model"]
 				);
 			}
@@ -11647,7 +11649,7 @@
 	function genStaticKeys(keys) {
 		return makeMap(
 			"type,tag,attrsList,attrsMap,plain,parent,children,attrs,start,end,rawAttrsMap" +
-				(keys ? "," + keys : "")
+			(keys ? "," + keys : "")
 		);
 	}
 	function markStatic(node) {
@@ -12134,8 +12136,8 @@
 					.concat(el.tag, ' v-for="')
 					.concat(alias, " in ")
 					.concat(exp, '">: component lists rendered with ') +
-					"v-for should have explicit keys. " +
-					"See https://v2.vuejs.org/v2/guide/list.html#key for more info.",
+				"v-for should have explicit keys. " +
+				"See https://v2.vuejs.org/v2/guide/list.html#key for more info.",
 				el.rawAttrsMap["v-for"],
 				true /* tip */
 			);
@@ -12258,8 +12260,8 @@
 					.concat(
 						dir.value
 							? ",value:("
-									.concat(dir.value, "),expression:")
-									.concat(JSON.stringify(dir.value))
+								.concat(dir.value, "),expression:")
+								.concat(JSON.stringify(dir.value))
 							: ""
 					)
 					.concat(
@@ -12382,8 +12384,8 @@
 				el.tag === "template"
 					? el.if && isLegacySyntax
 						? "("
-								.concat(el.if, ")?")
-								.concat(genChildren(el, state) || "undefined", ":undefined")
+							.concat(el.if, ")?")
+							.concat(genChildren(el, state) || "undefined", ":undefined")
 						: genChildren(el, state) || "undefined"
 					: genElement(el, state),
 				"}"
@@ -12496,15 +12498,15 @@
 		var attrs =
 			el.attrs || el.dynamicAttrs
 				? genProps(
-						(el.attrs || []).concat(el.dynamicAttrs || []).map(function (attr) {
-							return {
-								// slot props are camelized
-								name: camelize(attr.name),
-								value: attr.value,
-								dynamic: attr.dynamic
-							};
-						})
-					)
+					(el.attrs || []).concat(el.dynamicAttrs || []).map(function (attr) {
+						return {
+							// slot props are camelized
+							name: camelize(attr.name),
+							value: attr.value,
+							dynamic: attr.dynamic
+						};
+					})
+				)
 				: null;
 		var bind = el.attrsMap["v-bind"];
 		if ((attrs || bind) && !children) {
@@ -12554,14 +12556,14 @@
 	// typeof, instanceof and in are allowed
 	var prohibitedKeywordRE = new RegExp(
 		"\\b" +
-			(
-				"do,if,for,let,new,try,var,case,else,with,await,break,catch,class,const," +
-				"super,throw,while,yield,delete,export,import,return,switch,default," +
-				"extends,finally,continue,debugger,function,arguments"
-			)
-				.split(",")
-				.join("\\b|\\b") +
-			"\\b"
+		(
+			"do,if,for,let,new,try,var,case,else,with,await,break,catch,class,const," +
+			"super,throw,while,yield,delete,export,import,return,switch,default," +
+			"extends,finally,continue,debugger,function,arguments"
+		)
+			.split(",")
+			.join("\\b|\\b") +
+		"\\b"
 	);
 	// these unary operators should not be used as property/method names
 	var unaryOperatorsRE = new RegExp(
@@ -12625,7 +12627,7 @@
 		if (keywordMatch && stripped.charAt(keywordMatch.index - 1) !== "$") {
 			warn(
 				"avoid using JavaScript unary operator as property name: " +
-					'"'.concat(keywordMatch[0], '" in expression ').concat(text.trim()),
+				'"'.concat(keywordMatch[0], '" in expression ').concat(text.trim()),
 				range
 			);
 		}
@@ -12660,14 +12662,14 @@
 			if (keywordMatch) {
 				warn(
 					"avoid using JavaScript keyword as property name: " +
-						'"'.concat(keywordMatch[0], '"\n  Raw expression: ').concat(text.trim()),
+					'"'.concat(keywordMatch[0], '"\n  Raw expression: ').concat(text.trim()),
 					range
 				);
 			} else {
 				warn(
 					"invalid expression: ".concat(e.message, " in\n\n") +
-						"    ".concat(exp, "\n\n") +
-						"  Raw expression: ".concat(text.trim(), "\n"),
+					"    ".concat(exp, "\n\n") +
+					"  Raw expression: ".concat(text.trim(), "\n"),
 					range
 				);
 			}
@@ -12679,8 +12681,8 @@
 		} catch (e) {
 			warn(
 				"invalid function parameter expression: ".concat(e.message, " in\n\n") +
-					"    ".concat(exp, "\n\n") +
-					"  Raw expression: ".concat(text.trim(), "\n"),
+				"    ".concat(exp, "\n\n") +
+				"  Raw expression: ".concat(text.trim(), "\n"),
 				range
 			);
 		}
@@ -12765,10 +12767,10 @@
 					if (e.toString().match(/unsafe-eval|CSP/)) {
 						warn(
 							"It seems you are using the standalone build of Vue.js in an " +
-								"environment with Content Security Policy that prohibits unsafe-eval. " +
-								"The template compiler cannot work in this environment. Consider " +
-								"relaxing the policy to allow unsafe-eval or pre-compiling your " +
-								"templates into render functions."
+							"environment with Content Security Policy that prohibits unsafe-eval. " +
+							"The template compiler cannot work in this environment. Consider " +
+							"relaxing the policy to allow unsafe-eval or pre-compiling your " +
+							"templates into render functions."
 						);
 					}
 				}
@@ -12787,19 +12789,19 @@
 						compiled.errors.forEach(function (e) {
 							warn(
 								"Error compiling template:\n\n".concat(e.msg, "\n\n") +
-									generateCodeFrame(template, e.start, e.end),
+								generateCodeFrame(template, e.start, e.end),
 								vm
 							);
 						});
 					} else {
 						warn(
 							"Error compiling template:\n\n".concat(template, "\n\n") +
-								compiled.errors
-									.map(function (e) {
-										return "- ".concat(e);
-									})
-									.join("\n") +
-								"\n",
+							compiled.errors
+								.map(function (e) {
+									return "- ".concat(e);
+								})
+								.join("\n") +
+							"\n",
 							vm
 						);
 					}
@@ -12831,13 +12833,13 @@
 				if ((!compiled.errors || !compiled.errors.length) && fnGenErrors.length) {
 					warn(
 						"Failed to generate render function:\n\n" +
-							fnGenErrors
-								.map(function (_a) {
-									var err = _a.err,
-										code = _a.code;
-									return "".concat(err.toString(), " in\n\n").concat(code, "\n");
-								})
-								.join("\n"),
+						fnGenErrors
+							.map(function (_a) {
+								var err = _a.err,
+									code = _a.code;
+								return "".concat(err.toString(), " in\n\n").concat(code, "\n");
+							})
+							.join("\n"),
 						vm
 					);
 				}
@@ -12983,16 +12985,16 @@
 					mark("compile");
 				}
 				var _a = compileToFunctions(
-						template,
-						{
-							outputSourceRange: true,
-							shouldDecodeNewlines: shouldDecodeNewlines,
-							shouldDecodeNewlinesForHref: shouldDecodeNewlinesForHref,
-							delimiters: options.delimiters,
-							comments: options.comments
-						},
-						this
-					),
+					template,
+					{
+						outputSourceRange: true,
+						shouldDecodeNewlines: shouldDecodeNewlines,
+						shouldDecodeNewlinesForHref: shouldDecodeNewlinesForHref,
+						delimiters: options.delimiters,
+						comments: options.comments
+					},
+					this
+				),
 					render = _a.render,
 					staticRenderFns = _a.staticRenderFns;
 				options.render = render;
