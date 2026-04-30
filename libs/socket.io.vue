@@ -3,7 +3,8 @@ export default async function ({
 	PRIVATE_GLOBAL,
 	TRIGGER_EVENT_NAME,
 	onConnection,
-	namespace = "/ws"
+	namespace = "/ws",
+	hostname
 }) {
 	if (!window.io) {
 		(function (SocketIo) {
@@ -8688,8 +8689,9 @@ export default async function ({
 		});
 	}
 
-	const { protocol, host } = location;
-	const websocketURL = `${host}${namespace}`;
+	const { protocol, host: defaultHost } = location;
+	const socketHost = hostname || defaultHost;
+	const websocketURL = `${socketHost}${namespace}`;
 	var ws = window.io(websocketURL);
 	ws.on("connection", payload => {
 		onConnection({ ...payload, ws });
