@@ -2017,6 +2017,8 @@ export default async function ({ PRIVATE_GLOBAL }) {
 
 			// set scrolling
 			setScrolling(tableContainerRef) {
+				if (!tableContainerRef) return;
+
 				if (this.hasFixedColumn) {
 					const { scrollWidth, clientWidth, scrollLeft } = tableContainerRef;
 
