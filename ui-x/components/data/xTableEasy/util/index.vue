@@ -217,6 +217,17 @@ export default async function () {
 		let colgroups = [];
 		let groupColumns = [];
 
+		// 为缺少 key 的列自动生成唯一 key
+		const generateColumnKey = (column, parentKey = "") => {
+			if (!column.key) {
+				column.key = parentKey ? `${parentKey}_${column.field || getRandomId()}` : column.field || getRandomId();
+			}
+			if (column.children) {
+				column.children.forEach(child => generateColumnKey(child, column.key));
+			}
+		};
+		cloneColumns.forEach(column => generateColumnKey(column));
+
 		// set column level
 		let maxLevel = 1;
 		const setColumnLevel = (column, parent) => {
@@ -273,7 +284,11 @@ export default async function () {
 			if (!isEmptyArray(column.children) || !isEmptyValue(column.key)) {
 				// set groupColumns
 				const { ...groupColumn } = column;
-				groupColumns[column._level - 1].push(groupColumn);
+				const levelIndex = column._level - 1;
+				if (!groupColumns[levelIndex]) {
+					groupColumns[levelIndex] = [];
+				}
+				groupColumns[levelIndex].push(groupColumn);
 
 				if (column.children) {
 					column.children.forEach(item => {

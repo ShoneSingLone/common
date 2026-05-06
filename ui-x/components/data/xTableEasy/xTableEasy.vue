@@ -828,12 +828,9 @@ export default async function ({ PRIVATE_GLOBAL }) {
 					this.initGroupColumns();
 					this.initColumnWidthByColumnResize();
 
-					// 排除首次
-					if (newVal != oldVal && oldVal) {
-						this.columnsOptionResetTime++;
-						// 需要等待 initColumns 和 initGroupColumns 先执行
-						this.initScrolling();
-					}
+					this.columnsOptionResetTime++;
+					// 需要等待 initColumns 和 initGroupColumns 先执行
+					this.initScrolling();
 				},
 				immediate: true
 			},
