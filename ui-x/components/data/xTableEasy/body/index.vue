@@ -34,6 +34,12 @@ export default async function ({ PRIVATE_GLOBAL }) {
 
 	return {
 		name: COMPS_NAME.VE_TABLE_BODY,
+		components: {
+			BodyTr,
+			BodyTrScrolling,
+			ExpandTr,
+			VueDomResizeObserver
+		},
 		props: {
 			tableViewportWidth: {
 				type: Number,

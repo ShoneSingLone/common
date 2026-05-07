@@ -19,6 +19,11 @@ export default async function ({ PRIVATE_GLOBAL }) {
 
 	return {
 		name: COMPS_NAME.VE_TABLE_BODY_TD,
+		components: {
+			BodyCheckboxContent,
+			BodyRadioContent,
+			ExpandTrIcon
+		},
 		props: {
 			rowData: {
 				type: Object,

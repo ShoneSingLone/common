@@ -2,10 +2,10 @@
 export default async function ({ PRIVATE_GLOBAL }) {
 	// 使用 _.$importVue() 加载依赖
 	const [
-		{ default: BodyTd },
+		BodyTd,
 		{ clsName },
 		{ COMPS_NAME, EMIT_EVENTS, COMPS_CUSTOM_ATTRS },
-		{ default: VueDomResizeObserver },
+		VueDomResizeObserver,
 		{ isEmptyValue }
 	] = await Promise.all([
 		_.$importVue("/common/ui-x/components/data/xTableEasy/body/body-td.vue"),
@@ -17,6 +17,10 @@ export default async function ({ PRIVATE_GLOBAL }) {
 
 	return {
 		name: COMPS_NAME.VE_TABLE_BODY_TR,
+		components: {
+			BodyTd,
+			VueDomResizeObserver
+		},
 		props: {
 			rowData: {
 				type: Object,
