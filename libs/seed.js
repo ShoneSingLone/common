@@ -561,9 +561,10 @@
 		 * @param {*} options.vm 指定 Vue 实例，不传则自动获取当前实例
 		 * @param {*} options.shouldRejectOnVmDestroy 是否在 VM 销毁时 reject，默认 false（resolve null），向后兼容
 		 * @returns Promise<any> 成功时返回 fn_get_value 的结果，VM 销毁时根据配置返回 null 或 reject
+		 *          Promise 上挂载了 cancel 方法，可用于取消等待
 		 */
-		/* @typescriptDeclare (fn_get_value:(()=>Promise<any>)|(()=>any), duration?:number, gap?:number, options?:{vm?:any, shouldRejectOnVmDestroy?:boolean}) =>Promise<any> */
-		$ensure = async (fn_get_value, duration = 0, gap = 64, options = {}) => {
+		/* @typescriptDeclare (fn_get_value:(()=>Promise<any>)|(()=>any), duration?:number, gap?:number, options?:{vm?:any, shouldRejectOnVmDestroy?:boolean}) =>Promise<any> & {cancel:(reason?:string)=>void} */
+		$ensure = (fn_get_value, duration = 0, gap = 64, options = {}) => {
 			/* 获取完整的调用者信息，包含初始调用栈 */
 			const callerInfo = fn_get_value.toString();
 			const getVmFromCurrentInstance = () => {
@@ -580,12 +581,24 @@
 				return null;
 			};
 
-			return new Promise((resolve, reject) => {
+			let cancelFn = null;
+			const promise = new Promise((resolve, reject) => {
 				let timer = null;
 				let durationTimer = null;
 				let exeCount = 0;
 				let isFinished = false;
+				let isCanceled = false;
 				let isCanceledByVmDestroy = false;
+
+				cancelFn = (reason = "ensure canceled") => {
+					if (isFinished) {
+						return;
+					}
+					isCanceled = true;
+					clearTimers();
+					isFinished = true;
+					reject(new Error(reason));
+				};
 
 				const handler = { louder: null };
 				const vm = options.vm || getVmFromCurrentInstance();
@@ -597,7 +610,6 @@
 					isCanceledByVmDestroy = true;
 					clearTimers();
 					isFinished = true;
-					/* 向后兼容：默认 resolve null 而不是 reject，避免大量未捕获的 Promise rejection */
 					if (shouldRejectOnVmDestroy) {
 						reject(new Error("ensure canceled: vm destroyed"));
 					} else {
@@ -640,12 +652,12 @@
 				}
 
 				const checkValue = async () => {
-					if (isFinished || isCanceledByVmDestroy) {
+					if (isFinished || isCanceled || isCanceledByVmDestroy) {
 						return;
 					}
 					try {
 						const value = await fn_get_value({ exeCount, handler, vm });
-						if (isFinished || isCanceledByVmDestroy) {
+						if (isFinished || isCanceled || isCanceledByVmDestroy) {
 							return;
 						}
 						_ensure_inner_print({ count: ++exeCount, info: callerInfo, handler });
@@ -661,7 +673,7 @@
 
 				if (duration) {
 					durationTimer = setTimeout(() => {
-						if (isFinished || isCanceledByVmDestroy) {
+						if (isFinished || isCanceled || isCanceledByVmDestroy) {
 							return;
 						}
 						_ensure_inner_print({ count: exeCount, info: callerInfo, handler });
@@ -671,6 +683,9 @@
 
 				checkValue();
 			});
+
+			promise.cancel = cancelFn;
+			return promise;
 		};
 		return $ensure;
 	})();
@@ -904,7 +919,7 @@
 									const preloadArray = getPreload();
 									preloadArray.forEach(url => $loadText(url));
 								}
-							} catch (error) {}
+							} catch (error) { }
 						}
 					}
 				],

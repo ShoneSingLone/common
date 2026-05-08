@@ -72,7 +72,7 @@ export default async function ({ PRIVATE_GLOBAL }) {
 			}
 
 			if (_.isFunction(onSetup)) {
-				onSetup.call(vm.cpt_configs, {
+				onSetup.call(vm.configs, {
 					xItem: vm,
 					props
 				});
