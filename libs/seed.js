@@ -611,7 +611,7 @@
 					clearTimers();
 					isFinished = true;
 					if (shouldRejectOnVmDestroy) {
-						reject(new Error("ensure canceled: vm destroyed"));
+						reject(("ensure canceled"));
 					} else {
 						resolve(null);
 					}
