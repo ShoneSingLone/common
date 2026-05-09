@@ -91,6 +91,9 @@ export default async function ({ PRIVATE_GLOBAL }) {
 					options.mask = false;
 				}
 
+				const winWidth = window.innerWidth;
+				const winHeight = window.innerHeight;
+
 				const modalConfigs = _.merge(
 					{
 						minimizable: true,
@@ -120,6 +123,40 @@ export default async function ({ PRIVATE_GLOBAL }) {
 					}
 				}
 
+				if (!options.style) options.style = {};
+
+				const clamp = (val, min, max) => Math.max(min, Math.min(max, val));
+				const toNumber = val => {
+					if (_.isNumber(val)) return val;
+					if (!_.$isInput(val)) return NaN;
+					const n = parseInt(val);
+					return _.isNaN(n) ? NaN : n;
+				};
+
+				if (!_.$isInput(options.minWidth)) options.minWidth = 800;
+				if (!_.$isInput(options.minHeight)) options.minHeight = 600;
+				const minWidth = Math.min(winWidth, Math.max(200, toNumber(options.minWidth) || 800));
+				const minHeight = Math.min(
+					winHeight,
+					Math.max(100, toNumber(options.minHeight) || 600)
+				);
+
+				const defaultWidth = Math.min(Math.max(200, winWidth - 40), 1200);
+				const defaultHeight = Math.min(Math.max(100, winHeight - 40), 800);
+				const widthInput =
+					(_.$isInput(options.style.width) && toNumber(options.style.width)) ||
+					(_.$isInput(options.width) && toNumber(options.width)) ||
+					defaultWidth;
+				const heightInput =
+					(_.$isInput(options.style.height) && toNumber(options.style.height)) ||
+					(_.$isInput(options.height) && toNumber(options.height)) ||
+					defaultHeight;
+
+				const width = clamp(widthInput, minWidth, winWidth);
+				const height = clamp(heightInput, minHeight, winHeight);
+				options.style.width = width;
+				options.style.height = height;
+
 				// 级联定位逻辑：如果既没有显式传入坐标，也没有恢复坐标，则使用级联偏移
 				if (
 					!options.style ||
@@ -132,6 +169,13 @@ export default async function ({ PRIVATE_GLOBAL }) {
 						top: 50 + offset
 					});
 				}
+
+				const leftInput = _.$isInput(options.style.left) ? toNumber(options.style.left) : 0;
+				const topInput = _.$isInput(options.style.top) ? toNumber(options.style.top) : 0;
+				const left = clamp(leftInput || 0, 0, Math.max(0, winWidth - width));
+				const top = clamp(topInput || 0, 0, Math.max(0, winHeight - height));
+				options.style.left = left;
+				options.style.top = top;
 
 				// 调用 _.$openModal 打开窗口
 				let modalVm;

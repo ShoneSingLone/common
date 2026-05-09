@@ -128,6 +128,33 @@ export default async function ({ PRIVATE_GLOBAL, options, modalConfigs }) {
 			let isCalculating = false;
 			let lastCalculatedValues = null;
 			let isUserInteracting = false;
+			const clamp = (val, min, max) => Math.max(min, Math.min(max, val));
+			const toNumber = val => {
+				if (_.isNumber(val)) return val;
+				if (!_.$isInput(val)) return NaN;
+				const n = parseInt(val);
+				return _.isNaN(n) ? NaN : n;
+			};
+			const getViewport = () => ({
+				width: _.$single.win.width(),
+				height: _.$single.win.height()
+			});
+			const clampRectToViewport = ({ left, top, width, height }) => {
+				const viewport = getViewport();
+				const minWidth = Math.min(
+					viewport.width,
+					Math.max(200, toNumber(options.minWidth) || 200)
+				);
+				const minHeight = Math.min(
+					viewport.height,
+					Math.max(100, toNumber(options.minHeight) || 100)
+				);
+				let w = clamp(width, minWidth, viewport.width);
+				let h = clamp(height, minHeight, viewport.height);
+				let l = clamp(left, 0, Math.max(0, viewport.width - w));
+				let t = clamp(top, 0, Math.max(0, viewport.height - h));
+				return { left: l, top: t, width: w, height: h, viewport };
+			};
 
 			const setDialogOffset = _.debounce(() => {
 				try {
@@ -211,6 +238,32 @@ export default async function ({ PRIVATE_GLOBAL, options, modalConfigs }) {
 						return topOnepice;
 					})();
 
+					const widthForClamp = _.$isInput(options.style && options.style.width)
+						? toNumber(options.style.width)
+						: currentValues.width;
+					const heightForClamp = _.$isInput(options.style && options.style.height)
+						? toNumber(options.style.height)
+						: currentValues.height;
+					const rect = clampRectToViewport({
+						left,
+						top: topOnepice,
+						width: widthForClamp,
+						height: heightForClamp
+					});
+					left = rect.left;
+					topOnepice = rect.top;
+					const persistLeft =
+						modalConfigs.center === false || (options.style && _.$isInput(options.style.left));
+					const persistTop =
+						modalConfigs.center === false || (options.style && _.$isInput(options.style.top));
+					if (persistLeft || persistTop) {
+						if (!options.style) options.style = {};
+						if (persistLeft) options.style.left = rect.left;
+						if (persistTop) options.style.top = rect.top;
+					}
+					if (options.style && _.$isInput(options.style.width)) options.style.width = rect.width;
+					if (options.style && _.$isInput(options.style.height)) options.style.height = rect.height;
+
 					// 使用 requestAnimationFrame 确保样式更新在下一帧执行
 					requestAnimationFrame(() => {
 						const style = {
@@ -218,6 +271,8 @@ export default async function ({ PRIVATE_GLOBAL, options, modalConfigs }) {
 							opacity: vm.dialog_class.minimized ? 0 : 1,
 							left: `${left}px`,
 							top: `${topOnepice}px`,
+							"max-width": `${rect.viewport.width}px`,
+							"max-height": `${rect.viewport.height}px`,
 							transform: "none",
 							visibility: vm.dialog_class.minimized ? "hidden" : "visible",
 							pointerEvents: vm.dialog_class.minimized ? "none" : "auto"
@@ -225,10 +280,10 @@ export default async function ({ PRIVATE_GLOBAL, options, modalConfigs }) {
 
 						// 如果用户已经手动调整过大小，或者初始配置了大小，则锁定宽高
 						if (options.style && _.$isInput(options.style.width)) {
-							style.width = `${parseInt(options.style.width)}px`;
+							style.width = `${rect.width}px`;
 						}
 						if (options.style && _.$isInput(options.style.height)) {
-							style.height = `${parseInt(options.style.height)}px`;
+							style.height = `${rect.height}px`;
 						}
 
 						if (vm.dialog_class.fullscreen) {
@@ -250,6 +305,20 @@ export default async function ({ PRIVATE_GLOBAL, options, modalConfigs }) {
 					return {};
 				}
 			}, 50);
+
+			const handleWindowResize = _.debounce(() => {
+				if (vm.dialog_class.fullscreen) return;
+				lastCalculatedValues = null;
+				setDialogOffset();
+			}, 50);
+
+			onMounted(() => {
+				window.addEventListener("resize", handleWindowResize);
+			});
+
+			onBeforeUnmount(() => {
+				window.removeEventListener("resize", handleWindowResize);
+			});
 
 			watch(
 				() => [
@@ -323,18 +392,23 @@ export default async function ({ PRIVATE_GLOBAL, options, modalConfigs }) {
 						vm.toTop();
 						const { left, top, width, height } =
 							vm.$refs.refDialog.getBoundingClientRect();
-						vm.moveOptions.left = left;
-						vm.moveOptions.top = top;
+						const rect = clampRectToViewport({ left, top, width, height });
+						vm.moveOptions.left = rect.left;
+						vm.moveOptions.top = rect.top;
 
 						// 拖拽开始即锁定当前尺寸
 						if (!options.style) options.style = {};
-						if (!_.$isInput(options.style.width)) options.style.width = width;
-						if (!_.$isInput(options.style.height)) options.style.height = height;
+						if (!_.$isInput(options.style.width)) options.style.width = rect.width;
+						if (!_.$isInput(options.style.height)) options.style.height = rect.height;
+						options.style.left = rect.left;
+						options.style.top = rect.top;
 
 						vm.dialogStyle = {
 							...vm.dialogStyle,
-							width: `${width}px`,
-							height: `${height}px`
+							width: `${rect.width}px`,
+							height: `${rect.height}px`,
+							left: `${rect.left}px`,
+							top: `${rect.top}px`
 						};
 
 						if (_.$single && _.$single.mask) {
@@ -360,11 +434,11 @@ export default async function ({ PRIVATE_GLOBAL, options, modalConfigs }) {
 						const width = refDialogRectWidth.value;
 						const height = refDialogRectHeight.value;
 
-						if (left <= 0) left = 0;
-						else if (left + width > winWidth) left = winWidth - width;
+						if (width >= winWidth) left = 0;
+						else left = clamp(left, 0, Math.max(0, winWidth - width));
 
-						if (top <= 0) top = 0;
-						else if (top + height > winHeight) top = winHeight - height;
+						if (height >= winHeight) top = 0;
+						else top = clamp(top, 0, Math.max(0, winHeight - height));
 
 						if (!options.style) options.style = {};
 						options.style.left = left;
@@ -382,20 +456,23 @@ export default async function ({ PRIVATE_GLOBAL, options, modalConfigs }) {
 						vm.toTop();
 						const { width, height, left, top } =
 							vm.$refs.refDialog.getBoundingClientRect();
-						vm.resizeOptions.width = width;
-						vm.resizeOptions.height = height;
+						const rect = clampRectToViewport({ left, top, width, height });
+						vm.resizeOptions.width = rect.width;
+						vm.resizeOptions.height = rect.height;
 
 						// 缩放开始即锁定当前位置
 						if (!options.style) options.style = {};
-						if (!_.$isInput(options.style.left)) options.style.left = left;
-						if (!_.$isInput(options.style.top)) options.style.top = top;
+						options.style.left = rect.left;
+						options.style.top = rect.top;
+						if (_.$isInput(options.style.width)) options.style.width = rect.width;
+						if (_.$isInput(options.style.height)) options.style.height = rect.height;
 
 						vm.dialogStyle = {
 							...vm.dialogStyle,
-							width: `${width}px`,
-							height: `${height}px`,
-							left: `${left}px`,
-							top: `${top}px`
+							width: `${rect.width}px`,
+							height: `${rect.height}px`,
+							left: `${rect.left}px`,
+							top: `${rect.top}px`
 						};
 
 						if (_.$single && _.$single.mask) {
@@ -416,21 +493,25 @@ export default async function ({ PRIVATE_GLOBAL, options, modalConfigs }) {
 						let width = vm.resizeOptions.width + offsetWidth;
 						let height = vm.resizeOptions.height + offsetHeight;
 
-						const minWidth = 200;
-						const minHeight = 100;
-						if (width < minWidth) width = minWidth;
-						if (height < minHeight) height = minHeight;
-
 						const winWidth = _.$single.win.width();
 						const winHeight = _.$single.win.height();
 						const { left, top } = vm.$refs.refDialog.getBoundingClientRect();
 
-						if (left + width > winWidth) width = winWidth - left;
-						if (top + height > winHeight) height = winHeight - top;
+						const maxWidth = Math.max(0, winWidth - Math.max(0, left));
+						const maxHeight = Math.max(0, winHeight - Math.max(0, top));
+						const minWidth = Math.min(maxWidth, Math.max(200, toNumber(options.minWidth) || 200));
+						const minHeight = Math.min(
+							maxHeight,
+							Math.max(100, toNumber(options.minHeight) || 100)
+						);
+						width = clamp(width, minWidth, maxWidth);
+						height = clamp(height, minHeight, maxHeight);
 
 						if (!options.style) options.style = {};
 						options.style.width = width;
 						options.style.height = height;
+						options.style.left = clamp(toNumber(options.style.left) || 0, 0, Math.max(0, winWidth - width));
+						options.style.top = clamp(toNumber(options.style.top) || 0, 0, Math.max(0, winHeight - height));
 
 						$(vm.$el).find(".xDialog.xDialog-wrapper").addClass("custom-manual-resize");
 
@@ -438,7 +519,9 @@ export default async function ({ PRIVATE_GLOBAL, options, modalConfigs }) {
 							vm.dialogStyle = {
 								...vm.dialogStyle,
 								width: `${width}px`,
-								height: `${height}px`
+								height: `${height}px`,
+								left: `${options.style.left}px`,
+								top: `${options.style.top}px`
 							};
 						});
 					}
