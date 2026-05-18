@@ -154,6 +154,7 @@ export default async function () {
 		"common/xItem/xItemCascader",
 		"common/xItem/xItemSlider",
 		"common/xItem/xItemSwitch",
+		"common/xItem/xItemTags",
 		"common/xItem/xItemMonaco",
 		/* ******************* */
 		"components/form/xToggleEditor/xToggleText/xToggleText"
