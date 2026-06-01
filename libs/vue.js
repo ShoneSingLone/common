@@ -13193,12 +13193,6 @@
 		const val = (() => {
 			try {
 				let current = this;
-				let attrs = current.$attrs;
-
-				if (hasOwn(attrs, prop) && attrs[prop] !== undefined) {
-					return attrs[prop];
-				}
-				current = current.$parent;
 
 				while (current) {
 					if (_.$val(current, "componentName") === "xItem") {
