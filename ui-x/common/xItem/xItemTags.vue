@@ -134,6 +134,8 @@ export default async function () {
 						[this.configsKey.value]: this.configsVal.value
 					};
 					this.x_item_value = _.merge({}, this.x_item_value, podObj);
+					this.configsKey.value = "";
+					this.configsVal.value = "";
 				}
 			}
 		}
