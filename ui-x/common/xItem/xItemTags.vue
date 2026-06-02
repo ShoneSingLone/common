@@ -1,13 +1,10 @@
 <template>
 	<xBlock class="flex vertical center xItem-pos left top width100">
-		<div
-			class="flex middle center mb8"
-			style="
+		<div class="flex middle center mb8" style="
 				max-width: 500px;
 				--xItem-flex-flow: row nowrap;
 				--xItem-layout-align-items: center;
-			"
-			v-if="!cpt_disabled">
+			" v-if="!cpt_disabled">
 			<xItem :configs="configsKey" />
 			<xGap l="4" />
 			<span>=</span>
@@ -17,19 +14,15 @@
 			<xBtn :configs="configsAddBtn" />
 		</div>
 		<div v-if="cpt_notice" class="mb">
-			<xRender :render="cpt_notice" />
+			<div class="xItem-msg mt4">
+				<xRender :render="cpt_notice" />
+			</div>
 		</div>
 		<div>
-			<span
-				v-for="(val, key) in x_item_value"
-				:key="key"
+			<span v-for="(val, key) in x_item_value" :key="key"
 				style="display: inline-block; margin: 4px; cursor: pointer">
-				<xTag
-					:closable="!cpt_disabled"
-					@close="$event => removeTag(key)"
-					@click="$event => editTag(key)"
-					>{{ key }}={{ val }}</xTag
-				>
+				<xTag :closable="!cpt_disabled" @close="$event => removeTag(key)" @click="$event => editTag(key)">{{ key
+				}}={{ val }}</xTag>
 			</span>
 		</div>
 	</xBlock>
@@ -87,7 +80,7 @@ export default async function () {
 				}
 			};
 		},
-		mounted() {},
+		mounted() { },
 		computed: {
 			cpt_notice() {
 				return this.configs.notice || false;

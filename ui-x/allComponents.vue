@@ -139,6 +139,7 @@ export default async function () {
 		/* xItem */
 		/* xItemXXXXXXXX */
 		"common/xItem/xItem",
+		"common/xItem/xItemAdvanceConfig",
 		"common/xItem/xItemAdvanceWrapper",
 		"common/xItem/xItem/xItemMonaco",
 		"common/xItem/xItemAutocomplate",
