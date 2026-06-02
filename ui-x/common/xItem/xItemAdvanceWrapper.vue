@@ -31,19 +31,24 @@ export default async function () {
 			required: {
 				type: Boolean,
 				default: false
+			},
+			label: {
+				type: String,
+				default: "高级设置"
 			}
 		},
 		data(vm) {
 			return {
-				isChecked: false,
-				required: false,
-				configs_is_use_adv: {
-					label: "高级设置",
-					itemType: "xItemSwitch"
-				}
+				isChecked: false
 			};
 		},
 		computed: {
+			configs_is_use_adv() {
+				return {
+					label: this.label,
+					itemType: "xItemSwitch"
+				};
+			},
 			cpt_is_show_switch() {
 				if (this.required) {
 					return false;

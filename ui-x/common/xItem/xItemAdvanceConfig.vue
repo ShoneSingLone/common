@@ -8,14 +8,17 @@
 				:inactive-text="cpt_inactiveText" />
 		</div>
 		<!-- 子内容区域 -->
-		<div v-if="cpt_is_checked" class="advance-children width100 mt8">
+		<div v-if="cpt_is_checked" class="advance-children width100">
 			<slot />
-			<template v-if="!cpt_hasSlot && cpt_subItems.length">
+			<xForm
+				v-if="!cpt_hasSlot && cpt_subItems.length"
+				col="1"
+				class="all-in-one-block">
 				<xItem
 					v-for="(item, idx) in cpt_subItems"
 					:key="item._key || idx"
 					:configs="item" />
-			</template>
+			</xForm>
 		</div>
 	</div>
 </template>
@@ -79,6 +82,10 @@ export default async function () {
 .xItemAdvanceConfig {
 	.advance-children {
 		width: 100%;
+		padding: 16px;
+		background: var(--el-fill-color-lighter, #f5f7fa);
+		border-radius: 6px;
+		box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
 	}
 }
 </style>
