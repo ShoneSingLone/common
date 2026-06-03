@@ -797,7 +797,7 @@ export default async function ({ PRIVATE_GLOBAL, options, modalConfigs }) {
 	/* CSS 变量定义 */
 	--xModal-bg-color: #fff;
 	--xModal-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
-	--xModal-header-padding: 20px 20px 10px;
+	--xModal-header-padding: 20px 10px;
 	--xModal-header-btn-top: 20px;
 	--xModal-header-btn-font-size: 16px;
 	--xModal-header-close-right: 10px;
