@@ -135,7 +135,10 @@ export default async function ({ PRIVATE_GLOBAL }) {
 
 				if (!_.$isInput(options.minWidth)) options.minWidth = 800;
 				if (!_.$isInput(options.minHeight)) options.minHeight = 600;
-				const minWidth = Math.min(winWidth, Math.max(200, toNumber(options.minWidth) || 800));
+				const minWidth = Math.min(
+					winWidth,
+					Math.max(200, toNumber(options.minWidth) || 800)
+				);
 				const minHeight = Math.min(
 					winHeight,
 					Math.max(100, toNumber(options.minHeight) || 600)

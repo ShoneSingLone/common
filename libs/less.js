@@ -7866,8 +7866,8 @@
 						expectChar(")");
 						return new tree.URL(
 							value.value != null ||
-							value instanceof tree.Variable ||
-							value instanceof tree.Property
+								value instanceof tree.Variable ||
+								value instanceof tree.Property
 								? value
 								: new tree.Anonymous(value, index),
 							index,

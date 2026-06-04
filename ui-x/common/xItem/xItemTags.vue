@@ -1,7 +1,10 @@
 <template>
 	<xBlock class="flex vertical center xItem-pos left top width100">
 		<!-- 编辑模式：显示输入框和添加按钮 -->
-		<div v-if="!readonly && !disabled" class="flex middle center mb8" style="
+		<div
+			v-if="!readonly && !disabled"
+			class="flex middle center mb8"
+			style="
 				max-width: 500px;
 				--xItem-flex-flow: row nowrap;
 				--xItem-layout-align-items: center;
@@ -21,10 +24,17 @@
 			</div>
 		</div>
 		<div>
-			<span v-for="(val, key) in x_item_value" :key="key"
-				style="display: inline-block; margin: 4px;" :class="{ 'cursor-pointer': !readonly && !disabled }">
-				<xTag :closable="!readonly && !disabled" @close="$event => removeTag(key)" @click="$event => (!readonly && !disabled) && editTag(key)">{{ key
-				}}={{ val }}</xTag>
+			<span
+				v-for="(val, key) in x_item_value"
+				:key="key"
+				style="display: inline-block; margin: 4px"
+				:class="{ 'cursor-pointer': !readonly && !disabled }">
+				<xTag
+					:closable="!readonly && !disabled"
+					@close="$event => removeTag(key)"
+					@click="$event => !readonly && !disabled && editTag(key)"
+					>{{ key }}={{ val }}</xTag
+				>
 			</span>
 		</div>
 	</xBlock>
@@ -82,7 +92,7 @@ export default async function () {
 				}
 			};
 		},
-		mounted() { },
+		mounted() {},
 		computed: {
 			cpt_notice() {
 				return this.configs.notice || false;

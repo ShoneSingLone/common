@@ -12735,7 +12735,6 @@ active in a state.
 					for (
 						let atStart = offset == 0, atEnd = offset == nodeSize(node);
 						atStart || atEnd;
-
 					) {
 						if (node == parent) return true;
 						let index = domIndex(node);
@@ -13068,7 +13067,6 @@ active in a state.
 								),
 								i = startI;
 							;
-
 						) {
 							let child = element.childNodes[i];
 							if (child.nodeType == 1) {
@@ -16794,7 +16792,6 @@ active in a state.
 								for (
 									let node = sel.focusNode, offset = sel.focusOffset;
 									node && node.nodeType == 1 && offset != 0;
-
 								) {
 									let before =
 										offset < 0 ? node.lastChild : node.childNodes[offset - 1];

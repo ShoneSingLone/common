@@ -10,10 +10,7 @@
 		<!-- 子内容区域 -->
 		<div v-if="cpt_is_checked" class="advance-children width100">
 			<slot />
-			<xForm
-				v-if="!cpt_hasSlot && cpt_subItems.length"
-				col="1"
-				class="all-in-one-block">
+			<xForm v-if="!cpt_hasSlot && cpt_subItems.length" col="1" class="all-in-one-block">
 				<xItem
 					v-for="(item, idx) in cpt_subItems"
 					:key="item._key || idx"

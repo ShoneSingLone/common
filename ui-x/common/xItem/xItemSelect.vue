@@ -17,7 +17,7 @@ export default async function () {
 		mounted() {
 			// 在 nextTick 中获取 xSelect 实例
 			this.$nextTick(() => {
-				const xSelectVm = this.$children.find(child => child.$options.name === 'xSelect');
+				const xSelectVm = this.$children.find(child => child.$options.name === "xSelect");
 				if (xSelectVm) {
 					this.xSelectInner = xSelectVm;
 				}

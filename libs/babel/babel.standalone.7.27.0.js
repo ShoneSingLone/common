@@ -4407,7 +4407,6 @@
 					for (
 						var _iterator = _createForOfIteratorHelperLoose(types), _step;
 						!(_step = _iterator()).done;
-
 					) {
 						var type = _step.value;
 						if (is(type, val)) {
@@ -4444,7 +4443,6 @@
 			for (
 				var _iterator2 = _createForOfIteratorHelperLoose(types), _step2;
 				!(_step2 = _iterator2()).done;
-
 			) {
 				var type = _step2.value;
 				if (primitiveType === type || is(type, val)) {
@@ -4485,7 +4483,6 @@
 			for (
 				var _iterator3 = _createForOfIteratorHelperLoose(keys), _step3;
 				!(_step3 = _iterator3()).done;
-
 			) {
 				var property = _step3.value;
 				try {
@@ -4552,7 +4549,6 @@
 			for (
 				var _iterator4 = _createForOfIteratorHelperLoose(fns), _step4;
 				!(_step4 = _iterator4()).done;
-
 			) {
 				var fn = _step4.value;
 				fn.apply(void 0, arguments);
@@ -4621,7 +4617,6 @@
 				for (
 					var _iterator5 = _createForOfIteratorHelperLoose(keys), _step5;
 					!(_step5 = _iterator5()).done;
-
 				) {
 					var _key6 = _step5.value;
 					var field = inherits.fields[_key6];
@@ -4655,7 +4650,6 @@
 		for (
 			var _iterator6 = _createForOfIteratorHelperLoose(visitor.concat(builder)), _step6;
 			!(_step6 = _iterator6()).done;
-
 		) {
 			var _key8 = _step6.value;
 			fields[_key8] = fields[_key8] || {};
@@ -8247,7 +8241,6 @@
 	for (
 		var _iterator$1 = _createForOfIteratorHelperLoose(allExpandedTypes), _step$1;
 		!(_step$1 = _iterator$1()).done;
-
 	) {
 		var _step$value = _step$1.value,
 			types$1 = _step$value.types,
@@ -8255,7 +8248,6 @@
 		for (
 			var _iterator2 = _createForOfIteratorHelperLoose(types$1), _step2;
 			!(_step2 = _iterator2()).done;
-
 		) {
 			var type$1 = _step2.value;
 			var aliases = FLIPPED_ALIAS_KEYS$3[type$1];
@@ -12450,7 +12442,6 @@
 		for (
 			var _iterator = _createForOfIteratorHelperLoose(bases), _step;
 			!(_step = _iterator()).done;
-
 		) {
 			var _step$value = _slicedToArray(_step.value, 2),
 				baseType = _step$value[1];
@@ -12459,7 +12450,6 @@
 		for (
 			var _iterator2 = _createForOfIteratorHelperLoose(generics), _step2;
 			!(_step2 = _iterator2()).done;
-
 		) {
 			var _step2$value = _slicedToArray(_step2.value, 2),
 				genericName = _step2$value[1];
@@ -12539,7 +12529,6 @@
 		for (
 			var _iterator = _createForOfIteratorHelperLoose(bases), _step;
 			!(_step = _iterator()).done;
-
 		) {
 			var _step$value = _slicedToArray(_step.value, 2),
 				baseType = _step$value[1];
@@ -12548,7 +12537,6 @@
 		for (
 			var _iterator2 = _createForOfIteratorHelperLoose(generics), _step2;
 			!(_step2 = _iterator2()).done;
-
 		) {
 			var _step2$value = _slicedToArray(_step2.value, 2),
 				genericName = _step2$value[1];
@@ -12866,7 +12854,6 @@
 		for (
 			var _iterator = _createForOfIteratorHelperLoose(input), _step;
 			!(_step = _iterator()).done;
-
 		) {
 			var c = _step.value;
 			name += isIdentifierChar(c.codePointAt(0)) ? c : "-";
@@ -12932,7 +12919,6 @@
 		for (
 			var _iterator = _createForOfIteratorHelperLoose(keys), _step;
 			!(_step = _iterator()).done;
-
 		) {
 			var key = _step.value;
 			var subNode = node[key];
@@ -12941,7 +12927,6 @@
 				for (
 					var _iterator2 = _createForOfIteratorHelperLoose(subNode), _step2;
 					!(_step2 = _iterator2()).done;
-
 				) {
 					var _node = _step2.value;
 					if (traverseFast$3(_node, enter, opts)) return true;
@@ -12969,7 +12954,6 @@
 		for (
 			var _iterator = _createForOfIteratorHelperLoose(map), _step;
 			!(_step = _iterator()).done;
-
 		) {
 			var _key = _step.value;
 			if (node[_key] != null) node[_key] = undefined;
@@ -12982,7 +12966,6 @@
 		for (
 			var _iterator2 = _createForOfIteratorHelperLoose(symbols), _step2;
 			!(_step2 = _iterator2()).done;
-
 		) {
 			var sym = _step2.value;
 			node[sym] = null;
@@ -13149,7 +13132,6 @@
 		for (
 			var _iterator = _createForOfIteratorHelperLoose(INHERIT_KEYS.optional), _step;
 			!(_step = _iterator()).done;
-
 		) {
 			var _key = _step.value;
 			if (child[_key] == null) {
@@ -13165,7 +13147,6 @@
 		for (
 			var _iterator2 = _createForOfIteratorHelperLoose(INHERIT_KEYS.force), _step2;
 			!(_step2 = _iterator2()).done;
-
 		) {
 			var _key2 = _step2.value;
 			child[_key2] = parent[_key2];
@@ -13414,7 +13395,6 @@
 		for (
 			var _iterator = _createForOfIteratorHelperLoose(keys), _step;
 			!(_step = _iterator()).done;
-
 		) {
 			var key = _step.value;
 			var subNode = node[key];
@@ -32898,7 +32878,6 @@
 		for (
 			var _iterator = _createForOfIteratorHelperLoose(tokenize(text)), _step;
 			!(_step = _iterator()).done;
-
 		) {
 			_loop();
 		}
@@ -35548,7 +35527,6 @@
 				for (
 					var _iterator = _createForOfIteratorHelperLoose(paths), _step;
 					!(_step = _iterator()).done;
-
 				) {
 					var path = _step.value;
 					deep(ast, path, identifier$b(newName));
@@ -35577,7 +35555,6 @@
 			for (
 				var _iterator2 = _createForOfIteratorHelperLoose(_paths), _step2;
 				!(_step2 = _iterator2()).done;
-
 			) {
 				var _path = _step2.value;
 				deep(ast, _path, cloneNode$c(ref));
@@ -36375,7 +36352,6 @@
 			for (
 				var _iterator = _createForOfIteratorHelperLoose(parts), _step;
 				!(_step = _iterator()).done;
-
 			) {
 				var part = _step.value;
 				visitor[part] = fns;
@@ -36404,7 +36380,6 @@
 				for (
 					var _iterator2 = _createForOfIteratorHelperLoose(types), _step2;
 					!(_step2 = _iterator2()).done;
-
 				) {
 					var _type = _step2.value;
 					if (visitor[_type]) {
@@ -36436,7 +36411,6 @@
 			for (
 				var _iterator3 = _createForOfIteratorHelperLoose(aliases), _step3;
 				!(_step3 = _iterator3()).done;
-
 			) {
 				var alias = _step3.value;
 				var existing = visitor[alias];
@@ -36502,7 +36476,6 @@
 		for (
 			var _iterator4 = _createForOfIteratorHelperLoose(fns), _step4;
 			!(_step4 = _iterator4()).done;
-
 		) {
 			var fn = _step4.value;
 			if (typeof fn !== "function") {
@@ -38606,7 +38579,6 @@
 						for (
 							var _iterator = _createForOfIteratorHelperLoose(node.specifiers), _step;
 							!(_step = _iterator()).done;
-
 						) {
 							var e = _step.value;
 							gatherNodeParts(e, parts);
@@ -38648,7 +38620,6 @@
 				for (
 					var _iterator2 = _createForOfIteratorHelperLoose(node.properties), _step2;
 					!(_step2 = _iterator2()).done;
-
 				) {
 					var _e = _step2.value;
 					gatherNodeParts(_e, parts);
@@ -38796,7 +38767,6 @@
 						var _iterator3 = _createForOfIteratorHelperLoose(declar.declarations),
 							_step3;
 						!(_step3 = _iterator3()).done;
-
 					) {
 						var decl = _step3.value;
 						for (
@@ -38845,7 +38815,6 @@
 			for (
 				var _iterator4 = _createForOfIteratorHelperLoose(params), _step4;
 				!(_step4 = _iterator4()).done;
-
 			) {
 				var param = _step4.value;
 				path.scope.registerBinding("param", param);
@@ -39039,7 +39008,6 @@
 				for (
 					var _iterator5 = _createForOfIteratorHelperLoose(declarations), _step5;
 					!(_step5 = _iterator5()).done;
-
 				) {
 					var declar = _step5.value;
 					this.registerBinding(
@@ -39057,7 +39025,6 @@
 				for (
 					var _iterator6 = _createForOfIteratorHelperLoose(specifiers), _step6;
 					!(_step6 = _iterator6()).done;
-
 				) {
 					var specifier = _step6.value;
 					var isTypeSpecifier =
@@ -39102,7 +39069,6 @@
 				for (
 					var _iterator7 = _createForOfIteratorHelperLoose(declarators), _step7;
 					!(_step7 = _iterator7()).done;
-
 				) {
 					var declar = _step7.value;
 					this.registerBinding(kind, declar);
@@ -39117,7 +39083,6 @@
 				for (
 					var _iterator8 = _createForOfIteratorHelperLoose(ids[name]), _step8;
 					!(_step8 = _iterator8()).done;
-
 				) {
 					var id = _step8.value;
 					var local = this.getOwnBinding(name);
@@ -39188,7 +39153,6 @@
 				for (
 					var _iterator9 = _createForOfIteratorHelperLoose(node.body), _step9;
 					!(_step9 = _iterator9()).done;
-
 				) {
 					var method = _step9.value;
 					if (!this.isPure(method, constantsOnly)) return false;
@@ -39202,7 +39166,6 @@
 				for (
 					var _iterator10 = _createForOfIteratorHelperLoose(node.elements), _step10;
 					!(_step10 = _iterator10()).done;
-
 				) {
 					var elem = _step10.value;
 					if (elem !== null && !this.isPure(elem, constantsOnly)) return false;
@@ -39212,7 +39175,6 @@
 				for (
 					var _iterator11 = _createForOfIteratorHelperLoose(node.properties), _step11;
 					!(_step11 = _iterator11()).done;
-
 				) {
 					var prop = _step11.value;
 					if (!this.isPure(prop, constantsOnly)) return false;
@@ -39251,7 +39213,6 @@
 				for (
 					var _iterator12 = _createForOfIteratorHelperLoose(node.expressions), _step12;
 					!(_step12 = _iterator12()).done;
-
 				) {
 					var expression = _step12.value;
 					if (!this.isPure(expression, constantsOnly)) return false;
@@ -39343,7 +39304,6 @@
 				for (
 					var _iterator13 = _createForOfIteratorHelperLoose(scopeVisitor.enter), _step13;
 					!(_step13 = _iterator13()).done;
-
 				) {
 					var _visit = _step13.value;
 					_visit.call(state, path, state);
@@ -39354,7 +39314,6 @@
 						var _iterator14 = _createForOfIteratorHelperLoose(typeVisitors.enter),
 							_step14;
 						!(_step14 = _iterator14()).done;
-
 					) {
 						var visit = _step14.value;
 						visit.call(state, path, state);
@@ -39366,7 +39325,6 @@
 			for (
 				var _iterator15 = _createForOfIteratorHelperLoose(state.assignments), _step15;
 				!(_step15 = _iterator15()).done;
-
 			) {
 				var _path = _step15.value;
 				var ids = _path.getAssignmentIdentifiers();
@@ -39384,7 +39342,6 @@
 			for (
 				var _iterator16 = _createForOfIteratorHelperLoose(state.references), _step16;
 				!(_step16 = _iterator16()).done;
-
 			) {
 				var ref = _step16.value;
 				var binding = ref.scope.getBinding(ref.node.name);
@@ -39398,7 +39355,6 @@
 				var _iterator17 = _createForOfIteratorHelperLoose(state.constantViolations),
 					_step17;
 				!(_step17 = _iterator17()).done;
-
 			) {
 				var _path2 = _step17.value;
 				_path2.scope.registerConstantViolation(_path2);
@@ -39645,7 +39601,6 @@
 				for (
 					var _iterator18 = _createForOfIteratorHelperLoose(parent.declarations), _step18;
 					!(_step18 = _iterator18()).done;
-
 				) {
 					var decl = _step18.value;
 					firstId != null ? firstId : (firstId = decl.id);
@@ -44264,7 +44219,6 @@
 				for (
 					var _iterator = _createForOfIteratorHelperLoose(aliases), _step;
 					!(_step = _iterator()).done;
-
 				) {
 					var alias = _step.value;
 					add(alias, obj[type]);
@@ -44451,7 +44405,6 @@
 			for (
 				var _iterator = _createForOfIteratorHelperLoose(children), _step;
 				!(_step = _iterator()).done;
-
 			) {
 				var child = _step.value;
 				if (child == null) continue;
@@ -45093,7 +45046,6 @@
 			for (
 				var _iterator = _createForOfIteratorHelperLoose(node.declarations), _step;
 				!(_step = _iterator()).done;
-
 			) {
 				var declar = _step.value;
 				if (declar.init) {
@@ -46469,7 +46421,6 @@
 		for (
 			var _iterator = _createForOfIteratorHelperLoose(members), _step;
 			!(_step = _iterator()).done;
-
 		) {
 			var member = _step.value;
 			context.print(member);
@@ -47057,7 +47008,6 @@
 		for (
 			var _iterator = _createForOfIteratorHelperLoose(node.children), _step;
 			!(_step = _iterator()).done;
-
 		) {
 			var child = _step.value;
 			this.print(child);
@@ -47102,7 +47052,6 @@
 		for (
 			var _iterator2 = _createForOfIteratorHelperLoose(node.children), _step2;
 			!(_step2 = _iterator2()).done;
-
 		) {
 			var child = _step2.value;
 			this.print(child);
@@ -47757,7 +47706,6 @@
 		for (
 			var _iterator = _createForOfIteratorHelperLoose(modifiers), _step;
 			!(_step = _iterator()).done;
-
 		) {
 			var modifier = _step.value;
 			if (modifier) modifiersSet.add(modifier);
@@ -47774,7 +47722,6 @@
 		for (
 			var _iterator2 = _createForOfIteratorHelperLoose(modifiersSet), _step2;
 			!(_step2 = _iterator2()).done;
-
 		) {
 			var _modifier = _step2.value;
 			printer.word(_modifier);
@@ -49201,7 +49148,6 @@
 			for (
 				var _iterator = _createForOfIteratorHelperLoose(ancestries), _step;
 				!(_step = _iterator()).done;
-
 			) {
 				var ancestry = _step.value;
 				var path = ancestry[i + 1];
@@ -49250,7 +49196,6 @@
 			for (
 				var _iterator2 = _createForOfIteratorHelperLoose(ancestries), _step2;
 				!(_step2 = _iterator2()).done;
-
 			) {
 				var ancestry = _step2.value;
 				if (ancestry[i] !== shouldMatch) {
@@ -49375,7 +49320,6 @@
 			for (
 				var _iterator = _createForOfIteratorHelperLoose(constantViolations), _step;
 				!(_step = _iterator()).done;
-
 			) {
 				var violation = _step.value;
 				types.push(violation.getTypeAnnotation());
@@ -49808,7 +49752,6 @@
 			for (
 				var _iterator = _createForOfIteratorHelperLoose(type.types), _step;
 				!(_step = _iterator()).done;
-
 			) {
 				var type2 = _step.value;
 				if (isAnyTypeAnnotation(type2) || _isBaseType(name, type2, true)) {
@@ -49920,7 +49863,6 @@
 			for (
 				var _iterator = _createForOfIteratorHelperLoose(hooks), _step;
 				!(_step = _iterator()).done;
-
 			) {
 				var fn = _step.value;
 				if (fn(this, this.parentPath)) return true;
@@ -49976,7 +49918,6 @@
 			for (
 				var _iterator = _createForOfIteratorHelperLoose(binding.constantViolations), _step;
 				!(_step = _iterator()).done;
-
 			) {
 				var violation = _step.value;
 				if (violation.scope !== binding.path.scope) {
@@ -50063,7 +50004,6 @@
 								),
 								_step2;
 							!(_step2 = _iterator2()).done;
-
 						) {
 							var violationPath = _step2.value;
 							if (this.getAttachmentParentForPath(violationPath).key > path.key) {
@@ -50220,7 +50160,6 @@
 			for (
 				var _iterator = _createForOfIteratorHelperLoose(contexts), _step;
 				!(_step = _iterator()).done;
-
 			) {
 				var context = _step.value;
 				context.maybeQueue(_path, true);
@@ -50335,7 +50274,6 @@
 		for (
 			var _iterator2 = _createForOfIteratorHelperLoose(paths), _step2;
 			!(_step2 = _iterator2()).done;
-
 		) {
 			var _step2$value = _slicedToArray(_step2.value, 2),
 				path = _step2$value[1];
@@ -50576,7 +50514,6 @@
 			for (
 				var _iterator = _createForOfIteratorHelperLoose(declars), _step;
 				!(_step = _iterator()).done;
-
 			) {
 				var id = _step.value;
 				this.scope.push({
@@ -50600,7 +50537,6 @@
 		for (
 			var _iterator2 = _createForOfIteratorHelperLoose(completionRecords), _step2;
 			!(_step2 = _iterator2()).done;
-
 		) {
 			var path = _step2.value;
 			if (!path.isExpressionStatement()) continue;
@@ -50649,7 +50585,6 @@
 		for (
 			var _iterator3 = _createForOfIteratorHelperLoose(nodes), _step3;
 			!(_step3 = _iterator3()).done;
-
 		) {
 			var node = _step3.value;
 			if (!isEmptyStatement(node)) {
@@ -50664,7 +50599,6 @@
 				for (
 					var _iterator4 = _createForOfIteratorHelperLoose(node.declarations), _step4;
 					!(_step4 = _iterator4()).done;
-
 				) {
 					var declar = _step4.value;
 					var bindings = getBindingIdentifiers$1(declar);
@@ -50937,7 +50871,6 @@
 			for (
 				var _iterator = _createForOfIteratorHelperLoose(elems), _step;
 				!(_step = _iterator()).done;
-
 			) {
 				var elem = _step.value;
 				var elemValue = elem.evaluate();
@@ -50956,7 +50889,6 @@
 			for (
 				var _iterator2 = _createForOfIteratorHelperLoose(props), _step2;
 				!(_step2 = _iterator2()).done;
-
 			) {
 				var prop = _step2.value;
 				if (prop.isObjectMethod() || prop.isSpreadElement()) {
@@ -51114,7 +51046,6 @@
 		for (
 			var _iterator3 = _createForOfIteratorHelperLoose(quasis), _step3;
 			!(_step3 = _iterator3()).done;
-
 		) {
 			var elem = _step3.value;
 			if (!state.confident) break;
@@ -52169,7 +52100,6 @@
 		for (
 			var _iterator = _createForOfIteratorHelperLoose(referencePaths), _step;
 			!(_step = _iterator()).done;
-
 		) {
 			var path = _step.value;
 			var childOfFunction = !!path.find(function (path) {
@@ -52342,7 +52272,6 @@
 			for (
 				var _iterator2 = _createForOfIteratorHelperLoose(body.directives), _step2;
 				!(_step2 = _iterator2()).done;
-
 			) {
 				var directive = _step2.value;
 				if (directive.value.value === "use strict") {
@@ -52658,7 +52587,6 @@
 		for (
 			var _iterator = _createForOfIteratorHelperLoose(parts), _step;
 			!(_step = _iterator()).done;
-
 		) {
 			var part = _step.value;
 			if (part === ".") {
@@ -53069,7 +52997,6 @@
 	for (
 		var _iterator = _createForOfIteratorHelperLoose(TYPES$1), _step;
 		!(_step = _iterator()).done;
-
 	) {
 		_loop();
 	}
@@ -53100,7 +53027,6 @@
 			for (
 				var _iterator = _createForOfIteratorHelperLoose(keys), _step;
 				!(_step = _iterator()).done;
-
 			) {
 				var key = _step.value;
 				if (node[key]) {
@@ -53206,7 +53132,6 @@
 		for (
 			var _iterator = _createForOfIteratorHelperLoose(keys), _step;
 			!(_step = _iterator()).done;
-
 		) {
 			var key = _step.value;
 			if (skipKeys != null && skipKeys[key]) continue;
@@ -53239,7 +53164,6 @@
 		for (
 			var _iterator = _createForOfIteratorHelperLoose(fns), _step;
 			!(_step = _iterator()).done;
-
 		) {
 			var fn = _step.value;
 			if (!fn) continue;
@@ -53440,7 +53364,6 @@
 		for (
 			var _iterator2 = _createForOfIteratorHelperLoose(contexts), _step2;
 			!(_step2 = _iterator2()).done;
-
 		) {
 			var context = _step2.value;
 			context.maybeQueue(pathToQueue);
@@ -53456,7 +53379,6 @@
 			for (
 				var _iterator3 = _createForOfIteratorHelperLoose(this.get("decorators")), _step3;
 				!(_step3 = _iterator3()).done;
-
 			) {
 				var decorator = _step3.value;
 				context.maybeQueue(decorator);
@@ -56597,7 +56519,6 @@
 			for (
 				var _iterator = _createForOfIteratorHelperLoose(statements), _step;
 				!(_step = _iterator()).done;
-
 			) {
 				var statement = _step.value;
 				if (isImportDeclaration(statement) && isValueImport(statement)) {
@@ -56611,7 +56532,6 @@
 				var _iterator2 = _createForOfIteratorHelperLoose(this._programPath.get("body")),
 					_step2;
 				!(_step2 = _iterator2()).done;
-
 			) {
 				var bodyStmt = _step2.value;
 				if (bodyStmt.isImportDeclaration() && isValueImport(bodyStmt.node)) {
@@ -56622,7 +56542,6 @@
 					for (
 						var _iterator3 = _createForOfIteratorHelperLoose(newImports), _step3;
 						!(_step3 = _iterator3()).done;
-
 					) {
 						var decl = _step3.value;
 						if (!statementsSet.has(decl)) continue;
@@ -56727,7 +56646,6 @@
 		for (
 			var _iterator = _createForOfIteratorHelperLoose(metadata.source), _step;
 			!(_step = _iterator()).done;
-
 		) {
 			var _step$value = _slicedToArray(_step.value, 2),
 				source = _step$value[0],
@@ -56735,7 +56653,6 @@
 			for (
 				var _iterator3 = _createForOfIteratorHelperLoose(data.imports), _step3;
 				!(_step3 = _iterator3()).done;
-
 			) {
 				var _step3$value = _slicedToArray(_step3.value, 2),
 					localName = _step3$value[0],
@@ -56745,7 +56662,6 @@
 			for (
 				var _iterator4 = _createForOfIteratorHelperLoose(data.importsNamespace), _step4;
 				!(_step4 = _iterator4()).done;
-
 			) {
 				var _localName = _step4.value;
 				imported.set(_localName, [source, null, _localName]);
@@ -56754,7 +56670,6 @@
 		for (
 			var _iterator2 = _createForOfIteratorHelperLoose(metadata.local), _step2;
 			!(_step2 = _iterator2()).done;
-
 		) {
 			var _exportMeta;
 			var _step2$value = _slicedToArray(_step2.value, 2),
@@ -56852,7 +56767,6 @@
 			for (
 				var _iterator5 = _createForOfIteratorHelperLoose(path.get("declarations")), _step5;
 				!(_step5 = _iterator5()).done;
-
 			) {
 				var decl = _step5.value;
 				var id = decl.node.id;
@@ -57524,7 +57438,6 @@
 		for (
 			var _iterator = _createForOfIteratorHelperLoose(sources), _step;
 			!(_step = _iterator()).done;
-
 		) {
 			var _step$value = _slicedToArray(_step.value, 2),
 				_source = _step$value[0],
@@ -57695,7 +57608,6 @@
 		for (
 			var _iterator2 = _createForOfIteratorHelperLoose(sourceData.values()), _step2;
 			!(_step2 = _iterator2()).done;
-
 		) {
 			var _metadata = _step2.value;
 			var needsDefault = false;
@@ -57711,7 +57623,6 @@
 				var _iterator4 = _createForOfIteratorHelperLoose(_metadata.imports.values()),
 					_step4;
 				!(_step4 = _iterator4()).done;
-
 			) {
 				var importName = _step4.value;
 				if (importName === "default") needsDefault = true;
@@ -57721,7 +57632,6 @@
 				var _iterator5 = _createForOfIteratorHelperLoose(_metadata.reexports.values()),
 					_step5;
 				!(_step5 = _iterator5()).done;
-
 			) {
 				var _importName = _step5.value;
 				if (_importName === "default") needsDefault = true;
@@ -57737,7 +57647,6 @@
 			for (
 				var _iterator3 = _createForOfIteratorHelperLoose(sourceData), _step3;
 				!(_step3 = _iterator3()).done;
-
 			) {
 				var _step3$value = _slicedToArray(_step3.value, 2),
 					_source2 = _step3$value[0],
@@ -58160,7 +58069,6 @@
 		for (
 			var _iterator = _createForOfIteratorHelperLoose(sourceMetadata.importsNamespace), _step;
 			!(_step = _iterator()).done;
-
 		) {
 			var localName = _step.value;
 			if (localName === sourceMetadata.name) continue;
@@ -58190,7 +58098,6 @@
 			var _iterator2 = _createForOfIteratorHelperLoose(sourceMetadata.reexportNamespace),
 				_step2;
 			!(_step2 = _iterator2()).done;
-
 		) {
 			var exportName = _step2.value;
 			statements.push(
@@ -58373,13 +58280,11 @@
 		for (
 			var _iterator3 = _createForOfIteratorHelperLoose(metadata.local.values()), _step3;
 			!(_step3 = _iterator3()).done;
-
 		) {
 			var data = _step3.value;
 			for (
 				var _iterator5 = _createForOfIteratorHelperLoose(data.names), _step5;
 				!(_step5 = _iterator5()).done;
-
 			) {
 				var _name = _step5.value;
 				exportedVars[_name] = true;
@@ -58389,13 +58294,11 @@
 		for (
 			var _iterator4 = _createForOfIteratorHelperLoose(metadata.source.values()), _step4;
 			!(_step4 = _iterator4()).done;
-
 		) {
 			var _data = _step4.value;
 			for (
 				var _iterator6 = _createForOfIteratorHelperLoose(_data.reexports.keys()), _step6;
 				!(_step6 = _iterator6()).done;
-
 			) {
 				var exportName = _step6.value;
 				exportedVars[exportName] = true;
@@ -58403,7 +58306,6 @@
 			for (
 				var _iterator7 = _createForOfIteratorHelperLoose(_data.reexportNamespace), _step7;
 				!(_step7 = _iterator7()).done;
-
 			) {
 				var _exportName = _step7.value;
 				exportedVars[_exportName] = true;
@@ -58437,7 +58339,6 @@
 		for (
 			var _iterator8 = _createForOfIteratorHelperLoose(metadata.local), _step8;
 			!(_step8 = _iterator8()).done;
-
 		) {
 			var _step8$value = _slicedToArray(_step8.value, 2),
 				localName = _step8$value[0],
@@ -58452,7 +58353,6 @@
 				for (
 					var _iterator11 = _createForOfIteratorHelperLoose(data.names), _step11;
 					!(_step11 = _iterator11()).done;
-
 				) {
 					var _exportName2 = _step11.value;
 					initStatements.push([_exportName2, null]);
@@ -58462,7 +58362,6 @@
 		for (
 			var _iterator9 = _createForOfIteratorHelperLoose(metadata.source.values()), _step9;
 			!(_step9 = _iterator9()).done;
-
 		) {
 			var _data2 = _step9.value;
 			if (!constantReexports) {
@@ -58482,7 +58381,6 @@
 					var _iterator12 = _createForOfIteratorHelperLoose(_data2.reexportNamespace),
 						_step12;
 					!(_step12 = _iterator12()).done;
-
 				) {
 					var _exportName3 = _step12.value;
 					initStatements.push([_exportName3, null]);
@@ -58503,7 +58401,6 @@
 			for (
 				var _iterator10 = _createForOfIteratorHelperLoose(initStatements), _step10;
 				!(_step10 = _iterator10()).done;
-
 			) {
 				var _step10$value = _slicedToArray(_step10.value, 2),
 					initStatement = _step10$value[1];
@@ -58737,7 +58634,6 @@
 			for (
 				var _iterator = _createForOfIteratorHelperLoose(getDependencies(name)), _step;
 				!(_step = _iterator()).done;
-
 			) {
 				var dep = _step.value;
 				dependencies[dep] = this.addHelper(dep);
@@ -58764,7 +58660,6 @@
 			for (
 				var _iterator2 = _createForOfIteratorHelperLoose(added), _step2;
 				!(_step2 = _iterator2()).done;
-
 			) {
 				var path = _step2.value;
 				if (path.isVariableDeclaration()) this.scope.registerDeclaration(path);
@@ -59699,7 +59594,6 @@
 			for (
 				var _iterator = _createForOfIteratorHelperLoose(stack.pop()), _step;
 				!(_step = _iterator()).done;
-
 			) {
 				var el = _step.value;
 				if (Array.isArray(el)) stack.push(el);
@@ -69531,7 +69425,6 @@
 				for (
 					var walker = self[LRU_LIST].tail;
 					self[LENGTH] > self[MAX] && walker !== null;
-
 				) {
 					var prev = walker.prev;
 					_del(self, walker);
@@ -71305,7 +71198,6 @@
 		for (
 			var _iterator = _createForOfIteratorHelperLoose(items), _step;
 			!(_step = _iterator()).done;
-
 		) {
 			if (_loop()) continue;
 		}
@@ -72098,7 +71990,6 @@
 			for (
 				var _iterator = _createForOfIteratorHelperLoose(arr.entries()), _step;
 				!(_step = _iterator()).done;
-
 			) {
 				var _step$value = _slicedToArray(_step.value, 2),
 					index = _step$value[0],
@@ -73067,7 +72958,6 @@
 		for (
 			var _iterator = _createForOfIteratorHelperLoose(source.files), _step;
 			!(_step = _iterator()).done;
-
 		) {
 			var file = _step.value;
 			target.files.add(file);
@@ -73141,7 +73031,6 @@
 		for (
 			var _iterator2 = _createForOfIteratorHelperLoose(items), _step2;
 			!(_step2 = _iterator2()).done;
-
 		) {
 			var item = _step2.value;
 			if (typeof item.value === "function") {
@@ -74610,14 +74499,12 @@
 		for (
 			var _iterator = _createForOfIteratorHelperLoose(keys), _step;
 			!(_step = _iterator()).done;
-
 		) {
 			var key = _step.value;
 			var _bucket = buckets[key];
 			for (
 				var _iterator2 = _createForOfIteratorHelperLoose(_bucket), _step2;
 				!(_step2 = _iterator2()).done;
-
 			) {
 				var _n = _step2.value;
 				body[index++] = _n;
@@ -74687,13 +74574,11 @@
 		for (
 			var _iterator = _createForOfIteratorHelperLoose(config.passes), _step;
 			!(_step = _iterator()).done;
-
 		) {
 			var plugins = _step.value;
 			for (
 				var _iterator2 = _createForOfIteratorHelperLoose(plugins), _step2;
 				!(_step2 = _iterator2()).done;
-
 			) {
 				var plugin = _step2.value;
 				if (plugin.manipulateOptions) {
@@ -75288,13 +75173,11 @@
 								for (
 									_iterator = _createForOfIteratorHelperLoose(pluginPasses);
 									!(_step = _iterator()).done;
-
 								) {
 									plugins = _step.value;
 									for (
 										_iterator2 = _createForOfIteratorHelperLoose(plugins);
 										!(_step2 = _iterator2()).done;
-
 									) {
 										plugin = _step2.value;
 										parserOverride = plugin.parserOverride;
@@ -75961,13 +75844,11 @@
 		for (
 			var _iterator = _createForOfIteratorHelperLoose(pluginPasses), _step;
 			!(_step = _iterator()).done;
-
 		) {
 			var plugins = _step.value;
 			for (
 				var _iterator2 = _createForOfIteratorHelperLoose(plugins), _step2;
 				!(_step2 = _iterator2()).done;
-
 			) {
 				var plugin = _step2.value;
 				var generatorOverride = plugin.generatorOverride;
@@ -76155,7 +76036,6 @@
 								pluginPairs.concat([loadBlockHoistPlugin()])
 							);
 							!(_step2 = _iterator2()).done;
-
 						) {
 							_plugin2 = _step2.value;
 							_pass2 = new PluginPass(file, _plugin2.key, _plugin2.options, async);
@@ -76985,7 +76865,6 @@
 		for (
 			var _iterator = _createForOfIteratorHelperLoose(nodeParams), _step;
 			!(_step = _iterator()).done;
-
 		) {
 			var param = _step.value;
 			if (isAssignmentPattern$1(param) || isRestElement(param)) {
@@ -78196,7 +78075,6 @@
 		for (
 			var _iterator = _createForOfIteratorHelperLoose(props), _step;
 			!(_step = _iterator()).done;
-
 		) {
 			var prop = _step.value;
 			if (prop.isPrivate()) {
@@ -78288,7 +78166,6 @@
 		for (
 			var _iterator2 = _createForOfIteratorHelperLoose(privateNamesMap), _step2;
 			!(_step2 = _iterator2()).done;
-
 		) {
 			var _step2$value = _slicedToArray(_step2.value, 2),
 				name = _step2$value[0],
@@ -78343,7 +78220,6 @@
 				for (
 					var _iterator3 = _createForOfIteratorHelperLoose(body), _step3;
 					!(_step3 = _iterator3()).done;
-
 				) {
 					var prop = _step3.value;
 					if (!prop.isPrivate()) continue;
@@ -79347,7 +79223,6 @@
 				for (
 					var _iterator4 = _createForOfIteratorHelperLoose(state.argumentsPath), _step4;
 					!(_step4 = _iterator4()).done;
-
 				) {
 					var path = _step4.value;
 					path.replaceWith(cloneNode$e(argumentsId));
@@ -79676,7 +79551,6 @@
 		for (
 			var _iterator5 = _createForOfIteratorHelperLoose(props), _step5;
 			!(_step5 = _iterator5()).done;
-
 		) {
 			_loop();
 		}
@@ -79699,7 +79573,6 @@
 				for (
 					var _iterator6 = _createForOfIteratorHelperLoose(props), _step6;
 					!(_step6 = _iterator6()).done;
-
 				) {
 					var prop = _step6.value;
 					prop.node.leadingComments = null;
@@ -79867,7 +79740,6 @@
 		for (
 			var _iterator = _createForOfIteratorHelperLoose(computedPaths), _step;
 			!(_step = _iterator()).done;
-
 		) {
 			var computedPath = _step.value;
 			var computedKey = computedPath.get("key");
@@ -80348,7 +80220,6 @@
 		for (
 			var _iterator = _createForOfIteratorHelperLoose(decorationInfo), _step;
 			!(_step = _iterator()).done;
-
 		) {
 			var el = _step.value;
 			var locals = el.locals;
@@ -80496,7 +80367,6 @@
 			for (
 				var _iterator2 = _createForOfIteratorHelperLoose(privateNames), _step2;
 				!(_step2 = _iterator2()).done;
-
 			) {
 				var name = _step2.value;
 				privateNamesMap.set(name, null);
@@ -80537,7 +80407,6 @@
 		for (
 			var _iterator3 = _createForOfIteratorHelperLoose(decoratedPrivateMethods), _step3;
 			!(_step3 = _iterator3()).done;
-
 		) {
 			var name = _step3.value;
 			privateNamesMap.set(name, null);
@@ -80604,7 +80473,6 @@
 		for (
 			var _iterator4 = _createForOfIteratorHelperLoose(body), _step4;
 			!(_step4 = _iterator4()).done;
-
 		) {
 			var _element2 = _step4.value;
 			if (!isClassDecoratableElementPath(_element2)) {
@@ -80717,7 +80585,6 @@
 			for (
 				var _iterator5 = _createForOfIteratorHelperLoose(decorators), _step5;
 				!(_step5 = _iterator5()).done;
-
 			) {
 				var decorator = _step5.value;
 				var expression = decorator.expression;
@@ -80795,7 +80662,6 @@
 				for (
 					var _iterator6 = _createForOfIteratorHelperLoose(path.get("body.body")), _step6;
 					!(_step6 = _iterator6()).done;
-
 				) {
 					var element = _step6.value;
 					var node = element.node;
@@ -80843,7 +80709,6 @@
 			for (
 				var _iterator7 = _createForOfIteratorHelperLoose(body), _step7;
 				!(_step7 = _iterator7()).done;
-
 			) {
 				var _element = _step7.value;
 				if (!isClassDecoratableElementPath(_element)) {
@@ -81336,7 +81201,6 @@
 			for (
 				var _iterator8 = _createForOfIteratorHelperLoose(_elements), _step8;
 				!(_step8 = _iterator8()).done;
-
 			) {
 				var _path2 = _step8.value;
 				if (
@@ -81628,7 +81492,6 @@
 					var _iterator9 = _createForOfIteratorHelperLoose(path.get("properties")),
 						_step9;
 					!(_step9 = _iterator9()).done;
-
 				) {
 					var propertyPath = _step9.value;
 					if (!propertyPath.isObjectProperty()) continue;
@@ -82018,7 +81881,6 @@
 		for (
 			var _iterator = _createForOfIteratorHelperLoose(featuresSameLoose), _step;
 			!(_step = _iterator()).done;
-
 		) {
 			var _step$value = _slicedToArray(_step.value, 2),
 				_mask = _step$value[0],
@@ -82047,7 +81909,6 @@
 			for (
 				var _iterator2 = _createForOfIteratorHelperLoose(featuresSameLoose), _step2;
 				!(_step2 = _iterator2()).done;
-
 			) {
 				var _step2$value = _slicedToArray(_step2.value, 2),
 					mask = _step2$value[0],
@@ -82114,7 +81975,6 @@
 		for (
 			var _iterator3 = _createForOfIteratorHelperLoose(path.get("body.body")), _step3;
 			!(_step3 = _iterator3()).done;
-
 		) {
 			var el = _step3.value;
 			if (!decoratorPath && hasOwnDecorators(el.node)) {
@@ -82309,7 +82169,6 @@
 					for (
 						var _iterator = _createForOfIteratorHelperLoose(body.get("body")), _step;
 						!(_step = _iterator()).done;
-
 					) {
 						var _path = _step.value;
 						if (
@@ -82466,7 +82325,6 @@
 								for (
 									var _iterator2 = _createForOfIteratorHelperLoose(props), _step2;
 									!(_step2 = _iterator2()).done;
-
 								) {
 									var prop = _step2.value;
 									if (
@@ -82567,7 +82425,6 @@
 					for (
 						var _iterator = _createForOfIteratorHelperLoose(body), _step;
 						!(_step = _iterator()).done;
-
 					) {
 						var path = _step.value;
 						if (path.isPrivate()) {
@@ -82577,7 +82434,6 @@
 					for (
 						var _iterator2 = _createForOfIteratorHelperLoose(body), _step2;
 						!(_step2 = _iterator2()).done;
-
 					) {
 						var _path = _step2.value;
 						if (!_path.isStaticBlock()) continue;
@@ -83190,7 +83046,6 @@
 			for (
 				var _iterator = _createForOfIteratorHelperLoose(pattern.elements), _step;
 				!(_step = _iterator()).done;
-
 			) {
 				var elem = _step.value;
 				if (!elem) return false;
@@ -83199,7 +83054,6 @@
 			for (
 				var _iterator2 = _createForOfIteratorHelperLoose(arr.elements), _step2;
 				!(_step2 = _iterator2()).done;
-
 			) {
 				var _elem = _step2.value;
 				if (isSpreadElement$1(_elem)) return false;
@@ -83497,7 +83351,6 @@
 		for (
 			var _iterator = _createForOfIteratorHelperLoose(node.declarations), _step;
 			!(_step = _iterator()).done;
-
 		) {
 			var declar = _step.value;
 			if (isPattern$1(declar.id)) {
@@ -83696,7 +83549,6 @@
 		for (
 			var _iterator = _createForOfIteratorHelperLoose(properties), _step;
 			!(_step = _iterator()).done;
-
 		) {
 			var property = _step.value;
 			var propertyKey = property.key;
@@ -83734,7 +83586,6 @@
 		for (
 			var _iterator2 = _createForOfIteratorHelperLoose(elements), _step2;
 			!(_step2 = _iterator2()).done;
-
 		) {
 			var element = _step2.value;
 			if (element === null) {
@@ -84234,7 +84085,6 @@
 				for (
 					var _iterator = _createForOfIteratorHelperLoose(constantViolations), _step;
 					!(_step = _iterator()).done;
-
 				) {
 					var redeclarator = _step.value;
 					var node = redeclarator.node;
@@ -84267,7 +84117,6 @@
 		for (
 			var _iterator2 = _createForOfIteratorHelperLoose(shadowedParams), _step2;
 			!(_step2 = _iterator2()).done;
-
 		) {
 			var name = _step2.value;
 			args.push(identifier$d(name));
@@ -84307,7 +84156,6 @@
 		for (
 			var _iterator = _createForOfIteratorHelperLoose(params), _step;
 			!(_step = _iterator()).done;
-
 		) {
 			var _param2 = _step.value;
 			collectShadowedParamsNames(_param2, scope, shadowedParams);
@@ -84320,7 +84168,6 @@
 			for (
 				var _iterator2 = _createForOfIteratorHelperLoose(params), _step2;
 				!(_step2 = _iterator2()).done;
-
 			) {
 				var param = _step2.value;
 				if (!param.isIdentifier()) param.traverse(iifeVisitor, state);
@@ -84395,7 +84242,6 @@
 				for (
 					var _iterator3 = _createForOfIteratorHelperLoose(transformedRestNodes), _step3;
 					!(_step3 = _iterator3()).done;
-
 				) {
 					var transformedNode = _step3.value;
 					body.push(transformedNode);
@@ -84669,7 +84515,6 @@
 			for (
 				var _iterator = _createForOfIteratorHelperLoose(state.candidates), _step;
 				!(_step = _iterator()).done;
-
 			) {
 				var _step$value = _step.value,
 					_path = _step$value.path,
@@ -84873,7 +84718,6 @@
 				for (
 					var _iterator = _createForOfIteratorHelperLoose(declarations), _step;
 					!(_step = _iterator()).done;
-
 				) {
 					var declarator = _step.value;
 					for (
@@ -84893,7 +84737,6 @@
 							),
 							_step2;
 						!(_step2 = _iterator2()).done;
-
 					) {
 						var _step2$value = _step2.value,
 							left = _step2$value.left,
@@ -84930,7 +84773,6 @@
 						),
 						_step3;
 					!(_step3 = _iterator3()).done;
-
 				) {
 					var _step3$value = _step3.value,
 						_left = _step3$value.left,
@@ -125955,7 +125797,6 @@
 				for (
 					var _iterator = _createForOfIteratorHelperLoose(singleChars.toArray()), _step;
 					!(_step = _iterator()).done;
-
 				) {
 					var codepoint = _step.value;
 					var list = getCaseEquivalents(codepoint, caseEqFlags);
@@ -126047,7 +125888,6 @@
 				var _iterator2 = _createForOfIteratorHelperLoose([codePoint].concat(result)),
 					_step2;
 				!(_step2 = _iterator2()).done;
-
 			) {
 				var cp = _step2.value;
 				if (cp >= 0x41 && cp <= 0x5a) {
@@ -126094,7 +125934,6 @@
 								),
 								_step3;
 							!(_step3 = _iterator3()).done;
-
 						) {
 							var str = _step3.value;
 							data.longStrings.add(str);
@@ -126174,7 +126013,6 @@
 								var _iterator4 = _createForOfIteratorHelperLoose(data.longStrings),
 									_step4;
 								!(_step4 = _iterator4()).done;
-
 							) {
 								var str = _step4.value;
 								if (!nestedData.longStrings.has(str))
@@ -126214,7 +126052,6 @@
 								var _iterator5 = _createForOfIteratorHelperLoose(data.longStrings),
 									_step5;
 								!(_step5 = _iterator5()).done;
-
 							) {
 								var str = _step5.value;
 								if (nestedData.longStrings.has(str))
@@ -126255,7 +126092,6 @@
 		for (
 			var _iterator6 = _createForOfIteratorHelperLoose(classStrings.strings), _step6;
 			!(_step6 = _iterator6()).done;
-
 		) {
 			var string = _step6.value;
 			if (string.characters.length === 1) {
@@ -126271,7 +126107,6 @@
 					for (
 						var _iterator7 = _createForOfIteratorHelperLoose(string.characters), _step7;
 						!(_step7 = _iterator7()).done;
-
 					) {
 						var ch = _step7.value;
 						var _codePoint = shouldApplySCF
@@ -126284,7 +126119,6 @@
 					for (
 						var _iterator8 = _createForOfIteratorHelperLoose(string.characters), _step8;
 						!(_step8 = _iterator8()).done;
-
 					) {
 						var _ch = _step8.value;
 						var _codePoint2 = shouldApplySCF
@@ -126340,7 +126174,6 @@
 		for (
 			var _iterator9 = _createForOfIteratorHelperLoose(characterClassItem.body), _step9;
 			!(_step9 = _iterator9()).done;
-
 		) {
 			var item = _step9.value;
 			switch (item.type) {
@@ -126499,7 +126332,6 @@
 		for (
 			var _iterator10 = _createForOfIteratorHelperLoose(enabling), _step10;
 			!(_step10 = _iterator10()).done;
-
 		) {
 			var flag = _step10.value;
 			config.modifiersData[flag] = true;
@@ -126507,7 +126339,6 @@
 		for (
 			var _iterator11 = _createForOfIteratorHelperLoose(disabling), _step11;
 			!(_step11 = _iterator11()).done;
-
 		) {
 			var _flag = _step11.value;
 			config.modifiersData[_flag] = false;
@@ -126826,7 +126657,6 @@
 										),
 										_step12;
 									!(_step12 = _iterator12()).done;
-
 								) {
 									var flag = _step12.value;
 									allDisabledModifiers[flag] = true;
@@ -127623,7 +127453,6 @@
 			for (
 				var _iterator = _createForOfIteratorHelperLoose(node.properties), _step;
 				!(_step = _iterator()).done;
-
 			) {
 				var prop = _step.value;
 				if (isSpreadElement$1(prop)) {
@@ -127640,7 +127469,6 @@
 			for (
 				var _iterator2 = _createForOfIteratorHelperLoose(props), _step2;
 				!(_step2 = _iterator2()).done;
-
 			) {
 				var prop = _step2.value;
 				var key = prop.key;
@@ -127678,7 +127506,6 @@
 			for (
 				var _iterator3 = _createForOfIteratorHelperLoose(properties), _step3;
 				!(_step3 = _iterator3()).done;
-
 			) {
 				var propPath = _step3.value;
 				var key = propPath.get("key");
@@ -128101,7 +127928,6 @@
 						var _iterator4 = _createForOfIteratorHelperLoose(path.node.properties),
 							_step4;
 						!(_step4 = _iterator4()).done;
-
 					) {
 						var prop = _step4.value;
 						if (isSpreadElement$1(prop)) {
@@ -128734,7 +128560,6 @@
 			for (
 				var _iterator = _createForOfIteratorHelperLoose(classPath.get("body.body")), _step;
 				!(_step = _iterator()).done;
-
 			) {
 				var el = _step.value;
 				if ((el.isClassProperty() || el.isClassPrivateProperty()) && !el.node["static"]) {
@@ -129092,7 +128917,6 @@
 			for (
 				var _iterator = _createForOfIteratorHelperLoose(paths), _step;
 				!(_step = _iterator()).done;
-
 			) {
 				var path = _step.value;
 				if (!path.isFunctionDeclaration()) continue;
@@ -129283,7 +129107,6 @@
 		for (
 			var _iterator = _createForOfIteratorHelperLoose(updatedBindingsUsages), _step;
 			!(_step = _iterator()).done;
-
 		) {
 			var _step$value = _slicedToArray(_step.value, 2),
 				_name2 = _step$value[0],
@@ -129297,7 +129120,6 @@
 			for (
 				var _iterator7 = _createForOfIteratorHelperLoose(updatedUsage), _step7;
 				!(_step7 = _iterator7()).done;
-
 			) {
 				var _path3 = _step7.value;
 				_path3.replaceWith(identifier$d(innerName));
@@ -129306,7 +129128,6 @@
 		for (
 			var _iterator2 = _createForOfIteratorHelperLoose(captured), _step2;
 			!(_step2 = _iterator2()).done;
-
 		) {
 			var _name3 = _step2.value;
 			if (updatedBindingsUsages.has(_name3)) continue;
@@ -129341,7 +129162,6 @@
 		for (
 			var _iterator3 = _createForOfIteratorHelperLoose(state.vars), _step3;
 			!(_step3 = _iterator3()).done;
-
 		) {
 			var _varPath = _step3.value;
 			var assign = [];
@@ -129349,7 +129169,6 @@
 				var _iterator8 = _createForOfIteratorHelperLoose(_varPath.node.declarations),
 					_step8;
 				!(_step8 = _iterator8()).done;
-
 			) {
 				var decl = _step8.value;
 				varNames.push.apply(
@@ -129389,7 +129208,6 @@
 			for (
 				var _iterator4 = _createForOfIteratorHelperLoose(state.breaksContinues), _step4;
 				!(_step4 = _iterator4()).done;
-
 			) {
 				var path = _step4.value;
 				var node = path.node;
@@ -129441,7 +129259,6 @@
 			for (
 				var _iterator5 = _createForOfIteratorHelperLoose(state.breaksContinues), _step5;
 				!(_step5 = _iterator5()).done;
-
 			) {
 				var _path2 = _step5.value;
 				var _node = _path2.node;
@@ -129484,7 +129301,6 @@
 				for (
 					var _iterator6 = _createForOfIteratorHelperLoose(state.returns), _step6;
 					!(_step6 = _iterator6()).done;
-
 				) {
 					var _path = _step6.value;
 					var arg = _path.node.argument || _path.scope.buildUndefinedNode();
@@ -129526,7 +129342,6 @@
 		for (
 			var _iterator9 = _createForOfIteratorHelperLoose(list), _step9;
 			!(_step9 = _iterator9()).done;
-
 		) {
 			var item = _step9.value;
 			var mapped = fn(item);
@@ -129558,7 +129373,6 @@
 		for (
 			var _iterator = _createForOfIteratorHelperLoose(binding.constantViolations), _step;
 			!(_step = _iterator()).done;
-
 		) {
 			var violation = _step.value;
 			var readOnlyError = state.addHelper("readOnlyError");
@@ -129660,7 +129474,6 @@
 		for (
 			var _iterator2 = _createForOfIteratorHelperLoose(binding.constantViolations), _step2;
 			!(_step2 = _iterator2()).done;
-
 		) {
 			var _path2 = _step2.value;
 			var node = _path2.node;
@@ -129744,7 +129557,6 @@
 		outer: for (
 			var _iterator = _createForOfIteratorHelperLoose(paths), _step;
 			!(_step = _iterator()).done;
-
 		) {
 			var path = _step.value;
 			if (!path.isFunctionDeclaration()) continue;
@@ -129781,7 +129593,6 @@
 			for (
 				var _iterator2 = _createForOfIteratorHelperLoose(names), _step2;
 				!(_step2 = _iterator2()).done;
-
 			) {
 				var name = _step2.value;
 				var binding = path.scope.getOwnBinding(name);
@@ -129860,7 +129671,6 @@
 						for (
 							var _iterator = _createForOfIteratorHelperLoose(bindings), _step;
 							!(_step = _iterator()).done;
-
 						) {
 							var _binding = _step.value;
 							var _getUsageInBody2 = getUsageInBody(_binding, path),
@@ -129940,7 +129750,6 @@
 			for (
 				var _iterator2 = _createForOfIteratorHelperLoose(names), _step2;
 				!(_step2 = _iterator2()).done;
-
 			) {
 				var name = _step2.value;
 				var binding = path.scope.getOwnBinding(name);
@@ -129968,7 +129777,6 @@
 			for (
 				var _iterator3 = _createForOfIteratorHelperLoose(path.node.declarations), _step3;
 				!(_step3 = _iterator3()).done;
-
 			) {
 				var _decl$init;
 				var decl = _step3.value;
@@ -129983,7 +129791,6 @@
 			for (
 				var _iterator4 = _createForOfIteratorHelperLoose(bindingNames), _step4;
 				!(_step4 = _iterator4()).done;
-
 			) {
 				var _name = _step4.value;
 				var newName = _name;
@@ -130005,7 +129812,6 @@
 		for (
 			var _iterator5 = _createForOfIteratorHelperLoose(dynamicTDZNames), _step5;
 			!(_step5 = _iterator5()).done;
-
 		) {
 			var _name2 = _step5.value;
 			path.scope.push({
@@ -130126,7 +129932,6 @@
 			for (
 				var _iterator = _createForOfIteratorHelperLoose(classBodyPath.get("body")), _step;
 				!(_step = _iterator()).done;
-
 			) {
 				var _path = _step.value;
 				if (
@@ -130223,7 +130028,6 @@
 			for (
 				var _iterator2 = _createForOfIteratorHelperLoose(classBodyPaths), _step2;
 				!(_step2 = _iterator2()).done;
-
 			) {
 				_loop();
 			}
@@ -130238,7 +130042,6 @@
 			for (
 				var _iterator3 = _createForOfIteratorHelperLoose(["static", "instance"]), _step3;
 				!(_step3 = _iterator3()).done;
-
 			) {
 				var placement = _step3.value;
 				if (classState.methods[placement].list.length) {
@@ -130254,7 +130057,6 @@
 								]),
 								_step4;
 							!(_step4 = _iterator4()).done;
-
 						) {
 							var kind = _step4.value;
 							if (desc[kind] != null) {
@@ -130479,7 +130281,6 @@
 			for (
 				var _iterator5 = _createForOfIteratorHelperLoose(classState.superThises), _step5;
 				!(_step5 = _iterator5()).done;
-
 			) {
 				if (_loop3()) continue;
 			}
@@ -130516,7 +130317,6 @@
 			for (
 				var _iterator6 = _createForOfIteratorHelperLoose(classState.superReturns), _step6;
 				!(_step6 = _iterator6()).done;
-
 			) {
 				var returnPath = _step6.value;
 				returnPath.get("argument").replaceWith(wrapReturn(returnPath.node.argument));
@@ -130636,7 +130436,6 @@
 			for (
 				var _iterator7 = _createForOfIteratorHelperLoose(node.body.body), _step7;
 				!(_step7 = _iterator7()).done;
-
 			) {
 				var elem = _step7.value;
 				if (!isClassMethod(elem) || !elem.computed) continue;
@@ -130667,7 +130466,6 @@
 			for (
 				var _iterator8 = _createForOfIteratorHelperLoose(dynamicKeys), _step8;
 				!(_step8 = _iterator8()).done;
-
 			) {
 				var _step8$value = _slicedToArray(_step8.value, 2),
 					name = _step8$value[0],
@@ -130733,7 +130531,6 @@
 					var _iterator9 = _createForOfIteratorHelperLoose(classState.construct.params),
 						_step9;
 					!(_step9 = _iterator9()).done;
-
 				) {
 					var param = _step9.value;
 					if (!isIdentifier$e(param)) {
@@ -130934,7 +130731,6 @@
 			for (
 				var _iterator = _createForOfIteratorHelperLoose(computedProps), _step;
 				!(_step = _iterator()).done;
-
 			) {
 				var prop = _step.value;
 				if (isObjectMethod(prop) && (prop.kind === "get" || prop.kind === "set")) {
@@ -130963,7 +130759,6 @@
 			for (
 				var _iterator2 = _createForOfIteratorHelperLoose(computedProps), _step2;
 				!(_step2 = _iterator2()).done;
-
 			) {
 				var _prop = _step2.value;
 				if (!currentChunk || currentChunk.length === CHUNK_LENGTH_CAP) {
@@ -130983,7 +130778,6 @@
 				for (
 					var _iterator3 = _createForOfIteratorHelperLoose(chunk), _step3;
 					!(_step3 = _iterator3()).done;
-
 				) {
 					var prop = _step3.value;
 					if (isObjectMethod(prop) && (prop.kind === "get" || prop.kind === "set")) {
@@ -131013,7 +130807,6 @@
 							var _iterator4 = _createForOfIteratorHelperLoose(node.properties),
 								_step4;
 							!(_step4 = _iterator4()).done;
-
 						) {
 							var prop = _step4.value;
 							hasComputed = prop.computed === true;
@@ -131027,7 +130820,6 @@
 							var _iterator5 = _createForOfIteratorHelperLoose(node.properties),
 								_step5;
 							!(_step5 = _iterator5()).done;
-
 						) {
 							var _prop2 = _step5.value;
 							if (isSpreadElement$1(_prop2)) {
@@ -131102,7 +130894,6 @@
 					for (
 						var _iterator = _createForOfIteratorHelperLoose(plainProps), _step;
 						!(_step = _iterator()).done;
-
 					) {
 						var prop = _step.value;
 						var name = getName(prop.key);
@@ -131519,7 +131310,6 @@
 						for (
 							var _iterator = _createForOfIteratorHelperLoose(comments), _step;
 							!(_step = _iterator()).done;
-
 						) {
 							var comment = _step.value;
 							if (FLOW_DIRECTIVE.test(comment.value)) {
@@ -132572,7 +132362,6 @@
 			for (
 				var _iterator = _createForOfIteratorHelperLoose(data), _step;
 				!(_step = _iterator()).done;
-
 			) {
 				var _step$value = _step.value,
 					id = _step$value.id,
@@ -132665,7 +132454,6 @@
 					for (
 						var _iterator = _createForOfIteratorHelperLoose(path.get("body")), _step;
 						!(_step = _iterator()).done;
-
 					) {
 						var _decl = _step.value;
 						if (!_decl.isImportDeclaration()) continue;
@@ -132693,7 +132481,6 @@
 								),
 								_step2;
 							!(_step2 = _iterator2()).done;
-
 						) {
 							var specifier = _step2.value;
 							if (specifier.isImportSpecifier()) {
@@ -132915,7 +132702,6 @@
 						for (
 							var _iterator = _createForOfIteratorHelperLoose(meta.source), _step;
 							!(_step = _iterator()).done;
-
 						) {
 							var _step$value = _slicedToArray(_step.value, 2),
 								source = _step$value[0],
@@ -133038,7 +132824,6 @@
 			for (
 				var _iterator = _createForOfIteratorHelperLoose(arr), _step;
 				!(_step = _iterator()).done;
-
 			) {
 				var el = _step.value;
 				var res = cb(el);
@@ -133278,7 +133063,6 @@
 						for (
 							var _iterator = _createForOfIteratorHelperLoose(meta.source), _step;
 							!(_step = _iterator()).done;
-
 						) {
 							var _step$value = _slicedToArray(_step.value, 2),
 								source = _step$value[0],
@@ -133475,7 +133259,6 @@
 						for (
 							var _iterator = _createForOfIteratorHelperLoose(_exportedNames), _step;
 							!(_step = _iterator()).done;
-
 						) {
 							var exportedName = _step.value;
 							exprs.push(
@@ -133505,7 +133288,6 @@
 				for (
 					var _iterator2 = _createForOfIteratorHelperLoose(exportedNames), _step2;
 					!(_step2 = _iterator2()).done;
-
 				) {
 					var _exportedName = _step2.value;
 					node = this.buildCall(_exportedName, node).expression;
@@ -133626,7 +133408,6 @@
 						for (
 							var _iterator3 = _createForOfIteratorHelperLoose(body), _step3;
 							!(_step3 = _iterator3()).done;
-
 						) {
 							var _path2 = _step3.value;
 							if (_path2.isFunctionDeclaration()) {
@@ -133759,7 +133540,6 @@
 														_createForOfIteratorHelperLoose(specifiers),
 													_step7;
 												!(_step7 = _iterator7()).done;
-
 											) {
 												var specifier = _step7.value;
 												var local = specifier.local,
@@ -133799,7 +133579,6 @@
 									),
 									_step4;
 								!(_step4 = _iterator4()).done;
-
 							) {
 								var specifier = _step4.value;
 								if (isImportNamespaceSpecifier$1(specifier)) {
@@ -133846,7 +133625,6 @@
 										),
 										_step5;
 									!(_step5 = _iterator5()).done;
-
 								) {
 									var node = _step5.value;
 									if (isExportAllDeclaration$1(node)) {
@@ -133900,7 +133678,6 @@
 										),
 										_step6;
 									!(_step6 = _iterator6()).done;
-
 								) {
 									var exported = _step6.value;
 									exportNames.push(exported);
@@ -134106,7 +133883,6 @@
 						for (
 							var _iterator = _createForOfIteratorHelperLoose(meta.source), _step;
 							!(_step = _iterator()).done;
-
 						) {
 							var _step$value = _slicedToArray(_step.value, 2),
 								source = _step$value[0],
@@ -135240,7 +135016,6 @@
 										),
 										_step;
 									!(_step = _iterator()).done;
-
 								) {
 									var comment = _step.value;
 									var sourceMatches = JSX_SOURCE_ANNOTATION_REGEX.exec(
@@ -135474,7 +135249,6 @@
 					var _iterator2 = _createForOfIteratorHelperLoose(openingPath.get("attributes")),
 						_step2;
 					!(_step2 = _iterator2()).done;
-
 				) {
 					var attr = _step2.value;
 					if (attr.isJSXAttribute() && isJSXIdentifier$3(attr.node.name)) {
@@ -135637,7 +135411,6 @@
 				for (
 					var _iterator3 = _createForOfIteratorHelperLoose(attribs), _step3;
 					!(_step3 = _iterator3()).done;
-
 				) {
 					var attr = _step3.value;
 					var node = attr.node;
@@ -142070,7 +141843,6 @@
 						var _iterator = _createForOfIteratorHelperLoose(lastImports.entries()),
 							_step;
 						!(_step = _iterator()).done;
-
 					) {
 						var _step$value = _slicedToArray(_step.value, 2),
 							i = _step$value[0],
@@ -142208,7 +141980,6 @@
 				for (
 					var _iterator = _createForOfIteratorHelperLoose(polyfills.keys()), _step;
 					!(_step = _iterator()).done;
-
 				) {
 					var polyfill = _step.value;
 					if (regexp.test(polyfill)) {
@@ -142391,7 +142162,6 @@
 						var _iterator = _createForOfIteratorHelperLoose(path.get("properties")),
 							_step;
 						!(_step = _iterator()).done;
-
 					) {
 						var prop = _step.value;
 						if (prop.isObjectProperty()) {
@@ -143016,7 +142786,6 @@
 							var _iterator = _createForOfIteratorHelperLoose(debugLog.polyfills),
 								_step;
 							!(_step = _iterator()).done;
-
 						) {
 							var name = _step.value;
 							var _debugLog$polyfillsSu2;
@@ -151054,7 +150823,6 @@
 		for (
 			var _iterator = _createForOfIteratorHelperLoose(modulesSet), _step;
 			!(_step = _iterator()).done;
-
 		) {
 			var $module = _step.value;
 			if (
@@ -168819,7 +168587,6 @@
 				for (
 					var _iterator = _createForOfIteratorHelperLoose(names), _step;
 					!(_step = _iterator()).done;
-
 				) {
 					var name = _step.value;
 					if (fallback) {
@@ -169614,7 +169381,6 @@
 			for (
 				var _iterator = _createForOfIteratorHelperLoose(props), _step;
 				!(_step = _iterator()).done;
-
 			) {
 				var prop = _step.value;
 				if (isSpreadElement$1(prop)) {
@@ -169760,7 +169526,6 @@
 					for (
 						var _iterator = _createForOfIteratorHelperLoose(node.directives), _step;
 						!(_step = _iterator()).done;
-
 					) {
 						var directive$1 = _step.value;
 						if (directive$1.value.value === "use strict") return;
@@ -169812,7 +169577,6 @@
 					for (
 						var _iterator = _createForOfIteratorHelperLoose(quasi.quasis), _step;
 						!(_step = _iterator()).done;
-
 					) {
 						var elem = _step.value;
 						var _elem$value = elem.value,
@@ -169868,7 +169632,6 @@
 					for (
 						var _iterator2 = _createForOfIteratorHelperLoose(path.node.quasis), _step2;
 						!(_step2 = _iterator2()).done;
-
 					) {
 						var elem = _step2.value;
 						if (elem.value.cooked) {
@@ -170491,7 +170254,6 @@
 			for (
 				var _iterator = _createForOfIteratorHelperLoose(declarations), _step;
 				!(_step = _iterator()).done;
-
 			) {
 				var declarator = _step.value;
 				declarator.init = assignmentExpression$8(
@@ -170819,7 +170581,6 @@
 				for (
 					var _iterator = _createForOfIteratorHelperLoose(path.get("params")), _step;
 					!(_step = _iterator()).done;
-
 				) {
 					var paramPath = _step.value;
 					var param = paramPath.node;
@@ -170883,7 +170644,6 @@
 										),
 										_step2;
 									!(_step2 = _iterator2()).done;
-
 								) {
 									var comment = _step2.value;
 									var jsxMatches = JSX_PRAGMA_REGEX.exec(comment.value);
@@ -170927,7 +170687,6 @@
 													),
 													_step4;
 												!(_step4 = _iterator4()).done;
-
 											) {
 												var specifier = _step4.value;
 												registerGlobalType(
@@ -170953,7 +170712,6 @@
 												),
 												_step5;
 											!(_step5 = _iterator5()).done;
-
 										) {
 											var _specifier2 = _step5.value;
 											if (
@@ -170985,7 +170743,6 @@
 													),
 													_step6;
 												!(_step6 = _iterator6()).done;
-
 											) {
 												var _specifier = _step6.value;
 												var binding = stmt.scope.getBinding(
@@ -171018,7 +170775,6 @@
 														),
 													_step7;
 												!(_step7 = _iterator7()).done;
-
 											) {
 												var importPath = _step7.value;
 												importPath.remove();
@@ -171089,7 +170845,6 @@
 								var _iterator3 = _createForOfIteratorHelperLoose(path.get("body")),
 									_step3;
 								!(_step3 = _iterator3()).done;
-
 							) {
 								_ret = _loop();
 								if (_ret === 0) continue;
@@ -171386,7 +171141,6 @@
 			for (
 				var _iterator8 = _createForOfIteratorHelperLoose(binding.referencePaths), _step8;
 				!(_step8 = _iterator8()).done;
-
 			) {
 				var path = _step8.value;
 				if (!isInType(path)) {
@@ -171554,7 +171308,6 @@
 					for (
 						var _iterator = _createForOfIteratorHelperLoose(path.node.body), _step;
 						!(_step = _iterator()).done;
-
 					) {
 						var node = _step.value;
 						if (!isUsingDeclaration(node)) continue;
@@ -171569,7 +171322,6 @@
 							var _iterator2 = _createForOfIteratorHelperLoose(node.declarations),
 								_step2;
 							!(_step2 = _iterator2()).done;
-
 						) {
 							var decl = _step2.value;
 							decl.init = callExpression$c(
@@ -171639,7 +171391,6 @@
 					for (
 						var _iterator3 = _createForOfIteratorHelperLoose(path.node.body), _step3;
 						!(_step3 = _iterator3()).done;
-
 					) {
 						if (_loop()) continue;
 					}
@@ -171690,13 +171441,11 @@
 				for (
 					var _iterator4 = _createForOfIteratorHelperLoose(cases), _step4;
 					!(_step4 = _iterator4()).done;
-
 				) {
 					var c = _step4.value;
 					for (
 						var _iterator5 = _createForOfIteratorHelperLoose(c.consequent), _step5;
 						!(_step5 = _iterator5()).done;
-
 					) {
 						var stmt = _step5.value;
 						if (isUsingDeclaration(stmt)) {
@@ -171721,7 +171470,6 @@
 								var _iterator6 = _createForOfIteratorHelperLoose(stmt.declarations),
 									_step6;
 								!(_step6 = _iterator6()).done;
-
 							) {
 								var decl = _step6.value;
 								decl.init = callExpression$c(
@@ -171785,7 +171533,6 @@
 							var _iterator7 = _createForOfIteratorHelperLoose(path.get("body")),
 								_step7;
 							!(_step7 = _iterator7()).done;
-
 						) {
 							var stmt = _step7.value;
 							if (stmt.isFunctionDeclaration() || stmt.isImportDeclaration()) {
@@ -171908,7 +171655,6 @@
 						for (
 							var _iterator = _createForOfIteratorHelperLoose(importNodes), _step;
 							!(_step = _iterator()).done;
-
 						) {
 							var node = _step.value;
 							if (!t.isImportDeclaration(node)) return null;
@@ -171971,7 +171717,6 @@
 					for (
 						var _iterator2 = _createForOfIteratorHelperLoose(path.get("body")), _step2;
 						!(_step2 = _iterator2()).done;
-
 					) {
 						var child = _step2.value;
 						if (
@@ -171989,7 +171734,6 @@
 					for (
 						var _iterator3 = _createForOfIteratorHelperLoose(path.get("body")), _step3;
 						!(_step3 = _iterator3()).done;
-
 					) {
 						var _child = _step3.value;
 						if (
@@ -172584,7 +172328,6 @@
 						var _iterator = _createForOfIteratorHelperLoose(path.get("body.body")),
 							_step;
 						!(_step = _iterator()).done;
-
 					) {
 						var elem = _step.value;
 						if (
@@ -172988,7 +172731,6 @@
 			for (
 				var _iterator = _createForOfIteratorHelperLoose(path.get("body.body")), _step;
 				!(_step = _iterator()).done;
-
 			) {
 				var el = _step.value;
 				if (el.node.computed) {
@@ -173663,7 +173405,6 @@
 		for (
 			var _iterator = _createForOfIteratorHelperLoose(keys(data)), _step;
 			!(_step = _iterator()).done;
-
 		) {
 			var plugin = _step.value;
 			if (hasOwnProperty.call(availablePlugins$1, plugin)) {
@@ -175902,7 +175643,6 @@
 						var _iterator = _createForOfIteratorHelperLoose(lastImports.entries()),
 							_step;
 						!(_step = _iterator()).done;
-
 					) {
 						var _step$value = _slicedToArray(_step.value, 2),
 							i = _step$value[0],
@@ -176040,7 +175780,6 @@
 				for (
 					var _iterator = _createForOfIteratorHelperLoose(polyfills.keys()), _step;
 					!(_step = _iterator()).done;
-
 				) {
 					var polyfill = _step.value;
 					if (regexp.test(polyfill)) {
@@ -176223,7 +175962,6 @@
 						var _iterator = _createForOfIteratorHelperLoose(path.get("properties")),
 							_step;
 						!(_step = _iterator()).done;
-
 					) {
 						var prop = _step.value;
 						if (prop.isObjectProperty()) {
@@ -176848,7 +176586,6 @@
 							var _iterator = _createForOfIteratorHelperLoose(debugLog.polyfills),
 								_step;
 							!(_step = _iterator()).done;
-
 						) {
 							var name = _step.value;
 							var _debugLog$polyfillsSu2;
@@ -178000,7 +177737,6 @@
 				for (
 					var _iterator = _createForOfIteratorHelperLoose(lastImports.entries()), _step;
 					!(_step = _iterator()).done;
-
 				) {
 					var _step$value = _slicedToArray(_step.value, 2),
 						i = _step$value[0],
@@ -178103,7 +177839,6 @@
 			for (
 				var _iterator2 = _createForOfIteratorHelperLoose(polyfills.keys()), _step2;
 				!(_step2 = _iterator2()).done;
-
 			) {
 				var polyfill = _step2.value;
 				if (regexp.test(polyfill)) {
@@ -178271,7 +178006,6 @@
 					var _iterator3 = _createForOfIteratorHelperLoose(path.get("properties")),
 						_step3;
 					!(_step3 = _iterator3()).done;
-
 				) {
 					var prop = _step3.value;
 					if (prop.isObjectProperty()) {
@@ -178731,7 +178465,6 @@
 						var _iterator4 = _createForOfIteratorHelperLoose(debugLog.polyfills),
 							_step4;
 						!(_step4 = _iterator4()).done;
-
 					) {
 						var name = _step4.value;
 						var _debugLog$polyfillsSu2;
@@ -180015,7 +179748,6 @@
 			for (
 				var _iterator = _createForOfIteratorHelperLoose(names), _step;
 				!(_step = _iterator()).done;
-
 			) {
 				var name = _step.value;
 				if (fallback) {
@@ -180858,7 +180590,6 @@
 				for (
 					var _iterator = _createForOfIteratorHelperLoose(methods), _step;
 					!(_step = _iterator()).done;
-
 				) {
 					var method = _step.value;
 					if (calleePath.referencesImport(module, method)) {

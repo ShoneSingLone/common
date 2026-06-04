@@ -1,5 +1,10 @@
 <template>
-	<div :class="cpt_dialog_class" data-component-name="x-dialog" v-bind="$attrs" ref="refDialog" :style="cptRootStyle">
+	<div
+		:class="cpt_dialog_class"
+		data-component-name="x-dialog"
+		v-bind="$attrs"
+		ref="refDialog"
+		:style="cptRootStyle">
 		<div class="xDialog-body">
 			<slot />
 		</div>

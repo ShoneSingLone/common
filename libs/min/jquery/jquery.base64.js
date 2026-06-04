@@ -35,7 +35,6 @@
 					});
 			};
 		e < 256;
-
 	) {
 		var f = String.fromCharCode(e);
 		((t += f), (o[(u[e] = e)] = n.indexOf(f)), ++e);

@@ -718,7 +718,6 @@ var VueRouter = ((e, N) => {
 							!(function t(r, e) {
 								return e.children.some(e => e === r || t(r, e));
 							})(m, y[e]));
-
 					)
 						e++;
 					(y.splice(e, 0, m), m.record.name && !ve(m) && b.set(m.record.name, m));
