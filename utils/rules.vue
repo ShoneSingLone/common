@@ -310,6 +310,11 @@ export default async function ({ PRIVATE_GLOBAL }) {
 								return i18n(msg, { max: default_max, min: default_min });
 							}
 
+							// 【需求】端口不能以0开头（如 080、0080）
+							if (/^0\d+$/.test(String(val).trim())) {
+								return "端口不能以0开头";
+							}
+
 							val = _.toNumber(val);
 
 							if (val > default_max || val < default_min) {
@@ -516,17 +521,37 @@ export default async function ({ PRIVATE_GLOBAL }) {
 				};
 			},
 			integer(msg = i18n("msgEnterPositiveInteger")) {
-				return {
-					name: "integer",
-					async validator({ val }) {
-						if (/^[1-9]\d*$/.test(val)) {
-							return "";
-						}
-						return msg;
-					},
-					trigger: ["change", "input", "blur"]
-				};
-			},
+			return {
+				name: "integer",
+				async validator({ val }) {
+					if (/^[1-9]\d*$/.test(val)) {
+						return "";
+					}
+					return msg;
+				},
+				trigger: ["change", "input", "blur"]
+			};
+		},
+		/**
+		 * 【需求】通用正整数范围校验，用于校验输入值是否为指定范围内的正整数
+		 * @param {number} min - 最小值（含）
+		 * @param {number} max - 最大值（含）
+		 * @param {string} msg - 自定义错误提示，默认 "请输入{min}-{max}之间的正整数"
+		 */
+		integerInRange: (min, max, msg) => {
+			return {
+				name: "integerInRange",
+				async validator({ val }) {
+					const s = String(val || "").trim();
+					const num = parseInt(s);
+					if (!/^\d+$/.test(s) || num < min || num > max) {
+						return msg || `请输入${min}-${max}之间的正整数`;
+					}
+					return "";
+				},
+				trigger: ["change", "blur"]
+			};
+		},
 			name(msg = i18n("msgEnter220DigitsLettersNumbers")) {
 				return {
 					name: "name",
