@@ -373,6 +373,11 @@ export default async function ({ PRIVATE_GLOBAL }) {
 									return i18n("端口只能输入数字，端口段用英文短横线分隔");
 								}
 
+								// 【需求】端口不能以0开头（如 080、0080）- 2026-06-08
+								if (/^0\d+$/.test(minVal) || /^0\d+$/.test(maxVal)) {
+									return "端口不能以0开头";
+								}
+
 								// 4. 转数字
 								minVal = _.toNumber(minVal);
 								maxVal = _.toNumber(maxVal);
@@ -543,6 +548,10 @@ export default async function ({ PRIVATE_GLOBAL }) {
 				name: "integerInRange",
 				async validator({ val }) {
 					const s = String(val || "").trim();
+					// 【需求】数字不允许0开头（如 01、001 格式不合法）- 2026-06-08
+					if (/^0\d+$/.test(s)) {
+						return msg || `请输入${min}-${max}之间的正整数`;
+					}
 					const num = parseInt(s);
 					if (!/^\d+$/.test(s) || num < min || num > max) {
 						return msg || `请输入${min}-${max}之间的正整数`;
