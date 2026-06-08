@@ -310,9 +310,9 @@ export default async function ({ PRIVATE_GLOBAL }) {
 								return i18n(msg, { max: default_max, min: default_min });
 							}
 
-							// 【需求】端口不能以0开头（如 080、0080）
+							// 【需求】端口不能以0开头（如 080、0080）- 2026-06-08
 							if (/^0\d+$/.test(String(val).trim())) {
-								return "端口不能以0开头";
+								return i18n("端口不能以0开头");
 							}
 
 							val = _.toNumber(val);
@@ -430,6 +430,11 @@ export default async function ({ PRIVATE_GLOBAL }) {
 								!_reg.numberValue().test(maxVal)
 							) {
 								return i18n(msg, { max: default_max, min: default_min });
+							}
+
+							// 【需求】端口不能以0开头（如 080、0080）- 2026-06-08
+							if (/^0\d+$/.test(minVal) || /^0\d+$/.test(maxVal)) {
+								return i18n("端口不能以0开头");
 							}
 
 							minVal = _.toNumber(minVal);
