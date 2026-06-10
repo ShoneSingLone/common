@@ -103,7 +103,11 @@ export default async function ({ PRIVATE_GLOBAL }) {
 			},
 			cptDisabledTips() {
 				/* 直接从 configs.disabled 读取，支持 string 或 VNode 类型的禁用提示 */
-				const configsDisabled = _.$val(this, "configs.disabled");
+				let configsDisabled = _.$val(this, "configs.disabled");
+				if (_.isFunction(configsDisabled)) {
+					//可能返回一个字符串
+					configsDisabled = configsDisabled.call(this.configs, { xBtn: this });
+				}
 				if (_.isString(configsDisabled) || configsDisabled?.TYPE_IS_VNODE) {
 					return configsDisabled;
 				}
