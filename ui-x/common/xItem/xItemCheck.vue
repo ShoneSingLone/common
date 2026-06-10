@@ -32,15 +32,16 @@ export default async function () {
 					width: `${this.col * this.minWidth}px`
 				};
 			},
+			/* 【需求】2026-06-09: 独立 readonly 状态判断，与 disabled 解耦 */
+			cptReadonly() {
+				return !!this.$attrs.readonly;
+			},
 			cptDisabled() {
-				if (this.disabled || this.$attrs.readonly) {
+				if (this.disabled) {
 					return true;
 				}
 				if (hasOwn(this.$attrs, "disabled")) {
 					return this.$attrs.disabled;
-				}
-				if (hasOwn(this.$attrs, "readonly")) {
-					return this.$attrs.readonly;
 				}
 				return false;
 			},
@@ -114,7 +115,10 @@ export default async function () {
 					}
 				};
 
-				if (this.disabled) {
+				/* 【需求】2026-06-09: 区分 readonly 与 disabled 展示 */
+				if (this.cptReadonly) {
+					checkboxProps.readonly = true;
+				} else if (this.disabled) {
 					checkboxProps.disabled = true;
 				}
 
@@ -127,6 +131,8 @@ export default async function () {
 				if (vm.cptRenderOption) {
 					label = vm.cptRenderOption.call(vm.cpt_configs, item);
 				}
+				/* 【需求】2026-06-09: readonly 状态禁用点击但保持视觉样式 */
+				const isReadonly = this.cptReadonly;
 				return h(
 					"xBtn",
 					{
@@ -135,13 +141,18 @@ export default async function () {
 						disabled: this.cptDisabled,
 						class: {
 							"xItemCheck-item-wrapper flex middle itemUse-BlockCheck": true,
-							"is-group-item": this.cpt_configs.isGroup
+							"is-group-item": this.cpt_configs.isGroup,
+							/* 【需求】2026-06-09: 新增 readonly 样式标记 */
+							"is-readonly": isReadonly
 						},
 						preset: this.cptPrivateSet.has(value) ? "xItemCheck-selected" : "",
 						nativeOn: {
 							click: () => {
-								const isChecked = !this.cptPrivateSet.has(value);
-								this.setPrivateSet(value, isChecked);
+								/* 【需求】2026-06-09: readonly/disabled 均拦截点击 */
+								if (!isReadonly && !this.cptDisabled) {
+									const isChecked = !this.cptPrivateSet.has(value);
+									this.setPrivateSet(value, isChecked);
+								}
 							}
 						}
 					},
@@ -289,6 +300,18 @@ export default async function () {
 				color: var(--el-text-color-placeholder);
 				border-color: var(--el-border-color-light);
 				background-color: var(--el-fill-color-light);
+			}
+		}
+
+		/* 【需求】2026-06-09: readonly 状态样式 - 保持正常视觉但降低交互暗示 */
+		&.is-readonly {
+			cursor: default;
+			opacity: 0.85;
+
+			&:hover {
+				color: var(--el-button-hover-text-color);
+				border-color: var(--el-button-hover-border-color);
+				background-color: var(--el-button-hover-bg-color);
 			}
 		}
 	}
