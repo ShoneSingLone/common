@@ -1,6 +1,9 @@
 <script lang="ts">
 export default async function ({ PRIVATE_GLOBAL }) {
 	const _reg = await _.$importVue("/common/utils/regexp.vue");
+	/**
+	 * TODO:
+	 * 完成 rules.vue 校验方法检查，发现3个方法（notAllNumReg、scRancherPortName、scEnvName）缺少正确的未输入处理逻辑 */
 	if (!PRIVATE_GLOBAL._rules) {
 		let _rules = {
 			_reg,
@@ -94,7 +97,7 @@ export default async function ({ PRIVATE_GLOBAL }) {
 					name: "mobilePhone",
 					async validator({ val }) {
 						if (!_.$isInput(val)) {
-							return;
+							return "";
 						}
 						var urlRegex = _reg.phoneRe();
 						if (urlRegex.test(val)) {
@@ -111,7 +114,7 @@ export default async function ({ PRIVATE_GLOBAL }) {
 					name: "serviceName",
 					async validator({ val }) {
 						if (!_.$isInput(val)) {
-							return;
+							return "";
 						}
 						const errorTips =
 							"以小写字母开头,由小写字母，数字，中划线(-)组成，63个字符之内,且不能以中划线(-)结尾。";
@@ -135,7 +138,7 @@ export default async function ({ PRIVATE_GLOBAL }) {
 					name: "domain",
 					async validator({ val }) {
 						if (!_.$isInput(val)) {
-							return;
+							return "";
 						}
 						var urlRegex = _reg.domainReg();
 						if (urlRegex.test(val)) {
@@ -154,7 +157,7 @@ export default async function ({ PRIVATE_GLOBAL }) {
 					name: "keyVal",
 					async validator({ val }) {
 						if (!_.$isInput(val)) {
-							return;
+							return "";
 						}
 						var urlRegex = _reg.keyVal();
 						var urlRegex2 = _reg.keyValOnlyOne();
@@ -179,7 +182,7 @@ export default async function ({ PRIVATE_GLOBAL }) {
 					name: "urlStart",
 					async validator({ val }) {
 						if (!_.$isInput(val)) {
-							return;
+							return "";
 						}
 						var urlRegex = _reg.url1();
 						if (!urlRegex.test(val)) {
@@ -195,7 +198,7 @@ export default async function ({ PRIVATE_GLOBAL }) {
 					name: "url",
 					async validator({ val }) {
 						if (!_.$isInput(val)) {
-							return;
+							return "";
 						}
 						var urlRegex = _reg.url2();
 						if (urlRegex.test(val)) {
@@ -265,7 +268,7 @@ export default async function ({ PRIVATE_GLOBAL }) {
 				return {
 					name: "email",
 					async validator({ val }) {
-						if (!val) {
+						if (!_.$isInput(val)) {
 							return "";
 						}
 						var urlRegex = _reg.email();
@@ -286,6 +289,10 @@ export default async function ({ PRIVATE_GLOBAL }) {
 				return {
 					name: "lessThan",
 					async validator({ val }) {
+						if (!_.$isInput(val)) {
+							return "";
+						}
+
 						let msg = "";
 
 						if (String(val).length > size) {
@@ -333,7 +340,6 @@ export default async function ({ PRIVATE_GLOBAL }) {
 					async validator({ val }) {
 						try {
 							if (!_.$isInput(val)) {
-								/* 必须输入 */
 								return;
 							}
 
@@ -420,7 +426,6 @@ export default async function ({ PRIVATE_GLOBAL }) {
 					async validator({ val }) {
 						try {
 							if (!_.$isInput(val)) {
-								/* 必须输入 */
 								return;
 							}
 							let [minVal, maxVal] = _.split(val, "-");
@@ -456,7 +461,9 @@ export default async function ({ PRIVATE_GLOBAL }) {
 				return {
 					name: "numberCharacter",
 					async validator({ val }) {
-						if (!_.$isInput(val)) return;
+						if (!_.$isInput(val)) {
+							return "";
+						}
 
 						if (_reg.numberCharacter().test(val)) {
 							return "";
@@ -470,7 +477,9 @@ export default async function ({ PRIVATE_GLOBAL }) {
 				return {
 					name: "numberValue",
 					async validator({ val }) {
-						if (!_.$isInput(val)) return;
+						if (!_.$isInput(val)) {
+							return "";
+						}
 						if (_reg.numberValue().test(val)) {
 							return "";
 						}
@@ -486,6 +495,9 @@ export default async function ({ PRIVATE_GLOBAL }) {
 				return {
 					name: "ipV4",
 					async validator({ val }) {
+						if (!_.$isInput(val)) {
+							return "";
+						}
 						let msg = "";
 						const reg =
 							/\b(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9]?[0-9])\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9]?[0-9])\b/;
@@ -503,6 +515,9 @@ export default async function ({ PRIVATE_GLOBAL }) {
 				return {
 					name: "ipV6",
 					async validator({ val }) {
+						if (!_.$isInput(val)) {
+							return "";
+						}
 						let msg = "";
 						const ipv6_regex =
 							/^([0-9a-f]{1,4}:){7}[0-9a-f]{1,4}|([0-9a-f]{1,4}:){6}:[0-9a-f]{1,4}|([0-9a-f]{1,4}:){5}(:[0-9a-f]{1,4}){2}|([0-9a-f]{1,4}:){4}(:[0-9a-f]{1,4}){3}|([0-9a-f]{1,4}:){3}(:[0-9a-f]{1,4}){4}|([0-9a-f]{1,4}:){2}(:[0-9a-f]{1,4}){5}|[0-9a-f]{1,4}(:[0-9a-f]{1,4}){6}|:|0:0:0:0:0:0:0:0(%[0-9]{1,3}|[0-9a-f]{0,4})$/;
@@ -521,6 +536,10 @@ export default async function ({ PRIVATE_GLOBAL }) {
 				return {
 					name: "inetUrl",
 					async validator({ val }) {
+						if (!_.$isInput(val)) {
+							return "";
+						}
+
 						let UrlFormat = new RegExp("[a-zA-z]+://[^\\s]*");
 						if (UrlFormat.test(val)) {
 							return "";
@@ -531,45 +550,56 @@ export default async function ({ PRIVATE_GLOBAL }) {
 				};
 			},
 			integer(msg = i18n("msgEnterPositiveInteger")) {
-			return {
-				name: "integer",
-				async validator({ val }) {
-					if (/^[1-9]\d*$/.test(val)) {
+				return {
+					name: "integer",
+					async validator({ val }) {
+						if (!_.$isInput(val)) {
+							return "";
+						}
+
+						if (/^[1-9]\d*$/.test(val)) {
+							return "";
+						}
+						return msg;
+					},
+					trigger: ["change", "input", "blur"]
+				};
+			},
+			/**
+			 * 【需求】通用正整数范围校验，用于校验输入值是否为指定范围内的正整数
+			 * @param {number} min - 最小值（含）
+			 * @param {number} max - 最大值（含）
+			 * @param {string} msg - 自定义错误提示，默认 "请输入{min}-{max}之间的正整数"
+			 */
+			integerInRange: (min, max, msg) => {
+				return {
+					name: "integerInRange",
+					async validator({ val }) {
+						if (!_.$isInput(val)) {
+							return "";
+						}
+						const s = String(val || "").trim();
+						// 【需求】数字不允许0开头（如 01、001 格式不合法）- 2026-06-08
+						if (/^0\d+$/.test(s)) {
+							return msg || `请输入${min}-${max}之间的正整数`;
+						}
+						const num = parseInt(s);
+						if (!/^\d+$/.test(s) || num < min || num > max) {
+							return msg || `请输入${min}-${max}之间的正整数`;
+						}
 						return "";
-					}
-					return msg;
-				},
-				trigger: ["change", "input", "blur"]
-			};
-		},
-		/**
-		 * 【需求】通用正整数范围校验，用于校验输入值是否为指定范围内的正整数
-		 * @param {number} min - 最小值（含）
-		 * @param {number} max - 最大值（含）
-		 * @param {string} msg - 自定义错误提示，默认 "请输入{min}-{max}之间的正整数"
-		 */
-		integerInRange: (min, max, msg) => {
-			return {
-				name: "integerInRange",
-				async validator({ val }) {
-					const s = String(val || "").trim();
-					// 【需求】数字不允许0开头（如 01、001 格式不合法）- 2026-06-08
-					if (/^0\d+$/.test(s)) {
-						return msg || `请输入${min}-${max}之间的正整数`;
-					}
-					const num = parseInt(s);
-					if (!/^\d+$/.test(s) || num < min || num > max) {
-						return msg || `请输入${min}-${max}之间的正整数`;
-					}
-					return "";
-				},
-				trigger: ["change", "blur"]
-			};
-		},
+					},
+					trigger: ["change", "blur"]
+				};
+			},
 			name(msg = i18n("msgEnter220DigitsLettersNumbers")) {
 				return {
 					name: "name",
 					async validator({ val }) {
+						if (!_.$isInput(val)) {
+							return "";
+						}
+
 						if (/^[0-9a-zA-Z]{2,20}$/.test(val)) {
 							return "";
 						}
@@ -583,7 +613,9 @@ export default async function ({ PRIVATE_GLOBAL }) {
 				return {
 					name: "name",
 					async validator({ val }) {
-						if (!val) return;
+						if (!_.$isInput(val)) {
+							return "";
+						}
 						if (/^[a-z0-9][a-z0-9-]*$/.test(val)) {
 							return "";
 						}
@@ -596,6 +628,10 @@ export default async function ({ PRIVATE_GLOBAL }) {
 				return {
 					name: "port",
 					async validator({ val }) {
+						if (!_.$isInput(val)) {
+							return "";
+						}
+
 						// 纯端口校验函数
 						function validatePort(port) {
 							const portRegex =
@@ -614,6 +650,10 @@ export default async function ({ PRIVATE_GLOBAL }) {
 				return {
 					name: "ipAddress",
 					async validator({ val: value }) {
+						if (!_.$isInput(value)) {
+							return;
+						}
+
 						let ipAddress = _reg.ipAddress();
 						if (ipAddress.test(value)) {
 							return "";
@@ -628,6 +668,10 @@ export default async function ({ PRIVATE_GLOBAL }) {
 				return {
 					name: "required",
 					async validator({ val, xItem }) {
+						if (!_.$isInput(val)) {
+							return "";
+						}
+
 						const record = [];
 						let rows = _.$val(xItem, "configs.payload.row") || {};
 						for (let key of rowArray) {
