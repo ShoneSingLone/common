@@ -78,7 +78,7 @@ export default async function ({ PRIVATE_GLOBAL }) {
 				if (!PopupManager) {
 					PopupManager = await _.$importVue("/common/libs/VuePopper/popupManager.vue");
 				}
-				const id = options.id || _.$ramdomStr(8);
+				const id = options.id || _.$random_str(8);
 
 				if (windowsRegistry.has(id)) {
 					const vm = windowsRegistry.get(id);

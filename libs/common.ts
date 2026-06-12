@@ -548,7 +548,7 @@
 	 * @param e
 	 */
 	/* @typescriptDeclare (e:number)=>string */
-	_.$ramdomStr = function (e) {
+	_.$random_str = function (e) {
 		e = e || 26;
 		var t = "abcdefhijkmnprstwxyz0123456789";
 		var a = t.length;
@@ -1547,7 +1547,7 @@
 	 * @returns string
 	 */
 	/* @typescriptDeclare (name:string)=>string */
-	_.$randomName = (name, length = 16) => {
+	_.$random_name = (name, length = 16) => {
 		return (
 			name +
 			parseInt((new Date().getTime() % 61439) + 4096)
