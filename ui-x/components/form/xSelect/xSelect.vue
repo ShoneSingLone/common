@@ -543,8 +543,24 @@ export default async function ({ PRIVATE_GLOBAL }) {
 				const currentInBody = popperElm.parentNode === document.body;
 				const alreadyInTargetState = isAppendToBody ? currentInBody : !currentInBody;
 
+				/*
+				 * 提前返回条件从严：父节点正确 + 定位已计算 才跳过。
+				 * 仅父节点正确但定位缺失（Tab切换、异步初始化等场景），
+				 * 仍需走后续修复流程重建定位。
+				 */
 				if (alreadyInTargetState) {
-					return;
+					const hasTop = popperElm.style.top;
+					const hasPosition =
+						hasTop || popperElm.style.left || popperElm.style.transform;
+					const hasMinWidth = popperElm.style.getPropertyValue(
+						"--xSelectDropdown-min-width"
+					);
+					if (hasPosition && hasMinWidth) {
+						return;
+					}
+					console.log(
+						"changePopperPositionTo: 父节点正确但定位/宽度信息缺失，继续修复流程"
+					);
 				}
 
 				console.log(
@@ -583,11 +599,55 @@ export default async function ({ PRIVATE_GLOBAL }) {
 					}
 				}
 
+				// 同步 popper 定位 class（DOM 移动后需与 appendToBody 状态一致）
+				$(popperElm)
+					.toggleClass("x-popper--absolute", isAppendToBody)
+					.toggleClass("x-popper--relative", !isAppendToBody);
+
 				// 更新 popper 定位
 				if (popper.popperJS) {
 					popper.updatePopper();
 					console.log("changePopperPositionTo: 已更新 popper 定位");
 				}
+
+				/*
+				 * 【修复】DOM 移动后 offsetParent 改变，Popper.js 的 update() 可能
+				 * 不会重新计算 top/left，导致下拉框无定位信息（出现在左上角或不可见）。
+				 * 检测到 position 属性缺失时 destroy 后重建，确保定位一定存在。
+				 * 场景：Tab 切换、异步初始化、reference 元素隐藏时打开下拉框等。
+				 */
+				this.$nextTick(() => {
+					const hasPosition =
+						popperElm.style.top ||
+						popperElm.style.left ||
+						popperElm.style.transform;
+					if (!hasPosition) {
+						console.log(
+							"changePopperPositionTo: 定位信息缺失，重建 popper"
+						);
+						if (popper.popperJS) {
+							popper.popperJS.destroy();
+							popper.popperJS = null;
+						}
+						// updatePopper 内部：popperJS 存在则 update，不存在则 createPopper
+						popper.updatePopper();
+					}
+					/*
+					 * 重建 popperJS 后 resetTransformOrigin 依赖 onCreate 回调，
+					 * 可能不会同步触发，导致 --xSelectDropdown-min-width 丢失、
+					 * 下拉框宽度偏移。此处直接用已缓存的 referenceElm 兜底。
+					 */
+					this.$nextTick(() => {
+						const refEl = popper.referenceElm;
+						if (refEl) {
+							$(popperElm).css({
+								"--xSelectDropdown-min-width": refEl.offsetWidth
+									? `${refEl.offsetWidth}px`
+									: 0
+							});
+						}
+					});
+				});
 
 				// 检测是否达到预期效果
 				const checkResult = this.checkPopperPosition(isAppendToBody, popperElm);
