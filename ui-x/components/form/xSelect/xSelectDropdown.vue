@@ -54,7 +54,13 @@ export default async function () {
 			this.referenceElm = this.$parent.$refs.reference?.$el;
 			this.$parent.popperElm = this.popperElm = this.$el;
 			this.$on("updatePopper", () => {
-				if (this.$parent.visible) this.updatePopper();
+				if (this.$parent.visible) {
+					var ref = this.$parent.$refs.reference;
+					if (ref && ref.$el) {
+						this.referenceElm = ref.$el;
+					}
+					this.updatePopper();
+				}
 			});
 			this.$on("destroyPopper", this.destroyPopper);
 		}

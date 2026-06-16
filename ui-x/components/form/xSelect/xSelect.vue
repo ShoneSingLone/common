@@ -604,18 +604,19 @@ export default async function ({ PRIVATE_GLOBAL }) {
 					.toggleClass("x-popper--absolute", isAppendToBody)
 					.toggleClass("x-popper--relative", !isAppendToBody);
 
-				// 更新 popper 定位
-				if (popper.popperJS) {
-					popper.updatePopper();
-					console.log("changePopperPositionTo: 已更新 popper 定位");
-				}
+				// 每次调用 updatePopper 前刷新 referenceElm。
+				// xInput 可能因 v-if 重建，xSelectDropdown.mounted 里的一次性快照会过时，
+				// createPopper(VuePopper.vue:86) 拿到无效 reference 直接 return，永不创建定位。
+				const refreshRef = () => {
+					var refEl = this.$refs.reference;
+					if (refEl && refEl.$el && refEl.$el !== popper.referenceElm) {
+						popper.referenceElm = refEl.$el;
+					}
+				};
+				refreshRef();
+				popper.updatePopper();
+				console.log("changePopperPositionTo: 已更新 popper 定位");
 
-				/*
-				 * 【修复】DOM 移动后 offsetParent 改变，Popper.js 的 update() 可能
-				 * 不会重新计算 top/left，导致下拉框无定位信息（出现在左上角或不可见）。
-				 * 检测到 position 属性缺失时 destroy 后重建，确保定位一定存在。
-				 * 场景：Tab 切换、异步初始化、reference 元素隐藏时打开下拉框等。
-				 */
 				this.$nextTick(() => {
 					const hasPosition =
 						popperElm.style.top ||
@@ -623,30 +624,24 @@ export default async function ({ PRIVATE_GLOBAL }) {
 						popperElm.style.transform;
 					if (!hasPosition) {
 						console.log(
-							"changePopperPositionTo: 定位信息缺失，重建 popper"
+							"changePopperPositionTo: 定位信息缺失，刷新 reference 后重建"
 						);
 						if (popper.popperJS) {
 							popper.popperJS.destroy();
 							popper.popperJS = null;
 						}
-						// updatePopper 内部：popperJS 存在则 update，不存在则 createPopper
+						refreshRef();
 						popper.updatePopper();
 					}
-					/*
-					 * 重建 popperJS 后 resetTransformOrigin 依赖 onCreate 回调，
-					 * 可能不会同步触发，导致 --xSelectDropdown-min-width 丢失、
-					 * 下拉框宽度偏移。此处直接用已缓存的 referenceElm 兜底。
-					 */
-					this.$nextTick(() => {
-						const refEl = popper.referenceElm;
-						if (refEl) {
-							$(popperElm).css({
-								"--xSelectDropdown-min-width": refEl.offsetWidth
-									? `${refEl.offsetWidth}px`
-									: 0
-							});
-						}
-					});
+					// 兜底 min-width，不依赖 onCreate 回调时序
+					var ref = popper.referenceElm;
+					if (ref) {
+						$(popperElm).css({
+							"--xSelectDropdown-min-width": ref.offsetWidth
+								? `${ref.offsetWidth}px`
+								: 0
+						});
+					}
 				});
 
 				// 检测是否达到预期效果
