@@ -119,7 +119,10 @@ export default async function ({ PRIVATE_GLOBAL }) {
 						} else {
 							// 确保 config 是 composition-api reactive Proxy，与 computed 响应式系统兼容
 							// reactive() 有内部 WeakMap 缓存，同一对象多次调用返回同一 Proxy，O(1) 开销
-							if (!vm.__reactiveConfigsRaw || vm.__reactiveConfigsRaw !== vm.configs) {
+							if (
+								!vm.__reactiveConfigsRaw ||
+								vm.__reactiveConfigsRaw !== vm.configs
+							) {
 								vm.__reactiveConfigsRaw = vm.configs;
 								vm.__reactiveConfigs = reactive(vm.configs);
 							}

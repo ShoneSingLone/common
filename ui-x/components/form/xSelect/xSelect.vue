@@ -550,8 +550,7 @@ export default async function ({ PRIVATE_GLOBAL }) {
 				 */
 				if (alreadyInTargetState) {
 					const hasTop = popperElm.style.top;
-					const hasPosition =
-						hasTop || popperElm.style.left || popperElm.style.transform;
+					const hasPosition = hasTop || popperElm.style.left || popperElm.style.transform;
 					const hasMinWidth = popperElm.style.getPropertyValue(
 						"--xSelectDropdown-min-width"
 					);
@@ -619,13 +618,9 @@ export default async function ({ PRIVATE_GLOBAL }) {
 
 				this.$nextTick(() => {
 					const hasPosition =
-						popperElm.style.top ||
-						popperElm.style.left ||
-						popperElm.style.transform;
+						popperElm.style.top || popperElm.style.left || popperElm.style.transform;
 					if (!hasPosition) {
-						console.log(
-							"changePopperPositionTo: 定位信息缺失，刷新 reference 后重建"
-						);
+						console.log("changePopperPositionTo: 定位信息缺失，刷新 reference 后重建");
 						if (popper.popperJS) {
 							popper.popperJS.destroy();
 							popper.popperJS = null;

@@ -1145,7 +1145,9 @@
 		const { pathname, search } = _url;
 		return {
 			href: `${pathname}${search}`,
-			url: _url
+			url: _url,
+			search,
+			pathname
 		};
 	}
 

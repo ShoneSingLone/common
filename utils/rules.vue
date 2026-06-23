@@ -346,9 +346,7 @@ export default async function ({ PRIVATE_GLOBAL }) {
 							for (let item of portItems) {
 								item = _.trim(item); // 去除空格
 								if (!item) {
-									return i18n(
-										"port_multi_format"
-									);
+									return i18n("port_multi_format");
 								}
 
 								// 2. 拆分单个/段端口
@@ -356,9 +354,7 @@ export default async function ({ PRIVATE_GLOBAL }) {
 
 								// 只能是 1 段（单个）或 2 段（范围）
 								if (portArr.length < 1 || portArr.length > 2) {
-									return i18n(
-										"port_multi_format"
-									);
+									return i18n("port_multi_format");
 								}
 
 								let minVal, maxVal;
@@ -391,10 +387,10 @@ export default async function ({ PRIVATE_GLOBAL }) {
 									maxVal > default_max ||
 									minVal > maxVal
 								) {
-									return i18n(
-										"port_range_invalid",
-										{ min: default_min, max: default_max }
-									);
+									return i18n("port_range_invalid", {
+										min: default_min,
+										max: default_max
+									});
 								}
 							}
 
@@ -414,11 +410,7 @@ export default async function ({ PRIVATE_GLOBAL }) {
 			 * @param msg
 			 * @returns
 			 */
-			port_use_range: (
-				default_min,
-				default_max,
-				msg = "port_use_range_format"
-			) => {
+			port_use_range: (default_min, default_max, msg = "port_use_range_format") => {
 				return {
 					async validator({ val }) {
 						try {
