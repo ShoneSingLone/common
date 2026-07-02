@@ -220,7 +220,9 @@ export default async function () {
 		// 为缺少 key 的列自动生成唯一 key
 		const generateColumnKey = (column, parentKey = "") => {
 			if (!column.key) {
-				column.key = parentKey ? `${parentKey}_${column.field || getRandomId()}` : column.field || getRandomId();
+				column.key = parentKey
+					? `${parentKey}_${column.field || getRandomId()}`
+					: column.field || getRandomId();
 			}
 			if (column.children) {
 				column.children.forEach(child => generateColumnKey(child, column.key));

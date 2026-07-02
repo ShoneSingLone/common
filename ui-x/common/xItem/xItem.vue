@@ -117,8 +117,16 @@ export default async function ({ PRIVATE_GLOBAL }) {
 							}
 							return vm._cachedConfigs;
 						} else {
-							// 如果 configs 是对象，直接返回
-							return vm.configs;
+							// 确保 config 是 composition-api reactive Proxy，与 computed 响应式系统兼容
+							// reactive() 有内部 WeakMap 缓存，同一对象多次调用返回同一 Proxy，O(1) 开销
+							if (
+								!vm.__reactiveConfigsRaw ||
+								vm.__reactiveConfigsRaw !== vm.configs
+							) {
+								vm.__reactiveConfigsRaw = vm.configs;
+								vm.__reactiveConfigs = reactive(vm.configs);
+							}
+							return vm.__reactiveConfigs;
 						}
 					} else if (vm.CONFIGS_ONLY_AS_WRAPPER) {
 						return vm.CONFIGS_ONLY_AS_WRAPPER;
@@ -158,7 +166,6 @@ export default async function ({ PRIVATE_GLOBAL }) {
 				}
 			});
 
-			// cpt_configs.value = reactive(cpt_configs.value);
 			Vue._X_ITEM_VM_S = Vue._X_ITEM_VM_S || {};
 
 			/* options\disabled\readOnly\做统一处理，其他的使用透传 */

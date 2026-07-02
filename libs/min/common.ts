@@ -235,7 +235,7 @@
 					);
 				}
 			}),
-			(_.$ramdomStr = function (t) {
+			(_.$random_str = function (t) {
 				t = t || 26;
 				var r = "abcdefhijkmnprstwxyz0123456789",
 					n = r.length,
@@ -617,7 +617,7 @@
 				e = _.find(e, e => String(e.value) === String(t));
 				return e ? e.label : r;
 			}),
-			(_.$randomName = (e, t = 16) =>
+			(_.$random_name = (e, t = 16) =>
 				e + parseInt((new Date().getTime() % 61439) + 4096).toString(t)),
 			(_.$is200 = function (e) {
 				return "200" === String(e);

@@ -1,13 +1,14 @@
 <template>
 	<xBlock class="flex vertical center xItem-pos left top width100">
+		<!-- 编辑模式：显示输入框和添加按钮 -->
 		<div
+			v-if="!readonly && !disabled"
 			class="flex middle center mb8"
 			style="
 				max-width: 500px;
 				--xItem-flex-flow: row nowrap;
 				--xItem-layout-align-items: center;
-			"
-			v-if="!cpt_disabled">
+			">
 			<xItem :configs="configsKey" />
 			<xGap l="4" />
 			<span>=</span>
@@ -16,18 +17,22 @@
 			<xGap l="4" />
 			<xBtn :configs="configsAddBtn" />
 		</div>
+		<!-- 只读模式：只显示标签，无输入框和添加按钮 -->
 		<div v-if="cpt_notice" class="mb">
-			<xRender :render="cpt_notice" />
+			<div class="xItem-msg mt4">
+				<xRender :render="cpt_notice" />
+			</div>
 		</div>
 		<div>
 			<span
 				v-for="(val, key) in x_item_value"
 				:key="key"
-				style="display: inline-block; margin: 4px; cursor: pointer">
+				style="display: inline-block; margin: 4px"
+				:class="{ 'cursor-pointer': !readonly && !disabled }">
 				<xTag
-					:closable="!cpt_disabled"
+					:closable="!readonly && !disabled"
 					@close="$event => removeTag(key)"
-					@click="$event => editTag(key)"
+					@click="$event => !readonly && !disabled && editTag(key)"
 					>{{ key }}={{ val }}</xTag
 				>
 			</span>
@@ -92,9 +97,6 @@ export default async function () {
 			cpt_notice() {
 				return this.configs.notice || false;
 			},
-			cpt_disabled() {
-				return this.$xItemAttr("disabled");
-			},
 			configsAddBtn() {
 				const vm = this;
 				let label = i18n("添加");
@@ -134,6 +136,8 @@ export default async function () {
 						[this.configsKey.value]: this.configsVal.value
 					};
 					this.x_item_value = _.merge({}, this.x_item_value, podObj);
+					this.configsKey.value = "";
+					this.configsVal.value = "";
 				}
 			}
 		}

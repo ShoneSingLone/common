@@ -16,26 +16,26 @@
 
 ```javascript
 $ensure = async (fn_get_value, duration = 0, gap = 64, options = {}) => {
-    return new Promise((resolve, reject) => {
-        const checkValue = async () => {
-            const value = await fn_get_value({ exeCount, handler, vm });
-            if (value) {
-                resolve(value); // 条件满足，resolve
-            } else {
-                timer = setTimeout(checkValue, gap); // 默认每64ms检查一次
-            }
-        };
-        checkValue();
-    });
+	return new Promise((resolve, reject) => {
+		const checkValue = async () => {
+			const value = await fn_get_value({ exeCount, handler, vm });
+			if (value) {
+				resolve(value); // 条件满足，resolve
+			} else {
+				timer = setTimeout(checkValue, gap); // 默认每64ms检查一次
+			}
+		};
+		checkValue();
+	});
 };
 ```
 
 ### 2.2 问题场景
 
 ```javascript
-const debouncedFn = _.debounce(async function() {
-    await _.ensure(() => someCondition); // 开始等待
-    doSomething(); // 条件满足后执行
+const debouncedFn = _.debounce(async function () {
+	await _.ensure(() => someCondition); // 开始等待
+	doSomething(); // 条件满足后执行
 }, 300);
 
 // 用户快速连续触发
@@ -64,53 +64,59 @@ debouncedFn(); // 第3次调用（300ms内）→ 启动新的 $ensure
 
 ```javascript
 $ensure = async (fn_get_value, duration = 0, gap = 64, options = {}) => {
-    let cancelFn = null;
-    
-    const promise = new Promise((resolve, reject) => {
-        let timer = null;
-        let durationTimer = null;
-        let isFinished = false;
-        let isCanceled = false;
+	let cancelFn = null;
 
-        // 新增：取消函数
-        cancelFn = (reason = "ensure canceled") => {
-            if (isFinished) return;
-            isCanceled = true;
-            clearTimers();
-            isFinished = true;
-            reject(new Error(reason));
-        };
+	const promise = new Promise((resolve, reject) => {
+		let timer = null;
+		let durationTimer = null;
+		let isFinished = false;
+		let isCanceled = false;
 
-        const clearTimers = () => {
-            if (timer) { clearTimeout(timer); timer = null; }
-            if (durationTimer) { clearTimeout(durationTimer); durationTimer = null; }
-        };
+		// 新增：取消函数
+		cancelFn = (reason = "ensure canceled") => {
+			if (isFinished) return;
+			isCanceled = true;
+			clearTimers();
+			isFinished = true;
+			reject(new Error(reason));
+		};
 
-        const checkValue = async () => {
-            if (isFinished || isCanceled) return; // 新增取消检查
-            try {
-                const value = await fn_get_value({ exeCount, handler, vm });
-                if (isFinished || isCanceled) return;
-                if (value) {
-                    isFinished = true;
-                    clearTimers();
-                    resolve(value);
-                } else {
-                    timer = setTimeout(checkValue, gap);
-                }
-            } catch (error) {
-                isFinished = true;
-                clearTimers();
-                reject(error);
-            }
-        };
+		const clearTimers = () => {
+			if (timer) {
+				clearTimeout(timer);
+				timer = null;
+			}
+			if (durationTimer) {
+				clearTimeout(durationTimer);
+				durationTimer = null;
+			}
+		};
 
-        checkValue();
-    });
+		const checkValue = async () => {
+			if (isFinished || isCanceled) return; // 新增取消检查
+			try {
+				const value = await fn_get_value({ exeCount, handler, vm });
+				if (isFinished || isCanceled) return;
+				if (value) {
+					isFinished = true;
+					clearTimers();
+					resolve(value);
+				} else {
+					timer = setTimeout(checkValue, gap);
+				}
+			} catch (error) {
+				isFinished = true;
+				clearTimers();
+				reject(error);
+			}
+		};
 
-    // 在 Promise 上挂载 cancel 方法
-    promise.cancel = cancelFn;
-    return promise;
+		checkValue();
+	});
+
+	// 在 Promise 上挂载 cancel 方法
+	promise.cancel = cancelFn;
+	return promise;
 };
 ```
 
@@ -118,22 +124,22 @@ $ensure = async (fn_get_value, duration = 0, gap = 64, options = {}) => {
 
 ```javascript
 const debouncedFn = (() => {
-    let currentEnsure = null;
-    
-    return _.debounce(async function() {
-        // 取消之前的 ensure
-        if (currentEnsure?.cancel) {
-            currentEnsure.cancel();
-        }
-        
-        currentEnsure = _.ensure(() => someCondition);
-        try {
-            await currentEnsure;
-            doSomething();
-        } catch (e) {
-            if (e.message !== "ensure canceled") throw e; // 忽略取消错误
-        }
-    }, 300);
+	let currentEnsure = null;
+
+	return _.debounce(async function () {
+		// 取消之前的 ensure
+		if (currentEnsure?.cancel) {
+			currentEnsure.cancel();
+		}
+
+		currentEnsure = _.ensure(() => someCondition);
+		try {
+			await currentEnsure;
+			doSomething();
+		} catch (e) {
+			if (e.message !== "ensure canceled") throw e; // 忽略取消错误
+		}
+	}, 300);
 })();
 ```
 
@@ -143,41 +149,37 @@ const debouncedFn = (() => {
 
 ```javascript
 _.$asyncDebounce = (vm, func, delay = 1000) => {
-    let timer;
-    let promise = null;
-    let cancelPrevious = null;
+	let timer;
+	let promise = null;
+	let cancelPrevious = null;
 
-    return async function (...args) {
-        // 取消之前的执行
-        if (typeof cancelPrevious === 'function') {
-            cancelPrevious();
-        }
-        
-        if (timer) clearTimeout(timer);
+	return async function (...args) {
+		// 取消之前的执行
+		if (typeof cancelPrevious === "function") {
+			cancelPrevious();
+		}
 
-        if (promise) {
-            const previousReject = _reject;
-            cancelPrevious = () => previousReject?.(new Error('canceled'));
-            
-            timer = setTimeout(() => {
-                func.apply(vm, args)
-                    .then(_resolve)
-                    .catch(_reject);
-            }, delay);
-            return promise;
-        } else {
-            promise = new Promise((resolve, reject) => {
-                _resolve = resolve;
-                _reject = reject;
-                timer = setTimeout(() => {
-                    func.apply(vm, args)
-                        .then(resolve)
-                        .catch(reject);
-                }, delay);
-            });
-            return promise;
-        }
-    };
+		if (timer) clearTimeout(timer);
+
+		if (promise) {
+			const previousReject = _reject;
+			cancelPrevious = () => previousReject?.(new Error("canceled"));
+
+			timer = setTimeout(() => {
+				func.apply(vm, args).then(_resolve).catch(_reject);
+			}, delay);
+			return promise;
+		} else {
+			promise = new Promise((resolve, reject) => {
+				_resolve = resolve;
+				_reject = reject;
+				timer = setTimeout(() => {
+					func.apply(vm, args).then(resolve).catch(reject);
+				}, delay);
+			});
+			return promise;
+		}
+	};
 };
 ```
 
@@ -187,26 +189,26 @@ _.$asyncDebounce = (vm, func, delay = 1000) => {
 
 ```javascript
 $ensure = async (fn_get_value, duration = 0, gap = 64, options = {}) => {
-    const controller = options.controller || new AbortController();
-    
-    return new Promise((resolve, reject) => {
-        let timer = null;
-        let isFinished = false;
+	const controller = options.controller || new AbortController();
 
-        controller.signal.addEventListener('abort', () => {
-            if (isFinished) return;
-            isFinished = true;
-            clearTimeout(timer);
-            reject(new Error('aborted'));
-        });
+	return new Promise((resolve, reject) => {
+		let timer = null;
+		let isFinished = false;
 
-        const checkValue = async () => {
-            if (isFinished || controller.signal.aborted) return;
-            // ... 检查逻辑
-        };
+		controller.signal.addEventListener("abort", () => {
+			if (isFinished) return;
+			isFinished = true;
+			clearTimeout(timer);
+			reject(new Error("aborted"));
+		});
 
-        checkValue();
-    });
+		const checkValue = async () => {
+			if (isFinished || controller.signal.aborted) return;
+			// ... 检查逻辑
+		};
+
+		checkValue();
+	});
 };
 ```
 
@@ -216,28 +218,28 @@ $ensure = async (fn_get_value, duration = 0, gap = 64, options = {}) => {
 
 ### 4.1 调用位置分布
 
-| 模块类型 | 文件数量 | 典型场景 |
-|---------|---------|---------|
-| UI 组件 | 14 个 | `xInputNumber`、`xCascader`、`xTableVir` |
-| 工具函数 | 4 个 | `common.ts`、`seed.js`、`xSelectHelper.vue` |
-| 业务组件 | 4 个 | `use_mo_common.vue`、`Nprogress.vue` |
+| 模块类型 | 文件数量 | 典型场景                                    |
+| -------- | -------- | ------------------------------------------- |
+| UI 组件  | 14 个    | `xInputNumber`、`xCascader`、`xTableVir`    |
+| 工具函数 | 4 个     | `common.ts`、`seed.js`、`xSelectHelper.vue` |
+| 业务组件 | 4 个     | `use_mo_common.vue`、`Nprogress.vue`        |
 
 ### 4.2 向后兼容性分析
 
-| 评估维度 | 状态 | 说明 |
-|---------|------|------|
-| **API 兼容性** | ✅ 兼容 | 参数不变，返回值仍为 Promise |
-| **行为兼容性** | ✅ 兼容 | 原有逻辑完全保留 |
-| **新增功能** | ✅ 可选 | `cancel` 方法按需使用 |
-| **TypeScript** | ⚠️ 需要更新 | 更新类型声明 |
+| 评估维度       | 状态        | 说明                         |
+| -------------- | ----------- | ---------------------------- |
+| **API 兼容性** | ✅ 兼容     | 参数不变，返回值仍为 Promise |
+| **行为兼容性** | ✅ 兼容     | 原有逻辑完全保留             |
+| **新增功能**   | ✅ 可选     | `cancel` 方法按需使用        |
+| **TypeScript** | ⚠️ 需要更新 | 更新类型声明                 |
 
 ### 4.3 风险评估
 
-| 风险等级 | 风险描述 | 缓解措施 |
-|---------|---------|---------|
-| **低** | 返回值结构变化 | Promise 挂载方法不影响 `.then()`/`await` |
-| **低** | 内存泄漏 | 已有 `clearTimers` 和 `unbindVmDestroyHook` |
-| **中** | 并发调用冲突 | 每个调用独立，互不影响 |
+| 风险等级 | 风险描述       | 缓解措施                                    |
+| -------- | -------------- | ------------------------------------------- |
+| **低**   | 返回值结构变化 | Promise 挂载方法不影响 `.then()`/`await`    |
+| **低**   | 内存泄漏       | 已有 `clearTimers` 和 `unbindVmDestroyHook` |
+| **中**   | 并发调用冲突   | 每个调用独立，互不影响                      |
 
 ---
 

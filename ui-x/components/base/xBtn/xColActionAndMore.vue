@@ -1,5 +1,5 @@
 <template>
-	<div class="xColActionAndMore" ref="xColActionAndMore">
+	<div class="xColActionAndMore ellipsis-no-title" ref="xColActionAndMore">
 		<xBtn
 			:preset="preset"
 			v-for="(btnConfigs, index) in btnArray"

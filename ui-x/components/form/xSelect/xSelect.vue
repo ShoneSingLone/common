@@ -543,8 +543,23 @@ export default async function ({ PRIVATE_GLOBAL }) {
 				const currentInBody = popperElm.parentNode === document.body;
 				const alreadyInTargetState = isAppendToBody ? currentInBody : !currentInBody;
 
+				/*
+				 * 提前返回条件从严：父节点正确 + 定位已计算 才跳过。
+				 * 仅父节点正确但定位缺失（Tab切换、异步初始化等场景），
+				 * 仍需走后续修复流程重建定位。
+				 */
 				if (alreadyInTargetState) {
-					return;
+					const hasTop = popperElm.style.top;
+					const hasPosition = hasTop || popperElm.style.left || popperElm.style.transform;
+					const hasMinWidth = popperElm.style.getPropertyValue(
+						"--xSelectDropdown-min-width"
+					);
+					if (hasPosition && hasMinWidth) {
+						return;
+					}
+					console.log(
+						"changePopperPositionTo: 父节点正确但定位/宽度信息缺失，继续修复流程"
+					);
 				}
 
 				console.log(
@@ -583,11 +598,46 @@ export default async function ({ PRIVATE_GLOBAL }) {
 					}
 				}
 
-				// 更新 popper 定位
-				if (popper.popperJS) {
-					popper.updatePopper();
-					console.log("changePopperPositionTo: 已更新 popper 定位");
-				}
+				// 同步 popper 定位 class（DOM 移动后需与 appendToBody 状态一致）
+				$(popperElm)
+					.toggleClass("x-popper--absolute", isAppendToBody)
+					.toggleClass("x-popper--relative", !isAppendToBody);
+
+				// 每次调用 updatePopper 前刷新 referenceElm。
+				// xInput 可能因 v-if 重建，xSelectDropdown.mounted 里的一次性快照会过时，
+				// createPopper(VuePopper.vue:86) 拿到无效 reference 直接 return，永不创建定位。
+				const refreshRef = () => {
+					var refEl = this.$refs.reference;
+					if (refEl && refEl.$el && refEl.$el !== popper.referenceElm) {
+						popper.referenceElm = refEl.$el;
+					}
+				};
+				refreshRef();
+				popper.updatePopper();
+				console.log("changePopperPositionTo: 已更新 popper 定位");
+
+				this.$nextTick(() => {
+					const hasPosition =
+						popperElm.style.top || popperElm.style.left || popperElm.style.transform;
+					if (!hasPosition) {
+						console.log("changePopperPositionTo: 定位信息缺失，刷新 reference 后重建");
+						if (popper.popperJS) {
+							popper.popperJS.destroy();
+							popper.popperJS = null;
+						}
+						refreshRef();
+						popper.updatePopper();
+					}
+					// 兜底 min-width，不依赖 onCreate 回调时序
+					var ref = popper.referenceElm;
+					if (ref) {
+						$(popperElm).css({
+							"--xSelectDropdown-min-width": ref.offsetWidth
+								? `${ref.offsetWidth}px`
+								: 0
+						});
+					}
+				});
 
 				// 检测是否达到预期效果
 				const checkResult = this.checkPopperPosition(isAppendToBody, popperElm);

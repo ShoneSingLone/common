@@ -253,16 +253,20 @@ export default async function ({ PRIVATE_GLOBAL, options, modalConfigs }) {
 					left = rect.left;
 					topOnepice = rect.top;
 					const persistLeft =
-						modalConfigs.center === false || (options.style && _.$isInput(options.style.left));
+						modalConfigs.center === false ||
+						(options.style && _.$isInput(options.style.left));
 					const persistTop =
-						modalConfigs.center === false || (options.style && _.$isInput(options.style.top));
+						modalConfigs.center === false ||
+						(options.style && _.$isInput(options.style.top));
 					if (persistLeft || persistTop) {
 						if (!options.style) options.style = {};
 						if (persistLeft) options.style.left = rect.left;
 						if (persistTop) options.style.top = rect.top;
 					}
-					if (options.style && _.$isInput(options.style.width)) options.style.width = rect.width;
-					if (options.style && _.$isInput(options.style.height)) options.style.height = rect.height;
+					if (options.style && _.$isInput(options.style.width))
+						options.style.width = rect.width;
+					if (options.style && _.$isInput(options.style.height))
+						options.style.height = rect.height;
 
 					// 使用 requestAnimationFrame 确保样式更新在下一帧执行
 					requestAnimationFrame(() => {
@@ -499,7 +503,10 @@ export default async function ({ PRIVATE_GLOBAL, options, modalConfigs }) {
 
 						const maxWidth = Math.max(0, winWidth - Math.max(0, left));
 						const maxHeight = Math.max(0, winHeight - Math.max(0, top));
-						const minWidth = Math.min(maxWidth, Math.max(200, toNumber(options.minWidth) || 200));
+						const minWidth = Math.min(
+							maxWidth,
+							Math.max(200, toNumber(options.minWidth) || 200)
+						);
 						const minHeight = Math.min(
 							maxHeight,
 							Math.max(100, toNumber(options.minHeight) || 100)
@@ -510,8 +517,16 @@ export default async function ({ PRIVATE_GLOBAL, options, modalConfigs }) {
 						if (!options.style) options.style = {};
 						options.style.width = width;
 						options.style.height = height;
-						options.style.left = clamp(toNumber(options.style.left) || 0, 0, Math.max(0, winWidth - width));
-						options.style.top = clamp(toNumber(options.style.top) || 0, 0, Math.max(0, winHeight - height));
+						options.style.left = clamp(
+							toNumber(options.style.left) || 0,
+							0,
+							Math.max(0, winWidth - width)
+						);
+						options.style.top = clamp(
+							toNumber(options.style.top) || 0,
+							0,
+							Math.max(0, winHeight - height)
+						);
 
 						$(vm.$el).find(".xDialog.xDialog-wrapper").addClass("custom-manual-resize");
 
@@ -797,7 +812,7 @@ export default async function ({ PRIVATE_GLOBAL, options, modalConfigs }) {
 	/* CSS 变量定义 */
 	--xModal-bg-color: #fff;
 	--xModal-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
-	--xModal-header-padding: 20px 20px 10px;
+	--xModal-header-padding: 20px 10px;
 	--xModal-header-btn-top: 20px;
 	--xModal-header-btn-font-size: 16px;
 	--xModal-header-close-right: 10px;

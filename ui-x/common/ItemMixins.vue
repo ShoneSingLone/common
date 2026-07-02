@@ -184,7 +184,7 @@ export default async function () {
 					prop: "value",
 					event: "change"
 				},
-				props: ["value", "configs", "readonly"],
+				props: ["value", "configs", "readonly", "disabled"],
 				created() {
 					this.xItem.childVm = this;
 				},

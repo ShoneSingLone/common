@@ -1,6 +1,9 @@
 <script lang="ts">
 export default async function ({ PRIVATE_GLOBAL }) {
 	const _reg = await _.$importVue("/common/utils/regexp.vue");
+	/**
+	 * TODO:
+	 * 完成 rules.vue 校验方法检查，发现3个方法（notAllNumReg、scRancherPortName、scEnvName）缺少正确的未输入处理逻辑 */
 	if (!PRIVATE_GLOBAL._rules) {
 		let _rules = {
 			_reg,
@@ -94,7 +97,7 @@ export default async function ({ PRIVATE_GLOBAL }) {
 					name: "mobilePhone",
 					async validator({ val }) {
 						if (!_.$isInput(val)) {
-							return;
+							return "";
 						}
 						var urlRegex = _reg.phoneRe();
 						if (urlRegex.test(val)) {
@@ -111,16 +114,13 @@ export default async function ({ PRIVATE_GLOBAL }) {
 					name: "serviceName",
 					async validator({ val }) {
 						if (!_.$isInput(val)) {
-							return;
+							return "";
 						}
-						const errorTips =
-							"以小写字母开头,由小写字母，数字，中划线(-)组成，63个字符之内,且不能以中划线(-)结尾。";
-
 						var urlRegex = _reg.serviceName();
 						if (urlRegex.test(val)) {
 							return "";
 						} else {
-							return errorTips;
+							return i18n("service_name_format");
 						}
 					},
 					trigger: ["change", "blur"]
@@ -135,7 +135,7 @@ export default async function ({ PRIVATE_GLOBAL }) {
 					name: "domain",
 					async validator({ val }) {
 						if (!_.$isInput(val)) {
-							return;
+							return "";
 						}
 						var urlRegex = _reg.domainReg();
 						if (urlRegex.test(val)) {
@@ -143,7 +143,7 @@ export default async function ({ PRIVATE_GLOBAL }) {
 						} else if (urlRegex.test(val.replace(/^\*\./, ""))) {
 							return "";
 						} else {
-							return "只能由字母、数字、中划线、星号组成。星号只能在开头，中划线不能在开头或未尾，至少包含两个字符串，单个字符串不超过63个字符，字符串间以点分制，且总长度不超过100个字符。例如 :example.com 或*.example.com。";
+							return i18n("domain_name_format");
 						}
 					},
 					trigger: ["change", "blur"]
@@ -154,19 +154,19 @@ export default async function ({ PRIVATE_GLOBAL }) {
 					name: "keyVal",
 					async validator({ val }) {
 						if (!_.$isInput(val)) {
-							return;
+							return "";
 						}
 						var urlRegex = _reg.keyVal();
 						var urlRegex2 = _reg.keyValOnlyOne();
 
 						if (String(val).length > 1) {
 							if (!urlRegex.test(val)) {
-								return "以字母或者数字开头和结尾，由字母、数字连接符(-)、下划线(_)、点号(.)组成";
+								return i18n("key_val_format");
 							}
 							return "";
 						} else {
 							if (!urlRegex2.test(val)) {
-								return "以字母或者数字开头和结尾，由字母、数字连接符(-)、下划线(_)、点号(.)组成";
+								return i18n("key_val_format");
 							}
 							return "";
 						}
@@ -179,11 +179,11 @@ export default async function ({ PRIVATE_GLOBAL }) {
 					name: "urlStart",
 					async validator({ val }) {
 						if (!_.$isInput(val)) {
-							return;
+							return "";
 						}
 						var urlRegex = _reg.url1();
 						if (!urlRegex.test(val)) {
-							return "以/开头，由英文字母、数字或特殊字符-/.%?#&=组成";
+							return i18n("url_path_format");
 						}
 						return "";
 					},
@@ -195,13 +195,13 @@ export default async function ({ PRIVATE_GLOBAL }) {
 					name: "url",
 					async validator({ val }) {
 						if (!_.$isInput(val)) {
-							return;
+							return "";
 						}
 						var urlRegex = _reg.url2();
 						if (urlRegex.test(val)) {
 							return "";
 						} else {
-							return "URL只能以/开头，由英文字母、数字或特殊字符_~`;@^-%#&$.*+?,=!:|V()[]{}组成";
+							return i18n("url_special_chars_format");
 						}
 					},
 					trigger: ["change", "blur"]
@@ -226,7 +226,7 @@ export default async function ({ PRIVATE_GLOBAL }) {
 							/* 自己填了 */
 							return "";
 						}
-						return "需保证行数据完整";
+						return i18n("row_data_complete");
 					},
 					trigger: ["change", "blur"]
 				};
@@ -265,7 +265,7 @@ export default async function ({ PRIVATE_GLOBAL }) {
 				return {
 					name: "email",
 					async validator({ val }) {
-						if (!val) {
+						if (!_.$isInput(val)) {
 							return "";
 						}
 						var urlRegex = _reg.email();
@@ -286,6 +286,10 @@ export default async function ({ PRIVATE_GLOBAL }) {
 				return {
 					name: "lessThan",
 					async validator({ val }) {
+						if (!_.$isInput(val)) {
+							return "";
+						}
+
 						let msg = "";
 
 						if (String(val).length > size) {
@@ -298,7 +302,7 @@ export default async function ({ PRIVATE_GLOBAL }) {
 					trigger: ["change", "blur"]
 				};
 			},
-			port_in_range: (default_min, default_max, msg = `请输入{min}~{max}范围内的整数`) => {
+			port_in_range: (default_min, default_max, msg = "port_in_range_format") => {
 				return {
 					async validator({ val }) {
 						try {
@@ -308,6 +312,11 @@ export default async function ({ PRIVATE_GLOBAL }) {
 
 							if (!_reg.numberValue().test(val)) {
 								return i18n(msg, { max: default_max, min: default_min });
+							}
+
+							// 【需求】端口不能以0开头（如 080、0080）- 2026-06-08
+							if (/^0\d+$/.test(String(val).trim())) {
+								return i18n("port_cannot_start_with_zero");
 							}
 
 							val = _.toNumber(val);
@@ -328,7 +337,6 @@ export default async function ({ PRIVATE_GLOBAL }) {
 					async validator({ val }) {
 						try {
 							if (!_.$isInput(val)) {
-								/* 必须输入 */
 								return;
 							}
 
@@ -338,9 +346,7 @@ export default async function ({ PRIVATE_GLOBAL }) {
 							for (let item of portItems) {
 								item = _.trim(item); // 去除空格
 								if (!item) {
-									return i18n(
-										"端口格式错误，请输入：单个端口 或 端口段（起始-结束），多端口用英文逗号分隔"
-									);
+									return i18n("port_multi_format");
 								}
 
 								// 2. 拆分单个/段端口
@@ -348,9 +354,7 @@ export default async function ({ PRIVATE_GLOBAL }) {
 
 								// 只能是 1 段（单个）或 2 段（范围）
 								if (portArr.length < 1 || portArr.length > 2) {
-									return i18n(
-										"端口格式错误，请输入：单个端口 或 端口段（起始-结束），多端口用英文逗号分隔"
-									);
+									return i18n("port_multi_format");
 								}
 
 								let minVal, maxVal;
@@ -365,7 +369,12 @@ export default async function ({ PRIVATE_GLOBAL }) {
 									!_reg.numberValue().test(minVal) ||
 									!_reg.numberValue().test(maxVal)
 								) {
-									return i18n("端口只能输入数字，端口段用英文短横线分隔");
+									return i18n("port_digits_only");
+								}
+
+								// 【需求】端口不能以0开头（如 080、0080）- 2026-06-08
+								if (/^0\d+$/.test(minVal) || /^0\d+$/.test(maxVal)) {
+									return i18n("port_cannot_start_with_zero");
 								}
 
 								// 4. 转数字
@@ -378,17 +387,17 @@ export default async function ({ PRIVATE_GLOBAL }) {
 									maxVal > default_max ||
 									minVal > maxVal
 								) {
-									return i18n(
-										"端口范围错误：端口必须在 {min}~{max} 之间，端口段需满足 起始≤结束",
-										{ min: default_min, max: default_max }
-									);
+									return i18n("port_range_invalid", {
+										min: default_min,
+										max: default_max
+									});
 								}
 							}
 
 							// 全部校验通过
 							return "";
 						} catch (error) {
-							return i18n("端口格式不正确，请检查后重试");
+							return i18n("port_format_invalid");
 						}
 					},
 					trigger: ["change", "blur"]
@@ -401,16 +410,11 @@ export default async function ({ PRIVATE_GLOBAL }) {
 			 * @param msg
 			 * @returns
 			 */
-			port_use_range: (
-				default_min,
-				default_max,
-				msg = `端口 {min}~{max}，端口段需「起始≤结束」`
-			) => {
+			port_use_range: (default_min, default_max, msg = "port_use_range_format") => {
 				return {
 					async validator({ val }) {
 						try {
 							if (!_.$isInput(val)) {
-								/* 必须输入 */
 								return;
 							}
 							let [minVal, maxVal] = _.split(val, "-");
@@ -420,6 +424,11 @@ export default async function ({ PRIVATE_GLOBAL }) {
 								!_reg.numberValue().test(maxVal)
 							) {
 								return i18n(msg, { max: default_max, min: default_min });
+							}
+
+							// 【需求】端口不能以0开头（如 080、0080）- 2026-06-08
+							if (/^0\d+$/.test(minVal) || /^0\d+$/.test(maxVal)) {
+								return i18n("port_cannot_start_with_zero");
 							}
 
 							minVal = _.toNumber(minVal);
@@ -441,7 +450,9 @@ export default async function ({ PRIVATE_GLOBAL }) {
 				return {
 					name: "numberCharacter",
 					async validator({ val }) {
-						if (!_.$isInput(val)) return;
+						if (!_.$isInput(val)) {
+							return "";
+						}
 
 						if (_reg.numberCharacter().test(val)) {
 							return "";
@@ -455,7 +466,9 @@ export default async function ({ PRIVATE_GLOBAL }) {
 				return {
 					name: "numberValue",
 					async validator({ val }) {
-						if (!_.$isInput(val)) return;
+						if (!_.$isInput(val)) {
+							return "";
+						}
 						if (_reg.numberValue().test(val)) {
 							return "";
 						}
@@ -471,6 +484,9 @@ export default async function ({ PRIVATE_GLOBAL }) {
 				return {
 					name: "ipV4",
 					async validator({ val }) {
+						if (!_.$isInput(val)) {
+							return "";
+						}
 						let msg = "";
 						const reg =
 							/\b(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9]?[0-9])\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9]?[0-9])\b/;
@@ -488,6 +504,9 @@ export default async function ({ PRIVATE_GLOBAL }) {
 				return {
 					name: "ipV6",
 					async validator({ val }) {
+						if (!_.$isInput(val)) {
+							return "";
+						}
 						let msg = "";
 						const ipv6_regex =
 							/^([0-9a-f]{1,4}:){7}[0-9a-f]{1,4}|([0-9a-f]{1,4}:){6}:[0-9a-f]{1,4}|([0-9a-f]{1,4}:){5}(:[0-9a-f]{1,4}){2}|([0-9a-f]{1,4}:){4}(:[0-9a-f]{1,4}){3}|([0-9a-f]{1,4}:){3}(:[0-9a-f]{1,4}){4}|([0-9a-f]{1,4}:){2}(:[0-9a-f]{1,4}){5}|[0-9a-f]{1,4}(:[0-9a-f]{1,4}){6}|:|0:0:0:0:0:0:0:0(%[0-9]{1,3}|[0-9a-f]{0,4})$/;
@@ -506,6 +525,10 @@ export default async function ({ PRIVATE_GLOBAL }) {
 				return {
 					name: "inetUrl",
 					async validator({ val }) {
+						if (!_.$isInput(val)) {
+							return "";
+						}
+
 						let UrlFormat = new RegExp("[a-zA-z]+://[^\\s]*");
 						if (UrlFormat.test(val)) {
 							return "";
@@ -519,6 +542,10 @@ export default async function ({ PRIVATE_GLOBAL }) {
 				return {
 					name: "integer",
 					async validator({ val }) {
+						if (!_.$isInput(val)) {
+							return "";
+						}
+
 						if (/^[1-9]\d*$/.test(val)) {
 							return "";
 						}
@@ -527,10 +554,41 @@ export default async function ({ PRIVATE_GLOBAL }) {
 					trigger: ["change", "input", "blur"]
 				};
 			},
+			/**
+			 * 【需求】通用正整数范围校验，用于校验输入值是否为指定范围内的正整数
+			 * @param {number} min - 最小值（含）
+			 * @param {number} max - 最大值（含）
+			 * @param {string} msg - 自定义错误提示，默认 "请输入{min}-{max}之间的正整数"
+			 */
+			integerInRange: (min, max, msg) => {
+				return {
+					name: "integerInRange",
+					async validator({ val }) {
+						if (!_.$isInput(val)) {
+							return "";
+						}
+						const s = String(val || "").trim();
+						// 【需求】数字不允许0开头（如 01、001 格式不合法）- 2026-06-08
+						if (/^0\d+$/.test(s)) {
+							return msg || i18n("integer_between_min_max", { min, max });
+						}
+						const num = parseInt(s);
+						if (!/^\d+$/.test(s) || num < min || num > max) {
+							return msg || i18n("integer_between_min_max", { min, max });
+						}
+						return "";
+					},
+					trigger: ["change", "blur"]
+				};
+			},
 			name(msg = i18n("msgEnter220DigitsLettersNumbers")) {
 				return {
 					name: "name",
 					async validator({ val }) {
+						if (!_.$isInput(val)) {
+							return "";
+						}
+
 						if (/^[0-9a-zA-Z]{2,20}$/.test(val)) {
 							return "";
 						}
@@ -544,7 +602,9 @@ export default async function ({ PRIVATE_GLOBAL }) {
 				return {
 					name: "name",
 					async validator({ val }) {
-						if (!val) return;
+						if (!_.$isInput(val)) {
+							return "";
+						}
 						if (/^[a-z0-9][a-z0-9-]*$/.test(val)) {
 							return "";
 						}
@@ -553,10 +613,14 @@ export default async function ({ PRIVATE_GLOBAL }) {
 					trigger: ["change", "input", "blur"]
 				};
 			},
-			port(msg = i18n("请输入正确的端口号")) {
+			port(msg = i18n("enter_correct_port")) {
 				return {
 					name: "port",
 					async validator({ val }) {
+						if (!_.$isInput(val)) {
+							return "";
+						}
+
 						// 纯端口校验函数
 						function validatePort(port) {
 							const portRegex =
@@ -575,6 +639,10 @@ export default async function ({ PRIVATE_GLOBAL }) {
 				return {
 					name: "ipAddress",
 					async validator({ val: value }) {
+						if (!_.$isInput(value)) {
+							return;
+						}
+
 						let ipAddress = _reg.ipAddress();
 						if (ipAddress.test(value)) {
 							return "";
@@ -589,6 +657,10 @@ export default async function ({ PRIVATE_GLOBAL }) {
 				return {
 					name: "required",
 					async validator({ val, xItem }) {
+						if (!_.$isInput(val)) {
+							return "";
+						}
+
 						const record = [];
 						let rows = _.$val(xItem, "configs.payload.row") || {};
 						for (let key of rowArray) {
@@ -606,7 +678,7 @@ export default async function ({ PRIVATE_GLOBAL }) {
 							/* 自己填了 */
 							return "";
 						}
-						return "需保证行数据完整";
+						return i18n("row_data_complete");
 					},
 					trigger: ["change", "blur"]
 				};
@@ -623,7 +695,7 @@ export default async function ({ PRIVATE_GLOBAL }) {
 
 						if (_.every(record, i => !i)) {
 							/* 都没填 */
-							return "需保证行数据完整";
+							return i18n("row_data_complete");
 						}
 						if (_.every(record, i => !!i)) {
 							/* 都填了 */
@@ -633,7 +705,7 @@ export default async function ({ PRIVATE_GLOBAL }) {
 							/* 自己填了 */
 							return "";
 						}
-						return "需保证行数据完整";
+						return i18n("row_data_complete");
 					},
 					trigger: ["change", "blur"]
 				};

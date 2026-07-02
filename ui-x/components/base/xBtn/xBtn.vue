@@ -103,7 +103,11 @@ export default async function ({ PRIVATE_GLOBAL }) {
 			},
 			cptDisabledTips() {
 				/* 直接从 configs.disabled 读取，支持 string 或 VNode 类型的禁用提示 */
-				const configsDisabled = _.$val(this, "configs.disabled");
+				let configsDisabled = _.$val(this, "configs.disabled");
+				if (_.isFunction(configsDisabled)) {
+					//可能返回一个字符串
+					configsDisabled = configsDisabled.call(this.configs, { xBtn: this });
+				}
 				if (_.isString(configsDisabled) || configsDisabled?.TYPE_IS_VNODE) {
 					return configsDisabled;
 				}
@@ -256,7 +260,7 @@ export default async function ({ PRIVATE_GLOBAL }) {
 			if (vm.configs) {
 				/* vNode 的变动不会触发 render 重新执行 template 的 slot 优先级最高*/
 				const vChildren = this.$slots.default || vm.calChildren();
-				
+
 				// 渲染按钮内部内容的函数
 				const renderButtonContent = () => {
 					return hSpan(
@@ -287,32 +291,36 @@ export default async function ({ PRIVATE_GLOBAL }) {
 						]
 					);
 				};
-				
+
 				// 渲染按钮的函数
-				const renderButton = (buttonProps) => {
+				const renderButton = buttonProps => {
 					return h(vm.type || "button", buttonProps, [renderButtonContent()]);
 				};
-				
+
 				if (this.cptDisabledTips) {
 					/* 当有禁用提示时，使用 xPopover 包裹
 					 * 为了让 popover 能正常触发 hover，在按钮外层包裹 span
 					 * 让 span 作为 popover 的 reference，避免按钮 disabled/loading 阻止 hover
 					 */
-					return h("xPopover", {
-						placement: "top-start",
-						trigger: "hover",
-						content: this.cptDisabledTips
-					}, [
-						h(
-							"span",
-							{ 
-								class: "xBtn-disabled-tips-wrapper",
-								style: { display: "inline-block" },
-								slot: "reference"
-							},
-							[renderButton(buttonProps)]
-						)
-					]);
+					return h(
+						"xPopover",
+						{
+							placement: "top-start",
+							trigger: "hover",
+							content: this.cptDisabledTips
+						},
+						[
+							h(
+								"span",
+								{
+									class: "xBtn-disabled-tips-wrapper",
+									style: { display: "inline-block" },
+									slot: "reference"
+								},
+								[renderButton(buttonProps)]
+							)
+						]
+					);
 				} else {
 					return renderButton(buttonProps);
 				}

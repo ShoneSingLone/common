@@ -548,7 +548,7 @@
 	 * @param e
 	 */
 	/* @typescriptDeclare (e:number)=>string */
-	_.$ramdomStr = function (e) {
+	_.$random_str = function (e) {
 		e = e || 26;
 		var t = "abcdefhijkmnprstwxyz0123456789";
 		var a = t.length;
@@ -1145,7 +1145,9 @@
 		const { pathname, search } = _url;
 		return {
 			href: `${pathname}${search}`,
-			url: _url
+			url: _url,
+			search,
+			pathname
 		};
 	}
 
@@ -1547,7 +1549,7 @@
 	 * @returns string
 	 */
 	/* @typescriptDeclare (name:string)=>string */
-	_.$randomName = (name, length = 16) => {
+	_.$random_name = (name, length = 16) => {
 		return (
 			name +
 			parseInt((new Date().getTime() % 61439) + 4096)
@@ -2117,19 +2119,21 @@
 				component = await scfObjAsyncFn(fnPayload, PRIVATE_GLOBAL);
 			} catch (error) {
 				if (IS_DEV) {
+					/* 【需求】2026-06-25 将开发态错误代码预览改为右上角按钮复制全文，移除代码区整块点击复制，保留按行选择复制的使用场景 */
 					scfObjAsyncFn = new Function(
 						"payload",
 						"PRIVATE_GLOBAL",
 						`with ({...PRIVATE_GLOBAL,..._,...Vue,}){
 							return defineComponent({
-								template: "<pre @click='copy' style='max-height: 400px;color: green;background-color: black;overflow: auto;'><code>{{code}}</code></pre>",
+								/* 【需求】通过右上角 copy 按钮承接全文复制，代码区域仅负责展示与文本选择 */
+								template: '<div style="position: relative;max-height: 400px;background-color: black;"><button type="button" title="复制全部代码" @click.stop="copyAll" style="position: absolute;top: 8px;right: 8px;z-index: 1;display: inline-flex;align-items: center;justify-content: center;width: 28px;height: 28px;padding: 0;border: 1px solid rgba(103, 194, 58, 0.35);border-radius: 4px;background: rgba(0, 0, 0, 0.65);color: #67c23a;cursor: pointer;"><xIcon class="el-icon el-icon-copy-document" icon="copy-document"></xIcon></button><pre style="margin: 0;max-height: 400px;padding: 44px 12px 12px;color: green;background-color: black;overflow: auto;user-select: text;cursor: text;"><code>{{code}}</code></pre></div>',
 								data(vm) {
 									return {
 										code: ${JSON.stringify(innerCode)}
 									};
 								},
 								methods:{
-									copy(){
+									copyAll(){
 										_.$copyToClipboard(this.code).then(()=>_.$msg('错误代码已复制到粘贴板'))
 									}
 								}

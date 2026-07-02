@@ -47,7 +47,9 @@ export default async function () {
 	const { getMousePosition, getViewportOffset } = await _.$importVue(
 		"/common/ui-x/components/data/xTableEasy/utils/dom.vue"
 	);
-	const { getRandomId } = await _.$importVue("/common/ui-x/components/data/xTableEasy/utils/random.vue");
+	const { getRandomId } = await _.$importVue(
+		"/common/ui-x/components/data/xTableEasy/utils/random.vue"
+	);
 	const eventsOutside = await _.$importVue("/common/ui-x/directives/events-outside.vue");
 
 	return {

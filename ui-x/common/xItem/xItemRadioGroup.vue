@@ -111,7 +111,7 @@ export default async function () {
 							...item,
 							disabled: this.cptDisabled,
 							onClick: () => {
-								this.x_item_value = item.value;
+								vm.x_item_value = item.value;
 							}
 						};
 						if (item.value === this.value) {

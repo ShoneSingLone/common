@@ -611,7 +611,7 @@
 					clearTimers();
 					isFinished = true;
 					if (shouldRejectOnVmDestroy) {
-						reject(("ensure canceled"));
+						reject("ensure canceled");
 					} else {
 						resolve(null);
 					}
@@ -919,7 +919,7 @@
 									const preloadArray = getPreload();
 									preloadArray.forEach(url => $loadText(url));
 								}
-							} catch (error) { }
+							} catch (error) {}
 						}
 					}
 				],
