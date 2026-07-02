@@ -974,7 +974,8 @@
 				setRemBase();
 			}
 
-			let blur = `.x-loading::before { 
+			/* 【需求】2026-07-02 重构 x-loading 样式，支持动态 DOM 遮罩，移除硬编码 z-index */
+			let blur = `.x-loading-mask::before { 
 	content: " "; 
 	display: block; 
 	top: 0; 
@@ -984,8 +985,6 @@
 	position: absolute; 
 	backdrop-filter: blur(10px);
 	-webkit-backdrop-filter: blur(10px);
-	background-color: rgba(255, 255, 255, 0.3);
-	z-index: 9999999998;
 	pointer-events: none;
 }`;
 
@@ -998,9 +997,21 @@
 				`html, body, #app { height: 100%; width: 100%; }
 @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
 .spin {animation: spin 2s linear infinite;}
+/* 旧容器样式保持，用于 min-height 占位 */
 .x-loading { min-height: 48px; position: relative; overflow: hidden; }
+/* 新的动态遮罩样式 */
+.x-loading-mask { 
+	position: absolute; 
+	top: 0; 
+	bottom: 0; 
+	right: 0; 
+	left: 0; 
+	overflow: hidden; 
+	background-color: rgba(255, 255, 255, 0.3); 
+}
+.x-loading-mask.is-fixed { position: fixed; }
 ${blur}
-.x-loading::after { 
+.x-loading-mask::after { 
 	animation: spin 2s linear infinite;
 	content: " "; 
 	display: block; 
@@ -1010,7 +1021,6 @@ ${blur}
 	left: 0; 
 	position: absolute; 
 	background: url(${LOADING_IMAGE_NAME}) center/32px no-repeat; 
-	z-index: 9999999999;
 	pointer-events: none;
 }
 `

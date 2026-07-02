@@ -1736,41 +1736,70 @@
 	 * @TODO: 超时关闭并提示
 	 */
 	/* @typescriptDeclare  (isLoading?:boolean,selector?:string)=>void*/
-	_.$loading = function loading(isLoading = false, selector = "body") {
+	/**
+	 * 【需求】2026-07-02 重构 _.$loading 实现：
+	 * 1. 动态创建 .x-loading-mask 元素
+	 * 2. 接入 PopupManager.nextZIndex() 统一管理层叠高度
+	 * 3. 解决 loading 遮挡 msgError 等 UI 组件的问题
+	 */
+	_.$loading = async function loading(isLoading = false, selector = "body") {
+		const $target = $(selector);
+		if (!$target.length) return;
+
+		// 获取或创建遮罩元素
+		let $mask = $target.find("> .x-loading-mask");
+
 		function closeLoading(selector) {
 			_.$loading.count--;
 			if (_.$loading.count < 1) {
+				_.$loading.count = 0;
 				/* 延迟取消 */
 				var timer = setTimeout(() => {
 					if (_.$loading.count < 1) {
+						if ($mask.length) {
+							$mask.fadeOut(200, () => $mask.remove());
+						}
 						$(selector).removeClass("x-loading");
 					} else {
 						clearTimeout(timer);
 					}
 				}, 400);
-				_.$loading.count = 0;
 			}
 		}
 
 		_.$loading.count = _.$loading.count || 0;
 		if (isLoading) {
-			/* 已经有loading */
+			/* 开启 loading */
 			if (!_.$loading.count) {
-				try {
-					throw new Error("just x-loading info");
-				} catch (error) {
-					console.warn(error);
+				if (!$mask.length) {
+					$mask = $('<div class="x-loading-mask"></div>');
+					if (selector === "body" || selector === "html") {
+						$mask.addClass("is-fixed");
+					}
+					$target.append($mask);
 				}
+
+				// 动态获取 z-index
+				try {
+					const PopupManager = await _.$importVue(
+						"/common/libs/VuePopper/popupManager.vue"
+					);
+					$mask.css("z-index", PopupManager.nextZIndex());
+				} catch (e) {
+					console.error("PopupManager load failed", e);
+					$mask.css("z-index", 9999); // fallback
+				}
+
+				$mask.show();
 				$(selector).addClass("x-loading");
 			}
 			_.$loading.count++;
-			// loadingTimeout();
 		} else {
+			/* 关闭 loading */
 			closeLoading(selector);
 		}
 
 		_.$single.win.trigger("LOADING_COUNT_CHANGE", _.$loading.count);
-		/* try { throw new Error(); } catch (error) { try { const msg = error.stack .split("\n") .map(row => { const res = /at (.[^\(\[]*) \(/.exec(row); if (res && res[1]) { return res[1]; } }) .filter(row => !!row); console.log(isLoading ? "open x-loading" : "close x-loading", msg.join("\n=>")); } catch (error) {} } */
 	};
 
 	/**
