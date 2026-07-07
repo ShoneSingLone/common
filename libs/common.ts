@@ -1731,25 +1731,195 @@
 	 * 全局loading单例
 	 * - 注意，一定要保证成对出现，不然一直loading
 	 * @param {boolean} isLoading true 为loaidng false关闭
-	 * @param {string} selector 目标选择器，不指定就默认为body
+	 * @param {string | {selector?:string,debugInfo?:string}} selector 目标选择器，不指定就默认为body；DEV 模式支持传入 options 扩展
+	 * @param {string} debugInfo DEV 模式下用于定位未关闭调用的调试信息（可选）
 	 *
 	 * @TODO: 超时关闭并提示
 	 */
-	/* @typescriptDeclare  (isLoading?:boolean,selector?:string)=>void*/
+	/* @typescriptDeclare  (isLoading?:boolean,selector?:string|{selector?:string,debugInfo?:string},debugInfo?:string)=>void*/
 	/**
 	 * 【需求】2026-07-02 重构 _.$loading 实现：
 	 * 1. 动态创建 .x-loading-mask 元素
 	 * 2. 接入 PopupManager.nextZIndex() 统一管理层叠高度
 	 * 3. 解决 loading 遮挡 msgError 等 UI 组件的问题
+	 *
+	 * 【需求】2026-07-03 补充 DEV 调试信息：
+	 * 1. 支持在 `_.$loading(true, ...)` 时传入 debugInfo（或自动采集 Error.stack）
+	 * 2. DEV 模式下将调试信息写入 `.x-loading-mask` 的 data 属性与注释节点，便于在 Elements 面板定位未关闭调用
 	 */
-	_.$loading = async function loading(isLoading = false, selector = "body") {
+	_.$loading = async function loading(isLoading = false, selector = "body", debugInfo = "") {
+		// 【需求】2026-07-03 兼容 options 入参：_.$loading(true, { selector, debugInfo })
+		if (_.isPlainObject(selector)) {
+			debugInfo = selector.debugInfo || debugInfo;
+			selector = selector.selector || "body";
+		}
+
 		const $target = $(selector);
 		if (!$target.length) return;
 
 		// 获取或创建遮罩元素
 		let $mask = $target.find("> .x-loading-mask");
 
+		// 【需求】2026-07-03 DEV 调试信息：仅在 localStorage.isDev === "DEV" 生效（生产无影响）
+		const IS_DEV_LOADING_DEBUG = localStorage.isDev === "DEV";
+		function getDevLoadingMask() {
+			if ($mask.length) return $mask;
+			const $bodyMask = $("body").find("> .x-loading-mask");
+			if ($bodyMask.length) return $bodyMask;
+			return $mask;
+		}
+		function normalizeDevDebugText(text) {
+			return String(text || "")
+				.replace(/\r?\n/g, "\\n")
+				.replace(/--/g, "- -");
+		}
+		function buildLoadingDebugPayload() {
+			try {
+				const stackStr = String(new Error().stack || "");
+				const stackLines = stackStr
+					.split("\n")
+					.slice(1)
+					.map(s => s.trim())
+					.filter(Boolean);
+				// 【修复】2026-07-03 过滤 _.$loading 内部栈帧，优先暴露首个业务调用点
+				const internalPatterns = [
+					/\brecordDevLoadingOpen\b/,
+					/\brecordDevLoadingClose\b/,
+					/\bProxy\.loading\b/,
+					/\bcloseLoading\b/,
+					/\bbuildLoadingDebugPayload\b/,
+					/\brefreshDevDebugDom\b/
+				];
+				const businessStack = stackLines.filter(line => {
+					return !internalPatterns.some(pattern => pattern.test(line));
+				});
+				const pickedStack = (businessStack.length ? businessStack : stackLines).slice(0, 4);
+				return {
+					manual_info: debugInfo || "",
+					source: debugInfo || pickedStack[0] || "",
+					stack: pickedStack
+				};
+			} catch (e) {
+				return {
+					manual_info: debugInfo || "",
+					source: debugInfo || "",
+					stack: []
+				};
+			}
+		}
+		function ensureDevDebugState() {
+			if (!IS_DEV_LOADING_DEBUG) return;
+			// 【需求】2026-07-03 将 loading 调试信息升级为结构化状态，便于查看未关闭栈与开关历史
+			_.$loading.debugState = _.$loading.debugState || {
+				next_id: 1,
+				active_stack: [],
+				history: []
+			};
+			return _.$loading.debugState;
+		}
+		function buildBySelector(activeStack = []) {
+			return activeStack.reduce((acc, item) => {
+				if (!acc[item.selector]) {
+					acc[item.selector] = [];
+				}
+				acc[item.selector].push({
+					id: item.id,
+					time: item.time,
+					label: item.label,
+					best_guess: item.best_guess
+				});
+				return acc;
+			}, {});
+		}
+		function refreshDevDebugDom() {
+			if (!IS_DEV_LOADING_DEBUG) return;
+			const debugState = ensureDevDebugState();
+			const $debugMask = getDevLoadingMask();
+			if (!$debugMask.length) return;
+			const activeStack = (debugState.active_stack || []).slice(-20);
+			const history = (debugState.history || []).slice(-20);
+			const debugSnapshot = {
+				active_stack: activeStack,
+				history,
+				by_selector: buildBySelector(activeStack)
+			};
+			const activeJson = JSON.stringify(activeStack);
+			const historyJson = JSON.stringify(history);
+			const debugJson = JSON.stringify(debugSnapshot);
+			const el = $debugMask[0];
+			el.setAttribute("data-loading-debug", debugJson);
+			el.setAttribute("data-loading-debug-active", activeJson);
+			el.setAttribute("data-loading-debug-history", historyJson);
+
+			const commentText = normalizeDevDebugText(`xspace_loading_debug_state:${debugJson}`);
+			if (el.__xspace_loading_debug_comment) {
+				el.__xspace_loading_debug_comment.nodeValue = commentText;
+			} else {
+				el.__xspace_loading_debug_comment = document.createComment(commentText);
+				el.appendChild(el.__xspace_loading_debug_comment);
+			}
+		}
+		function recordDevLoadingOpen(openDebugPayload = null) {
+			if (!IS_DEV_LOADING_DEBUG) return;
+			const debugState = ensureDevDebugState();
+			const debugPayload = openDebugPayload || buildLoadingDebugPayload();
+			const activeEntry = {
+				id: `loading_${debugState.next_id++}`,
+				time: Date.now(),
+				selector,
+				label: debugPayload.manual_info,
+				best_guess: debugPayload.source,
+				caller_frames: debugPayload.stack
+			};
+			debugState.active_stack.push(activeEntry);
+			debugState.history.push({
+				event: "open",
+				id: activeEntry.id,
+				time: activeEntry.time,
+				selector,
+				label: activeEntry.label,
+				best_guess: activeEntry.best_guess,
+				caller_frames: activeEntry.caller_frames
+			});
+			if (debugState.history.length > 50) {
+				debugState.history = debugState.history.slice(-50);
+			}
+			refreshDevDebugDom();
+		}
+		function recordDevLoadingClose() {
+			if (!IS_DEV_LOADING_DEBUG) return;
+			const debugState = ensureDevDebugState();
+			const debugPayload = buildLoadingDebugPayload();
+			const activeStack = debugState.active_stack || [];
+			let matchedEntry = null;
+			for (let i = activeStack.length - 1; i >= 0; i--) {
+				if (activeStack[i] && activeStack[i].selector === selector) {
+					matchedEntry = activeStack.splice(i, 1)[0];
+					break;
+				}
+			}
+			if (!matchedEntry && activeStack.length) {
+				matchedEntry = activeStack.pop();
+			}
+			debugState.history.push({
+				event: "close",
+				id: matchedEntry ? matchedEntry.id : "",
+				time: Date.now(),
+				selector,
+				matched_to: matchedEntry ? matchedEntry.id : "",
+				matched_source: matchedEntry ? matchedEntry.best_guess : "",
+				best_guess: debugPayload.source,
+				caller_frames: debugPayload.stack
+			});
+			if (debugState.history.length > 50) {
+				debugState.history = debugState.history.slice(-50);
+			}
+			refreshDevDebugDom();
+		}
+
 		function closeLoading(selector) {
+			// 【需求】2026-07-03 DEV 调试信息：关闭时同步回收结构化调试状态
+			recordDevLoadingClose();
 			_.$loading.count--;
 			if (_.$loading.count < 1) {
 				_.$loading.count = 0;
@@ -1769,8 +1939,12 @@
 
 		_.$loading.count = _.$loading.count || 0;
 		if (isLoading) {
+			// 【修复】2026-07-03 在 await 之前采集 open 调试栈，避免首次 loading 丢失业务调用链
+			const openDebugPayload = IS_DEV_LOADING_DEBUG ? buildLoadingDebugPayload() : null;
+			// 【修复】2026-07-03 count++ 提前到 await 之前，避免异步间隙中 close 感知不到已开启的 loading
+			_.$loading.count++;
 			/* 开启 loading */
-			if (!_.$loading.count) {
+			if (_.$loading.count === 1) {
 				if (!$mask.length) {
 					$mask = $('<div class="x-loading-mask"></div>');
 					if (selector === "body" || selector === "html") {
@@ -1784,8 +1958,20 @@
 					const PopupManager = await _.$importVue(
 						"/common/libs/VuePopper/popupManager.vue"
 					);
+					// 【兜底】2026-07-03 异步加载期间若 close 已将 count 归零，清理 mask 避免残留
+					if (_.$loading.count < 1) {
+						$mask.remove();
+						$(selector).removeClass("x-loading");
+						return;
+					}
 					$mask.css("z-index", PopupManager.nextZIndex());
 				} catch (e) {
+					// 【兜底】加载失败同样需要检查 count
+					if (_.$loading.count < 1) {
+						$mask.remove();
+						$(selector).removeClass("x-loading");
+						return;
+					}
 					console.error("PopupManager load failed", e);
 					$mask.css("z-index", 9999); // fallback
 				}
@@ -1793,7 +1979,8 @@
 				$mask.show();
 				$(selector).addClass("x-loading");
 			}
-			_.$loading.count++;
+			// 【需求】2026-07-03 DEV 调试信息：开启时记录调用来源
+			recordDevLoadingOpen(openDebugPayload);
 		} else {
 			/* 关闭 loading */
 			closeLoading(selector);

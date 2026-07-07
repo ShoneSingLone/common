@@ -502,7 +502,7 @@
 	})();
 
 	/**
-	 * 异步加载脚本代码，但是按顺序执行
+	 * 异步加载脚本代码，但是按顺序执行,加载文本无顺序，执行有顺序
 	 * @param {*} FRAMWORK_DEEPS
 	 * @returns
 	 */
@@ -841,106 +841,98 @@
 			/* 预加载，等vue加载后赋值 */
 			_$loadText(`@/i18n/${I18N_LANGUAGE}.js`);
 
+			const afterLoadLodash = () => {
+				_.$$toDomIdStr = toDomIdStr;
+				_.$$tags = $$tags;
+				_.$$id = $$id;
+				_.$val = $val;
+				_.$callFn = $callFn;
+				_.$ensure = $ensure;
+				_.$appendScript = $appendScript;
+				_.$appendStyle = $appendStyle;
+				_.$resolveCssAssetsPath = $resolveCssAssetsPath;
+				_.$idb = $idb;
+				_.$resolveSvgIcon = $resolveSvgIcon;
+				_.$resolvePath = $resolvePath;
+				_.$loadText = _$loadText;
+				_.$asyncLoadOrderAppendScrips = _$asyncLoadOrderAppendScrips;
+				/**
+				 * 创建i18n 函数，可同时存在不同语言options的i18n对象
+				 * @param {*} lang zh-CN,对应i18n文件夹下的文件
+				 * @returns
+				 */
+				/* @typescriptDeclare (options: { lang: "zh-CN" | "en-US" }) => Promise<any> */
+				_.$newI18n = async function ({ lang }) {
+					/* @/i18n/zh-CN.js */
+					/* @/i18n/en-US.js */
+					let langOptionsString = await _.$loadText(`@/i18n/${lang}.js`);
+					langOptionsString = langOptionsString.replace("window.i18n.options = ", "");
+					const getLangOptionsFn = new Function(`return ${langOptionsString};`);
+					const langOptions = getLangOptionsFn();
+					const i18n = function (key, payload) {
+						if (key.length > 64) {
+							console.warn(`[i18n:key too lang] ${key}`);
+						}
+						/!*使用 {变量名} 赋值*!/;
+						let i18nString = $val(langOptions, key);
+
+						if (i18nString === undefined) {
+							/* i18n wenjian zhong wei ding yi guo ji hua wen jian  */
+							window.i18n_unset[key] = true;
+							i18nString = key;
+						}
+
+						if (typeof payload === "object") {
+							Object.keys(payload).forEach(key => {
+								const i18nVariable = $val(payload, key);
+								if (i18nVariable !== undefined) {
+									i18nString = String(i18nString).replace(
+										`{${key}}`,
+										i18nVariable
+									);
+								}
+							});
+						}
+
+						return i18nString;
+					};
+					return i18n;
+				};
+
+				if (IS_DEV || NO_CACHE || NOT_MATCH) {
+					try {
+						/* index.html页面带有preload的数据会首先加载并缓存，后续需要的时候直接使用 */
+						const preloadString = document.getElementById("preload")
+							? document.getElementById("preload").innerHTML
+							: false;
+						if (preloadString) {
+							const getPreload = new Function(preloadString);
+							const preloadArray = getPreload();
+							preloadArray.forEach(url => $loadText(url));
+						}
+					} catch (error) {}
+				}
+			};
+			const afterLoadVue = async () => {
+				/**
+				 *  国际化
+				 * @param {*} key
+				 * @param {*} payload
+				 * @returns
+				 */
+				const i18n = await _.$newI18n({ lang: I18N_LANGUAGE });
+				/* vue加载之后才能使用国际化属性 */
+				window.i18n = i18n;
+				window.i18n_unset = {};
+				Vue.prototype.i18n = i18n;
+			};
+
 			/* 一般依赖 */
 			const depends = [
 				[Libs("/jquery/jquery-3.7.0.min.js"), null, () => $("body").addClass("x-app-body")],
-				[
-					Libs("/lodash.js"),
-					null,
-					() => {
-						_.$$toDomIdStr = toDomIdStr;
-						_.$$tags = $$tags;
-						_.$$id = $$id;
-						_.$val = $val;
-						_.$callFn = $callFn;
-						_.$ensure = $ensure;
-						_.$appendScript = $appendScript;
-						_.$appendStyle = $appendStyle;
-						_.$resolveCssAssetsPath = $resolveCssAssetsPath;
-						_.$idb = $idb;
-						_.$resolveSvgIcon = $resolveSvgIcon;
-						_.$resolvePath = $resolvePath;
-						_.$loadText = _$loadText;
-						_.$asyncLoadOrderAppendScrips = _$asyncLoadOrderAppendScrips;
-						/**
-						 * 创建i18n 函数，可同时存在不同语言options的i18n对象
-						 * @param {*} lang zh-CN,对应i18n文件夹下的文件
-						 * @returns
-						 */
-						/* @typescriptDeclare (options: { lang: "zh-CN" | "en-US" }) => Promise<any> */
-						_.$newI18n = async function ({ lang }) {
-							/* @/i18n/zh-CN.js */
-							/* @/i18n/en-US.js */
-							let langOptionsString = await _.$loadText(`@/i18n/${lang}.js`);
-							langOptionsString = langOptionsString.replace(
-								"window.i18n.options = ",
-								""
-							);
-							const getLangOptionsFn = new Function(`return ${langOptionsString};`);
-							const langOptions = getLangOptionsFn();
-							const i18n = function (key, payload) {
-								if (key.length > 64) {
-									console.warn(`[i18n:key too lang] ${key}`);
-								}
-								/!*使用 {变量名} 赋值*!/;
-								let i18nString = $val(langOptions, key);
-
-								if (i18nString === undefined) {
-									/* i18n wenjian zhong wei ding yi guo ji hua wen jian  */
-									window.i18n_unset[key] = true;
-									i18nString = key;
-								}
-
-								if (typeof payload === "object") {
-									Object.keys(payload).forEach(key => {
-										const i18nVariable = $val(payload, key);
-										if (i18nVariable !== undefined) {
-											i18nString = String(i18nString).replace(
-												`{${key}}`,
-												i18nVariable
-											);
-										}
-									});
-								}
-
-								return i18nString;
-							};
-							return i18n;
-						};
-
-						if (IS_DEV || NO_CACHE || NOT_MATCH) {
-							try {
-								/* index.html页面带有preload的数据会首先加载并缓存，后续需要的时候直接使用 */
-								const preloadString = document.getElementById("preload")
-									? document.getElementById("preload").innerHTML
-									: false;
-								if (preloadString) {
-									const getPreload = new Function(preloadString);
-									const preloadArray = getPreload();
-									preloadArray.forEach(url => $loadText(url));
-								}
-							} catch (error) {}
-						}
-					}
-				],
+				[Libs("/lodash.js"), null, afterLoadLodash],
 				[Libs("/dayjs.js")],
-				[
-					Libs("/vue.js"),
-					null,
-					async () => {
-						/**
-						 *  国际化
-						 * @param {*} key
-						 * @param {*} payload
-						 * @returns
-						 */
-						const i18n = await _.$newI18n({ lang: I18N_LANGUAGE });
-						/* vue加载之后才能使用国际化属性 */
-						window.i18n = i18n;
-						window.i18n_unset = {};
-						Vue.prototype.i18n = i18n;
-					}
-				],
+				[Libs("/vue.js"), null, afterLoadVue],
 				[Libs("/common.ts")],
 				[Libs("/common.$.ajax.ts")]
 			];
