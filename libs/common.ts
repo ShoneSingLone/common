@@ -2438,24 +2438,116 @@
 			return cssContent;
 		};
 
-		_.$sourceCodeSFC = async function ({ resolvedURL, sourceCode }) {
-			const init = () => {
-				$appendSfcStyle(VUE_COMPONENTS_CACHE[resolvedURL].styleSourceCode, resolvedURL);
+		// ES5 并发加载锁，替代 Map
+		var SFC_LOAD_LOCK = {};
+
+		_.$sourceCodeSFC = function (opts) {
+			var resolvedURL = opts.resolvedURL;
+			var sourceCode = opts.sourceCode;
+
+			// 抽离样式挂载函数 ES5
+			var appendSfcStyle = function (sfcData) {
+				$appendSfcStyle(sfcData.styleSourceCode, resolvedURL);
 			};
-			/* @descript 非开发模式下，如果已经加载，直接返回，否则每次都获取最新的代码 */
-			/* @declare { scritpSourceCode, templateSourceCode, styleSourceCode } */
-			if (!IS_DEV && VUE_COMPONENTS_CACHE[resolvedURL]) {
-				init();
-				return VUE_COMPONENTS_CACHE[resolvedURL];
+
+			// 生产环境 !IS_DEV
+			if (!IS_DEV) {
+				// 存在缓存 且 没有CodeDemo传入源码，直接复用缓存
+				if (VUE_COMPONENTS_CACHE[resolvedURL] && !sourceCode) {
+					appendSfcStyle(VUE_COMPONENTS_CACHE[resolvedURL]);
+					return VUE_COMPONENTS_CACHE[resolvedURL];
+				}
+
+				// 并发锁拦截，避免重复请求
+				if (SFC_LOAD_LOCK[resolvedURL]) {
+					return SFC_LOAD_LOCK[resolvedURL];
+				}
+
+				// 封装加载Promise
+				var loadTask = (function () {
+					return new Promise(function (resolve, reject) {
+						var code = sourceCode;
+						// 异步加载逻辑自执行
+						var exec = function () {
+							if (!code) {
+								return _.$loadText(resolvedURL)
+									.then(function (res) {
+										code = res;
+										return parseSfc();
+									})
+									.catch(function (err) {
+										handleError(err);
+									});
+							} else {
+								return parseSfc();
+							}
+						};
+
+						var parseSfc = function () {
+							try {
+								var sfcRes = VueLoader(code);
+								VUE_COMPONENTS_CACHE[resolvedURL] = sfcRes;
+								appendSfcStyle(sfcRes);
+								resolve(sfcRes);
+							} catch (parseErr) {
+								handleError(parseErr);
+							}
+						};
+
+						var handleError = function (err) {
+							console.error("[生产]组件加载失败 " + resolvedURL, err);
+							// 释放锁
+							delete SFC_LOAD_LOCK[resolvedURL];
+							reject(err);
+						};
+
+						exec().catch(function () {});
+					});
+				})();
+
+				SFC_LOAD_LOCK[resolvedURL] = loadTask;
+
+				// 加载完成后清除锁
+				loadTask.finally(function () {
+					delete SFC_LOAD_LOCK[resolvedURL];
+				});
+
+				return loadTask;
 			}
 
-			if (!sourceCode) {
-				sourceCode = await _.$loadText(resolvedURL);
-			}
-			/* 缓存 */
-			VUE_COMPONENTS_CACHE[resolvedURL] = VueLoader(sourceCode);
-			init();
-			return VUE_COMPONENTS_CACHE[resolvedURL];
+			// ====================== 开发环境 IS_DEV ======================
+			return new Promise(function (resolve, reject) {
+				var code = sourceCode;
+				var run = function () {
+					if (!code) {
+						_.$loadText(resolvedURL)
+							.then(function (res) {
+								code = res;
+								renderSfc();
+							})
+							.catch(function (err) {
+								console.error("[开发]组件加载失败 " + resolvedURL, err);
+								reject(err);
+							});
+					} else {
+						renderSfc();
+					}
+				};
+
+				var renderSfc = function () {
+					try {
+						var sfcRes = VueLoader(code);
+						VUE_COMPONENTS_CACHE[resolvedURL] = sfcRes;
+						appendSfcStyle(sfcRes);
+						resolve(sfcRes);
+					} catch (err) {
+						console.error("[开发]组件解析失败 " + resolvedURL, err);
+						reject(err);
+					}
+				};
+
+				run();
+			});
 		};
 
 		/**
