@@ -50,6 +50,11 @@ export default async function () {
 						if (!col.label) {
 							return false;
 						}
+						// 【需求】isHide 为真的列不参与筛选，彻底不渲染，支持函数
+						const isHide = _.isFunction(col.isHide) ? col.isHide() : col.isHide;
+						if (isHide) {
+							return false;
+						}
 						const isCol = /COL_/.test(col.prop);
 						return !isCol;
 					});

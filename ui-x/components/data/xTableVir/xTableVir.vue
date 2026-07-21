@@ -912,7 +912,15 @@ export default async function ({ PRIVATE_GLOBAL, mergeProps4h }) {
 
 	function useColumns(props, columns2, fixed) {
 		const visibleColumns = computed(() => {
-			return unref(columns2).filter(column => !column.hidden);
+			return unref(columns2).filter(column => {
+				// 【需求】isHide 控制有无，isShow 控制显隐
+				const isHide = _.isFunction(column.isHide) ? column.isHide() : column.isHide;
+				if (isHide) return false;
+				const isShow = _.isFunction(column.isShow)
+					? column.isShow()
+					: column.isShow !== false;
+				return isShow;
+			});
 		});
 		const fixedColumnsOnLeft = computed(() =>
 			unref(visibleColumns).filter(column => column.fixed === "left" || column.fixed === true)
@@ -2580,6 +2588,13 @@ export default async function ({ PRIVATE_GLOBAL, mergeProps4h }) {
 					this.$props.columns,
 					(columnsForShow, column) => {
 						const _column = (() => {
+							// 【需求】isHide 为真的列不参与列宽计算，支持函数
+							const isHide = _.isFunction(column.isHide)
+								? column.isHide()
+								: column.isHide;
+							if (isHide) {
+								return false;
+							}
 							if (_.isFunction(column.isShow)) {
 								return column.isShow() ? column : false;
 							} else if (_.isBoolean(column.isShow)) {
