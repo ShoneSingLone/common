@@ -1589,31 +1589,19 @@ export default async function ({ PRIVATE_GLOBAL, mergeProps4h }) {
 		);
 	};
 	var _sfc_staticRenderFns$2 = [];
-	var __component__$2 = _xUtils.normalizeComponent(
-		_sfc_main$2,
-		_sfc_render$2,
-		_sfc_staticRenderFns$2,
-		false,
-		null,
-		null,
-		null,
-		null
-	);
-	var Icon = __component__$2.exports;
 
 	const SortIcon = {
 		functional: true,
 		render: (h, props) => {
 			const { sortOrder } = props;
+			/* 【修复】用 span + 文字替代 Icon 包裹 SVG，避免 Icon 组件的复杂渲染和 display:none 问题 */
 			return h(
-				Icon,
+				"span",
 				{
-					attrs: {
-						size: 14
-					},
-					class: props.classV2
+					class: props.classV2,
+					style: { fontSize: "12px", lineHeight: "1" }
 				},
-				[sortOrder === SortOrder.ASC ? h(sort_up_default) : h(sort_down_default)]
+				sortOrder === SortOrder.ASC ? "▲" : "▼"
 			);
 		}
 	};
@@ -2802,8 +2790,9 @@ export default async function ({ PRIVATE_GLOBAL, mergeProps4h }) {
 		}
 
 		&:hover {
-			.el-icon {
-				display: block;
+			/* 【修复】sort-icon 改用 span 渲染，去掉了 Icon 组件包裹，直接使用 el-table-v2__sort-icon 选择器 */
+			.el-table-v2__sort-icon {
+				display: inline-block;
 			}
 		}
 	}
@@ -3013,10 +3002,13 @@ export default async function ({ PRIVATE_GLOBAL, mergeProps4h }) {
 		display var(--el-transition-duration);
 	opacity: 0.6;
 	display: none;
+	/* 【修复】sort-icon 改用 span 内联渲染，避免 Icon/SVG 组件渲染异常 */
+	color: #909399;
+	margin-left: 4px;
 }
 
 .el-table-v2__sort-icon.is-sorting {
-	display: block;
+	display: inline-block;
 	opacity: 1;
 }
 

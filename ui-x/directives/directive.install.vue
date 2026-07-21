@@ -58,6 +58,7 @@ export default async function ({ PRIVATE_GLOBAL }) {
 		const state = Vue.observable({
 			focusedWindowId: ""
 		});
+		const closeCallbacks = [];
 		let PopupManager;
 
 		_.$ModalManager = {
@@ -199,10 +200,11 @@ export default async function ({ PRIVATE_GLOBAL }) {
 				}
 
 				// id: 窗口实例的唯一标识符，用于窗口管理（最小化、最大化、关闭、置顶）
-				// appId: 应用程序的类型标识符，用于应用级别的分组和管理（支持多开）
-				// 两者用途不同，不能合并：id标识"哪个窗口"，appId标识"哪个应用"
+				// appType: 应用程序的类型标识符，用于应用级别的分组和管理（支持多开）
+				// 两者用途不同，不能合并：id标识"哪个窗口"，appType标识"哪种应用"
 				modalVm.id = id;
-				modalVm.appId = options.appId;
+				modalVm.appType = options.appType;
+				modalVm._modalData = options.data || {}; // 存储数据供 route_state 同步使用
 				windowsRegistry.set(id, modalVm);
 
 				// 初始置顶并设为焦点
@@ -211,7 +213,6 @@ export default async function ({ PRIVATE_GLOBAL }) {
 				// 监听销毁事件
 				modalVm.$on("hook:beforeDestroy", () => {
 					if (options.id) {
-						// 优先从 options.style 获取最新的位置和大小（在 xModal.vue 中已实时同步）
 						const style = options.style || {};
 						const { top, left, width, height } = style;
 						if (_.$isInput(top) || _.$isInput(left)) {
@@ -222,6 +223,7 @@ export default async function ({ PRIVATE_GLOBAL }) {
 					if (state.focusedWindowId === id) {
 						state.focusedWindowId = "";
 					}
+					this._triggerClose(id);
 				});
 
 				return modalVm;
@@ -242,6 +244,19 @@ export default async function ({ PRIVATE_GLOBAL }) {
 						vm.$destroy();
 					}
 				}
+			},
+
+			/**
+			 * 触发关闭回调（内部使用）
+			 */
+			_triggerClose(id) {
+				closeCallbacks.forEach(cb => {
+					try {
+						cb(id);
+					} catch (e) {
+						console.error("[ModalManager] onClose callback error:", e);
+					}
+				});
 			},
 
 			/**
@@ -338,6 +353,20 @@ export default async function ({ PRIVATE_GLOBAL }) {
 			 */
 			getInstance(id) {
 				return windowsRegistry.get(id);
+			},
+
+			/**
+			 * 注册窗口关闭回调
+			 * @param {Function} callback 回调函数，接收关闭的窗口 ID
+			 * @returns {Function} 取消订阅函数
+			 */
+			onClose(callback) {
+				if (!_.isFunction(callback)) return () => {};
+				closeCallbacks.push(callback);
+				return () => {
+					const idx = closeCallbacks.indexOf(callback);
+					if (idx >= 0) closeCallbacks.splice(idx, 1);
+				};
 			}
 		};
 
