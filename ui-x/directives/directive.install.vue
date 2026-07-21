@@ -204,7 +204,6 @@ export default async function ({ PRIVATE_GLOBAL }) {
 				// 两者用途不同，不能合并：id标识"哪个窗口"，appType标识"哪种应用"
 				modalVm.id = id;
 				modalVm.appType = options.appType;
-				modalVm._modalData = options.data || {}; // 存储数据供 route_state 同步使用
 				windowsRegistry.set(id, modalVm);
 
 				// 初始置顶并设为焦点
