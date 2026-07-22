@@ -2,10 +2,10 @@
 export default async function ({ PRIVATE_GLOBAL }) {
 	// 使用 _.$importVue() 加载依赖
 	const [
-		{ default: HeaderTh },
+		HeaderTh,
 		{ clsName, getDomResizeObserverCompKey },
 		{ COMPS_NAME, EMIT_EVENTS },
-		{ default: VueDomResizeObserver }
+		VueDomResizeObserver
 	] = await Promise.all([
 		_.$importVue("/common/ui-x/components/data/xTableEasy/header/header-th.vue"),
 		_.$importVue("/common/ui-x/components/data/xTableEasy/util/index.vue"),
