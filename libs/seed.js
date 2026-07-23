@@ -532,7 +532,7 @@
 		});
 	};
 
-	var $ensure = (() => {
+	var $try_wait = (() => {
 		// 添加节流控制变量
 		let lastLogTime = 0;
 		const LOG_INTERVAL = 1000 * 2; // 日志打印间隔，单位：毫秒
@@ -564,7 +564,7 @@
 		 *          Promise 上挂载了 cancel 方法，可用于取消等待
 		 */
 		/* @typescriptDeclare (fn_get_value:(()=>Promise<any>)|(()=>any), duration?:number, gap?:number, options?:{vm?:any, shouldRejectOnVmDestroy?:boolean}) =>Promise<any> & {cancel:(reason?:string)=>void} */
-		$ensure = (fn_get_value, duration = 0, gap = 64, options = {}) => {
+		$try_wait = (fn_get_value, duration = 0, gap = 64, options = {}) => {
 			/* 获取完整的调用者信息，包含初始调用栈 */
 			const callerInfo = fn_get_value.toString();
 			const getVmFromCurrentInstance = () => {
@@ -687,7 +687,7 @@
 			promise.cancel = cancelFn;
 			return promise;
 		};
-		return $ensure;
+		return $try_wait;
 	})();
 
 	/**
@@ -704,7 +704,7 @@
 			const id = toDomIdStr(url);
 			if ($appendScript.loaded[id]) {
 				if (globalName) {
-					return $ensure(() => $val(window, globalName));
+					return $try_wait(() => $val(window, globalName));
 				}
 			} else {
 				$appendScript.loaded[id] = true;
@@ -847,7 +847,7 @@
 				_.$$id = $$id;
 				_.$val = $val;
 				_.$callFn = $callFn;
-				_.$ensure = $ensure;
+				_.$try_wait = $try_wait;
 				_.$appendScript = $appendScript;
 				_.$appendStyle = $appendStyle;
 				_.$resolveCssAssetsPath = $resolveCssAssetsPath;

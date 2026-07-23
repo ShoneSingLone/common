@@ -184,14 +184,14 @@ export default async function ({ PRIVATE_GLOBAL }) {
 				ele.setAttribute("tabindex", "0"); // 下次期望的聚焦元素
 			},
 			async removeTabindex() {
-				await _.$ensure(() => this.triggerElm);
+				await _.$try_wait(() => this.triggerElm);
 				this.triggerElm.setAttribute("tabindex", "-1");
 				this.menuItemsArray.forEach(item => {
 					item.setAttribute("tabindex", "-1");
 				});
 			},
 			async initAria() {
-				await _.$ensure(() => this.triggerElm);
+				await _.$try_wait(() => this.triggerElm);
 				this.dropdownElm.setAttribute("id", this.listId);
 				this.triggerElm.setAttribute("aria-haspopup", "list");
 				this.triggerElm.setAttribute("aria-controls", this.listId);
@@ -218,7 +218,7 @@ export default async function ({ PRIVATE_GLOBAL }) {
 				} = this;
 
 				/* 保证触发元素存在 */
-				this.triggerElm = await _.$ensure(() => {
+				this.triggerElm = await _.$try_wait(() => {
 					try {
 						if (splitButton) {
 							return _.$val(this, "$refs.trigger.$el");

@@ -48,7 +48,7 @@ export default async function () {
 			const vm = this;
 			onMounted(async () => {
 				if (vm.mountTo) {
-					await _.$ensure(() => $(vm.mountTo).length);
+					await _.$try_wait(() => $(vm.mountTo).length);
 					drawerVM = new Vue({
 						parent: vm,
 						el: vm.mountTo,

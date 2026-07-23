@@ -284,7 +284,7 @@ export default async function ({ PRIVATE_GLOBAL }) {
 		},
 		async mounted() {
 			try {
-				await _.$ensure(() => _.$val(this, "$refs.input.$refs.input"));
+				await _.$try_wait(() => _.$val(this, "$refs.input.$refs.input"));
 				let innerInput = this.$refs.input.$refs.input;
 				innerInput.setAttribute("role", "spinbutton");
 				innerInput.setAttribute("aria-valuemax", this.max);

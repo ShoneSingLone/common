@@ -75,7 +75,7 @@ overflow:auto;`
 		methods: {
 			async scrollTo(selector) {
 				let $target;
-				await _.$ensure(() => {
+				await _.$try_wait(() => {
 					$target = $(this.$el).find(selector);
 					return $target;
 				}, 1000 * 3);

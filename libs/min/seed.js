@@ -365,7 +365,7 @@
 								(_.$$id = p),
 								(_.$val = E),
 								(_.$callFn = h),
-								(_.$ensure = R),
+								(_.$try_wait = R),
 								(_.$appendScript = O),
 								(_.$appendStyle = V),
 								(_.$resolveCssAssetsPath = T),

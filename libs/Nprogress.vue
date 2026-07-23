@@ -1,6 +1,6 @@
 <script lang="ts">
 export default async function () {
-	await _.$ensure(() => window.SRC_ROOT_PATH !== undefined);
+	await _.$try_wait(() => window.SRC_ROOT_PATH !== undefined);
 	return (function () {
 		var NProgress = {};
 		NProgress.version = "0.2.0";

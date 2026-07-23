@@ -60,7 +60,7 @@ export default async function () {
 				if (!vm.myChart) {
 					const [echarts] = await Promise.all([
 						_.$appendScript("/common/libs/echarts/echarts.min.js", "echarts"),
-						_.$ensure(() => vm.$el)
+						_.$try_wait(() => vm.$el)
 					]);
 					// vm.myChart.dispose();
 					vm.myChart = markRaw(echarts.init(vm.$el));

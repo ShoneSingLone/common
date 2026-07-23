@@ -297,7 +297,7 @@ export default async function () {
 		},
 
 		async mounted() {
-			await _.$ensure(() => _.$val(this, "$refs.panel"));
+			await _.$try_wait(() => _.$val(this, "$refs.panel"));
 			const { input } = this.$refs;
 			if (input && input.$el) {
 				this.inputInitialHeight =
@@ -446,7 +446,7 @@ export default async function () {
 				});
 			},
 			async isEmptyValue(val) {
-				await _.$ensure(() => _.$val(this, "$refs.panel"));
+				await _.$try_wait(() => _.$val(this, "$refs.panel"));
 				const { multiple } = this;
 				const { emitPath } = this.$refs.panel.config;
 				if (multiple || emitPath) {

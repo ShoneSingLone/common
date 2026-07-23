@@ -2533,7 +2533,7 @@ export default async function ({ PRIVATE_GLOBAL, mergeProps4h }) {
 							if (_.isEqual(data, oldData)) {
 								return;
 							}
-							await _.$ensure(() => {
+							await _.$try_wait(() => {
 								const selector = `[data-role=table-main_body]`;
 								const $el = $(this.$el).find(selector);
 								return $el.length;

@@ -50,7 +50,7 @@ export default async function ({ _URL_PREFIX_MO, PRIVATE_GLOBAL }) {
 
 	(async () => {
 		/*  显示header导航栏region selector */
-		const $ModulesRegionCfHeaderRegion = await _.$ensure(() => {
+		const $ModulesRegionCfHeaderRegion = await _.$try_wait(() => {
 			if ($(".modules-region-cf-header-region").length) {
 				return $(".modules-region-cf-header-region");
 			} else {

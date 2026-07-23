@@ -68,7 +68,7 @@ export default async function () {
 			},
 
 			async selectableRange(val) {
-				await _.$ensure(() => this.$refs.spinner);
+				await _.$try_wait(() => this.$refs.spinner);
 				this.$refs.spinner.selectableRange = val;
 			},
 

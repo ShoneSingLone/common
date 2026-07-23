@@ -665,7 +665,8 @@
 				return _.$val(window, n) && o[n] === _.$val(window, n)
 					? e(_.$val(window, n))
 					: "IS_PENDDING" === o[n]
-						? (await _.$ensure(() => o[n] === _.$val(window, n)), e(_.$val(window, n)))
+						? (await _.$try_wait(() => o[n] === _.$val(window, n)),
+							e(_.$val(window, n)))
 						: ((t = _.camelCase(a)),
 							(o[n] = "IS_PENDDING"),
 							void (

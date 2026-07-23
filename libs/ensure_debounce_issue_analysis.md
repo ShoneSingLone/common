@@ -1,21 +1,21 @@
-# $ensure 与 debounce 组合使用问题分析与解决方案
+# $try_wait 与 debounce 组合使用问题分析与解决方案
 
 ## 一、问题描述
 
-在项目中发现，当 `debounce` 与 `$ensure` 组合使用时，虽然使用了防抖，但函数内部的 `$ensure` 仍会导致方法执行多遍。
+在项目中发现，当 `debounce` 与 `$try_wait` 组合使用时，虽然使用了防抖，但函数内部的 `$try_wait` 仍会导致方法执行多遍。
 
-**核心问题**：`$ensure` 没有提供取消机制，当防抖函数取消时，无法通知已经运行的 `$ensure` 停止等待。
+**核心问题**：`$try_wait` 没有提供取消机制，当防抖函数取消时，无法通知已经运行的 `$try_wait` 停止等待。
 
 ---
 
 ## 二、问题原理分析
 
-### 2.1 `$ensure` 工作机制
+### 2.1 `$try_wait` 工作机制
 
-`$ensure` 是一个异步等待函数，核心逻辑如下：
+`$try_wait` 是一个异步等待函数，核心逻辑如下：
 
 ```javascript
-$ensure = async (fn_get_value, duration = 0, gap = 64, options = {}) => {
+$try_wait = async (fn_get_value, duration = 0, gap = 64, options = {}) => {
 	return new Promise((resolve, reject) => {
 		const checkValue = async () => {
 			const value = await fn_get_value({ exeCount, handler, vm });
@@ -39,31 +39,31 @@ const debouncedFn = _.debounce(async function () {
 }, 300);
 
 // 用户快速连续触发
-debouncedFn(); // 第1次调用 → 启动 $ensure
-debouncedFn(); // 第2次调用（300ms内）→ 启动新的 $ensure
-debouncedFn(); // 第3次调用（300ms内）→ 启动新的 $ensure
+debouncedFn(); // 第1次调用 → 启动 $try_wait
+debouncedFn(); // 第2次调用（300ms内）→ 启动新的 $try_wait
+debouncedFn(); // 第3次调用（300ms内）→ 启动新的 $try_wait
 
-// 结果：3个 $ensure 实例同时运行，条件满足时都会执行 doSomething()
+// 结果：3个 $try_wait 实例同时运行，条件满足时都会执行 doSomething()
 ```
 
 ### 2.3 根本原因
 
-1. `$ensure` **没有提供取消机制**
+1. `$try_wait` **没有提供取消机制**
 2. 防抖只能取消尚未执行的函数调用，**无法取消已启动的 Promise**
-3. 多个 `$ensure` 实例独立运行，无法相互感知
+3. 多个 `$try_wait` 实例独立运行，无法相互感知
 
 ---
 
 ## 三、解决方案
 
-### 方案一：给 `$ensure` 添加取消机制（推荐）
+### 方案一：给 `$try_wait` 添加取消机制（推荐）
 
 **核心思路**：在返回的 Promise 上挂载 `cancel` 方法，允许外部取消等待。
 
-**修改后的 `$ensure`**：
+**修改后的 `$try_wait`**：
 
 ```javascript
-$ensure = async (fn_get_value, duration = 0, gap = 64, options = {}) => {
+$try_wait = async (fn_get_value, duration = 0, gap = 64, options = {}) => {
 	let cancelFn = null;
 
 	const promise = new Promise((resolve, reject) => {
@@ -188,7 +188,7 @@ _.$asyncDebounce = (vm, func, delay = 1000) => {
 **核心思路**：利用原生 `AbortController` API 实现取消。
 
 ```javascript
-$ensure = async (fn_get_value, duration = 0, gap = 64, options = {}) => {
+$try_wait = async (fn_get_value, duration = 0, gap = 64, options = {}) => {
 	const controller = options.controller || new AbortController();
 
 	return new Promise((resolve, reject) => {
@@ -247,7 +247,7 @@ $ensure = async (fn_get_value, duration = 0, gap = 64, options = {}) => {
 
 **推荐采用方案一**，理由如下：
 
-1. **最小侵入性**：只修改 `$ensure`，不需要修改使用它的代码
+1. **最小侵入性**：只修改 `$try_wait`，不需要修改使用它的代码
 2. **灵活性高**：调用者自由决定是否需要取消功能
 3. **向后兼容**：现有代码不受影响
 4. **易于维护**：逻辑清晰，取消机制集中管理
@@ -256,7 +256,7 @@ $ensure = async (fn_get_value, duration = 0, gap = 64, options = {}) => {
 
 ## 六、修改步骤
 
-1. **修改 `seed.js`**：在 `$ensure` 函数中添加取消机制
+1. **修改 `seed.js`**：在 `$try_wait` 函数中添加取消机制
 2. **更新类型声明**：添加 `cancel` 方法的 TypeScript 类型
 3. **更新 `common.ts`**：同步修改（如果有重复实现）
 4. **更新 `min/common.ts`**：同步压缩版本
@@ -266,7 +266,7 @@ $ensure = async (fn_get_value, duration = 0, gap = 64, options = {}) => {
 
 ## 七、参考代码
 
-### 7.1 当前 `$ensure` 位置
+### 7.1 当前 `$try_wait` 位置
 
 - 主要实现：`statics/common/libs/seed.js`（第 566-676 行）
 - 其他引用：`statics/common/libs/common.ts`
@@ -286,4 +286,4 @@ ensurePromise.cancel(); // 取消等待
 
 **文档版本**: v1.0  
 **创建日期**: 2026-05-08  
-**适用范围**: `$ensure` 函数修改
+**适用范围**: `$try_wait` 函数修改

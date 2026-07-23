@@ -130,7 +130,7 @@ export default async function () {
 
 		async mounted() {
 			let reference = (this.referenceElm = this.reference || this.$refs.reference);
-			// let reference = await _.$ensure(() => (this.referenceElm = this.reference || this.$refs.reference));
+			// let reference = await _.$try_wait(() => (this.referenceElm = this.reference || this.$refs.reference));
 			const popper = this.popper || this.$refs.popper;
 
 			if (!reference && this.$refs.wrapper.children) {

@@ -35,7 +35,7 @@ export default async function () {
 	return {
 		props: ["configs"],
 		async mounted() {
-			await _.$ensure(() => this.$refs.origin && this.$refs.target);
+			await _.$try_wait(() => this.$refs.origin && this.$refs.target);
 			this.configs.mounted &&
 				this.configs.mounted(this, this.$refs.origin, this.$refs.target);
 		},

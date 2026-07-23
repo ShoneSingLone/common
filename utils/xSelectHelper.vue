@@ -36,7 +36,7 @@ export default async function () {
 		}
 
 		// 获取 xItemSelect 实例
-		const xItemSelectVm = await _.$ensure(() => xItem.childVm);
+		const xItemSelectVm = await _.$try_wait(() => xItem.childVm);
 		if (!xItemSelectVm) {
 			throw new Error("xItemSelect 实例不存在");
 		}

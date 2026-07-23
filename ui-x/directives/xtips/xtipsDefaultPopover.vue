@@ -182,7 +182,7 @@ export default async function () {
 			}
 		},
 		async mounted() {
-			await _.$ensure(() => this.$reference.addClass);
+			await _.$try_wait(() => this.$reference.addClass);
 			// 可访问性
 			this.$reference
 				.addClass("el-popover__reference")

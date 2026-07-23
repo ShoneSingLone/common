@@ -51,7 +51,7 @@ export default async function () {
 				this.dispatch("xAutocomplete", "item-click", item);
 			},
 			async initScrollList() {
-				this.referenceList = await _.$ensure(() =>
+				this.referenceList = await _.$try_wait(() =>
 					this.$el.querySelector(".el-autocomplete-suggestion__list")
 				);
 				this.referenceList.setAttribute("role", "listbox");

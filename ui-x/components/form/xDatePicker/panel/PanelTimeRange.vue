@@ -144,7 +144,7 @@ export default async function () {
 
 			async visible(val) {
 				if (val) {
-					await _.$ensure(() => this.$refs.minSpinner);
+					await _.$try_wait(() => this.$refs.minSpinner);
 					this.oldValue = this.value;
 					this.$nextTick(() => this.$refs.minSpinner.emitSelectRange("hours"));
 				}
@@ -205,7 +205,7 @@ export default async function () {
 			},
 
 			async adjustSpinners() {
-				await _.$ensure(() => this.$refs.maxSpinner && this.$refs.minSpinner);
+				await _.$try_wait(() => this.$refs.maxSpinner && this.$refs.minSpinner);
 				this.$refs.minSpinner.adjustSpinners();
 				this.$refs.maxSpinner.adjustSpinners();
 			},

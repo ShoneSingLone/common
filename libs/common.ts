@@ -2178,7 +2178,7 @@
 				return resolve(_.$val(window, globalName));
 			}
 			if ($globalVar[globalName] === "IS_PENDDING") {
-				await _.$ensure(() => $globalVar[globalName] === _.$val(window, globalName));
+				await _.$try_wait(() => $globalVar[globalName] === _.$val(window, globalName));
 				return resolve(_.$val(window, globalName));
 			}
 			const id = _.camelCase(url);
@@ -3012,7 +3012,7 @@
 						/* 被隐藏项无需等待 */
 						if (is_value_default_first || _.$isInput(value) || !isHide) {
 							/* 需要等待下拉数据 */
-							await _.$ensure(({ handler }) => {
+							await _.$try_wait(({ handler }) => {
 								handler.louder = () => {
 									console.log(`等待字段: ${prop}`, cfg, value);
 								};
