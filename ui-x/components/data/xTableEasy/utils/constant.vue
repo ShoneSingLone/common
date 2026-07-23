@@ -23,8 +23,8 @@ export default async function () {
 		RIGHT_ARROW: "right-arrow",
 		BOTTOM_ARROW: "bottom-arrow",
 		LEFT_ARROW: "left-arrow",
-		SORT_TOP_ARROW: "sort-top-arrow",
-		SORT_BOTTOM_ARROW: "sort-bottom-arrow",
+		SORT_TOP_ARROW: "caret-top",
+		SORT_BOTTOM_ARROW: "caret-bottom",
 		SEARCH: "search"
 	};
 

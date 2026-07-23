@@ -619,9 +619,14 @@ export default async function ({ PRIVATE_GLOBAL }) {
 			},
 			// table style
 			tableStyle() {
-				return {
+				const style = {
 					width: getValByUnit(this.scrollWidth)
 				};
+				// 当设置了 scrollWidth 时，覆盖 CSS 中的 min-width: 100%
+				if (this.scrollWidth) {
+					style["min-width"] = "auto";
+				}
+				return style;
 			},
 			// table class
 			tableClass() {
