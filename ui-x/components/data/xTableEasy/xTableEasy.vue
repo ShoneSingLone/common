@@ -1839,6 +1839,8 @@ export default async function ({ PRIVATE_GLOBAL }) {
 				//获取真实元素大小，修改对应的尺寸缓存
 				const index = this.virtualScrollPositions.findIndex(x => x.rowKey === rowKey);
 
+				if (index === -1) return;
+
 				let oldHeight = this.virtualScrollPositions[index].height;
 				let dValue = oldHeight - height;
 				//存在差值
