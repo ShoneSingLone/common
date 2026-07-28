@@ -80,7 +80,21 @@ export default async function ({ PRIVATE_GLOBAL }) {
 							}
 						}
 					},
-					[h("xIcon", { props: { icon: ICON_NAMES.RIGHT_ARROW } })]
+					[
+						hxIcon({
+							icon: ICON_NAMES.RIGHT_ARROW,
+							class: "table-expand-icon-arrow",
+							style: {
+								display: "inline-block",
+								width: 0,
+								height: 0,
+								borderLeft: "5px solid #666",
+								borderTop: "5px solid transparent",
+								borderBottom: "5px solid transparent",
+								transition: "transform 0.2s"
+							}
+						})
+					]
 				);
 			}
 			return content;

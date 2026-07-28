@@ -17,11 +17,11 @@ export default async function () {
 
 	const ICON_NAMES = {
 		FILTER: "filter",
-		DOUBLE_RIGHT_ARROW: "double-right-arrow",
-		DOUBLE_LEFT_ARROW: "double-left-arrow",
+		DOUBLE_RIGHT_ARROW: "double-arrow-right",
+		DOUBLE_LEFT_ARROW: "double-arrow-left",
 		TOP_ARROW: "top-arrow",
-		RIGHT_ARROW: "right-arrow",
-		BOTTOM_ARROW: "bottom-arrow",
+		RIGHT_ARROW: "arrow-right",
+		BOTTOM_ARROW: "arrow-bottom",
 		LEFT_ARROW: "left-arrow",
 		SORT_TOP_ARROW: "caret-top",
 		SORT_BOTTOM_ARROW: "caret-bottom",

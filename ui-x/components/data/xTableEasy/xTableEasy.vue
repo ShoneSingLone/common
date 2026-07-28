@@ -6153,6 +6153,7 @@ export default async function ({ PRIVATE_GLOBAL }) {
 	width: 5px;
 	height: 40px;
 	z-index: 50;
+	transition: none !important;
 }
 
 .ve-table .ve-table-column-resizer-handler.active {

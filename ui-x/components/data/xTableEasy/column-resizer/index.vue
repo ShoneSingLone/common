@@ -140,7 +140,7 @@ export default async function ({ PRIVATE_GLOBAL }) {
 				}
 			},
 
-			// set column resizer position byu drag
+			// set column resizer position by drag
 			setColumnResizerPositionByDrag(event) {
 				const { tableContainerEl, isColumnResizing, currentResizingColumn } = this;
 
@@ -150,12 +150,12 @@ export default async function ({ PRIVATE_GLOBAL }) {
 					if (isColumnResizing && currentResizingColumn) {
 						const { columnResizerStartX, cpt_columnMinWidth } = this;
 
+						// 计算新的列宽度
+						const newWidth = currentResizingColumn._realTimeWidth + (event.clientX - columnResizerStartX);
+
 						// 不允许拖动小于列最小宽度
-						if (
-							currentResizingColumn._realTimeWidth +
-								(event.clientX - columnResizerStartX) >
-							cpt_columnMinWidth
-						) {
+						if (newWidth > cpt_columnMinWidth) {
+							// 直接跟随鼠标位置
 							this.columnResizerRect.left = event.clientX - tableContainerLeft;
 						}
 					}
