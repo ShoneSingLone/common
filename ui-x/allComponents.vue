@@ -97,6 +97,7 @@ export default async function () {
 		"directives/xTooltip/xTooltip",
 		"directives/xDrawer/xDrawer",
 		"directives/xtips/xPopover",
+		"directives/xcontextmenu/xContextMenuPanel",
 		/* ********************** */
 		"common/xAppLayoutHeaderOcOprs",
 		"common/xMd",

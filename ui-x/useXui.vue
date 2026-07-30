@@ -296,7 +296,8 @@ export default async function ({
 				"/common/ui-x/directives/ripple.vue",
 				"/common/ui-x/directives/infinitescroll.vue",
 				"/common/ui-x/directives/xloading.vue",
-				"/common/ui-x/directives/xmove.vue"
+				"/common/ui-x/directives/xmove.vue",
+				"/common/ui-x/directives/xcontextmenu/xcontextmenu.vue"
 			],
 
 			url => _.$importVue(url)
