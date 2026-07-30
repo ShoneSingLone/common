@@ -76,11 +76,17 @@ export default async function () {
 			});
 		/* 【需求】6.4.51 右键菜单：滚动时关闭所有可见菜单，与业界主流行为一致 */
 		/* scroll 不冒泡，改用冒泡的 wheel（鼠标滚轮/触控板）和 touchmove（触摸滑动） */
+		/* 如果滚动事件发生在菜单内部（如 content 模式有可滚动区域），不关闭菜单 */
 		_.$single.doc
 			.off("wheel.xcontextmenu touchmove.xcontextmenu")
-			.on("wheel.xcontextmenu touchmove.xcontextmenu", () => {
+			.on("wheel.xcontextmenu touchmove.xcontextmenu", event => {
 				PANEL_VM_MAP.forEach(vm => {
-					if (vm.visible) vm.hide();
+					if (!vm.visible) return;
+					const $el = $(vm.$el);
+					if ($el.length && ($el.is(event.target) || $el.has(event.target).length)) {
+						return;
+					}
+					vm.hide();
 				});
 			});
 	}
