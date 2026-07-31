@@ -38197,7 +38197,7 @@ PERFORMANCE OF THIS SOFTWARE.
 							const [all, prefix, id] = String(imageUrl).match(/(.*)_id:(\d+)/) || [];
 
 							if (id) {
-								imageUrl = Vue._common_utils.appendToken(
+								imageUrl = utils.appendToken(
 									`${window._AJAX_URL_PREFIX || ""}/api/resource/get?id=${id}`
 								);
 							}
