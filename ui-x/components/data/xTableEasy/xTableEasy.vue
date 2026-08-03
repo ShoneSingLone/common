@@ -1794,8 +1794,10 @@ export default async function ({ PRIVATE_GLOBAL }) {
 							width: "100%"
 						},
 						on: {
+							/* 【修复】2026-08-03 容器宽度更新改走防抖函数：折叠动画期间不触发表格重算，
+							   动画结束后一次性更新 tableViewportWidth，避免动画帧被行重渲染占用 */
 							"on-dom-resize-change": ({ width }) => {
-								this.tableViewportWidth = width;
+								this.debouncedViewportWidthChange(width);
 							}
 						}
 					};
@@ -3538,6 +3540,26 @@ export default async function ({ PRIVATE_GLOBAL }) {
 		created() {
 			// bug fixed #467
 			this.debouncedBodyCellWidthChange = _.debounce(this.bodyCellWidthChange, 0);
+
+			/* 【修复】2026-08-03 虚拟滚动容器宽度更新防抖 250ms：侧边栏折叠等宽度变化时，
+			   将表格重算推迟到折叠动画（200ms）结束后一次性执行，动画期间主线程空闲、动画不掉帧；
+			   防抖状态保存在组件实例上，多次触发只执行最后一次 */
+			this.debouncedViewportWidthChange = _.debounce(width => {
+				this.tableViewportWidth = width;
+				console.log("[xTableEasy] viewport_width_updated", { width });
+			}, 250);
+
+			/* 【修复】2026-08-03 表格容器尺寸变化防抖 250ms：容器外层 ResizeObserver 在宽度或高度任一变化时
+			   都会触发，折叠时若即时 initVirtualScroll 仍会产生 ~200ms×4 长任务；统一防抖到动画结束后一次性重算 */
+			this.debouncedContainerSizeChange = _.debounce(height => {
+				this.tableOffestHeight = height;
+				this.initVirtualScroll();
+				// fixed #404
+				this.initScrolling();
+				this.setScrollBarStatus();
+				this.hooks.triggerHook(HOOKS_NAME.TABLE_SIZE_CHANGE);
+				console.log("[xTableEasy] container_size_updated", { height });
+			}, 250);
 		},
 		mounted() {
 			this.parentRendered = true;
@@ -3667,6 +3689,14 @@ export default async function ({ PRIVATE_GLOBAL }) {
 		destroyed() {
 			// remove key down event listener
 			document.removeEventListener("keydown", this.dealKeydownEvent);
+
+			/* 【修复】2026-08-03 取消未执行的尺寸/宽度防抖回调，避免组件销毁后仍回写尺寸状态 */
+			if (this.debouncedViewportWidthChange && this.debouncedViewportWidthChange.cancel) {
+				this.debouncedViewportWidthChange.cancel();
+			}
+			if (this.debouncedContainerSizeChange && this.debouncedContainerSizeChange.cancel) {
+				this.debouncedContainerSizeChange.cancel();
+			}
 		},
 		render(h) {
 			const {
@@ -3809,13 +3839,10 @@ export default async function ({ PRIVATE_GLOBAL }) {
 					tagName: "div"
 				},
 				on: {
+					/* 【修复】2026-08-03 容器尺寸变化改走防抖函数：该回调在宽度或高度任一变化时触发，
+					   折叠动画期间不再即时重算虚拟滚动，统一推迟到动画结束后一次性执行 */
 					"on-dom-resize-change": ({ height }) => {
-						this.tableOffestHeight = height;
-						this.initVirtualScroll();
-						// fixed #404
-						this.initScrolling();
-						this.setScrollBarStatus();
-						this.hooks.triggerHook(HOOKS_NAME.TABLE_SIZE_CHANGE);
+						this.debouncedContainerSizeChange(height);
 					}
 				},
 				directives: [
