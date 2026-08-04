@@ -402,6 +402,8 @@ export default async function ({ PRIVATE_GLOBAL }) {
 				virtualScrollEndIndex: 0,
 				// is scrolling
 				showVirtualScrollingPlaceholder: false,
+				/* 【需求】2026-08-03 虚拟滚动 scroll rAF 合并标记：一帧内多次 scroll 只执行一次计算链，降低高频同步计算对主线程的占用 */
+				virtualScrollRafId: null,
 				// disable pointer events timeout id
 				disablePointerEventsTimeoutId: null,
 				// is scrolling left
@@ -3697,6 +3699,12 @@ export default async function ({ PRIVATE_GLOBAL }) {
 			if (this.debouncedContainerSizeChange && this.debouncedContainerSizeChange.cancel) {
 				this.debouncedContainerSizeChange.cancel();
 			}
+
+			/* 【需求】2026-08-03 取消未执行的虚拟滚动 rAF 合并回调，避免组件销毁后仍回写滚动状态 */
+			if (this.virtualScrollRafId != null) {
+				window.cancelAnimationFrame(this.virtualScrollRafId);
+				this.virtualScrollRafId = null;
+			}
 		},
 		render(h) {
 			const {
@@ -3864,33 +3872,47 @@ export default async function ({ PRIVATE_GLOBAL }) {
 					scroll: () => {
 						const tableContainerRef = this.$refs[this.tableContainerRef];
 
+						/* 【需求】2026-08-03 虚拟滚动 scroll 处理 rAF 合并：一帧内多次 scroll 只执行一次可视行重算（二分查找 + 切片 + 占位判断），避免高频同步计算放大主线程占用；滚动可观测性由既有 virtualScrollOption.scrolling 回调承载，此处不额外 console.log 防止高频日志自身拖慢滚动 */
+						if (isVirtualScroll) {
+							if (this.virtualScrollRafId != null) {
+								return;
+							}
+							this.virtualScrollRafId = window.requestAnimationFrame(() => {
+								this.virtualScrollRafId = null;
+
+								this.hooks.triggerHook(
+									HOOKS_NAME.TABLE_CONTAINER_SCROLL,
+									tableContainerRef
+								);
+								this.setScrolling(tableContainerRef);
+								this.tableContainerVirtualScrollHandler(tableContainerRef);
+
+								const {
+									virtualScrollStartIndex: startIndex,
+									previewVirtualScrollStartIndex: previewStartIndex
+								} = this;
+
+								const differ = Math.abs(startIndex - previewStartIndex);
+
+								this.previewVirtualScrollStartIndex = startIndex;
+
+								// default placeholder per scrolling row count
+								if (differ > this.defaultPlaceholderPerScrollingRowCount) {
+									this.showVirtualScrollingPlaceholder = true;
+								} else {
+									this.showVirtualScrollingPlaceholder = false;
+								}
+
+								this.debounceScrollEnded();
+							});
+							return;
+						}
+
 						this.hooks.triggerHook(
 							HOOKS_NAME.TABLE_CONTAINER_SCROLL,
 							tableContainerRef
 						);
 						this.setScrolling(tableContainerRef);
-
-						if (isVirtualScroll) {
-							this.tableContainerVirtualScrollHandler(tableContainerRef);
-
-							const {
-								virtualScrollStartIndex: startIndex,
-								previewVirtualScrollStartIndex: previewStartIndex
-							} = this;
-
-							const differ = Math.abs(startIndex - previewStartIndex);
-
-							this.previewVirtualScrollStartIndex = startIndex;
-
-							// default placeholder per scrolling row count
-							if (differ > this.defaultPlaceholderPerScrollingRowCount) {
-								this.showVirtualScrollingPlaceholder = true;
-							} else {
-								this.showVirtualScrollingPlaceholder = false;
-							}
-
-							this.debounceScrollEnded();
-						}
 					},
 					mouseup: () => {
 						// 事件的先后顺序 containerMouseup > bodyCellMousedown > bodyCellMouseup > bodyCellClick
