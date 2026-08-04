@@ -16,7 +16,8 @@
 		loadingHideBlur,
 		appPrefix,
 		noNprogress,
-		appUseBabel
+		appUseBabel,
+		showCacheReloader
 	} = (() => {
 		const srcRootDom = $$id("src-root");
 		const { src, dataset } = srcRootDom;
@@ -33,7 +34,9 @@
 			loadingHideBlur: dataset.loadingHideBlur || false,
 			appPrefix: dataset.appPrefix || "business_",
 			noNprogress: dataset.noNProgress,
-			appUseBabel: dataset.appUseBabel === "true"
+			appUseBabel: dataset.appUseBabel === "true",
+			/* 【需求】通用钩子：开启后版本变更时在 <html> 上标记 data-cache-reload-needed */
+			showCacheReloader: dataset.showCacheReloader === "true"
 		};
 	})();
 
@@ -827,8 +830,11 @@
 			/* 如果没有配置或者配置了并且和缓存的版本不一致，则清除缓存 */
 			const NO_CACHE = !APP_VERSION;
 			const NOT_MATCH = APP_VERSION && APP_VERSION !== (await $idb.get("APP_VERSION"));
-
 			if (IS_DEV || NO_CACHE || NOT_MATCH) {
+				/* 【需求】开启 showCacheReloader 时，版本变更有标记到 <html> dataset 供业务读取 */
+				if (NOT_MATCH && showCacheReloader && !IS_DEV) {
+					document.documentElement.dataset.cacheReloadNeeded = "true";
+				}
 				try {
 					await $idb.clear();
 					await $idb.set("APP_VERSION", APP_VERSION);

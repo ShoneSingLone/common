@@ -116,6 +116,8 @@ export default async function () {
 		"common/xCellText",
 		"common/xColActions",
 		"common/xDialog",
+		/* 【需求】注册 xCacheReloader 为全局组件，供标签式使用 */
+		"common/xCacheReloader",
 		"common/xForm",
 		"common/xFragment",
 		"common/xIcon",

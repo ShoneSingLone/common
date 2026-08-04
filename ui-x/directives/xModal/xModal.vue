@@ -577,13 +577,18 @@ export default async function ({ PRIVATE_GLOBAL, options, modalConfigs }) {
 		},
 		methods: {
 			deviceSupportInstall() {},
-			async closeModal(options) {
-				options = options || {};
-				const { isClickCloseIcon } = options;
+			async closeModal(closeOptions) {
+				closeOptions = closeOptions || {};
+				const { isClickCloseIcon } = closeOptions;
 				let isClose = true;
 
-				if (options.onCancel) {
-					isClose = await options.onCancel();
+				if (closeOptions.onCancel) {
+					isClose = await closeOptions.onCancel();
+				}
+
+				/* 【需求】2026-08-04 未保存离场拦截：支持打开窗口时注入异步关闭守卫，dirty 草稿确认前阻止销毁 */
+				if (isClose && _.isFunction(options.onCancel)) {
+					isClose = await options.onCancel({ id: this.id, isClickCloseIcon });
 				}
 
 				if (isClose) {

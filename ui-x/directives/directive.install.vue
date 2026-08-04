@@ -701,5 +701,36 @@ export default async function ({ PRIVATE_GLOBAL }) {
 			}
 		};
 	})();
+
+	/* 【需求】注册指令式 API _.$cacheReloader，支持在任意位置调用弹出缓存更新浮窗 */
+	(function () /* cacheReloader */ {
+		let instance;
+
+		_.$cacheReloader = async function (options) {
+			const xCacheReloader = await _.$importVue(
+				"/common/ui-x/common/xCacheReloader.vue"
+			);
+			const PopupManager = await _.$importVue("/common/libs/VuePopper/popupManager.vue");
+
+			/* 【需求】单例模式：同一时间只保留一个浮窗实例 */
+			if (instance && instance.$el && instance.$el.parentNode) {
+				instance.$el.parentNode.removeChild(instance.$el);
+				instance.$destroy();
+			}
+
+			options = _.merge({}, options);
+			const ReloaderConstructor = Vue.extend(xCacheReloader);
+			instance = new ReloaderConstructor({
+				propsData: options
+			});
+
+			instance.$mount();
+			document.body.appendChild(instance.$el);
+			instance.$el.style.zIndex = PopupManager.nextZIndex();
+			/* 【需求】挂载后自动 show */
+			instance.show();
+			return instance;
+		};
+	})();
 }
 </script>
