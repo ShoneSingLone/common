@@ -30,15 +30,15 @@
 						:key="index"
 						:class="cpt_changelog_item_class(item)">
 						<span class="x-cache-reloader-dot"></span>
-						<span class="x-cache-reloader-text">{{
-							cpt_changelog_item_text(item)
-						}}</span>
+						<span class="x-cache-reloader-text">{{ cpt_changelog_item_text(item) }}</span>
 					</li>
 				</ul>
 
 				<!-- 底部：按钮区 + 倒计时 -->
 				<div class="x-cache-reloader-footer">
-					<xBtn v-if="cpt_can_dismiss" :configs="cpt_btn_dismiss" />
+					<xBtn
+						v-if="cpt_can_dismiss"
+						:configs="cpt_btn_dismiss" />
 					<xBtn :configs="cpt_btn_reload" />
 				</div>
 			</div>
@@ -96,17 +96,7 @@ export default async function () {
 				type: String,
 				default: "refresh"
 			},
-			/* 【需求】清缓存范围：idb=仅静态资源缓存(默认)，all=全清(IDB+localStorage+sessionStorage)，custom=仅清 clearStorageKeys */
-			clearScope: {
-				type: String,
-				default: "idb"
-			},
-			/* 【需求】clearScope=all 时，需要保留的 localStorage key 列表（如语言偏好 X-Language） */
-			preserveKeys: {
-				type: Array,
-				default: () => ["X-Language", "_app_lang", "_doc_app_lang", "_doc_app_theme"]
-			},
-			/* 需要同步清除的 localStorage key 列表（仅 clearScope=custom 时生效） */
+			/* 需要同步清除的 localStorage key 列表 */
 			clearStorageKeys: {
 				type: Array,
 				default: () => []
@@ -229,13 +219,28 @@ export default async function () {
 
 				console.log("[xCacheReloader] 开始清缓存 + 重载", {
 					version: this.cpt_version_label,
-					clearScope: this.clearScope,
-					preserveKeys: this.preserveKeys,
 					clearStorageKeys: this.clearStorageKeys
 				});
 
-				/* 【需求】本项目缓存清理统一收敛到此，根据 clearScope 分级处理 */
-				await this.clear_all_caches();
+				/* 【需求】清空 IndexedDB 缓存（.vue 源码缓存等） */
+				try {
+					if (_.$idb) {
+						await _.$idb.clear();
+					}
+				} catch (e) {
+					console.error("[xCacheReloader] _.$idb.clear error", e);
+				}
+
+				/* 【需求】同步清除指定 localStorage key */
+				if (this.clearStorageKeys && this.clearStorageKeys.length) {
+					this.clearStorageKeys.forEach(key => {
+						try {
+							localStorage.removeItem(key);
+						} catch (e) {
+							console.error("[xCacheReloader] localStorage.removeItem error", key, e);
+						}
+					});
+				}
 
 				/* 重载前回调 */
 				this.$emit("reload");
@@ -247,82 +252,8 @@ export default async function () {
 					}
 				}
 
-				/* 【需求】强制重新加载页面，重建所有内存级缓存（VUE_COMPONENTS_CACHE、ResolvePathCache 等） */
+				/* 【需求】强制重新加载页面 */
 				location.reload(true);
-			},
-			/* 【需求】统一清缓存实现：IDB(.vue源码/版本号) + localStorage(认证态/UI偏好/token) + sessionStorage(临时态) */
-			async clear_all_caches() {
-				const scope = this.clearScope;
-
-				/* 1. 先备份需要保留的 localStorage 值（clearScope=all 时） */
-				let preserved = {};
-				if (scope === "all" && this.preserveKeys && this.preserveKeys.length) {
-					this.preserveKeys.forEach(key => {
-						try {
-							const val = localStorage.getItem(key);
-							if (val !== null) {
-								preserved[key] = val;
-							}
-						} catch (e) {
-							/* ignore */
-						}
-					});
-				}
-
-				/* 2. 清空 IndexedDB（keyval-store：.vue/.js/.css 源码缓存、APP_VERSION） */
-				if (scope === "all" || scope === "idb") {
-					try {
-						if (_.$idb) {
-							await _.$idb.clear();
-						}
-					} catch (e) {
-						console.error("[xCacheReloader] _.$idb.clear error", e);
-					}
-				}
-
-				/* 3. 清空 localStorage（认证态 x_token/_xspace_token、UI 偏好、表单记忆等） */
-				if (scope === "all") {
-					try {
-						localStorage.clear();
-					} catch (e) {
-						console.error("[xCacheReloader] localStorage.clear error", e);
-					}
-					/* 恢复保留的 key */
-					Object.keys(preserved).forEach(key => {
-						try {
-							localStorage.setItem(key, preserved[key]);
-						} catch (e) {
-							/* ignore */
-						}
-					});
-				} else if (
-					scope === "custom" &&
-					this.clearStorageKeys &&
-					this.clearStorageKeys.length
-				) {
-					/* custom 模式：仅清指定 key */
-					this.clearStorageKeys.forEach(key => {
-						try {
-							localStorage.removeItem(key);
-						} catch (e) {
-							console.error("[xCacheReloader] localStorage.removeItem error", key, e);
-						}
-					});
-				}
-
-				/* 4. 清空 sessionStorage（PROCESS_ID、wss 会话等临时态） */
-				if (scope === "all") {
-					try {
-						sessionStorage.clear();
-					} catch (e) {
-						console.error("[xCacheReloader] sessionStorage.clear error", e);
-					}
-				}
-
-				console.log("[xCacheReloader] 缓存清理完成", {
-					scope,
-					preservedKeys: Object.keys(preserved)
-				});
 			},
 			/* 倒计时相关 */
 			start_countdown() {

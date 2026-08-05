@@ -1190,7 +1190,9 @@ export default async function ({ PRIVATE_GLOBAL, mergeProps4h }) {
 		/* 树形结构 - 为了支持展开行功能，我们需要特殊处理children数据 */
 		const flattenedData = computed(() => {
 			const depths = {};
-			const { data: allRows, rowKey } = props;
+			/* 【修复】props.data 为 null/undefined 时兜底为空数组，避免下方 slice/forEach/length 空指针（接口未返回列表数据场景） */
+			const allRows = _.$val(props, "data") || [];
+			const { rowKey } = props;
 			const _expandedRowKeys = expandedRowKeys.value;
 
 			if (!_.$isArrayFill(_expandedRowKeys)) {
@@ -1265,11 +1267,12 @@ export default async function ({ PRIVATE_GLOBAL, mergeProps4h }) {
 		});
 		const rowsHeight = computed(() => {
 			const { rowHeight, estimatedRowHeight } = props;
-			const _data = unref(data);
+			/* 【修复】data 可能为 null（接口未返回列表），统一兜底避免 _data.length 空指针 */
+			const _data = unref(data) || [];
 			if (_.isNumber(estimatedRowHeight)) {
 				return _data.length * estimatedRowHeight;
 			}
-			return (_data?.length || 0) * rowHeight;
+			return (_data.length || 0) * rowHeight;
 		});
 		const fixedTableHeight = computed(() => {
 			const { maxHeight } = props;
@@ -1323,6 +1326,9 @@ export default async function ({ PRIVATE_GLOBAL, mergeProps4h }) {
 		const mainTableRef = ref();
 		const leftTableRef = ref();
 		const rightTableRef = ref();
+
+		const safeColumns = computed(() => _.$val(props, "columns") || []);
+
 		const {
 			columns: columns2,
 			columnsStyles,
@@ -1332,7 +1338,8 @@ export default async function ({ PRIVATE_GLOBAL, mergeProps4h }) {
 			hasFixedColumns,
 			mainColumns,
 			onColumnSorted
-		} = useColumns(props, toRef(props, "columns"), toRef(props, "fixed"));
+			/* 【修复】props.columns 为 null/undefined 时兜底为空数组，避免 useColumns 内 filter/reduce/find 空指针（接口未返回列表数据场景） */
+		} = useColumns(props, safeColumns, toRef(props, "fixed"));
 		const {
 			scrollTo,
 			scrollToLeft,
@@ -1401,9 +1408,11 @@ export default async function ({ PRIVATE_GLOBAL, mergeProps4h }) {
 			const $el = $(inject_xTableVir.$el).find(selector);
 
 			const height = (() => {
+				/* 【修复】data.value 或行元素可能为 undefined，链式取值用 _.$val 防空指针 */
+				const _rowKey_cache = _.$val(data.value, `${rowIndex}.${rowKey2}`);
 				if ($el.length) {
-					if (rowHeights.value[data.value[rowIndex][rowKey2]]) {
-						return rowHeights.value[data.value[rowIndex][rowKey2]];
+					if (_rowKey_cache != null && rowHeights.value[_rowKey_cache]) {
+						return rowHeights.value[_rowKey_cache];
 					}
 					const ALL_HEIGHT = _.map($el, row => {
 						const $row = $(row);
@@ -1426,14 +1435,15 @@ export default async function ({ PRIVATE_GLOBAL, mergeProps4h }) {
 						return estimatedRowHeight;
 					});
 					const max = _.max([...ALL_HEIGHT, estimatedRowHeight]);
-					if (max !== estimatedRowHeight) {
-						rowHeights.value[data.value[rowIndex][rowKey2]] = max;
+					if (max !== estimatedRowHeight && _rowKey_cache != null) {
+						/* 【修复】复用上方 _rowKey_cache，避免 data.value[rowIndex][rowKey2] 链式空指针 */
+						rowHeights.value[_rowKey_cache] = max;
 					}
 					return max;
 				} else {
 					const _rowHeights = rowHeights.value;
-					const _data = data.value;
-					return _rowHeights[_data[rowIndex][rowKey2]] || estimatedRowHeight;
+					/* 【修复】_rowKey_cache 已在顶部用 _.$val 安全取值，此处复用 */
+					return _rowHeights[_rowKey_cache] || estimatedRowHeight;
 				}
 			})();
 			console.log("TODO: getRowHeight", rowIndex, height);

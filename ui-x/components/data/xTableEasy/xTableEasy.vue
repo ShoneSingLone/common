@@ -509,24 +509,32 @@ export default async function ({ PRIVATE_GLOBAL }) {
 			};
 		},
 		computed: {
+			/* 【修复】tableData/columns 可能为 null/undefined（接口未返回列表数据），统一兜底为空数组 */
+			safeTableData() {
+				return Array.isArray(this.tableData) ? this.tableData : [];
+			},
+			safeColumns() {
+				return Array.isArray(this.columns) ? this.columns : [];
+			},
 			// actual render table data
 			actualRenderTableData() {
 				return this.isVirtualScroll ? this.virtualScrollVisibleData : this.tableData;
 			},
 			// return row keys
 			allRowKeys() {
-				let result = [];
+			let result = [];
 
-				const { tableData, rowKeyFieldName } = this;
+			/* 【修复】tableData 可能为 null/undefined，改用 safeTableData 兜底 */
+			const { safeTableData, rowKeyFieldName } = this;
 
-				if (rowKeyFieldName) {
-					result = tableData.map(x => {
-						return x[rowKeyFieldName];
-					});
-				}
+			if (rowKeyFieldName) {
+				result = safeTableData.map(x => {
+					return x[rowKeyFieldName];
+				});
+			}
 
-				return result;
-			},
+			return result;
+		},
 			// virtual scroll buffer count
 			virtualScrollBufferCount() {
 				let result = 0;
@@ -1032,7 +1040,8 @@ export default async function ({ PRIVATE_GLOBAL }) {
 
 			// show or hide columns
 			showOrHideColumns() {
-				let cloneColumns = _.cloneDeep(this.columns);
+				/* 【修复】columns 可能为 null/undefined，改用 safeColumns 兜底，避免 cloneDeep(null).map 空指针 */
+				let cloneColumns = _.cloneDeep(this.safeColumns);
 
 				cloneColumns = cloneColumns.map(col => {
 					// 操作列默认左固定
@@ -1726,7 +1735,8 @@ export default async function ({ PRIVATE_GLOBAL }) {
 
 			// set virtual scroll visible data
 			setVirtualScrollVisibleData() {
-				const { tableData } = this;
+				/* 【修复】tableData 可能为 null/undefined，改用 safeTableData 兜底 */
+				const { safeTableData: tableData } = this;
 
 				const startIndex = this.virtualScrollStartIndex;
 				const endIndex = this.virtualScrollEndIndex;
@@ -1760,7 +1770,8 @@ export default async function ({ PRIVATE_GLOBAL }) {
 			getVirtualScrollBelowCount() {
 				let result = 0;
 
-				const { isVirtualScroll, tableData, virtualScrollBufferCount } = this;
+				/* 【修复】tableData 可能为 null/undefined，改用 safeTableData 兜底 */
+				const { isVirtualScroll, safeTableData: tableData, virtualScrollBufferCount } = this;
 
 				const virtualScrollEndIndex = this.virtualScrollEndIndex;
 
@@ -1822,13 +1833,14 @@ export default async function ({ PRIVATE_GLOBAL }) {
 
 			// init virtual scroll positions
 			initVirtualScrollPositions() {
-				if (this.isVirtualScroll) {
-					const {
-						virtualScrollOption,
-						rowKeyFieldName,
-						tableData,
-						defaultVirtualScrollMinRowHeight
-					} = this;
+			if (this.isVirtualScroll) {
+				/* 【修复】tableData 可能为 null/undefined，改用 safeTableData 兜底 */
+				const {
+					virtualScrollOption,
+					rowKeyFieldName,
+					safeTableData: tableData,
+					defaultVirtualScrollMinRowHeight
+				} = this;
 
 					const minRowHeight = _.isNumber(virtualScrollOption.minRowHeight)
 						? virtualScrollOption.minRowHeight
@@ -2108,7 +2120,7 @@ export default async function ({ PRIVATE_GLOBAL }) {
 				if (isCellEditing) {
 					const { rowKey, colKey } = editingCell;
 
-					let currentRow = this.tableData.find(x => x[rowKeyFieldName] === rowKey);
+					let currentRow = this.safeTableData.find(x => x[rowKeyFieldName] === rowKey);
 
 					if (currentRow) {
 						const currentColumn = colgroups.find(x => x.key === colKey);
@@ -3460,7 +3472,7 @@ export default async function ({ PRIVATE_GLOBAL }) {
 					return false;
 				}
 
-				let currentRow = this.tableData.find(x => x[rowKeyFieldName] === rowKey);
+				let currentRow = this.safeTableData.find(x => x[rowKeyFieldName] === rowKey);
 
 				currentRow = _.cloneDeep(currentRow);
 

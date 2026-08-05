@@ -621,8 +621,20 @@ export default async function ({ PRIVATE_GLOBAL, options, modalConfigs }) {
 			},
 			restore() {
 				this.dialog_class.minimized = false;
-				lastCalculatedValues = null;
+				/* 【修复】6.4.64 lastCalculatedValues 为 setup 闭包变量，methods 作用域不可见会抛 ReferenceError，
+				   导致 setDialogOffset 不执行、最小化窗口无法恢复；改为显式恢复 dialogStyle 可见性 + 位置重算 */
+				this.dialogStyle = {
+					...this.dialogStyle,
+					opacity: 1,
+					visibility: "visible",
+					pointerEvents: "auto"
+				};
 				this.setDialogOffset();
+			},
+			/* 【修复】6.4.63 补 maximize 别名：ModalManager.maximize(id) 会调 vm.maximize()，
+			   原先缺失此方法导致静默失败，现复用 toggleFullScreen 实现 */
+			maximize() {
+				this.toggleFullScreen();
 			},
 			toTop() {
 				if (this.id) {

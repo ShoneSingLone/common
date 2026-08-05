@@ -200,10 +200,12 @@ export default async function ({ PRIVATE_GLOBAL }) {
 				}
 
 				// id: 窗口实例的唯一标识符，用于窗口管理（最小化、最大化、关闭、置顶）
-				// appType: 应用程序的类型标识符，用于应用级别的分组和管理（支持多开）
+				// appType: 窗口实例所属应用的类型标识，用于应用级别的分组和管理（支持同应用多开）
 				// 两者用途不同，不能合并：id标识"哪个窗口"，appType标识"哪种应用"
 				modalVm.id = id;
 				modalVm.appType = options.appType;
+				/* 【需求】6.4.64 挂 options 引用，供 setSize 等 API 同步内部尺寸 */
+				modalVm._modalOptions = options;
 				windowsRegistry.set(id, modalVm);
 
 				// 初始置顶并设为焦点
@@ -292,6 +294,34 @@ export default async function ({ PRIVATE_GLOBAL }) {
 					vm.restore();
 					this.toTop(id);
 				}
+			},
+
+			/**
+			 * 【需求】6.4.64 调整窗口尺寸（仅非全屏态生效），供 Dock/业务按需控制窗口大小
+			 * @param {string} id 窗口 ID
+			 * @param {{width?: number|string, height?: number|string}} size 目标尺寸（像素）
+			 * @returns {any} 窗口实例
+			 */
+			setSize(id, size = {}) {
+				const vm = windowsRegistry.get(id);
+				if (!vm || !_.isPlainObject(size)) return vm;
+				if (vm.dialog_class && vm.dialog_class.fullscreen) return vm; // 全屏态禁止调整
+				const opts = vm._modalOptions || (vm._modalOptions = { style: {} });
+				const style = { ...(vm.dialogStyle || {}) };
+				const viewport = { width: window.innerWidth, height: window.innerHeight };
+				const clamp = (val, min, max) => Math.max(min, Math.min(max, val));
+				if (_.$isInput(size.width)) {
+					const w = clamp(parseInt(size.width), 200, viewport.width);
+					style.width = `${w}px`;
+					opts.style.width = w; // 同步 options.style，避免 setDialogOffset 回写旧值
+				}
+				if (_.$isInput(size.height)) {
+					const h = clamp(parseInt(size.height), 100, viewport.height);
+					style.height = `${h}px`;
+					opts.style.height = h;
+				}
+				vm.dialogStyle = style;
+				return vm;
 			},
 
 			/**
