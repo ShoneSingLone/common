@@ -59,6 +59,9 @@ export default async function ({ PRIVATE_GLOBAL }) {
 			focusedWindowId: ""
 		});
 		const closeCallbacks = [];
+		/* 【需求】6.4.66 窗口状态事件总线存储：事件名 → 回调数组（与 route_state.on 同构）；
+		   只广播不写业务状态，ViewXspace 订阅后沉淀到 route_state 唯一数据源 */
+		const windowEventCallbacks = {};
 		let PopupManager;
 
 		_.$ModalManager = {
@@ -208,6 +211,17 @@ export default async function ({ PRIVATE_GLOBAL }) {
 				modalVm._modalOptions = options;
 				windowsRegistry.set(id, modalVm);
 
+				/* 【需求】6.4.66 窗口身份 DOM 声明：data-window-id/data-window-app 供选择器定位、调试、测试，
+				   并作为 xModal 判断"是否为窗口类实例"的标识（普通弹窗不设置，且其 id 为空不上报） */
+				if (modalVm.$el && _.isFunction(modalVm.$el.setAttribute)) {
+					modalVm.$el.setAttribute("data-window-id", id);
+					if (_.$isInput(options.appType)) {
+						modalVm.$el.setAttribute("data-window-app", options.appType);
+					}
+				}
+				/* 【需求】6.4.66 窗口打开广播：ViewXspace 订阅后沉淀 route_state（唯一数据源），Dock 据此渲染窗口图标 */
+				this.emit("window:open", { id, appType: options.appType });
+
 				// 初始置顶并设为焦点
 				await this.toTop(id);
 
@@ -224,6 +238,9 @@ export default async function ({ PRIVATE_GLOBAL }) {
 					if (state.focusedWindowId === id) {
 						state.focusedWindowId = "";
 					}
+					/* 【需求】6.4.66 窗口关闭广播：registry 删除后再广播，避免 ViewXspace diff 对已销毁窗口二次 close；
+					   modalVm 引用仍在，仍可取 appType */
+					this.emit("window:close", { id, appType: modalVm.appType });
 					this._triggerClose(id);
 				});
 
@@ -338,9 +355,14 @@ export default async function ({ PRIVATE_GLOBAL }) {
 
 			/**
 			 * 将窗口置顶
-			 * @param {string} id 窗口 ID
+			 * 【需求】6.4.68 zIndex 只负责运行时视觉层级；window:focused 仅上报激活窗口身份
+			 * @param {string|{id: string, appType?: string}} idOrPayload 窗口 ID 或 { id, appType }
 			 */
-			async toTop(id) {
+			async toTop(idOrPayload) {
+				const payload = _.isPlainObject(idOrPayload)
+					? idOrPayload
+					: { id: idOrPayload, appType: undefined };
+				const { id, appType } = payload;
 				const vm = windowsRegistry.get(id);
 				if (vm) {
 					state.focusedWindowId = id;
@@ -359,6 +381,8 @@ export default async function ({ PRIVATE_GLOBAL }) {
 							$(vm.$el).css("z-index", zIndex);
 						}
 					}
+					/* 【需求】6.4.68 置顶后广播窗口身份，由 ViewXspace 同步 URL focused_appid */
+					this.emit("window:focused", { id, appType: appType || vm.appType });
 				}
 			},
 
@@ -396,6 +420,50 @@ export default async function ({ PRIVATE_GLOBAL }) {
 					const idx = closeCallbacks.indexOf(callback);
 					if (idx >= 0) closeCallbacks.splice(idx, 1);
 				};
+			},
+
+			/**
+			 * 【需求】6.4.66 订阅窗口状态事件（与 route_state.on 同构，只广播不写业务状态）
+			 * @param {string} event 事件名：window:open / window:close / window:minimize / window:restore / window:focused
+			 * @param {Function} callback 回调，接收 payload { id, appType }
+			 * @returns {Function} 取消订阅函数
+			 */
+			on(event, callback) {
+				if (!_.isFunction(callback)) return () => {};
+				if (!windowEventCallbacks[event]) windowEventCallbacks[event] = [];
+				windowEventCallbacks[event].push(callback);
+				return () => this.off(event, callback);
+			},
+
+			/**
+			 * 【需求】6.4.66 取消窗口状态事件订阅
+			 * @param {string} event 事件名
+			 * @param {Function} [callback] 指定回调；缺省时清空该事件全部订阅
+			 */
+			off(event, callback) {
+				if (!windowEventCallbacks[event]) return;
+				if (callback) {
+					windowEventCallbacks[event] = windowEventCallbacks[event].filter(
+						cb => cb !== callback
+					);
+				} else {
+					delete windowEventCallbacks[event];
+				}
+			},
+
+			/**
+			 * 【需求】6.4.66 广播窗口状态事件（内部使用，业务层通过 on 订阅）
+			 * @param {string} event 事件名
+			 * @param {Object} payload { id, appType }
+			 */
+			emit(event, payload) {
+				(windowEventCallbacks[event] || []).forEach(cb => {
+					try {
+						cb(payload);
+					} catch (e) {
+						console.error(`[ModalManager] emit ${event} error:`, e);
+					}
+				});
 			}
 		};
 

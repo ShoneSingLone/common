@@ -618,6 +618,13 @@ export default async function ({ PRIVATE_GLOBAL, options, modalConfigs }) {
 					visibility: "hidden",
 					pointerEvents: "none"
 				};
+				/* 【需求】6.4.66 最小化上报：仅窗口类实例（id + appType 双非空，普通弹窗无 appType）上报 */
+				if (this.id && this.appType && _.$ModalManager && _.$ModalManager.emit) {
+					_.$ModalManager.emit("window:minimize", {
+						id: this.id,
+						appType: this.appType
+					});
+				}
 			},
 			restore() {
 				this.dialog_class.minimized = false;
@@ -630,6 +637,13 @@ export default async function ({ PRIVATE_GLOBAL, options, modalConfigs }) {
 					pointerEvents: "auto"
 				};
 				this.setDialogOffset();
+				/* 【需求】6.4.66 还原上报：仅窗口类实例（id + appType 双非空，普通弹窗无 appType）上报 */
+				if (this.id && this.appType && _.$ModalManager && _.$ModalManager.emit) {
+					_.$ModalManager.emit("window:restore", {
+						id: this.id,
+						appType: this.appType
+					});
+				}
 			},
 			/* 【修复】6.4.63 补 maximize 别名：ModalManager.maximize(id) 会调 vm.maximize()，
 			   原先缺失此方法导致静默失败，现复用 toggleFullScreen 实现 */
@@ -638,7 +652,8 @@ export default async function ({ PRIVATE_GLOBAL, options, modalConfigs }) {
 			},
 			toTop() {
 				if (this.id) {
-					_.$ModalManager.toTop(this.id);
+					/* 【需求】6.4.68 ModalManager 以 zIndex 实现置顶，并广播 ID 供 focused_appid 独立同步 */
+					_.$ModalManager.toTop({ id: this.id, appType: this.appType });
 				}
 			},
 			handleMaskClick() {
