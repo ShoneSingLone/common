@@ -1,6 +1,9 @@
 <script lang="ts">
 export default async function () {
-	let PopoverComponent;
+	// 【修复】2026-08-10：注册全局 hover 前预加载弹层组件，避免首次移入仅等待异步组件、再次移入才即时显示。
+	let PopoverComponent = await _.$importVue(
+		"/common/ui-x/directives/xtips/xtipsDefaultPopover.vue"
+	);
 
 	const TIPS_OPTIONS_MAP = new Map();
 	/* 可能是Vue实例，也可能是原始dom */
@@ -11,7 +14,13 @@ export default async function () {
 
 	const SELECTOR_REFERENCE = "data-xtips-reference";
 	const SELECTOR_POPOVER = "data-xtips-popover";
+	// 【需求】2026-08-10：声明普通 DOM 全局提示属性与专用弹层类，复用 xtips 生命周期并隔离尺寸样式。
+	const SELECTOR_DATA_TITLE = "data-xtips-title";
+	// 【修复】2026-08-10：动态写入 data-xtips-title 后通过自定义事件通知全局 xtips 立即展示。
+	const EVENT_DATA_TITLE_READY = "xtips-title-ready";
+	const CLASS_NAME_DATA_TITLE = "x-xtips--data-title";
 	const CLASS_NAME_REFERENCE = "xtips-reference";
+	const GLOBAL_REF_IDS = new Set();
 
 	/* 目标元素 */
 	const EVENT_UI_TARGET = "X_TARGET";
@@ -50,6 +59,10 @@ export default async function () {
 		const vmPopover = POPOVER_MAP.get(refId);
 		const $popover = $(`[${SELECTOR_POPOVER}=${refId}]`);
 
+		// 【需求】2026-08-10：全局属性在每次 hover 时读取实时值，动态属性无需额外监听即可生效。
+		if (GLOBAL_REF_IDS.has(refId)) {
+			options.content = $ele.attr(SELECTOR_DATA_TITLE) || "";
+		}
 		const showAble = !!options.content;
 		return {
 			showAble,
@@ -77,11 +90,7 @@ export default async function () {
 		});
 		_.$single.shadowTemplate.append($newPopover);
 
-		/* 如果PopoverComponent已经加载，则不需要再加载 */
-		PopoverComponent =
-			PopoverComponent ||
-			(await _.$importVue("/common/ui-x/directives/xtips/xtipsDefaultPopover.vue"));
-
+		/* 【修复】2026-08-10：弹层组件已在指令初始化阶段加载，首次 hover 直接同步进入实例创建。 */
 		const _PopoverComponent = { ...PopoverComponent };
 		_PopoverComponent.parent = vmRefrence;
 
@@ -107,6 +116,20 @@ export default async function () {
 					vmPopover.$destroy();
 					$newPopover.remove();
 				}
+				// 【需求】2026-08-10：全局属性弹层关闭后释放临时引用，保证下一次 hover 重读最新属性值。
+				if (GLOBAL_REF_IDS.has(refId)) {
+					TIPS_OPTIONS_MAP.delete(refId);
+					REFRENCE_MAP.delete(refId);
+					POPOVER_MAP.delete(refId);
+					GLOBAL_REF_IDS.delete(refId);
+					$ele.removeClass(CLASS_NAME_REFERENCE).removeAttr(SELECTOR_REFERENCE);
+					vmRefrence.$destroy();
+					console.log("[data-xtips-title] 异步关闭提示完成", {
+						element: $ele[0],
+						content: vmPopover.options?.content,
+						removed: !$newPopover.parent().length
+					});
+				}
 			}
 		};
 
@@ -127,6 +150,14 @@ export default async function () {
 		$(vmPopover.$el).attr({
 			[SELECTOR_POPOVER]: refId
 		});
+		// 【需求】2026-08-10：记录全局属性弹层创建关键结果，便于核对元素、实时内容与挂载状态。
+		if (GLOBAL_REF_IDS.has(refId)) {
+			console.log("[data-xtips-title] 提示创建完成", {
+				element: $ele[0],
+				content: vmPopover.options?.content,
+				mounted: !!vmPopover.$el
+			});
+		}
 
 		return $newPopover;
 	}
@@ -158,15 +189,107 @@ export default async function () {
 	}
 
 	function clear(el) {
-		const { refId, vmPopover, $popover } = usePops(el);
+		const { refId, vmPopover, vmRefrence, $popover } = usePops(el);
 		vmPopover && vmPopover.$destroy();
 		$popover.remove();
 		TIPS_OPTIONS_MAP.delete(refId);
 		REFRENCE_MAP.delete(refId);
 		POPOVER_MAP.delete(refId);
+		// 【需求】2026-08-10：全局属性提示关闭后移除临时引用状态，下次 hover 重新读取动态属性。
+		if (GLOBAL_REF_IDS.has(refId)) {
+			GLOBAL_REF_IDS.delete(refId);
+			vmRefrence && vmRefrence.$destroy();
+			$(el).removeClass(CLASS_NAME_REFERENCE).removeAttr(SELECTOR_REFERENCE);
+		}
+	}
+
+	// 【需求】2026-08-10：通过事件委托为动态 DOM 建立临时 xtips 引用；已有 v-xtips 引用时直接让指令优先。
+	function handleEnterDataTitle() {
+		debugger;
+		const $ele = $(this);
+		const content = $ele.attr(SELECTOR_DATA_TITLE) || "";
+		// #region debug-point A:first-hover-create
+		fetch("http://127.0.0.1:7777/event", {
+			method: "POST",
+			body: JSON.stringify({
+				sessionId: "xtips-first-hover",
+				runId: "post-fix",
+				hypothesisId: "A",
+				location: "xtips.vue:handleEnterDataTitle",
+				msg: "[DEBUG] 修复后首次委托进入创建流程",
+				data: {
+					content,
+					hasReference: Boolean($ele.attr(SELECTOR_REFERENCE)),
+					mapped: Boolean(GLOBAL_REF_IDS.has($ele.attr(SELECTOR_REFERENCE)))
+				},
+				ts: Date.now()
+			})
+		}).catch(() => {});
+		// #endregion
+		if (!content || $ele.attr(SELECTOR_REFERENCE)) return;
+
+		const refId = _.$genId(X_TIPS_REF);
+		const vmRefrence = new Vue();
+		setOptions(refId, {
+			content,
+			placement: "top",
+			trigger: "hover",
+			popperClass: CLASS_NAME_DATA_TITLE
+		});
+		REFRENCE_MAP.set(refId, vmRefrence);
+		GLOBAL_REF_IDS.add(refId);
+		$ele.addClass(CLASS_NAME_REFERENCE).attr({ [SELECTOR_REFERENCE]: refId });
+		console.log("[data-xtips-title] hover 创建提示请求", {
+			element: this,
+			content,
+			refId
+		});
+		ensurePopover({ ele: this });
+		// #region debug-point B-D:after-ensure
+		setTimeout(() => {
+			const state = usePops(this);
+			const popper = state.vmPopover && state.vmPopover.$refs && state.vmPopover.$refs.popper;
+			const rect = popper && popper.getBoundingClientRect();
+			const style = popper && getComputedStyle(popper);
+			fetch("http://127.0.0.1:7777/event", {
+				method: "POST",
+				body: JSON.stringify({
+					sessionId: "xtips-first-hover",
+					runId: "post-fix",
+					hypothesisId: "B-D",
+					location: "xtips.vue:handleEnterDataTitle:afterEnsure",
+					msg: "[DEBUG] 修复后首次 hover 弹层可见性",
+					data: {
+						refId,
+						hasVm: Boolean(state.vmPopover),
+						showPopper: Boolean(state.vmPopover && state.vmPopover.showPopper),
+						hasPopover: Boolean(state.$popover && state.$popover.length),
+						rect: rect && {
+							x: rect.x,
+							y: rect.y,
+							width: rect.width,
+							height: rect.height
+						},
+						display: style && style.display,
+						visibility: style && style.visibility,
+						opacity: style && style.opacity
+					},
+					ts: Date.now()
+				})
+			}).catch(() => {});
+		}, 100);
+		// #endregion
 	}
 
 	_.$single.doc
+		// 【修复】2026-08-10：静态属性由 mouseenter 委托处理；列表动态补属性后由 ready 事件立即触发，避免依赖委托器执行顺序。
+		.on(`mouseenter.${EVENT_UI_TARGET}`, `[${SELECTOR_DATA_TITLE}]`, handleEnterDataTitle)
+		// 【修复】2026-08-10：使用委托选择器，确保 ready 事件回调中的 this 指向动态添加属性的目标元素。
+		.on(
+			`${EVENT_DATA_TITLE_READY}.${EVENT_UI_TARGET}`,
+			`[${SELECTOR_DATA_TITLE}]`,
+			handleEnterDataTitle
+		)
 		/* click处理 */
 		.on(`click.${EVENT_UI_TARGET}`, `[${SELECTOR_REFERENCE}]`, handleClick)
 		.on(

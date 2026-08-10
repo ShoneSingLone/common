@@ -57,7 +57,12 @@
 			const errorCodeArray = [400, 401, 402, 403, 404, 405, 500, 555];
 
 			const success = async function (response, state, xhr) {
-				response = await responseInjector(response, { API_OPTIONS });
+				// 【修复】透传 resolve/reject，responseInjector 刷新重试成功后需要 resolve 完成原请求
+				response = await responseInjector(response, { API_OPTIONS, resolve, reject });
+				if (response === false) {
+					// 【修复】responseInjector 已通过 resolve 完成原请求，直接结束，避免二次 resolve / 误 reject
+					return;
+				}
 				if (_.isPlainObject(response)) {
 					/* 兼容 */
 					const errcode = response && (response.errcode || response.code);

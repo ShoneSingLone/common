@@ -81,6 +81,17 @@ export default async function () {
 		},
 		computed: {
 			cptRefRenderWrapperStyle() {
+				// 【需求】2026-08-10：data-xtips-title 的内容区扣除弹层内边距，确保整个提示不超过 480px × 240px。
+				if (this.popperClass === "x-xtips--data-title") {
+					return {
+						maxWidth: "100%",
+						maxHeight: "calc(240px - 24px)",
+						overflowX: "hidden",
+						overflowY: "auto",
+						whiteSpace: "pre-wrap",
+						overflowWrap: "anywhere"
+					};
+				}
 				return {};
 			},
 			cptIsShow({ disabled, showPopper }) {
@@ -434,5 +445,12 @@ export default async function () {
 .el-popover.x-xtips {
 	--min-width: unset;
 	min-width: var(--min-width);
+
+	// 【需求】2026-08-10：全局 title 提示的外层尺寸包含内边距，长文本仅在内容区纵向滚动。
+	&.x-xtips--data-title {
+		box-sizing: border-box;
+		max-width: 480px;
+		max-height: 240px;
+	}
 }
 </style>

@@ -359,7 +359,10 @@ export default async function ({
 		$(document).on("mouseenter.setDataTipsShowWhenHover", ".ellipsis", function (event) {
 			try {
 				var $ele = $(this);
-				if ($ele.children().hasClass("ellipsis-no-title")) {
+				if (
+					$ele.hasClass("ellipsis-no-title") ||
+					$ele.children().hasClass("ellipsis-no-title")
+				) {
 					return;
 				}
 				var width = $ele.width();
@@ -369,12 +372,14 @@ export default async function ({
 				var widthChild = $child.width();
 				$child.remove();
 				if (width < widthChild - 2) {
-					if (!$ele.attr("title")) {
-						$ele.attr("title", $ele.text());
+					if (!$ele.attr("data-xtips-title")) {
+						$ele.attr("data-xtips-title", $ele.text());
+						// 【修复】2026-08-10：属性在 mouseenter 期间动态添加，主动通知 xtips 在本次 hover 立即展示。
+						$ele.trigger("xtips-title-ready");
 					}
 				} else {
-					if ($ele.attr("title")) {
-						$ele.attr("title", "");
+					if ($ele.attr("data-xtips-title")) {
+						$ele.attr("data-xtips-title", "");
 					}
 				}
 			} catch (e) {
