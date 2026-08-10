@@ -30,15 +30,15 @@
 						:key="index"
 						:class="cpt_changelog_item_class(item)">
 						<span class="x-cache-reloader-dot"></span>
-						<span class="x-cache-reloader-text">{{ cpt_changelog_item_text(item) }}</span>
+						<span class="x-cache-reloader-text">{{
+							cpt_changelog_item_text(item)
+						}}</span>
 					</li>
 				</ul>
 
 				<!-- 底部：按钮区 + 倒计时 -->
 				<div class="x-cache-reloader-footer">
-					<xBtn
-						v-if="cpt_can_dismiss"
-						:configs="cpt_btn_dismiss" />
+					<xBtn v-if="cpt_can_dismiss" :configs="cpt_btn_dismiss" />
 					<xBtn :configs="cpt_btn_reload" />
 				</div>
 			</div>

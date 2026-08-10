@@ -805,9 +805,7 @@ export default async function ({ PRIVATE_GLOBAL }) {
 		let instance;
 
 		_.$cacheReloader = async function (options) {
-			const xCacheReloader = await _.$importVue(
-				"/common/ui-x/common/xCacheReloader.vue"
-			);
+			const xCacheReloader = await _.$importVue("/common/ui-x/common/xCacheReloader.vue");
 			const PopupManager = await _.$importVue("/common/libs/VuePopper/popupManager.vue");
 
 			/* 【需求】单例模式：同一时间只保留一个浮窗实例 */

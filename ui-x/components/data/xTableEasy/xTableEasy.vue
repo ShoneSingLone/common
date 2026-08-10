@@ -522,19 +522,19 @@ export default async function ({ PRIVATE_GLOBAL }) {
 			},
 			// return row keys
 			allRowKeys() {
-			let result = [];
+				let result = [];
 
-			/* 【修复】tableData 可能为 null/undefined，改用 safeTableData 兜底 */
-			const { safeTableData, rowKeyFieldName } = this;
+				/* 【修复】tableData 可能为 null/undefined，改用 safeTableData 兜底 */
+				const { safeTableData, rowKeyFieldName } = this;
 
-			if (rowKeyFieldName) {
-				result = safeTableData.map(x => {
-					return x[rowKeyFieldName];
-				});
-			}
+				if (rowKeyFieldName) {
+					result = safeTableData.map(x => {
+						return x[rowKeyFieldName];
+					});
+				}
 
-			return result;
-		},
+				return result;
+			},
 			// virtual scroll buffer count
 			virtualScrollBufferCount() {
 				let result = 0;
@@ -1771,7 +1771,11 @@ export default async function ({ PRIVATE_GLOBAL }) {
 				let result = 0;
 
 				/* 【修复】tableData 可能为 null/undefined，改用 safeTableData 兜底 */
-				const { isVirtualScroll, safeTableData: tableData, virtualScrollBufferCount } = this;
+				const {
+					isVirtualScroll,
+					safeTableData: tableData,
+					virtualScrollBufferCount
+				} = this;
 
 				const virtualScrollEndIndex = this.virtualScrollEndIndex;
 
@@ -1833,14 +1837,14 @@ export default async function ({ PRIVATE_GLOBAL }) {
 
 			// init virtual scroll positions
 			initVirtualScrollPositions() {
-			if (this.isVirtualScroll) {
-				/* 【修复】tableData 可能为 null/undefined，改用 safeTableData 兜底 */
-				const {
-					virtualScrollOption,
-					rowKeyFieldName,
-					safeTableData: tableData,
-					defaultVirtualScrollMinRowHeight
-				} = this;
+				if (this.isVirtualScroll) {
+					/* 【修复】tableData 可能为 null/undefined，改用 safeTableData 兜底 */
+					const {
+						virtualScrollOption,
+						rowKeyFieldName,
+						safeTableData: tableData,
+						defaultVirtualScrollMinRowHeight
+					} = this;
 
 					const minRowHeight = _.isNumber(virtualScrollOption.minRowHeight)
 						? virtualScrollOption.minRowHeight

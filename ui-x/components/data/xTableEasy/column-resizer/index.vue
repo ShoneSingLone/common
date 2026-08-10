@@ -151,7 +151,9 @@ export default async function ({ PRIVATE_GLOBAL }) {
 						const { columnResizerStartX, cpt_columnMinWidth } = this;
 
 						// 计算新的列宽度
-						const newWidth = currentResizingColumn._realTimeWidth + (event.clientX - columnResizerStartX);
+						const newWidth =
+							currentResizingColumn._realTimeWidth +
+							(event.clientX - columnResizerStartX);
 
 						// 不允许拖动小于列最小宽度
 						if (newWidth > cpt_columnMinWidth) {

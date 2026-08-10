@@ -4,17 +4,18 @@
 
 `changePopperPositionTo` 方法存在两处 position 样式检测缺陷：
 
-1. **入口处 `alreadyInTargetState`（原 L544）**：只检测 `parentNode` 是否正确，DOM 位置对了就直接 return，**跳过所有定位修复逻辑**。但此时 popper 元素可能没有 position 定位样式（如 destroyPopper 后、从未 createPopper 过），导致下拉框"消失"
+1. **入口处 `alreadyInTargetState`（原 L544）**：只检测 `parentNode`
+   是否正确，DOM 位置对了就直接 return，**跳过所有定位修复逻辑**。但此时 popper 元素可能没有 position 定位样式（如 destroyPopper 后、从未 createPopper 过），导致下拉框"消失"
 2. **`checkPopperPosition`**：同样只检查 parentNode，未验证 position 样式是否已设置
 
 ## 问题根因分析
 
-| 场景 | 原因 |
-|------|------|
-| **destroyPopper 后重新定位** | `popperJS.destroy()` 会清空 `style.position/top/left/transform`（见 popper.js L212-225） |
-| **popperJS 实例不存在** | 原代码仅在有 `popper.popperJS` 时才调用 `updatePopper()`，否则跳过定位 |
-| **GPU 加速模式** | `gpuAcceleration: true` 时用 `translate3d` 定位，需同时检查 transform |
-| **DOM 移动后 popperJS 状态过期** | 同步移动 DOM 后 popperJS 内部 offsetParent 引用可能过期 |
+| 场景                             | 原因                                                                                     |
+| -------------------------------- | ---------------------------------------------------------------------------------------- |
+| **destroyPopper 后重新定位**     | `popperJS.destroy()` 会清空 `style.position/top/left/transform`（见 popper.js L212-225） |
+| **popperJS 实例不存在**          | 原代码仅在有 `popper.popperJS` 时才调用 `updatePopper()`，否则跳过定位                   |
+| **GPU 加速模式**                 | `gpuAcceleration: true` 时用 `translate3d` 定位，需同时检查 transform                    |
+| **DOM 移动后 popperJS 状态过期** | 同步移动 DOM 后 popperJS 内部 offsetParent 引用可能过期                                  |
 
 ## 修改方案（已执行）
 
@@ -34,23 +35,21 @@ const parentNodeMatch = isAppendToBody ? currentInBody : !currentInBody;
 // 【修复】即使 parentNode 正确，仍需检测 position 样式是否已设置
 let hasPositionStyle = false;
 if (parentNodeMatch) {
-    const computed = window.getComputedStyle(popperElm);
-    const pos = computed.position;
-    hasPositionStyle = pos === "absolute" || pos === "fixed";
-    if (hasPositionStyle) {
-        // 有 position 但无 top/left/transform 偏移值也视为无效
-        const top = popperElm.style.top;
-        const left = popperElm.style.left;
-        const transform = popperElm.style.transform;
-        hasPositionStyle =
-            (top && top !== "") ||
-            (left && left !== "") ||
-            (transform && transform !== "" && transform !== "none");
-    }
+	const computed = window.getComputedStyle(popperElm);
+	const pos = computed.position;
+	hasPositionStyle = pos === "absolute" || pos === "fixed";
+	if (hasPositionStyle) {
+		// 有 position 但无 top/left/transform 偏移值也视为无效
+		const top = popperElm.style.top;
+		const left = popperElm.style.left;
+		const transform = popperElm.style.transform;
+		hasPositionStyle =
+			(top && top !== "") || (left && left !== "") || (transform && transform !== "" && transform !== "none");
+	}
 }
 
 if (parentNodeMatch && hasPositionStyle) {
-    return;  // 只有两者都满足才真正"已在目标状态"
+	return; // 只有两者都满足才真正"已在目标状态"
 }
 ```
 
