@@ -81,11 +81,11 @@ export default async function () {
 		},
 		computed: {
 			cptRefRenderWrapperStyle() {
-				// 【需求】2026-08-10：data-xtips-title 的内容区扣除弹层内边距，确保整个提示不超过 480px × 240px。
+				// 【需求】2026-08-10：data-xtips-title 内容区配合浮层 flex 布局自动收缩滚动，最大高度由浮层 240px 限制，不依赖内边距计算。
 				if (this.popperClass === "x-xtips--data-title") {
 					return {
 						maxWidth: "100%",
-						maxHeight: "calc(240px - 24px)",
+						minHeight: 0,
 						overflowX: "hidden",
 						overflowY: "auto",
 						whiteSpace: "pre-wrap",
@@ -446,23 +446,18 @@ export default async function () {
 	--min-width: unset;
 	min-width: var(--min-width);
 
-	// 【需求】2026-08-10：全局 title 使用独立的精致浮层视觉，避免长文本与页面内容边界混淆。
+	// 【需求】2026-08-10：全局 title 仅保留尺寸与滚动功能规则，视觉继承 .el-popover 与当前 UI 主题变量（common 圆角 4px 有阴影，tiny 圆角 0 无阴影）。
 	&.x-xtips--data-title {
 		box-sizing: border-box;
 		max-width: 480px;
 		max-height: 240px;
-		padding: 12px 14px;
-		border: 1px solid rgba(31, 35, 41, 0.12);
-		border-radius: 8px;
-		background: #fff;
-		box-shadow: 0 8px 24px rgba(31, 35, 41, 0.14);
-		color: #303133;
-		font-size: 14px;
-		line-height: 1.6;
+		display: flex;
+		flex-direction: column;
 
 		.x-render-wrapper {
-			scrollbar-color: rgba(144, 147, 153, 0.45) transparent;
+			// 【需求】2026-08-10：滚动条由主题变量控制，默认透明、进入浮层后显示，与全局滚动条行为一致。
 			scrollbar-width: thin;
+			scrollbar-color: var(--ui-thumb-hover) transparent;
 
 			&::-webkit-scrollbar {
 				width: 6px;
@@ -473,12 +468,19 @@ export default async function () {
 			}
 
 			&::-webkit-scrollbar-thumb {
-				border-radius: 3px;
-				background: rgba(144, 147, 153, 0.45);
+				border-radius: var(--border-radius);
+				background: transparent;
+				transition: background 120ms ease-out;
+			}
+
+			&:hover {
+				&::-webkit-scrollbar-thumb {
+					background: var(--ui-thumb-hover);
+				}
 			}
 
 			&::-webkit-scrollbar-thumb:hover {
-				background: rgba(96, 98, 102, 0.6);
+				background: var(--ui-thumb);
 			}
 		}
 	}
