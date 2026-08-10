@@ -446,11 +446,41 @@ export default async function () {
 	--min-width: unset;
 	min-width: var(--min-width);
 
-	// 【需求】2026-08-10：全局 title 提示的外层尺寸包含内边距，长文本仅在内容区纵向滚动。
+	// 【需求】2026-08-10：全局 title 使用独立的精致浮层视觉，避免长文本与页面内容边界混淆。
 	&.x-xtips--data-title {
 		box-sizing: border-box;
 		max-width: 480px;
 		max-height: 240px;
+		padding: 12px 14px;
+		border: 1px solid rgba(31, 35, 41, 0.12);
+		border-radius: 8px;
+		background: #fff;
+		box-shadow: 0 8px 24px rgba(31, 35, 41, 0.14);
+		color: #303133;
+		font-size: 14px;
+		line-height: 1.6;
+
+		.x-render-wrapper {
+			scrollbar-color: rgba(144, 147, 153, 0.45) transparent;
+			scrollbar-width: thin;
+
+			&::-webkit-scrollbar {
+				width: 6px;
+			}
+
+			&::-webkit-scrollbar-track {
+				background: transparent;
+			}
+
+			&::-webkit-scrollbar-thumb {
+				border-radius: 3px;
+				background: rgba(144, 147, 153, 0.45);
+			}
+
+			&::-webkit-scrollbar-thumb:hover {
+				background: rgba(96, 98, 102, 0.6);
+			}
+		}
 	}
 }
 </style>

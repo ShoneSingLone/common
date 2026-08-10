@@ -24,9 +24,6 @@ export default async function () {
 
 	/* 目标元素 */
 	const EVENT_UI_TARGET = "X_TARGET";
-	/* 开发的时候不想关闭，可以把时间值调高 */
-	// const TIMEOUT_DELAY = 200 * 10000;
-	const TIMEOUT_DELAY = 200;
 
 	function setOptions(refId, options) {
 		const oldOptions = TIPS_OPTIONS_MAP.get(refId);
