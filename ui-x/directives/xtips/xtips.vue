@@ -205,27 +205,8 @@ export default async function () {
 
 	// 【需求】2026-08-10：通过事件委托为动态 DOM 建立临时 xtips 引用；已有 v-xtips 引用时直接让指令优先。
 	function handleEnterDataTitle() {
-		debugger;
 		const $ele = $(this);
 		const content = $ele.attr(SELECTOR_DATA_TITLE) || "";
-		// #region debug-point A:first-hover-create
-		fetch("http://127.0.0.1:7777/event", {
-			method: "POST",
-			body: JSON.stringify({
-				sessionId: "xtips-first-hover",
-				runId: "post-fix",
-				hypothesisId: "A",
-				location: "xtips.vue:handleEnterDataTitle",
-				msg: "[DEBUG] 修复后首次委托进入创建流程",
-				data: {
-					content,
-					hasReference: Boolean($ele.attr(SELECTOR_REFERENCE)),
-					mapped: Boolean(GLOBAL_REF_IDS.has($ele.attr(SELECTOR_REFERENCE)))
-				},
-				ts: Date.now()
-			})
-		}).catch(() => {});
-		// #endregion
 		if (!content || $ele.attr(SELECTOR_REFERENCE)) return;
 
 		const refId = _.$genId(X_TIPS_REF);
@@ -245,40 +226,6 @@ export default async function () {
 			refId
 		});
 		ensurePopover({ ele: this });
-		// #region debug-point B-D:after-ensure
-		setTimeout(() => {
-			const state = usePops(this);
-			const popper = state.vmPopover && state.vmPopover.$refs && state.vmPopover.$refs.popper;
-			const rect = popper && popper.getBoundingClientRect();
-			const style = popper && getComputedStyle(popper);
-			fetch("http://127.0.0.1:7777/event", {
-				method: "POST",
-				body: JSON.stringify({
-					sessionId: "xtips-first-hover",
-					runId: "post-fix",
-					hypothesisId: "B-D",
-					location: "xtips.vue:handleEnterDataTitle:afterEnsure",
-					msg: "[DEBUG] 修复后首次 hover 弹层可见性",
-					data: {
-						refId,
-						hasVm: Boolean(state.vmPopover),
-						showPopper: Boolean(state.vmPopover && state.vmPopover.showPopper),
-						hasPopover: Boolean(state.$popover && state.$popover.length),
-						rect: rect && {
-							x: rect.x,
-							y: rect.y,
-							width: rect.width,
-							height: rect.height
-						},
-						display: style && style.display,
-						visibility: style && style.visibility,
-						opacity: style && style.opacity
-					},
-					ts: Date.now()
-				})
-			}).catch(() => {});
-		}, 100);
-		// #endregion
 	}
 
 	_.$single.doc
