@@ -5,6 +5,163 @@
 		console.log("common.js");
 	}
 
+	_.$createSkeletonComp = function (config) {
+		const { type = "table", rows = 5, cols = 4 } = config || {};
+
+		/* 各列不等宽，模拟真实表格列宽变化 */
+		const colWidths = n => {
+			const base = ["28%", "16%", "22%", "18%", "16%"];
+			return Array.from({ length: n }, (_, i) => base[i % base.length]);
+		};
+
+		const templates = {
+			table(h) {
+				const widths = colWidths(cols);
+				const hdr = h(
+					"div",
+					{ class: "x-skeleton__header" },
+					widths.map((w, i) =>
+						h("div", {
+							class: "x-skeleton__cell",
+							style: { width: w },
+							key: "h" + i
+						})
+					)
+				);
+				const bodyRows = Array.from({ length: rows }, (_, ri) =>
+					h(
+						"div",
+						{ class: "x-skeleton__row", key: "r" + ri },
+						widths.map((w, ci) =>
+							h("div", {
+								class: "x-skeleton__cell",
+								style: { width: w },
+								key: ci
+							})
+						)
+					)
+				);
+				return h("div", { class: "x-skeleton x-skeleton--table" }, [
+					hdr,
+					h("div", { class: "x-skeleton__body" }, bodyRows)
+				]);
+			},
+
+			list(h) {
+				const items = Array.from({ length: rows }, (_, i) =>
+					h("div", { class: "x-skeleton__list-item", key: i }, [
+						h("div", { class: "x-skeleton__avatar" }),
+						h("div", { class: "x-skeleton__list-content" }, [
+							h("div", {
+								class: "x-skeleton__text",
+								style: { width: 60 + (i % 4) * 8 + "%" }
+							}),
+							h("div", {
+								class: "x-skeleton__text x-skeleton__text--short",
+								style: { width: 40 + (i % 3) * 10 + "%" }
+							})
+						])
+					])
+				);
+				return h("div", { class: "x-skeleton x-skeleton--list" }, items);
+			},
+
+			card(h) {
+				const cards = Array.from({ length: Math.min(rows, 6) }, (_, i) =>
+					h("div", { class: "x-skeleton__card", key: i }, [
+						h("div", { class: "x-skeleton__text", style: { width: "60%" } }),
+						h("div", {
+							class: "x-skeleton__block",
+							style: { height: "80px", margin: "12px 0" }
+						}),
+						h("div", {
+							class: "x-skeleton__text x-skeleton__text--short",
+							style: { width: "40%" }
+						})
+					])
+				);
+				return h("div", { class: "x-skeleton x-skeleton--card" }, cards);
+			},
+
+			form(h) {
+				const fields = Array.from({ length: rows }, (_, i) =>
+					h("div", { class: "x-skeleton__form-row", key: i }, [
+						h("div", {
+							class: "x-skeleton__text",
+							style: { width: 20 + (i % 3) * 5 + "%" }
+						}),
+						h("div", {
+							class: "x-skeleton__cell",
+							style: { width: 50 + (i % 2) * 10 + "%" }
+						})
+					])
+				);
+				return h("div", { class: "x-skeleton x-skeleton--form" }, fields);
+			},
+
+			sidebar(h) {
+				const items = Array.from({ length: rows }, (_, i) => {
+					const indent = (i % 4) * 12;
+					return h(
+						"div",
+						{
+							class: "x-skeleton__sidebar-item",
+							key: i,
+							style: { paddingLeft: indent + "px" }
+						},
+						[
+							h("div", {
+								class: "x-skeleton__text",
+								style: { width: 50 + (i % 3) * 10 + "%" }
+							})
+						]
+					);
+				});
+				return h("div", { class: "x-skeleton x-skeleton--sidebar" }, items);
+			},
+
+			detail(h) {
+				return h("div", { class: "x-skeleton x-skeleton--detail" }, [
+					h("div", {
+						class: "x-skeleton__text",
+						style: { width: "46%", height: "22px", marginBottom: "20px" }
+					}),
+					/* 描述列表 */
+					...Array.from({ length: rows }, (_, i) =>
+						h("div", { class: "x-skeleton__form-row", key: "d" + i }, [
+							h("div", {
+								class: "x-skeleton__text",
+								style: { width: 16 + (i % 3) * 4 + "%" }
+							}),
+							h("div", {
+								class: "x-skeleton__text",
+								style: { width: 36 + (i % 4) * 8 + "%" }
+							})
+						])
+					),
+					h("div", { style: { height: "24px" } }),
+					/* 段落文字块 */
+					h("div", {
+						class: "x-skeleton__text",
+						style: { width: "100%", marginBottom: "8px" }
+					}),
+					h("div", {
+						class: "x-skeleton__text",
+						style: { width: "92%", marginBottom: "8px" }
+					}),
+					h("div", { class: "x-skeleton__text", style: { width: "68%" } })
+				]);
+			}
+		};
+
+		const renderFn = templates[type] || templates.table;
+		return {
+			render(h) {
+				return renderFn(h);
+			}
+		};
+	};
+
 	/*  */
 	_.mixin({
 		/**
@@ -2590,112 +2747,8 @@
 		 * }
 		 * @returns
 		 */
-		/**
-		 * 【需求】2026-08-11 骨架屏：根据 type 生成纯 render 函数组件对象，零异步开销
-		 * @param {object} config - { type, rows?, cols? }
-		 * @returns Vue component options object with render()
-		 */
-		_.$createSkeletonComp = function (config) {
-			const { type = "table", rows = 5, cols = 4 } = config || {};
-
-			/* 各列不等宽，模拟真实表格列宽变化 */
-			const colWidths = (n) => {
-				const base = ["28%", "16%", "22%", "18%", "16%"];
-				return Array.from({ length: n }, (_, i) => base[i % base.length]);
-			};
-
-			const templates = {
-				table(h) {
-					const widths = colWidths(cols);
-					const hdr = h(
-						"div",
-						{ class: "x-skeleton__header" },
-						widths.map((w, i) => h("div", { class: "x-skeleton__cell", style: { width: w }, key: "h" + i }))
-					);
-					const bodyRows = Array.from({ length: rows }, (_, ri) =>
-						h(
-							"div",
-							{ class: "x-skeleton__row", key: "r" + ri },
-							widths.map((w, ci) => h("div", { class: "x-skeleton__cell", style: { width: w }, key: ci }))
-						)
-					);
-					return h("div", { class: "x-skeleton x-skeleton--table" }, [hdr, h("div", { class: "x-skeleton__body" }, bodyRows)]);
-				},
-
-				list(h) {
-					const items = Array.from({ length: rows }, (_, i) =>
-						h("div", { class: "x-skeleton__list-item", key: i }, [
-							h("div", { class: "x-skeleton__avatar" }),
-							h("div", { class: "x-skeleton__list-content" }, [
-								h("div", { class: "x-skeleton__text", style: { width: 60 + (i % 4) * 8 + "%" } }),
-								h("div", { class: "x-skeleton__text x-skeleton__text--short", style: { width: 40 + (i % 3) * 10 + "%" } })
-							])
-						])
-					);
-					return h("div", { class: "x-skeleton x-skeleton--list" }, items);
-				},
-
-				card(h) {
-					const cards = Array.from({ length: Math.min(rows, 6) }, (_, i) =>
-						h("div", { class: "x-skeleton__card", key: i }, [
-							h("div", { class: "x-skeleton__text", style: { width: "60%" } }),
-							h("div", { class: "x-skeleton__block", style: { height: "80px", margin: "12px 0" } }),
-							h("div", { class: "x-skeleton__text x-skeleton__text--short", style: { width: "40%" } })
-						])
-					);
-					return h("div", { class: "x-skeleton x-skeleton--card" }, cards);
-				},
-
-				form(h) {
-					const fields = Array.from({ length: rows }, (_, i) =>
-						h("div", { class: "x-skeleton__form-row", key: i }, [
-							h("div", { class: "x-skeleton__text", style: { width: 20 + (i % 3) * 5 + "%" } }),
-							h("div", { class: "x-skeleton__cell", style: { width: 50 + (i % 2) * 10 + "%" } })
-						])
-					);
-					return h("div", { class: "x-skeleton x-skeleton--form" }, fields);
-				},
-
-				sidebar(h) {
-					const items = Array.from({ length: rows }, (_, i) => {
-						const indent = (i % 4) * 12;
-						return h("div", { class: "x-skeleton__sidebar-item", key: i, style: { paddingLeft: indent + "px" } }, [
-							h("div", { class: "x-skeleton__text", style: { width: 50 + (i % 3) * 10 + "%" } })
-						]);
-					});
-					return h("div", { class: "x-skeleton x-skeleton--sidebar" }, items);
-				},
-
-				detail(h) {
-					return h("div", { class: "x-skeleton x-skeleton--detail" }, [
-						h("div", { class: "x-skeleton__text", style: { width: "46%", height: "22px", marginBottom: "20px" } }),
-						/* 描述列表 */
-						...Array.from({ length: rows }, (_, i) =>
-							h("div", { class: "x-skeleton__form-row", key: "d" + i }, [
-								h("div", { class: "x-skeleton__text", style: { width: 16 + (i % 3) * 4 + "%" } }),
-								h("div", { class: "x-skeleton__text", style: { width: 36 + (i % 4) * 8 + "%" } })
-							])
-						),
-						h("div", { style: { height: "24px" } }),
-						/* 段落文字块 */
-						h("div", { class: "x-skeleton__text", style: { width: "100%", marginBottom: "8px" } }),
-						h("div", { class: "x-skeleton__text", style: { width: "92%", marginBottom: "8px" } }),
-						h("div", { class: "x-skeleton__text", style: { width: "68%" } })
-					]);
-				}
-			};
-
-			const renderFn = templates[type] || templates.table;
-			return {
-				render(h) {
-					return renderFn(h);
-				}
-			};
-		};
-
 		/* @typescriptDeclare (url:object|string|any[], payload?:object)=>any|any[] */
-		/* 【修复】2026-08-11 去掉 async：skeleton 分支需直接返回 { component, loading, delay } 对象而非被 Promise 包裹，否则 Vue 无法识别高级异步组件格式 */
-		_.$importVue = function (url, payload = {}) {
+		_.$importVue = async function (url, payload = {}) {
 			if (_.isPlainObject(url)) {
 				/* 直接传入对象 */
 				return url;
@@ -2710,18 +2763,6 @@
 			}
 			const resolvedURL = _.$resolvePath(url);
 			_.$importVue.urlSets.add(url);
-
-			/* 【需求】2026-08-11 骨架屏：skeleton 配置下返回 Vue 高级异步组件格式，利用 Vue 原生 loading 机制 */
-			if (payload.skeleton) {
-				const { delay = 100 } = payload.skeleton;
-				const skeletonComp = _.$createSkeletonComp(payload.skeleton);
-				return {
-					component: _.$sfcVueObject({ resolvedURL, payload }),
-					loading: skeletonComp,
-					delay
-				};
-			}
-
 			return _.$sfcVueObject({ resolvedURL, payload });
 		};
 		_.$importVue.urlSets = new Set();
@@ -2790,13 +2831,11 @@
 		 * @returns
 		 */
 		_.$newRoute = function (path, componentPath, options = {}) {
-			/* 【需求】2026-08-11 骨架屏：从 options 中提取 skeleton 配置，透传给 _. $importVue */
-			const { skeleton, ...restOptions } = options;
 			return {
 				name: path,
 				path,
-				component: () => _.$importVue(componentPath, { skeleton }),
-				...restOptions
+				component: () => _.$importVue(componentPath),
+				...options
 			};
 		};
 	})();
