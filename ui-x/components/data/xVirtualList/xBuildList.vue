@@ -1,5 +1,5 @@
 <script lang="ts">
-export default async function () {
+export default async function ({ PRIVATE_GLOBAL }) {
 	const { max, floor } = Math;
 	const DEFAULT_DYNAMIC_LIST_ITEM_SIZE = 50;
 

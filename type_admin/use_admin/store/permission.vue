@@ -1,5 +1,5 @@
 <script lang="ts">
-export default async function () {
+export default async function ({ PRIVATE_GLOBAL }) {
 	return {
 		useAppPermission({ DYNAMIC_ROUTES, CONSTANT_ROUTES, rootApp, ROUTE_NOT_FOUD }) {
 			const state = reactive({

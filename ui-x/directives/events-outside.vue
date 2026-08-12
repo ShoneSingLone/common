@@ -1,6 +1,6 @@
 <style lang="less"></style>
 <script lang="ts">
-export default async function () {
+export default async function ({ PRIVATE_GLOBAL }) {
 	return {
 		bind: function (el, binding, vNode) {
 			const { events, callback } = binding.value;

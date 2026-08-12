@@ -16,7 +16,7 @@
 	</xDropdown>
 </template>
 <script lang="ts">
-export default async function () {
+export default async function ({ PRIVATE_GLOBAL }) {
 	/* xPagination  后台是以0开始，注意current的加减*/
 	return {
 		model: {

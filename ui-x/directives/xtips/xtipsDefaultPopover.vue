@@ -16,7 +16,7 @@
 	</transition>
 </template>
 <script lang="ts">
-export default async function () {
+export default async function ({ PRIVATE_GLOBAL }) {
 	const [PopupManager, PopperJS] = await Promise.all([
 		_.$importVue("/common/libs/VuePopper/popupManager.vue"),
 		_.$appendScript("/common/libs/VuePopper/popper.js", "Popper")

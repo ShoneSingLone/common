@@ -1,5 +1,5 @@
 <script lang="ts">
-export default async function () {
+export default async function ({ PRIVATE_GLOBAL }) {
 	/* v-loading 已在element-ui中使用
 	 * 所以叫 v-xloading */
 	return Vue.directive("xloading", {

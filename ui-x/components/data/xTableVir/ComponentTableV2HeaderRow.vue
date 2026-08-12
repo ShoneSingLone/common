@@ -1,5 +1,5 @@
 <script lang="ts">
-export default async function () {
+export default async function ({ PRIVATE_GLOBAL }) {
 	const { tableV2HeaderRowProps } = _xUtils;
 
 	return defineComponent({

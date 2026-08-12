@@ -2,7 +2,7 @@
 	<div />
 </template>
 <script lang="ts">
-export default async function () {
+export default async function ({ PRIVATE_GLOBAL }) {
 	let { React, ReactDOM } = await _.$importVue("/common/react/useReact.vue");
 	if (!window.ExcalidrawLib) {
 		await _.$appendScript(

@@ -1,5 +1,5 @@
 <script lang="ts">
-export default async function () {
+export default async function ({ PRIVATE_GLOBAL }) {
 	const DEFAULT_PLUGIN_OPTIONS = {
 		directive: "ripple",
 		color: "currentColor",

@@ -1,5 +1,5 @@
 <script lang="ts">
-export default async function () {
+export default async function ({ PRIVATE_GLOBAL }) {
 	if (!window.hljs) {
 		/* Highlight.js 10.4.0 (4055826e) License: BSD-3-Clause Copyright (c) 2006-2020, Ivan Sagalaev */
 		var hljs = (function () {

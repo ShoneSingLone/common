@@ -9,7 +9,7 @@
 	</div>
 </template>
 <script lang="ts">
-export default async function () {
+export default async function ({ PRIVATE_GLOBAL }) {
 	const COMPONENT_NAME = "x-mobile-tab";
 
 	return defineComponent({

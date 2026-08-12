@@ -2,7 +2,7 @@
 	<xBtn v-xtips="manual" @click="handleClick" :configs="configs" />
 </template>
 <script lang="ts">
-export default async function () {
+export default async function ({ PRIVATE_GLOBAL }) {
 	const xColActionAndMoreConfirmPanel = await _.$importVue(
 		"/common/ui-x/components/base/xBtn/xColActionAndMore.ConfirmPanel.vue"
 	);

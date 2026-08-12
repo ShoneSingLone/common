@@ -53,7 +53,7 @@
 	</el-table>
 </template>
 <script lang="ts">
-export default async function () {
+export default async function ({ PRIVATE_GLOBAL }) {
 	/**
 	 * 如果有COL_MULTIPLE ，就必须有vm.selectedBy:"id", selected：[]
 	 */

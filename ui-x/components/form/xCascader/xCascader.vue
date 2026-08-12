@@ -104,7 +104,7 @@
 	</div>
 </template>
 <script lang="ts">
-export default async function () {
+export default async function ({ PRIVATE_GLOBAL }) {
 	const [Popper, { addResizeListener, removeResizeListener, KeyCode }, Clickoutside] =
 		await _.$importVue([
 			"/common/libs/VuePopper/VuePopper.vue",

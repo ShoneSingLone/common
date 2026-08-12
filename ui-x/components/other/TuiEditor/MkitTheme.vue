@@ -25,7 +25,7 @@
 }
 </style>
 <script lang="ts">
-export default async function () {
+export default async function ({ PRIVATE_GLOBAL }) {
 	const [hljs] = await Promise.all([_.$importVue("/common/libs/highlight.vue")]);
 
 	function newImageDomString({ title, alt, href, prefix, index }) {

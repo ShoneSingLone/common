@@ -11,7 +11,7 @@
 	</div>
 </template>
 <script lang="ts">
-export default async function () {
+export default async function ({ PRIVATE_GLOBAL }) {
 	/* table disabled */
 	/* 行数据disabled */
 	/* 独立的data数据 */

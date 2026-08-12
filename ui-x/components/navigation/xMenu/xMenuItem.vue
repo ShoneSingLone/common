@@ -42,7 +42,7 @@
 	</li>
 </template>
 <script lang="ts">
-export default async function () {
+export default async function ({ PRIVATE_GLOBAL }) {
 	const xMenuMixin = await _.$importVue(
 		"/common/ui-x/components/navigation/xMenu/xMenuMixin.vue"
 	);

@@ -86,7 +86,7 @@
 	</transition>
 </template>
 <script lang="ts">
-export default async function () {
+export default async function ({ PRIVATE_GLOBAL }) {
 	const isMobile = /Mobile/gi.test(window.navigator.userAgent);
 
 	let prevOverflow = "";

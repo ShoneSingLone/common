@@ -1,5 +1,5 @@
 <script lang="ts">
-export default async function () {
+export default async function ({ PRIVATE_GLOBAL }) {
 	if (!window.React) {
 		await _.$appendScript("https://unpkg.com/react@18.2.0/umd/react.development.js", "React");
 	}

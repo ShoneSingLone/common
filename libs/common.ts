@@ -5,162 +5,63 @@
 		console.log("common.js");
 	}
 
-	_.$createSkeletonComp = function (config) {
-		const { type = "table", rows = 5, cols = 4 } = config || {};
+	/**
+		 * 【需求】2026-08-12 同步返回骨架屏包裹组件，url/payload 注入到组件闭包
+		 * 组件内部管理异步加载生命周期：loading → xSkeleton 骨架屏 → 实际组件
+		 * @param {string} url - 组件路径
+		 * @param {object} payload - 传给 _.$importVue 的 payload，其中 payload.skeleton 为骨架屏配置
+		 * @returns {object} Vue 组件选项对象
+		 */
+		_.$syncSkeleton = function (url, payload = {}) {
+			const skeletonConfig = _.isPlainObject(payload.skeleton) ? payload.skeleton : {};
 
-		/* 各列不等宽，模拟真实表格列宽变化 */
-		const colWidths = n => {
-			const base = ["28%", "16%", "22%", "18%", "16%"];
-			return Array.from({ length: n }, (_, i) => base[i % base.length]);
-		};
-
-		const templates = {
-			table(h) {
-				const widths = colWidths(cols);
-				const hdr = h(
-					"div",
-					{ class: "x-skeleton__header" },
-					widths.map((w, i) =>
-						h("div", {
-							class: "x-skeleton__cell",
-							style: { width: w },
-							key: "h" + i
+			return {
+				data() {
+					return {
+						_sync_comp: null,
+						_sync_loading: true,
+						_sync_error: null
+					};
+				},
+				beforeCreate() {
+					/* 尽早启动异步加载，目标组件加载完成后自动切换 */
+					console.log("[syncSkeleton] beforeCreate 启动异步加载", url, skeletonConfig);
+					_.$importVue(url, payload)
+						.then(comp => {
+							console.log("[syncSkeleton] 组件加载完成", url);
+							this._sync_comp = comp;
+							this._sync_loading = false;
 						})
-					)
-				);
-				const bodyRows = Array.from({ length: rows }, (_, ri) =>
-					h(
-						"div",
-						{ class: "x-skeleton__row", key: "r" + ri },
-						widths.map((w, ci) =>
-							h("div", {
-								class: "x-skeleton__cell",
-								style: { width: w },
-								key: ci
-							})
-						)
-					)
-				);
-				return h("div", { class: "x-skeleton x-skeleton--table" }, [
-					hdr,
-					h("div", { class: "x-skeleton__body" }, bodyRows)
-				]);
-			},
-
-			list(h) {
-				const items = Array.from({ length: rows }, (_, i) =>
-					h("div", { class: "x-skeleton__list-item", key: i }, [
-						h("div", { class: "x-skeleton__avatar" }),
-						h("div", { class: "x-skeleton__list-content" }, [
-							h("div", {
-								class: "x-skeleton__text",
-								style: { width: 60 + (i % 4) * 8 + "%" }
-							}),
-							h("div", {
-								class: "x-skeleton__text x-skeleton__text--short",
-								style: { width: 40 + (i % 3) * 10 + "%" }
-							})
-						])
-					])
-				);
-				return h("div", { class: "x-skeleton x-skeleton--list" }, items);
-			},
-
-			card(h) {
-				const cards = Array.from({ length: Math.min(rows, 6) }, (_, i) =>
-					h("div", { class: "x-skeleton__card", key: i }, [
-						h("div", { class: "x-skeleton__text", style: { width: "60%" } }),
-						h("div", {
-							class: "x-skeleton__block",
-							style: { height: "80px", margin: "12px 0" }
-						}),
-						h("div", {
-							class: "x-skeleton__text x-skeleton__text--short",
-							style: { width: "40%" }
-						})
-					])
-				);
-				return h("div", { class: "x-skeleton x-skeleton--card" }, cards);
-			},
-
-			form(h) {
-				const fields = Array.from({ length: rows }, (_, i) =>
-					h("div", { class: "x-skeleton__form-row", key: i }, [
-						h("div", {
-							class: "x-skeleton__text",
-							style: { width: 20 + (i % 3) * 5 + "%" }
-						}),
-						h("div", {
-							class: "x-skeleton__cell",
-							style: { width: 50 + (i % 2) * 10 + "%" }
-						})
-					])
-				);
-				return h("div", { class: "x-skeleton x-skeleton--form" }, fields);
-			},
-
-			sidebar(h) {
-				const items = Array.from({ length: rows }, (_, i) => {
-					const indent = (i % 4) * 12;
-					return h(
-						"div",
-						{
-							class: "x-skeleton__sidebar-item",
-							key: i,
-							style: { paddingLeft: indent + "px" }
-						},
-						[
-							h("div", {
-								class: "x-skeleton__text",
-								style: { width: 50 + (i % 3) * 10 + "%" }
-							})
-						]
-					);
-				});
-				return h("div", { class: "x-skeleton x-skeleton--sidebar" }, items);
-			},
-
-			detail(h) {
-				return h("div", { class: "x-skeleton x-skeleton--detail" }, [
-					h("div", {
-						class: "x-skeleton__text",
-						style: { width: "46%", height: "22px", marginBottom: "20px" }
-					}),
-					/* 描述列表 */
-					...Array.from({ length: rows }, (_, i) =>
-						h("div", { class: "x-skeleton__form-row", key: "d" + i }, [
-							h("div", {
-								class: "x-skeleton__text",
-								style: { width: 16 + (i % 3) * 4 + "%" }
-							}),
-							h("div", {
-								class: "x-skeleton__text",
-								style: { width: 36 + (i % 4) * 8 + "%" }
-							})
-						])
-					),
-					h("div", { style: { height: "24px" } }),
-					/* 段落文字块 */
-					h("div", {
-						class: "x-skeleton__text",
-						style: { width: "100%", marginBottom: "8px" }
-					}),
-					h("div", {
-						class: "x-skeleton__text",
-						style: { width: "92%", marginBottom: "8px" }
-					}),
-					h("div", { class: "x-skeleton__text", style: { width: "68%" } })
-				]);
-			}
+						.catch(err => {
+							console.error("[syncSkeleton] 组件加载失败", url, err);
+							this._sync_error = err;
+							this._sync_loading = false;
+						});
+				},
+				render(h) {
+					/* loading → 全局注册的 xSkeleton 组件 */
+					if (this._sync_loading) {
+						return h("xSkeleton", { props: skeletonConfig });
+					}
+					/* 异常降级 */
+					if (this._sync_error) {
+						return h(
+							"div",
+							{ class: "xSkeleton-error" },
+							["组件加载失败"]
+						);
+					}
+					/* 渲染实际组件 */
+					if (this._sync_comp) {
+						return h(this._sync_comp, {
+							attrs: this.$attrs,
+							on: this.$listeners,
+							scopedSlots: this.$scopedSlots
+						});
+					}
+				}
+			};
 		};
-
-		const renderFn = templates[type] || templates.table;
-		return {
-			render(h) {
-				return renderFn(h);
-			}
-		};
-	};
 
 	/*  */
 	_.mixin({

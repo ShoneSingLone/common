@@ -6,7 +6,7 @@
 	</transition>
 </template>
 <script lang="ts">
-export default async function () {
+export default async function ({ PRIVATE_GLOBAL }) {
 	const Popper = await _.$importVue("/common/libs/VuePopper/VuePopper.vue");
 
 	return defineComponent({

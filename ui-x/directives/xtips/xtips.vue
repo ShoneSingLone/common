@@ -1,5 +1,5 @@
 <script lang="ts">
-export default async function () {
+export default async function ({ PRIVATE_GLOBAL }) {
 	// 【修复】2026-08-10：注册全局 hover 前预加载弹层组件，避免首次移入仅等待异步组件、再次移入才即时显示。
 	let PopoverComponent = await _.$importVue(
 		"/common/ui-x/directives/xtips/xtipsDefaultPopover.vue"

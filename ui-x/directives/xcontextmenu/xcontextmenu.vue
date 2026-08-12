@@ -1,5 +1,5 @@
 <script lang="ts">
-export default async function () {
+export default async function ({ PRIVATE_GLOBAL }) {
 	let PanelComponent;
 
 	const REF_ID_ATTR = "data-xcontextmenu-ref";

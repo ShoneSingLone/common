@@ -1,5 +1,5 @@
 <script lang="ts">
-export default async function () {
+export default async function ({ PRIVATE_GLOBAL }) {
 	function createI18N(compName) {
 		return function (path, ...args) {
 			let result = "";

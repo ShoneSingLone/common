@@ -1,5 +1,5 @@
 <script lang="ts">
-export default async function () {
+export default async function ({ PRIVATE_GLOBAL }) {
 	// 包装 utils/constant.js，供当前 _.$importVue 体系直接加载使用
 	const KEY_CODES = {
 		BACK_SPACE: 8,

@@ -1,5 +1,5 @@
 <script lang="ts">
-export default async function () {
+export default async function ({ PRIVATE_GLOBAL }) {
 	// 为 utils/resize-event.vue 提供 polyfill 包装
 	const polyfillModule = await _.$importVue("resize-observer-polyfill");
 	const ResizeObserver =

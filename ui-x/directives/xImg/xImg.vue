@@ -21,7 +21,7 @@
 	</div>
 </template>
 <script lang="ts">
-export default async function () {
+export default async function ({ PRIVATE_GLOBAL }) {
 	const isSupportObjectFit = () => document.documentElement.style.objectFit !== undefined;
 	const ObjectFit = {
 		NONE: "none",

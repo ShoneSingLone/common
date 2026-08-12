@@ -9,7 +9,7 @@
 		end-placeholder="结束日期" />
 </template>
 <script lang="ts">
-export default async function () {
+export default async function ({ PRIVATE_GLOBAL }) {
 	const { mixins } = await _.$importVue("/common/ui-x/common/ItemMixins.vue");
 	return (() => {
 		return {

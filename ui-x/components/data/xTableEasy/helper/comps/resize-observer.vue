@@ -1,6 +1,6 @@
 <style lang="less"></style>
 <script lang="ts">
-export default async function () {
+export default async function ({ PRIVATE_GLOBAL }) {
 	const [{ addResizeListener, removeResizeListener }] = await _.$importVue([
 		"/common/utils/utils.vue"
 	]);

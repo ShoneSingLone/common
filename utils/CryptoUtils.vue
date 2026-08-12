@@ -1,5 +1,5 @@
 <script lang="ts">
-export default async function () {
+export default async function ({ PRIVATE_GLOBAL }) {
 	/**
 	 * Web Crypto API RSA 加密解密工具
 	 */

@@ -1,5 +1,5 @@
 <script lang="ts">
-export default async function () {
+export default async function ({ PRIVATE_GLOBAL }) {
 	const { on, off, hasClass, addClass, removeClass, ARIA_UTILS: Utils } = _xUtils;
 
 	class SubMenu {

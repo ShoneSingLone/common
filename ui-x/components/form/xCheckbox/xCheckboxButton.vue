@@ -43,7 +43,7 @@
 	</label>
 </template>
 <script lang="ts">
-export default async function () {
+export default async function ({ PRIVATE_GLOBAL }) {
 	return defineComponent({
 		name: "ElCheckboxButton",
 		inject: {

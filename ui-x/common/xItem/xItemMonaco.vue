@@ -2,7 +2,7 @@
 	<div class="xItemMonaco mt x-loading" ref="refMonacoContainer" />
 </template>
 <script lang="ts">
-export default async function () {
+export default async function ({ PRIVATE_GLOBAL }) {
 	const { mixins } = await _.$importVue("/common/ui-x/common/ItemMixins.vue");
 	const theme = ["vs", "vs-dark", "hc-black", "hc-light"];
 	return defineComponent({

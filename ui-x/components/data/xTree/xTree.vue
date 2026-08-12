@@ -1,5 +1,5 @@
 <script lang="ts">
-export default async function () {
+export default async function ({ PRIVATE_GLOBAL }) {
 	const { useTree, itemSize, iconPropType } = await _.$importVue(
 		"/common/ui-x/components/data/xTree/composables.vue"
 	);

@@ -1,5 +1,5 @@
 <script lang="ts">
-export default async function () {
+export default async function ({ PRIVATE_GLOBAL }) {
 	if (!Vue._itemMixins) {
 		const EVENT_ARRAY = ["change", "blur", "input", "focus", "keyup", "keydown"];
 		var HIDDEN_STYLE =

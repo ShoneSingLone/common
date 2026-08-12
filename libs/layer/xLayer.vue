@@ -1,5 +1,5 @@
 <script lang="ts">
-export default async function () {
+export default async function ({ PRIVATE_GLOBAL }) {
 	function _defineProperty(obj, key, value) {
 		key = _toPropertyKey(key);
 		if (key in obj) {

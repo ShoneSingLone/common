@@ -2,7 +2,7 @@
 	<component class="xColActions" :is="currentComponent" :configs="this.configs" />
 </template>
 <script lang="ts">
-export default async function () {
+export default async function ({ PRIVATE_GLOBAL }) {
 	return {
 		props: ["configs"],
 		/* row index col prop*/

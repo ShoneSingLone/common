@@ -165,7 +165,7 @@
 	</transition>
 </template>
 <script lang="ts">
-export default async function () {
+export default async function ({ PRIVATE_GLOBAL }) {
 	const [
 		{
 			formatDate,

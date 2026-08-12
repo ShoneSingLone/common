@@ -1,5 +1,5 @@
 <script lang="ts">
-export default async function () {
+export default async function ({ PRIVATE_GLOBAL }) {
 	const [BasicDatePicker, PanelDate, PanelDateRange, PanelMonthRange] = await _.$importVue([
 		"/common/ui-x/components/form/xDatePicker/basic/BasicDatePicker.vue",
 		"/common/ui-x/components/form/xDatePicker/panel/PanelDate.vue",

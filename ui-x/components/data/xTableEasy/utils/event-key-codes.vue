@@ -1,5 +1,5 @@
 <script lang="ts">
-export default async function () {
+export default async function ({ PRIVATE_GLOBAL }) {
 	// is input key code
 	function isInputKeyCode(event) {
 		let result = false;

@@ -47,7 +47,7 @@
 	</div>
 </template>
 <script lang="ts">
-export default async function () {
+export default async function ({ PRIVATE_GLOBAL }) {
 	const { itemSize, ON_NODE_CONTEXTMENU } = await _.$importVue(
 		"/common/ui-x/components/data/xTree/composables.vue"
 	);

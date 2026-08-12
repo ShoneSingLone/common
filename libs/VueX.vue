@@ -1,5 +1,5 @@
 <script lang="ts">
-export default async function () {
+export default async function ({ PRIVATE_GLOBAL }) {
 	if (!window.Vuex) {
 		/**
 		 * vuex v2.0.0

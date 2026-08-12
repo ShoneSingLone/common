@@ -1,5 +1,5 @@
 <script lang="ts">
-export default async function () {
+export default async function ({ PRIVATE_GLOBAL }) {
 	await _.$try_wait(() => window.SRC_ROOT_PATH !== undefined);
 	return (function () {
 		var NProgress = {};

@@ -37,7 +37,7 @@
 </style>
 
 <script lang="ts">
-export default async function () {
+export default async function ({ PRIVATE_GLOBAL }) {
 	// 导入依赖
 	const { COMPS_NAME, INIT_DATA, EMIT_EVENTS, CONTEXTMENU_NODE_TYPES, INSTANCE_METHODS } =
 		await _.$importVue("/common/ui-x/components/data/contextmenu/util/constant.vue");

@@ -4,7 +4,7 @@
 	</xBtn>
 </template>
 <script lang="ts">
-export default async function () {
+export default async function ({ PRIVATE_GLOBAL }) {
 	/* 列表上面的查询按钮 */
 	return {};
 }

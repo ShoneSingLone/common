@@ -1,5 +1,5 @@
 <script lang="ts">
-export default async function () {
+export default async function ({ PRIVATE_GLOBAL }) {
 	function setSelectedRows(vm, rows) {
 		vm.configs.selectedRows = rows;
 		/*在初始时设置 onSelectedRowsChange 会监听 configs.selectedRows  mixinHandleSelectedRowsChange*/

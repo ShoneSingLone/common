@@ -1,5 +1,5 @@
 <script lang="ts">
-export default async function () {
+export default async function ({ PRIVATE_GLOBAL }) {
 	/**
 	 * autoResize - resizes a DOM element to the width and height of another DOM element
 	 *

@@ -1,5 +1,5 @@
 <script lang="ts">
-export default async function () {
+export default async function ({ PRIVATE_GLOBAL }) {
 	const { emptyRender } = await _.$importVue(
 		"/common/ui-x/components/data/xTableVir/xTableEmptyRender.vue"
 	);

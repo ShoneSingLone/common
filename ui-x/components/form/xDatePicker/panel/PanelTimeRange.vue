@@ -58,7 +58,7 @@
 	</transition>
 </template>
 <script lang="ts">
-export default async function () {
+export default async function ({ PRIVATE_GLOBAL }) {
 	const [{ parseDate, limitTimeRange, modifyDate, clearMilliseconds, timeWithinRange }] =
 		await _.$importVue(["/common/ui-x/components/form/xDatePicker/dateUtils.vue"]);
 

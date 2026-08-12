@@ -1,5 +1,5 @@
 <script lang="ts">
-export default async function () {
+export default async function ({ PRIVATE_GLOBAL }) {
 	// prefix
 	const PREFIX_CLS = "ve-contextmenu-";
 

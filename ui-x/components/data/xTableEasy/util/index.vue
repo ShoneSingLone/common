@@ -1,5 +1,5 @@
 <script lang="ts">
-export default async function () {
+export default async function ({ PRIVATE_GLOBAL }) {
 	// util/constant.vue
 	const { PREFIX_CLS, CONTEXTMENU_NODE_TYPES, COLUMN_FIXED_TYPE, AUTOFILLING_DIRECTION } =
 		await _.$importVue("/common/ui-x/components/data/xTableEasy/util/constant.vue");

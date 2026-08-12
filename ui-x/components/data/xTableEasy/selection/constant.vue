@@ -1,5 +1,5 @@
 <script lang="ts">
-export default async function () {
+export default async function ({ PRIVATE_GLOBAL }) {
 	// 实例方法常量，供 selection/index.vue 动态导入使用
 	const INSTANCE_METHODS = {
 		CLEAR_CURRENT_CELL_RECT: "clearCurrentCellRect",

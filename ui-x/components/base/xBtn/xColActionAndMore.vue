@@ -24,7 +24,7 @@
 	</div>
 </template>
 <script lang="ts">
-export default async function () {
+export default async function ({ PRIVATE_GLOBAL }) {
 	/* 有更多选项的 按钮组 */
 	const DID_NOT_SET_COL = "DID_NOT_SET_COL";
 	return {

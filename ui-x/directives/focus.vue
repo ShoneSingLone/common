@@ -1,5 +1,5 @@
 <script lang="ts">
-export default async function () {
+export default async function ({ PRIVATE_GLOBAL }) {
 	// 包装 focus 指令，供编辑器输入框等场景按需聚焦/选中文本
 	return {
 		bind: function (el, { value }, vnode) {

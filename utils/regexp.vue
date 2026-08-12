@@ -1,5 +1,5 @@
 <script lang="ts">
-export default async function () {
+export default async function ({ PRIVATE_GLOBAL }) {
 	/**
 	 * CIDR校验工具，用于验证IPv4 CIDR地址的合法性
 	 */

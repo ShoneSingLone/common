@@ -1,5 +1,5 @@
 <script lang="ts">
-export default async function () {
+export default async function ({ PRIVATE_GLOBAL }) {
 	const X_MOVE_CLASS_NAME = "data-xmove";
 	const { xLayerTools } = await _.$importVue("/common/libs/layer/xLayer.vue");
 

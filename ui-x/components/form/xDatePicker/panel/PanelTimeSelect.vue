@@ -28,7 +28,7 @@
 	</transition>
 </template>
 <script lang="ts">
-export default async function () {
+export default async function ({ PRIVATE_GLOBAL }) {
 	const parseTime = function (time) {
 		const values = (time || "").split(":");
 		if (values.length >= 2) {

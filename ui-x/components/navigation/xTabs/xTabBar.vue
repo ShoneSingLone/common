@@ -2,7 +2,7 @@
 	<div class="el-tabs__active-bar" :class="cptClassName" :style="barStyle"></div>
 </template>
 <script lang="ts">
-export default async function () {
+export default async function ({ PRIVATE_GLOBAL }) {
 	return defineComponent({
 		name: "xTabBar",
 		props: {

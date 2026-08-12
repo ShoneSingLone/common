@@ -1,5 +1,5 @@
 <script lang="ts">
-export default async function () {
+export default async function ({ PRIVATE_GLOBAL }) {
 	const PopupManager = await _.$importVue("/common/libs/VuePopper/popupManager.vue");
 	const PopperJS = await _.$appendScript("/common/libs/VuePopper/popper.js", "Popper");
 	const stop = e => e.stopPropagation();

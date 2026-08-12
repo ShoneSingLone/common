@@ -1,5 +1,5 @@
 <script lang="ts">
-export default async function () {
+export default async function ({ PRIVATE_GLOBAL }) {
 	return {
 		onLoadSFC() {
 			$(window).trigger("x_ui_theme_change");

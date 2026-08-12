@@ -79,7 +79,7 @@
 </style>
 
 <script lang="ts">
-export default async function () {
+export default async function ({ PRIVATE_GLOBAL }) {
 	/*!
 	 * @toast-ui/editor
 	 * @version 3.2.2 | Fri Feb 17 2023

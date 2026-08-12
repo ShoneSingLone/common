@@ -28,7 +28,7 @@
 	</transition>
 </template>
 <script lang="ts">
-export default async function () {
+export default async function ({ PRIVATE_GLOBAL }) {
 	const TYPE_CLASSES_MAP = {
 		success: "el-icon-success",
 		warning: "el-icon-warning",

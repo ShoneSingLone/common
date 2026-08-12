@@ -8,7 +8,7 @@
 	</component>
 </template>
 <script lang="ts">
-export default async function () {
+export default async function ({ PRIVATE_GLOBAL }) {
 	const keyCode = Object.freeze({
 		LEFT: 37,
 		UP: 38,

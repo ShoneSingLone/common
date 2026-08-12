@@ -1,5 +1,5 @@
 <script lang="ts">
-export default async function () {}
+export default async function ({ PRIVATE_GLOBAL }) {}
 </script>
 <style lang="less">
 /* 常用的样式类，不加样式类不影响界面展示效果 */

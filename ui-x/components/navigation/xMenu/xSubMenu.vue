@@ -1,5 +1,5 @@
 <script lang="ts">
-export default async function () {
+export default async function ({ PRIVATE_GLOBAL }) {
 	const [Popper, xMenuMixin, { Transition }] = await _.$importVue([
 		"/common/libs/VuePopper/VuePopper.vue",
 		"/common/ui-x/components/navigation/xMenu/xMenuMixin.vue",

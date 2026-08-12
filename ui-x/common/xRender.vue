@@ -1,5 +1,5 @@
 <script lang="ts">
-export default async function () {
+export default async function ({ PRIVATE_GLOBAL }) {
 	return {
 		props: [
 			/* render: 渲染函数| 字符串| vNode| vNode[] */

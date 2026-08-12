@@ -1,5 +1,5 @@
 <script lang="ts">
-export default async function () {
+export default async function ({ PRIVATE_GLOBAL }) {
 	Vue.component("ComponentTableV2Header", () =>
 		_.$importVue("/common/ui-x/components/data/xTableVir/ComponentTableV2Header.vue")
 	);

@@ -1,5 +1,5 @@
 <script lang="ts">
-export default async function () {
+export default async function ({ PRIVATE_GLOBAL }) {
 	const { useDynamicStyle } = await _.$importVue("/common/utils/hooks.vue");
 	const TOP = "top";
 	const FULL = "full";

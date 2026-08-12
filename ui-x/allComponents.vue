@@ -1,5 +1,5 @@
 <script lang="ts">
-export default async function () {
+export default async function ({ PRIVATE_GLOBAL }) {
 	return [
 		/* **************** */
 		"components/xExcalidraw/xExcalidraw",
@@ -159,7 +159,9 @@ export default async function () {
 		"common/xItem/xItemTags",
 		"common/xItem/xItemMonaco",
 		/* ******************* */
-		"components/form/xToggleEditor/xToggleText/xToggleText"
+		"components/form/xToggleEditor/xToggleText/xToggleText",
+		/* feedback */
+		"xSkeleton"
 	];
 }
 </script>

@@ -1,5 +1,5 @@
 <script lang="ts">
-export default async function () {
+export default async function ({ PRIVATE_GLOBAL }) {
 	const [{ MOUSE_EVENT_CLICK_TYPE }] = await Promise.all([
 		_.$importVue("/common/ui-x/components/data/xTableEasy/utils/constant.vue")
 	]);

@@ -1,5 +1,5 @@
 <script lang="ts">
-export default async function () {
+export default async function ({ PRIVATE_GLOBAL }) {
 	return defineComponent({
 		name: "xGap",
 		/* a:all,top left right bottom;class flex1,2,3,4 */

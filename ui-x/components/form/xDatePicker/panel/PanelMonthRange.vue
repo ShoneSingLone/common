@@ -82,7 +82,7 @@
 	</transition>
 </template>
 <script lang="ts">
-export default async function () {
+export default async function ({ PRIVATE_GLOBAL }) {
 	const [{ isDate, modifyWithTimeString, prevYear, nextYear, nextMonth }, Clickoutside] =
 		await _.$importVue([
 			"/common/ui-x/components/form/xDatePicker/dateUtils.vue",

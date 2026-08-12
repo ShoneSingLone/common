@@ -24,7 +24,7 @@
  *   xSelectVm.changePopperPositionTo('body');
  * }
  */
-export default async function () {
+export default async function ({ PRIVATE_GLOBAL }) {
 	/**
 	 * 通过 xItem 实例获取 xSelect 实例
 	 */

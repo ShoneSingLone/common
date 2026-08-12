@@ -196,7 +196,7 @@
 	</transition>
 </template>
 <script lang="ts">
-export default async function () {
+export default async function ({ PRIVATE_GLOBAL }) {
 	const [Clickoutside, dateUtils] = await _.$importVue([
 		"/common/ui-x/directives/clickoutside.vue",
 		"/common/ui-x/components/form/xDatePicker/dateUtils.vue"
