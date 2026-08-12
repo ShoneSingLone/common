@@ -1,146 +1,133 @@
-<template>
-	<div class="xSkeleton" :class="`xSkeleton--${type}`">
-		<!-- table 骨架屏 -->
-		<template v-if="type === 'table'">
-			<div class="xSkeleton__header">
-				<span
-					v-for="(w, i) in cpt_col_widths"
-					:key="'h' + i"
-					class="xSkeleton__cell"
-					:style="{ width: w }" />
-			</div>
-			<div class="xSkeleton__body">
-				<div v-for="ri in rows" :key="'r' + ri" class="xSkeleton__row">
-					<span
-						v-for="(w, ci) in cpt_col_widths"
-						:key="ci"
-						class="xSkeleton__cell"
-						:style="{ width: w }" />
-				</div>
-			</div>
-		</template>
-
-		<!-- list 骨架屏 -->
-		<template v-else-if="type === 'list'">
-			<div v-for="i in rows" :key="i" class="xSkeleton__list-item">
-				<div class="xSkeleton__avatar" />
-				<div class="xSkeleton__list-content">
-					<div class="xSkeleton__text" :style="{ width: cpt_list_title_width(i) }" />
-					<div
-						class="xSkeleton__text xSkeleton__text--short"
-						:style="{ width: cpt_list_sub_width(i) }" />
-				</div>
-			</div>
-		</template>
-
-		<!-- card 骨架屏 -->
-		<template v-else-if="type === 'card'">
-			<div class="xSkeleton--card">
-				<div v-for="i in cpt_card_count" :key="i" class="xSkeleton__card">
-					<div class="xSkeleton__text" :style="{ width: '60%' }" />
-					<div class="xSkeleton__block" :style="{ height: '80px', margin: '12px 0' }" />
-					<div class="xSkeleton__text xSkeleton__text--short" :style="{ width: '40%' }" />
-				</div>
-			</div>
-		</template>
-
-		<!-- form 骨架屏 -->
-		<template v-else-if="type === 'form'">
-			<div v-for="i in rows" :key="i" class="xSkeleton__form-row">
-				<div class="xSkeleton__text" :style="{ width: cpt_form_label_width(i) }" />
-				<div class="xSkeleton__cell" :style="{ width: cpt_form_input_width(i) }" />
-			</div>
-		</template>
-
-		<!-- sidebar 骨架屏 -->
-		<template v-else-if="type === 'sidebar'">
-			<div
-				v-for="i in rows"
-				:key="i"
-				class="xSkeleton__sidebar-item"
-				:style="{ paddingLeft: cpt_sidebar_indent(i) + 'px' }">
-				<div class="xSkeleton__text" :style="{ width: cpt_sidebar_text_width(i) }" />
-			</div>
-		</template>
-
-		<!-- detail 骨架屏 -->
-		<template v-else-if="type === 'detail'">
-			<div class="xSkeleton--detail">
-				<div
-					class="xSkeleton__text"
-					:style="{ width: '46%', height: '22px', marginBottom: '20px' }" />
-				<div v-for="i in rows" :key="'d' + i" class="xSkeleton__form-row">
-					<div class="xSkeleton__text" :style="{ width: cpt_detail_label_width(i) }" />
-					<div class="xSkeleton__text" :style="{ width: cpt_detail_value_width(i) }" />
-				</div>
-				<div :style="{ height: '24px' }" />
-				<div class="xSkeleton__text" :style="{ width: '100%', marginBottom: '8px' }" />
-				<div class="xSkeleton__text" :style="{ width: '92%', marginBottom: '8px' }" />
-				<div class="xSkeleton__text" :style="{ width: '68%' }" />
-			</div>
-		</template>
-
-		<!-- 未知 type 降级为 table -->
-		<div v-else class="xSkeleton__body">
-			<div v-for="ri in rows" :key="'r' + ri" class="xSkeleton__row">
-				<span class="xSkeleton__cell" :style="{ width: '100%' }" />
-			</div>
-		</div>
-	</div>
-</template>
-
 <script lang="ts">
 export default async function ({ PRIVATE_GLOBAL }) {
-	/* 【需求】2026-08-12 骨架屏视觉组件：6 种布局类型纯占位渲染，配合 _.$syncSkeleton 消费 */
+	/* 【需求】2026-08-12 骨架屏视觉组件：纯占位渲染，无异步加载逻辑
+	 * 6 种布局类型，通过 props (skeletonType/skeletonRows/skeletonCols) 切换
+	 * 异步加载逻辑由 _.$syncSkeleton (functional component) 管理
+	 */
+
+	/** 各列不等宽，模拟真实表格列宽变化 */
+	function colWidths(cols) {
+		const base = ["28%", "16%", "22%", "18%", "16%"];
+		return Array.from({ length: cols }, (_, i) => base[i % base.length]);
+	}
+
+	/** 根据 type 渲染对应布局的骨架屏 VNode
+	 * 【需求】2026-08-12 props 统一加 skeleton 前缀（skeletonType/skeletonRows/skeletonCols），
+	 * 方便父组件透传、减少字段冲突，与 $syncSkeleton 入参字段名保持一致
+	 */
+	function renderSkeleton(h, props) {
+		const { skeletonType: type, skeletonRows: rows, skeletonCols: cols } = props;
+
+		if (type === "table") {
+			const widths = colWidths(cols);
+			return h("div", { class: "xSkeleton xSkeleton--table" }, [
+				h("div", { class: "xSkeleton__header" },
+					widths.map((w, i) => h("span", { class: "xSkeleton__cell", style: { width: w }, key: "h" + i }))
+				),
+				h("div", { class: "xSkeleton__body" },
+					Array.from({ length: rows }, (_, ri) =>
+						h("div", { class: "xSkeleton__row", key: "r" + ri },
+							widths.map((w, ci) => h("span", { class: "xSkeleton__cell", style: { width: w }, key: ci }))
+						)
+					)
+				)
+			]);
+		}
+
+		if (type === "list") {
+			return h("div", { class: "xSkeleton xSkeleton--list" },
+				Array.from({ length: rows }, (_, i) =>
+					h("div", { class: "xSkeleton__list-item", key: i }, [
+						h("div", { class: "xSkeleton__avatar" }),
+						h("div", { class: "xSkeleton__list-content" }, [
+							h("div", { class: "xSkeleton__text", style: { width: 60 + (i % 4) * 8 + "%" } }),
+							h("div", { class: "xSkeleton__text xSkeleton__text--short", style: { width: 40 + (i % 3) * 10 + "%" } })
+						])
+					])
+				)
+			);
+		}
+
+		if (type === "card") {
+			const count = Math.min(rows, 6);
+			return h("div", { class: "xSkeleton xSkeleton--card" },
+				Array.from({ length: count }, (_, i) =>
+					h("div", { class: "xSkeleton__card", key: i }, [
+						h("div", { class: "xSkeleton__text", style: { width: "60%" } }),
+						h("div", { class: "xSkeleton__block", style: { height: "80px", margin: "12px 0" } }),
+						h("div", { class: "xSkeleton__text xSkeleton__text--short", style: { width: "40%" } })
+					])
+				)
+			);
+		}
+
+		if (type === "form") {
+			return h("div", { class: "xSkeleton xSkeleton--form" },
+				Array.from({ length: rows }, (_, i) =>
+					h("div", { class: "xSkeleton__form-row", key: i }, [
+						h("div", { class: "xSkeleton__text", style: { width: 20 + (i % 3) * 5 + "%" } }),
+						h("div", { class: "xSkeleton__cell", style: { width: 50 + (i % 2) * 10 + "%" } })
+					])
+				)
+			);
+		}
+
+		if (type === "sidebar") {
+			return h("div", { class: "xSkeleton xSkeleton--sidebar" },
+				Array.from({ length: rows }, (_, i) =>
+					h("div", { class: "xSkeleton__sidebar-item", key: i, style: { paddingLeft: (i % 4) * 12 + "px" } }, [
+						h("div", { class: "xSkeleton__text", style: { width: 50 + (i % 3) * 10 + "%" } })
+					])
+				)
+			);
+		}
+
+		if (type === "detail") {
+			return h("div", { class: "xSkeleton xSkeleton--detail" }, [
+				h("div", { class: "xSkeleton__text", style: { width: "46%", height: "22px", marginBottom: "20px" } }),
+				...Array.from({ length: rows }, (_, i) =>
+					h("div", { class: "xSkeleton__form-row", key: "d" + i }, [
+						h("div", { class: "xSkeleton__text", style: { width: 16 + (i % 3) * 4 + "%" } }),
+						h("div", { class: "xSkeleton__text", style: { width: 36 + (i % 4) * 8 + "%" } })
+					])
+				),
+				h("div", { style: { height: "24px" } }),
+				h("div", { class: "xSkeleton__text", style: { width: "100%", marginBottom: "8px" } }),
+				h("div", { class: "xSkeleton__text", style: { width: "92%", marginBottom: "8px" } }),
+				h("div", { class: "xSkeleton__text", style: { width: "68%" } })
+			]);
+		}
+
+		/* 未知 type 降级 */
+		return h("div", { class: "xSkeleton xSkeleton--table" }, [
+			h("div", { class: "xSkeleton__body" },
+				Array.from({ length: rows }, (_, ri) =>
+					h("div", { class: "xSkeleton__row", key: "r" + ri }, [
+						h("span", { class: "xSkeleton__cell", style: { width: "100%" } })
+					])
+				)
+			)
+		]);
+	}
+
 	return defineComponent({
 		props: {
-			type: {
+			/* 【需求】2026-08-12 props 统一加 skeleton 前缀，方便透传、减少字段冲突 */
+			skeletonType: {
 				type: String,
 				default: "table"
 			},
-			rows: {
+			skeletonRows: {
 				type: Number,
 				default: 5
 			},
-			cols: {
+			skeletonCols: {
 				type: Number,
 				default: 4
 			}
 		},
-		computed: {
-			cpt_col_widths() {
-				const base = ["28%", "16%", "22%", "18%", "16%"];
-				return Array.from({ length: this.cols }, (_, i) => base[i % base.length]);
-			},
-			cpt_card_count() {
-				return Math.min(this.rows, 6);
-			}
-		},
-		methods: {
-			cpt_list_title_width(i) {
-				return 60 + ((i - 1) % 4) * 8 + "%";
-			},
-			cpt_list_sub_width(i) {
-				return 40 + ((i - 1) % 3) * 10 + "%";
-			},
-			cpt_form_label_width(i) {
-				return 20 + ((i - 1) % 3) * 5 + "%";
-			},
-			cpt_form_input_width(i) {
-				return 50 + ((i - 1) % 2) * 10 + "%";
-			},
-			cpt_sidebar_indent(i) {
-				return ((i - 1) % 4) * 12;
-			},
-			cpt_sidebar_text_width(i) {
-				return 50 + ((i - 1) % 3) * 10 + "%";
-			},
-			cpt_detail_label_width(i) {
-				return 16 + ((i - 1) % 3) * 4 + "%";
-			},
-			cpt_detail_value_width(i) {
-				return 36 + ((i - 1) % 4) * 8 + "%";
-			}
+		render(h) {
+			return renderSkeleton(h, this);
 		}
 	});
 }
@@ -159,12 +146,8 @@ export default async function ({ PRIVATE_GLOBAL }) {
 }
 
 @keyframes x-skeleton-shimmer {
-	0% {
-		background-position: -200% 0;
-	}
-	100% {
-		background-position: 200% 0;
-	}
+	0% { background-position: -200% 0; }
+	100% { background-position: 200% 0; }
 }
 
 .xSkeleton {

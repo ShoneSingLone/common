@@ -6,62 +6,69 @@
 	}
 
 	/**
-		 * 【需求】2026-08-12 同步返回骨架屏包裹组件，url/payload 注入到组件闭包
-		 * 组件内部管理异步加载生命周期：loading → xSkeleton 骨架屏 → 实际组件
-		 * @param {string} url - 组件路径
-		 * @param {object} payload - 传给 _.$importVue 的 payload，其中 payload.skeleton 为骨架屏配置
-		 * @returns {object} Vue 组件选项对象
-		 */
-		_.$syncSkeleton = function (url, payload = {}) {
-			const skeletonConfig = _.isPlainObject(payload.skeleton) ? payload.skeleton : {};
+	 * 【需求】2026-08-12 同步返回 functional component（无实例，不出现在组件树）
+	 * loading 时渲染骨架屏，loaded 时渲染实际组件（直接透传 context.data，ref 穿透到实际组件）
+	 * xSkeleton 纯视觉，异步加载逻辑在此闭包中管理
+	 * @param {string} url - 组件路径
+	 * @param {object} payload - 传给 _.$importVue 的 payload，其中 payload.skeleton 为骨架屏配置
+	 * @returns {object} functional component 选项
+	 */
+	_.$syncSkeleton = function (url, payload = {}) {
+		const skeletonConfig = _.isPlainObject(payload.skeleton) ? payload.skeleton : {};
 
-			return {
-				data() {
-					return {
-						_sync_comp: null,
-						_sync_loading: true,
-						_sync_error: null
-					};
-				},
-				beforeCreate() {
-					/* 尽早启动异步加载，目标组件加载完成后自动切换 */
-					console.log("[syncSkeleton] beforeCreate 启动异步加载", url, skeletonConfig);
-					_.$importVue(url, payload)
-						.then(comp => {
-							console.log("[syncSkeleton] 组件加载完成", url);
-							this._sync_comp = comp;
-							this._sync_loading = false;
-						})
-						.catch(err => {
-							console.error("[syncSkeleton] 组件加载失败", url, err);
-							this._sync_error = err;
-							this._sync_loading = false;
-						});
-				},
-				render(h) {
-					/* loading → 全局注册的 xSkeleton 组件 */
-					if (this._sync_loading) {
-						return h("xSkeleton", { props: skeletonConfig });
-					}
-					/* 异常降级 */
-					if (this._sync_error) {
-						return h(
-							"div",
-							{ class: "xSkeleton-error" },
-							["组件加载失败"]
-						);
-					}
-					/* 渲染实际组件 */
-					if (this._sync_comp) {
-						return h(this._sync_comp, {
-							attrs: this.$attrs,
-							on: this.$listeners,
-							scopedSlots: this.$scopedSlots
-						});
-					}
-				}
-			};
+		/* Vue.observable 响应状态 — functional render 中访问时在父组件 render watcher 中建立依赖 */
+		const state = Vue.observable({
+			loading: true,
+			comp: null,
+			error: null
+		});
+
+		let loadPromise = null;
+		const loadComponent = () => {
+			if (loadPromise) return loadPromise;
+
+			console.log("[syncSkeleton] 启动异步加载", url, skeletonConfig);
+			loadPromise = _.$importVue(url, payload)
+				.then(comp => {
+					console.log("[syncSkeleton] 组件加载完成", url);
+					state.comp = comp;
+					state.loading = false;
+				})
+				.catch(err => {
+					console.error("[syncSkeleton] 组件加载失败", url, err);
+					state.error = err;
+					state.loading = false;
+				});
+
+			return loadPromise;
 		};
+
+		return {
+			functional: true,
+			render(h, context) {
+				loadComponent();
+
+				if (state.loading) {
+					/* 【需求】2026-08-12 skeletonConfig 字段名与 xSkeleton props 统一（skeletonType/skeletonRows/skeletonCols），直接透传无需映射 */
+					return h("xSkeleton", {
+						props: {
+							skeletonType: skeletonConfig.skeletonType,
+							skeletonRows: skeletonConfig.skeletonRows,
+							skeletonCols: skeletonConfig.skeletonCols
+						}
+					});
+				}
+				if (state.error) {
+					return h("div", { class: "xSkeleton-error" }, "组件加载失败");
+				}
+				if (state.comp) {
+					/* functional 无实例，context.data + children 完整透传（含 attrs/on/scopedSlots/ref/children）
+					 * ref 直接穿透到实际组件，$parent 指向父组件 — 如同直接注册 */
+					return h(state.comp, context.data, context.children);
+				}
+			}
+		};
+	};
 
 	/*  */
 	_.mixin({

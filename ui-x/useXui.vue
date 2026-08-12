@@ -53,11 +53,7 @@ export default async function ({
 		PRIVATE_GLOBAL.x_confirm_window_component =
 			x_confirm_window_component || "/common/ui-x/msg/WindowConfirm.vue";
 	})();
-	/* @ts-ignore */
-	PRIVATE_GLOBAL._api = PRIVATE_GLOBAL._api || {};
-	/* @ts-ignore */
-	PRIVATE_GLOBAL._opts = PRIVATE_GLOBAL._opts || {};
-
+	
 	(function () /* common h render  */ {
 		const useH = tag => (props, innerContent) => h(tag, props, innerContent);
 
