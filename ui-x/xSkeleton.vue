@@ -21,13 +21,27 @@ export default async function ({ PRIVATE_GLOBAL }) {
 		if (type === "table") {
 			const widths = colWidths(cols);
 			return h("div", { class: "xSkeleton xSkeleton--table" }, [
-				h("div", { class: "xSkeleton__header" },
-					widths.map((w, i) => h("span", { class: "xSkeleton__cell", style: { width: w }, key: "h" + i }))
+				h(
+					"div",
+					{ class: "xSkeleton__header" },
+					widths.map((w, i) =>
+						h("span", { class: "xSkeleton__cell", style: { width: w }, key: "h" + i })
+					)
 				),
-				h("div", { class: "xSkeleton__body" },
+				h(
+					"div",
+					{ class: "xSkeleton__body" },
 					Array.from({ length: rows }, (_, ri) =>
-						h("div", { class: "xSkeleton__row", key: "r" + ri },
-							widths.map((w, ci) => h("span", { class: "xSkeleton__cell", style: { width: w }, key: ci }))
+						h(
+							"div",
+							{ class: "xSkeleton__row", key: "r" + ri },
+							widths.map((w, ci) =>
+								h("span", {
+									class: "xSkeleton__cell",
+									style: { width: w },
+									key: ci
+								})
+							)
 						)
 					)
 				)
@@ -35,13 +49,21 @@ export default async function ({ PRIVATE_GLOBAL }) {
 		}
 
 		if (type === "list") {
-			return h("div", { class: "xSkeleton xSkeleton--list" },
+			return h(
+				"div",
+				{ class: "xSkeleton xSkeleton--list" },
 				Array.from({ length: rows }, (_, i) =>
 					h("div", { class: "xSkeleton__list-item", key: i }, [
 						h("div", { class: "xSkeleton__avatar" }),
 						h("div", { class: "xSkeleton__list-content" }, [
-							h("div", { class: "xSkeleton__text", style: { width: 60 + (i % 4) * 8 + "%" } }),
-							h("div", { class: "xSkeleton__text xSkeleton__text--short", style: { width: 40 + (i % 3) * 10 + "%" } })
+							h("div", {
+								class: "xSkeleton__text",
+								style: { width: 60 + (i % 4) * 8 + "%" }
+							}),
+							h("div", {
+								class: "xSkeleton__text xSkeleton__text--short",
+								style: { width: 40 + (i % 3) * 10 + "%" }
+							})
 						])
 					])
 				)
@@ -50,57 +72,103 @@ export default async function ({ PRIVATE_GLOBAL }) {
 
 		if (type === "card") {
 			const count = Math.min(rows, 6);
-			return h("div", { class: "xSkeleton xSkeleton--card" },
+			return h(
+				"div",
+				{ class: "xSkeleton xSkeleton--card" },
 				Array.from({ length: count }, (_, i) =>
 					h("div", { class: "xSkeleton__card", key: i }, [
 						h("div", { class: "xSkeleton__text", style: { width: "60%" } }),
-						h("div", { class: "xSkeleton__block", style: { height: "80px", margin: "12px 0" } }),
-						h("div", { class: "xSkeleton__text xSkeleton__text--short", style: { width: "40%" } })
+						h("div", {
+							class: "xSkeleton__block",
+							style: { height: "80px", margin: "12px 0" }
+						}),
+						h("div", {
+							class: "xSkeleton__text xSkeleton__text--short",
+							style: { width: "40%" }
+						})
 					])
 				)
 			);
 		}
 
 		if (type === "form") {
-			return h("div", { class: "xSkeleton xSkeleton--form" },
+			return h(
+				"div",
+				{ class: "xSkeleton xSkeleton--form" },
 				Array.from({ length: rows }, (_, i) =>
 					h("div", { class: "xSkeleton__form-row", key: i }, [
-						h("div", { class: "xSkeleton__text", style: { width: 20 + (i % 3) * 5 + "%" } }),
-						h("div", { class: "xSkeleton__cell", style: { width: 50 + (i % 2) * 10 + "%" } })
+						h("div", {
+							class: "xSkeleton__text",
+							style: { width: 20 + (i % 3) * 5 + "%" }
+						}),
+						h("div", {
+							class: "xSkeleton__cell",
+							style: { width: 50 + (i % 2) * 10 + "%" }
+						})
 					])
 				)
 			);
 		}
 
 		if (type === "sidebar") {
-			return h("div", { class: "xSkeleton xSkeleton--sidebar" },
+			return h(
+				"div",
+				{ class: "xSkeleton xSkeleton--sidebar" },
 				Array.from({ length: rows }, (_, i) =>
-					h("div", { class: "xSkeleton__sidebar-item", key: i, style: { paddingLeft: (i % 4) * 12 + "px" } }, [
-						h("div", { class: "xSkeleton__text", style: { width: 50 + (i % 3) * 10 + "%" } })
-					])
+					h(
+						"div",
+						{
+							class: "xSkeleton__sidebar-item",
+							key: i,
+							style: { paddingLeft: (i % 4) * 12 + "px" }
+						},
+						[
+							h("div", {
+								class: "xSkeleton__text",
+								style: { width: 50 + (i % 3) * 10 + "%" }
+							})
+						]
+					)
 				)
 			);
 		}
 
 		if (type === "detail") {
 			return h("div", { class: "xSkeleton xSkeleton--detail" }, [
-				h("div", { class: "xSkeleton__text", style: { width: "46%", height: "22px", marginBottom: "20px" } }),
+				h("div", {
+					class: "xSkeleton__text",
+					style: { width: "46%", height: "22px", marginBottom: "20px" }
+				}),
 				...Array.from({ length: rows }, (_, i) =>
 					h("div", { class: "xSkeleton__form-row", key: "d" + i }, [
-						h("div", { class: "xSkeleton__text", style: { width: 16 + (i % 3) * 4 + "%" } }),
-						h("div", { class: "xSkeleton__text", style: { width: 36 + (i % 4) * 8 + "%" } })
+						h("div", {
+							class: "xSkeleton__text",
+							style: { width: 16 + (i % 3) * 4 + "%" }
+						}),
+						h("div", {
+							class: "xSkeleton__text",
+							style: { width: 36 + (i % 4) * 8 + "%" }
+						})
 					])
 				),
 				h("div", { style: { height: "24px" } }),
-				h("div", { class: "xSkeleton__text", style: { width: "100%", marginBottom: "8px" } }),
-				h("div", { class: "xSkeleton__text", style: { width: "92%", marginBottom: "8px" } }),
+				h("div", {
+					class: "xSkeleton__text",
+					style: { width: "100%", marginBottom: "8px" }
+				}),
+				h("div", {
+					class: "xSkeleton__text",
+					style: { width: "92%", marginBottom: "8px" }
+				}),
 				h("div", { class: "xSkeleton__text", style: { width: "68%" } })
 			]);
 		}
 
 		/* 未知 type 降级 */
 		return h("div", { class: "xSkeleton xSkeleton--table" }, [
-			h("div", { class: "xSkeleton__body" },
+			h(
+				"div",
+				{ class: "xSkeleton__body" },
 				Array.from({ length: rows }, (_, ri) =>
 					h("div", { class: "xSkeleton__row", key: "r" + ri }, [
 						h("span", { class: "xSkeleton__cell", style: { width: "100%" } })
@@ -146,8 +214,12 @@ export default async function ({ PRIVATE_GLOBAL }) {
 }
 
 @keyframes x-skeleton-shimmer {
-	0% { background-position: -200% 0; }
-	100% { background-position: 200% 0; }
+	0% {
+		background-position: -200% 0;
+	}
+	100% {
+		background-position: 200% 0;
+	}
 }
 
 .xSkeleton {

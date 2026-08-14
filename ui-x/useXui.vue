@@ -53,7 +53,7 @@ export default async function ({
 		PRIVATE_GLOBAL.x_confirm_window_component =
 			x_confirm_window_component || "/common/ui-x/msg/WindowConfirm.vue";
 	})();
-	
+
 	(function () /* common h render  */ {
 		const useH = tag => (props, innerContent) => h(tag, props, innerContent);
 
@@ -308,7 +308,14 @@ export default async function ({
 	await (async function lazyLoadAllComponents() {
 		const ALL_COMPONENTS = await _.$importVue("/common/ui-x/allComponents.vue");
 		const loadComponentByImportVue = async componentpath => {
-			const NEED_FIRST_LOAD = ["xDropdownMenu", "xDropdown", "xBtn", "xTooltip", "xPopover", "xSkeleton"];
+			const NEED_FIRST_LOAD = [
+				"xDropdownMenu",
+				"xDropdown",
+				"xBtn",
+				"xTooltip",
+				"xPopover",
+				"xSkeleton"
+			];
 			const component_name = _.last(componentpath.split("/"));
 			if (NEED_FIRST_LOAD.includes(component_name)) {
 				/* xBtn 多个地方用到，但是异步加载会有bug:骨架屏不刷新 */
