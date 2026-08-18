@@ -110,6 +110,18 @@ export default async function ({ PRIVATE_GLOBAL }) {
 			);
 		}
 
+		if (type === "tr") {
+			/* 【需求】2026-08-18 表格行骨架：合法 tr/td 结构，避免浏览器 DOM 重定位破坏 tbody 布局与列宽计算 */
+			const widths = colWidths(cols);
+			return h("tr", { class: "xSkeleton xSkeleton--tr" }, [
+				...widths.map((w, i) =>
+					h("td", { class: "xSkeleton__td", key: "c" + i }, [
+						h("span", { class: "xSkeleton__cell", style: { width: w } })
+					])
+				)
+			]);
+		}
+
 		if (type === "sidebar") {
 			return h(
 				"div",
@@ -241,6 +253,14 @@ export default async function ({ PRIVATE_GLOBAL }) {
 	background-size: 200% 100%;
 	animation: x-skeleton-shimmer 1.5s infinite;
 	border-radius: var(--x-skeleton-radius);
+}
+
+.xSkeleton--tr {
+	padding: 0;
+}
+
+.xSkeleton__td {
+	padding: 5px 8px;
 }
 
 .xSkeleton__cell {

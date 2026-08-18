@@ -1,25 +1,27 @@
 <script lang="ts">
 export default async function ({ PRIVATE_GLOBAL }) {
 	// 使用 _.$importVue() 加载依赖
-	const [
-		BodyTd,
-		{ clsName },
-		{ COMPS_NAME, EMIT_EVENTS, COMPS_CUSTOM_ATTRS },
-		VueDomResizeObserver,
-		{ isEmptyValue }
-	] = await Promise.all([
-		_.$importVue("/common/ui-x/components/data/xTableEasy/body/body-td.vue"),
-		_.$importVue("/common/ui-x/components/data/xTableEasy/util/index.vue"),
-		_.$importVue("/common/ui-x/components/data/xTableEasy/util/constant.vue"),
-		_.$importVue("/common/ui-x/components/data/xTableEasy/helper/comps/resize-observer.vue"),
-		_.$importVue("/common/ui-x/components/data/xTableEasy/utils/index.vue")
-	]);
+	/* 【需求】2026-08-18 纯 JS 模块（clsName/常量/isEmptyValue）保持 Promise.all 原样加载；
+	 * 渲染型组件（BodyTd/VueDomResizeObserver）改用 _.$syncSkeleton，加载期显示 tr 骨架屏 */
+	const [{ clsName }, { COMPS_NAME, EMIT_EVENTS, COMPS_CUSTOM_ATTRS }, { isEmptyValue }] =
+		await Promise.all([
+			_.$importVue("/common/ui-x/components/data/xTableEasy/util/index.vue"),
+			_.$importVue("/common/ui-x/components/data/xTableEasy/util/constant.vue"),
+			_.$importVue("/common/ui-x/components/data/xTableEasy/utils/index.vue")
+		]);
 
 	return {
 		name: COMPS_NAME.VE_TABLE_BODY_TR,
+		/* 【需求】2026-08-18 渲染型组件（BodyTd/VueDomResizeObserver）改用 _.$syncSkeleton，
+		 * 加载期显示 tr 骨架屏（skeletonType tr 保证占位为合法表格行 DOM） */
 		components: {
-			BodyTd,
-			VueDomResizeObserver
+			BodyTd: _.$syncSkeleton("/common/ui-x/components/data/xTableEasy/body/body-td.vue", {
+				skeleton: { skeletonType: "tr", skeletonCols: 5 }
+			}),
+			VueDomResizeObserver: _.$syncSkeleton(
+				"/common/ui-x/components/data/xTableEasy/helper/comps/resize-observer.vue",
+				{ skeleton: { skeletonType: "tr", skeletonCols: 5 } }
+			)
 		},
 		props: {
 			rowData: {
@@ -289,7 +291,8 @@ export default async function ({ PRIVATE_GLOBAL }) {
 								expandRowChange(rowData, rowIndex)
 						}
 					};
-					return h(BodyTd, tdProps);
+					/* 【修复】2026-08-18 BodyTd 改为 $syncSkeleton 注册后，此处用字符串标签走 components 解析 */
+					return h("BodyTd", tdProps);
 				});
 			};
 
@@ -365,7 +368,8 @@ export default async function ({ PRIVATE_GLOBAL }) {
 					nativeOn: events
 				};
 
-				result = h(VueDomResizeObserver, props, getTdContent());
+				/* 【修复】2026-08-18 同上，字符串标签走 components 解析 */
+				result = h("VueDomResizeObserver", props, getTdContent());
 			} else {
 				const props = {
 					class: this.trClass,

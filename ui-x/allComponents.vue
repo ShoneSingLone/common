@@ -10,6 +10,8 @@ export default async function ({ PRIVATE_GLOBAL }) {
 		"components/other/xProgress/xProgress",
 		"components/TableCell/TableCell",
 		"components/TableCell/TableCellItem",
+		/* feedback */
+		"components/base/layout/xSkeleton",
 		/*  */
 		"components/base/layout/xRow",
 		"components/base/layout/xCol",
@@ -159,9 +161,7 @@ export default async function ({ PRIVATE_GLOBAL }) {
 		"common/xItem/xItemTags",
 		"common/xItem/xItemMonaco",
 		/* ******************* */
-		"components/form/xToggleEditor/xToggleText/xToggleText",
-		/* feedback */
-		"xSkeleton"
+		"components/form/xToggleEditor/xToggleText/xToggleText"
 	];
 }
 </script>
