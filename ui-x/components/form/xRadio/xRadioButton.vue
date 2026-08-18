@@ -114,6 +114,8 @@ export default async function ({ PRIVATE_GLOBAL }) {
 </script>
 
 <style lang="less">
+/* 【重构】2026-08-18 按项目 Less 嵌套规范收敛：样式统一嵌套在根 BEM .el-radio-button 内，
+   element/修饰符一律写完整 class（禁 &__xxx 拼接），& 仅用于伪类/状态组合；规则顺序与原扁平写法一致，编译产物等价 */
 .el-radio-group {
 	display: inline-block;
 	line-height: 1;
@@ -131,6 +133,7 @@ export default async function ({ PRIVATE_GLOBAL }) {
 	--xRadioButton-height-cur: var(--xRadioButton-height, var(--ui-height));
 	--xRadioButton-padding-x-cur: var(--xRadioButton-padding-x, 20px);
 	--xRadioButton-font-size-cur: 14px;
+
 	&.el-radio-button--small {
 		--xRadioButton-border-radius-cur: var(
 			--xRadioButton-border-radius--small,
@@ -140,6 +143,7 @@ export default async function ({ PRIVATE_GLOBAL }) {
 		--xRadioButton-padding-x-cur: var(--xRadioButton-padding-x--small, 15px);
 		--xRadioButton-font-size-cur: 12px;
 	}
+
 	&.el-radio-button--mini {
 		--xRadioButton-border-radius-cur: var(
 			--xRadioButton-border-radius--mini,
@@ -152,133 +156,129 @@ export default async function ({ PRIVATE_GLOBAL }) {
 		--xRadioButton-padding-x-cur: var(--xRadioButton-padding-x--mini, 15px);
 		--xRadioButton-font-size-cur: 12px;
 	}
-}
 
-.el-radio-button__inner {
-	display: flex;
-	align-items: center;
-	white-space: nowrap;
-	background: #fff;
-	border: 1px solid #dcdfe6;
-	font-weight: 500;
-	border-left: 0;
-	color: var(--el-text-color-regular);
-	-webkit-appearance: none;
-	text-align: center;
-	-webkit-box-sizing: border-box;
-	box-sizing: border-box;
-	outline: 0;
-	margin: 0;
-	position: relative;
-	cursor: pointer;
-	-webkit-transition: all 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
-	transition: all 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
-	/* 【修复】固定高度 + flex 垂直居中，避免图标内容撑高导致 small 视觉不一致 */
-	height: var(--xRadioButton-height-cur);
-	padding: 0 var(--xRadioButton-padding-x-cur);
-	font-size: var(--xRadioButton-font-size-cur);
-	border-radius: 0;
-}
+	.el-radio-button__inner {
+		display: flex;
+		align-items: center;
+		white-space: nowrap;
+		background: #fff;
+		border: 1px solid #dcdfe6;
+		font-weight: 500;
+		border-left: 0;
+		color: var(--el-text-color-regular);
+		-webkit-appearance: none;
+		text-align: center;
+		-webkit-box-sizing: border-box;
+		box-sizing: border-box;
+		outline: 0;
+		margin: 0;
+		position: relative;
+		cursor: pointer;
+		-webkit-transition: all 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
+		transition: all 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
+		/* 【修复】固定高度 + flex 垂直居中，避免图标内容撑高导致 small 视觉不一致 */
+		height: var(--xRadioButton-height-cur);
+		padding: 0 var(--xRadioButton-padding-x-cur);
+		font-size: var(--xRadioButton-font-size-cur);
+		border-radius: 0;
 
-/* 【修复】2026-08-18 element-ui 公共规则 .el-radio-button__inner,.el-radio-group{display:inline-block}
-   后加载且同特异性，会把上方 inline-flex 覆盖回 inline-block，导致固定高度下文字不垂直居中；
-   此处用更高特异性（0,2,0）兜底，确保 flex 居中最终生效 */
-.el-radio-button .el-radio-button__inner {
-	display: inline-flex;
-	align-items: center;
-	justify-content: center;
-}
+		&.is-round {
+			/* 【修复】保持 round 形态仅改变圆角，由变量决定；padding 仍走统一变量 */
+			padding: 0 var(--xRadioButton-padding-x-cur);
+		}
 
-.el-radio-button__inner.is-round {
-	/* 【修复】保持 round 形态仅改变圆角，由变量决定；padding 仍走统一变量 */
-	padding: 0 var(--xRadioButton-padding-x-cur);
-}
+		&:hover {
+			color: var(--el-color-primary);
+		}
 
-.el-radio-button__inner:hover {
-	color: var(--el-color-primary);
-}
+		[class*="el-icon-"] {
+			line-height: 0.9;
 
-.el-radio-button__inner [class*="el-icon-"] {
-	line-height: 0.9;
-}
+			& + span {
+				margin-left: 5px;
+			}
+		}
+	}
 
-.el-radio-button__inner [class*="el-icon-"] + span {
-	margin-left: 5px;
-}
+	/* 【修复】2026-08-18 element-ui 公共规则 .el-radio-button__inner,.el-radio-group{display:inline-block}
+	   后加载且同特异性，会把上方 inline-flex 覆盖回 inline-block，导致固定高度下文字不垂直居中；
+	   此处用更高特异性（0,2,0）兜底，确保 flex 居中最终生效 */
+	& .el-radio-button__inner {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+	}
 
-.el-radio-button:first-child .el-radio-button__inner {
-	border-left: 1px solid #dcdfe6;
-	/* 【修复】tiny 主题需要直角，首尾圆角统一改为变量（默认回退到全局圆角变量） */
-	border-radius: var(--xRadioButton-border-radius-cur) 0 0 var(--xRadioButton-border-radius-cur);
-	-webkit-box-shadow: none !important;
-	box-shadow: none !important;
-}
+	.el-radio-button__orig-radio {
+		opacity: 0;
+		outline: 0;
+		position: absolute;
+		z-index: -1;
 
-.el-radio-button__orig-radio {
-	opacity: 0;
-	outline: 0;
-	position: absolute;
-	z-index: -1;
-}
+		&:checked + .el-radio-button__inner {
+			color: #fff;
+			background-color: var(--el-color-primary);
+			border-color: var(--el-color-primary);
+			-webkit-box-shadow: -1px 0 0 0 var(--el-color-primary);
+			box-shadow: -1px 0 0 0 var(--el-color-primary);
+		}
 
-.el-radio-button__orig-radio:checked + .el-radio-button__inner {
-	color: #fff;
-	background-color: var(--el-color-primary);
-	border-color: var(--el-color-primary);
-	-webkit-box-shadow: -1px 0 0 0 var(--el-color-primary);
-	box-shadow: -1px 0 0 0 var(--el-color-primary);
-}
+		&:disabled + .el-radio-button__inner {
+			color: var(--el-text-color-disabled);
+			cursor: not-allowed;
+			background-image: none;
+			background-color: #fff;
+			border-color: var(--el-border-color-lighter);
+			-webkit-box-shadow: none;
+			box-shadow: none;
 
-.el-radio-button__orig-radio:disabled + .el-radio-button__inner {
-	color: var(--el-text-color-disabled);
-	cursor: not-allowed;
-	background-image: none;
-	background-color: #fff;
-	border-color: var(--el-border-color-lighter);
-	-webkit-box-shadow: none;
-	box-shadow: none;
-}
+			&:checked {
+				background-color: #f2f6fc;
+			}
+		}
+	}
 
-.el-radio-button__orig-radio:disabled:checked + .el-radio-button__inner {
-	background-color: #f2f6fc;
-}
+	&:first-child {
+		.el-radio-button__inner {
+			border-left: 1px solid #dcdfe6;
+			/* 【修复】tiny 主题需要直角，首尾圆角统一改为变量（默认回退到全局圆角变量） */
+			border-radius: var(--xRadioButton-border-radius-cur) 0 0
+				var(--xRadioButton-border-radius-cur);
+			-webkit-box-shadow: none !important;
+			box-shadow: none !important;
+		}
 
-.el-radio-button:last-child .el-radio-button__inner {
-	/* 【修复】tiny 主题需要直角，首尾圆角统一改为变量（默认回退到全局圆角变量） */
-	border-radius: 0 var(--xRadioButton-border-radius-cur) var(--xRadioButton-border-radius-cur) 0;
-}
-.el-popover,
-.el-radio-button:first-child:last-child .el-radio-button__inner {
-	/* 【修复】单个按钮时沿用统一变量，确保 tiny 下可为 0 */
-	border-radius: var(--xRadioButton-border-radius-cur);
-}
+		&:last-child {
+			.el-radio-button__inner {
+				/* 【修复】单个按钮时沿用统一变量，确保 tiny 下可为 0 */
+				border-radius: var(--xRadioButton-border-radius-cur);
+			}
+		}
+	}
 
-.el-radio-button--medium .el-radio-button__inner {
-	border-radius: 0;
-}
+	&:last-child {
+		.el-radio-button__inner {
+			/* 【修复】tiny 主题需要直角，首尾圆角统一改为变量（默认回退到全局圆角变量） */
+			border-radius: 0 var(--xRadioButton-border-radius-cur)
+				var(--xRadioButton-border-radius-cur) 0;
+		}
+	}
 
-.el-radio-button--medium .el-radio-button__inner.is-round {
-	padding: 0 var(--xRadioButton-padding-x-cur);
-}
+	&.el-radio-button--medium,
+	&.el-radio-button--small,
+	&.el-radio-button--mini {
+		.el-radio-button__inner {
+			border-radius: 0;
 
-.el-radio-button--small .el-radio-button__inner {
-	border-radius: 0;
-}
+			&.is-round {
+				padding: 0 var(--xRadioButton-padding-x-cur);
+			}
+		}
+	}
 
-.el-radio-button--small .el-radio-button__inner.is-round {
-	padding: 0 var(--xRadioButton-padding-x-cur);
-}
-
-.el-radio-button--mini .el-radio-button__inner {
-	border-radius: 0;
-}
-
-.el-radio-button--mini .el-radio-button__inner.is-round {
-	padding: 0 var(--xRadioButton-padding-x-cur);
-}
-
-.el-radio-button:focus:not(.is-focus):not(:active):not(.is-disabled) {
-	-webkit-box-shadow: 0 0 2px 2px var(--el-color-primary);
-	box-shadow: 0 0 2px 2px var(--el-color-primary);
+	&:focus:not(.is-focus):not(:active):not(.is-disabled) {
+		-webkit-box-shadow: 0 0 2px 2px var(--el-color-primary);
+		box-shadow: 0 0 2px 2px var(--el-color-primary);
+	}
 }
 </style>
