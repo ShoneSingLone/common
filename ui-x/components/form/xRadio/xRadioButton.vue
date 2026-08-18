@@ -155,6 +155,8 @@ export default async function ({ PRIVATE_GLOBAL }) {
 }
 
 .el-radio-button__inner {
+	display: flex;
+	align-items: center;
 	white-space: nowrap;
 	background: #fff;
 	border: 1px solid #dcdfe6;
@@ -172,13 +174,19 @@ export default async function ({ PRIVATE_GLOBAL }) {
 	-webkit-transition: all 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
 	transition: all 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
 	/* 【修复】固定高度 + flex 垂直居中，避免图标内容撑高导致 small 视觉不一致 */
-	display: inline-flex;
-	align-items: center;
-	justify-content: center;
 	height: var(--xRadioButton-height-cur);
 	padding: 0 var(--xRadioButton-padding-x-cur);
 	font-size: var(--xRadioButton-font-size-cur);
 	border-radius: 0;
+}
+
+/* 【修复】2026-08-18 element-ui 公共规则 .el-radio-button__inner,.el-radio-group{display:inline-block}
+   后加载且同特异性，会把上方 inline-flex 覆盖回 inline-block，导致固定高度下文字不垂直居中；
+   此处用更高特异性（0,2,0）兜底，确保 flex 居中最终生效 */
+.el-radio-button .el-radio-button__inner {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
 }
 
 .el-radio-button__inner.is-round {
