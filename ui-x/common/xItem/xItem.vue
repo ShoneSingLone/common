@@ -534,22 +534,21 @@ export default async function ({ PRIVATE_GLOBAL }) {
 				}
 				_xItem_lazyLoadRender[renderName] = "";
 				const item = {
-					/* 【需求】2026-08-19 xItem 渲染控制器改用 $syncSkeleton，保留异步加载期间的表单占位 */
-					ItemAsWrapper: _.$syncSkeleton(
-						"/common/ui-x/common/xItem/controllerRender/xItemItemAsWrapper.vue",
-						{ skeleton: { skeletonType: "form", skeletonRows: 1 } }
-					),
-					NormalRender: _.$syncSkeleton(
-						"/common/ui-x/common/xItem/controllerRender/xItemNormalRender.vue",
-						{ skeleton: { skeletonType: "form", skeletonRows: 1 } }
-					),
-					ReadonlyAsRender: _.$syncSkeleton(
-						"/common/ui-x/common/xItem/controllerRender/xItemReadonlyAsRender.vue",
-						{ skeleton: { skeletonType: "form", skeletonRows: 1 } }
-					)
+					ItemAsWrapper: () =>
+						_.$importVue(
+							"/common/ui-x/common/xItem/controllerRender/xItemItemAsWrapper.vue"
+						),
+					NormalRender: () =>
+						_.$importVue(
+							"/common/ui-x/common/xItem/controllerRender/xItemNormalRender.vue"
+						),
+					ReadonlyAsRender: () =>
+						_.$importVue(
+							"/common/ui-x/common/xItem/controllerRender/xItemReadonlyAsRender.vue"
+						)
 				};
-				const render = item[renderName];
-				/* 【需求】2026-08-19 $syncSkeleton 同步返回 functional wrapper，无需再 await 异步工厂 */
+				const getter = item[renderName];
+				const render = await getter();
 				console.log(
 					renderName,
 					`this.$root.broadcast("xItem", "xItemRenderUpdate", render);`
