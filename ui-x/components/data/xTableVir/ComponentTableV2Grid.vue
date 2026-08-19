@@ -1,13 +1,23 @@
 <script lang="ts">
 export default async function ({ PRIVATE_GLOBAL }) {
-	Vue.component("ComponentTableV2Header", () =>
-		_.$importVue("/common/ui-x/components/data/xTableVir/ComponentTableV2Header.vue")
+	/* 【需求】2026-08-19 虚拟表格基础组件使用 $syncSkeleton，加载期显示表格占位 */
+	Vue.component(
+		"ComponentTableV2Header",
+		_.$syncSkeleton("/common/ui-x/components/data/xTableVir/ComponentTableV2Header.vue", {
+			skeleton: { skeletonType: "table", skeletonRows: 1, skeletonCols: 5 }
+		})
 	);
-	Vue.component("ComponentFixedSizeGrid", () =>
-		_.$importVue("/common/ui-x/components/data/xTableVir/ComponentFixedSizeGrid.vue")
+	Vue.component(
+		"ComponentFixedSizeGrid",
+		_.$syncSkeleton("/common/ui-x/components/data/xTableVir/ComponentFixedSizeGrid.vue", {
+			skeleton: { skeletonType: "table", skeletonRows: 1, skeletonCols: 5 }
+		})
 	);
-	Vue.component("ComponentDynamicSizeGrid", () =>
-		_.$importVue("/common/ui-x/components/data/xTableVir/ComponentDynamicSizeGrid.vue")
+	Vue.component(
+		"ComponentDynamicSizeGrid",
+		_.$syncSkeleton("/common/ui-x/components/data/xTableVir/ComponentDynamicSizeGrid.vue", {
+			skeleton: { skeletonType: "table", skeletonRows: 1, skeletonCols: 5 }
+		})
 	);
 
 	const { useTableGrid, TableV2InjectionKey, tableV2GridProps } = _xUtils;

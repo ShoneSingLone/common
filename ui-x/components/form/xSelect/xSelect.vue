@@ -1273,6 +1273,13 @@ export default async function ({ PRIVATE_GLOBAL }) {
 		align-items: center;
 	}
 
+	/* 【6.4.72】自 useXui.vue 下沉：tag 关闭图标对齐微调 */
+	.el-tag__close.el-icon-close::before {
+		display: block;
+		-webkit-transform: translate(0, 0.5px);
+		transform: translate(0, 0.5px);
+	}
+
 	.el-tag__close.el-icon-close {
 		background-color: var(--el-text-color-disabled);
 		top: 0;

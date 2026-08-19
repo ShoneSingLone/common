@@ -288,10 +288,11 @@ export default async function ({ PRIVATE_GLOBAL }) {
 	return defineComponent({
 		name: "ElCascaderPanel",
 		components: {
-			xCascaderMenu: () =>
-				_.$importVue(
-					"/common/ui-x/components/form/xCascader/xCascaderPanel/xCascaderMenu.vue"
-				)
+			/* 【需求】2026-08-19 级联菜单使用 $syncSkeleton，加载期显示列表型占位 */
+			xCascaderMenu: _.$syncSkeleton(
+				"/common/ui-x/components/form/xCascader/xCascaderPanel/xCascaderMenu.vue",
+				{ skeleton: { skeletonType: "list", skeletonRows: 3 } }
+			)
 		},
 		props: {
 			value: {},

@@ -11,7 +11,15 @@ export default async function ({ PRIVATE_GLOBAL, mergeProps4h }) {
 			ComponentTableV2Grid: "/common/ui-x/components/data/xTableVir/ComponentTableV2Grid.vue",
 			ComponentTableV2Row: "/common/ui-x/components/data/xTableVir/ComponentTableV2Row.vue"
 		},
-		(componentURL, name) => Vue.component(name, () => _.$importVue(componentURL))
+		(componentURL, name) => {
+			/* 【需求】2026-08-19 只渲染型的虚拟表格子组件统一使用 $syncSkeleton */
+			Vue.component(
+				name,
+				_.$syncSkeleton(componentURL, {
+					skeleton: { skeletonType: "table", skeletonRows: 1, skeletonCols: 5 }
+				})
+			);
+		}
 	);
 
 	const {
@@ -3284,6 +3292,8 @@ export default async function ({ PRIVATE_GLOBAL, mergeProps4h }) {
 
 .el-table th.el-table__cell {
 	overflow: hidden;
+	-webkit-user-select: none; /* 【6.4.72】自 useXui.vue 下沉补齐 */
+	-moz-user-select: none;
 	-ms-user-select: none;
 	user-select: none;
 	background-color: #fff;
@@ -3566,6 +3576,12 @@ export default async function ({ PRIVATE_GLOBAL, mergeProps4h }) {
 .el-table .hidden-columns {
 	position: absolute;
 	z-index: -1;
+}
+
+/* 【6.4.72】自 useXui.vue 下沉：隐藏列/隐藏表可见性控制 */
+.el-table .el-table__cell.is-hidden > *,
+.el-table--hidden {
+	visibility: hidden;
 }
 
 .el-table--striped .el-table__body tr.el-table__row--striped td.el-table__cell {

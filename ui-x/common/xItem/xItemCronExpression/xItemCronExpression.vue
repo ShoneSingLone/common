@@ -12,10 +12,11 @@ export default async function ({ PRIVATE_GLOBAL }) {
 		mixins: [mixins],
 		props: ["value", "configs"],
 		components: {
-			xItemCronExpression: () =>
-				_.$importVue(
-					"/common/ui-x/common/xItem/xItemCronExpression/xItemCronExpression.vue"
-				)
+			/* 【需求】2026-08-19 Cron 表达式组件使用 $syncSkeleton，加载期显示表单占位 */
+			xItemCronExpression: _.$syncSkeleton(
+				"/common/ui-x/common/xItem/xItemCronExpression/xItemCronExpression.vue",
+				{ skeleton: { skeletonType: "form", skeletonRows: 2 } }
+			)
 		},
 		data() {
 			return {};

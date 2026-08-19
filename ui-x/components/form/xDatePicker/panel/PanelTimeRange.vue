@@ -80,8 +80,11 @@ export default async function ({ PRIVATE_GLOBAL }) {
 
 	return defineComponent({
 		components: {
-			BasicTimeSpinner: () =>
-				_.$importVue("/common/ui-x/components/form/xDatePicker/basic/BasicTimeSpinner.vue")
+			/* 【需求】2026-08-19 时间范围滚轮使用 $syncSkeleton，加载期显示列表占位 */
+			BasicTimeSpinner: _.$syncSkeleton(
+				"/common/ui-x/components/form/xDatePicker/basic/BasicTimeSpinner.vue",
+				{ skeleton: { skeletonType: "list", skeletonRows: 3 } }
+			)
 		},
 		computed: {
 			showSeconds() {

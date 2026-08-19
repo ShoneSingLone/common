@@ -13,6 +13,7 @@
 	 * @param {object} payload - 传给 _.$importVue 的 payload，其中 payload.skeleton 为骨架屏配置
 	 * @returns {object} functional component 选项
 	 */
+	/* @typescriptDeclare (url: string, payload?: { skeleton?: { skeletonType?: string; skeletonRows?: number; skeletonCols?: number }; [key: string]: any }) => any */
 	_.$syncSkeleton = function (url, payload = {}) {
 		const skeletonConfig = _.isPlainObject(payload.skeleton) ? payload.skeleton : {};
 

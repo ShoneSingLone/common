@@ -8,7 +8,12 @@ export default async function ({ PRIVATE_GLOBAL }) {
 
 	return defineComponent({
 		name: "xScrollbar",
-		components: { Bar: () => _.$importVue("/common/ui-x/components/other/xScrollbar/Bar.vue") },
+		components: {
+			/* 【需求】2026-08-19 滚动条子组件使用 $syncSkeleton，加载期保留稳定的列表占位 */
+			Bar: _.$syncSkeleton("/common/ui-x/components/other/xScrollbar/Bar.vue", {
+				skeleton: { skeletonType: "list", skeletonRows: 1 }
+			})
+		},
 		props: {
 			vertical: {
 				type: Boolean,

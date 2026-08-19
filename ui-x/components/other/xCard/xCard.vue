@@ -83,6 +83,7 @@ export default async function ({ PRIVATE_GLOBAL }) {
 	color: var(--el-text-color-primary);
 	-webkit-transition: 0.3s;
 	transition: 0.3s;
+	border-radius: var(--border-radius); /* 【6.4.72】自 useXui.vue 下沉 */
 }
 
 .el-card.is-always-shadow,

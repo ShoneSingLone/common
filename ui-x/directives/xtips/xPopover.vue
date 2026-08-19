@@ -311,6 +311,15 @@ export default async function ({ PRIVATE_GLOBAL }) {
 	font-size: 14px;
 	box-shadow: var(--normal-box-shadow);
 	word-break: break-all;
+	border-radius: var(--border-radius); /* 【6.4.72】自 useXui.vue 下沉 */
+}
+
+/* 【6.4.72】自 useXui.vue 下沉：popover 焦点 outline 重置 */
+.el-popover:focus,
+.el-popover:focus:active,
+.el-popover__reference:focus:hover,
+.el-popover__reference:focus:not(.focusing) {
+	outline-width: 0;
 }
 
 .el-popover--plain {

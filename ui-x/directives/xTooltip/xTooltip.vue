@@ -418,4 +418,10 @@ export default async function ({ PRIVATE_GLOBAL }) {
 .el-tooltip__popper.is-light[x-placement^="right"] .popper__arrow::after {
 	border-right-color: #fff;
 }
+
+/* 【6.4.72】自 useXui.vue 下沉：tooltip 焦点 outline 重置 */
+.el-tooltip:focus:hover,
+.el-tooltip:focus:not(.focusing) {
+	outline-width: 0;
+}
 </style>

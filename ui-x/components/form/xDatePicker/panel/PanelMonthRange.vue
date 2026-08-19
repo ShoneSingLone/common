@@ -294,8 +294,11 @@ export default async function ({ PRIVATE_GLOBAL }) {
 		},
 
 		components: {
-			BasicMonthTable: () =>
-				_.$importVue("/common/ui-x/components/form/xDatePicker/basic/BasicMonthTable.vue")
+			/* 【需求】2026-08-19 月份表格使用 $syncSkeleton，加载期显示表格占位 */
+			BasicMonthTable: _.$syncSkeleton(
+				"/common/ui-x/components/form/xDatePicker/basic/BasicMonthTable.vue",
+				{ skeleton: { skeletonType: "table", skeletonRows: 3, skeletonCols: 4 } }
+			)
 		}
 	});
 }

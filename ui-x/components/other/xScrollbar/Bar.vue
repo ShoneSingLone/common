@@ -152,3 +152,20 @@ export default async function ({ PRIVATE_GLOBAL }) {
 	});
 }
 </script>
+<style lang="less">
+/* 【6.4.72】自 useXui.vue 全局样式下沉：滚动条 thumb 样式归属本组件 */
+.el-scrollbar__thumb {
+	position: relative;
+	display: block;
+	width: 0;
+	height: 0;
+	cursor: pointer;
+	border-radius: inherit;
+	background-color: var(--ui-thumb-hover);
+	transition: 0.3s background-color;
+
+	&:hover {
+		background-color: var(--ui-thumb);
+	}
+}
+</style>

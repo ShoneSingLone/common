@@ -6,7 +6,10 @@ export default async function ({ PRIVATE_GLOBAL }) {
 	return defineComponent({
 		name: "TabNav",
 		components: {
-			xTabBar: () => _.$importVue("/common/ui-x/components/navigation/xTabs/xTabBar.vue")
+			/* 【需求】2026-08-19 组件加载统一使用 $syncSkeleton，保持 tab bar 加载期上下文透传 */
+			xTabBar: _.$syncSkeleton("/common/ui-x/components/navigation/xTabs/xTabBar.vue", {
+				skeleton: { skeletonType: "list", skeletonRows: 1 }
+			})
 		},
 		inject: ["rootTabs"],
 		props: {

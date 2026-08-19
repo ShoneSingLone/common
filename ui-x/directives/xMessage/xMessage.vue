@@ -445,4 +445,43 @@ export default async function ({ PRIVATE_GLOBAL }) {
 		transform: translate(-50%, -100%);
 	}
 }
+
+/* 【6.4.72】自 useXui.vue 全局样式下沉：圆角与 msgbox 动画归属本组件 */
+.el-message {
+	border-radius: var(--border-radius);
+}
+
+.el-message-box__input input.invalid,
+.el-message-box__input input.invalid:focus {
+	border-color: var(--el-color-error);
+	background-color: var(--xItem-error-bg);
+}
+
+@keyframes msgbox-fade-in {
+	0% {
+		-webkit-transform: translate3d(0, -20px, 0);
+		transform: translate3d(0, -20px, 0);
+		opacity: 0;
+	}
+
+	100% {
+		-webkit-transform: translate3d(0, 0, 0);
+		transform: translate3d(0, 0, 0);
+		opacity: 1;
+	}
+}
+
+@keyframes msgbox-fade-out {
+	0% {
+		-webkit-transform: translate3d(0, 0, 0);
+		transform: translate3d(0, 0, 0);
+		opacity: 1;
+	}
+
+	100% {
+		-webkit-transform: translate3d(0, -20px, 0);
+		transform: translate3d(0, -20px, 0);
+		opacity: 0;
+	}
+}
 </style>

@@ -618,6 +618,17 @@ svg.pointer {
 	}
 }
 
+/* 【6.4.72】自 useXui.vue 下沉：骨架屏动画 keyframes 就近定义 */
+@keyframes el-skeleton-loading {
+	0% {
+		background-position: 100% 50%;
+	}
+
+	100% {
+		background-position: 0 50%;
+	}
+}
+
 /* *****************************************transition********************************** */
 /*
 fade

@@ -114,6 +114,7 @@ export default async function ({ PRIVATE_GLOBAL }) {
 .el-avatar {
 	display: inline-block;
 	box-sizing: border-box;
+	overflow: hidden; /* 【6.4.72】自 useXui.vue 下沉 */
 	text-align: center;
 	color: #fff;
 	background: var(--el-text-color-disabled);

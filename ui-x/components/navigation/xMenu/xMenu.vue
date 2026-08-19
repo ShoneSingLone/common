@@ -687,6 +687,7 @@ export default async function ({ PRIVATE_GLOBAL }) {
 .el-menu--collapse .el-submenu .el-menu {
 	z-index: 10;
 	-webkit-box-shadow: var(--normal-box-shadow);
+	box-shadow: var(--normal-box-shadow); /* 【6.4.72】自 useXui.vue 下沉补齐 */
 }
 
 .el-submenu {

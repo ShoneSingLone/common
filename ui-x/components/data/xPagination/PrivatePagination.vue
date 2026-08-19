@@ -99,7 +99,10 @@ export default async function ({ PRIVATE_GLOBAL }) {
 			return template;
 		},
 		components: {
-			Pager: () => _.$importVue("/common/ui-x/components/data/xPagination/Pager.vue"),
+			/* 【需求】2026-08-19 分页器子组件使用 $syncSkeleton，加载期保持列表占位 */
+			Pager: _.$syncSkeleton("/common/ui-x/components/data/xPagination/Pager.vue", {
+				skeleton: { skeletonType: "list", skeletonRows: 1 }
+			}),
 			Prev: {
 				render(h) {
 					return h(
@@ -276,7 +279,10 @@ export default async function ({ PRIVATE_GLOBAL }) {
 					return null;
 				}
 			},
-			Pager: () => _.$importVue("/common/ui-x/components/data/xPagination/Pager.vue")
+			/* 【需求】2026-08-19 复用分页器骨架加载配置，保持两处分支行为一致 */
+			Pager: _.$syncSkeleton("/common/ui-x/components/data/xPagination/Pager.vue", {
+				skeleton: { skeletonType: "list", skeletonRows: 1 }
+			})
 		},
 		methods: {
 			handleCurrentChange(val) {

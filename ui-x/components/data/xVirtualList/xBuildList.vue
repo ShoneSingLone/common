@@ -183,11 +183,11 @@ export default async function ({ PRIVATE_GLOBAL }) {
 			props: _xUtils.virtualizedListProps,
 			emits: [ITEM_RENDER_EVT, SCROLL_EVT],
 			components: {
-				/* 循环引用 => 异步加载 */
-				ComponentVirtualScrollBar: () =>
-					_.$importVue(
-						"/common/ui-x/components/data/xTableVir/ComponentVirtualScrollBar.vue"
-					)
+				/* 【需求】2026-08-19 循环依赖的虚拟滚动条使用 $syncSkeleton，加载期保持列表占位 */
+				ComponentVirtualScrollBar: _.$syncSkeleton(
+					"/common/ui-x/components/data/xTableVir/ComponentVirtualScrollBar.vue",
+					{ skeleton: { skeletonType: "list", skeletonRows: 1 } }
+				)
 			},
 			setup(props, { emit, expose }) {
 				validateProps(props);
@@ -596,11 +596,11 @@ export default async function ({ PRIVATE_GLOBAL }) {
 			props: _xUtils.virtualizedGridProps,
 			emits: [ITEM_RENDER_EVT, SCROLL_EVT],
 			components: {
-				/* 循环引用 => 异步加载 */
-				ComponentVirtualScrollBar: () =>
-					_.$importVue(
-						"/common/ui-x/components/data/xTableVir/ComponentVirtualScrollBar.vue"
-					)
+				/* 【需求】2026-08-19 循环依赖的虚拟滚动条使用 $syncSkeleton，加载期保持列表占位 */
+				ComponentVirtualScrollBar: _.$syncSkeleton(
+					"/common/ui-x/components/data/xTableVir/ComponentVirtualScrollBar.vue",
+					{ skeleton: { skeletonType: "list", skeletonRows: 1 } }
+				)
 			},
 			setup(props, { emit, expose, slots }) {
 				const ns = _xUtils.useNamespace("vl");

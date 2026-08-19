@@ -117,6 +117,8 @@ export default async function ({ PRIVATE_GLOBAL }) {
 .el-timeline-item__dot {
 	position: absolute;
 	display: flex;
+	display: -webkit-box; /* 【6.4.72】自 useXui.vue 下沉补齐 */
+	display: -ms-flexbox;
 	-webkit-box-pack: center;
 	-ms-flex-pack: center;
 	justify-content: center;

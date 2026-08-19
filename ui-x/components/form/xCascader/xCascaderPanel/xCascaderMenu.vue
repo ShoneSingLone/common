@@ -8,10 +8,11 @@ export default async function ({ PRIVATE_GLOBAL }) {
 		name: "ElCascaderMenu",
 		inject: ["panel"],
 		components: {
-			xCascaderNode: () =>
-				_.$importVue(
-					"/common/ui-x/components/form/xCascader/xCascaderPanel/xCascaderNode.vue"
-				)
+			/* 【需求】2026-08-19 级联节点使用 $syncSkeleton，加载期显示列表型占位 */
+			xCascaderNode: _.$syncSkeleton(
+				"/common/ui-x/components/form/xCascader/xCascaderPanel/xCascaderNode.vue",
+				{ skeleton: { skeletonType: "list", skeletonRows: 1 } }
+			)
 		},
 		props: {
 			nodes: {

@@ -4,14 +4,14 @@ export default async function ({ PRIVATE_GLOBAL }) {
 		/* **************** */
 		"components/xExcalidraw/xExcalidraw",
 		/* *************** */
+		"components/other/xSkeleton/xSkeleton",
 		"components/other/xCollapse/xCollapseItem",
 		"components/other/xCollapse/xCollapse",
 		"components/other/xAlert/xAlert",
 		"components/other/xProgress/xProgress",
+		/* *************** */
 		"components/TableCell/TableCell",
 		"components/TableCell/TableCellItem",
-		/* feedback */
-		"components/base/layout/xSkeleton",
 		/*  */
 		"components/base/layout/xRow",
 		"components/base/layout/xCol",

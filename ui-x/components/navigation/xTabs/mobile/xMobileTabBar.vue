@@ -29,8 +29,11 @@ export default async function ({ PRIVATE_GLOBAL }) {
 	return defineComponent({
 		name: COMPONENT_NAME,
 		components: {
-			xMobileTab: () =>
-				_.$importVue("/common/ui-x/components/navigation/xTabs/mobile/xMobileTab.vue")
+			/* 【需求】2026-08-19 移动端 tab 子组件使用 $syncSkeleton，加载期显示列表占位 */
+			xMobileTab: _.$syncSkeleton(
+				"/common/ui-x/components/navigation/xTabs/mobile/xMobileTab.vue",
+				{ skeleton: { skeletonType: "list", skeletonRows: 1 } }
+			)
 		},
 		props: {
 			value: {

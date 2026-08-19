@@ -382,4 +382,58 @@ export default async function ({ PRIVATE_GLOBAL }) {
 	font-size: 12px;
 	margin: 0 5px;
 }
+
+/* 【6.4.72】自 useXui.vue 下沉：upload 列表内进度条样式（upload 进度复用 el-progress） */
+.el-upload-list--picture .el-progress {
+	position: relative;
+	top: -7px;
+}
+
+.el-upload-list--picture-card .el-progress {
+	top: 50%;
+	left: 50%;
+	-webkit-transform: translate(-50%, -50%);
+	transform: translate(-50%, -50%);
+	bottom: auto;
+	width: 126px;
+}
+
+.el-upload-list--picture-card .el-progress .el-progress__text {
+	top: 50%;
+}
+
+.el-upload-list--picture-card .el-upload-list__item:hover .el-progress__text {
+	display: block;
+}
+
+.el-upload-list__item:hover .el-progress__text {
+	display: none;
+}
+
+.el-upload-list__item .el-progress {
+	position: absolute;
+	top: 20px;
+	width: 100%;
+}
+
+.el-upload-list__item .el-progress__text {
+	position: absolute;
+	right: 0;
+	top: -13px;
+}
+
+.el-upload-list__item .el-progress-bar {
+	margin-right: 0;
+	padding-right: 0;
+}
+
+@keyframes progress {
+	0% {
+		background-position: 0 0;
+	}
+
+	100% {
+		background-position: 32px 0;
+	}
+}
 </style>

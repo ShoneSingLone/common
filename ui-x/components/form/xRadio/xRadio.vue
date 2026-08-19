@@ -334,4 +334,17 @@ export default async function ({ PRIVATE_GLOBAL }) {
 	position: relative;
 	display: inline-block;
 }
+
+/* 【6.4.72】自 useXui.vue 下沉：radio 间距与圆角归属本组件 */
+.el-radio:last-child {
+	margin-right: 0;
+}
+
+.el-cascader-node > .el-radio {
+	margin-right: 0;
+}
+
+.el-radio-button:first-child:last-child .el-radio-button__inner {
+	border-radius: var(--border-radius);
+}
 </style>

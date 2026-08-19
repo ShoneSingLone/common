@@ -3,7 +3,10 @@ export default async function ({ PRIVATE_GLOBAL }) {
 	return defineComponent({
 		name: "xTabs",
 		components: {
-			xTabNav: () => _.$importVue("/common/ui-x/components/navigation/xTabs/xTabNav.vue")
+			/* 【需求】2026-08-19 组件加载统一使用 $syncSkeleton，保持 tabs 导航加载期可渲染占位 */
+			xTabNav: _.$syncSkeleton("/common/ui-x/components/navigation/xTabs/xTabNav.vue", {
+				skeleton: { skeletonType: "list", skeletonRows: 1 }
+			})
 		},
 		props: {
 			contentEmpty: Boolean,

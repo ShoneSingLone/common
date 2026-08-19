@@ -591,14 +591,23 @@ export default async function ({ PRIVATE_GLOBAL }) {
 		},
 
 		components: {
-			PanelTime: () =>
-				_.$importVue("/common/ui-x/components/form/xDatePicker/panel/PanelTime.vue"),
-			BasicDateTable: () =>
-				_.$importVue("/common/ui-x/components/form/xDatePicker/basic/BasicDateTable.vue"),
-			BasicMonthTable: () =>
-				_.$importVue("/common/ui-x/components/form/xDatePicker/basic/BasicMonthTable.vue"),
-			BasicYearTable: () =>
-				_.$importVue("/common/ui-x/components/form/xDatePicker/basic/BasicYearTable.vue")
+			/* 【需求】2026-08-19 日期面板子组件统一使用 $syncSkeleton，按内容类型提供占位 */
+			PanelTime: _.$syncSkeleton(
+				"/common/ui-x/components/form/xDatePicker/panel/PanelTime.vue",
+				{ skeleton: { skeletonType: "list", skeletonRows: 3 } }
+			),
+			BasicDateTable: _.$syncSkeleton(
+				"/common/ui-x/components/form/xDatePicker/basic/BasicDateTable.vue",
+				{ skeleton: { skeletonType: "table", skeletonRows: 6, skeletonCols: 7 } }
+			),
+			BasicMonthTable: _.$syncSkeleton(
+				"/common/ui-x/components/form/xDatePicker/basic/BasicMonthTable.vue",
+				{ skeleton: { skeletonType: "table", skeletonRows: 3, skeletonCols: 4 } }
+			),
+			BasicYearTable: _.$syncSkeleton(
+				"/common/ui-x/components/form/xDatePicker/basic/BasicYearTable.vue",
+				{ skeleton: { skeletonType: "table", skeletonRows: 3, skeletonCols: 4 } }
+			)
 		},
 
 		data() {

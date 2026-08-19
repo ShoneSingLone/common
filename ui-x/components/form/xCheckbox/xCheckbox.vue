@@ -480,6 +480,9 @@ export default async function ({ PRIVATE_GLOBAL }) {
 	white-space: nowrap;
 	vertical-align: middle;
 	cursor: pointer;
+	-webkit-user-select: none; /* 【6.4.72】自 useXui.vue 下沉 */
+	-moz-user-select: none;
+	-ms-user-select: none;
 	background: #fff;
 	border: 1px solid #dcdfe6;
 	border-left: 0;

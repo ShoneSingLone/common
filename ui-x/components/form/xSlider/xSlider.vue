@@ -141,8 +141,11 @@ export default async function ({ PRIVATE_GLOBAL }) {
 		},
 
 		components: {
-			xSliderButton: () =>
-				_.$importVue("/common/ui-x/components/form/xSlider/xSliderButton.vue"),
+			/* 【需求】2026-08-19 滑块按钮使用 $syncSkeleton，加载期保持控件尺寸稳定 */
+			xSliderButton: _.$syncSkeleton(
+				"/common/ui-x/components/form/xSlider/xSliderButton.vue",
+				{ skeleton: { skeletonType: "list", skeletonRows: 1 } }
+			),
 			xSliderMarker: {
 				name: "ElMarker",
 				props: {

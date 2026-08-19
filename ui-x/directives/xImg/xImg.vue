@@ -289,3 +289,53 @@ export default async function ({ PRIVATE_GLOBAL }) {
 	});
 }
 </script>
+<style lang="less">
+/* 【6.4.72】自 useXui.vue 全局样式下沉：el-image 基础样式归属本组件 */
+.el-image {
+	position: relative;
+	display: inline-block;
+	overflow: hidden;
+}
+
+.el-image__inner {
+	vertical-align: top;
+}
+
+.el-image__error,
+.el-image__placeholder {
+	background: var(--el-fill-color-light);
+}
+
+.el-image__error,
+.el-image__inner,
+.el-image__placeholder {
+	width: 100%;
+	height: 100%;
+}
+
+.el-image__inner--center {
+	position: relative;
+	top: 50%;
+	left: 50%;
+	-webkit-transform: translate(-50%, -50%);
+	transform: translate(-50%, -50%);
+	display: block;
+}
+
+.el-image__error {
+	display: flex;
+	-webkit-box-pack: center;
+	-ms-flex-pack: center;
+	justify-content: center;
+	-webkit-box-align: center;
+	-ms-flex-align: center;
+	align-items: center;
+	font-size: 14px;
+	color: var(--el-text-color-disabled);
+	vertical-align: middle;
+}
+
+.el-image__preview {
+	cursor: pointer;
+}
+</style>

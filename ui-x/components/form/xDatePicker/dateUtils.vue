@@ -812,6 +812,13 @@ export default async function ({ PRIVATE_GLOBAL }) {
 	font-size: 12px;
 	-ms-user-select: none;
 	user-select: none;
+	-webkit-user-select: none; /* 【6.4.72】自 useXui.vue 下沉补齐 */
+	-moz-user-select: none;
+}
+
+/* 【6.4.72】自 useXui.vue 下沉：time-spinner 滚动包裹层 padding */
+.el-time-spinner__wrapper .el-scrollbar__wrap:not(.el-scrollbar__wrap--hidden-default) {
+	padding-bottom: 15px;
 }
 
 .el-date-table.is-week-mode .el-date-table__row:hover td.available:hover {

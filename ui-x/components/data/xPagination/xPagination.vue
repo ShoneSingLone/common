@@ -20,8 +20,11 @@ export default async function ({ PRIVATE_GLOBAL }) {
 	return {
 		name: "xPagination",
 		components: {
-			PrivatePagination: () =>
-				_.$importVue("/common/ui-x/components/data/xPagination/PrivatePagination.vue")
+			/* 【需求】2026-08-19 分页子组件使用 $syncSkeleton，加载期保持列表底部占位 */
+			PrivatePagination: _.$syncSkeleton(
+				"/common/ui-x/components/data/xPagination/PrivatePagination.vue",
+				{ skeleton: { skeletonType: "list", skeletonRows: 1 } }
+			)
 		},
 		model: {
 			prop: "value",

@@ -243,6 +243,7 @@ export default async function ({ PRIVATE_GLOBAL }) {
 .el-drawer {
 	position: absolute;
 	box-sizing: border-box;
+	overflow: hidden; /* 【6.4.72】自 useXui.vue 下沉 */
 	background-color: #fff;
 	display: flex;
 	-ms-flex-direction: column;
@@ -390,5 +391,112 @@ export default async function ({ PRIVATE_GLOBAL }) {
 
 .el-drawer-fade-leave-active {
 	animation: el-drawer-fade-in 0.3s reverse;
+}
+
+/* 【6.4.72】自 useXui.vue 全局样式下沉：抽屉方向动画 keyframes 归属本组件 */
+@keyframes el-drawer-fade-in {
+	0% {
+		opacity: 0;
+	}
+
+	100% {
+		opacity: 1;
+	}
+}
+
+@keyframes rtl-drawer-in {
+	0% {
+		-webkit-transform: translate(100%, 0);
+		transform: translate(100%, 0);
+	}
+
+	100% {
+		-webkit-transform: translate(0, 0);
+		transform: translate(0, 0);
+	}
+}
+
+@keyframes rtl-drawer-out {
+	0% {
+		-webkit-transform: translate(0, 0);
+		transform: translate(0, 0);
+	}
+
+	100% {
+		-webkit-transform: translate(100%, 0);
+		transform: translate(100%, 0);
+	}
+}
+
+@keyframes ltr-drawer-in {
+	0% {
+		-webkit-transform: translate(-100%, 0);
+		transform: translate(-100%, 0);
+	}
+
+	100% {
+		-webkit-transform: translate(0, 0);
+		transform: translate(0, 0);
+	}
+}
+
+@keyframes ltr-drawer-out {
+	0% {
+		-webkit-transform: translate(0, 0);
+		transform: translate(0, 0);
+	}
+
+	100% {
+		-webkit-transform: translate(-100%, 0);
+		transform: translate(-100%, 0);
+	}
+}
+
+@keyframes ttb-drawer-in {
+	0% {
+		-webkit-transform: translate(0, -100%);
+		transform: translate(0, -100%);
+	}
+
+	100% {
+		-webkit-transform: translate(0, 0);
+		transform: translate(0, 0);
+	}
+}
+
+@keyframes ttb-drawer-out {
+	0% {
+		-webkit-transform: translate(0, 0);
+		transform: translate(0, 0);
+	}
+
+	100% {
+		-webkit-transform: translate(0, -100%);
+		transform: translate(0, -100%);
+	}
+}
+
+@keyframes btt-drawer-in {
+	0% {
+		-webkit-transform: translate(0, 100%);
+		transform: translate(0, 100%);
+	}
+
+	100% {
+		-webkit-transform: translate(0, 0);
+		transform: translate(0, 0);
+	}
+}
+
+@keyframes btt-drawer-out {
+	0% {
+		-webkit-transform: translate(0, 0);
+		transform: translate(0, 0);
+	}
+
+	100% {
+		-webkit-transform: translate(0, 100%);
+		transform: translate(0, 100%);
+	}
 }
 </style>
