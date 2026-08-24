@@ -1,0 +1,6 @@
+<svg class="icon" style="width: 1em;height: 1em;vertical-align: middle;fill: currentColor;overflow: hidden;" viewBox="0 0 1024 1024" version="1.1"
+    xmlns="http://www.w3.org/2000/svg" p-id="wireframe-1">
+    <!-- 【需求】线框图应用专属入口图标：浏览器窗口 + 线框块布局示意 -->
+    <path d="M896 128H128C57.344 128 0 185.344 0 256v512c0 70.656 57.344 128 128 128h768c70.656 0 128-57.344 128-128V256c0-70.656-57.344-128-128-128z m-768 64h768c35.328 0 64 28.672 64 64v32H64v-32c0-35.328 28.672-64 64-64z m768 640H128c-35.328 0-64-28.672-64-64V352h896v416c0 35.328-28.672 64-64 64z" p-id="wireframe-2"></path>
+    <path d="M160 416h224v64H160zM160 512h224v64H160zM160 608h224v64H160zM448 416h416v256H448z" p-id="wireframe-3"></path>
+</svg>

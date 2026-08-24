@@ -466,35 +466,42 @@
 	/* @typescriptDeclare (tree:any[],handler:any,options?:{children:string})=>void */
 	_.$traverse = function (tree, handler, options, propString = "") {
 		const childrenName = _.$val(options, "children") || "children";
-		if (!_.isEmpty(tree)) {
-			let len = tree.length - 1;
-			let i = len;
 
-			while (i > -1) {
-				const node = tree[i];
-				const isBreak = handler(node, tree, `${propString}.${i}`) === false;
+		// 用IIFE闭包持有全局中断标记，不污染返回值、不改入参输出
+		return (function traverseInner(root) {
+			// 中断标记，同一个遍历会话共享
+			let aborted = false;
 
-				if (isBreak) {
-					break;
-				} else {
-					const index = _.findIndex(tree, node);
-					if (~index) {
-						if (!_.isEmpty(node[childrenName])) {
-							node[childrenName] = _.$traverse(
-								node[childrenName],
-								handler,
-								options,
-								`${propString}.${i}.${childrenName}`
-							);
-						}
+			function walk(list, propStr) {
+				if (aborted || _.isEmpty(list)) return;
+
+				let i = list.length - 1;
+				while (i > -1) {
+					const node = list[i];
+					// handler返回false → isContinue=false，终止
+					const ret = handler(node, list, `${propStr}.${i}`);
+					const isContinue = ret !== false;
+
+					if (!isContinue) {
+						aborted = true;
+						return;
 					}
+
+					// 递归子节点
+					if (!_.isEmpty(node[childrenName])) {
+						walk(node[childrenName], `${propStr}.${i}.${childrenName}`);
+						// 子树触发终止，直接返回，不再循环
+						if (aborted) return;
+					}
+					i--;
 				}
-				i--;
 			}
-		} else {
-			_.$traverse([tree], handler, options);
-		}
-		return tree;
+
+			// 兼容单个对象 / 数组
+			const list = Array.isArray(root) ? root : [root];
+			walk(list, propString);
+			return root;
+		})(tree);
 	};
 
 	_.$setDocTitle = title => title && (document.title = title);
