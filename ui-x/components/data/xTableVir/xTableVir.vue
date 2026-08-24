@@ -2665,13 +2665,39 @@ export default async function ({ PRIVATE_GLOBAL, mergeProps4h }) {
 					});
 				}
 
+				/* 【需求】2026-08-24 若所有列宽合计仍小于容器宽度（还有空余），将空余宽度平均分配到每一列。
+				只在渲染输出的 width 上追加、不回写源 columns，避免窗口缩放时宽度反复累加导致漂移 */
+				const surplusBonusMap = {};
+				const visibleColumnCount = currentShouldShow.length;
+				if (visibleColumnCount) {
+					const totalColumnsWidth = _.sumBy(
+						currentShouldShow,
+						column => _.toNumber(column.width) || 0
+					);
+					const surplusWidth = Math.max(width - totalColumnsWidth, 0);
+					if (surplusWidth > 0) {
+						const sharedSurplus = Math.floor(surplusWidth / visibleColumnCount);
+						let remainderSurplus = surplusWidth - sharedSurplus * visibleColumnCount;
+						_.each(currentShouldShow, column => {
+							const appendedSurplus = sharedSurplus + (remainderSurplus > 0 ? 1 : 0);
+							if (remainderSurplus > 0) {
+								remainderSurplus -= 1;
+							}
+							surplusBonusMap[column.prop] = appendedSurplus;
+						});
+					}
+				}
+
 				return _.map(currentShouldShow, column => {
+					const appendedSurplus = surplusBonusMap[column.prop] || 0;
 					return {
 						dataKey: column.prop,
 						title: column.label,
 						key: column.prop,
 						...column,
-						width: column.width
+						width: appendedSurplus
+							? (_.toNumber(column.width) || 0) + appendedSurplus
+							: column.width
 					};
 				});
 			},
